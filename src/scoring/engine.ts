@@ -94,6 +94,8 @@ export function calculateScore(
 
 export function formatScore(totalTenths: number | bigint) {
   const value = BigInt(totalTenths);
-  const magnitude = value < 0n ? -value : value;
-  return `${value < 0n ? "-" : ""}${magnitude / 10n}.${magnitude % 10n}`;
+  const negative = value < BigInt(0);
+  const magnitude = negative ? -value : value;
+  const ten = BigInt(10);
+  return `${negative ? "-" : ""}${magnitude / ten}.${magnitude % ten}`;
 }

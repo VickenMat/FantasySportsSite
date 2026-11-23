@@ -55,7 +55,7 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
   });
 
   await page.getByRole("link", { name: /Founders Dynasty/ }).click();
-  await expect(page.getByRole("heading", { name: "Founders Dynasty" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Founders Dynasty", level: 1 })).toBeVisible();
   const leagueId = new URL(page.url()).pathname.split("/").at(-1) ?? "";
   const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger", { params: { leagueId } });
   expect(ledger.status()).toBe(200);
