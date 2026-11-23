@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Sport {
+  NFL
+  MLB
+  NBA
+  NHL
+}
+
+enum LeagueFormat {
+  DYNASTY
+  REDRAFT
+}
+
+enum LeagueRole {
+  COMMISSIONER
+  MANAGER
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  name          String
+  email         String         @unique
+  emailVerified Boolean        @default(false)
+  image         String?
+  createdAt     DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime       @updatedAt @db.Timestamptz(3)
+  sessions      Session[]
+  accounts      Account[]
+  memberships   LeagueMember[]
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  token     String   @unique
+  expiresAt DateTime @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  ipAddress String?
+  userAgent String?
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Account {
+  id                    String    @id @default(uuid()) @db.Uuid
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime? @db.Timestamptz(3)
+  refreshTokenExpiresAt DateTime? @db.Timestamptz(3)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+}
+
+model Verification {
+  id         String   @id @default(uuid()) @db.Uuid
+  identifier String
+  value      String
+  expiresAt  DateTime @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([identifier])
+}
+
+model League {
+  id         String         @id @default(uuid()) @db.Uuid
+  slug       String         @unique
+  name       String
+  format     LeagueFormat
+  maxTeams   Int
+  isDemo     Boolean        @default(false)
+  createdAt  DateTime       @default(now()) @db.Timestamptz(3)
+  members    LeagueMember[]
+  sports     LeagueSport[]
+  presetId   String         @db.Uuid
+  preset     ScoringPreset  @relation(fields: [presetId], references: [id])
+}
+
+model LeagueMember {
+  id        String     @id @default(uuid()) @db.Uuid
+  leagueId  String     @db.Uuid
+  userId    String     @db.Uuid
+  role      LeagueRole @default(MANAGER)
+  joinedAt  DateTime   @default(now()) @db.Timestamptz(3)
+  league    League     @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([leagueId, userId])
+  @@index([userId])
+}
+
+model LeagueSport {
+  id       String @id @default(uuid()) @db.Uuid
+  leagueId String @db.Uuid
+  sport    Sport
+  league   League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+
+  @@unique([leagueId, sport])
+}
+
+model ScoringPreset {
+  id           String        @id @default(uuid()) @db.Uuid
+  version      String        @unique
+  name         String
+  experimental Boolean
+  leagues      League[]
+  rules        ScoringRule[]
+}
+
+model ScoringRule {
+  id            String        @id @default(uuid()) @db.Uuid
+  presetId      String        @db.Uuid
+  sport         Sport
+  statKey       String
+  coefficient   Decimal       @db.Decimal(8, 1)
+  applicability String
+  preset        ScoringPreset @relation(fields: [presetId], references: [id], onDelete: Cascade)
+
+  @@unique([presetId, sport, statKey])
+}
+
+model Player {
+  id          String @id @default(uuid()) @db.Uuid
+  sport       Sport
+  displayName String
+
+  @@index([sport, displayName])
+}

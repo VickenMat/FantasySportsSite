@@ -1,0 +1,1 @@
+Official listed positions plus eligibility earned after 10 starts or 20 games at a position in the current season. New eligibility persists through next season, then expires unless requalified. Fielding appearance data required.

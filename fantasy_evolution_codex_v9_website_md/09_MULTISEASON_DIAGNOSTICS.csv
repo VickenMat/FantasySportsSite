@@ -1,0 +1,9 @@
+period,sport,seasons,baseline_median,diagnostic_factor,rescaled_median
+train,NFL,7,9819.0,1.037,10182.3
+train,MLB,6,10550.3,0.96512,10182.3
+train,NBA,5,10226.5,0.99568,10182.3
+train,NHL,5,10133.4,1.00483,10182.3
+holdout,NFL,3,9991.2,1.037,10360.9
+holdout,MLB,3,10066.3,0.96512,9715.2
+holdout,NBA,3,10468.9,0.99568,10423.7
+holdout,NHL,3,9876.9,1.00483,9924.6

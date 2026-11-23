@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Configure test environment
+        shell: bash
+        run: |
+          cp .env.example .env
+          printf 'AUTH_SECRET=%s\nDEMO_PASSWORD=%s\n' "$(openssl rand -hex 32)" "$(openssl rand -hex 24)" >> "$GITHUB_ENV"
+      - run: docker compose up -d --wait
+      - run: npm ci
+      - run: npm run db:deploy
+      - run: npm run db:seed
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run test:integration
+      - run: npm run worker
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v6
+        if: failure()
+        with:
+          name: playwright-failures
+          path: test-results/
+          if-no-files-found: ignore
+      - if: always()
+        run: docker compose down
