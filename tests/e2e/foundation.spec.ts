@@ -30,6 +30,8 @@ test("public landing and database status work, and guests are redirected", async
   const health = await page.request.get("/health");
   expect(health.ok()).toBe(true);
   expect(await health.json()).toEqual({ status: "ok", database: "connected" });
+  const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger");
+  expect(ledger.status()).toBe(401);
   await page.getByRole("link", { name: "Open dashboard" }).click();
   await expect(page).toHaveURL("/sign-in");
 });
@@ -54,6 +56,10 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
 
   await page.getByRole("link", { name: /Founders Dynasty/ }).click();
   await expect(page.getByRole("heading", { name: "Founders Dynasty" })).toBeVisible();
+  const leagueId = new URL(page.url()).pathname.split("/").at(-1) ?? "";
+  const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger", { params: { leagueId } });
+  expect(ledger.status()).toBe(200);
+  expect(await ledger.json()).toEqual({ items: [], nextOffset: null });
   await expect(page.getByText("Experimental · Cross-sport balance is pending validation.")).toBeVisible();
   await page.getByText("NFL scoring weights").click();
   await expect(page.getByRole("row", { name: "passing_tds 16.0" })).toBeVisible();
