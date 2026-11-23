@@ -19,7 +19,9 @@
     "db:generate": "prisma generate --config prisma7.config.ts",
     "db:import": "tsx --env-file-if-exists=.env src/workers/import-csv.ts",
     "score:recalculate": "tsx --env-file-if-exists=.env src/workers/recalculate-score.ts",
-    "simulate": "tsx src/workers/simulate.ts"
+    "simulate": "tsx src/workers/simulate.ts",
+    "data:audit": "tsx --env-file-if-exists=.env src/workers/audit-parquet.ts",
+    "db:import:parquet": "tsx --env-file-if-exists=.env src/workers/import-parquet.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",
@@ -28,6 +30,7 @@
     "better-auth": "1.7.27",
     "csv-parse": "7.0.3",
     "dotenv": "^17",
+    "hyparquet": "^1.33.1",
     "lucide-react": "^0.577.0",
     "next": "16.4.6",
     "nodemailer": "10.6.1",
@@ -44,6 +47,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "hyparquet-writer": "^0.18.0",
     "prisma": "7.10.1",
     "tailwindcss": "^4",
     "tsx": "^4",

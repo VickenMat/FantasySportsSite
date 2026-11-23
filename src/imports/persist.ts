@@ -23,11 +23,11 @@ function lookup<K, T>(items: Map<K, T>, key: K): T {
 
 const identityKey = ({ gameId, playerId, role }: Identity) => `${gameId}:${playerId}:${role}`;
 
-async function ensurePlayers(tx: Transaction, sport: Sport, rows: HistoricalRow[]) {
+async function ensurePlayers(tx: Transaction, sport: Sport, rows: HistoricalRow[], providerName: string) {
   const players = indexBy(rows.map(({ player }) => player), ({ externalId }) => externalId);
   const externalIds = [...players.keys()];
   const existing = await tx.playerExternalId.findMany({
-    where: { sport, provider, externalId: { in: externalIds } }, select: { externalId: true, playerId: true },
+    where: { sport, provider: providerName, externalId: { in: externalIds } }, select: { externalId: true, playerId: true },
   });
   const ids = new Map(existing.map(({ externalId, playerId }) => [externalId, playerId]));
   const newPlayers = [...players.values()].filter(({ externalId }) => !ids.has(externalId)).map((player) => ({
@@ -38,14 +38,14 @@ async function ensurePlayers(tx: Transaction, sport: Sport, rows: HistoricalRow[
       data: newPlayers.map(({ playerId, displayName }) => ({ id: playerId, sport, displayName })),
     });
     await tx.playerExternalId.createMany({
-      data: newPlayers.map(({ playerId, externalId }) => ({ playerId, externalId, sport, provider })),
+      data: newPlayers.map(({ playerId, externalId }) => ({ playerId, externalId, sport, provider: providerName })),
     });
     for (const { playerId, externalId } of newPlayers) ids.set(externalId, playerId);
   }
   return ids;
 }
 
-async function ensureGames(tx: Transaction, sport: Sport, rows: HistoricalRow[]) {
+async function ensureGames(tx: Transaction, sport: Sport, rows: HistoricalRow[], providerName: string) {
   const seasons = indexBy(rows.map(({ season }) => season), ({ startYear }) => startYear);
   await tx.season.createMany({ data: [...seasons.values()].map((season) => ({ ...season, sport })), skipDuplicates: true });
   const seasonIds = indexBy(await tx.season.findMany({
@@ -55,12 +55,12 @@ async function ensureGames(tx: Transaction, sport: Sport, rows: HistoricalRow[])
   const gameRows = indexBy(rows, ({ game }) => game.externalId);
   await tx.game.createMany({
     data: [...gameRows.values()].map(({ game, season }) => ({
-      ...game, sport, provider, seasonId: lookup(seasonIds, season.startYear).id,
+      ...game, sport, provider: providerName, seasonId: lookup(seasonIds, season.startYear).id,
     })),
     skipDuplicates: true,
   });
   const games = indexBy(await tx.game.findMany({
-    where: { sport, provider, externalId: { in: [...gameRows.keys()] } },
+    where: { sport, provider: providerName, externalId: { in: [...gameRows.keys()] } },
     select: { id: true, externalId: true, seasonId: true, gameDate: true, phase: true, week: true },
   }), ({ externalId }) => externalId);
   for (const { game, season, line } of rows) {
@@ -73,20 +73,20 @@ async function ensureGames(tx: Transaction, sport: Sport, rows: HistoricalRow[])
   return games;
 }
 
-async function persistRows(
+export async function persistHistoricalRows(
   tx: Transaction, sport: Sport, importBatchId: string, rows: HistoricalRow[],
-  summary: ImportSummary, correctionReason?: string,
+  summary: ImportSummary, correctionReason?: string, providerName = provider, sourceVersion = importerVersion,
 ) {
   const teams = indexBy(rows.flatMap(({ team, opponent }) => opponent ? [team, opponent] : [team]), ({ externalId }) => externalId);
   await tx.proTeam.createMany({
-    data: [...teams.values()].map(({ externalId, displayName, code }) => ({ externalId, displayName, code, sport, provider })),
+    data: [...teams.values()].map(({ externalId, displayName, code }) => ({ externalId, displayName, code, sport, provider: providerName })),
     skipDuplicates: true,
   });
   const teamIds = indexBy(await tx.proTeam.findMany({
-    where: { sport, provider, externalId: { in: [...teams.keys()] } }, select: { id: true, externalId: true },
+    where: { sport, provider: providerName, externalId: { in: [...teams.keys()] } }, select: { id: true, externalId: true },
   }), ({ externalId }) => externalId);
-  const playerIds = await ensurePlayers(tx, sport, rows);
-  const games = await ensureGames(tx, sport, rows);
+  const playerIds = await ensurePlayers(tx, sport, rows, providerName);
+  const games = await ensureGames(tx, sport, rows, providerName);
   const positions = [...new Set(rows.flatMap(({ observedPositions }) => observedPositions))];
   if (positions.length) {
     await tx.position.createMany({ data: positions.map((code) => ({ sport, code })), skipDuplicates: true });
@@ -124,7 +124,7 @@ async function persistRows(
 
   const selected = [...indexBy(resolved.map(({ identity }) => identity), identityKey).values()];
   const revisions = await tx.playerGameStat.findMany({
-    where: { provider, OR: selected },
+    where: { provider: providerName, OR: selected },
     orderBy: { revision: "asc" },
     select: { id: true, gameId: true, playerId: true, role: true, contentHash: true, revision: true, importBatchId: true },
   });
@@ -137,7 +137,7 @@ async function persistRows(
   for (const { row, identity, teamId } of resolved) {
     const key = identityKey(identity);
     const contentHash = createHash("sha256")
-      .update(JSON.stringify([importerVersion, rawColumns.map((column) => [column, row.raw[column]])])).digest("hex");
+      .update(JSON.stringify([sourceVersion, rawColumns.map((column) => [column, row.raw[column]])])).digest("hex");
     const fingerprint = `${key}:${contentHash}`;
     if (seen.has(fingerprint)) {
       summary.duplicateRows++;
@@ -155,7 +155,7 @@ async function persistRows(
     const revision = (previous?.revision ?? 0) + 1;
     const next = { ...identity, id, revision, contentHash, importBatchId };
     inserts.push({
-      ...next, provider, teamId, priorRevisionId: previous?.id, sourceLine: row.line,
+      ...next, provider: providerName, teamId, priorRevisionId: previous?.id, sourceLine: row.line,
       raw: row.raw, normalized: row.stats, observedPositions: row.observedPositions,
     });
     latest.set(key, next);
@@ -191,14 +191,14 @@ export async function importHistoricalCsv(input: {
     for await (const row of readHistoricalCsv(path, sport, summary, contentHash)) {
       rows.push(row);
       if (rows.length < 300) continue;
-      await persistRows(tx, sport, batch.id, rows, summary, correctionReason);
+      await persistHistoricalRows(tx, sport, batch.id, rows, summary, correctionReason);
       rows = [];
     }
     if (!summary.validRows) throw new Error(`CSV had no valid rows: ${JSON.stringify(summary.sampleIssues)}.`);
     if (summary.rejectedRows && !allowRejected) {
       throw new Error(`CSV had ${summary.rejectedRows} rejected rows; no changes were applied. Inspect with --validate-only. ${JSON.stringify(summary.sampleIssues)}`);
     }
-    if (rows.length) await persistRows(tx, sport, batch.id, rows, summary, correctionReason);
+    if (rows.length) await persistHistoricalRows(tx, sport, batch.id, rows, summary, correctionReason);
     await tx.importBatch.update({ where: { id: batch.id }, data: { summary } });
     return { batchId: batch.id, alreadyImported: false, summary };
   }, { maxWait: 10_000, timeout: 30 * 60_000 });
