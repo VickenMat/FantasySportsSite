@@ -164,6 +164,7 @@ CREATE TABLE "ScoreLedgerEntry" (
     "lineItems" JSONB NOT NULL,
     "missingStats" TEXT[],
     "teEligible" BOOLEAN,
+    "teEligibilityOverride" BOOLEAN,
     "calculatedAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ScoreLedgerEntry_pkey" PRIMARY KEY ("id")
@@ -291,3 +292,49 @@ ALTER TABLE "ScoreLedgerEntry" ADD CONSTRAINT "ScoreLedgerEntry_statId_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "ScoreLedgerEntry" ADD CONSTRAINT "ScoreLedgerEntry_previousEntryId_fkey" FOREIGN KEY ("previousEntryId") REFERENCES "ScoreLedgerEntry"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- Preserve the eight demo players seeded by M0.
+UPDATE "Player" SET "isDemo" = true WHERE "id"::text IN (
+  '3712b6d3-9fb8-45a1-9717-7fb0a4946601', '3712b6d3-9fb8-45a1-9717-7fb0a4946602',
+  '3712b6d3-9fb8-45a1-9717-7fb0a4946603', '3712b6d3-9fb8-45a1-9717-7fb0a4946604',
+  '3712b6d3-9fb8-45a1-9717-7fb0a4946605', '3712b6d3-9fb8-45a1-9717-7fb0a4946606',
+  '3712b6d3-9fb8-45a1-9717-7fb0a4946607', '3712b6d3-9fb8-45a1-9717-7fb0a4946608'
+);
+
+CREATE UNIQUE INDEX "GameTeam_one_known_side_per_game"
+  ON "GameTeam" ("gameId", "side") WHERE "side" <> 'UNKNOWN';
+
+ALTER TABLE "PlayerGameStat" ADD CONSTRAINT "PlayerGameStat_participating_team"
+  FOREIGN KEY ("gameId", "teamId") REFERENCES "GameTeam" ("gameId", "teamId");
+
+ALTER TABLE "PlayerGameStat" ADD CONSTRAINT "PlayerGameStat_revision_chain"
+  CHECK (("revision" = 1 AND "priorRevisionId" IS NULL) OR ("revision" > 1 AND "priorRevisionId" IS NOT NULL));
+
+ALTER TABLE "ScoreLedgerEntry" ADD CONSTRAINT "ScoreLedgerEntry_sequence_chain"
+  CHECK (("sequence" = 1 AND "previousEntryId" IS NULL) OR ("sequence" > 1 AND "previousEntryId" IS NOT NULL));
+
+ALTER TABLE "PlayerPositionEvidence" ADD CONSTRAINT "PlayerPositionEvidence_kind_fields"
+  CHECK (("kind" = 'LISTED' AND "gameId" IS NULL AND "started" IS NULL)
+    OR ("kind" = 'FIELDING' AND "gameId" IS NOT NULL AND "started" IS NOT NULL AND "knownAt" >= "effectiveAt"));
+
+CREATE FUNCTION fantasy_append_only() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  RAISE EXCEPTION '% is append-only', TG_TABLE_NAME USING ERRCODE = '55000';
+END;
+$$;
+
+CREATE TRIGGER "PlayerGameStat_append_only"
+  BEFORE UPDATE OR DELETE OR TRUNCATE ON "PlayerGameStat"
+  FOR EACH STATEMENT EXECUTE FUNCTION fantasy_append_only();
+
+CREATE TRIGGER "ScoreLedgerEntry_append_only"
+  BEFORE UPDATE OR DELETE OR TRUNCATE ON "ScoreLedgerEntry"
+  FOR EACH STATEMENT EXECUTE FUNCTION fantasy_append_only();
+
+CREATE TRIGGER "ScoreLedger_append_only"
+  BEFORE UPDATE OR DELETE OR TRUNCATE ON "ScoreLedger"
+  FOR EACH STATEMENT EXECUTE FUNCTION fantasy_append_only();
+
+CREATE TRIGGER "PlayerPositionEvidence_append_only"
+  BEFORE UPDATE OR DELETE OR TRUNCATE ON "PlayerPositionEvidence"
+  FOR EACH STATEMENT EXECUTE FUNCTION fantasy_append_only();

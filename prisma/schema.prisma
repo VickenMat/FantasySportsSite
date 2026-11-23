@@ -247,11 +247,12 @@ model Game {
 }
 
 model GameTeam {
-  gameId String   @db.Uuid
-  teamId String   @db.Uuid
-  side   GameSide @default(UNKNOWN)
-  game   Game     @relation(fields: [gameId], references: [id])
-  team   ProTeam  @relation(fields: [teamId], references: [id])
+  gameId String           @db.Uuid
+  teamId String           @db.Uuid
+  side   GameSide         @default(UNKNOWN)
+  game   Game             @relation(fields: [gameId], references: [id])
+  team   ProTeam          @relation(fields: [teamId], references: [id])
+  stats  PlayerGameStat[]
 
   @@id([gameId, teamId])
   @@index([teamId, gameId])
@@ -321,6 +322,7 @@ model PlayerGameStat {
   sourceKnownAt     DateTime?          @db.Timestamptz(3)
   game              Game               @relation(fields: [gameId], references: [id])
   player            Player             @relation(fields: [playerId], references: [id])
+  participatingTeam GameTeam           @relation(fields: [gameId, teamId], references: [gameId, teamId], onDelete: NoAction, onUpdate: NoAction, map: "PlayerGameStat_participating_team")
   team              ProTeam            @relation(fields: [teamId], references: [id])
   importBatch       ImportBatch        @relation(fields: [importBatchId], references: [id])
   priorRevision     PlayerGameStat?    @relation("GameStatRevisions", fields: [priorRevisionId], references: [id])
@@ -349,24 +351,25 @@ model ScoreLedger {
 }
 
 model ScoreLedgerEntry {
-  id              String            @id @default(uuid()) @db.Uuid
-  ledgerId        String            @db.Uuid
-  statId          String            @db.Uuid
-  sequence        Int
-  previousEntryId String?           @unique @db.Uuid
-  reason          String
-  engineVersion   String
-  ruleHash        String
-  inputHash       String
-  totalTenths     BigInt
-  lineItems       Json
-  missingStats    String[]
-  teEligible      Boolean?
-  calculatedAt    DateTime          @default(now()) @db.Timestamptz(3)
-  ledger          ScoreLedger       @relation(fields: [ledgerId], references: [id])
-  stat            PlayerGameStat    @relation(fields: [statId], references: [id])
-  previousEntry   ScoreLedgerEntry? @relation("LedgerHistory", fields: [previousEntryId], references: [id])
-  nextEntry       ScoreLedgerEntry? @relation("LedgerHistory")
+  id                    String            @id @default(uuid()) @db.Uuid
+  ledgerId              String            @db.Uuid
+  statId                String            @db.Uuid
+  sequence              Int
+  previousEntryId       String?           @unique @db.Uuid
+  reason                String
+  engineVersion         String
+  ruleHash              String
+  inputHash             String
+  totalTenths           BigInt
+  lineItems             Json
+  missingStats          String[]
+  teEligible            Boolean?
+  teEligibilityOverride Boolean?
+  calculatedAt          DateTime          @default(now()) @db.Timestamptz(3)
+  ledger                ScoreLedger       @relation(fields: [ledgerId], references: [id])
+  stat                  PlayerGameStat    @relation(fields: [statId], references: [id])
+  previousEntry         ScoreLedgerEntry? @relation("LedgerHistory", fields: [previousEntryId], references: [id])
+  nextEntry             ScoreLedgerEntry? @relation("LedgerHistory")
 
   @@unique([ledgerId, sequence])
   @@index([statId])
