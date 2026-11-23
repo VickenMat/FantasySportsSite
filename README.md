@@ -114,12 +114,51 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 
 - [x] M0 · Local website, PostgreSQL, authentication, demo league, and verification workflow.
 - [x] M1 · Canonical players and games, import validation, deterministic scoring, score ledger, and golden tests.
-- [ ] M2 · Create and join leagues, commissioner settings, and configurable dynasty/redraft seasons and starter arrays.
-- [ ] M3 · Drafts, rosters, bench and IR, lineup eligibility, and pregame locks.
+- [x] M2 · Create and join leagues, commissioner settings, and configurable dynasty/redraft seasons and starter arrays.
+- [x] M3 · Persistent snake drafts, roster ownership, bench management, and recorded-position lineup validation. Authoritative live availability feeds remain release work.
 - [ ] M4 · Matchups, standings, waivers and FAAB, trades, transaction audit, and score corrections.
 - [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
 - [ ] M7 · Release hardening, performance and accessibility review, recovery, and deployment.
+
+## M2.5 Parquet validation and calibration controls
+
+The local `Datasets/` directory remains ignored. Run the memory-bounded audit against the four discovered files with:
+
+```bash
+npm run data:audit -- --datasets Datasets --output reports/m2-5-analysis.json --database
+npm run db:import:parquet -- --sport NFL --file Datasets/nfl_2016_2026_final.parquet --validate-only
+npm run db:import:parquet -- --sport NFL --file Datasets/nfl_2016_2026_final.parquet --allow-rejected
+```
+
+Parquet reads are bounded by `--batch-size`, defaulting to 25,000 rows. Imports reuse the M1 canonical normalizer and transactional persistence path. They retain raw cells, append corrections, quarantine invalid records, fingerprint the complete file with SHA-256, and return an existing batch for repeated bytes. NFL import requires `--allow-rejected` after reviewing its 186 missing-player-ID records. A matching archive row count does not imply that all rows exist in PostgreSQL.
+
+The tracked [M2.5 analysis](reports/m2-5-analysis.json) records physical schema, metadata, fingerprints, per-season quality, quarantine reasons, evidence coverage, chronological split labels, player-game V9 totals, positional contributions, and top players. It read 1,746,957 rows and found no duplicate game-player-role records. The four files contain final results but no independently timestamped pregame ranks, injuries, rotations, or waiver knowledge. NBA and MLB also lack sufficient position evidence for a defensible replay. Fixture-count agreement is therefore reconstructed and remains `UNVERIFIED`.
+
+The V9 coefficients and scoring engine are unchanged. The report leaves fantasy-team means and balance spread empty because those values would require defensible pregame decisions. The 0.5% target is **not verified**. The V10 framework enforces versioned integer tenths, chronological training-only optimization, and deterministic hashes, but no candidate was optimized, selected, published, or activated.
+
+Authenticated users can inspect this evidence at `/analysis`. Import and calibration commands remain operator-only and are not exposed through the browser.
+
+## M3 playable leagues
+
+Create a single-sport league at `/leagues/new`. The browser flow supports four to sixteen teams, secure single-use invitations, commissioner permissions, custom team names, historical replay labeling, starter and bench configuration, UBP preset selection, and computer-filled demonstration leagues. League pages provide the player pool, My Team, a persistent snake draft board and queue, matchups, standings, FAAB waivers, and settings.
+
+Draft picks and waiver awards use serializable PostgreSQL transactions. Unique indexes prevent a player from being drafted twice or appearing on two rosters in the same league. Draft refreshes retain state, commissioners can exercise an absent manager's queue-driven auto-pick, and completing the final pick activates the league. Add, drop, draft, and waiver activity is retained in the transaction audit.
+
+Matchups use the latest entry in the immutable versioned score ledger for each rostered player and scoring period. Commissioners can recalculate after statistical corrections. Historical replay periods must be advanced explicitly and are never presented as live results. Due waiver claims can be processed from the page or a scheduler can invoke:
+
+```bash
+npm run fantasy:process
+```
+
+Historical demo play requires importing the reviewed local Parquet source for the selected sport. The repository does not bundle those files or pretend the eight seeded presentation players form a complete historical pool.
+
+### Current limitations
+
+- The Parquet sources do not establish verified pregame evidence, so sealed held-out cross-sport balance evaluation and V10 model selection remain blocked on better source data.
+- NFL Parquet rows do not contain game dates. Historical replay still requires a separately timestamped schedule feed before NFL lineup evidence can become reconstructed or verified.
+- Lineup eligibility uses the latest stored observed positions. A production feed must create dated position and availability evidence before live locks can be treated as authoritative.
+- The local scheduler command must be invoked by cron or another deployment scheduler. No production deployment or background scheduler was configured in this milestone.
 
 ## Landing artwork
 
