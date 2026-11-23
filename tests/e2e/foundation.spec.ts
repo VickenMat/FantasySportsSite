@@ -141,3 +141,33 @@ test("mobile layout fits the viewport and supports keyboard access to navigation
   await page.getByRole("link", { name: "Create an account" }).click();
   await expect(page.getByRole("heading", { name: "Create an account" })).toBeVisible();
 });
+
+test("creates a historical league and opens its persistent draft and analysis pages", async ({ page }) => {
+  const name = `Replay ${randomUUID()}`;
+  const email = `replay-${randomUUID()}@example.test`;
+  const database = getDatabase();
+  try {
+    await register(page, "Replay Commissioner", email);
+    await page.goto("/leagues/new");
+    await page.getByLabel("League name").fill(name);
+    await page.getByLabel("Sport").selectOption("NBA");
+    await page.getByLabel("Teams").fill("4");
+    await page.getByLabel("Historical replay league").check();
+    await page.getByLabel("Fill empty seats with computer managers").check();
+    await page.getByRole("button", { name: "Create league" }).click();
+    await expect(page.getByRole("heading", { name })).toBeVisible();
+    const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
+    await page.getByRole("link", { name: "Draft", exact: true }).click();
+    await page.getByRole("button", { name: "Start snake draft" }).click();
+    await expect(page.getByRole("heading", { name: `${name} draft` })).toBeVisible();
+    await page.getByRole("button", { name: "Auto-pick current team" }).click();
+    await expect(page.locator(".pick-list li")).toHaveCount(1);
+    await page.goto("/analysis");
+    await expect(page.getByRole("heading", { name: "Evidence before conclusions" })).toBeVisible();
+    await expect(page.getByText("INSUFFICIENT_VERIFIED_EVIDENCE")).toBeVisible();
+    expect(leagueId).toMatch(/[0-9a-f-]{36}/);
+  } finally {
+    await database.league.deleteMany({ where: { name } });
+    await database.user.deleteMany({ where: { email } });
+  }
+});

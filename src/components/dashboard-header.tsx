@@ -8,6 +8,8 @@ export function DashboardHeader() {
       <div className="shell topbar">
         <Brand />
         <nav className="top-links" aria-label="Account navigation">
+          <Link className="nav-link" href="/leagues/new">Create league</Link>
+          <Link className="nav-link" href="/analysis">Analysis</Link>
           <Link className="nav-link" href="/dashboard">Dashboard</Link>
           <SignOut />
         </nav>

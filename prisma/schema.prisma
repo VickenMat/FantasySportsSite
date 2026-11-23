@@ -24,6 +24,40 @@ enum LeagueRole {
   MANAGER
 }
 
+enum LeagueStatus {
+  SETUP
+  DRAFTING
+  ACTIVE
+  COMPLETE
+}
+
+enum DraftStatus {
+  SCHEDULED
+  ACTIVE
+  COMPLETE
+}
+
+enum WaiverStatus {
+  PENDING
+  WON
+  LOST
+  REJECTED
+  CANCELLED
+}
+
+enum MatchupStatus {
+  SCHEDULED
+  FINAL
+}
+
+enum TransactionType {
+  DRAFT
+  ADD
+  DROP
+  WAIVER
+  COMMISSIONER
+}
+
 model User {
   id            String         @id @default(uuid()) @db.Uuid
   name          String
@@ -35,6 +69,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   memberships   LeagueMember[]
+  fantasyTeams  FantasyTeam[]
+  invitations   LeagueInvitation[] @relation("InvitationCreator")
 }
 
 model Session {
@@ -94,6 +130,22 @@ model League {
   sports    LeagueSport[]
   presetId  String         @db.Uuid
   preset    ScoringPreset  @relation(fields: [presetId], references: [id])
+  primarySport Sport?
+  seasonYear Int            @default(2026)
+  status      LeagueStatus   @default(SETUP)
+  isHistorical Boolean       @default(false)
+  startingFaab Int           @default(100)
+  rosterSlots  String[]      @default([])
+  benchSlots   Int           @default(5)
+  draftRounds  Int           @default(14)
+  currentPeriod Int          @default(0)
+  teams        FantasyTeam[]
+  invitations  LeagueInvitation[]
+  drafts       Draft[]
+  periods      ScoringPeriod[]
+  matchups     Matchup[]
+  waiverClaims WaiverClaim[]
+  transactions FantasyTransaction[]
 }
 
 model LeagueMember {
@@ -104,9 +156,193 @@ model LeagueMember {
   joinedAt DateTime   @default(now()) @db.Timestamptz(3)
   league   League     @relation(fields: [leagueId], references: [id], onDelete: Cascade)
   user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fantasyTeam FantasyTeam?
 
   @@unique([leagueId, userId])
   @@index([userId])
+}
+
+model LeagueInvitation {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  createdById String   @db.Uuid
+  tokenHash   String   @unique
+  email       String?
+  expiresAt   DateTime @db.Timestamptz(3)
+  acceptedAt  DateTime? @db.Timestamptz(3)
+  revokedAt   DateTime? @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  createdBy   User     @relation("InvitationCreator", fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([leagueId, expiresAt])
+}
+
+model FantasyTeam {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  managerId   String?  @db.Uuid
+  membershipId String? @unique @db.Uuid
+  name        String
+  isComputer  Boolean  @default(false)
+  draftSlot   Int?
+  faabRemaining Int
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  manager     User?    @relation(fields: [managerId], references: [id], onDelete: Cascade)
+  membership  LeagueMember? @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  roster      RosterEntry[]
+  picks       DraftPick[]
+  queue       DraftQueueEntry[]
+  homeMatchups Matchup[] @relation("HomeTeam")
+  awayMatchups Matchup[] @relation("AwayTeam")
+  waiverClaims WaiverClaim[]
+  transactions FantasyTransaction[]
+
+  @@unique([leagueId, managerId])
+  @@unique([leagueId, name])
+  @@unique([leagueId, draftSlot])
+  @@index([managerId])
+}
+
+model RosterEntry {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  teamId      String   @db.Uuid
+  playerId    String   @db.Uuid
+  slot        String
+  acquiredAt  DateTime @default(now()) @db.Timestamptz(3)
+  lockedAt    DateTime? @db.Timestamptz(3)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player      Player   @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@unique([leagueId, playerId])
+  @@index([teamId, slot])
+}
+
+model Draft {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  status      DraftStatus @default(SCHEDULED)
+  rounds      Int
+  secondsPerPick Int   @default(90)
+  currentPick Int      @default(1)
+  order       String[]
+  startedAt   DateTime? @db.Timestamptz(3)
+  completedAt DateTime? @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  picks       DraftPick[]
+  queue       DraftQueueEntry[]
+
+  @@index([leagueId, status])
+}
+
+model DraftPick {
+  id          String   @id @default(uuid()) @db.Uuid
+  draftId     String   @db.Uuid
+  teamId      String   @db.Uuid
+  playerId    String   @db.Uuid
+  overall     Int
+  round       Int
+  roundPick   Int
+  automatic   Boolean  @default(false)
+  pickedAt    DateTime @default(now()) @db.Timestamptz(3)
+  draft       Draft    @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player      Player   @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@unique([draftId, overall])
+  @@unique([draftId, playerId])
+  @@index([teamId])
+}
+
+model DraftQueueEntry {
+  id          String   @id @default(uuid()) @db.Uuid
+  draftId     String   @db.Uuid
+  teamId      String   @db.Uuid
+  playerId    String   @db.Uuid
+  rank        Int
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  draft       Draft    @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player      Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([draftId, teamId, playerId])
+  @@unique([draftId, teamId, rank])
+}
+
+model ScoringPeriod {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  number      Int
+  startsAt    DateTime @db.Timestamptz(3)
+  endsAt      DateTime @db.Timestamptz(3)
+  finalizedAt DateTime? @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  matchups    Matchup[]
+
+  @@unique([leagueId, number])
+}
+
+model Matchup {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  periodId    String   @db.Uuid
+  homeTeamId  String   @db.Uuid
+  awayTeamId  String   @db.Uuid
+  homeTenths  BigInt   @default(0)
+  awayTenths  BigInt   @default(0)
+  status      MatchupStatus @default(SCHEDULED)
+  calculatedAt DateTime? @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  period      ScoringPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  homeTeam    FantasyTeam @relation("HomeTeam", fields: [homeTeamId], references: [id], onDelete: Cascade)
+  awayTeam    FantasyTeam @relation("AwayTeam", fields: [awayTeamId], references: [id], onDelete: Cascade)
+
+  @@unique([periodId, homeTeamId])
+  @@unique([periodId, awayTeamId])
+  @@index([leagueId, status])
+}
+
+model WaiverClaim {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  teamId      String   @db.Uuid
+  addPlayerId String   @db.Uuid
+  dropPlayerId String? @db.Uuid
+  bid         Int
+  priority    Int
+  processAt   DateTime @db.Timestamptz(3)
+  status      WaiverStatus @default(PENDING)
+  reason      String?
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  processedAt DateTime? @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  addPlayer   Player   @relation("WaiverAdd", fields: [addPlayerId], references: [id], onDelete: Restrict)
+  dropPlayer  Player?  @relation("WaiverDrop", fields: [dropPlayerId], references: [id], onDelete: Restrict)
+
+  @@index([leagueId, processAt, status])
+  @@index([teamId, status])
+}
+
+model FantasyTransaction {
+  id          String   @id @default(uuid()) @db.Uuid
+  leagueId    String   @db.Uuid
+  teamId      String   @db.Uuid
+  type        TransactionType
+  playerId    String?  @db.Uuid
+  relatedPlayerId String? @db.Uuid
+  amount      Int?
+  note        String
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player      Player?  @relation("TransactionPlayer", fields: [playerId], references: [id], onDelete: Restrict)
+  relatedPlayer Player? @relation("TransactionRelatedPlayer", fields: [relatedPlayerId], references: [id], onDelete: Restrict)
+
+  @@index([leagueId, createdAt])
 }
 
 model LeagueSport {
@@ -149,6 +385,13 @@ model Player {
   gameStats    PlayerGameStat[]
   positions    PlayerPositionEvidence[]
   scoreLedgers ScoreLedger[]
+  rosterEntries RosterEntry[]
+  draftPicks DraftPick[]
+  draftQueues DraftQueueEntry[]
+  waiverAdds WaiverClaim[] @relation("WaiverAdd")
+  waiverDrops WaiverClaim[] @relation("WaiverDrop")
+  transactions FantasyTransaction[] @relation("TransactionPlayer")
+  relatedTransactions FantasyTransaction[] @relation("TransactionRelatedPlayer")
 
   @@index([sport, displayName])
   @@index([isDemo, sport, displayName])

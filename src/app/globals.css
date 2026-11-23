@@ -241,6 +241,46 @@ body {
 .scoring-rules th:last-child, .scoring-rules td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
 .scoring-rules tr:nth-child(even) { background: var(--surface-raised); }
 .player-list li { display: flex; justify-content: space-between; gap: .7rem; align-items: center; border-top: 1px solid var(--line); padding: .5rem 0; }
+.player-list small { display: block; color: var(--muted); }
+.narrow { max-width: 50rem; }
+.form-grid { display: grid; gap: 1rem; }
+.form-grid label { display: grid; gap: .4rem; font-weight: 700; }
+.form-grid input, .form-grid select, .filter-bar input, .filter-bar select {
+  min-height: 2.75rem; border: 1px solid #52617a; border-radius: .375rem; background: var(--background); color: var(--foreground); padding: .45rem .7rem;
+}
+.form-grid .check { display: flex; align-items: center; gap: .6rem; }
+.form-grid .check input { min-height: auto; width: 1.1rem; height: 1.1rem; }
+.button-row, .filter-bar { display: flex; align-items: center; flex-wrap: wrap; gap: .7rem; }
+.filter-bar { margin-bottom: 1rem; }
+.filter-bar input { min-width: min(100%, 15rem); }
+.league-nav { overflow-x: auto; border-bottom: 1px solid var(--line); background: #0d1524; }
+.league-nav ul { width: min(100% - 3rem, 76rem); margin-inline: auto; display: flex; gap: .25rem; }
+.league-nav a { display: block; padding: .75rem .8rem; color: var(--muted); font-size: .9rem; font-weight: 750; white-space: nowrap; }
+.league-nav a:hover { color: var(--foreground); background: var(--surface); }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { padding: .65rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
+.data-table th { color: var(--muted); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; }
+.data-table td:not(:first-child), .data-table th:not(:first-child) { font-variant-numeric: tabular-nums; }
+.draft-layout { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(20rem, 1.2fr); gap: 1rem; align-items: start; }
+.pick-list { display: grid; gap: .35rem; }
+.pick-list li { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: .6rem; padding: .55rem 0; border-bottom: 1px solid var(--line); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: .8rem; }
+.matchup div { display: flex; justify-content: space-between; padding: .55rem 0; border-top: 1px solid var(--line); }
+.matchup strong { font-variant-numeric: tabular-nums; }
+.transaction-list { display: grid; margin-top: 1rem; }
+.transaction-list li { display: grid; padding: .7rem 0; border-top: 1px solid var(--line); }
+.transaction-list span, .transaction-list small { color: var(--muted); }
+.definition-list { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1rem; }
+.definition-list dt { color: var(--muted); }
+.metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-bottom: 1rem; }
+.metric { padding: 1rem; border: 1px solid var(--line); border-radius: .55rem; background: var(--surface); }
+.metric span { display: block; color: var(--muted); font-size: .85rem; }
+.metric strong { display: block; margin-top: .2rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+.coverage-row { display: grid; grid-template-columns: 8rem 1fr 4rem; align-items: center; gap: .7rem; margin-top: .55rem; }
+.coverage-row progress { width: 100%; accent-color: var(--accent); }
+.balance-status { color: #ffd38f; font-weight: 800; }
+.inline-form { display: flex; gap: .4rem; }
+.inline-form select { min-height: 2.4rem; background: var(--background); color: var(--foreground); border: 1px solid var(--line); }
 
 @media (max-width: 760px) {
   .shell { width: calc(100% - 2rem); }
@@ -254,6 +294,8 @@ body {
   .hero-title { font-size: clamp(3.6rem, 10vw, 6rem); }
   .sports-section { padding-block: 2rem 2.8rem; }
   .league-entry { grid-template-columns: auto minmax(0, 1fr) auto; gap: .65rem; }
+  .draft-layout, .metric-grid { grid-template-columns: 1fr; }
+  .data-table { display: block; overflow-x: auto; }
   .league-entry .sport-tags { grid-column: 2; }
   .league-entry .tag { grid-column: 3; grid-row: 2; }
   .league-entry .entry-chevron { grid-row: 1; }

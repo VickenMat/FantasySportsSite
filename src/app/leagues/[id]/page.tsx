@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DashboardHeader } from "@/components/dashboard-header";
+import { LeagueShell } from "@/components/league-shell";
 import { SportTags } from "@/components/sports";
 import { requireSession } from "@/lib/auth";
 import { getMemberLeague, listDemoPlayers } from "@/server/dashboard";
@@ -19,9 +19,7 @@ export default async function LeaguePage({ params }: { params: Promise<{ id: str
   const players = league.isDemo ? await listDemoPlayers() : [];
 
   return (
-    <>
-      <DashboardHeader />
-      <main id="main" className="shell workspace">
+    <LeagueShell leagueId={id}>
         <div className="workspace-intro">
           <Link href="/dashboard" className="text-link">My leagues</Link>
           <h1 className="display">{league.name}</h1>
@@ -60,7 +58,6 @@ export default async function LeaguePage({ params }: { params: Promise<{ id: str
             </section>
           )}
         </div>
-      </main>
-    </>
+    </LeagueShell>
   );
 }

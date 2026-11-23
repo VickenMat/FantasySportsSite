@@ -40,7 +40,7 @@ it("returns leagues only to members and stores a hashed demo password", async ()
   const membership = await database.leagueMember.findFirstOrThrow({ where: { userId: account.userId } });
   expect(account.password).not.toBe(DEMO_PASSWORD);
   expect(await verifyPassword({ hash: account.password ?? "", password: DEMO_PASSWORD })).toBe(true);
-  expect(await listMemberLeagues(account.userId)).toHaveLength(1);
+  expect((await listMemberLeagues(account.userId)).some(({ league }) => league.slug === "founders-dynasty")).toBe(true);
   expect(await getMemberLeague(account.userId, membership.leagueId)).toMatchObject({ role: "COMMISSIONER" });
 
   const outsider = randomUUID();

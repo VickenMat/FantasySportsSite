@@ -23,7 +23,7 @@ export default async function Dashboard() {
         <section aria-labelledby="leagues-title">
           <div className="section-heading">
             <h2 className="display" id="leagues-title">My leagues</h2>
-            <p className="muted">{memberships.length} {memberships.length === 1 ? "league" : "leagues"}</p>
+            <div className="button-row"><p className="muted">{memberships.length} {memberships.length === 1 ? "league" : "leagues"}</p><Link className="button primary" href="/leagues/new">Create league</Link></div>
           </div>
           {memberships.length ? (
             <ul className="league-list">

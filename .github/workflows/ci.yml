@@ -31,6 +31,7 @@ jobs:
       - run: npm test
       - run: npm run test:integration
       - run: npm run worker
+      - run: npm run fantasy:process
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
