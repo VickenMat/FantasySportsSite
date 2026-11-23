@@ -83,27 +83,27 @@ model Verification {
 }
 
 model League {
-  id         String         @id @default(uuid()) @db.Uuid
-  slug       String         @unique
-  name       String
-  format     LeagueFormat
-  maxTeams   Int
-  isDemo     Boolean        @default(false)
-  createdAt  DateTime       @default(now()) @db.Timestamptz(3)
-  members    LeagueMember[]
-  sports     LeagueSport[]
-  presetId   String         @db.Uuid
-  preset     ScoringPreset  @relation(fields: [presetId], references: [id])
+  id        String         @id @default(uuid()) @db.Uuid
+  slug      String         @unique
+  name      String
+  format    LeagueFormat
+  maxTeams  Int
+  isDemo    Boolean        @default(false)
+  createdAt DateTime       @default(now()) @db.Timestamptz(3)
+  members   LeagueMember[]
+  sports    LeagueSport[]
+  presetId  String         @db.Uuid
+  preset    ScoringPreset  @relation(fields: [presetId], references: [id])
 }
 
 model LeagueMember {
-  id        String     @id @default(uuid()) @db.Uuid
-  leagueId  String     @db.Uuid
-  userId    String     @db.Uuid
-  role      LeagueRole @default(MANAGER)
-  joinedAt  DateTime   @default(now()) @db.Timestamptz(3)
-  league    League     @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id       String     @id @default(uuid()) @db.Uuid
+  leagueId String     @db.Uuid
+  userId   String     @db.Uuid
+  role     LeagueRole @default(MANAGER)
+  joinedAt DateTime   @default(now()) @db.Timestamptz(3)
+  league   League     @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([leagueId, userId])
   @@index([userId])
@@ -125,6 +125,7 @@ model ScoringPreset {
   experimental Boolean
   leagues      League[]
   rules        ScoringRule[]
+  scoreLedgers ScoreLedger[]
 }
 
 model ScoringRule {
@@ -140,9 +141,233 @@ model ScoringRule {
 }
 
 model Player {
-  id          String @id @default(uuid()) @db.Uuid
-  sport       Sport
-  displayName String
+  id           String                   @id @default(uuid()) @db.Uuid
+  sport        Sport
+  displayName  String
+  isDemo       Boolean                  @default(false)
+  externalIds  PlayerExternalId[]
+  gameStats    PlayerGameStat[]
+  positions    PlayerPositionEvidence[]
+  scoreLedgers ScoreLedger[]
 
   @@index([sport, displayName])
+  @@index([isDemo, sport, displayName])
+}
+
+enum SeasonCoverage {
+  UNVERIFIED
+  COMPLETE
+  PARTIAL
+  QUARANTINED
+}
+
+enum GamePhase {
+  REGULAR
+  POSTSEASON
+  PRESEASON
+  UNKNOWN
+}
+
+enum GameSide {
+  HOME
+  AWAY
+  UNKNOWN
+}
+
+enum GameStatRole {
+  FOOTBALL
+  HITTER
+  PITCHER
+  BASKETBALL
+  SKATER
+  GOALIE
+}
+
+enum PositionEvidenceKind {
+  LISTED
+  FIELDING
+}
+
+model Season {
+  id             String                   @id @default(uuid()) @db.Uuid
+  sport          Sport
+  startYear      Int
+  label          String
+  coverage       SeasonCoverage           @default(UNVERIFIED)
+  coverageReason String?
+  games          Game[]
+  positions      PlayerPositionEvidence[]
+
+  @@unique([sport, startYear])
+}
+
+model PlayerExternalId {
+  id         String @id @default(uuid()) @db.Uuid
+  sport      Sport
+  provider   String
+  externalId String
+  playerId   String @db.Uuid
+  player     Player @relation(fields: [playerId], references: [id])
+
+  @@unique([sport, provider, externalId])
+  @@index([playerId])
+}
+
+model ProTeam {
+  id          String           @id @default(uuid()) @db.Uuid
+  sport       Sport
+  provider    String
+  externalId  String
+  code        String?
+  displayName String
+  games       GameTeam[]
+  gameStats   PlayerGameStat[]
+
+  @@unique([sport, provider, externalId])
+}
+
+model Game {
+  id           String                   @id @default(uuid()) @db.Uuid
+  sport        Sport
+  seasonId     String                   @db.Uuid
+  provider     String
+  externalId   String
+  phase        GamePhase
+  gameDate     DateTime?                @db.Date
+  startsAt     DateTime?                @db.Timestamptz(3)
+  week         Int?
+  season       Season                   @relation(fields: [seasonId], references: [id])
+  teams        GameTeam[]
+  gameStats    PlayerGameStat[]
+  positions    PlayerPositionEvidence[]
+  scoreLedgers ScoreLedger[]
+
+  @@unique([sport, provider, externalId])
+  @@index([seasonId, gameDate])
+}
+
+model GameTeam {
+  gameId String   @db.Uuid
+  teamId String   @db.Uuid
+  side   GameSide @default(UNKNOWN)
+  game   Game     @relation(fields: [gameId], references: [id])
+  team   ProTeam  @relation(fields: [teamId], references: [id])
+
+  @@id([gameId, teamId])
+  @@index([teamId, gameId])
+}
+
+model Position {
+  id       String                   @id @default(uuid()) @db.Uuid
+  sport    Sport
+  code     String
+  evidence PlayerPositionEvidence[]
+
+  @@unique([sport, code])
+}
+
+model PlayerPositionEvidence {
+  id          String               @id @default(uuid()) @db.Uuid
+  playerId    String               @db.Uuid
+  positionId  String               @db.Uuid
+  seasonId    String               @db.Uuid
+  gameId      String?              @db.Uuid
+  kind        PositionEvidenceKind
+  started     Boolean?
+  effectiveAt DateTime             @db.Timestamptz(3)
+  knownAt     DateTime             @db.Timestamptz(3)
+  provider    String
+  externalId  String
+  player      Player               @relation(fields: [playerId], references: [id])
+  position    Position             @relation(fields: [positionId], references: [id])
+  season      Season               @relation(fields: [seasonId], references: [id])
+  game        Game?                @relation(fields: [gameId], references: [id])
+
+  @@unique([provider, externalId])
+  @@index([playerId, seasonId, knownAt])
+}
+
+model ImportBatch {
+  id               String           @id @default(uuid()) @db.Uuid
+  sport            Sport
+  provider         String
+  contentHash      String
+  sourceName       String
+  importerVersion  String
+  correctionReason String?
+  importedAt       DateTime         @default(now()) @db.Timestamptz(3)
+  summary          Json
+  gameStats        PlayerGameStat[]
+
+  @@unique([sport, provider, contentHash, importerVersion])
+}
+
+model PlayerGameStat {
+  id                String             @id @default(uuid()) @db.Uuid
+  gameId            String             @db.Uuid
+  playerId          String             @db.Uuid
+  teamId            String             @db.Uuid
+  importBatchId     String             @db.Uuid
+  provider          String
+  role              GameStatRole
+  revision          Int
+  priorRevisionId   String?            @unique @db.Uuid
+  contentHash       String
+  sourceLine        Int
+  observedPositions String[]
+  normalized        Json
+  raw               Json
+  recordedAt        DateTime           @default(now()) @db.Timestamptz(3)
+  sourceKnownAt     DateTime?          @db.Timestamptz(3)
+  game              Game               @relation(fields: [gameId], references: [id])
+  player            Player             @relation(fields: [playerId], references: [id])
+  team              ProTeam            @relation(fields: [teamId], references: [id])
+  importBatch       ImportBatch        @relation(fields: [importBatchId], references: [id])
+  priorRevision     PlayerGameStat?    @relation("GameStatRevisions", fields: [priorRevisionId], references: [id])
+  nextRevision      PlayerGameStat?    @relation("GameStatRevisions")
+  scoreEntries      ScoreLedgerEntry[]
+
+  @@unique([gameId, playerId, provider, role, revision])
+  @@unique([gameId, playerId, provider, role, contentHash])
+  @@index([playerId, gameId])
+  @@index([importBatchId])
+}
+
+model ScoreLedger {
+  id       String             @id @default(uuid()) @db.Uuid
+  gameId   String             @db.Uuid
+  playerId String             @db.Uuid
+  presetId String             @db.Uuid
+  role     GameStatRole
+  game     Game               @relation(fields: [gameId], references: [id])
+  player   Player             @relation(fields: [playerId], references: [id])
+  preset   ScoringPreset      @relation(fields: [presetId], references: [id])
+  entries  ScoreLedgerEntry[]
+
+  @@unique([gameId, playerId, presetId])
+  @@index([playerId, gameId])
+}
+
+model ScoreLedgerEntry {
+  id              String            @id @default(uuid()) @db.Uuid
+  ledgerId        String            @db.Uuid
+  statId          String            @db.Uuid
+  sequence        Int
+  previousEntryId String?           @unique @db.Uuid
+  reason          String
+  engineVersion   String
+  ruleHash        String
+  inputHash       String
+  totalTenths     BigInt
+  lineItems       Json
+  missingStats    String[]
+  teEligible      Boolean?
+  calculatedAt    DateTime          @default(now()) @db.Timestamptz(3)
+  ledger          ScoreLedger       @relation(fields: [ledgerId], references: [id])
+  stat            PlayerGameStat    @relation(fields: [statId], references: [id])
+  previousEntry   ScoreLedgerEntry? @relation("LedgerHistory", fields: [previousEntryId], references: [id])
+  nextEntry       ScoreLedgerEntry? @relation("LedgerHistory")
+
+  @@unique([ledgerId, sequence])
+  @@index([statId])
 }

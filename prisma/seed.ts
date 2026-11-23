@@ -56,7 +56,7 @@ async function seed() {
       },
     });
 
-    await tx.player.createMany({ data: players, skipDuplicates: true });
+    await tx.player.createMany({ data: players.map((player) => ({ ...player, isDemo: true })), skipDuplicates: true });
 
     if (demoCredentials) {
       await tx.user.upsert({

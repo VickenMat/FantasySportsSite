@@ -38,6 +38,7 @@ export async function getMemberLeague(userId: string, leagueId: string) {
 
 export function listDemoPlayers() {
   return getDatabase().player.findMany({
+    where: { isDemo: true },
     orderBy: [{ sport: "asc" }, { displayName: "asc" }],
     select: { id: true, displayName: true, sport: true },
   });
