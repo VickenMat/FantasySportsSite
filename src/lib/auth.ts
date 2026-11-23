@@ -12,7 +12,7 @@ function createAuth() {
   if (!AUTH_SECRET || !AUTH_URL) throw new Error("AUTH_SECRET and AUTH_URL are required.");
 
   const mail = SMTP_URL && MAIL_FROM
-    ? createTransport(SMTP_URL, { connectionTimeout: 10_000, socketTimeout: 15_000 })
+    ? createTransport({ url: SMTP_URL, connectionTimeout: 10_000, socketTimeout: 15_000 })
     : undefined;
 
   return betterAuth({

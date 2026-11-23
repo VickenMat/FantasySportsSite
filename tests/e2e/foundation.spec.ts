@@ -24,6 +24,9 @@ test.afterAll(async () => getDatabase().$disconnect());
 test("public landing and database status work, and guests are redirected", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /four sports.*one league/i })).toBeVisible();
+  await page.locator(".hero-media img").evaluate(async (image: HTMLImageElement) => {
+    await image.decode();
+  });
   await page.getByRole("link", { name: "Sports", exact: true }).click();
   await expect(page).toHaveURL(/#sports$/);
   await expect(page.getByRole("heading", { name: "Pick your playing field" })).toBeVisible();

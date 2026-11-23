@@ -36,7 +36,10 @@ export async function hashFile(path: string) {
   return hash.digest("hex");
 }
 
-export async function* readHistoricalCsv(path: string, sport: Sport, summary: ImportSummary, expectedHash?: string) {
+export async function* readHistoricalCsv(
+  path: string, sport: Sport, summary: ImportSummary, expectedHash?: string,
+  onRejected?: (issue: ImportSummary["sampleIssues"][number]) => void,
+) {
   let headerRead = false;
   const parser = parse({
     bom: true,
@@ -63,6 +66,7 @@ export async function* readHistoricalCsv(path: string, sport: Sport, summary: Im
       } catch (error) {
         if (!(error instanceof InvalidHistoricalRow)) throw error;
         rejectRow(summary, info.lines, error.message);
+        onRejected?.({ line: info.lines, message: error.message });
         continue;
       }
 
