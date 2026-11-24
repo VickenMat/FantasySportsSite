@@ -8,6 +8,14 @@ import { accountNameSchema, maxPasswordLength, minPasswordLength } from "./auth-
 import { getDatabase } from "./db";
 import { clientIdentity, enforceRateLimit, RateLimitError } from "@/server/rate-limit";
 
+const localDevelopmentOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+
+export function trustedAuthOrigins(authUrl: string) {
+  const configured = new URL(authUrl);
+  const isLoopback = configured.hostname === "localhost" || configured.hostname === "127.0.0.1";
+  return isLoopback ? [...new Set([configured.origin, ...localDevelopmentOrigins])] : [configured.origin];
+}
+
 function createAuth() {
   const { AUTH_SECRET, AUTH_URL, SMTP_URL, MAIL_FROM } = process.env;
   if (!AUTH_SECRET || !AUTH_URL) throw new Error("AUTH_SECRET and AUTH_URL are required.");
@@ -19,6 +27,7 @@ function createAuth() {
   return betterAuth({
     appName: "Fantasy Evolution",
     baseURL: AUTH_URL,
+    trustedOrigins: trustedAuthOrigins(AUTH_URL),
     secret: AUTH_SECRET,
     database: prismaAdapter(getDatabase(), { provider: "postgresql", transaction: true }),
     advanced: { database: { generateId: "uuid" } },

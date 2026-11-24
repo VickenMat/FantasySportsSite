@@ -16,9 +16,11 @@ npm run db:seed
 npm run dev
 ```
 
-Open [Fantasy Evolution](http://127.0.0.1:3000) and sign in with the `DEMO_EMAIL` and generated `DEMO_PASSWORD` in your local `.env`. New accounts start with an empty dashboard. The seed is repeatable and preserves the existing demo account credentials. Change the account password through the recovery flow if needed. SMTP is optional outside the provided setup. Local reset messages arrive in [Mailpit](http://127.0.0.1:8025).
+Open [Fantasy Evolution](http://localhost:3000) and sign in with the `DEMO_EMAIL` and generated `DEMO_PASSWORD` in your local `.env`. New accounts start with an empty dashboard. The seed is repeatable and preserves the existing demo account credentials. Change the account password through the recovery flow if needed. SMTP is optional outside the provided setup. Local reset messages arrive in [Mailpit](http://127.0.0.1:8025).
 
-Use the exact scheme, hostname, and port configured in `AUTH_URL` so the application and session cookies share the same origin. Keep the local database and Mailpit bound to loopback. The app reports PostgreSQL readiness at [`/health`](http://127.0.0.1:3000/health).
+Set `AUTH_URL=http://localhost:3000` for local development and restart the Next.js server after changing it. Better Auth explicitly trusts both `http://localhost:3000` and `http://127.0.0.1:3000` when the configured URL is a loopback address, so registration and sign-in work from either local hostname. These are exact origins. CSRF and origin validation remain enabled, and no wildcard origins are accepted. In production, set `AUTH_URL` to the exact public HTTPS domain. A non-loopback configuration trusts only that configured production origin.
+
+Keep the local database and Mailpit bound to loopback. The app reports PostgreSQL readiness at [`/health`](http://localhost:3000/health).
 
 ## Verify
 
