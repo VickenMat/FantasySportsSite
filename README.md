@@ -13,14 +13,14 @@ docker compose up -d --wait
 npm ci
 npm run db:migrate
 npm run db:seed
-npm run dev
+npm run dev:all
 ```
 
 Open [Fantasy Evolution](http://localhost:3000) and sign in with the `DEMO_EMAIL` and generated `DEMO_PASSWORD` in your local `.env`. New accounts start with an empty dashboard. The seed is repeatable and preserves the existing demo account credentials. Change the account password through the recovery flow if needed. SMTP is optional outside the provided setup. Local reset messages arrive in [Mailpit](http://127.0.0.1:8025).
 
 Set `AUTH_URL=http://localhost:3000` for local development and restart the Next.js server after changing it. Better Auth explicitly trusts both `http://localhost:3000` and `http://127.0.0.1:3000` when the configured URL is a loopback address, so registration and sign-in work from either local hostname. These are exact origins. CSRF and origin validation remain enabled, and no wildcard origins are accepted. In production, set `AUTH_URL` to the exact public HTTPS domain. A non-loopback configuration trusts only that configured production origin.
 
-Keep the local database and Mailpit bound to loopback. The app reports PostgreSQL readiness at [`/health`](http://localhost:3000/health).
+Keep the local database and Mailpit bound to loopback. `npm run dev:all` starts the Next.js server, persistent draft timer, and minute-idempotent waiver/gameplay processor with prefixed logs and coordinated shutdown. The individual `npm run dev`, `npm run fantasy:draft-timer`, and `npm run fantasy:process` commands remain available. The app reports PostgreSQL readiness and worker heartbeats at [`/health`](http://localhost:3000/health).
 
 Development, automated test and future production database identities are separate. Keep `DATABASE_URL` equal to `DEVELOPMENT_DATABASE_URL` for interactive work. Create and prepare the disposable test database once:
 
@@ -165,13 +165,13 @@ Matchups use the latest entry in the immutable versioned score ledger for each r
 npm run fantasy:process
 ```
 
-During an active local draft, also keep the persisted timer worker running in a second terminal:
+For the complete local gameplay stack, use one command after PostgreSQL and Mailpit are healthy:
 
 ```bash
-npm run fantasy:draft-timer
+npm run dev:all
 ```
 
-This worker—not the browser countdown—performs queue-first automatic picks and recovers overdue clocks after a restart. See [the M3.7.1 report](docs/M3_7_1_REPORT.md).
+The server-side worker—not the browser countdown—performs queue-first automatic picks and recovers overdue clocks after a restart. The same command invokes the PostgreSQL-keyed gameplay processor once per minute; duplicate ticks are safely skipped. See [the M3.7.2 report](docs/M3_7_2_REPORT.md).
 
 Historical demo play requires importing the reviewed local Parquet source for the selected sport. The repository does not bundle those files or pretend the eight seeded presentation players form a complete historical pool.
 
