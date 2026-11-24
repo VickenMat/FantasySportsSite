@@ -22,6 +22,15 @@ Set `AUTH_URL=http://localhost:3000` for local development and restart the Next.
 
 Keep the local database and Mailpit bound to loopback. The app reports PostgreSQL readiness at [`/health`](http://localhost:3000/health).
 
+Development, automated test and future production database identities are separate. Keep `DATABASE_URL` equal to `DEVELOPMENT_DATABASE_URL` for interactive work. Create and prepare the disposable test database once:
+
+```bash
+docker compose exec -T postgres createdb -U fantasy fantasy_evolution_test
+npm run test:db:prepare
+```
+
+Integration, Playwright and load commands require `TEST_DATABASE_URL` and its exact name in `AUTHORIZED_TEST_DATABASES`; their launcher replaces any inherited development URL and refuses a development/production collision. See [database and test environment isolation](docs/TEST_ENVIRONMENTS.md).
+
 ## Verify
 
 With PostgreSQL and Mailpit up and the database migrated and seeded:
@@ -31,14 +40,14 @@ npm run typecheck
 npm run lint
 npm test
 npm run test:integration
-npm run worker
-npm run fantasy:process
+node scripts/run-in-test-environment.mjs -- npm run worker
+node scripts/run-in-test-environment.mjs -- npm run fantasy:process
 npm run build
 npx playwright install chromium
 npm run test:e2e
 ```
 
-The workflow in `.github/workflows/ci.yml` applies committed migrations with `npm run db:deploy` and runs browser tests against the production build. Local Playwright starts the development server or reuses it if already running. When editing the Prisma schema, rerun `npm run db:generate` to refresh the client.
+The workflow in `.github/workflows/ci.yml` creates a fresh test database, deploys committed migrations and runs browser tests against the production build. Local Playwright starts the built application on dedicated port 3100 and never reuses an existing server, so run `npm run build` before `npm run test:e2e`. When editing the Prisma schema, rerun `npm run db:generate` to refresh the client. A development server may continue on port 3000 without being used by browser tests.
 
 Better Auth manages scrypt password hashes and PostgreSQL-backed sessions. Prisma 7 is pinned for compatibility with the Better Auth adapter.
 
@@ -120,6 +129,7 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 - [x] M2 · Create and join leagues, commissioner settings, and configurable dynasty/redraft seasons and starter arrays.
 - [x] M3 · Persistent snake drafts, roster ownership, bench management, and recorded-position lineup validation. Authoritative live availability feeds remain release work.
 - [x] M3.5 · Draft clocks and reconnects, commissioner controls, trades, playoff seeding, authorization and rate limiting, query hardening, and measured local load tests.
+- [x] M3.6 · Two-to-sixteen-team multi-sport leagues, sport rosters and drafts, Public discovery, Redraft keepers, computer franchises, season rollover, and gameplay acceptance.
 - [ ] M4 · Matchups, standings, waivers and FAAB, trades, transaction audit, and score corrections.
 - [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
@@ -145,7 +155,7 @@ Authenticated users can inspect this evidence at `/analysis`. Import and calibra
 
 ## M3 playable leagues
 
-Create a single-sport league at `/leagues/new`. The browser flow supports four to sixteen teams, secure single-use invitations, commissioner permissions, custom team names, historical replay labeling, starter and bench configuration, UBP preset selection, and computer-filled demonstration leagues. League pages provide the player pool, My Team, a persistent snake draft board and queue, matchups, standings, FAAB waivers, and settings.
+The M3 baseline introduced single-sport leagues. M3.6 supersedes its original four-to-sixteen-team creation limits with the multi-sport, two-to-sixteen-team workflow documented below. Secure invitations, commissioner permissions, custom franchise names, historical replay labeling, starter and bench configuration, the UBP preset, computer franchises, player pools, persistent draft boards and queues, matchups, standings, FAAB waivers, and settings remain available.
 
 Draft picks and waiver awards use serializable PostgreSQL transactions. Unique indexes prevent a player from being drafted twice or appearing on two rosters in the same league. Draft refreshes retain state, commissioners can exercise an absent manager's queue-driven auto-pick, and completing the final pick activates the league. Add, drop, draft, and waiver activity is retained in the transaction audit.
 
@@ -183,6 +193,26 @@ The reproducible local load report is tracked at [reports/load-m3-5.json](report
 The supported-league contention run used 16 managers. Exactly one competing draft request and one competing direct roster acquisition succeeded, while the other 15 requests in each scenario received expected HTTP 409 conflicts. All 16 waiver submissions were stored and the ordered waiver processor completed. These are local measurements on one development machine and do not establish production capacity. See [the M3.5 report](docs/M3_5_REPORT.md) for the security review, test evidence, and limitations.
 
 UBP V9 remains the immutable experimental baseline with all 56 coefficients unchanged. V10 remains inactive. The 0.5% cross-sport balance target is unverified because the archives still lack independently timestamped preseason ranks, injury and availability reports, pitching rotations, and waiver knowledge needed for defensible historical decisions.
+
+## M3.6 multi-sport leagues
+
+League creation now supports every nonempty combination of NFL, MLB, NBA and NHL, with all four selected by default. Capacity is 2 through 16 and defaults to 12. One manager owns one franchise, and that franchise has an independent roster, draft, player pool, FAAB budget, transactions, matchups and standings for every selected sport. Normal leagues automatically receive current sport-season metadata; only historical replay exposes an explicit season year.
+
+Dynasty preserves active ownership across season transitions. Redraft defaults to zero keepers and can configure independent keeper limits and deadlines by sport. Private is invitation-only; Public leagues appear in `/leagues/discover` and accept authenticated managers while setup slots remain. Commissioners can resize during setup, configure sport draft rounds/order/timers, or fill empty slots with computer-controlled franchises that have no user accounts.
+
+To make the existing two-manager League0 playable, open its **Settings**, change capacity from 12 to 2, save, open **Draft**, select NFL, and start the snake draft. To test a four-sport league, leave all sports checked at `/leagues/new`; enable computer franchises in optional settings if you want every slot ready immediately.
+
+Apply all additive migrations and restart a server that was running before Prisma generation:
+
+```bash
+npm run db:deploy
+npm run db:generate
+npm run dev
+```
+
+The reproducible M3.6 load report is [`reports/load-m3-6.json`](reports/load-m3-6.json). With a warmed 20-connection pool, all 100/500/1,000-user read and authentication scenarios returned zero errors locally; 1,000-user authentication p95 was 39.19 seconds and dashboard p95 was 6.80 seconds. These results do not establish production capacity. See [the full M3.6 report](docs/M3_6_REPORT.md), [performance investigation](docs/M3_6_PERFORMANCE_INVESTIGATION.md), and [M3.7 manual acceptance guide](docs/M3_7_MANUAL_ACCEPTANCE.md).
+
+UBP V9 and all 56 coefficients are unchanged. Cross-sport trades and an aggregate championship remain undefined. The historical sources still lack the independently timestamped pregame evidence needed for defensible calibration, so V10 is inactive and the 0.5% balance target remains unverified.
 
 ## Landing artwork
 
