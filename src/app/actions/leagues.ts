@@ -148,7 +148,7 @@ export async function dropPlayerAction(leagueId: string, form: FormData) {
 export async function lineupAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "lineup", 120);
-  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")), String(form.get("sport") ?? "") || undefined);
+  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")), String(form.get("sport") ?? "") || undefined, String(form.get("destinationEntryId") ?? "") || null);
   revalidatePath(`/leagues/${leagueId}/team`);
 }
 

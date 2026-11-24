@@ -47,7 +47,7 @@ export async function dropPlayer(userId: string, leagueId: string, playerId: str
   });
 }
 
-export async function setLineupSlot(userId: string, leagueId: string, rosterEntryId: string, slot: string, sport?: Sport | string) {
+export async function setLineupSlot(userId: string, leagueId: string, rosterEntryId: string, slot: string, sport?: Sport | string, destinationEntryId?: string | null) {
   const context = await managedRoster(userId, leagueId, sport); const normalizedSlot = z.string().trim().toUpperCase().max(20).parse(slot);
   const database = getDatabase();
   const entry = await database.rosterEntry.findUnique({ where: { id: rosterEntryId }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
@@ -73,7 +73,9 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     if (!current || current.lockedAt) throw new Error("That roster entry is no longer movable.");
     const allowed = normalizedSlot === "BENCH" ? Number.MAX_SAFE_INTEGER : context.leagueSport.rosterSlots.filter((value) => value === normalizedSlot).length;
     const occupants = await tx.rosterEntry.findMany({ where: { rosterId: context.roster.id, releasedAt: null, slot: normalizedSlot, id: { not: current.id } }, orderBy: { id: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
-    const displaced = occupants.length >= allowed ? occupants[0] : null;
+    const requestedDestination = destinationEntryId ? occupants.find(({ id }) => id === destinationEntryId) : null;
+    if (destinationEntryId && !requestedDestination) throw new Error("That destination roster position changed. Refresh and try again.");
+    const displaced = occupants.length >= allowed ? requestedDestination ?? occupants[0] : null;
     if (displaced?.lockedAt) throw new Error("The player occupying that destination is locked.");
     if (displaced && current.slot !== "BENCH") {
       const trusted = await getEligiblePositions({ playerId: displaced.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
