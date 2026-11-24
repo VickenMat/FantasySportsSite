@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { changeQueueAction, reorderQueueAction } from "@/app/actions/leagues";
 
-type Entry = { id: string; rank: number; name: string; positions: string[]; team: string | null };
+type Entry = { id: string; rank: number; name: string; positions: string[]; team: string | null; gamesPlayed: number | null; average: string; points: string };
 
 export function DraftQueue({ leagueId, draftId, initialEntries }: { leagueId: string; draftId: string; initialEntries: Entry[] }) {
   const [entries, setEntries] = useState(initialEntries);
@@ -30,7 +30,7 @@ export function DraftQueue({ leagueId, draftId, initialEntries }: { leagueId: st
         onDragOver={(event) => event.preventDefault()}
         onDrop={() => { if (dragged.current != null) move(dragged.current, index); dragged.current = null; }}>
         <span className="drag-handle" title="Drag to reorder">{index + 1} ↕</span>
-        <span><strong>{entry.name}</strong><small>{entry.positions.join(", ") || "POS N/A"}{entry.team ? ` · ${entry.team}` : " · TEAM N/A"}</small></span>
+        <span><strong>{entry.name}</strong><small>{entry.positions.join(", ") || "POS N/A"}{entry.team ? ` · ${entry.team}` : " · TEAM N/A"}</small><small>GP {entry.gamesPlayed ?? "N/A"} · AVG {entry.average} · PTS {entry.points}</small></span>
         <span className="button-row">
           <button formAction={changeQueueAction.bind(null, leagueId, draftId, entry.id, "UP")} className="button compact" disabled={index === 0} aria-label={`Move ${entry.name} up`}>↑</button>
           <button formAction={changeQueueAction.bind(null, leagueId, draftId, entry.id, "DOWN")} className="button compact" disabled={index === entries.length - 1} aria-label={`Move ${entry.name} down`}>↓</button>
