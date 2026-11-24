@@ -56,7 +56,7 @@ export async function playerPage(leagueId: string, options: { sport?: Sport | st
     OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId }, observedPositions: options.position ? { has: options.position } : undefined } } }] };
   const database = getDatabase();
   const [players, total] = await Promise.all([database.player.findMany({ where, orderBy: [{ displayName: "asc" }, { id: "asc" }],
-    skip: (page - 1) * pageSize, take: pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId }, observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true } } } } } }),
+    skip: (page - 1) * pageSize, take: pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true, displayName: true } } } } } }),
   database.player.count({ where })]);
   return { items: players.map((player) => ({ ...player, positions: player.gameStats[0]?.observedPositions ?? [] })), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)), sport: leagueSport.sport };
 }

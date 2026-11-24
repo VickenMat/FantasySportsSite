@@ -193,6 +193,9 @@ body {
 
 .input-help { color: var(--muted); font-size: .9rem; font-weight: 500; }
 .form-error, .form-notice { padding: .65rem .8rem; border-radius: .35rem; }
+.app-notice { position: fixed; z-index: 50; top: 1rem; right: 1rem; display: flex; align-items: center; gap: 1rem; max-width: min(28rem, calc(100% - 2rem)); padding: .8rem 1rem; border: 1px solid #4b7455; border-radius: .5rem; background: #193524; color: #e8ffec; box-shadow: 0 .6rem 2rem #0008; }
+.app-notice.error { border-color: #9c4e59; background: #401d25; color: #ffd9de; }
+.app-notice button { border: 0; background: transparent; color: inherit; font-size: 1.35rem; cursor: pointer; }
 .form-error { background: #351d29; color: #ffc5cd; }
 .form-notice { background: #1b2e46; color: #d6e8ff; margin-bottom: 1rem; }
 .sign-out { position: relative; }

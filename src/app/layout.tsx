@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NotificationCenter } from "@/components/notification-center";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <a className="skip-link" href="#main">Skip to content</a>
+        <NotificationCenter />
         {children}
       </body>
     </html>
