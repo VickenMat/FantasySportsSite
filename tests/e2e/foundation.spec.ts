@@ -36,7 +36,10 @@ test("public landing and database status work, and guests are redirected", async
   await expect(page.getByRole("heading", { name: "Pick your playing field" })).toBeVisible();
   const health = await page.request.get("/health");
   expect(health.ok()).toBe(true);
-  expect(await health.json()).toEqual({ status: "ok", database: "connected" });
+  const healthBody = await health.json();
+  expect(healthBody).toMatchObject({ status: "ok", database: "connected" });
+  expect(healthBody).toHaveProperty("workers.draftTimer");
+  expect(healthBody).toHaveProperty("workers.gameplayTick");
   const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger");
   expect(ledger.status()).toBe(401);
   await page.getByRole("link", { name: "Open dashboard" }).click();
@@ -223,6 +226,10 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await page.getByRole("link", { name: "Draft", exact: true }).click();
     await page.getByRole("button", { name: "Start NBA snake draft" }).click();
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Player Pool" })).toHaveClass(/active/);
+    await expect(page.getByRole("heading", { name: "My Team" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "My Draft Queue" })).toBeVisible();
+    await page.screenshot({ path: "reports/screenshots/m3-7-2-draft-room.png", fullPage: true });
     await expect(page.getByRole("timer")).toContainText("0:30");
     await page.getByRole("button", { name: "Pause draft" }).click();
     await expect(page.getByRole("status")).toContainText("Draft paused");
@@ -230,13 +237,21 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("status")).toContainText("Draft paused");
     await page.getByRole("button", { name: "Resume draft" }).click();
     await page.getByRole("button", { name: "Auto-pick current team" }).click();
-    await expect(page.locator(".pick-list li")).toHaveCount(1);
+    await page.getByRole("link", { name: "Draft Board" }).click();
+    await expect(page.locator(".draft-order-list li.complete")).toHaveCount(1);
     await page.reload();
-    await expect(page.locator(".pick-list li")).toHaveCount(1);
+    await expect(page.locator(".draft-order-list li.complete")).toHaveCount(1);
+    await page.getByRole("link", { name: "My Team", exact: true }).click();
+    const movable = page.locator(".position-button:not([disabled])").first();
+    await expect(movable).toBeVisible();
+    await movable.click();
+    await expect(page.locator(".position-button.legal").first()).toBeVisible();
+    await page.screenshot({ path: "reports/screenshots/m3-7-2-roster-position-selection.png", fullPage: true });
     await page.getByRole("link", { name: "Scoring", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Universal Balanced Points V9" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
-    await expect(page.getByRole("heading", { name: "NBA trades" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "League trades" })).toBeVisible();
+    await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
     await page.goto("/analysis");
     await expect(page.getByRole("heading", { name: "Evidence before conclusions" })).toBeVisible();
     await expect(page.getByText("INSUFFICIENT_VERIFIED_EVIDENCE")).toBeVisible();
@@ -261,6 +276,9 @@ test("creates a playable two-team four-sport league with independent draft rooms
     await expect(page.getByRole("heading", { name: "NFL draft" })).toBeVisible();
     await page.getByRole("link", { name: "NBA", exact: true }).click();
     await expect(page.getByRole("button", { name: "Start NBA snake draft" })).toBeVisible();
+    await page.getByRole("link", { name: "Trades", exact: true }).click();
+    for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByText(`${sport} roster`).first()).toBeVisible();
+    await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
     expect(leagueId).toMatch(/[0-9a-f-]{36}/);
   } finally { await database.league.deleteMany({ where: { name } }); await database.user.deleteMany({ where: { email } }); }
 });
