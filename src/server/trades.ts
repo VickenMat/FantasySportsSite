@@ -23,13 +23,15 @@ export async function proposeTrade(userId: string, input: { leagueId: string; sp
     const offered = await tx.rosterEntry.findMany({ where: { rosterId: proposerRoster.id, releasedAt: null, playerId: { in: value.offerPlayerIds } } });
     const requested = await tx.rosterEntry.findMany({ where: { rosterId: recipientRoster.id, releasedAt: null, playerId: { in: value.requestPlayerIds } } });
     if (offered.length !== new Set(value.offerPlayerIds).size || requested.length !== new Set(value.requestPlayerIds).size) throw new Error(`Every traded player must belong to the stated ${leagueSport.sport} roster.`);
+    const proposerCount = await tx.rosterEntry.count({ where: { rosterId: proposerRoster.id, releasedAt: null } });
+    if (proposerCount - offered.length + requested.length > leagueSport.rosterSlots.length + leagueSport.benchSlots) throw new Error("Your franchise would exceed its roster limit. Add enough players to the offer before submitting.");
     return tx.trade.create({ data: { leagueId: value.leagueId, leagueSportId: leagueSport.id, sport: leagueSport.sport,
       proposerTeamId: membership.fantasyTeam!.id, recipientTeamId: recipient.id, message: value.message || null, expiresAt: new Date(Date.now() + (value.expiresInHours ?? 48) * 3_600_000),
       assets: { create: [...offered.map(({ playerId }) => ({ teamId: membership.fantasyTeam!.id, playerId, side: "PROPOSER" as const })), ...requested.map(({ playerId }) => ({ teamId: recipient.id, playerId, side: "RECIPIENT" as const }))] } }, include: { assets: true } });
   }, { isolationLevel: "Serializable" });
 }
 
-export async function respondToTrade(userId: string, tradeId: string, response: "ACCEPT" | "REJECT") {
+export async function respondToTrade(userId: string, tradeId: string, response: "ACCEPT" | "REJECT", cutPlayerIds: string[] = []) {
   const database = getDatabase(); return database.$transaction(async (tx) => {
     const trade = await tx.trade.findUniqueOrThrow({ where: { id: tradeId }, include: { assets: true, leagueSport: true } });
     const membership = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId: trade.leagueId, userId } }, include: { fantasyTeam: true } });
@@ -45,7 +47,15 @@ export async function respondToTrade(userId: string, tradeId: string, response: 
     const owner = new Map(roster.map((entry) => [entry.playerId, entry])); for (const asset of trade.assets) if (owner.get(asset.playerId)?.teamId !== asset.teamId) throw new Error("A traded player's ownership changed before acceptance.");
     const [proposerCount, recipientCount] = await Promise.all([tx.rosterEntry.count({ where: { rosterId: proposerRoster.id, releasedAt: null } }), tx.rosterEntry.count({ where: { rosterId: recipientRoster.id, releasedAt: null } })]);
     const offered = trade.assets.filter(({ side }) => side === "PROPOSER"); const requested = trade.assets.filter(({ side }) => side === "RECIPIENT"); const maximum = trade.leagueSport.rosterSlots.length + trade.leagueSport.benchSlots;
-    if (proposerCount - offered.length + requested.length > maximum || recipientCount - requested.length + offered.length > maximum) throw new Error("Acceptance would exceed a sport roster limit.");
+    if (proposerCount - offered.length + requested.length > maximum) throw new Error("The proposing franchise would exceed its sport roster limit.");
+    const cutsNeeded = Math.max(0, recipientCount - requested.length + offered.length - maximum); const uniqueCuts = [...new Set(cutPlayerIds)];
+    if (uniqueCuts.length !== cutsNeeded) throw new Error(`Select exactly ${cutsNeeded} player${cutsNeeded === 1 ? "" : "s"} to cut before accepting.`);
+    const cutEntries = uniqueCuts.length ? await tx.rosterEntry.findMany({ where: { rosterId: recipientRoster.id, releasedAt: null, lockedAt: null, playerId: { in: uniqueCuts }, id: { notIn: requested.map(({ playerId }) => owner.get(playerId)!.id) } } }) : [];
+    if (cutEntries.length !== uniqueCuts.length) throw new Error("Every selected cut must be an unlocked player remaining on your roster.");
+    for (const cut of cutEntries) {
+      await tx.rosterEntry.update({ where: { id: cut.id }, data: { releasedAt: now, slot: "BENCH" } });
+      await tx.fantasyTransaction.create({ data: { leagueId: trade.leagueId, leagueSportId: trade.leagueSportId, rosterId: recipientRoster.id, sport: trade.sport, teamId: trade.recipientTeamId, playerId: cut.playerId, type: "DROP", note: `Cut to complete trade ${trade.id}` } });
+    }
     for (const asset of offered) await tx.rosterEntry.update({ where: { id: owner.get(asset.playerId)!.id }, data: { teamId: trade.recipientTeamId, rosterId: recipientRoster.id, slot: "BENCH", lockedAt: null } });
     for (const asset of requested) await tx.rosterEntry.update({ where: { id: owner.get(asset.playerId)!.id }, data: { teamId: trade.proposerTeamId, rosterId: proposerRoster.id, slot: "BENCH", lockedAt: null } });
     for (const asset of trade.assets) {

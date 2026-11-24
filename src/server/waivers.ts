@@ -25,6 +25,16 @@ export async function processWaivers(userId: string, leagueId: string, now = new
   return processDueWaivers(leagueId, now, sport);
 }
 
+export async function cancelWaiver(userId: string, claimId: string) {
+  z.uuid().parse(claimId); const database = getDatabase();
+  return database.$transaction(async (tx) => {
+    const claim = await tx.waiverClaim.findUniqueOrThrow({ where: { id: claimId }, include: { team: true } });
+    if (claim.team.managerId !== userId) throw new Error("Only the claiming manager can cancel this waiver claim.");
+    if (claim.status !== "PENDING") throw new Error("Only a pending claim can be cancelled.");
+    return tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "CANCELLED", processedAt: new Date(), reason: "Cancelled by manager." } });
+  }, { isolationLevel: "Serializable" });
+}
+
 export async function processDueWaivers(leagueId: string, now = new Date(), requestedSport?: Sport | string) {
   const database = getDatabase(); const leagueSport = requestedSport ? await resolveLeagueSport(leagueId, requestedSport) : null;
   return database.$transaction(async (tx) => {

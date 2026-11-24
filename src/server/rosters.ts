@@ -64,13 +64,25 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
   if (normalizedSlot !== "BENCH") {
     const allowed = context.leagueSport.rosterSlots.filter((value) => value === normalizedSlot).length;
     if (!allowed) throw new Error(`That slot is not configured for this ${context.leagueSport.sport} roster.`);
-    const used = await database.rosterEntry.count({ where: { rosterId: context.roster.id, releasedAt: null, slot: normalizedSlot, id: { not: entry.id } } });
-    if (used >= allowed) throw new Error("Every configured copy of that slot is occupied.");
     const trusted = await getEligiblePositions({ playerId: entry.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
     const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : entry.player.gameStats[0]?.observedPositions ?? [];
     if (!fitsSlot(context.leagueSport.sport, normalizedSlot, new Set(positions))) throw new Error("The player's recorded eligibility does not fit that slot.");
   }
-  return database.rosterEntry.update({ where: { id: entry.id }, data: { slot: normalizedSlot } });
+  return database.$transaction(async (tx) => {
+    const current = await tx.rosterEntry.findFirst({ where: { id: entry.id, rosterId: context.roster.id, releasedAt: null }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
+    if (!current || current.lockedAt) throw new Error("That roster entry is no longer movable.");
+    const allowed = normalizedSlot === "BENCH" ? Number.MAX_SAFE_INTEGER : context.leagueSport.rosterSlots.filter((value) => value === normalizedSlot).length;
+    const occupants = await tx.rosterEntry.findMany({ where: { rosterId: context.roster.id, releasedAt: null, slot: normalizedSlot, id: { not: current.id } }, orderBy: { id: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
+    const displaced = occupants.length >= allowed ? occupants[0] : null;
+    if (displaced?.lockedAt) throw new Error("The player occupying that destination is locked.");
+    if (displaced && current.slot !== "BENCH") {
+      const trusted = await getEligiblePositions({ playerId: displaced.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
+      const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : displaced.player.gameStats[0]?.observedPositions ?? [];
+      if (!fitsSlot(context.leagueSport.sport, current.slot, new Set(positions))) throw new Error(`The swap is invalid because ${displaced.player.displayName} cannot occupy ${current.slot}.`);
+    }
+    if (displaced) await tx.rosterEntry.update({ where: { id: displaced.id }, data: { slot: current.slot } });
+    return tx.rosterEntry.update({ where: { id: current.id }, data: { slot: normalizedSlot } });
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function setComputerLineups(leagueId: string, requestedSport?: Sport | string, at = new Date()) {

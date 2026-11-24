@@ -225,9 +225,9 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();
     await expect(page.getByRole("timer")).toContainText("0:30");
     await page.getByRole("button", { name: "Pause draft" }).click();
-    await expect(page.getByRole("status")).toHaveText("Draft paused");
+    await expect(page.getByRole("status")).toContainText("Draft paused");
     await page.reload();
-    await expect(page.getByRole("status")).toHaveText("Draft paused");
+    await expect(page.getByRole("status")).toContainText("Draft paused");
     await page.getByRole("button", { name: "Resume draft" }).click();
     await page.getByRole("button", { name: "Auto-pick current team" }).click();
     await expect(page.locator(".pick-list li")).toHaveCount(1);

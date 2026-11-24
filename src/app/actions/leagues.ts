@@ -3,10 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
-import { autoPick, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
+import { autoPick, changeQueue, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
-import { processWaivers, submitWaiver } from "@/server/waivers";
+import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
@@ -79,6 +79,13 @@ export async function queuePlayerAction(leagueId: string, draftId: string, form:
   revalidatePath(`/leagues/${leagueId}/draft`);
 }
 
+export async function changeQueueAction(leagueId: string, draftId: string, entryId: string, operation: "UP" | "DOWN" | "REMOVE") {
+  const { user } = await requireSession();
+  await limit(user.id, "draft-queue", 120);
+  await changeQueue(user.id, draftId, entryId, operation);
+  revalidatePath(`/leagues/${leagueId}/draft`);
+}
+
 export async function waiverAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "waiver-submit", 60);
@@ -95,6 +102,11 @@ export async function processWaiversAction(leagueId: string, form?: FormData) {
   await processWaivers(user.id, leagueId, new Date(), String(form?.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/waivers`);
   revalidatePath(`/leagues/${leagueId}/team`);
+}
+
+export async function cancelWaiverAction(leagueId: string, claimId: string) {
+  const { user } = await requireSession(); await limit(user.id, "waiver-cancel", 60);
+  await cancelWaiver(user.id, claimId); revalidatePath(`/leagues/${leagueId}/waivers`);
 }
 
 export async function scheduleAction(leagueId: string, form?: FormData) {
@@ -174,9 +186,9 @@ export async function proposeTradeAction(leagueId: string, form: FormData) {
   revalidatePath(`/leagues/${leagueId}/trades`);
 }
 
-export async function respondTradeAction(leagueId: string, tradeId: string, response: "ACCEPT" | "REJECT") {
+export async function respondTradeAction(leagueId: string, tradeId: string, response: "ACCEPT" | "REJECT", form?: FormData) {
   const { user } = await requireSession(); await limit(user.id, "trade-respond", 30);
-  await respondToTrade(user.id, tradeId, response); revalidatePath(`/leagues/${leagueId}/trades`); revalidatePath(`/leagues/${leagueId}/team`);
+  await respondToTrade(user.id, tradeId, response, form?.getAll("cutPlayerIds").map(String) ?? []); revalidatePath(`/leagues/${leagueId}/trades`); revalidatePath(`/leagues/${leagueId}/team`);
 }
 
 export async function cancelTradeAction(leagueId: string, tradeId: string) {
