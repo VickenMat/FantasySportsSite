@@ -165,6 +165,14 @@ Matchups use the latest entry in the immutable versioned score ledger for each r
 npm run fantasy:process
 ```
 
+During an active local draft, also keep the persisted timer worker running in a second terminal:
+
+```bash
+npm run fantasy:draft-timer
+```
+
+This worker—not the browser countdown—performs queue-first automatic picks and recovers overdue clocks after a restart. See [the M3.7.1 report](docs/M3_7_1_REPORT.md).
+
 Historical demo play requires importing the reviewed local Parquet source for the selected sport. The repository does not bundle those files or pretend the eight seeded presentation players form a complete historical pool.
 
 ### Current limitations
