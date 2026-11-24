@@ -3,6 +3,7 @@ import { expect, request as apiRequest, test, type Page } from "@playwright/test
 import { getDatabase } from "../../src/lib/db";
 
 const password = "manager-test-12!";
+let testIp = 10;
 
 async function signIn(page: Page, email: string, password: string) {
   await page.getByLabel("Email").fill(email);
@@ -21,7 +22,7 @@ async function register(page: Page, name: string, email: string) {
 
 test.afterAll(async () => getDatabase().$disconnect());
 test.beforeEach(async ({ page }) => {
-  await page.setExtraHTTPHeaders({ "x-forwarded-for": `e2e-${randomUUID()}` });
+  await page.setExtraHTTPHeaders({ "x-forwarded-for": `198.51.100.${testIp++}` });
 });
 
 test("public landing and database status work, and guests are redirected", async ({ page }) => {
@@ -46,7 +47,9 @@ test("accepts both explicit local auth origins and rejects an untrusted origin",
   const database = getDatabase();
   const { DEMO_EMAIL, DEMO_PASSWORD } = process.env;
   if (!DEMO_EMAIL || !DEMO_PASSWORD) throw new Error("Seed an account with DEMO_EMAIL and DEMO_PASSWORD.");
-  const localOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+  const configured = new URL(process.env.AUTH_URL ?? "http://localhost:3000");
+  const port = configured.port ? `:${configured.port}` : "";
+  const localOrigins = [`${configured.protocol}//localhost${port}`, `${configured.protocol}//127.0.0.1${port}`];
   const emails: string[] = [];
 
   try {
@@ -55,7 +58,7 @@ test("accepts both explicit local auth origins and rejects an untrusted origin",
       emails.push(email);
       const registrationClient = await apiRequest.newContext({
         baseURL: origin,
-        extraHTTPHeaders: { origin, "x-forwarded-for": `e2e-registration-${randomUUID()}` },
+        extraHTTPHeaders: { origin, "x-forwarded-for": "203.0.113.10" },
       });
       const registration = await registrationClient.post("/api/auth/sign-up/email", {
         data: { name: "Origin Test", email, password, callbackURL: "/dashboard" },
@@ -65,7 +68,7 @@ test("accepts both explicit local auth origins and rejects an untrusted origin",
 
       const signInClient = await apiRequest.newContext({
         baseURL: origin,
-        extraHTTPHeaders: { origin, "x-forwarded-for": `e2e-sign-in-${randomUUID()}` },
+        extraHTTPHeaders: { origin, "x-forwarded-for": "203.0.113.11" },
       });
       const signIn = await signInClient.post("/api/auth/sign-in/email", {
         data: { email: DEMO_EMAIL, password: DEMO_PASSWORD, callbackURL: "/dashboard" },
@@ -76,12 +79,14 @@ test("accepts both explicit local auth origins and rejects an untrusted origin",
       await signInClient.dispose();
     }
 
+    const rejectedEmail = `rejected-${randomUUID()}@example.test`;
+    emails.push(rejectedEmail);
     const attacker = await apiRequest.newContext({
-      baseURL: "http://localhost:3000",
+      baseURL: configured.origin,
       extraHTTPHeaders: { origin: "https://untrusted.example" },
     });
     const rejected = await attacker.post("/api/auth/sign-up/email", {
-      data: { name: "Rejected Origin", email: `rejected-${randomUUID()}@example.test`, password },
+      data: { name: "Rejected Origin", email: rejectedEmail, password },
     });
     expect(rejected.status()).toBe(403);
     expect(await rejected.json()).toMatchObject({ message: "Invalid origin" });
@@ -202,19 +207,22 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await register(page, "Replay Commissioner", email);
     await page.goto("/leagues/new");
     await page.getByLabel("League name").fill(name);
-    await page.getByLabel("Sport").selectOption("NBA");
+    await page.locator('input[name="sports"][value="NFL"]').uncheck();
+    await page.locator('input[name="sports"][value="MLB"]').uncheck();
+    await page.locator('input[name="sports"][value="NHL"]').uncheck();
     await page.getByLabel("Teams").fill("4");
+    await page.getByText("Optional gameplay settings").click();
     await page.getByLabel("Historical replay league").check();
-    await page.getByLabel("Fill empty seats with computer managers").check();
+    await page.getByLabel(/Fill vacant slots/).check();
     await page.getByRole("button", { name: "Create league" }).click();
     await expect(page.getByRole("heading", { name })).toBeVisible();
     const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
     await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByLabel("Draft seconds per pick").fill("30");
-    await page.getByRole("button", { name: "Save gameplay settings" }).click();
+    await page.getByRole("button", { name: "Save settings" }).click();
     await page.getByRole("link", { name: "Draft", exact: true }).click();
-    await page.getByRole("button", { name: "Start snake draft" }).click();
-    await expect(page.getByRole("heading", { name: `${name} draft` })).toBeVisible();
+    await page.getByRole("button", { name: "Start NBA snake draft" }).click();
+    await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();
     await expect(page.getByRole("timer")).toContainText("0:30");
     await page.getByRole("button", { name: "Pause draft" }).click();
     await expect(page.getByRole("status")).toHaveText("Draft paused");
@@ -228,7 +236,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await page.getByRole("link", { name: "Scoring", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Universal Balanced Points V9" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
-    await expect(page.getByRole("heading", { name: "Trades" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "NBA trades" })).toBeVisible();
     await page.goto("/analysis");
     await expect(page.getByRole("heading", { name: "Evidence before conclusions" })).toBeVisible();
     await expect(page.getByText("INSUFFICIENT_VERIFIED_EVIDENCE")).toBeVisible();
@@ -237,4 +245,22 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await database.league.deleteMany({ where: { name } });
     await database.user.deleteMany({ where: { email } });
   }
+});
+
+test("creates a playable two-team four-sport league with independent draft rooms", async ({ page }) => {
+  const name = `Four Sport ${randomUUID()}`; const email = `four-${randomUUID()}@example.test`; const database = getDatabase();
+  try {
+    await register(page, "Four Sport Commissioner", email); await page.goto("/leagues/new");
+    await page.getByLabel("League name").fill(name); await page.getByLabel("Teams").fill("2");
+    await page.getByText("Optional gameplay settings").click(); await page.getByLabel(/Fill vacant slots/).check();
+    await page.getByRole("button", { name: "Create league" }).click(); await expect(page.getByRole("heading", { name })).toBeVisible();
+    const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
+    await page.getByRole("link", { name: "Draft", exact: true }).click();
+    for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByRole("link", { name: sport, exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Start NFL snake draft" }).click();
+    await expect(page.getByRole("heading", { name: "NFL draft" })).toBeVisible();
+    await page.getByRole("link", { name: "NBA", exact: true }).click();
+    await expect(page.getByRole("button", { name: "Start NBA snake draft" })).toBeVisible();
+    expect(leagueId).toMatch(/[0-9a-f-]{36}/);
+  } finally { await database.league.deleteMany({ where: { name } }); await database.user.deleteMany({ where: { email } }); }
 });

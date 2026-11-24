@@ -12,6 +12,7 @@ describe("authentication trusted origins", () => {
   it("keeps a configured loopback test port and the two development origins", () => {
     expect(trustedAuthOrigins("http://127.0.0.1:3200")).toEqual([
       "http://127.0.0.1:3200",
+      "http://localhost:3200",
       "http://localhost:3000",
       "http://127.0.0.1:3000",
     ]);

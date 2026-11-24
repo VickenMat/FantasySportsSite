@@ -8,12 +8,18 @@ import { accountNameSchema, maxPasswordLength, minPasswordLength } from "./auth-
 import { getDatabase } from "./db";
 import { clientIdentity, enforceRateLimit, RateLimitError } from "@/server/rate-limit";
 
-const localDevelopmentOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
-
 export function trustedAuthOrigins(authUrl: string) {
   const configured = new URL(authUrl);
   const isLoopback = configured.hostname === "localhost" || configured.hostname === "127.0.0.1";
-  return isLoopback ? [...new Set([configured.origin, ...localDevelopmentOrigins])] : [configured.origin];
+  if (!isLoopback) return [configured.origin];
+  const port = configured.port ? `:${configured.port}` : "";
+  return [...new Set([
+    configured.origin,
+    `${configured.protocol}//localhost${port}`,
+    `${configured.protocol}//127.0.0.1${port}`,
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ])];
 }
 
 function createAuth() {

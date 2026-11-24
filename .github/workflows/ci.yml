@@ -24,14 +24,15 @@ jobs:
           printf 'AUTH_SECRET=%s\nDEMO_PASSWORD=%s\n' "$(openssl rand -hex 32)" "$(openssl rand -hex 24)" >> "$GITHUB_ENV"
       - run: docker compose up -d --wait
       - run: npm ci
-      - run: npm run db:deploy
-      - run: npm run db:seed
+      - name: Create disposable test database
+        run: docker compose exec -T postgres createdb -U fantasy fantasy_evolution_test
+      - run: npm run test:db:prepare
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
       - run: npm run test:integration
-      - run: npm run worker
-      - run: npm run fantasy:process
+      - run: node scripts/run-in-test-environment.mjs -- npm run worker
+      - run: node scripts/run-in-test-environment.mjs -- npm run fantasy:process
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
