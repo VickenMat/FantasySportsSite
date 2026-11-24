@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getDatabase } from "@/lib/db";
 import { fitsSlot } from "@/simulation/config";
+import { getEligiblePositions } from "./positions";
 
 async function managedTeam(userId: string, leagueId: string) {
   const membership = await getDatabase().leagueMember.findUnique({
@@ -45,12 +46,26 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
   });
   if (!entry || entry.teamId !== membership.fantasyTeam!.id) throw new Error("That roster entry is unavailable.");
   if (entry.lockedAt) throw new Error("That roster slot is locked.");
+  const now = new Date();
+  const period = membership.league.isHistorical
+    ? await getDatabase().scoringPeriod.findUnique({ where: { leagueId_number: { leagueId, number: Math.max(1, membership.league.currentPeriod) } } })
+    : await getDatabase().scoringPeriod.findFirst({ where: { leagueId, startsAt: { lte: now }, endsAt: { gte: now } } });
+  const decisionAt = membership.league.isHistorical ? period?.startsAt ?? now : now;
+  const underway = await getDatabase().game.findFirst({ where: {
+    sport: membership.league.primarySport ?? undefined, startsAt: { lte: decisionAt, gte: period?.startsAt },
+    gameStats: { some: { playerId: entry.playerId } },
+  }, select: { id: true } });
+  if (underway) throw new Error("This player's game has started and the lineup slot is locked.");
   if (normalizedSlot !== "BENCH") {
     const allowed = membership.league.rosterSlots.filter((value) => value === normalizedSlot).length;
     if (!allowed) throw new Error("That slot is not configured for this league.");
     const used = await getDatabase().rosterEntry.count({ where: { teamId: entry.teamId, slot: normalizedSlot, id: { not: entry.id } } });
     if (used >= allowed) throw new Error("Every configured copy of that slot is occupied.");
-    const positions = entry.player.gameStats[0]?.observedPositions ?? [];
+    const trusted = membership.league.primarySport ? await getEligiblePositions({
+      playerId: entry.playerId, sport: membership.league.primarySport, seasonYear: membership.league.seasonYear, asOf: decisionAt,
+    }) : { positions: [] as string[] };
+    const positions = trusted.positions.length ? trusted.positions
+      : membership.league.isHistorical ? [] : entry.player.gameStats[0]?.observedPositions ?? [];
     if (!membership.league.primarySport || !fitsSlot(membership.league.primarySport, normalizedSlot, new Set(positions))) {
       throw new Error("The player's recorded eligibility does not fit that slot.");
     }

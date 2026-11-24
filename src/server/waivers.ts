@@ -36,10 +36,17 @@ export async function processDueWaivers(leagueId: string, now = new Date()) {
       where: { leagueId, status: "PENDING", processAt: { lte: now } },
       orderBy: [{ bid: "desc" }, { priority: "asc" }, { createdAt: "asc" }],
     });
+    const [teamRows, ownershipRows] = await Promise.all([
+      tx.fantasyTeam.findMany({ where: { id: { in: [...new Set(claims.map(({ teamId }) => teamId))] } } }),
+      tx.rosterEntry.findMany({ where: { leagueId, playerId: { in: [...new Set(claims.map(({ addPlayerId }) => addPlayerId))] } } }),
+    ]);
+    const teams = new Map(teamRows.map((team) => [team.id, team]));
+    const ownership = new Map(ownershipRows.map((entry) => [entry.playerId, entry]));
     const awarded = new Set<string>();
     for (const claim of claims) {
-      const team = await tx.fantasyTeam.findUniqueOrThrow({ where: { id: claim.teamId } });
-      const owned = await tx.rosterEntry.findUnique({ where: { leagueId_playerId: { leagueId, playerId: claim.addPlayerId } } });
+      const team = teams.get(claim.teamId);
+      if (!team) throw new Error("A waiver team disappeared during processing.");
+      const owned = ownership.get(claim.addPlayerId);
       if (awarded.has(claim.addPlayerId) || owned || claim.bid > team.faabRemaining) {
         await tx.waiverClaim.update({ where: { id: claim.id }, data: {
           status: owned || awarded.has(claim.addPlayerId) ? "LOST" : "REJECTED",
@@ -50,6 +57,7 @@ export async function processDueWaivers(leagueId: string, now = new Date()) {
       if (claim.dropPlayerId) await tx.rosterEntry.delete({ where: { leagueId_playerId: { leagueId, playerId: claim.dropPlayerId } } });
       await tx.rosterEntry.create({ data: { leagueId, teamId: claim.teamId, playerId: claim.addPlayerId, slot: "BENCH" } });
       await tx.fantasyTeam.update({ where: { id: claim.teamId }, data: { faabRemaining: { decrement: claim.bid } } });
+      team.faabRemaining -= claim.bid;
       await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "WON", processedAt: now } });
       await tx.fantasyTransaction.create({ data: {
         leagueId, teamId: claim.teamId, playerId: claim.addPlayerId, relatedPlayerId: claim.dropPlayerId,

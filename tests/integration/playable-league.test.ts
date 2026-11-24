@@ -3,9 +3,13 @@ import { randomUUID } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { createDraft, makePick } from "@/server/draft";
+import { autoPickExpiredDraft, setDraftPaused } from "@/server/draft";
 import { createLeague } from "@/server/league";
-import { generateSchedule } from "@/server/matchups";
+import { generateNextPlayoffRound, generateSchedule, standings } from "@/server/matchups";
 import { processWaivers, submitWaiver } from "@/server/waivers";
+import { proposeTrade, respondToTrade } from "@/server/trades";
+import { enforceRateLimit, RateLimitError } from "@/server/rate-limit";
+import { dropPlayer } from "@/server/rosters";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
@@ -41,6 +45,68 @@ it("serializes draft picks, prevents duplicate ownership and atomically processe
     expect(await database.matchup.count({ where: { leagueId: league.id } })).toBe(6);
   } finally {
     await database.league.delete({ where: { id: league.id } });
+    await database.player.deleteMany({ where: { id: { in: playerIds } } });
+  }
+});
+
+it("persists draft clocks, executes accepted trades, seeds playoffs and enforces rate buckets", async () => {
+  const commissioner = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const otherUserId = randomUUID();
+  const otherEmail = `trade-${randomUUID()}@example.test`;
+  await database.user.create({ data: { id: otherUserId, name: "Trade Manager", email: otherEmail } });
+  const playerIds = Array.from({ length: 10 }, () => randomUUID());
+  await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NBA", displayName: `Clock Player ${index}` })) });
+  const league = await createLeague(commissioner.id, {
+    name: `Clock ${randomUUID()}`, sport: "NBA", seasonYear: 2024, maxTeams: 4, format: "REDRAFT",
+    startingFaab: 100, benchSlots: 2, historical: false, fillWithComputers: true,
+  });
+  const timerLeague = await createLeague(commissioner.id, {
+    name: `Timer ${randomUUID()}`, sport: "NBA", seasonYear: 2024, maxTeams: 4, format: "REDRAFT",
+    startingFaab: 100, benchSlots: 2, historical: false, fillWithComputers: true,
+  });
+  try {
+    const recipient = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, isComputer: true }, orderBy: { draftSlot: "asc" } });
+    const membership = await database.leagueMember.create({ data: { leagueId: league.id, userId: otherUserId } });
+    await database.fantasyTeam.update({ where: { id: recipient.id }, data: { managerId: otherUserId, membershipId: membership.id, isComputer: false } });
+    const draft = await createDraft(commissioner.id, league.id);
+    await database.draft.update({ where: { id: draft.id }, data: { rounds: 1 } });
+    for (const playerId of playerIds.slice(0, 4)) await makePick({ userId: commissioner.id, draftId: draft.id, playerId, automatic: true });
+    const proposer = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: commissioner.id }, include: { roster: true } });
+    const recipientAfter = await database.fantasyTeam.findUniqueOrThrow({ where: { id: recipient.id }, include: { roster: true } });
+    await expect(dropPlayer(otherUserId, league.id, proposer.roster[0].playerId)).rejects.toThrow(/not on your roster/i);
+    const trade = await proposeTrade(commissioner.id, {
+      leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: [proposer.roster[0].playerId],
+      requestPlayerIds: [recipientAfter.roster[0].playerId], message: "one for one", expiresInHours: 24,
+    });
+    await expect(respondToTrade(commissioner.id, trade.id, "ACCEPT")).rejects.toThrow(/recipient/i);
+    const acceptance = await Promise.allSettled([respondToTrade(otherUserId, trade.id, "ACCEPT"), respondToTrade(otherUserId, trade.id, "ACCEPT")]);
+    expect(acceptance.filter(({ status }) => status === "fulfilled")).toHaveLength(1);
+    expect(await database.rosterEntry.findUniqueOrThrow({ where: { leagueId_playerId: { leagueId: league.id, playerId: proposer.roster[0].playerId } } })).toMatchObject({ teamId: recipient.id });
+    expect(await database.rosterEntry.findUniqueOrThrow({ where: { leagueId_playerId: { leagueId: league.id, playerId: recipientAfter.roster[0].playerId } } })).toMatchObject({ teamId: proposer.id });
+
+    await generateSchedule(commissioner.id, league.id, 1);
+    const games = await database.matchup.findMany({ where: { leagueId: league.id }, orderBy: { id: "asc" } });
+    for (const [index, game] of games.entries()) await database.matchup.update({ where: { id: game.id }, data: { status: "FINAL", homeTenths: BigInt(1000 - index), awayTenths: BigInt(500 + index) } });
+    const table = await standings(league.id);
+    expect(table[0].wins).toBeGreaterThanOrEqual(table.at(-1)!.wins);
+    await generateNextPlayoffRound(commissioner.id, league.id);
+    expect(await database.matchup.count({ where: { leagueId: league.id, isPlayoff: true, playoffRound: 1 } })).toBe(2);
+
+    const timed = await createDraft(commissioner.id, timerLeague.id);
+    await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000) } });
+    expect(await autoPickExpiredDraft(timed.id)).not.toBeNull();
+    await setDraftPaused(commissioner.id, timed.id, true);
+    expect(await autoPickExpiredDraft(timed.id, new Date(Date.now() + 60_000))).toBeNull();
+    await setDraftPaused(commissioner.id, timed.id, false);
+    expect(await database.draft.findUniqueOrThrow({ where: { id: timed.id } })).toMatchObject({ status: "ACTIVE", pausedAt: null });
+
+    const identity = randomUUID(); const now = new Date("2099-01-01T00:00:00Z");
+    await enforceRateLimit(identity, "integration", 2, 60_000, now);
+    await enforceRateLimit(identity, "integration", 2, 60_000, now);
+    await expect(enforceRateLimit(identity, "integration", 2, 60_000, now)).rejects.toBeInstanceOf(RateLimitError);
+  } finally {
+    await database.league.deleteMany({ where: { id: { in: [league.id, timerLeague.id] } } });
+    await database.user.delete({ where: { id: otherUserId } });
     await database.player.deleteMany({ where: { id: { in: playerIds } } });
   }
 });

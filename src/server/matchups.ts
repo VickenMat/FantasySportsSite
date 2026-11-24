@@ -23,31 +23,33 @@ export async function generateSchedule(userId: string, leagueId: string, periods
   });
 }
 
-async function teamPoints(teamId: string, startsAt: Date, endsAt: Date) {
-  const roster = await getDatabase().rosterEntry.findMany({
-    where: { teamId },
-    include: { player: { include: { scoreLedgers: {
-      where: { game: { OR: [{ startsAt: { gte: startsAt, lte: endsAt } }, { gameDate: { gte: startsAt, lte: endsAt } }] } },
-      include: { entries: { orderBy: { sequence: "desc" }, take: 1 } },
-    } } } },
-  });
-  return roster.reduce((total, entry) => total + entry.player.scoreLedgers.reduce((sum, ledger) => sum + (ledger.entries[0]?.totalTenths ?? 0n), 0n), 0n);
-}
-
 export async function recalculateMatchups(userId: string, leagueId: string) {
   const database = getDatabase();
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can recalculate matchups.");
   const matchups = await database.matchup.findMany({ where: { leagueId }, include: { period: true } });
-  for (const matchup of matchups) {
-    const [homeTenths, awayTenths] = await Promise.all([
-      teamPoints(matchup.homeTeamId, matchup.period.startsAt, matchup.period.endsAt),
-      teamPoints(matchup.awayTeamId, matchup.period.startsAt, matchup.period.endsAt),
-    ]);
-    await database.matchup.update({ where: { id: matchup.id }, data: {
-      homeTenths, awayTenths, calculatedAt: new Date(), status: matchup.period.endsAt <= new Date() ? "FINAL" : "SCHEDULED",
-    } });
+  if (!matchups.length) return 0;
+  const periods = [...new Map(matchups.map(({ period }) => [period.id, period])).values()];
+  const first = periods.reduce((value, period) => period.startsAt < value ? period.startsAt : value, periods[0].startsAt);
+  const last = periods.reduce((value, period) => period.endsAt > value ? period.endsAt : value, periods[0].endsAt);
+  const roster = await database.rosterEntry.findMany({ where: { leagueId }, include: { player: { include: { scoreLedgers: {
+    where: { game: { OR: [{ startsAt: { gte: first, lte: last } }, { gameDate: { gte: first, lte: last } }] } },
+    include: { game: { select: { startsAt: true, gameDate: true } }, entries: { orderBy: { sequence: "desc" }, take: 1 } },
+  } } } } });
+  const totals = new Map<string, bigint>();
+  for (const entry of roster) for (const ledger of entry.player.scoreLedgers) {
+    const at = ledger.game.startsAt ?? ledger.game.gameDate;
+    const period = at ? periods.find(({ startsAt, endsAt }) => at >= startsAt && at <= endsAt) : null;
+    if (!period) continue;
+    const key = `${entry.teamId}:${period.id}`;
+    totals.set(key, (totals.get(key) ?? 0n) + (ledger.entries[0]?.totalTenths ?? 0n));
   }
+  const calculatedAt = new Date();
+  await database.$transaction(matchups.map((matchup) => database.matchup.update({ where: { id: matchup.id }, data: {
+    homeTenths: totals.get(`${matchup.homeTeamId}:${matchup.periodId}`) ?? 0n,
+    awayTenths: totals.get(`${matchup.awayTeamId}:${matchup.periodId}`) ?? 0n,
+    calculatedAt, status: matchup.period.endsAt <= calculatedAt ? "FINAL" : "SCHEDULED",
+  } })));
   return matchups.length;
 }
 
@@ -66,7 +68,42 @@ export async function standings(leagueId: string) {
       if (own > opponent) wins++; else if (own < opponent) losses++; else ties++;
     }
     return { ...team, wins, losses, ties, pointsFor, pointsAgainst };
-  }).sort((a, b) => b.wins - a.wins || b.ties - a.ties || (a.pointsFor > b.pointsFor ? -1 : 1));
+  }).sort((a, b) => b.wins - a.wins || b.ties - a.ties || (a.pointsFor === b.pointsFor ? 0 : a.pointsFor > b.pointsFor ? -1 : 1) ||
+    (a.pointsAgainst === b.pointsAgainst ? a.name.localeCompare(b.name) : a.pointsAgainst < b.pointsAgainst ? -1 : 1));
+}
+
+export async function generateNextPlayoffRound(userId: string, leagueId: string) {
+  const database = getDatabase();
+  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
+  if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can generate playoffs.");
+  const prior = await database.matchup.findMany({ where: { leagueId, isPlayoff: true }, include: { period: true } });
+  const seedOrder = (await standings(leagueId)).map(({ id }) => id);
+  let teams: string[];
+  let round: number;
+  if (!prior.length) {
+    const count = member.league.playoffTeams;
+    if (![2, 4, 8].includes(count) || count > seedOrder.length) throw new Error("Configure two, four, or eight playoff teams.");
+    teams = seedOrder.slice(0, count);
+    round = 1;
+  } else {
+    round = Math.max(...prior.map(({ playoffRound }) => playoffRound ?? 0)) + 1;
+    if (round > member.league.playoffPeriods) throw new Error("Every configured playoff round already exists.");
+    const lastRound = prior.filter(({ playoffRound }) => playoffRound === round - 1);
+    if (lastRound.some(({ status }) => status !== "FINAL")) throw new Error("Finalize the prior playoff round first.");
+    teams = lastRound.map((matchup) => matchup.homeTenths >= matchup.awayTenths ? matchup.homeTeamId : matchup.awayTeamId)
+      .sort((a, b) => seedOrder.indexOf(a) - seedOrder.indexOf(b));
+  }
+  if (teams.length < 2 || teams.length % 2) throw new Error("The playoff bracket cannot form complete matchups.");
+  const latest = await database.scoringPeriod.findFirst({ where: { leagueId }, orderBy: { number: "desc" } });
+  const number = (latest?.number ?? 0) + 1;
+  const startsAt = latest ? new Date(latest.endsAt.getTime() + 1) : new Date();
+  return database.$transaction(async (tx) => {
+    const period = await tx.scoringPeriod.create({ data: { leagueId, number, startsAt, endsAt: new Date(startsAt.getTime() + 7 * 86_400_000 - 1) } });
+    for (let index = 0; index < teams.length / 2; index++) await tx.matchup.create({ data: {
+      leagueId, periodId: period.id, homeTeamId: teams[index], awayTeamId: teams[teams.length - 1 - index], isPlayoff: true, playoffRound: round,
+    } });
+    return period;
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function advanceHistoricalPeriod(userId: string, leagueId: string) {

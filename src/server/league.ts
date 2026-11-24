@@ -117,4 +117,23 @@ export async function updateTeamName(userId: string, leagueId: string, name: str
   return getDatabase().fantasyTeam.update({ where: { id: membership.fantasyTeam.id }, data: { name: value } });
 }
 
+export async function updateLeagueSettings(userId: string, leagueId: string, input: {
+  draftSecondsPerPick: number; startingFaab: number; playoffTeams: number; playoffPeriods: number;
+}) {
+  const value = z.object({
+    draftSecondsPerPick: z.number().int().min(15).max(600), startingFaab: z.number().int().min(0).max(100_000),
+    playoffTeams: z.number().int().refine((count) => [2, 4, 8].includes(count)), playoffPeriods: z.number().int().min(1).max(3),
+  }).parse(input);
+  const database = getDatabase();
+  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
+  if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can update league settings.");
+  if (value.playoffTeams > member.league.maxTeams) throw new Error("Playoff teams cannot exceed league teams.");
+  if (member.league.status !== "SETUP") {
+    return database.league.update({ where: { id: leagueId }, data: {
+      draftSecondsPerPick: value.draftSecondsPerPick, playoffTeams: value.playoffTeams, playoffPeriods: value.playoffPeriods,
+    } });
+  }
+  return database.league.update({ where: { id: leagueId }, data: value });
+}
+
 export type Transaction = Prisma.TransactionClient;

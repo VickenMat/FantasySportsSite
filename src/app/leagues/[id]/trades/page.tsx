@@ -1,0 +1,19 @@
+import { notFound } from "next/navigation";
+import { cancelTradeAction, proposeTradeAction, respondTradeAction } from "@/app/actions/leagues";
+import { LeagueShell } from "@/components/league-shell";
+import { requireSession } from "@/lib/auth";
+import { getDatabase } from "@/lib/db";
+import { leagueContext } from "@/server/league";
+
+export default async function TradesPage({ params }: { params: Promise<{ id: string }> }) {
+  const { user } = await requireSession(); const { id } = await params; const context = await leagueContext(user.id, id); if (!context?.fantasyTeam) notFound();
+  const [teams, trades] = await Promise.all([
+    getDatabase().fantasyTeam.findMany({ where: { leagueId: id }, orderBy: { name: "asc" }, include: { roster: { include: { player: true }, orderBy: { player: { displayName: "asc" } } } } }),
+    getDatabase().trade.findMany({ where: { leagueId: id, OR: [{ proposerTeamId: context.fantasyTeam.id }, { recipientTeamId: context.fantasyTeam.id }] }, orderBy: { createdAt: "desc" }, include: { proposerTeam: true, recipientTeam: true, assets: { include: { player: true } } }, take: 100 }),
+  ]);
+  const others = teams.filter(({ id: teamId }) => teamId !== context.fantasyTeam!.id);
+  return <LeagueShell leagueId={id}><div className="workspace-intro"><p className="eyebrow">Trade center</p><h1 className="display">Trades</h1><p className="muted">Accepted trades recheck ownership and roster capacity inside one serializable transaction.</p></div>
+    <div className="league-details"><form action={proposeTradeAction.bind(null, id)} className="panel form-grid"><h2 className="display">Propose trade</h2><label>Trade partner<select name="recipientTeamId" required>{others.map((team) => <option key={team.id} value={team.id}>{team.name}</option>)}</select></label><fieldset><legend>Players you send</legend>{teams.find(({ id: teamId }) => teamId === context.fantasyTeam!.id)?.roster.map((entry) => <label className="check" key={entry.id}><input type="checkbox" name="offerPlayerIds" value={entry.playerId} />{entry.player.displayName}</label>)}</fieldset><fieldset><legend>Players you request</legend>{others.flatMap((team) => team.roster.map((entry) => <label className="check" key={entry.id}><input type="checkbox" name="requestPlayerIds" value={entry.playerId} />{entry.player.displayName} <span className="muted">· {team.name}</span></label>))}</fieldset><label>Message<textarea name="message" maxLength={500} /></label><label>Expires in<select name="expiresInHours" defaultValue="48"><option value="24">24 hours</option><option value="48">48 hours</option><option value="72">72 hours</option><option value="168">7 days</option></select></label><button className="button primary">Send proposal</button></form>
+    <section className="panel"><h2 className="display">Trade history</h2><ul className="trade-list">{trades.map((trade) => { const incoming = trade.recipientTeamId === context.fantasyTeam!.id; return <li key={trade.id}><div><strong>{trade.proposerTeam.name} ↔ {trade.recipientTeam.name}</strong><span className="tag">{trade.status}</span></div><p>{trade.assets.map((asset) => `${asset.player.displayName} from ${asset.side === "PROPOSER" ? trade.proposerTeam.name : trade.recipientTeam.name}`).join(" · ")}</p>{trade.message && <blockquote>{trade.message}</blockquote>}{trade.status === "PENDING" && <div className="button-row">{incoming ? <><form action={respondTradeAction.bind(null, id, trade.id, "ACCEPT")}><button className="button primary">Accept</button></form><form action={respondTradeAction.bind(null, id, trade.id, "REJECT")}><button className="button secondary">Reject</button></form></> : <form action={cancelTradeAction.bind(null, id, trade.id)}><button className="button secondary">Cancel</button></form>}</div>}</li>; })}</ul>{!trades.length && <p className="muted">No trade proposals yet.</p>}</section></div>
+  </LeagueShell>;
+}
