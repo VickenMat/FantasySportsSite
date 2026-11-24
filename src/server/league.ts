@@ -1,8 +1,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { z } from "zod";
-import type { Prisma, Sport } from "@/generated/prisma/client";
+import type { CompetitionType, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { defaultSlots } from "@/simulation/config";
+import { previewLeagueScheduleWithClient, type SportSchedulePreview } from "@/server/scheduling";
 
 export const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
 
@@ -17,6 +18,7 @@ export const createLeagueSchema = z.object({
   name: z.string().trim().min(3).max(80), sports: z.array(z.enum(sports)).min(1).max(4).optional(), sport: z.enum(sports).optional(),
   seasonYear: z.coerce.number().int().min(2016).max(2100).optional(), maxTeams: z.coerce.number().int().min(2).max(16).default(12),
   format: z.enum(["REDRAFT", "DYNASTY"]).default("DYNASTY"), visibility: z.enum(["PRIVATE", "PUBLIC"]).default("PRIVATE"),
+  competitionType: z.enum(["HEAD_TO_HEAD", "CUMULATIVE"]).default("HEAD_TO_HEAD"), draftCompleteBy: z.coerce.date().optional(),
   keeperLimits: keeperLimitsSchema, startingFaab: z.coerce.number().int().min(0).max(100_000).default(100),
   benchSlots: z.coerce.number().int().min(0).max(20).default(5), historical: z.coerce.boolean().default(false), fillWithComputers: z.coerce.boolean().default(false),
 }).transform((input) => ({ ...input, sports: [...new Set(input.sports ?? (input.sport ? [input.sport] : sports))] }));
@@ -45,23 +47,53 @@ export async function createLeague(userId: string, input: z.input<typeof createL
   const preset = await database.scoringPreset.findUniqueOrThrow({ where: { version: "ubp-v9-experimental" } });
   return database.$transaction(async (tx) => {
     const seasons = new Map<Sport, Awaited<ReturnType<typeof ensureSeason>>>();
+    const scheduleBySport = new Map<Sport, SportSchedulePreview>();
+    if (!value.historical) {
+      const previews = await previewLeagueScheduleWithClient(tx, {
+        sports: value.sports, draftCompleteBy: value.draftCompleteBy ?? new Date(), competitionType: value.competitionType as CompetitionType,
+      });
+      for (const preview of previews) scheduleBySport.set(preview.sport, preview);
+    }
     for (const sport of value.sports) {
-      const metadata = value.historical && value.seasonYear ? { startYear: value.seasonYear } : seasonMetadata(sport);
-      seasons.set(sport, await ensureSeason(tx, sport, metadata.startYear));
+      const preview = scheduleBySport.get(sport);
+      if (preview?.seasonId) seasons.set(sport, await tx.season.findUniqueOrThrow({ where: { id: preview.seasonId } }));
+      else {
+        const metadata = value.historical && value.seasonYear ? { startYear: value.seasonYear } : seasonMetadata(sport);
+        seasons.set(sport, await ensureSeason(tx, sport, metadata.startYear));
+      }
     }
     const firstSport = value.sports[0];
     const league = await tx.league.create({ data: {
-      slug: slug(value.name), name: value.name, format: value.format, visibility: value.visibility, maxTeams: value.maxTeams,
+      slug: slug(value.name), name: value.name, format: value.format, competitionType: value.competitionType, visibility: value.visibility, maxTeams: value.maxTeams,
       isDemo: value.historical, isHistorical: value.historical, primarySport: firstSport, seasonYear: seasons.get(firstSport)!.startYear,
       startingFaab: value.startingFaab, benchSlots: value.benchSlots, rosterSlots: [...defaultSlots[firstSport]],
       draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: Math.min(4, value.maxTeams), presetId: preset.id,
     } });
+    const leagueSports = new Map<Sport, { id: string }>();
     for (const sport of value.sports) {
       const season = seasons.get(sport)!;
-      await tx.leagueSport.create({ data: {
+      const leagueSport = await tx.leagueSport.create({ data: {
         leagueId: league.id, sport, seasonId: season.id, seasonLabel: season.label, rosterSlots: [...defaultSlots[sport]],
         benchSlots: value.benchSlots, draftRounds: defaultSlots[sport].length + value.benchSlots, startingFaab: value.startingFaab,
         keeperLimit: value.format === "REDRAFT" ? value.keeperLimits?.[sport] ?? 0 : 0,
+      } });
+      leagueSports.set(sport, leagueSport);
+    }
+    const available = [...scheduleBySport.values()].filter((item) => item.status === "AVAILABLE");
+    const starts = available.flatMap((item) => item.firstScoringAt ? [item.firstScoringAt] : []);
+    const ends = available.flatMap((item) => item.rolloverEligibleAt ? [item.rolloverEligibleAt] : []);
+    const cycle = await tx.championshipCycle.create({ data: { leagueId: league.id, number: 1, label: "Cycle 1",
+      startsAt: starts.length ? new Date(Math.min(...starts.map(Number))) : null,
+      endsAt: ends.length ? new Date(Math.max(...ends.map(Number))) : null } });
+    for (const sport of value.sports) {
+      const preview = scheduleBySport.get(sport); const season = seasons.get(sport)!;
+      await tx.leagueSportSeason.create({ data: {
+        leagueSportId: leagueSports.get(sport)!.id, seasonId: season.id, championshipCycleId: cycle.id,
+        scheduleRevisionId: preview?.scheduleRevisionId ?? null, status: preview?.status === "AVAILABLE" ? "ELIGIBLE" : "PENDING_DATA",
+        statusReason: preview?.reason ?? (value.historical ? "Historical replay scheduling is separate from competitive season scheduling." : "Awaiting a source-backed professional season schedule."),
+        draftDeadlineAt: preview?.draftDeadlineAt, firstScoringAt: preview?.firstScoringAt, scoringEndsAt: preview?.scoringEndsAt,
+        playoffStartsAt: preview?.playoffStartsAt, playoffEndsAt: preview?.playoffEndsAt, tradeDeadlineAt: preview?.tradeDeadlineAt,
+        rolloverEligibleAt: preview?.rolloverEligibleAt,
       } });
     }
     const membership = await tx.leagueMember.create({ data: { leagueId: league.id, userId, role: "COMMISSIONER" } });

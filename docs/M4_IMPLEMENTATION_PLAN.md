@@ -7,7 +7,7 @@ The M3.7.2 schema has canonical games, seasons, raw revisions, score ledgers, in
 ## Migration sequence
 
 1. **M4.1 scheduling foundation**: add source-backed professional schedule metadata, championship cycles, league-sport-season assignments, scheduling states, and game-to-cycle attribution. Preserve the existing `LeagueSport.seasonId` as the current pointer while assignments hold history. Add unique constraints preventing a game from scoring twice in one league.
-2. **M4.2 competition**: add competition mode, provisional/final result revisions, sport result components, finalization deadlines, and championship records. Existing matchups are backfilled without fabricating finalization evidence.
+2. **M4.2 competition**: use the competition mode persisted by M4.1; add provisional/final result revisions, sport result components, finalization deadlines, and championship records. Existing matchups are backfilled without fabricating finalization evidence.
 3. **M4.3 waivers**: add waiver method/configuration, holds, reservations, immutable FAAB ledger, and Vickrey settlement metadata. Backfill existing balances as opening entries only when their provenance is explicit.
 4. **M4.4 dynasty**: add verified rookie eligibility, rookie drafts, future-pick assets, and append-only pick ownership events. Generate assets only for dynasty formats.
 5. **M4.5 salary**: extend format enumeration, add sport-season salary accounts, player salary assignments/history, reservations, budget-transfer ledger, compliance snapshots, and contract/dead-cap extension records. Use integer currency and database conservation checks.

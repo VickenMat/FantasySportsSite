@@ -267,6 +267,11 @@ test("creates a playable two-team four-sport league with independent draft rooms
   try {
     await register(page, "Four Sport Commissioner", email); await page.goto("/leagues/new");
     await page.getByLabel("League name").fill(name); await page.getByLabel("Teams").fill("2");
+    await page.getByLabel("Expected draft completion").fill("2027-02-15T12:00");
+    await page.getByRole("button", { name: "Preview championship schedule" }).click();
+    const scheduleCards = page.locator(".schedule-preview .mini-card");
+    await expect(scheduleCards).toHaveCount(4);
+    for (const card of await scheduleCards.all()) await expect(card.getByText(/(AVAILABLE|PENDING_DATA|UNAVAILABLE)/)).toBeVisible();
     await page.getByText("Optional gameplay settings").click(); await page.getByLabel(/Fill vacant slots/).check();
     await page.getByRole("button", { name: "Create league" }).click(); await expect(page.getByRole("heading", { name })).toBeVisible();
     const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;

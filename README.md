@@ -51,6 +51,20 @@ The workflow in `.github/workflows/ci.yml` creates a fresh test database, deploy
 
 Better Auth manages scrypt password hashes and PostgreSQL-backed sessions. Prisma 7 is pinned for compatibility with the Better Auth adapter.
 
+## M4 authoritative season scheduling
+
+M4.1 replaces calendar guesses in competitive schedule selection with append-only, source-backed professional schedule revisions. On the new-league page, select head-to-head or cumulative competition, choose an expected draft completion time, and preview the next eligible season for every selected sport. A season is eligible only when its imported regular season begins after that instant. Missing or incomplete data remains visibly `PENDING_DATA`; the application does not invent dates.
+
+Operators can import a reviewed JSON source with:
+
+```bash
+npm run db:import:schedules -- /path/to/professional-schedules.json
+```
+
+The document contains `provider`, `sourceName`, `sourceVersion`, `retrievedAt`, and a `seasons` array. Each season supplies `sport`, `startYear`, `label`, `status`, regular-season boundaries, and optional postseason boundaries and reason. `AVAILABLE` requires a valid regular-season window. Reimporting identical source records is a no-op; changed records append a revision and the prior revision cannot be edited or deleted. No authoritative production schedule dataset is bundled with the repository.
+
+Each league now has championship cycles and immutable sport-season schedule snapshots. A database uniqueness constraint prevents a professional game from being assigned to more than one championship cycle in the same league. Sports can be assigned their immediate next professional season independently. Cross-sport head-to-head overlap construction remains `PENDING_CONFIGURATION` until its unresolved rules are chosen. See [M4.1 results](docs/M4_1_REPORT.md) and [unresolved M4 rules](docs/M4_UNRESOLVED_RULES.md).
+
 ## M1 historical imports and scoring
 
 Apply the additive migration with `npm run db:deploy` and run `npm run db:seed` to ensure the experimental V9 preset is available. Restart any development server that was running before the Prisma client was regenerated. Keep provider CSVs in an external directory or the ignored local `Datasets/` folder.
@@ -130,7 +144,7 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 - [x] M3 · Persistent snake drafts, roster ownership, bench management, and recorded-position lineup validation. Authoritative live availability feeds remain release work.
 - [x] M3.5 · Draft clocks and reconnects, commissioner controls, trades, playoff seeding, authorization and rate limiting, query hardening, and measured local load tests.
 - [x] M3.6 · Two-to-sixteen-team multi-sport leagues, sport rosters and drafts, Public discovery, Redraft keepers, computer franchises, season rollover, and gameplay acceptance.
-- [ ] M4 · Matchups, standings, waivers and FAAB, trades, transaction audit, and score corrections.
+- [ ] M4 · Competitive gameplay and league lifecycle. M4.0 architecture and M4.1 source-backed scheduling are complete; competition finalization, advanced waivers, dynasty assets, salary leagues, advanced trades, and lifecycle controls remain.
 - [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
 - [ ] M7 · Release hardening, performance and accessibility review, recovery, and deployment.
