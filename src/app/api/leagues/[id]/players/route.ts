@@ -4,7 +4,7 @@ import { getDatabase } from "@/lib/db";
 import { playerPage } from "@/server/draft";
 import { enforceRateLimit, RateLimitError } from "@/server/rate-limit";
 
-const query = z.object({ q: z.string().max(80).optional(), position: z.string().max(12).optional(), page: z.coerce.number().int().min(1).default(1) });
+const query = z.object({ sport: z.enum(["NFL", "NBA", "MLB", "NHL"]).optional(), q: z.string().max(80).optional(), position: z.string().max(12).optional(), page: z.coerce.number().int().min(1).default(1) });
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getAuth().api.getSession({ headers: request.headers });
   if (!session) return Response.json({ error: "Sign in required." }, { status: 401 });
@@ -14,5 +14,5 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!await getDatabase().leagueMember.findUnique({ where: { leagueId_userId: { leagueId: id, userId: session.user.id } } })) return Response.json({ error: "League unavailable." }, { status: 404 });
   const parsed = query.safeParse(Object.fromEntries(new URL(request.url).searchParams));
   if (!parsed.success) return Response.json({ error: "Invalid player query." }, { status: 400 });
-  return Response.json(await playerPage(id, { search: parsed.data.q, position: parsed.data.position, page: parsed.data.page, pageSize: 50 }), { headers: { "Cache-Control": "private, no-store" } });
+  return Response.json(await playerPage(id, { sport: parsed.data.sport, search: parsed.data.q, position: parsed.data.position, page: parsed.data.page, pageSize: 50 }), { headers: { "Cache-Control": "private, no-store" } });
 }

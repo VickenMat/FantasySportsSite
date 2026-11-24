@@ -13,7 +13,7 @@ import { processDueWaivers } from "@/server/waivers";
 const schema = z.object({
   baseUrl: z.string().url().default("http://127.0.0.1:3000"),
   levels: z.string().regex(/^\d+(?:,\d+)*$/).default("100,500,1000").transform((value) => value.split(",").map(Number)),
-  output: z.string().min(1).default("reports/load-m3-5.json"),
+  output: z.string().min(1).default("reports/load-m3-6.json"),
   timeoutMs: z.number().int().min(1_000).max(120_000).default(30_000),
 });
 
@@ -70,6 +70,8 @@ async function main() {
     leagueId = league.id;
     await database.leagueMember.createMany({ data: users.slice(1).map((user) => ({ leagueId: league.id, userId: user.id })) });
     await generateSchedule(users[0].id, league.id, 3);
+    const warmupRequests = Number(process.env.DATABASE_POOL_MAX ?? 10);
+    await Promise.all(Array.from({ length: warmupRequests }, () => fetch(`${config.baseUrl}/health`, { signal: AbortSignal.timeout(config.timeoutMs) })));
     const controller = () => AbortSignal.timeout(config.timeoutMs);
     const results = [];
     let lastCookies = new Map<string, string>();
@@ -88,9 +90,9 @@ async function main() {
       lastCookies = cookies;
       const get = (path: string, user: typeof users[number]) => () => fetch(`${config.baseUrl}${path}`, { headers: { cookie: cookies.get(user.id) ?? "" }, redirect: "manual", signal: controller() });
       results.push(await runScenario(`dashboard-${level}`, selected.map((user) => get("/dashboard", user))));
-      results.push(await runScenario(`player-search-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/players?q=a&page=1`, user))));
-      results.push(await runScenario(`matchups-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/matchups`, user))));
-      results.push(await runScenario(`standings-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/standings`, user))));
+      results.push(await runScenario(`player-search-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/players?sport=NFL&q=a&page=1`, user))));
+      results.push(await runScenario(`matchups-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/matchups?sport=NFL`, user))));
+      results.push(await runScenario(`standings-${level}`, selected.map((user) => get(`/api/leagues/${league.id}/standings?sport=NFL`, user))));
     }
     await database.player.createMany({ data: mutationPlayerIds.map((id, index) => ({ id, sport: "NFL", displayName: `Load Mutation Player ${index + 1}` })) });
     const mutationLeague = await createLeague(users[0].id, { name: `Load Mutation ${runId}`, sport: "NFL", seasonYear: 2025, maxTeams: 16, format: "REDRAFT", startingFaab: 100, benchSlots: 5, historical: false, fillWithComputers: true });
@@ -114,7 +116,7 @@ async function main() {
     results.push(summarize("waiver-processing-16", [{ status: processedClaims === 16 ? 200 : 500, milliseconds: performance.now() - waiverStarted }], performance.now() - waiverStarted, await connectionCount()));
     const output = resolve(config.output); await mkdir(dirname(output), { recursive: true });
     await writeFile(output, `${JSON.stringify({
-      reportVersion: "m3-5-load-1", generatedAt: new Date().toISOString(), environment: { baseUrl: config.baseUrl, node: process.version, databasePoolMax: Number(process.env.DATABASE_POOL_MAX ?? 10) },
+      reportVersion: "m3-6-load-1", generatedAt: new Date().toISOString(), environment: { baseUrl: config.baseUrl, node: process.version, databasePoolMax: Number(process.env.DATABASE_POOL_MAX ?? 10), warmupRequests },
       levels: config.levels, results,
       scope: {
         measured: ["authentication", "dashboard", "player search", "matchup retrieval", "standings retrieval"],

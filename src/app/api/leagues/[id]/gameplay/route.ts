@@ -8,9 +8,9 @@ import { getDatabase } from "@/lib/db";
 
 const input = z.discriminatedUnion("action", [
   z.object({ action: z.literal("draft"), draftId: z.uuid(), playerId: z.uuid() }),
-  z.object({ action: z.literal("add"), playerId: z.uuid() }),
-  z.object({ action: z.literal("drop"), playerId: z.uuid() }),
-  z.object({ action: z.literal("waiver"), addPlayerId: z.uuid(), dropPlayerId: z.uuid().nullish(), bid: z.number().int().min(0) }),
+  z.object({ action: z.literal("add"), sport: z.enum(["NFL", "NBA", "MLB", "NHL"]).optional(), playerId: z.uuid() }),
+  z.object({ action: z.literal("drop"), sport: z.enum(["NFL", "NBA", "MLB", "NHL"]).optional(), playerId: z.uuid() }),
+  z.object({ action: z.literal("waiver"), sport: z.enum(["NFL", "NBA", "MLB", "NHL"]).optional(), addPlayerId: z.uuid(), dropPlayerId: z.uuid().nullish(), bid: z.number().int().min(0) }),
 ]);
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -24,9 +24,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       if (!draft) return Response.json({ error: "Draft unavailable." }, { status: 404 });
       await makePick({ userId: session.user.id, draftId: parsed.data.draftId, playerId: parsed.data.playerId });
     }
-    else if (parsed.data.action === "add") await addFreeAgent(session.user.id, id, parsed.data.playerId);
-    else if (parsed.data.action === "drop") await dropPlayer(session.user.id, id, parsed.data.playerId);
-    else await submitWaiver(session.user.id, { leagueId: id, addPlayerId: parsed.data.addPlayerId, dropPlayerId: parsed.data.dropPlayerId, bid: parsed.data.bid });
+    else if (parsed.data.action === "add") await addFreeAgent(session.user.id, id, parsed.data.playerId, parsed.data.sport);
+    else if (parsed.data.action === "drop") await dropPlayer(session.user.id, id, parsed.data.playerId, parsed.data.sport);
+    else await submitWaiver(session.user.id, { leagueId: id, sport: parsed.data.sport, addPlayerId: parsed.data.addPlayerId, dropPlayerId: parsed.data.dropPlayerId, bid: parsed.data.bid });
     return Response.json({ ok: true });
   } catch (error) {
     return Response.json({ error: error instanceof Error ? error.message : "Gameplay request failed." }, { status: 409 });

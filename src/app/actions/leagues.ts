@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import { autoPick, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
-import { createInvitation, createLeague, joinLeague, updateLeagueSettings, updateTeamName } from "@/server/league";
+import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
@@ -12,14 +12,19 @@ import { enforceRateLimit } from "@/server/rate-limit";
 import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
 
 const limit = (userId: string, action: string, maximum = 60) => enforceRateLimit(userId, action, maximum, 60_000);
+const sports = ["NFL", "NBA", "MLB", "NHL"] as const;
+type LeagueSport = (typeof sports)[number];
+const sportValue = (value: FormDataEntryValue | null): LeagueSport | undefined =>
+  sports.includes(String(value) as LeagueSport) ? String(value) as LeagueSport : undefined;
 
 export async function createLeagueAction(form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "create-league", 10);
   const league = await createLeague(user.id, {
-    name: String(form.get("name") ?? ""), sport: String(form.get("sport") ?? "NFL") as "NFL",
-    seasonYear: form.get("seasonYear"), maxTeams: form.get("maxTeams"),
-    format: String(form.get("format") ?? "REDRAFT") as "REDRAFT",
+    name: String(form.get("name") ?? ""), sports: form.getAll("sports").map(String) as ("NFL" | "NBA" | "MLB" | "NHL")[],
+    seasonYear: form.get("seasonYear") || undefined, maxTeams: form.get("maxTeams"),
+    format: String(form.get("format") ?? "DYNASTY") as "DYNASTY", visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
+    keeperLimits: Object.fromEntries(sports.map((sport) => [sport, Number(form.get(`keeper_${sport}`) ?? 0)])) as Record<LeagueSport, number>,
     startingFaab: form.get("startingFaab"), benchSlots: form.get("benchSlots"),
     historical: form.get("historical") === "on", fillWithComputers: form.get("fillWithComputers") === "on",
   });
@@ -46,11 +51,11 @@ export async function renameTeamAction(leagueId: string, form: FormData) {
   revalidatePath(`/leagues/${leagueId}`);
 }
 
-export async function startDraftAction(leagueId: string) {
+export async function startDraftAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "draft-start", 10);
-  const draft = await createDraft(user.id, leagueId);
-  redirect(`/leagues/${leagueId}/draft?draft=${draft.id}`);
+  const draft = await createDraft(user.id, leagueId, String(form?.get("sport") ?? "") || undefined);
+  redirect(`/leagues/${leagueId}/draft?sport=${draft.sport}&draft=${draft.id}`);
 }
 
 export async function pickAction(leagueId: string, draftId: string, form: FormData) {
@@ -78,31 +83,31 @@ export async function waiverAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "waiver-submit", 60);
   await submitWaiver(user.id, {
-    leagueId, addPlayerId: String(form.get("addPlayerId")), dropPlayerId: String(form.get("dropPlayerId") || "") || null,
+    leagueId, sport: String(form.get("sport") ?? "") || undefined, addPlayerId: String(form.get("addPlayerId")), dropPlayerId: String(form.get("dropPlayerId") || "") || null,
     bid: Number(form.get("bid")),
   });
   revalidatePath(`/leagues/${leagueId}/waivers`);
 }
 
-export async function processWaiversAction(leagueId: string) {
+export async function processWaiversAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "waiver-process", 20);
-  await processWaivers(user.id, leagueId);
+  await processWaivers(user.id, leagueId, new Date(), String(form?.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/waivers`);
   revalidatePath(`/leagues/${leagueId}/team`);
 }
 
-export async function scheduleAction(leagueId: string) {
+export async function scheduleAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "schedule", 10);
-  await generateSchedule(user.id, leagueId);
+  await generateSchedule(user.id, leagueId, 14, String(form?.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/matchups`);
 }
 
-export async function recalculateAction(leagueId: string) {
+export async function recalculateAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "matchup-recalculate", 20);
-  await recalculateMatchups(user.id, leagueId);
+  await recalculateMatchups(user.id, leagueId, String(form?.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/matchups`);
   revalidatePath(`/leagues/${leagueId}/standings`);
 }
@@ -110,28 +115,28 @@ export async function recalculateAction(leagueId: string) {
 export async function addPlayerAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "free-agent-add", 60);
-  await addFreeAgent(user.id, leagueId, String(form.get("playerId")));
+  await addFreeAgent(user.id, leagueId, String(form.get("playerId")), String(form.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/players`); revalidatePath(`/leagues/${leagueId}/team`);
 }
 
 export async function dropPlayerAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "roster-drop", 60);
-  await dropPlayer(user.id, leagueId, String(form.get("playerId")));
+  await dropPlayer(user.id, leagueId, String(form.get("playerId")), String(form.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/players`); revalidatePath(`/leagues/${leagueId}/team`);
 }
 
 export async function lineupAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "lineup", 120);
-  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")));
+  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")), String(form.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/team`);
 }
 
-export async function advanceReplayAction(leagueId: string) {
+export async function advanceReplayAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "replay-advance", 20);
-  await advanceHistoricalPeriod(user.id, leagueId);
+  await advanceHistoricalPeriod(user.id, leagueId, String(form?.get("sport") ?? "") || undefined);
   revalidatePath(`/leagues/${leagueId}/matchups`); revalidatePath(`/leagues/${leagueId}/standings`);
 }
 
@@ -143,16 +148,26 @@ export async function draftPauseAction(leagueId: string, draftId: string, paused
 export async function leagueSettingsAction(leagueId: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "league-settings", 20);
   await updateLeagueSettings(user.id, leagueId, {
+    sport: sportValue(form.get("sport")),
     draftSecondsPerPick: Number(form.get("draftSecondsPerPick")), startingFaab: Number(form.get("startingFaab")),
     playoffTeams: Number(form.get("playoffTeams")), playoffPeriods: Number(form.get("playoffPeriods")),
+    maxTeams: Number(form.get("maxTeams")), visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
+    keeperLimit: Number(form.get("keeperLimit") ?? 0), draftRounds: Number(form.get("draftRounds")),
+    keeperDeadline: form.get("keeperDeadline") ? new Date(String(form.get("keeperDeadline"))) : null,
   });
   revalidatePath(`/leagues/${leagueId}/settings`);
+}
+
+export async function draftOrderAction(leagueId: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "draft-order", 20); const sport = sportValue(form.get("sport"));
+  if (!sport) throw new Error("A valid sport is required.");
+  await updateDraftOrder(user.id, leagueId, sport, form.getAll("teamId").map(String)); revalidatePath(`/leagues/${leagueId}/settings`);
 }
 
 export async function proposeTradeAction(leagueId: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "trade-propose", 30);
   await proposeTrade(user.id, {
-    leagueId, recipientTeamId: String(form.get("recipientTeamId")),
+    leagueId, sport: String(form.get("sport") ?? "") || undefined, recipientTeamId: String(form.get("recipientTeamId")),
     offerPlayerIds: form.getAll("offerPlayerIds").map(String), requestPlayerIds: form.getAll("requestPlayerIds").map(String),
     message: String(form.get("message") ?? ""), expiresInHours: Number(form.get("expiresInHours") ?? 48),
   });
@@ -169,7 +184,41 @@ export async function cancelTradeAction(leagueId: string, tradeId: string) {
   await cancelTrade(user.id, tradeId); revalidatePath(`/leagues/${leagueId}/trades`);
 }
 
-export async function playoffsAction(leagueId: string) {
+export async function playoffsAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession(); await limit(user.id, "playoffs", 10);
-  await generateNextPlayoffRound(user.id, leagueId); revalidatePath(`/leagues/${leagueId}/matchups`);
+  await generateNextPlayoffRound(user.id, leagueId, String(form?.get("sport") ?? "") || undefined); revalidatePath(`/leagues/${leagueId}/matchups`);
+}
+
+export async function joinPublicLeagueAction(leagueId: string) {
+  const { user } = await requireSession(); await limit(user.id, "join-public-league", 20);
+  redirect(`/leagues/${await joinPublicLeague(user.id, leagueId)}`);
+}
+
+export async function resizeLeagueAction(leagueId: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "league-resize", 20);
+  await resizeLeague(user.id, leagueId, Number(form.get("maxTeams"))); revalidatePath(`/leagues/${leagueId}`);
+}
+
+export async function fillComputersAction(leagueId: string) {
+  const { user } = await requireSession(); await limit(user.id, "computer-fill", 10);
+  await fillComputerFranchises(user.id, leagueId); revalidatePath(`/leagues/${leagueId}`);
+}
+
+export async function removeComputerAction(leagueId: string, teamId: string) {
+  const { user } = await requireSession(); await limit(user.id, "computer-remove", 30);
+  await removeComputerFranchise(user.id, leagueId, teamId); revalidatePath(`/leagues/${leagueId}`);
+}
+
+export async function selectKeeperAction(leagueId: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "keeper-select", 30);
+  const sport = sportValue(form.get("sport"));
+  if (!sport) throw new Error("A valid sport is required.");
+  await selectKeeper(user.id, leagueId, sport, String(form.get("playerId"))); revalidatePath(`/leagues/${leagueId}/team`);
+}
+
+export async function transitionSeasonAction(leagueId: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "season-transition", 10);
+  const sport = sportValue(form.get("sport"));
+  if (!sport) throw new Error("A valid sport is required.");
+  await transitionSportSeason(user.id, leagueId, sport, Number(form.get("startYear"))); revalidatePath(`/leagues/${leagueId}`);
 }

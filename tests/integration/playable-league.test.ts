@@ -24,7 +24,7 @@ it("serializes draft picks, prevents duplicate ownership and atomically processe
   });
   try {
     const draft = await createDraft(user.id, league.id);
-    await database.draft.update({ where: { id: draft.id }, data: { rounds: 1 } });
+    await database.draft.update({ where: { id: draft.id }, data: { rounds: 1, pickOrder: draft.pickOrder.slice(0, 4) } });
     const race = await Promise.allSettled([
       makePick({ userId: user.id, draftId: draft.id, playerId: playerIds[0], automatic: true }),
       makePick({ userId: user.id, draftId: draft.id, playerId: playerIds[0], automatic: true }),
@@ -37,9 +37,9 @@ it("serializes draft picks, prevents duplicate ownership and atomically processe
     const commissioner = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: user.id }, include: { roster: true } });
     await submitWaiver(user.id, { leagueId: league.id, addPlayerId: playerIds[4], dropPlayerId: commissioner.roster[0].playerId, bid: 5 });
     expect(await processWaivers(user.id, league.id)).toBe(1);
-    expect(await database.fantasyTeam.findUniqueOrThrow({ where: { id: commissioner.id } })).toMatchObject({ faabRemaining: 95 });
-    expect(await database.rosterEntry.findUnique({ where: { leagueId_playerId: { leagueId: league.id, playerId: playerIds[4] } } })).toMatchObject({ teamId: commissioner.id });
-    expect(await database.rosterEntry.findUnique({ where: { leagueId_playerId: { leagueId: league.id, playerId: commissioner.roster[0].playerId } } })).toBeNull();
+    expect(await database.fantasyRoster.findFirstOrThrow({ where: { teamId: commissioner.id, sport: "NFL" } })).toMatchObject({ faabRemaining: 95 });
+    expect(await database.rosterEntry.findFirst({ where: { leagueId: league.id, playerId: playerIds[4], releasedAt: null } })).toMatchObject({ teamId: commissioner.id });
+    expect(await database.rosterEntry.findFirst({ where: { leagueId: league.id, playerId: commissioner.roster[0].playerId, releasedAt: null } })).toBeNull();
 
     await generateSchedule(user.id, league.id, 3);
     expect(await database.matchup.count({ where: { leagueId: league.id } })).toBe(6);
@@ -69,11 +69,11 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     const membership = await database.leagueMember.create({ data: { leagueId: league.id, userId: otherUserId } });
     await database.fantasyTeam.update({ where: { id: recipient.id }, data: { managerId: otherUserId, membershipId: membership.id, isComputer: false } });
     const draft = await createDraft(commissioner.id, league.id);
-    await database.draft.update({ where: { id: draft.id }, data: { rounds: 1 } });
+    await database.draft.update({ where: { id: draft.id }, data: { rounds: 1, pickOrder: draft.pickOrder.slice(0, 4) } });
     for (const playerId of playerIds.slice(0, 4)) await makePick({ userId: commissioner.id, draftId: draft.id, playerId, automatic: true });
     const proposer = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: commissioner.id }, include: { roster: true } });
     const recipientAfter = await database.fantasyTeam.findUniqueOrThrow({ where: { id: recipient.id }, include: { roster: true } });
-    await expect(dropPlayer(otherUserId, league.id, proposer.roster[0].playerId)).rejects.toThrow(/not on your roster/i);
+    await expect(dropPlayer(otherUserId, league.id, proposer.roster[0].playerId)).rejects.toThrow(/not on your active sport roster/i);
     const trade = await proposeTrade(commissioner.id, {
       leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: [proposer.roster[0].playerId],
       requestPlayerIds: [recipientAfter.roster[0].playerId], message: "one for one", expiresInHours: 24,
@@ -81,8 +81,8 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     await expect(respondToTrade(commissioner.id, trade.id, "ACCEPT")).rejects.toThrow(/recipient/i);
     const acceptance = await Promise.allSettled([respondToTrade(otherUserId, trade.id, "ACCEPT"), respondToTrade(otherUserId, trade.id, "ACCEPT")]);
     expect(acceptance.filter(({ status }) => status === "fulfilled")).toHaveLength(1);
-    expect(await database.rosterEntry.findUniqueOrThrow({ where: { leagueId_playerId: { leagueId: league.id, playerId: proposer.roster[0].playerId } } })).toMatchObject({ teamId: recipient.id });
-    expect(await database.rosterEntry.findUniqueOrThrow({ where: { leagueId_playerId: { leagueId: league.id, playerId: recipientAfter.roster[0].playerId } } })).toMatchObject({ teamId: proposer.id });
+    expect(await database.rosterEntry.findFirstOrThrow({ where: { leagueId: league.id, playerId: proposer.roster[0].playerId, releasedAt: null } })).toMatchObject({ teamId: recipient.id });
+    expect(await database.rosterEntry.findFirstOrThrow({ where: { leagueId: league.id, playerId: recipientAfter.roster[0].playerId, releasedAt: null } })).toMatchObject({ teamId: proposer.id });
 
     await generateSchedule(commissioner.id, league.id, 1);
     const games = await database.matchup.findMany({ where: { leagueId: league.id }, orderBy: { id: "asc" } });
@@ -93,7 +93,7 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     expect(await database.matchup.count({ where: { leagueId: league.id, isPlayoff: true, playoffRound: 1 } })).toBe(2);
 
     const timed = await createDraft(commissioner.id, timerLeague.id);
-    await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000) } });
+    await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, pickOrder: timed.pickOrder.slice(0, 4), secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000) } });
     expect(await autoPickExpiredDraft(timed.id)).not.toBeNull();
     await setDraftPaused(commissioner.id, timed.id, true);
     expect(await autoPickExpiredDraft(timed.id, new Date(Date.now() + 60_000))).toBeNull();

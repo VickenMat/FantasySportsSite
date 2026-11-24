@@ -1,0 +1,371 @@
+{
+  "reportVersion": "m3-6-load-1",
+  "generatedAt": "2026-11-24T02:08:01.086Z",
+  "environment": {
+    "baseUrl": "http://127.0.0.1:3100",
+    "node": "v24.8.0",
+    "databasePoolMax": 20,
+    "warmupRequests": 20
+  },
+  "levels": [
+    100,
+    500,
+    1000
+  ],
+  "results": [
+    {
+      "name": "authentication-100",
+      "requests": 100,
+      "elapsedMs": 4277.38,
+      "throughputPerSecond": 23.38,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 4264.25,
+        "p95": 4267.91,
+        "p99": 4268.08,
+        "max": 4268.08
+      },
+      "statuses": {
+        "200": 100
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "dashboard-100",
+      "requests": 100,
+      "elapsedMs": 950.1,
+      "throughputPerSecond": 105.25,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 913.9,
+        "p95": 931.52,
+        "p99": 934.23,
+        "max": 934.23
+      },
+      "statuses": {
+        "200": 100
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "player-search-100",
+      "requests": 100,
+      "elapsedMs": 427.78,
+      "throughputPerSecond": 233.77,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 413.86,
+        "p95": 420.78,
+        "p99": 422.42,
+        "max": 422.42
+      },
+      "statuses": {
+        "200": 100
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "matchups-100",
+      "requests": 100,
+      "elapsedMs": 2071.65,
+      "throughputPerSecond": 48.27,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 1673.48,
+        "p95": 1934.18,
+        "p99": 2066.64,
+        "max": 2066.64
+      },
+      "statuses": {
+        "200": 100
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "standings-100",
+      "requests": 100,
+      "elapsedMs": 1301.74,
+      "throughputPerSecond": 76.82,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 1269.99,
+        "p95": 1285.63,
+        "p99": 1288.29,
+        "max": 1288.29
+      },
+      "statuses": {
+        "200": 100
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "authentication-500",
+      "requests": 500,
+      "elapsedMs": 25358.61,
+      "throughputPerSecond": 19.72,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 25286.82,
+        "p95": 25311.42,
+        "p99": 25313.15,
+        "max": 25317.25
+      },
+      "statuses": {
+        "200": 500
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "dashboard-500",
+      "requests": 500,
+      "elapsedMs": 2165.79,
+      "throughputPerSecond": 230.86,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 2036.43,
+        "p95": 2111.95,
+        "p99": 2113.3,
+        "max": 2114.22
+      },
+      "statuses": {
+        "200": 500
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "player-search-500",
+      "requests": 500,
+      "elapsedMs": 2056.23,
+      "throughputPerSecond": 243.16,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 1962.43,
+        "p95": 2034.22,
+        "p99": 2035.41,
+        "max": 2038.64
+      },
+      "statuses": {
+        "200": 500
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "matchups-500",
+      "requests": 500,
+      "elapsedMs": 1798.3,
+      "throughputPerSecond": 278.04,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 1518.01,
+        "p95": 1733.97,
+        "p99": 1768.87,
+        "max": 1769.77
+      },
+      "statuses": {
+        "200": 500
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "standings-500",
+      "requests": 500,
+      "elapsedMs": 1457.17,
+      "throughputPerSecond": 343.13,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 1352.45,
+        "p95": 1424.92,
+        "p99": 1426.75,
+        "max": 1427.29
+      },
+      "statuses": {
+        "200": 500
+      },
+      "peakPostgresConnections": 23
+    },
+    {
+      "name": "authentication-1000",
+      "requests": 1000,
+      "elapsedMs": 39221.27,
+      "throughputPerSecond": 25.5,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 39170.01,
+        "p95": 39185.07,
+        "p99": 39187.95,
+        "max": 39188.59
+      },
+      "statuses": {
+        "200": 1000
+      },
+      "peakPostgresConnections": 24
+    },
+    {
+      "name": "dashboard-1000",
+      "requests": 1000,
+      "elapsedMs": 6864.32,
+      "throughputPerSecond": 145.68,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 5659.06,
+        "p95": 6801.57,
+        "p99": 6804.27,
+        "max": 6805.83
+      },
+      "statuses": {
+        "200": 1000
+      },
+      "peakPostgresConnections": 22
+    },
+    {
+      "name": "player-search-1000",
+      "requests": 1000,
+      "elapsedMs": 3483.82,
+      "throughputPerSecond": 287.04,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 3159.25,
+        "p95": 3305.59,
+        "p99": 3311.01,
+        "max": 3323.22
+      },
+      "statuses": {
+        "200": 1000
+      },
+      "peakPostgresConnections": 22
+    },
+    {
+      "name": "matchups-1000",
+      "requests": 1000,
+      "elapsedMs": 4772.36,
+      "throughputPerSecond": 209.54,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 4191.14,
+        "p95": 4614.36,
+        "p99": 4632.27,
+        "max": 4639.37
+      },
+      "statuses": {
+        "200": 1000
+      },
+      "peakPostgresConnections": 22
+    },
+    {
+      "name": "standings-1000",
+      "requests": 1000,
+      "elapsedMs": 3539.43,
+      "throughputPerSecond": 282.53,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 3228.44,
+        "p95": 3441.86,
+        "p99": 3445.87,
+        "max": 3452.9
+      },
+      "statuses": {
+        "200": 1000
+      },
+      "peakPostgresConnections": 22
+    },
+    {
+      "name": "concurrent-draft-conflict-16",
+      "requests": 16,
+      "elapsedMs": 156.11,
+      "throughputPerSecond": 102.49,
+      "errorCount": 15,
+      "errorRatePercent": 93.75,
+      "latencyMs": {
+        "p50": 137.93,
+        "p95": 156.1,
+        "p99": 156.1,
+        "max": 156.1
+      },
+      "statuses": {
+        "200": 1,
+        "409": 15
+      },
+      "peakPostgresConnections": 26
+    },
+    {
+      "name": "concurrent-roster-acquisition-16",
+      "requests": 16,
+      "elapsedMs": 75.31,
+      "throughputPerSecond": 212.45,
+      "errorCount": 15,
+      "errorRatePercent": 93.75,
+      "latencyMs": {
+        "p50": 73.11,
+        "p95": 74.71,
+        "p99": 74.71,
+        "max": 74.71
+      },
+      "statuses": {
+        "200": 1,
+        "409": 15
+      },
+      "peakPostgresConnections": 26
+    },
+    {
+      "name": "concurrent-waiver-submission-16",
+      "requests": 16,
+      "elapsedMs": 91.44,
+      "throughputPerSecond": 174.98,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 89.95,
+        "p95": 91.1,
+        "p99": 91.1,
+        "max": 91.1
+      },
+      "statuses": {
+        "200": 16
+      },
+      "peakPostgresConnections": 26
+    },
+    {
+      "name": "waiver-processing-16",
+      "requests": 1,
+      "elapsedMs": 59.61,
+      "throughputPerSecond": 16.78,
+      "errorCount": 0,
+      "errorRatePercent": 0,
+      "latencyMs": {
+        "p50": 59.6,
+        "p95": 59.6,
+        "p99": 59.6,
+        "max": 59.6
+      },
+      "statuses": {
+        "200": 1
+      },
+      "peakPostgresConnections": 26
+    }
+  ],
+  "scope": {
+    "measured": [
+      "authentication",
+      "dashboard",
+      "player search",
+      "matchup retrieval",
+      "standings retrieval"
+    ],
+    "mutationConcurrency": "Draft conflicts, roster ownership conflicts, waiver submissions, and waiver processing are measured with 16 managers, the maximum supported league size. This run does not represent 1,000 managers in one league."
+  }
+}

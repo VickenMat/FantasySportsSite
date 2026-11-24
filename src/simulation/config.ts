@@ -45,7 +45,7 @@ const slotRules: Record<Sport, Record<string, Slot>> = {
 
 export const configSchema = z.object({
   sport: z.enum(Sport),
-  teams: z.number().int().min(4).max(16).default(12),
+  teams: z.number().int().min(2).max(16).default(12),
   seed: z.number().int().min(0).max(0xffffffff).default(11),
   slots: z.array(z.string()).min(1).max(24).optional(),
   bench: z.number().int().min(0).max(20).default(5),

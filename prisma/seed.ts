@@ -3,6 +3,7 @@ import { getDatabase } from "@/lib/db";
 import { accountNameSchema, emailSchema, passwordSchema } from "@/lib/auth-validation";
 import { ubpV9, ubpV9Rules } from "@/scoring/ubp-v9";
 import type { Sport } from "@/generated/prisma/enums";
+import { defaultSlots } from "@/simulation/config";
 
 const database = getDatabase();
 const demoUserId = "9cad3a58-f74c-476b-8acb-82859f3cffa3";
@@ -41,6 +42,10 @@ async function seed() {
         },
       },
     });
+    for (const sport of sports) await tx.season.upsert({
+      where: { sport_startYear: { sport, startYear: 2026 } }, update: {},
+      create: { sport, startYear: 2026, label: sport === "NBA" || sport === "NHL" ? "2026-27" : "2026", coverageReason: "Seeded league season metadata; no authoritative live feed is connected." },
+    });
 
     const league = await tx.league.upsert({
       where: { slug: "founders-dynasty" },
@@ -52,7 +57,13 @@ async function seed() {
         maxTeams: 12,
         isDemo: true,
         presetId: preset.id,
-        sports: { create: sports.map((sport) => ({ sport })) },
+        sports: { create: sports.map((sport) => ({
+          sport,
+          season: { connect: { sport_startYear: { sport, startYear: 2026 } } },
+          seasonLabel: sport === "NBA" || sport === "NHL" ? "2026-27" : "2026",
+          rosterSlots: [...defaultSlots[sport]],
+          draftRounds: defaultSlots[sport].length + 5,
+        })) },
       },
     });
 
