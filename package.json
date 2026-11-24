@@ -22,7 +22,8 @@
     "simulate": "tsx src/workers/simulate.ts",
     "data:audit": "tsx --env-file-if-exists=.env src/workers/audit-parquet.ts",
     "db:import:parquet": "tsx --env-file-if-exists=.env src/workers/import-parquet.ts",
-    "fantasy:process": "tsx --env-file-if-exists=.env src/workers/process-fantasy.ts"
+    "fantasy:process": "tsx --env-file-if-exists=.env src/workers/process-fantasy.ts",
+    "test:load": "tsx --env-file-if-exists=.env src/workers/load-test.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

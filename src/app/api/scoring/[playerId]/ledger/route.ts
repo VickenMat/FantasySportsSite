@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getAuth } from "@/lib/auth";
 import { getLeagueScoreHistory } from "@/server/score-ledger";
+import { enforceRateLimit, RateLimitError } from "@/server/rate-limit";
 
 const querySchema = z.object({
   playerId: z.uuid(),
@@ -14,6 +15,14 @@ const headers = { "Cache-Control": "private, no-store" };
 export async function GET(request: Request, context: { params: Promise<{ playerId: string }> }) {
   const session = await getAuth().api.getSession({ headers: request.headers });
   if (!session) return Response.json({ error: "Sign in required." }, { status: 401, headers });
+  try {
+    await enforceRateLimit(session.user.id, "score-ledger-api", 120, 60_000);
+  } catch (error) {
+    if (error instanceof RateLimitError) return Response.json({ error: error.message }, {
+      status: 429, headers: { ...headers, "Retry-After": String(error.retryAfterSeconds) },
+    });
+    throw error;
+  }
 
   const query = querySchema.safeParse({ ...Object.fromEntries(new URL(request.url).searchParams), ...await context.params });
   if (!query.success) return Response.json({ error: "Invalid score ledger query." }, { status: 400, headers });

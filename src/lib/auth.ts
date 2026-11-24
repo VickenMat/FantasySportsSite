@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { createTransport } from "nodemailer";
 import { accountNameSchema, maxPasswordLength, minPasswordLength } from "./auth-validation";
 import { getDatabase } from "./db";
+import { clientIdentity, enforceRateLimit, RateLimitError } from "@/server/rate-limit";
 
 function createAuth() {
   const { AUTH_SECRET, AUTH_URL, SMTP_URL, MAIL_FROM } = process.env;
@@ -41,6 +42,14 @@ function createAuth() {
     },
     hooks: {
       before: createAuthMiddleware(async (context) => {
+        if (["/sign-in/email", "/forget-password"].includes(context.path)) {
+          try {
+            await enforceRateLimit(clientIdentity(context.headers ?? new Headers()), `auth${context.path}`, 10, 15 * 60_000);
+          } catch (error) {
+            if (error instanceof RateLimitError) throw new APIError("TOO_MANY_REQUESTS", { message: error.message });
+            throw error;
+          }
+        }
         if (context.path !== "/sign-up/email") return;
         const name = accountNameSchema.safeParse(context.body?.name);
         if (!name.success) {
