@@ -30,6 +30,7 @@ npm run lint
 npm test
 npm run test:integration
 npm run worker
+npm run fantasy:process
 npm run build
 npx playwright install chromium
 npm run test:e2e
@@ -116,6 +117,7 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 - [x] M1 · Canonical players and games, import validation, deterministic scoring, score ledger, and golden tests.
 - [x] M2 · Create and join leagues, commissioner settings, and configurable dynasty/redraft seasons and starter arrays.
 - [x] M3 · Persistent snake drafts, roster ownership, bench management, and recorded-position lineup validation. Authoritative live availability feeds remain release work.
+- [x] M3.5 · Draft clocks and reconnects, commissioner controls, trades, playoff seeding, authorization and rate limiting, query hardening, and measured local load tests.
 - [ ] M4 · Matchups, standings, waivers and FAAB, trades, transaction audit, and score corrections.
 - [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
@@ -159,6 +161,26 @@ Historical demo play requires importing the reviewed local Parquet source for th
 - NFL Parquet rows do not contain game dates. Historical replay still requires a separately timestamped schedule feed before NFL lineup evidence can become reconstructed or verified.
 - Lineup eligibility uses the latest stored observed positions. A production feed must create dated position and availability evidence before live locks can be treated as authoritative.
 - The local scheduler command must be invoked by cron or another deployment scheduler. No production deployment or background scheduler was configured in this milestone.
+
+## M3.5 gameplay completion and hardening
+
+Drafts now use a persistent PostgreSQL clock with configurable 15-to-600-second picks, queue-first automatic selections, commissioner pause and resume controls, and state restoration after reconnect. Snake order is verified for every supported league size from 4 through 16. Roster changes, lineup eligibility, free-agent acquisition, waivers, trade proposal and response, matchup calculation, deterministic standings, and playoff seeding all enforce league or team authorization in the service layer.
+
+Concurrent draft picks, direct acquisitions, accepted trades, and waiver processing use serializable transactions and database uniqueness constraints. The gameplay worker claims a minute-specific PostgreSQL job key, so a scheduler can safely invoke it more than once per minute. Configure a deployment scheduler to run:
+
+```bash
+npm run fantasy:process
+```
+
+Player search uses server-side pagination. Matchup recalculation loads roster, game, and ledger data in bounded relation queries instead of querying once per team. The PostgreSQL pool defaults to 10 connections and can be capped with `DATABASE_POOL_MAX`. Keep analytical imports and simulation commands in workers rather than request handlers.
+
+Authentication and mutation routes have persistent rate limits. Security headers disable MIME sniffing and framing, restrict referrers, and remove the framework disclosure header. Prisma Studio remains a local operator command and has no application route. The November 23, 2026 final audit reported zero known npm vulnerabilities.
+
+The reproducible local load report is tracked at [reports/load-m3-5.json](reports/load-m3-5.json). With a 20-connection application pool, all read scenarios returned zero errors. At 1,000 concurrent isolated users, authentication p95 was 18.69 seconds, dashboard p95 was 2.02 seconds, player search p95 was 1.26 seconds, matchup retrieval p95 was 1.18 seconds, and standings p95 was 1.10 seconds. Authentication hashing is the primary measured bottleneck. Peak observed PostgreSQL client connections were 25 when the load runner and sampler were included.
+
+The supported-league contention run used 16 managers. Exactly one competing draft request and one competing direct roster acquisition succeeded, while the other 15 requests in each scenario received expected HTTP 409 conflicts. All 16 waiver submissions were stored and the ordered waiver processor completed. These are local measurements on one development machine and do not establish production capacity. See [the M3.5 report](docs/M3_5_REPORT.md) for the security review, test evidence, and limitations.
+
+UBP V9 remains the immutable experimental baseline with all 56 coefficients unchanged. V10 remains inactive. The 0.5% cross-sport balance target is unverified because the archives still lack independently timestamped preseason ranks, injury and availability reports, pitching rotations, and waiver knowledge needed for defensible historical decisions.
 
 ## Landing artwork
 
