@@ -6,6 +6,7 @@ import { getDatabase } from "@/lib/db";
 import { createDraft, makePick } from "@/server/draft";
 import { createLeague, joinPublicLeague, leagueContext, listPublicLeagues, resizeLeague, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings } from "@/server/league";
 import { generateSchedule, standings } from "@/server/matchups";
+import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
@@ -99,5 +100,45 @@ describe("M3.6 persistent multi-sport leagues", () => {
       await generateSchedule(commissioner.id, odd.id, 3, "MLB");
       expect(await database.matchup.count({ where: { leagueId: odd.id, sport: "MLB" } })).toBe(3);
     } finally { await database.league.deleteMany({ where: { id: { in: [full.id, odd.id] } } }); await database.user.delete({ where: { id: secondId } }); }
+  });
+
+  it("atomically exchanges assets across all four sports and preserves cancellation", async () => {
+    const commissioner = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+    const partnerId = randomUUID();
+    await database.user.create({ data: { id: partnerId, name: "Cross Sport Partner", email: `cross-${partnerId}@example.test` } });
+    const league = await createLeague(commissioner.id, { name: `Cross Sport ${randomUUID()}`, sports: ["NFL", "NBA", "MLB", "NHL"], maxTeams: 2, visibility: "PUBLIC", fillWithComputers: true });
+    const playerIds = Array.from({ length: 8 }, () => randomUUID());
+    const sportOrder = ["NFL", "NBA", "MLB", "NHL"] as const;
+    await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: sportOrder[index % 4], displayName: `Cross Asset ${index}`, isDemo: true })) });
+    try {
+      await joinPublicLeague(partnerId, league.id);
+      const teams = await database.fantasyTeam.findMany({ where: { leagueId: league.id }, include: { sportRosters: { include: { leagueSport: true } } } });
+      const proposer = teams.find(({ managerId }) => managerId === commissioner.id)!;
+      const recipient = teams.find(({ managerId }) => managerId === partnerId)!;
+      for (let index = 0; index < playerIds.length; index++) {
+        const team = index < 4 ? proposer : recipient;
+        const sport = sportOrder[index % 4];
+        const roster = team.sportRosters.find((value) => value.sport === sport)!;
+        await database.rosterEntry.create({ data: { leagueId: league.id, teamId: team.id, rosterId: roster.id, playerId: playerIds[index], sport, seasonId: roster.leagueSport.seasonId, slot: "BENCH" } });
+      }
+      const trade = await proposeTrade(commissioner.id, { leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: playerIds.slice(0, 4), requestPlayerIds: playerIds.slice(4, 8) });
+      expect(new Set(trade.assets.map(({ sport }) => sport))).toEqual(new Set(sportOrder));
+      expect(trade).toMatchObject({ sport: null, leagueSportId: null, status: "PENDING" });
+      await expect(respondToTrade(commissioner.id, trade.id, "ACCEPT")).rejects.toThrow(/recipient/i);
+      const accepted = await respondToTrade(partnerId, trade.id, "ACCEPT");
+      expect(accepted.status).toBe("ACCEPTED");
+      expect(await database.rosterEntry.count({ where: { leagueId: league.id, teamId: recipient.id, playerId: { in: playerIds.slice(0, 4) }, releasedAt: null } })).toBe(4);
+      expect(await database.rosterEntry.count({ where: { leagueId: league.id, teamId: proposer.id, playerId: { in: playerIds.slice(4, 8) }, releasedAt: null } })).toBe(4);
+      expect(await database.fantasyTransaction.count({ where: { leagueId: league.id, type: "TRADE", note: { contains: trade.id } } })).toBe(8);
+
+      const cancelled = await proposeTrade(commissioner.id, { leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: [playerIds[4]], requestPlayerIds: [playerIds[0]] });
+      await cancelTrade(commissioner.id, cancelled.id);
+      await expect(respondToTrade(partnerId, cancelled.id, "ACCEPT")).rejects.toThrow(/no longer pending/i);
+      expect(await database.rosterEntry.findFirstOrThrow({ where: { leagueId: league.id, playerId: playerIds[4], releasedAt: null } })).toMatchObject({ teamId: proposer.id });
+    } finally {
+      await database.league.delete({ where: { id: league.id } });
+      await database.player.deleteMany({ where: { id: { in: playerIds } } });
+      await database.user.delete({ where: { id: partnerId } });
+    }
   });
 });

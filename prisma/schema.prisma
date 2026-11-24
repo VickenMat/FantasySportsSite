@@ -230,7 +230,9 @@ model FantasyTeam {
   transactions   FantasyTransaction[]
   proposedTrades Trade[]              @relation("TradeProposer")
   receivedTrades Trade[]              @relation("TradeRecipient")
-  tradeAssets    TradeAsset[]
+  sourceTradeAssets      TradeAsset[] @relation("TradeAssetSourceTeam")
+  destinationTradeAssets TradeAsset[] @relation("TradeAssetDestinationTeam")
+  tradeCuts              TradeCut[]
 
   @@unique([leagueId, managerId])
   @@unique([leagueId, name])
@@ -420,8 +422,8 @@ model FantasyTransaction {
 model Trade {
   id              String       @id @default(uuid()) @db.Uuid
   leagueId        String       @db.Uuid
-  leagueSportId   String       @db.Uuid
-  sport           Sport
+  leagueSportId   String?      @db.Uuid
+  sport           Sport?
   proposerTeamId  String       @db.Uuid
   recipientTeamId String       @db.Uuid
   status          TradeStatus  @default(PENDING)
@@ -431,28 +433,55 @@ model Trade {
   respondedAt     DateTime?    @db.Timestamptz(3)
   processedAt     DateTime?    @db.Timestamptz(3)
   league          League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  leagueSport     LeagueSport  @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  leagueSport     LeagueSport? @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
   proposerTeam    FantasyTeam  @relation("TradeProposer", fields: [proposerTeamId], references: [id], onDelete: Cascade)
   recipientTeam   FantasyTeam  @relation("TradeRecipient", fields: [recipientTeamId], references: [id], onDelete: Cascade)
   assets          TradeAsset[]
+  cuts            TradeCut[]
 
-  @@index([leagueId, sport, status, createdAt])
+  @@index([leagueId, status, createdAt])
   @@index([recipientTeamId, status])
   @@index([proposerTeamId, status])
 }
 
 model TradeAsset {
-  id       String      @id @default(uuid()) @db.Uuid
-  tradeId  String      @db.Uuid
-  teamId   String      @db.Uuid
-  playerId String      @db.Uuid
-  side     TradeSide
-  trade    Trade       @relation(fields: [tradeId], references: [id], onDelete: Cascade)
-  team     FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  player   Player      @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  id                String        @id @default(uuid()) @db.Uuid
+  tradeId           String        @db.Uuid
+  teamId            String        @db.Uuid
+  destinationTeamId String        @db.Uuid
+  sourceRosterId    String        @db.Uuid
+  playerId          String        @db.Uuid
+  sport             Sport
+  side              TradeSide
+  trade             Trade         @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  team              FantasyTeam   @relation("TradeAssetSourceTeam", fields: [teamId], references: [id], onDelete: Cascade)
+  destinationTeam   FantasyTeam   @relation("TradeAssetDestinationTeam", fields: [destinationTeamId], references: [id], onDelete: Cascade)
+  sourceRoster      FantasyRoster @relation(fields: [sourceRosterId], references: [id], onDelete: Restrict)
+  player            Player        @relation(fields: [playerId], references: [id], onDelete: Restrict)
 
   @@unique([tradeId, playerId])
   @@index([teamId, playerId])
+  @@index([destinationTeamId, sport])
+  @@index([sourceRosterId])
+}
+
+model TradeCut {
+  id         String        @id @default(uuid()) @db.Uuid
+  tradeId    String        @db.Uuid
+  teamId     String        @db.Uuid
+  rosterId   String        @db.Uuid
+  playerId   String        @db.Uuid
+  sport      Sport
+  authorizedAt DateTime    @default(now()) @db.Timestamptz(3)
+  processedAt  DateTime?   @db.Timestamptz(3)
+  trade      Trade         @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  team       FantasyTeam   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  roster     FantasyRoster @relation(fields: [rosterId], references: [id], onDelete: Restrict)
+  player     Player        @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@unique([tradeId, playerId])
+  @@index([teamId, sport])
+  @@index([rosterId])
 }
 
 model RateLimitBucket {
@@ -518,6 +547,8 @@ model FantasyRoster {
   waiverClaims  WaiverClaim[]
   transactions  FantasyTransaction[]
   keepers       KeeperSelection[]
+  tradeAssets   TradeAsset[]
+  tradeCuts     TradeCut[]
 
   @@unique([teamId, leagueSportId])
   @@index([leagueId, sport])
@@ -570,6 +601,7 @@ model Player {
   sport               Sport
   displayName         String
   isDemo              Boolean                  @default(false)
+  isSynthetic         Boolean                  @default(false)
   externalIds         PlayerExternalId[]
   gameStats           PlayerGameStat[]
   positions           PlayerPositionEvidence[]
@@ -582,10 +614,12 @@ model Player {
   transactions        FantasyTransaction[]     @relation("TransactionPlayer")
   relatedTransactions FantasyTransaction[]     @relation("TransactionRelatedPlayer")
   tradeAssets         TradeAsset[]
+  tradeCuts           TradeCut[]
   keeperSelections    KeeperSelection[]
 
   @@index([sport, displayName])
   @@index([isDemo, sport, displayName])
+  @@index([isSynthetic, sport, displayName])
 }
 
 enum SeasonCoverage {

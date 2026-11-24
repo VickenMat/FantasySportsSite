@@ -51,7 +51,7 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
 export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; page?: number; pageSize?: number } = {}) {
   const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Math.max(1, Math.trunc(options.page ?? 1));
   const pageSize = Math.min(100, Math.max(1, Math.trunc(options.pageSize ?? 50)));
-  const where = { sport: leagueSport.sport, displayName: options.search ? { contains: options.search, mode: "insensitive" as const } : undefined,
+  const where = { sport: leagueSport.sport, isSynthetic: false, displayName: options.search ? { contains: options.search, mode: "insensitive" as const } : undefined,
     rosterEntries: { none: { leagueId, sport: leagueSport.sport, releasedAt: null } },
     OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId }, observedPositions: options.position ? { has: options.position } : undefined } } }] };
   const database = getDatabase();

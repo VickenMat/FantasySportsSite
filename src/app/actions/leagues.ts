@@ -188,6 +188,7 @@ export async function proposeTradeAction(leagueId: string, form: FormData) {
   await proposeTrade(user.id, {
     leagueId, sport: String(form.get("sport") ?? "") || undefined, recipientTeamId: String(form.get("recipientTeamId")),
     offerPlayerIds: form.getAll("offerPlayerIds").map(String), requestPlayerIds: form.getAll("requestPlayerIds").map(String),
+    proposerCutPlayerIds: form.getAll("proposerCutPlayerIds").map(String),
     message: String(form.get("message") ?? ""), expiresInHours: Number(form.get("expiresInHours") ?? 48),
   });
   revalidatePath(`/leagues/${leagueId}/trades`);
