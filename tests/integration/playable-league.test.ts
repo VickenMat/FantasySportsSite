@@ -2,8 +2,7 @@ import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
-import { createDraft, makePick } from "@/server/draft";
-import { autoPickExpiredDraft, setDraftPaused } from "@/server/draft";
+import { autoPickExpiredDraft, changeQueue, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
 import { createLeague } from "@/server/league";
 import { generateNextPlayoffRound, generateSchedule, standings } from "@/server/matchups";
 import { processWaivers, submitWaiver } from "@/server/waivers";
@@ -17,7 +16,7 @@ afterAll(() => database.$disconnect());
 it("serializes draft picks, prevents duplicate ownership and atomically processes FAAB", async () => {
   const user = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
   const playerIds = Array.from({ length: 8 }, () => randomUUID());
-  await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NFL", displayName: `M3 Test Player ${index}` })) });
+  await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NFL", displayName: `M3 Test Player ${index}`, isDemo: true })) });
   const league = await createLeague(user.id, {
     name: `Integration ${randomUUID()}`, sport: "NFL", seasonYear: 2024, maxTeams: 4,
     format: "REDRAFT", startingFaab: 100, benchSlots: 2, historical: true, fillWithComputers: true,
@@ -55,7 +54,7 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
   const otherEmail = `trade-${randomUUID()}@example.test`;
   await database.user.create({ data: { id: otherUserId, name: "Trade Manager", email: otherEmail } });
   const playerIds = Array.from({ length: 10 }, () => randomUUID());
-  await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NBA", displayName: `Clock Player ${index}` })) });
+  await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NBA", displayName: `Clock Player ${index}`, isDemo: true })) });
   const league = await createLeague(commissioner.id, {
     name: `Clock ${randomUUID()}`, sport: "NBA", seasonYear: 2024, maxTeams: 4, format: "REDRAFT",
     startingFaab: 100, benchSlots: 2, historical: false, fillWithComputers: true,
@@ -93,12 +92,21 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     expect(await database.matchup.count({ where: { leagueId: league.id, isPlayoff: true, playoffRound: 1 } })).toBe(2);
 
     const timed = await createDraft(commissioner.id, timerLeague.id);
-    await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, pickOrder: timed.pickOrder.slice(0, 4), secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000) } });
+    const firstQueue = await queuePlayer(commissioner.id, timed.id, playerIds[4]); const secondQueue = await queuePlayer(commissioner.id, timed.id, playerIds[5]);
+    await changeQueue(commissioner.id, timed.id, secondQueue.id, "UP");
+    expect((await database.draftQueueEntry.findMany({ where: { draftId: timed.id }, orderBy: { rank: "asc" } }))[0].id).toBe(secondQueue.id);
+    await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, pickOrder: timed.pickOrder.slice(0, 4), secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000), pickDeadlineAt: new Date(Date.now() - 5_000) } });
     expect(await autoPickExpiredDraft(timed.id)).not.toBeNull();
+    expect(await database.draftPick.findFirst({ where: { draftId: timed.id, overall: 1 } })).toMatchObject({ playerId: playerIds[5], automatic: true });
     await setDraftPaused(commissioner.id, timed.id, true);
+    const paused = await database.draft.findUniqueOrThrow({ where: { id: timed.id } });
+    expect(paused.pausedRemainingMs).toBeGreaterThan(14_000); expect(paused.pickDeadlineAt).toBeNull();
     expect(await autoPickExpiredDraft(timed.id, new Date(Date.now() + 60_000))).toBeNull();
     await setDraftPaused(commissioner.id, timed.id, false);
-    expect(await database.draft.findUniqueOrThrow({ where: { id: timed.id } })).toMatchObject({ status: "ACTIVE", pausedAt: null });
+    const resumed = await database.draft.findUniqueOrThrow({ where: { id: timed.id } });
+    expect(resumed).toMatchObject({ status: "ACTIVE", pausedAt: null, pausedRemainingMs: null });
+    expect(resumed.pickDeadlineAt!.getTime() - Date.now()).toBeGreaterThan(13_000);
+    expect(firstQueue.id).not.toBe(secondQueue.id);
 
     const identity = randomUUID(); const now = new Date("2099-01-01T00:00:00Z");
     await enforceRateLimit(identity, "integration", 2, 60_000, now);

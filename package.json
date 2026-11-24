@@ -22,8 +22,10 @@
     "score:recalculate": "tsx --env-file-if-exists=.env src/workers/recalculate-score.ts",
     "simulate": "tsx src/workers/simulate.ts",
     "data:audit": "tsx --env-file-if-exists=.env src/workers/audit-parquet.ts",
+    "data:count-current-pools": "tsx src/workers/count-current-pools.ts",
     "db:import:parquet": "tsx --env-file-if-exists=.env src/workers/import-parquet.ts",
     "fantasy:process": "tsx --env-file-if-exists=.env src/workers/process-fantasy.ts",
+    "fantasy:draft-timer": "tsx --env-file-if-exists=.env src/workers/draft-timer.ts",
     "test:load": "node scripts/run-in-test-environment.mjs -- npx tsx src/workers/load-test.ts"
   },
   "dependencies": {

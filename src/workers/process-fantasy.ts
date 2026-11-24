@@ -1,6 +1,6 @@
 import { getDatabase } from "@/lib/db";
 import { processDueWaivers } from "@/server/waivers";
-import { autoPickExpiredDraft } from "@/server/draft";
+import { processExpiredDrafts } from "@/server/draft";
 import { setComputerLineups } from "@/server/rosters";
 
 async function main() {
@@ -26,11 +26,7 @@ async function main() {
     });
     let processed = 0;
     for (const { leagueId } of leagues) processed += await processDueWaivers(leagueId, now);
-    const drafts = await database.draft.findMany({ where: { status: "ACTIVE", pickStartedAt: { not: null } }, select: { id: true, pickStartedAt: true, secondsPerPick: true } });
-    let automaticPicks = 0;
-    for (const draft of drafts) if (draft.pickStartedAt!.getTime() + draft.secondsPerPick * 1000 <= now.getTime()) {
-      if (await autoPickExpiredDraft(draft.id, now)) automaticPicks++;
-    }
+    const automaticPicks = await processExpiredDrafts(now);
     const expiredTrades = await database.trade.updateMany({ where: { status: "PENDING", expiresAt: { lte: now } }, data: { status: "EXPIRED", respondedAt: now } });
     const activeSports = await database.leagueSport.findMany({ where: { league: { status: "ACTIVE" }, rosters: { some: { team: { isComputer: true } } } }, select: { leagueId: true, sport: true } });
     let computerLineupSlots = 0;

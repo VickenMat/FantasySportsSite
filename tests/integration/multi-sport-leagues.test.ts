@@ -45,7 +45,7 @@ describe("M3.6 persistent multi-sport leagues", () => {
     const commissioner = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } }); const outsiderId = randomUUID();
     await database.user.create({ data: { id: outsiderId, name: "Public Manager", email: `public-${outsiderId}@example.test` } });
     const playerIds = Array.from({ length: 8 }, () => randomUUID());
-    await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: index < 4 ? "NFL" : "NBA", displayName: `M36 Player ${index}` })) });
+    await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: index < 4 ? "NFL" : "NBA", displayName: `M36 Player ${index}`, isDemo: true })) });
     const league = await createLeague(commissioner.id, { name: `M36 Gameplay ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 2, format: "REDRAFT", visibility: "PUBLIC", keeperLimits: { NFL: 1, NBA: 0 }, fillWithComputers: true });
     try {
       expect((await listPublicLeagues(outsiderId)).some(({ id }) => id === league.id)).toBe(true);

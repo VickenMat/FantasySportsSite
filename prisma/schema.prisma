@@ -276,7 +276,9 @@ model Draft {
   startedAt      DateTime?         @db.Timestamptz(3)
   completedAt    DateTime?         @db.Timestamptz(3)
   pickStartedAt  DateTime?         @db.Timestamptz(3)
+  pickDeadlineAt DateTime?         @db.Timestamptz(3)
   pausedAt       DateTime?         @db.Timestamptz(3)
+  pausedRemainingMs Int?
   version        Int               @default(1)
   createdAt      DateTime          @default(now()) @db.Timestamptz(3)
   league         League            @relation(fields: [leagueId], references: [id], onDelete: Cascade)
@@ -287,7 +289,7 @@ model Draft {
 
   @@unique([leagueSportId, seasonId])
   @@index([leagueId, sport, status])
-  @@index([status, pickStartedAt])
+  @@index([status, pickDeadlineAt])
 }
 
 model DraftPick {
