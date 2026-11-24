@@ -9,16 +9,18 @@ const schema = z.object({
   sport: z.enum(Sport), file: z.string().min(1), "validate-only": z.boolean().default(false),
   "allow-rejected": z.boolean().default(false), "correction-reason": z.string().trim().min(1).max(500).optional(),
   "batch-size": z.coerce.number().int().min(100).max(100_000).default(25_000),
+  "season-year": z.coerce.number().int().min(1900).max(2200).optional(),
+  "exclude-game": z.array(z.string().trim().min(1)).default([]),
 });
 
 async function main() {
   const { values } = parseArgs({ options: {
     sport: { type: "string" }, file: { type: "string" }, "validate-only": { type: "boolean" },
-    "allow-rejected": { type: "boolean" }, "correction-reason": { type: "string" }, "batch-size": { type: "string" },
+    "allow-rejected": { type: "boolean" }, "correction-reason": { type: "string" }, "batch-size": { type: "string" }, "season-year": { type: "string" }, "exclude-game": { type: "string", multiple: true },
   } });
   const args = schema.parse(values);
   if (args["validate-only"]) {
-    const summary = await validateHistoricalParquet(args.file, args.sport, args["batch-size"]);
+    const summary = await validateHistoricalParquet(args.file, args.sport, args["batch-size"], args["season-year"], new Set(args["exclude-game"]));
     console.info(JSON.stringify(summary, null, 2));
     if (summary.rejectedRows) process.exitCode = 2;
     return;
@@ -28,6 +30,8 @@ async function main() {
     console.info(JSON.stringify(await importHistoricalParquet({
       path: args.file, sport: args.sport, allowRejected: args["allow-rejected"],
       correctionReason: args["correction-reason"], batchSize: args["batch-size"],
+      seasonYear: args["season-year"],
+      excludedGameIds: args["exclude-game"],
     }), null, 2));
   } finally {
     await database.$disconnect();

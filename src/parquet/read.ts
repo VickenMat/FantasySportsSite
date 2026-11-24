@@ -2,6 +2,7 @@ import { asyncBufferFromFile, parquetMetadataAsync, parquetReadObjects, parquetS
 import type { Sport } from "@/generated/prisma/enums";
 import { InvalidHistoricalRow, normalizeHistoricalRow, validateHeaders, type HistoricalRow, type RawRow } from "@/imports/normalize";
 import { newSummary, rejectRow, type ImportSummary } from "@/imports/csv";
+import { parquetSources, startYear } from "./config";
 
 function strings(row: Record<string, unknown>): RawRow {
   return Object.fromEntries(Object.entries(row).map(([key, value]) =>
@@ -10,7 +11,7 @@ function strings(row: Record<string, unknown>): RawRow {
 }
 
 export async function* readHistoricalParquet(input: {
-  path: string; sport: Sport; summary: ImportSummary; batchSize?: number;
+  path: string; sport: Sport; summary: ImportSummary; batchSize?: number; seasonYear?: number; excludedGameIds?: ReadonlySet<string>;
 }): AsyncGenerator<HistoricalRow> {
   const batchSize = input.batchSize ?? 25_000;
   const file = await asyncBufferFromFile(input.path);
@@ -21,6 +22,7 @@ export async function* readHistoricalParquet(input: {
   for (let rowStart = 0; rowStart < rowCount; rowStart += batchSize) {
     const rows = await parquetReadObjects({ file, rowStart, rowEnd: Math.min(rowCount, rowStart + batchSize) });
     for (let index = 0; index < rows.length; index++) {
+      if (input.seasonYear != null && startYear(rows[index][parquetSources[input.sport].seasonColumn]) !== input.seasonYear) continue;
       const line = rowStart + index + 1;
       input.summary.sourceRows++;
       let normalized: HistoricalRow;
@@ -29,6 +31,10 @@ export async function* readHistoricalParquet(input: {
       } catch (error) {
         if (!(error instanceof InvalidHistoricalRow)) throw error;
         rejectRow(input.summary, line, error.message);
+        continue;
+      }
+      if (input.excludedGameIds?.has(normalized.game.externalId)) {
+        rejectRow(input.summary, line, `Quarantined conflicting game ${normalized.game.externalId}.`);
         continue;
       }
       input.summary.validRows++;
@@ -45,8 +51,8 @@ export async function* readHistoricalParquet(input: {
   }
 }
 
-export async function validateHistoricalParquet(path: string, sport: Sport, batchSize?: number) {
+export async function validateHistoricalParquet(path: string, sport: Sport, batchSize?: number, seasonYear?: number, excludedGameIds?: ReadonlySet<string>) {
   const summary = newSummary();
-  for await (const row of readHistoricalParquet({ path, sport, summary, batchSize })) void row;
+  for await (const row of readHistoricalParquet({ path, sport, summary, batchSize, seasonYear, excludedGameIds })) void row;
   return summary;
 }
