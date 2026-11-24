@@ -56,7 +56,7 @@ export async function playerPage(leagueId: string, options: { sport?: Sport | st
     OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId }, observedPositions: options.position ? { has: options.position } : undefined } } }] };
   const database = getDatabase();
   const [players, total] = await Promise.all([database.player.findMany({ where, orderBy: [{ displayName: "asc" }, { id: "asc" }],
-    skip: (page - 1) * pageSize, take: pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId }, observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true } } } }),
+    skip: (page - 1) * pageSize, take: pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId }, observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true } } } } } }),
   database.player.count({ where })]);
   return { items: players.map((player) => ({ ...player, positions: player.gameStats[0]?.observedPositions ?? [] })), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)), sport: leagueSport.sport };
 }
@@ -190,6 +190,38 @@ export async function changeQueue(userId: string, draftId: string, entryId: stri
     const queue = await tx.draftQueueEntry.findMany({ where: { draftId, teamId: entry.teamId }, orderBy: { rank: "asc" } });
     for (let index = 0; index < queue.length; index++) if (queue[index].rank !== index + 1) await tx.draftQueueEntry.update({ where: { id: queue[index].id }, data: { rank: index + 1 } });
     return queue.length;
+  }, { isolationLevel: "Serializable" });
+}
+
+export async function reorderQueue(userId: string, draftId: string, entryIds: string[]) {
+  const orderedIds = z.array(z.uuid()).max(250).parse(entryIds);
+  if (new Set(orderedIds).size !== orderedIds.length) throw new Error("Queue entries must be unique.");
+  const database = getDatabase();
+  return database.$transaction(async (tx) => {
+    const draft = await tx.draft.findUniqueOrThrow({ where: { id: draftId } });
+    if (!["ACTIVE", "PAUSED"].includes(draft.status)) throw new Error("This draft queue is closed.");
+    const membership = await tx.leagueMember.findUnique({
+      where: { leagueId_userId: { leagueId: draft.leagueId, userId } },
+      include: { fantasyTeam: true },
+    });
+    if (!membership?.fantasyTeam) throw new Error("You do not manage a franchise in this league.");
+    const queue = await tx.draftQueueEntry.findMany({
+      where: { draftId, teamId: membership.fantasyTeam.id },
+      orderBy: { rank: "asc" },
+      select: { id: true },
+    });
+    const currentIds = queue.map(({ id }) => id);
+    if (orderedIds.length !== currentIds.length || orderedIds.some((id) => !currentIds.includes(id))) {
+      throw new Error("The private queue changed. Refresh before reordering it.");
+    }
+    // Clear the unique (draft, team, rank) range before assigning final ranks.
+    for (let index = 0; index < orderedIds.length; index++) {
+      await tx.draftQueueEntry.update({ where: { id: orderedIds[index] }, data: { rank: -(index + 1) } });
+    }
+    for (let index = 0; index < orderedIds.length; index++) {
+      await tx.draftQueueEntry.update({ where: { id: orderedIds[index] }, data: { rank: index + 1 } });
+    }
+    return orderedIds.length;
   }, { isolationLevel: "Serializable" });
 }
 

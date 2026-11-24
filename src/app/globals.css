@@ -198,7 +198,8 @@ body {
 .sign-out { position: relative; }
 .sign-out .form-error { position: absolute; inset: calc(100% + .4rem) 0 auto auto; width: 16rem; }
 
-.workspace { padding-block: clamp(2.8rem, 8vw, 5.5rem); }
+.workspace { padding-block: clamp(2.4rem, 6vw, 4.5rem); }
+.workspace > * + * { margin-top: clamp(1.5rem, 3vw, 2rem); }
 .workspace-intro { display: grid; justify-items: start; gap: .8rem; margin-bottom: 2.65rem; }
 .workspace-intro h1 { font-size: clamp(2.5rem, 7vw, 5rem); overflow-wrap: anywhere; }
 .workspace-intro .sport-tags { margin-top: .25rem; }
@@ -230,7 +231,7 @@ body {
 .entry-chevron { color: var(--muted); grid-column: -2; }
 .empty-card { display: grid; gap: .5rem; padding: clamp(1.3rem, 4vw, 2rem); }
 .empty-card .league-icon { margin-bottom: .25rem; }
-.league-details { @apply grid gap-4 md:grid-cols-2 items-start; }
+.league-details { @apply grid gap-6 md:grid-cols-2 items-start; }
 .panel { padding: clamp(1rem, 4vw, 1.75rem); }
 .panel h2 { margin-bottom: .8rem; }
 .panel > p + p { margin-block: .3rem .8rem; }
@@ -260,6 +261,10 @@ body {
 .sport-tabs { display: flex; flex-wrap: wrap; gap: .45rem; }
 .sport-tabs a { padding: .42rem .75rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-weight: 800; }
 .sport-tabs a:hover, .sport-tabs a.active { border-color: var(--accent); background: var(--surface-raised); color: var(--foreground); }
+.workspace-tabs { display: flex; gap: .35rem; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.workspace-tabs a { padding: .75rem 1rem; color: var(--muted); font-weight: 800; white-space: nowrap; border-bottom: 3px solid transparent; }
+.workspace-tabs a:hover, .workspace-tabs a.active { color: var(--foreground); background: var(--surface); border-bottom-color: var(--accent); }
+.workspace-tabs a[aria-disabled="true"] { opacity: .5; }
 .sport-choice-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
 .sport-choice { padding: .7rem; border: 1px solid var(--line); border-radius: .4rem; background: var(--surface-raised); }
 .advanced-settings { margin-top: 1rem; }
@@ -269,6 +274,16 @@ body {
 .data-table th { color: var(--muted); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; }
 .data-table td:not(:first-child), .data-table th:not(:first-child) { font-variant-numeric: tabular-nums; }
 .draft-layout { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(20rem, 1.2fr); gap: 1rem; align-items: start; }
+.draft-header { margin-bottom: 1.5rem; }
+.draft-controls { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.draft-pool-layout { display: grid; grid-template-columns: minmax(17rem, 28%) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.draft-sidebar { display: grid; gap: 1.5rem; }
+.draft-player-pool { min-width: 0; }
+.table-scroll, .draft-board-scroll { overflow-x: auto; }
+.player-pool-table { min-width: 54rem; }
+.draft-queue li { align-items: center; grid-template-columns: 3.5rem minmax(8rem, 1fr) auto; }
+.draft-queue small { display: block; color: var(--muted); }
+.drag-handle { cursor: grab; color: var(--muted); user-select: none; }
 .pick-list { display: grid; gap: .35rem; }
 .pick-list li { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: .6rem; padding: .55rem 0; border-bottom: 1px solid var(--line); }
 .draft-status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .6rem; width: 100%; }
@@ -322,7 +337,7 @@ body {
   .hero-title { font-size: clamp(3.6rem, 10vw, 6rem); }
   .sports-section { padding-block: 2rem 2.8rem; }
   .league-entry { grid-template-columns: auto minmax(0, 1fr) auto; gap: .65rem; }
-  .draft-layout, .metric-grid { grid-template-columns: 1fr; }
+  .draft-layout, .draft-pool-layout, .metric-grid { grid-template-columns: 1fr; }
   .sport-choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .data-table { display: block; overflow-x: auto; }
   .league-entry .sport-tags { grid-column: 2; }

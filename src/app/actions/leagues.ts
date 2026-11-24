@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
-import { autoPick, changeQueue, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
+import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue, setDraftPaused } from "@/server/draft";
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
@@ -83,6 +83,13 @@ export async function changeQueueAction(leagueId: string, draftId: string, entry
   const { user } = await requireSession();
   await limit(user.id, "draft-queue", 120);
   await changeQueue(user.id, draftId, entryId, operation);
+  revalidatePath(`/leagues/${leagueId}/draft`);
+}
+
+export async function reorderQueueAction(leagueId: string, draftId: string, form: FormData) {
+  const { user } = await requireSession();
+  await limit(user.id, "draft-queue", 120);
+  await reorderQueue(user.id, draftId, form.getAll("entryId").map(String));
   revalidatePath(`/leagues/${leagueId}/draft`);
 }
 

@@ -2,7 +2,7 @@ import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
-import { autoPickExpiredDraft, changeQueue, createDraft, makePick, queuePlayer, setDraftPaused } from "@/server/draft";
+import { autoPickExpiredDraft, changeQueue, createDraft, makePick, queuePlayer, reorderQueue, setDraftPaused } from "@/server/draft";
 import { createLeague } from "@/server/league";
 import { generateNextPlayoffRound, generateSchedule, standings } from "@/server/matchups";
 import { processWaivers, submitWaiver } from "@/server/waivers";
@@ -95,6 +95,9 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     const firstQueue = await queuePlayer(commissioner.id, timed.id, playerIds[4]); const secondQueue = await queuePlayer(commissioner.id, timed.id, playerIds[5]);
     await changeQueue(commissioner.id, timed.id, secondQueue.id, "UP");
     expect((await database.draftQueueEntry.findMany({ where: { draftId: timed.id }, orderBy: { rank: "asc" } }))[0].id).toBe(secondQueue.id);
+    await reorderQueue(commissioner.id, timed.id, [firstQueue.id, secondQueue.id]);
+    expect(await database.draftQueueEntry.findMany({ where: { draftId: timed.id }, orderBy: { rank: "asc" }, select: { id: true } })).toEqual([{ id: firstQueue.id }, { id: secondQueue.id }]);
+    await reorderQueue(commissioner.id, timed.id, [secondQueue.id, firstQueue.id]);
     await database.draft.update({ where: { id: timed.id }, data: { rounds: 1, pickOrder: timed.pickOrder.slice(0, 4), secondsPerPick: 15, pickStartedAt: new Date(Date.now() - 20_000), pickDeadlineAt: new Date(Date.now() - 5_000) } });
     expect(await autoPickExpiredDraft(timed.id)).not.toBeNull();
     expect(await database.draftPick.findFirst({ where: { draftId: timed.id, overall: 1 } })).toMatchObject({ playerId: playerIds[5], automatic: true });
