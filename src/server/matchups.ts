@@ -150,10 +150,10 @@ export async function recalculateMatchups(userId: string, leagueId: string, requ
   return matchups.length;
 }
 
-export async function finalizeDueMatchups(now = new Date()) {
+export async function finalizeDueMatchups(now = new Date(), leagueId?: string) {
   const database = getDatabase();
   return database.$transaction(async (tx) => {
-    const due = await tx.matchup.findMany({ where: { finalizedAt: null, resultFinalizesAt: { lte: now }, resultRevisions: { some: {} } },
+    const due = await tx.matchup.findMany({ where: { leagueId, finalizedAt: null, resultFinalizesAt: { lte: now }, resultRevisions: { some: {} } },
       include: { period: true, resultRevisions: { orderBy: { revision: "desc" }, take: 1 } } });
     const finalized = await refreshAuthoritativeMatchups(tx, due, now, true);
     const historical = due.filter((matchup) => matchup.period.competitionId == null);

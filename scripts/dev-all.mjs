@@ -1,12 +1,44 @@
 import { spawn } from "node:child_process";
 import readline from "node:readline";
+import net from "node:net";
+import { mkdir, writeFile, readFile, rm } from "node:fs/promises";
+import { resolve } from "node:path";
+
+const lockDirectory = resolve(".dev-stack-lock");
+try {
+  await mkdir(lockDirectory);
+  await writeFile(resolve(lockDirectory, "owner"), String(process.pid));
+} catch (error) {
+  if (error.code !== "EEXIST") throw error;
+  const owner = Number(await readFile(resolve(lockDirectory, "owner"), "utf8").catch(() => "0"));
+  let alive = true;
+  try { if (!owner) throw new Error("missing"); process.kill(owner, 0); } catch (failure) { alive = failure.code === "EPERM"; }
+  if (alive) {
+    console.error(`Development stack already owns PID ${owner}. Stop that terminal with Ctrl+C before starting another stack.`);
+    process.exit(1);
+  }
+  console.error("Stale .dev-stack-lock found. Verify no stack is running, then remove that lock directory and retry.");
+  process.exit(1);
+}
+
+try {
+  await new Promise((resolvePort, rejectPort) => {
+    const probe = net.createServer();
+    probe.once("error", rejectPort);
+    probe.listen(3000, () => probe.close(resolvePort));
+  });
+} catch {
+  await rm(lockDirectory, { recursive: true });
+  console.error("Port 3000 is occupied. Stop your existing project server or inspect the port before retrying. No workers were started.");
+  process.exit(1);
+}
 
 const children = new Set();
 let stopping = false;
 let tickTimer;
 
 function start(label, command, args) {
-  const child = spawn(command, args, { env: process.env, stdio: ["ignore", "pipe", "pipe"], shell: false });
+  const child = spawn(command, args, { env: process.env, stdio: ["ignore", "pipe", "pipe"], shell: false, detached: process.platform !== "win32" });
   children.add(child);
   for (const [stream, output] of [[child.stdout, process.stdout], [child.stderr, process.stderr]]) {
     const lines = readline.createInterface({ input: stream });
@@ -18,6 +50,7 @@ function start(label, command, args) {
       process.stderr.write(`[${label}] stopped unexpectedly (${signal ?? code}). Shutting down local stack.\n`);
       shutdown(code ?? 1);
     }
+    if (label === "web" && stopping) return;
   });
   return child;
 }
@@ -32,13 +65,15 @@ function shutdown(code = 0) {
   if (stopping) return;
   stopping = true;
   if (tickTimer) clearInterval(tickTimer);
-  for (const child of children) child.kill("SIGTERM");
-  setTimeout(() => process.exit(code), 1_500).unref();
+  for (const child of children) {
+    try { if (process.platform !== "win32") process.kill(-child.pid, "SIGTERM"); else child.kill("SIGTERM"); } catch {}
+  }
+  setTimeout(async () => { await rm(lockDirectory, { recursive: true, force: true }); process.exit(code); }, 1_500);
 }
 
 process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
-start("web", "npm", ["run", "dev"]);
+start("web", "npm", ["run", "dev", "--", "--port", "3000"]);
 start("draft-timer", "npm", ["run", "fantasy:draft-timer"]);
 gameplayTick();
 tickTimer = setInterval(gameplayTick, 60_000);

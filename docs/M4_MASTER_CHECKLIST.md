@@ -2,6 +2,17 @@
 
 This checklist implements the reconstructed November 25, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete. Explicit data and product gates remain unchecked even when the safe pending behavior exists.
 
+The checked contract-automation safeguard records intentional inactivity, not a gameplay feature. Thus the former 48-row checklist had 17 checked rows comprising 16 implemented mechanisms and one intentional-disable safeguard. M4.1 below restores requirements already documented in the M4.1 report; it adds no new product rules.
+
+## M4.1 authoritative scheduling foundation
+
+- [x] Append-only professional schedule revisions with provenance and immutable source records
+- [x] Earliest eligible not-started professional-season selection and explicit missing-data states
+- [x] Championship cycles and independent sport-season assignment snapshots
+- [x] Unique league/game attribution across championship cycles
+- [x] Idempotent schedule import and independent next-season assignment
+- [ ] Complete fantasy-specific preview/calendar/deadline reconciliation (professional postseason must not substitute for fantasy playoff boundaries)
+
 ## M4.2 competition and championships
 
 - [x] Immutable cycle configuration snapshots

@@ -41,6 +41,8 @@ export default async function DraftPage({ params, searchParams }: {
   const replayPeriod = context.league.isHistorical ? await database.scoringPeriod.findUnique({ where: { leagueId_sport_number: { leagueId: id, sport: selected.sport, number: Math.max(1, context.league.currentPeriod) } } }) : null;
   const statistics = await playerStatistics({ playerIds: [...players.map(({ id: playerId }) => playerId), ...(draft?.queue.map(({ playerId }) => playerId) ?? [])], presetId: context.league.presetId, seasonId: selected.seasonId, asOf: replayPeriod?.endsAt });
   const currentTeamId = draft && ["ACTIVE", "PAUSED"].includes(draft.status) ? draft.pickOrder[draft.currentPick - 1] : null;
+  const processing = draft ? await database.backgroundJobRun.findUnique({ where: { key: `draft-pick:${draft.id}:${draft.currentPick}` } }) : null;
+  const processingReason = processing?.result as { error?: string } | null;
   const currentTeam = context.league.teams.find(({ id: teamId }) => teamId === currentTeamId);
   const nextTeam = context.league.teams.find(({ id: teamId }) => teamId === draft?.pickOrder[draft.currentPick]);
   const myTeamId = context.fantasyTeam?.id;
@@ -69,6 +71,7 @@ export default async function DraftPage({ params, searchParams }: {
     </div>
     {!draft && context.role === "COMMISSIONER" && <section className="panel"><h2 className="display">Ready the {selected.sport} room</h2><p className="muted">This sport drafts independently. The development worker processes expired clocks even when no draft room is open.</p><form action={startDraftAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><button className="button primary">Start {selected.sport} snake draft</button></form></section>}
     {draft && <>
+      {processing && ["BLOCKED", "FAILED"].includes(processing.status) && <section className="panel" role="alert"><h2 className="display">Automatic selection needs attention</h2><p>{processingReason?.error}</p><Link href={`/leagues/${id}/team?sport=${selected.sport}`}>Review My Team</Link></section>}
       <nav className="workspace-tabs" aria-label="Draft room views"><Link className={view === "pool" ? "active" : ""} href={tabHref("pool")}>Player Pool</Link><Link className={view === "board" ? "active" : ""} href={tabHref("board")}>Draft Board</Link><Link className={view === "results" ? "active" : ""} aria-disabled={draft.status !== "COMPLETE"} href={draft.status === "COMPLETE" ? tabHref("results") : tabHref("pool")}>Draft Results</Link></nav>
       {view === "pool" && <div className="draft-pool-layout">
         <aside className="draft-sidebar"><section className="panel"><h2 className="display">My Team</h2><p className="muted">{myRoster.length} / {slotRows.length} places filled</p><ol className="roster-slots">{slotRows.map(({ key, label }) => { const entry = myRoster.find((candidate) => !assigned.has(candidate.id) && candidate.slot === label); if (entry) assigned.add(entry.id); const stat = entry?.player.gameStats[0]; return <li key={key}><strong>{label}</strong>{entry ? <span>{entry.player.displayName}<small><PositionBadges sport={selected.sport} positions={stat?.observedPositions ?? []} />{stat?.team.code ? ` · ${stat.team.code}` : ""}</small></span> : <span className="muted">Empty</span>}</li>; })}</ol></section>

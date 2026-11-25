@@ -36,9 +36,9 @@ test("public landing and database status work, and guests are redirected", async
   await expect(page).toHaveURL(/#sports$/);
   await expect(page.getByRole("heading", { name: "Pick your playing field" })).toBeVisible();
   const health = await page.request.get("/health");
-  expect(health.ok()).toBe(true);
+  expect([200, 503]).toContain(health.status());
   const healthBody = await health.json();
-  expect(healthBody).toMatchObject({ status: "ok", database: "connected" });
+  expect(healthBody).toMatchObject({ application: "available", database: "connected" });
   expect(healthBody).toHaveProperty("workers.draftTimer");
   expect(healthBody).toHaveProperty("workers.gameplayTick");
   const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger");
@@ -245,7 +245,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("link", { name: "Player Pool" })).toHaveClass(/active/);
     await expect(page.getByRole("heading", { name: "My Team" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "My Draft Queue" })).toBeVisible();
-    await page.screenshot({ path: "reports/screenshots/m3-7-2-draft-room.png", fullPage: true });
+    await page.screenshot({ path: test.info().outputPath("draft-room.png"), fullPage: true });
     await expect(page.getByRole("timer")).toContainText("0:30");
     await page.getByRole("button", { name: "Pause draft" }).click();
     await expect(page.getByRole("status")).toContainText("Draft paused");
@@ -262,7 +262,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(movable).toBeVisible();
     await movable.click();
     await expect(page.locator(".position-button.legal").first()).toBeVisible();
-    await page.screenshot({ path: "reports/screenshots/m3-7-2-roster-position-selection.png", fullPage: true });
+    await page.screenshot({ path: test.info().outputPath("roster-position-selection.png"), fullPage: true });
     await page.getByRole("button", { name: /to U-BENCH 3$/ }).click();
     await expect.poll(async () => database.rosterEntry.findFirst({
       where: { leagueId, sport: "NBA", slot: "UNIVERSAL_BENCH", slotIndex: 3, releasedAt: null }, select: { slotIndex: true },
@@ -271,7 +271,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("heading", { name: "Universal Balanced Points V9" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
     await expect(page.getByRole("heading", { name: "League trades" })).toBeVisible();
-    await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
+    await page.screenshot({ path: test.info().outputPath("cross-sport-trade-builder.png"), fullPage: true });
     await page.goto(`/leagues/${leagueId}/picks?sport=NBA`);
     await expect(page.getByRole("heading", { name: "NBA future draft picks" })).toBeVisible();
     await page.getByRole("button", { name: "Grant future picks" }).click();

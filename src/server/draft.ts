@@ -6,6 +6,7 @@ import { fitsSlot } from "@/simulation/config";
 import { leagueContext, resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
 import { ensureRelativeMatchupSchedule } from "./matchups";
+import { GameplayBlockedError, runBackgroundJob } from "./background-jobs";
 
 const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
@@ -112,20 +113,20 @@ export async function makePick(input: { userId?: string; draftId: string; player
     if (player.sport !== draft.sport) throw new Error(`Only ${draft.sport} players are eligible for this draft.`);
     const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId, leagueSportId: draft.leagueSportId } } });
     const compliance = await currentCompliance(tx, teamId, now);
-    if (compliance.state !== "COMPLIANT") throw new Error("Resolve roster noncompliance before making a draft selection.");
+    if (compliance.state !== "COMPLIANT") throw new GameplayBlockedError(`Roster noncompliance for franchise ${team.name} (${teamId}): ${compliance.reasons.join(" ")} Move eligible players to legal open slots or release players to restore compliance. Automatic recovery checks every minute.`);
     const round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1; const roundPick = (draft.currentPick - 1) % draft.order.length + 1;
     const activeRoster = await tx.rosterEntry.findMany({
       where: { rosterId: roster.id, releasedAt: null, slot: { notIn: universalSlots } }, select: { slot: true, slotIndex: true },
     });
     const maximum = draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots;
-    if (activeRoster.length >= maximum) throw new Error("This sport roster is full.");
+    if (activeRoster.length >= maximum) throw new GameplayBlockedError("This sport roster is full. The commissioner must review remaining picks and roster capacity.");
     const positions = new Set(player.gameStats[0]?.observedPositions ?? []); const occupied = new Map<string, number>();
     for (const entry of activeRoster) occupied.set(entry.slot, (occupied.get(entry.slot) ?? 0) + 1);
     const slot = draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
     const capacity = slot === "BENCH" ? draft.leagueSport.benchSlots : draft.leagueSport.rosterSlots.filter((value) => value === slot).length;
     const usedIndexes = new Set(activeRoster.filter((entry) => entry.slot === slot).map(({ slotIndex }) => slotIndex));
     const slotIndex = firstOpenSlot(usedIndexes, capacity);
-    if (!slotIndex) throw new Error(`No open ${slot} roster position remains.`);
+    if (!slotIndex) throw new GameplayBlockedError(`No open ${slot} roster position remains. Move a player to a legal open position before drafting.`);
     const pick = await tx.draftPick.create({ data: { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false } });
     const entry = await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: draft.sport, seasonId: draft.leagueSport.seasonId, slot, slotIndex, acquiredAt: now } });
     await tx.rosterAssignmentEvent.create({ data: { leagueId: draft.leagueId, teamId, rosterEntryId: entry.id, actorUserId: input.userId,
@@ -158,7 +159,7 @@ export async function autoPickExpiredDraft(draftId: string, now = new Date()) {
   if (draft.status !== "ACTIVE" || !deadline || deadline > now) return null;
   const teamId = draft.pickOrder[draft.currentPick - 1];
   const fallback = await automaticCandidate(draftId, teamId);
-  if (!fallback) throw new Error(`No available ${draft.sport} player remains for the automatic pick.`);
+  if (!fallback) throw new GameplayBlockedError(`No available ${draft.sport} player or sport roster capacity remains for this pick. Review the player pool and roster capacity.`);
   return makePick({ draftId, playerId: fallback.id, automatic: true, system: true, now });
 }
 
@@ -247,12 +248,14 @@ export async function reorderQueue(userId: string, draftId: string, entryIds: st
 }
 
 export async function processExpiredDrafts(now = new Date()) {
-  const drafts = await getDatabase().draft.findMany({ where: { status: "ACTIVE", OR: [{ pickDeadlineAt: { lte: now } }, { pickDeadlineAt: null, pickStartedAt: { not: null } }] }, select: { id: true } });
+  const drafts = await getDatabase().draft.findMany({ where: { status: "ACTIVE", OR: [{ pickDeadlineAt: { lte: now } }, { pickDeadlineAt: null, pickStartedAt: { not: null } }] }, select: { id: true, currentPick: true, pickDeadlineAt: true, pickStartedAt: true, secondsPerPick: true } });
   let picked = 0;
   for (const draft of drafts) {
-    try { if (await autoPickExpiredDraft(draft.id, now)) picked++; } catch (error) {
-      if (!(error instanceof Error) || !/transaction|unique|another manager|not active/i.test(error.message)) throw error;
-    }
+    const deadline = draft.pickDeadlineAt ?? (draft.pickStartedAt ? new Date(+draft.pickStartedAt + draft.secondsPerPick * 1000) : null);
+    if (!deadline || deadline > now) continue;
+    const outcome = await runBackgroundJob(`draft-pick:${draft.id}:${draft.currentPick}`, "draft-pick",
+      async () => Boolean(await autoPickExpiredDraft(draft.id, now)), now);
+    if (outcome.status === "COMPLETE" && outcome.value) picked++;
   }
   return picked;
 }
