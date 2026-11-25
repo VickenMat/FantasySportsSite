@@ -1,8 +1,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { z } from "zod";
-import type { CompetitionType, Prisma, Sport } from "@/generated/prisma/client";
+import type { CompetitionType, LeagueStatus, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { defaultSlots } from "@/simulation/config";
+import { setCommissionerAuditContext } from "@/server/commissioner-audit";
 import { previewLeagueScheduleWithClient, type SportSchedulePreview } from "@/server/scheduling";
 
 export const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
@@ -191,12 +192,21 @@ export function listPublicLeagues(userId: string) {
 }
 
 export async function resizeLeague(userId: string, leagueId: string, maxTeams: number) {
-  const size = z.number().int().min(2).max(16).parse(maxTeams); const database = getDatabase();
-  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { _count: { select: { teams: true } } } } } });
-  if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can resize this league.");
-  if (member.league.status !== "SETUP") throw new Error("League capacity can only change before drafting begins.");
-  if (size < member.league._count.teams) throw new Error(`This league already has ${member.league._count.teams} franchises. Remove computer franchises or choose a capacity of at least ${member.league._count.teams}.`);
-  return database.league.update({ where: { id: leagueId }, data: { maxTeams: size, playoffTeams: Math.min(member.league.playoffTeams, size) } });
+  const size = z.number().int().min(2).max(16).parse(maxTeams);
+  return getDatabase().$transaction(async (tx) => {
+    const member = await tx.leagueMember.findUnique({
+      where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { _count: { select: { teams: true } } } } },
+    });
+    if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can resize this league.");
+    validateLeagueResize(member.league.status, member.league._count.teams, size);
+    await setCommissionerAuditContext(tx, userId, "RESIZE_LEAGUE", "Commissioner changed franchise capacity.");
+    return tx.league.update({ where: { id: leagueId }, data: { maxTeams: size, playoffTeams: Math.min(member.league.playoffTeams, size) } });
+  }, { isolationLevel: "Serializable" });
+}
+
+function validateLeagueResize(status: LeagueStatus, teams: number, size: number) {
+  if (status !== "SETUP") throw new Error("League capacity can only change before drafting begins.");
+  if (size < teams) throw new Error(`This league already has ${teams} franchises. Remove computer franchises or choose a capacity of at least ${teams}.`);
 }
 
 export async function fillComputerFranchises(userId: string, leagueId: string) {
@@ -261,30 +271,54 @@ export async function updateLeagueSettings(userId: string, leagueId: string, inp
   visibility?: "PRIVATE" | "PUBLIC"; maxTeams?: number; keeperLimit?: number; keeperDeadline?: Date | null; draftRounds: number;
 }) {
   const value = z.object({ sport: z.enum(sports).optional(), draftSecondsPerPick: z.number().int().min(15).max(600), startingFaab: z.number().int().min(0).max(100_000),
-    playoffTeams: z.number().int().min(2).max(16), playoffPeriods: z.number().int().min(1).max(3), visibility: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+    playoffTeams: z.number().int().min(0).max(16), playoffPeriods: z.number().int().min(0).max(3), visibility: z.enum(["PRIVATE", "PUBLIC"]).optional(),
     maxTeams: z.number().int().min(2).max(16).optional(), keeperLimit: z.number().int().min(0).max(50).optional(), keeperDeadline: z.date().nullable().optional(),
     draftRounds: z.number().int().min(1).max(50) }).parse(input);
-  const database = getDatabase(); const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
-  if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can update league settings.");
-  if (value.playoffTeams > (value.maxTeams ?? member.league.maxTeams)) throw new Error("Playoff teams cannot exceed league teams.");
-  if (value.maxTeams !== undefined && value.maxTeams !== member.league.maxTeams) await resizeLeague(userId, leagueId, value.maxTeams);
-  const leagueSport = await resolveLeagueSport(leagueId, value.sport);
-  await database.$transaction([
-    database.league.update({ where: { id: leagueId }, data: { visibility: value.visibility, playoffTeams: value.playoffTeams, playoffPeriods: value.playoffPeriods } }),
-    database.leagueSport.update({ where: { id: leagueSport.id }, data: { draftSecondsPerPick: value.draftSecondsPerPick,
-      draftRounds: value.draftRounds, keeperLimit: member.league.format === "REDRAFT" ? value.keeperLimit : 0,
-      keeperDeadline: member.league.format === "REDRAFT" ? value.keeperDeadline : null,
-      ...(member.league.status === "SETUP" ? { startingFaab: value.startingFaab } : {}) } }),
-  ]);
+  await getDatabase().$transaction(async (tx) => {
+    const member = await tx.leagueMember.findUnique({
+      where: { leagueId_userId: { leagueId, userId } },
+      include: { league: { include: { _count: { select: { teams: true } } } } },
+    });
+    if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can update league settings.");
+    const { league } = member;
+    const size = value.maxTeams ?? league.maxTeams;
+    if (size !== league.maxTeams) validateLeagueResize(league.status, league._count.teams, size);
+    if (league.competitionType === "HEAD_TO_HEAD" && (value.playoffTeams < 2 || value.playoffPeriods < 1 || value.playoffTeams > size)) {
+      throw new Error("Configure at least two playoff teams and one playoff round within the league capacity.");
+    }
+    if (league.competitionType === "CUMULATIVE" && (value.playoffTeams || value.playoffPeriods)) {
+      throw new Error("Cumulative leagues have no fantasy playoffs.");
+    }
+    const leagueSport = await tx.leagueSport.findFirstOrThrow({
+      where: { leagueId, sport: value.sport }, orderBy: { sport: "asc" }, select: { id: true },
+    });
+    await setCommissionerAuditContext(tx, userId, "UPDATE_GAMEPLAY_SETTINGS", "Commissioner saved gameplay settings.");
+    await tx.league.update({ where: { id: leagueId }, data: {
+      maxTeams: size, visibility: value.visibility, playoffTeams: value.playoffTeams, playoffPeriods: value.playoffPeriods,
+    } });
+    await tx.leagueSport.update({ where: { id: leagueSport.id }, data: {
+      draftSecondsPerPick: value.draftSecondsPerPick, draftRounds: value.draftRounds,
+      keeperLimit: league.format === "REDRAFT" ? value.keeperLimit : 0,
+      keeperDeadline: league.format === "REDRAFT" ? value.keeperDeadline : null,
+      startingFaab: league.status === "SETUP" ? value.startingFaab : undefined,
+    } });
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function updateDraftOrder(userId: string, leagueId: string, sport: Sport, teamIds: string[]) {
-  const database = getDatabase(); const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: true } } } });
-  if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can configure draft order.");
-  if (member.league.status !== "SETUP") throw new Error("Draft order can only change before drafting begins.");
-  const expected = member.league.teams.map(({ id }) => id);
-  if (teamIds.length !== expected.length || new Set(teamIds).size !== expected.length || teamIds.some((id) => !expected.includes(id))) throw new Error("Draft order must include every franchise exactly once.");
-  return database.leagueSport.update({ where: { leagueId_sport: { leagueId, sport } }, data: { draftOrder: teamIds } });
+  return getDatabase().$transaction(async (tx) => {
+    const member = await tx.leagueMember.findUnique({
+      where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: true } } },
+    });
+    if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can configure draft order.");
+    if (member.league.status !== "SETUP") throw new Error("Draft order can only change before drafting begins.");
+    const expected = member.league.teams.map(({ id }) => id);
+    if (teamIds.length !== expected.length || new Set(teamIds).size !== expected.length || teamIds.some((id) => !expected.includes(id))) {
+      throw new Error("Draft order must include every franchise exactly once.");
+    }
+    await setCommissionerAuditContext(tx, userId, "UPDATE_DRAFT_ORDER", "Commissioner set the sport draft order.");
+    return tx.leagueSport.update({ where: { leagueId_sport: { leagueId, sport } }, data: { draftOrder: teamIds } });
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function selectKeeper(userId: string, leagueId: string, sport: Sport, playerId: string) {
@@ -306,6 +340,7 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
   return database.$transaction(async (tx) => {
     const member = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can transition seasons.");
+    if (!member.league.isHistorical) throw new Error("Competitive rollover requires an authoritative next-season assignment and finalized results.");
     const leagueSport = await tx.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId, sport } } });
     const currentSeason = await tx.season.findUniqueOrThrow({ where: { id: leagueSport.seasonId } });
     if (year <= currentSeason.startYear) throw new Error("The next season must begin after the current sport season.");
@@ -332,6 +367,7 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
       if (keepers.length) await tx.keeperSelection.updateMany({ where: { id: { in: keepers.map(({ id }) => id) } }, data: { retainedAt: now } });
     }
     await tx.fantasyRoster.updateMany({ where: { leagueSportId: leagueSport.id }, data: { faabRemaining: leagueSport.startingFaab } });
+    await setCommissionerAuditContext(tx, userId, "TRANSITION_SPORT_SEASON", "Commissioner advanced the sport season.");
     return tx.leagueSport.update({ where: { id: leagueSport.id }, data: { seasonId: season.id, seasonLabel: season.label } });
   }, { isolationLevel: "Serializable" });
 }

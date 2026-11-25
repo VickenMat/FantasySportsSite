@@ -2,7 +2,7 @@ import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
-import { createLeague } from "@/server/league";
+import { createLeague, transitionSportSeason } from "@/server/league";
 import { assignNextSportSeason, importProfessionalSchedules } from "@/server/scheduling";
 
 const database = getDatabase();
@@ -34,6 +34,8 @@ describe("M4.1 PostgreSQL schedule integrity", () => {
       const nextNfl = await assignNextSportSeason(user.id, league.id, "NFL");
       expect((await database.season.findUniqueOrThrow({ where: { id: nextNfl.seasonId } })).startYear).toBe(2091);
       expect(nextNfl.status).toBe("PENDING_CONFIGURATION");
+      expect((await assignNextSportSeason(user.id, league.id, "NFL")).id).toBe(nextNfl.id);
+      await expect(transitionSportSeason(user.id, league.id, "NFL", 2091)).rejects.toThrow(/authoritative next-season assignment and finalized results/i);
       expect(await database.leagueSportSeason.count({ where: { leagueSport: { leagueId: league.id, sport: "NBA" } } })).toBe(1);
 
       const nfl = assignments.find((item) => item.season.sport === "NFL")!;

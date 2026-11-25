@@ -223,6 +223,13 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByLabel("Draft seconds per pick").fill("30");
     await page.getByRole("button", { name: "Save settings" }).click();
+    await expect.poll(() => database.commissionerAuditEvent.count({
+      where: { leagueId, action: "UPDATE_GAMEPLAY_SETTINGS", sport: "NBA" },
+    })).toBe(1);
+    await page.getByRole("link", { name: "View audit history" }).click();
+    await expect(page.getByRole("heading", { name: "Commissioner audit" })).toBeVisible();
+    await page.getByText("View changes").click();
+    await expect(page.getByText('{"draftSecondsPerPick":30}', { exact: true })).toBeVisible();
     await page.getByRole("link", { name: "Draft", exact: true }).click();
     await page.getByRole("button", { name: "Start NBA snake draft" }).click();
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();

@@ -54,20 +54,20 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 
 ## M4.7 lifecycle and commissioner controls
 
-- [ ] Idempotent independent redraft and dynasty rollover
+- [ ] Idempotent independent redraft and dynasty rollover (idempotent source-backed next-season assignment verified; competitive activation and rollover pending)
 - [ ] Budget resets, pick generation, salary increases and obligation expiry
 - [ ] Sport and overall championship finalization
 - [ ] Versioned future-cycle settings
-- [ ] Append-only commissioner action audit
+- [ ] Append-only commissioner action audit (settings, draft order, capacity, assignment, and historical transitions verified; further administration pending)
 - [ ] Ownership transfer and offseason-only team removal
 
 ## M4.8 acceptance
 
 - [ ] Unit and fixture-backed data-unavailable coverage
-- [ ] PostgreSQL constraints, idempotency and concurrency coverage
-- [ ] Chromium workflows and representative screenshots
-- [ ] Full regression, typecheck, lint, Prisma, build and audit gates
+- [ ] PostgreSQL constraints, idempotency and concurrency coverage (implemented checkpoints covered)
+- [ ] Chromium workflows and representative screenshots (implemented checkpoints covered)
+- [ ] Full regression, typecheck, lint, Prisma, build and audit gates (current checkpoint passed; repeat after remaining milestones)
 - [ ] Development database and append-only trigger integrity
 - [ ] Final completion report and manual acceptance checklist
 
-See the [M4.3 recovery checkpoint](M4_3_REPORT.md) for the fixture isolation and database integrity results.
+See the checkpoint reports for [competition](M4_2_REPORT.md), [rosters and recovery](M4_3_REPORT.md), [dynasty picks](M4_4_REPORT.md), and [commissioner administration](M4_7_REPORT.md).

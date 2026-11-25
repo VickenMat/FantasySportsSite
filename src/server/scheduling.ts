@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import type { CompetitionType, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
+import { setCommissionerAuditContext } from "./commissioner-audit";
 
 const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
 const DAY = 86_400_000;
@@ -132,22 +133,26 @@ export async function assignNextSportSeason(userId: string, leagueId: string, sp
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can assign a professional season.");
     const leagueSport = await tx.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId, sport } },
       include: { seasonAssignments: { include: { season: true, championshipCycle: true }, orderBy: { season: { startYear: "desc" } } } } });
-    const current = leagueSport.seasonAssignments[0];
+    const current = leagueSport.seasonAssignments.find(({ seasonId }) => seasonId === leagueSport.seasonId);
     if (!current) throw new Error("The league sport has no current season assignment.");
+    const cycleNumber = current.championshipCycle.number + 1;
+    const prepared = leagueSport.seasonAssignments.find(({ championshipCycle, season }) =>
+      championshipCycle.number === cycleNumber && season.startYear > current.season.startYear);
+    if (prepared) return prepared;
     const revisions = await tx.professionalSeasonScheduleRevision.findMany({ where: { season: { sport, startYear: { gt: current.season.startYear } } }, include: { season: true }, orderBy: { retrievedAt: "desc" } });
     const next = selectNextSeasonRevision(sport, current.season.startYear, revisions);
     if (!next) throw new Error(`No source-backed ${sport} season follows ${current.season.label}.`);
     const existing = await tx.leagueSportSeason.findUnique({ where: { leagueSportId_seasonId: { leagueSportId: leagueSport.id, seasonId: next.season.id } } });
     if (existing) return existing;
-    const cycleNumber = current.championshipCycle.number + 1;
     const cycle = await tx.championshipCycle.upsert({ where: { leagueId_number: { leagueId, number: cycleNumber } }, update: {},
       create: { leagueId, number: cycleNumber, label: `Cycle ${cycleNumber}`, startsAt: next.regularSeasonStartsAt,
         endsAt: next.postseasonEndsAt ?? next.regularSeasonEndsAt } });
     const [dates] = buildSchedulePreview({ sports: [sport], draftCompleteBy: new Date(0), competitionType: member.league.competitionType }, [next]);
     const pendingConfiguration = member.league.competitionType === "HEAD_TO_HEAD";
+    await setCommissionerAuditContext(tx, userId, "ASSIGN_SPORT_SEASON", "Commissioner assigned the next source-backed sport season.");
     return tx.leagueSportSeason.create({ data: { leagueSportId: leagueSport.id, seasonId: next.season.id, championshipCycleId: cycle.id,
       scheduleRevisionId: next.id, status: pendingConfiguration ? "PENDING_CONFIGURATION" : "ELIGIBLE",
-      statusReason: pendingConfiguration ? "Season assigned without skipping; cross-sport head-to-head overlap behavior still requires commissioner configuration." : dates.reason,
+      statusReason: pendingConfiguration ? "The next cycle needs an immutable competition configuration and playoff periods." : dates.reason,
       draftDeadlineAt: dates.draftDeadlineAt, firstScoringAt: dates.firstScoringAt, scoringEndsAt: dates.scoringEndsAt,
       playoffStartsAt: dates.playoffStartsAt, playoffEndsAt: dates.playoffEndsAt, tradeDeadlineAt: dates.tradeDeadlineAt,
       rolloverEligibleAt: dates.rolloverEligibleAt } });

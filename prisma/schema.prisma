@@ -253,8 +253,26 @@ model League {
   rosterAssignmentEvents    RosterAssignmentEvent[]
   lineupSnapshots           GameLineupSnapshot[]
   rosterComplianceSnapshots RosterComplianceSnapshot[]
+  commissionerAuditEvents   CommissionerAuditEvent[]
 
   @@index([status, primarySport])
+}
+
+model CommissionerAuditEvent {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  leagueId    String   @db.Uuid
+  actorUserId String   @db.Uuid
+  action      String
+  targetType  String
+  targetId    String   @db.Uuid
+  sport       Sport?
+  before      Json
+  after       Json
+  reason      String
+  effectiveAt DateTime @default(now()) @db.Timestamptz(3)
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+
+  @@index([leagueId, effectiveAt])
 }
 
 model LeagueMember {
