@@ -1,6 +1,7 @@
 import type { Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { resolveLeagueSport } from "./league";
+import { captureDueGameLineups } from "./lineup-snapshots";
 
 export function roundRobinPairings(teamIds: readonly string[], rounds: number) {
   if (teamIds.length < 2) throw new Error("A schedule requires at least two franchises.");
@@ -39,22 +40,24 @@ export async function recalculateMatchups(userId: string, leagueId: string, requ
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can recalculate matchups.");
   const matchups = await database.matchup.findMany({ where: { leagueId, sport: leagueSport.sport }, include: { period: true } });
   if (!matchups.length) return 0;
-  const periods = [...new Map(matchups.map(({ period }) => [period.id, period])).values()];
-  const first = periods.reduce((value, period) => period.startsAt < value ? period.startsAt : value, periods[0].startsAt);
-  const last = periods.reduce((value, period) => period.endsAt > value ? period.endsAt : value, periods[0].endsAt);
-  const roster = await database.rosterEntry.findMany({ where: { leagueId, sport: leagueSport.sport, acquiredAt: { lte: last },
-    OR: [{ releasedAt: null }, { releasedAt: { gte: first } }], slot: { notIn: ["BENCH", "IR", "UNIVERSAL_BENCH", "UNIVERSAL_IR"] } },
-    include: { player: { include: { scoreLedgers: {
-      where: { game: { OR: [{ startsAt: { gte: first, lte: last } }, { gameDate: { gte: first, lte: last } }] } },
-      include: { game: { select: { startsAt: true, gameDate: true } }, entries: { orderBy: { sequence: "desc" }, take: 1 } },
-    } } } } });
-  const totals = new Map<string, bigint>();
-  for (const entry of roster) for (const ledger of entry.player.scoreLedgers) {
-    const at = ledger.game.startsAt ?? ledger.game.gameDate; const period = at ? periods.find(({ startsAt, endsAt }) => at >= startsAt && at <= endsAt) : null;
-    if (!period || at! < entry.acquiredAt || (entry.releasedAt && at! >= entry.releasedAt)) continue;
-    const key = `${entry.teamId}:${period.id}`; totals.set(key, (totals.get(key) ?? 0n) + (ledger.entries[0]?.totalTenths ?? 0n));
-  }
   const calculatedAt = new Date();
+  await captureDueGameLineups(calculatedAt);
+  const periods = [...new Map(matchups.map(({ period }) => [period.id, period])).values()];
+  const league = await database.league.findUniqueOrThrow({ where: { id: leagueId }, select: { presetId: true } });
+  const snapshots = await database.gameLineupSnapshot.findMany({
+    where: { leagueId, isStarter: true, sportCompetition: { sport: leagueSport.sport }, scoringPeriodId: { in: periods.map(({ id }) => id) } },
+    select: { teamId: true, scoringPeriodId: true, gameId: true, playerId: true },
+  });
+  const ledgers = snapshots.length ? await database.scoreLedger.findMany({
+    where: { presetId: league.presetId, gameId: { in: [...new Set(snapshots.map(({ gameId }) => gameId))] }, playerId: { in: [...new Set(snapshots.map(({ playerId }) => playerId))] } },
+    include: { entries: { orderBy: { sequence: "desc" }, take: 1 } },
+  }) : [];
+  const score = new Map(ledgers.map((ledger) => [`${ledger.gameId}:${ledger.playerId}`, ledger.entries[0]?.totalTenths ?? 0n]));
+  const totals = new Map<string, bigint>();
+  for (const snapshot of snapshots) {
+    const key = `${snapshot.teamId}:${snapshot.scoringPeriodId}`;
+    totals.set(key, (totals.get(key) ?? 0n) + (score.get(`${snapshot.gameId}:${snapshot.playerId}`) ?? 0n));
+  }
   await database.$transaction(async (tx) => {
     for (const matchup of matchups) {
       const homeTenths = totals.get(`${matchup.homeTeamId}:${matchup.periodId}`) ?? 0n;

@@ -1,0 +1,5 @@
+-- RenameIndex
+ALTER INDEX "ProfessionalSeasonScheduleRevision_seasonId_provider_contentHas" RENAME TO "ProfessionalSeasonScheduleRevision_seasonId_provider_conten_key";
+
+-- RenameIndex
+ALTER INDEX "ProfessionalSeasonScheduleRevision_seasonId_status_retrievedAt_" RENAME TO "ProfessionalSeasonScheduleRevision_seasonId_status_retrieve_idx";

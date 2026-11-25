@@ -105,14 +105,20 @@ export async function makePick(input: { userId?: string; draftId: string; player
     if (player.sport !== draft.sport) throw new Error(`Only ${draft.sport} players are eligible for this draft.`);
     const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId, leagueSportId: draft.leagueSportId } } });
     const round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1; const roundPick = (draft.currentPick - 1) % draft.order.length + 1;
-    const activeRoster = await tx.rosterEntry.findMany({ where: { rosterId: roster.id, releasedAt: null }, select: { slot: true } });
+    const activeRoster = await tx.rosterEntry.findMany({ where: { rosterId: roster.id, releasedAt: null }, select: { slot: true, slotIndex: true } });
     const maximum = draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots;
     if (activeRoster.length >= maximum) throw new Error("This sport roster is full.");
     const positions = new Set(player.gameStats[0]?.observedPositions ?? []); const occupied = new Map<string, number>();
     for (const entry of activeRoster) occupied.set(entry.slot, (occupied.get(entry.slot) ?? 0) + 1);
     const slot = draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
+    const capacity = slot === "BENCH" ? draft.leagueSport.benchSlots : draft.leagueSport.rosterSlots.filter((value) => value === slot).length;
+    const usedIndexes = new Set(activeRoster.filter((entry) => entry.slot === slot).map(({ slotIndex }) => slotIndex));
+    let slotIndex = 1; while (usedIndexes.has(slotIndex) && slotIndex <= capacity) slotIndex++;
+    if (slotIndex > capacity) throw new Error(`No open ${slot} roster position remains.`);
     const pick = await tx.draftPick.create({ data: { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false } });
-    await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: draft.sport, seasonId: draft.leagueSport.seasonId, slot } });
+    const entry = await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: draft.sport, seasonId: draft.leagueSport.seasonId, slot, slotIndex, acquiredAt: now } });
+    await tx.rosterAssignmentEvent.create({ data: { leagueId: draft.leagueId, teamId, rosterEntryId: entry.id, actorUserId: input.userId,
+      toSlot: slot, toSlotIndex: slotIndex, effectiveAt: now, reason: "Draft selection", idempotencyKey: `draft-pick:${pick.id}` } });
     await tx.fantasyTransaction.create({ data: { leagueId: draft.leagueId, leagueSportId: draft.leagueSportId, rosterId: roster.id, sport: draft.sport, teamId, playerId: player.id, type: "DRAFT", note: `Drafted ${round}.${roundPick}` } });
     const complete = draft.currentPick >= draft.pickOrder.length;
     await tx.draft.update({ where: { id: draft.id }, data: complete ? { status: "COMPLETE", completedAt: now, pickDeadlineAt: null, pausedRemainingMs: null } : { currentPick: { increment: 1 }, pickStartedAt: now, pickDeadlineAt: new Date(now.getTime() + draft.secondsPerPick * 1000), pausedRemainingMs: null, version: { increment: 1 } } });

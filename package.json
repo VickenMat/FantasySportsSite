@@ -12,7 +12,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run tests/unit",
     "test:db:prepare": "node scripts/run-in-test-environment.mjs --prepare",
-    "test:integration": "node scripts/run-in-test-environment.mjs -- npx vitest run tests/integration",
+    "test:integration": "node scripts/run-in-test-environment.mjs --isolated-schema -- npx vitest run tests/integration",
     "test:e2e": "node scripts/run-in-test-environment.mjs -- npx playwright test",
     "db:migrate": "prisma migrate dev --config prisma7.config.ts",
     "db:deploy": "prisma migrate deploy --config prisma7.config.ts",

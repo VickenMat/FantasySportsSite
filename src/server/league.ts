@@ -313,9 +313,21 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
     if (member.league.format === "REDRAFT") {
       const keepers = leagueSport.seasonId ? await tx.keeperSelection.findMany({ where: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId } }) : [];
       const kept = new Set(keepers.map(({ playerId }) => playerId)); const active = await tx.rosterEntry.findMany({ where: { leagueId, sport, releasedAt: null } }); const now = new Date();
+      const nextBenchIndex = new Map<string, number>();
       for (const entry of active) {
         await tx.rosterEntry.update({ where: { id: entry.id }, data: { releasedAt: now, lockedAt: null } });
-        if (kept.has(entry.playerId)) await tx.rosterEntry.create({ data: { leagueId, teamId: entry.teamId, rosterId: entry.rosterId, playerId: entry.playerId, sport, seasonId: season.id, slot: "BENCH" } });
+        await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: entry.teamId, rosterEntryId: entry.id, actorUserId: userId,
+          fromSlot: entry.slot, fromSlotIndex: entry.slotIndex, toSlot: "RELEASED", toSlotIndex: 1, effectiveAt: now,
+          reason: "Redraft sport rollover", idempotencyKey: `redraft-release:${season.id}:${entry.id}` } });
+        if (kept.has(entry.playerId)) {
+          const slotIndex = (nextBenchIndex.get(entry.rosterId) ?? 0) + 1; nextBenchIndex.set(entry.rosterId, slotIndex);
+          if (slotIndex > leagueSport.benchSlots) throw new Error("Keeper selections exceed the next season's sport bench capacity.");
+          const retained = await tx.rosterEntry.create({ data: { leagueId, teamId: entry.teamId, rosterId: entry.rosterId, playerId: entry.playerId,
+            sport, seasonId: season.id, slot: "BENCH", slotIndex, acquiredAt: now } });
+          await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: entry.teamId, rosterEntryId: retained.id, actorUserId: userId,
+            toSlot: "BENCH", toSlotIndex: slotIndex, effectiveAt: now, reason: "Redraft keeper retention",
+            idempotencyKey: `redraft-keeper:${season.id}:${entry.id}` } });
+        }
       }
       if (keepers.length) await tx.keeperSelection.updateMany({ where: { id: { in: keepers.map(({ id }) => id) } }, data: { retainedAt: now } });
     }

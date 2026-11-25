@@ -153,14 +153,26 @@ export async function respondToTrade(userId: string, tradeId: string, response: 
     if (recipientCuts.length) await tx.tradeCut.createMany({ data: recipientCuts.map((entry) => ({ tradeId: trade.id, teamId: entry.teamId, rosterId: entry.rosterId, playerId: entry.playerId, sport: entry.sport })) });
     const allCuts = [...proposerCuts, ...recipientCuts];
     for (const cut of allCuts) {
-      await tx.rosterEntry.update({ where: { id: cut.id }, data: { releasedAt: now, slot: "BENCH" } });
+      await tx.rosterEntry.update({ where: { id: cut.id }, data: { releasedAt: now } });
+      await tx.rosterAssignmentEvent.create({ data: { leagueId: trade.leagueId, teamId: cut.teamId, rosterEntryId: cut.id,
+        fromSlot: cut.slot, fromSlotIndex: cut.slotIndex, toSlot: "RELEASED", toSlotIndex: 1, effectiveAt: now,
+        reason: "Manager-authorized trade cut", idempotencyKey: `trade-cut:${trade.id}:${cut.id}` } });
       const state = (cut.teamId === trade.proposerTeamId ? proposerState : recipientState).get(cut.sport)!;
       await tx.fantasyTransaction.create({ data: { leagueId: trade.leagueId, leagueSportId: state.roster.leagueSportId, rosterId: state.roster.id, sport: cut.sport, teamId: cut.teamId, playerId: cut.playerId, type: "DROP", note: `Manager-authorized cut for trade ${trade.id}` } });
     }
     for (const asset of trade.assets) {
       const destinationState = (asset.destinationTeamId === trade.proposerTeamId ? proposerState : recipientState).get(asset.sport);
       if (!destinationState) throw new Error(`The destination franchise has no ${asset.sport} roster.`);
-      await tx.rosterEntry.update({ where: { id: owner.get(asset.playerId)!.id }, data: { teamId: asset.destinationTeamId, rosterId: destinationState.roster.id, slot: "BENCH", lockedAt: null } });
+      const bench = await tx.rosterEntry.findMany({ where: { rosterId: destinationState.roster.id, releasedAt: null, slot: "BENCH" }, select: { slotIndex: true } });
+      const used = new Set(bench.map(({ slotIndex }) => slotIndex)); let slotIndex = 1;
+      const benchLimit = destinationState.roster.leagueSport.benchSlots;
+      while (used.has(slotIndex) && slotIndex <= benchLimit) slotIndex++;
+      if (slotIndex > benchLimit) throw new Error(`The destination ${asset.sport} bench has no open position.`);
+      const prior = owner.get(asset.playerId)!;
+      await tx.rosterEntry.update({ where: { id: prior.id }, data: { teamId: asset.destinationTeamId, rosterId: destinationState.roster.id, slot: "BENCH", slotIndex, lockedAt: null } });
+      await tx.rosterAssignmentEvent.create({ data: { leagueId: trade.leagueId, teamId: asset.destinationTeamId, rosterEntryId: prior.id,
+        fromSlot: prior.slot, fromSlotIndex: prior.slotIndex, toSlot: "BENCH", toSlotIndex: slotIndex, effectiveAt: now,
+        reason: "Accepted trade", idempotencyKey: `trade-move:${trade.id}:${prior.id}` } });
       await tx.fantasyTransaction.create({ data: { leagueId: trade.leagueId, leagueSportId: destinationState.roster.leagueSportId, rosterId: destinationState.roster.id, sport: asset.sport, teamId: asset.destinationTeamId, playerId: asset.playerId, type: "TRADE", note: `Trade ${trade.id} accepted` } });
     }
     await tx.tradeCut.updateMany({ where: { tradeId: trade.id }, data: { processedAt: now } });

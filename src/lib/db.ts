@@ -10,10 +10,11 @@ export function getDatabase() {
 
     const configuredMaximum = Number(process.env.DATABASE_POOL_MAX ?? "10");
     const maximum = Number.isInteger(configuredMaximum) && configuredMaximum >= 1 && configuredMaximum <= 50 ? configuredMaximum : 10;
+    const schema = new URL(connectionString).searchParams.get("schema") ?? undefined;
     const adapter = new PrismaPg({
       connectionString, connectionTimeoutMillis: 3_000, max: maximum,
       idleTimeoutMillis: 30_000, allowExitOnIdle: process.env.NODE_ENV === "test",
-    });
+    }, { schema });
     globalDatabase.prisma = new PrismaClient({ adapter });
   }
 

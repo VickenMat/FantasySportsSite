@@ -50,9 +50,24 @@ export async function processDueWaivers(leagueId: string, now = new Date(), requ
       if (awarded.has(key) || owned || claim.bid > roster.faabRemaining) {
         await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: owned || awarded.has(key) ? "LOST" : "REJECTED", reason: owned || awarded.has(key) ? "A higher-priority claim won this player." : "Insufficient FAAB.", processedAt: now } }); continue;
       }
-      if (claim.dropPlayerId) await tx.rosterEntry.updateMany({ where: { rosterId: roster.id, playerId: claim.dropPlayerId, releasedAt: null }, data: { releasedAt: now, slot: "BENCH" } });
+      const dropped = claim.dropPlayerId ? await tx.rosterEntry.findFirst({ where: { rosterId: roster.id, playerId: claim.dropPlayerId, releasedAt: null } }) : null;
       const leagueSportRow = await tx.leagueSport.findUniqueOrThrow({ where: { id: claim.leagueSportId } });
-      await tx.rosterEntry.create({ data: { leagueId, teamId: claim.teamId, rosterId: roster.id, playerId: claim.addPlayerId, sport: claim.sport, seasonId: leagueSportRow.seasonId, slot: "BENCH" } });
+      const bench = await tx.rosterEntry.findMany({ where: { rosterId: roster.id, releasedAt: null, slot: "BENCH", id: dropped ? { not: dropped.id } : undefined }, select: { slotIndex: true } });
+      const used = new Set(bench.map(({ slotIndex }) => slotIndex)); let slotIndex = 1;
+      while (used.has(slotIndex) && slotIndex <= leagueSportRow.benchSlots) slotIndex++;
+      if (slotIndex > leagueSportRow.benchSlots) {
+        await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "REJECTED", reason: "No sport bench position is available.", processedAt: now } });
+        continue;
+      }
+      if (dropped) {
+        await tx.rosterEntry.update({ where: { id: dropped.id }, data: { releasedAt: now } });
+        await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: dropped.teamId, rosterEntryId: dropped.id,
+          fromSlot: dropped.slot, fromSlotIndex: dropped.slotIndex, toSlot: "RELEASED", toSlotIndex: 1, effectiveAt: now,
+          reason: "Waiver corresponding drop", idempotencyKey: `waiver-drop:${claim.id}` } });
+      }
+      const added = await tx.rosterEntry.create({ data: { leagueId, teamId: claim.teamId, rosterId: roster.id, playerId: claim.addPlayerId, sport: claim.sport, seasonId: leagueSportRow.seasonId, slot: "BENCH", slotIndex, acquiredAt: now } });
+      await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: claim.teamId, rosterEntryId: added.id, toSlot: "BENCH", toSlotIndex: slotIndex,
+        effectiveAt: now, reason: "Waiver acquisition", idempotencyKey: `waiver-add:${claim.id}` } });
       await tx.fantasyRoster.update({ where: { id: roster.id }, data: { faabRemaining: { decrement: claim.bid } } }); roster.faabRemaining -= claim.bid;
       await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "WON", processedAt: now } });
       await tx.fantasyTransaction.create({ data: { leagueId, leagueSportId: claim.leagueSportId, rosterId: roster.id, sport: claim.sport, teamId: claim.teamId,

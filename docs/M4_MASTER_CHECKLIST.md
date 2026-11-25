@@ -15,6 +15,7 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 
 ## M4.3 rosters and traditional waivers
 
+- [x] Immutable game-start lineup snapshots and append-only roster assignment history foundation
 - [ ] Five sport benches, five universal benches and five universal IR slots
 - [ ] Atomic cross-sport slot movement and individual-game locks
 - [ ] Verified IR eligibility and acquisition restriction when noncompliant
@@ -68,3 +69,5 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 - [ ] Full regression, typecheck, lint, Prisma, build and audit gates
 - [ ] Development database and append-only trigger integrity
 - [ ] Final completion report and manual acceptance checklist
+
+See the [M4.3 recovery checkpoint](M4_3_REPORT.md) for the fixture isolation and database integrity results.

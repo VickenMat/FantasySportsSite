@@ -29,6 +29,8 @@ npm run test:e2e
 npm run test:load -- --base-url http://127.0.0.1:3100
 ```
 
-Unit tests do not require PostgreSQL. CI creates a fresh `fantasy_evolution_test` inside its isolated Compose project, prepares it, and routes integration tests, workers and Playwright to it. Playwright uses dedicated port 3100 and refuses to reuse any existing server, preventing an old port-3000 development process from retaining its development connection. CI Mailpit is isolated with the job. Local tests use `TEST_SMTP_URL`; point it to a separate local inbox if development and test email must not share Mailpit.
+Unit tests do not require PostgreSQL. Each integration invocation creates a unique schema in the authorized test database, deploys the current migrations, and seeds the demo catalog there. Prisma model queries and raw SQL both use that schema. The launcher drops the schema when the command exits, including when a test fails. A forced termination may leave an unused schema, and later invocations each create a fresh one.
+
+CI creates `fantasy_evolution_test` inside its isolated Compose project and prepares its default schema for workers and Playwright. Playwright uses dedicated port 3100 and refuses to reuse any existing server, preventing an old port-3000 development process from retaining its development connection. CI Mailpit is isolated with the job. Local tests use `TEST_SMTP_URL`; point it to a separate local inbox if development and test email must not share Mailpit.
 
 Do not invoke raw `vitest tests/integration`, `playwright test`, or the load worker directly. Those bypass the fail-closed launcher. The regression suite in `tests/unit/test-environment.test.ts` covers missing configuration, exact allowlisting, inherited URL replacement, and development/production collision rejection.
