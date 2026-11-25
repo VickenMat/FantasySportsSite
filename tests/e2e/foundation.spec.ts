@@ -116,6 +116,10 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
   expect(cookies.find(({ name }) => name.endsWith("session_token"))).toMatchObject({
     httpOnly: true, sameSite: "Lax",
   });
+  await page.getByRole("link", { name: "Account" }).click();
+  await expect(page.getByRole("heading", { name: "Your profile" })).toBeVisible();
+  await expect(page.getByLabel("Email address")).toHaveValue(DEMO_EMAIL);
+  await page.getByRole("link", { name: "Dashboard" }).click();
 
   await page.getByRole("link", { name: /Founders Dynasty/ }).click();
   await expect(page.getByRole("heading", { name: "Founders Dynasty", level: 1 })).toBeVisible();
@@ -123,10 +127,13 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
   const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger", { params: { leagueId } });
   expect(ledger.status()).toBe(200);
   expect(await ledger.json()).toEqual({ items: [], nextOffset: null });
-  await expect(page.getByText("Experimental · Cross-sport balance is pending validation.")).toBeVisible();
-  await page.getByText("NFL scoring weights").click();
-  await expect(page.getByRole("row", { name: "passing_tds 16.0" })).toBeVisible();
-  await expect(page.getByText("Lamar Jackson")).toBeVisible();
+  await page.getByRole("link", { name: "Fantasy Evolution home" }).click();
+  await expect(page).toHaveURL("/dashboard");
+  await expect(page.getByRole("heading", { name: "Welcome, Demo Manager" })).toBeVisible();
+  await page.goto(`/leagues/${leagueId}/scoring`);
+  await expect(page.getByRole("row", { name: "NFL Passing Tds 16.0" })).toBeVisible();
+  await page.goto(`/leagues/${leagueId}/waivers?sport=NFL`);
+  await expect(page.getByRole("heading", { name: "NFL waiver wire" })).toBeVisible();
 
   await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL("/");
@@ -230,7 +237,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("heading", { name: "Commissioner audit" })).toBeVisible();
     await page.getByText("View changes").click();
     await expect(page.getByText('{"draftSecondsPerPick":30}', { exact: true })).toBeVisible();
-    await page.getByRole("link", { name: "Draft", exact: true }).click();
+    await page.getByRole("link", { name: "Open draft center" }).click();
     await page.getByRole("button", { name: "Start NBA snake draft" }).click();
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Player Pool" })).toHaveClass(/active/);
@@ -263,14 +270,15 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await page.getByRole("link", { name: "Trades", exact: true }).click();
     await expect(page.getByRole("heading", { name: "League trades" })).toBeVisible();
     await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
-    await page.getByRole("link", { name: "Settings", exact: true }).click();
-    await page.getByRole("link", { name: "View future picks" }).click();
+    await page.goto(`/leagues/${leagueId}/picks?sport=NBA`);
     await expect(page.getByRole("heading", { name: "NBA future draft picks" })).toBeVisible();
     await page.getByRole("button", { name: "Grant future picks" }).click();
     await expect(page.getByRole("status")).toContainText("Granted 48 future picks");
     await expect(page.getByRole("table").getByRole("row")).toHaveCount(49);
     await page.getByRole("button", { name: "Grant future picks" }).click();
     await expect(page.getByRole("status")).toContainText("already granted");
+    await page.getByRole("link", { name: "My Team", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "NBA rookie draft picks" })).toBeVisible();
     await page.goto("/analysis");
     await expect(page.getByRole("heading", { name: "Evidence before conclusions" })).toBeVisible();
     await expect(page.getByText("INSUFFICIENT_VERIFIED_EVIDENCE")).toBeVisible();
@@ -294,7 +302,8 @@ test("creates a playable two-team four-sport league with independent draft rooms
     await page.getByText("Optional gameplay settings").click(); await page.getByLabel(/Fill vacant slots/).check();
     await page.getByRole("button", { name: "Create league" }).click(); await expect(page.getByRole("heading", { name })).toBeVisible();
     const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
-    await page.getByRole("link", { name: "Draft", exact: true }).click();
+    await page.getByRole("link", { name: "Settings", exact: true }).click();
+    await page.getByRole("link", { name: "Open draft center" }).click();
     for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByRole("link", { name: sport, exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Start NFL snake draft" }).click();
     await expect(page.getByRole("heading", { name: "NFL draft" })).toBeVisible();

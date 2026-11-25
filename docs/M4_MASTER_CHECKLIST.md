@@ -27,9 +27,9 @@ This checklist implements the reconstructed November 25, 2026 M4 master specific
 ## M4.4 dynasty and keepers
 
 - [x] Append-only verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture verified)
-- [ ] Configurable four-round linear traditional rookie drafts, reverse-placement/manual order provenance, overflow and pick consumption
+- [ ] Configurable four-round linear traditional rookie drafts, reverse-placement/manual/weighted-lottery infrastructure, overflow and pick consumption (lottery formula remains gated)
 - [x] Three-season future-pick inventory and initial ownership history
-- [ ] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and Round 10 fallback gate
+- [ ] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and last-round fallback for drafts shorter than ten rounds
 - [ ] Redraft prohibition on future picks and auction keepers (future picks prohibited in service and PostgreSQL; auction keeper gate pending)
 
 ## M4.5 salary cap, Vickrey and dead cap
@@ -40,7 +40,7 @@ This checklist implements the reconstructed November 25, 2026 M4 master specific
 - [ ] Sealed 24-hour Vickrey auctions, maximum-bid reservations, deterministic ties and settlement provenance
 - [ ] Recoverable ceil(50%) dead cap, acquisition clearing/replacement and seven-day releasing-manager restriction
 - [ ] Exact compliance calculation and corrective action gates
-- [ ] Same-sport current-season conserved cap transfers and rollover expiry (universal-cap attribution remains gated)
+- [ ] Sport-season and universal current-cycle conserved cap transfers and expiry (universal trade deadline remains gated)
 - [x] Contract automation remains inactive
 
 ## M4.6 advanced trading

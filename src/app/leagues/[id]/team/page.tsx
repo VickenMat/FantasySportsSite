@@ -23,7 +23,7 @@ export default async function TeamPage({ params, searchParams }: {
   if (!roster) notFound();
   const database = getDatabase();
   const leagueSports = context.league.sports;
-  const [entries, keepers, replayPeriods] = await Promise.all([
+  const [entries, keepers, replayPeriods, futurePicks] = await Promise.all([
     database.rosterEntry.findMany({
       where: { teamId: context.fantasyTeam.id, releasedAt: null, OR: [
         { rosterId: roster.id }, { slot: { in: ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"] } },
@@ -37,6 +37,10 @@ export default async function TeamPage({ params, searchParams }: {
     context.league.isHistorical ? database.scoringPeriod.findMany({
       where: { leagueId: id, number: Math.max(1, context.league.currentPeriod) },
       select: { sport: true, startsAt: true },
+    }) : [],
+    context.league.format === "DYNASTY" ? database.futureDraftPick.findMany({
+      where: { leagueSportId: selected.id, ownerTeamId: context.fantasyTeam.id },
+      include: { originalTeam: true, ownerTeam: true }, orderBy: [{ seasonStartYear: "asc" }, { round: "asc" }],
     }) : [],
   ]);
   const now = new Date();
@@ -91,12 +95,12 @@ export default async function TeamPage({ params, searchParams }: {
   }));
 
   return <LeagueShell leagueId={id}>
-    <div className="workspace-intro"><p className="eyebrow">My franchise</p><h1 className="display">{context.fantasyTeam.name}</h1><p className="muted">{selected.sport} · {selected.seasonLabel} · {roster.faabRemaining} FAAB remaining</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    <div className="workspace-intro"><p className="eyebrow">My franchise</p><form action={renameTeamAction.bind(null, id)} className="inline-form"><label className="sr-only" htmlFor="franchise-name">Franchise name</label><input id="franchise-name" className="display inline-title-input" name="name" defaultValue={context.fantasyTeam.name} required /><button className="button compact secondary" aria-label="Rename franchise">✎</button></form><p className="muted">{selected.sport} · {selected.seasonLabel} · {roster.faabRemaining} FAAB remaining</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
     <section className="panel"><div className="section-heading"><div><h2 className="display">{selected.sport} roster</h2><p className="muted">Select a player&apos;s position button, then choose a highlighted legal destination. Occupied destinations swap atomically.</p></div></div>
       <RosterPositionEditor leagueId={id} rows={rows} legalDestinations={legalDestinations} />
       {!entries.length && <p className="muted">This sport roster will populate through its draft and transactions.</p>}
+      <div className="button-row">{entries.filter((entry) => entry.sport === selected.sport).map((entry) => <span key={entry.id}>{context.league.format === "REDRAFT" && selected.keeperLimit > 0 && !keeperIds.has(entry.playerId) && <form action={selectKeeperAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary">Keep {entry.player.displayName}</button></form>}<form action={dropPlayerAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary" disabled={Boolean(entry.lockedAt)}>Drop {entry.player.displayName}</button></form></span>)}</div>
     </section>
-    <div className="league-details"><section className="panel"><h2 className="display">Roster actions</h2><ul className="transaction-list">{entries.filter((entry) => entry.sport === selected.sport).map((entry) => <li key={entry.id}><strong>{entry.player.displayName}</strong><span>{entry.slot}{entry.lockedAt ? " · Lineup locked" : ""}</span><div className="button-row">{context.league.format === "REDRAFT" && selected.keeperLimit > 0 && (keeperIds.has(entry.playerId) ? <span className="tag">Keeper selected</span> : <form action={selectKeeperAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary">Keep</button></form>)}<form action={dropPlayerAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary" disabled={Boolean(entry.lockedAt)}>Drop</button></form></div></li>)}</ul></section>
-      <form action={renameTeamAction.bind(null, id)} className="panel form-grid"><h2 className="display">Franchise identity</h2><p className="muted">One franchise name covers every sport.</p><label>Team name<input name="name" defaultValue={context.fantasyTeam.name} required /></label><button className="button secondary">Save team name</button></form></div>
+    {futurePicks.length > 0 && <section className="panel"><h2 className="display">{selected.sport} rookie draft picks</h2><div className="table-wrap"><table className="data-table"><thead><tr><th>Season</th><th>Round</th><th>Original owner</th><th>Current owner</th></tr></thead><tbody>{futurePicks.map((pick) => <tr key={pick.id}><td>{pick.seasonStartYear}</td><td>{pick.round}</td><td>{pick.originalTeam.name}</td><td>{pick.ownerTeam.name}</td></tr>)}</tbody></table></div></section>}
   </LeagueShell>;
 }

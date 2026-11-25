@@ -13,8 +13,8 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Correction publication time | The development archive has no official publication timestamps on its 107,312 stat revisions. | Preserve statistical revisions and keep competitive outcomes provisional until official timestamps are available. |
 | Waiver game clock | The schedule bundle gives starts and completion statuses. It lacks verified game-completion instants. | Apply the verified release clock. Keep game-completion holds pending until a source provides the required instant. |
 | Schedule normalization | Formula is explicitly unapproved. | Extension point only; never apply a multiplier. |
-| Keeper Round 10 fallback | A draft configured below ten rounds has no approved substitute cost. | Reject the keeper configuration until an explicit cost is supplied. |
-| Commissioner lottery | Lottery algorithms are configurable but no default lottery formula is approved. | Manual recorded order or reverse final standings; no hidden random lottery. |
+| Weighted rookie lottery | The weighting formula and number of lottery-selected positions are not approved. | Provide configuration infrastructure only; reverse final standings remains the default and playoff teams are excluded. |
+| Universal cap trade deadline | A universal asset can span independently scheduled sports, but its deadline is not approved. | Implement conserved current-cycle accounting; keep deadline-dependent execution gated. |
 
 ## Data blockers
 

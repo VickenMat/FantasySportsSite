@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const items = [
-  ["Overview", ""], ["My Team", "/team"], ["Players", "/players"], ["Draft", "/draft"],
+  ["Overview", ""], ["My Team", "/team"], ["Players", "/players"],
   ["Matchups", "/matchups"], ["Standings", "/standings"], ["Waivers", "/waivers"], ["Settings", "/settings"],
   ["Trades", "/trades"], ["Scoring", "/scoring"],
 ] as const;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { lineupAction } from "@/app/actions/leagues";
 import type { Sport } from "@/generated/prisma/enums";
+import { PositionBadges } from "./position-badge";
 
 export type PositionRow = {
   key: string;
@@ -37,9 +38,10 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations }: {
           {row.entry && <input type="hidden" name="destinationEntryId" value={row.entry.id} />}
           <button className="position-button legal" aria-label={`Move ${source.entry.name} to ${row.label} ${row.index}`}>{row.label}</button>
         </form>
-        : <button type="button" className={`position-button ${selected ? "selected" : ""}`} disabled={disabled || !row.entry}>{row.label}</button>;
+        : <button type="button" className={`position-button ${selected ? "selected" : ""}`} disabled={disabled || !row.entry}
+          onClick={selected ? () => setSelectedKey(null) : undefined}>{row.label}</button>;
       return <div key={row.key} className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
-        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry?.positions.join(", ") || "N/A"}</span><span>N/A</span><span>N/A</span>
+        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry ? <PositionBadges sport={row.entry.sport} positions={row.entry.positions} /> : "N/A"}</span><span>N/A</span><span>N/A</span>
       </div>;
     })}
   </div>;

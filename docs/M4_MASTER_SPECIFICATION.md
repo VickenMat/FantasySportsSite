@@ -75,15 +75,15 @@ Default $100 per sport; optional universal $500 instead of sport budgets. No car
 
 ## 12. Dynasty and rookie drafts
 
-Retain players/assets across independent sport offseasons within capacity. Official sport-specific rookie evidence required; no inference from age, draft year or missing statistics. Eligible unrostered rookies only; pre-draft acquisition block. Default four rounds configurable, linear order (worst team picks first each round), before sport season. Reverse final sport standings: H2H final postseason placement including consolation; cumulative sport PF. Commissioner manual order or configurable lottery; no unapproved default lottery formula. Record order provenance. Temporary rookie-draft overflow permitted, correct before season. Undrafted eligible rookies become free agents or salary auction candidates. Salary leagues auction rookies; no fixed rookie salary scale. Interaction of linear future picks with auction-only rookie acquisition requires explicit configuration, not invented conversion.
+Retain players/assets across independent sport offseasons within capacity. Official sport-specific rookie evidence required; no inference from age, draft year or missing statistics. Eligible unrostered rookies only; pre-draft acquisition block. Default four rounds configurable, linear order (worst team picks first each round), before sport season. Reverse final sport standings is the default. A commissioner may enable a weighted lottery for non-playoff teams, with worse finish receiving greater odds; playoff teams are excluded. The weighting formula and number of lottery-selected positions remain explicitly gated. Manual order remains supported and order provenance is recorded. Temporary rookie-draft overflow permitted, correct before season. Undrafted eligible rookies become free agents or salary auction candidates. Salary leagues auction rookies with no fixed rookie salary scale and have no future rookie picks.
 
 ## 13. Future picks
 
-Traditional dynasty: rolling three future seasons of pick inventory per sport, generated idempotently at rollover; default four rounds. Record league, sport, season, round, original and current franchise, selection, state and append-only ownership history. Trade before/during draft and year-round subject to ownership and execution constraints. Redraft cannot create or trade future picks, enforced in service and database. Salary dynasty pick semantics must be reconciled with auction-only rookie acquisition before activation.
+Traditional dynasty: rolling three future seasons of pick inventory per sport, generated idempotently at rollover; default four rounds. Record league, sport, season, round, original and current franchise, selection, state and append-only ownership history. Trade before/during draft and year-round subject to ownership and execution constraints. Redraft and salary dynasty cannot create, display or trade future picks, enforced in service and database. Preserve any historical assets without activating them.
 
 ## 14. Redraft keepers
 
-Disabled by default; optional snake-only keepers, default one per sport configurable. No auction keepers. Drafted player cost previous round minus one, floor round 1; undrafted waiver acquisition round 10. Maximum three years including original draft/acquisition year. Escalation each retained year (retained interpretation: R5→R4→R3; waiver R10→R9). Traded players retain cost and history; dropping/reacquiring does not erase history. Resolve conflicting costs using next earlier available round; reject if none. If draft has fewer than ten rounds, require explicit fallback cost rather than guessing. Persist selection, cost, retention and ownership history. Release nonkeepers at independent redraft rollover.
+Disabled by default; optional snake-only keepers, default one per sport configurable. No auction keepers. Drafted player cost previous round minus one, floor round 1; undrafted waiver acquisition costs round 10 or the last available round when the draft is shorter. Maximum three years including original draft/acquisition year. Escalation each retained year. Traded players retain cost and history; dropping/reacquiring does not erase history. Resolve conflicting costs using next earlier available round; reject if none. Persist selection, cost, retention and ownership history. Release nonkeepers at independent redraft rollover.
 
 ## 15. Salary cap accounts
 
@@ -99,7 +99,7 @@ Release penalty = ceil(50% of salary); remainder recovered immediately. Example 
 
 ## 18. Cap transfers
 
-Standalone cap space transfers only same sport, current season, before respective sport trade deadline. Conserve total cap, no cross-sport conversion, no future cap transfers. Unused transferred cap expires at rollover. Universal cap attribution for sport-specific transfers requires explicit rule before activation. All transfers and expiry recorded in ledger.
+Sport-cap transfers are same sport and current season only. Universal-cap leagues may transfer universal current-cycle cap between franchises. Both conserve total cap; future cap transfers and cross-scope conversion are forbidden. Transfers, reservations, settlement and expiry are recorded in the financial ledger and expire only at their applicable sport rollover or championship-cycle boundary without disturbing overlapping obligations. The deadline for a universal asset spanning independently scheduled sports remains gated, so deadline-dependent execution stays inactive.
 
 ## 19. Advanced trades
 
@@ -128,11 +128,10 @@ Append-only audit actor, previous/new values, effective instant, reason. Commiss
 | Official correction publication | Provisional outcomes |
 | Verified game completion | Pending game-based hold; release hold works |
 | Schedule normalization | Inactive extension only |
-| Keeper draft shorter than 10 rounds | Explicit fallback required |
-| Lottery formula | Manual recorded order or reverse standings |
+| Weighted rookie lottery | Infrastructure only; formula and number of selected positions require approval |
 | Contracts | Inactive |
 | Corrective trade classification | Explicit classification; ordinary gate remains |
-| Salary rookie picks / universal cap attribution | Explicit decision if required |
+| Universal cap trade deadline | Accounting may operate; deadline-dependent execution remains inactive |
 
 Use labeled synthetic fixtures only in isolated tests. Missing production evidence is not a reason to stop implementation of mechanisms. Do not fabricate production data.
 
