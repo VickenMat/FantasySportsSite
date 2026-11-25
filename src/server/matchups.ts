@@ -7,6 +7,26 @@ import { captureDueGameLineups } from "./lineup-snapshots";
 
 export { roundRobinPairings } from "./competition";
 
+export async function ensureRelativeMatchupSchedule(tx: Prisma.TransactionClient, input: {
+  leagueId: string; leagueSportId: string; sport: Sport; periods: number;
+}) {
+  const league = await tx.league.findUniqueOrThrow({ where: { id: input.leagueId }, select: {
+    competitionType: true, teams: { orderBy: [{ draftSlot: "asc" }, { id: "asc" }], select: { id: true } },
+  } });
+  if (league.competitionType === "CUMULATIVE") return { periods: 0, matchups: 0 };
+  const pairings = roundRobinPairings(league.teams.map(({ id }) => id), input.periods);
+  for (let number = 1; number <= input.periods; number++) {
+    const period = await tx.relativeMatchupPeriod.upsert({
+      where: { leagueSportId_number: { leagueSportId: input.leagueSportId, number } }, update: {},
+      create: { leagueId: input.leagueId, leagueSportId: input.leagueSportId, sport: input.sport, number },
+    });
+    await tx.relativeMatchup.createMany({ data: pairings.filter(({ round }) => round === number).map((pairing) => ({
+      periodId: period.id, homeTeamId: pairing.homeTeamId, awayTeamId: pairing.awayTeamId,
+    })), skipDuplicates: true });
+  }
+  return { periods: input.periods, matchups: pairings.length };
+}
+
 export async function generateSchedule(userId: string, leagueId: string, periods = 14, requestedSport?: Sport | string) {
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: { orderBy: { draftSlot: "asc" } } } } } });

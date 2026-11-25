@@ -4,7 +4,7 @@ import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { autoPickExpiredDraft, changeQueue, createDraft, makePick, queuePlayer, reorderQueue, setDraftPaused } from "@/server/draft";
 import { createLeague } from "@/server/league";
-import { generateNextPlayoffRound, generateSchedule, standings } from "@/server/matchups";
+import { ensureRelativeMatchupSchedule, generateNextPlayoffRound, generateSchedule, standings } from "@/server/matchups";
 import { processWaivers, submitWaiver } from "@/server/waivers";
 import { proposeTrade, respondToTrade } from "@/server/trades";
 import { enforceRateLimit, RateLimitError } from "@/server/rate-limit";
@@ -32,6 +32,13 @@ it("serializes draft picks, prevents duplicate ownership and atomically processe
     for (const playerId of playerIds.slice(1, 4)) await makePick({ userId: user.id, draftId: draft.id, playerId, automatic: true });
     expect(await database.rosterEntry.count({ where: { leagueId: league.id } })).toBe(4);
     expect(await database.draft.findUniqueOrThrow({ where: { id: draft.id } })).toMatchObject({ status: "COMPLETE", currentPick: 4 });
+    const leagueSport = await database.leagueSport.findFirstOrThrow({ where: { leagueId: league.id, sport: "NFL" } });
+    expect(await database.relativeMatchupPeriod.count({ where: { leagueSportId: leagueSport.id } })).toBe(14);
+    expect(await database.relativeMatchup.count({ where: { period: { leagueSportId: leagueSport.id } } })).toBe(28);
+    await database.$transaction((tx) => ensureRelativeMatchupSchedule(tx, {
+      leagueId: league.id, leagueSportId: leagueSport.id, sport: "NFL", periods: 14,
+    }));
+    expect(await database.relativeMatchup.count({ where: { period: { leagueSportId: leagueSport.id } } })).toBe(28);
 
     const commissioner = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: user.id }, include: { roster: true } });
     await submitWaiver(user.id, { leagueId: league.id, addPlayerId: playerIds[4], dropPlayerId: commissioner.roster[0].playerId, bid: 5 });

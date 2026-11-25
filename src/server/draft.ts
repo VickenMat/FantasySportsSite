@@ -5,6 +5,7 @@ import { firstOpenSlot } from "@/rosters/compliance";
 import { fitsSlot } from "@/simulation/config";
 import { leagueContext, resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
+import { ensureRelativeMatchupSchedule } from "./matchups";
 
 const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
@@ -133,6 +134,10 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const complete = draft.currentPick >= draft.pickOrder.length;
     await tx.draft.update({ where: { id: draft.id }, data: complete ? { status: "COMPLETE", completedAt: now, pickDeadlineAt: null, pausedRemainingMs: null } : { currentPick: { increment: 1 }, pickStartedAt: now, pickDeadlineAt: new Date(now.getTime() + draft.secondsPerPick * 1000), pausedRemainingMs: null, version: { increment: 1 } } });
     await tx.draftQueueEntry.deleteMany({ where: { draftId: draft.id, playerId: player.id } });
+    if (complete && draft.kind === "INITIAL") await ensureRelativeMatchupSchedule(tx, {
+      leagueId: draft.leagueId, leagueSportId: draft.leagueSportId, sport: draft.sport,
+      periods: draft.leagueSport.regularSeasonMatchups,
+    });
     if (complete && await tx.draft.count({ where: { leagueId: draft.leagueId, id: { not: draft.id }, status: { in: ["SCHEDULED", "ACTIVE", "PAUSED"] } } }) === 0) {
       await tx.league.update({ where: { id: draft.leagueId }, data: { status: "ACTIVE" } });
     }

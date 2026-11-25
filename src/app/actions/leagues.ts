@@ -204,6 +204,7 @@ export async function leagueSettingsAction(leagueId: string, form: FormData) {
     maxTeams: Number(form.get("maxTeams")), visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
     keeperLimit: Number(form.get("keeperLimit") ?? 0), draftRounds: Number(form.get("draftRounds")),
     keeperDeadline: form.get("keeperDeadline") ? new Date(String(form.get("keeperDeadline"))) : null,
+    regularSeasonMatchups: form.get("regularSeasonMatchups") ? Number(form.get("regularSeasonMatchups")) : undefined,
   });
   await actionNotice("League settings saved.");
   revalidatePath(`/leagues/${leagueId}/settings`);

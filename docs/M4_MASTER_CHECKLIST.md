@@ -6,6 +6,7 @@ This checklist implements the reconstructed November 25, 2026 M4 master specific
 
 - [x] Immutable cycle configuration snapshots
 - [x] Independent sport H2H periods and balanced schedules
+- [x] Draft-completion relative opponent schedules with deterministic round-robin rotation, odd-team byes and pending calendar binding
 - [x] Cumulative sport and combined UBP standings without playoffs
 - [x] Fixed H2H playoffs, byes, third-place and consolation placement
 - [ ] Championship point ledger and overall championship (sport award components and cycle projections persist; final cumulative placement and evidence-backed live finalization remain)

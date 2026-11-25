@@ -284,6 +284,7 @@ model League {
   commissionerAuditEvents   CommissionerAuditEvent[]
   faabAccounts              FaabAccount[]
   waiverPriorities          WaiverPriority[]
+  relativeMatchupPeriods    RelativeMatchupPeriod[]
 
   @@index([status, primarySport])
 }
@@ -375,6 +376,8 @@ model FantasyTeam {
   futurePickOwnership       FutureDraftPickOwnership[]
   faabAccounts              FaabAccount[]
   waiverPriorities          WaiverPriority[]
+  relativeHomeMatchups      RelativeMatchup[]            @relation("RelativeHomeTeam")
+  relativeAwayMatchups      RelativeMatchup[]            @relation("RelativeAwayTeam")
 
   @@unique([leagueId, managerId])
   @@unique([leagueId, name])
@@ -531,6 +534,7 @@ model ScoringPeriod {
   competition     SportCompetition?       @relation(fields: [competitionId], references: [id], onDelete: Cascade)
   games           CompetitionPeriodGame[]
   lineupSnapshots GameLineupSnapshot[]
+  relativePlan    RelativeMatchupPeriod?
 
   @@unique([leagueId, sport, number])
   @@index([leagueSportId, number])
@@ -927,35 +931,69 @@ model BackgroundJobRun {
 }
 
 model LeagueSport {
-  id                  String               @id @default(uuid()) @db.Uuid
-  leagueId            String               @db.Uuid
-  sport               Sport
-  seasonId            String               @db.Uuid
-  seasonLabel         String
-  rosterSlots         String[]             @default([])
-  benchSlots          Int                  @default(5)
-  draftRounds         Int                  @default(14)
-  draftOrder          String[]             @default([])
-  draftSecondsPerPick Int                  @default(90)
-  startingFaab        Int                  @default(100)
-  keeperLimit         Int                  @default(0)
-  keeperDeadline      DateTime?            @db.Timestamptz(3)
-  league              League               @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  season              Season               @relation(fields: [seasonId], references: [id], onDelete: Restrict)
-  rosters             FantasyRoster[]
-  drafts              Draft[]
-  periods             ScoringPeriod[]
-  waiverClaims        WaiverClaim[]
-  transactions        FantasyTransaction[]
-  trades              Trade[]
-  keepers             KeeperSelection[]
-  seasonAssignments   LeagueSportSeason[]
-  futurePicks         FutureDraftPick[]
-  faabAccounts        FaabAccount[]
-  waiverPriorities    WaiverPriority[]
+  id                    String                  @id @default(uuid()) @db.Uuid
+  leagueId              String                  @db.Uuid
+  sport                 Sport
+  seasonId              String                  @db.Uuid
+  seasonLabel           String
+  rosterSlots           String[]                @default([])
+  benchSlots            Int                     @default(5)
+  draftRounds           Int                     @default(14)
+  draftOrder            String[]                @default([])
+  draftSecondsPerPick   Int                     @default(90)
+  startingFaab          Int                     @default(100)
+  keeperLimit           Int                     @default(0)
+  keeperDeadline        DateTime?               @db.Timestamptz(3)
+  regularSeasonMatchups Int                     @default(14)
+  league                League                  @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  season                Season                  @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  rosters               FantasyRoster[]
+  drafts                Draft[]
+  periods               ScoringPeriod[]
+  waiverClaims          WaiverClaim[]
+  transactions          FantasyTransaction[]
+  trades                Trade[]
+  keepers               KeeperSelection[]
+  seasonAssignments     LeagueSportSeason[]
+  futurePicks           FutureDraftPick[]
+  faabAccounts          FaabAccount[]
+  waiverPriorities      WaiverPriority[]
+  relativePeriods       RelativeMatchupPeriod[]
 
   @@unique([leagueId, sport])
   @@index([sport, seasonId])
+}
+
+model RelativeMatchupPeriod {
+  id              String            @id @default(uuid()) @db.Uuid
+  leagueId        String            @db.Uuid
+  leagueSportId   String            @db.Uuid
+  sport           Sport
+  number          Int
+  scoringPeriodId String?           @unique @db.Uuid
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+  league          League            @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  leagueSport     LeagueSport       @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  scoringPeriod   ScoringPeriod?    @relation(fields: [scoringPeriodId], references: [id], onDelete: SetNull)
+  matchups        RelativeMatchup[]
+
+  @@unique([leagueSportId, number])
+  @@index([leagueId, sport, number])
+}
+
+model RelativeMatchup {
+  id         String                @id @default(uuid()) @db.Uuid
+  periodId   String                @db.Uuid
+  homeTeamId String                @db.Uuid
+  awayTeamId String                @db.Uuid
+  createdAt  DateTime              @default(now()) @db.Timestamptz(3)
+  period     RelativeMatchupPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  homeTeam   FantasyTeam           @relation("RelativeHomeTeam", fields: [homeTeamId], references: [id], onDelete: Cascade)
+  awayTeam   FantasyTeam           @relation("RelativeAwayTeam", fields: [awayTeamId], references: [id], onDelete: Cascade)
+
+  @@unique([periodId, homeTeamId, awayTeamId])
+  @@index([homeTeamId, periodId])
+  @@index([awayTeamId, periodId])
 }
 
 model FutureDraftPick {

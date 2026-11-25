@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { championshipPointAwards, championshipPointTotals, defaultFixedBracket, rankH2HStandings } from "@/server/competition";
+import { championshipPointAwards, championshipPointTotals, defaultFixedBracket, rankH2HStandings, roundRobinPairings } from "@/server/competition";
 
 describe("M4.2 competition rules", () => {
+  it("rotates every opponent before repeats and gives odd leagues one bye per round", () => {
+    const even = roundRobinPairings(["a", "b", "c", "d"], 4);
+    expect(new Set(even.slice(0, 6).map(({ homeTeamId, awayTeamId }) => [homeTeamId, awayTeamId].sort().join(":"))).size).toBe(6);
+    const odd = roundRobinPairings(["a", "b", "c"], 3);
+    expect(odd).toHaveLength(3);
+    expect(odd.every(({ homeTeamId, awayTeamId }) => homeTeamId !== awayTeamId)).toBe(true);
+    expect(new Set(odd.flatMap(({ homeTeamId, awayTeamId }) => [homeTeamId, awayTeamId]))).toEqual(new Set(["a", "b", "c"]));
+  });
   it("ranks independent H2H standings using the approved hierarchy", () => {
     const rows = [
       { teamId: "a", wins: 8, losses: 6, ties: 0, pointsFor: 1000n, pointsAgainst: 900n },

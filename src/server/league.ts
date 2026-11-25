@@ -275,11 +275,12 @@ export async function updateTeamName(userId: string, leagueId: string, name: str
 export async function updateLeagueSettings(userId: string, leagueId: string, input: {
   sport?: Sport; draftSecondsPerPick: number; startingFaab: number; playoffTeams: number; playoffPeriods: number;
   visibility?: "PRIVATE" | "PUBLIC"; maxTeams?: number; keeperLimit?: number; keeperDeadline?: Date | null; draftRounds: number;
+  regularSeasonMatchups?: number;
 }) {
   const value = z.object({ sport: z.enum(sports).optional(), draftSecondsPerPick: z.number().int().min(15).max(600), startingFaab: z.number().int().min(0).max(100_000),
     playoffTeams: z.number().int().min(0).max(16), playoffPeriods: z.number().int().min(0).max(3), visibility: z.enum(["PRIVATE", "PUBLIC"]).optional(),
     maxTeams: z.number().int().min(2).max(16).optional(), keeperLimit: z.number().int().min(0).max(50).optional(), keeperDeadline: z.date().nullable().optional(),
-    draftRounds: z.number().int().min(1).max(50) }).parse(input);
+    draftRounds: z.number().int().min(1).max(50), regularSeasonMatchups: z.number().int().min(1).max(100).optional() }).parse(input);
   await getDatabase().$transaction(async (tx) => {
     const member = await tx.leagueMember.findUnique({
       where: { leagueId_userId: { leagueId, userId } },
@@ -307,6 +308,7 @@ export async function updateLeagueSettings(userId: string, leagueId: string, inp
       keeperLimit: league.format === "REDRAFT" ? value.keeperLimit : 0,
       keeperDeadline: league.format === "REDRAFT" ? value.keeperDeadline : null,
       startingFaab: league.status === "SETUP" ? value.startingFaab : undefined,
+      regularSeasonMatchups: league.competitionType === "HEAD_TO_HEAD" ? value.regularSeasonMatchups : undefined,
     } });
   }, { isolationLevel: "Serializable" });
 }

@@ -14,3 +14,7 @@ NFL source-backed provisioning includes Week 18 only for cumulative competition.
 - The regression run passed 136 unit tests, 22 PostgreSQL integration tests and eight Chromium tests, along with TypeScript, ESLint and the Turbopack production build.
 
 Live overall acceptance, final cumulative cycle placement, and persistent standings snapshots remain open. Accepted V5 files and the four unresolved NBA crosswalk rows were preserved.
+
+## Draft-completion opponent scheduling
+
+Head-to-head drafts now persist an independent relative opponent schedule as soon as the applicable initial sport draft completes. The circle rotation plays every opponent before repeating, balances repeats, rotates odd-team byes, rejects self-matchups in PostgreSQL and is idempotent. Cumulative leagues create no opponent schedule. When authoritative calendar periods are unavailable, the UI shows confirmed opponents with `Calendar pending`; it does not manufacture dates. A later source-backed period can bind one-to-one to the relative plan.

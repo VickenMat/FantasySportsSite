@@ -6,6 +6,7 @@ Current implementation head descends from `6bf22fc`. The reconstructed M4 specif
 
 - M4.3 immutable FAAB accounting, rolling priority, verified-completion mechanism and offseason acquisition gates are implemented.
 - M4.4 append-only rookie evidence and the pre-draft acquisition gate are implemented; rookie draft execution and keepers remain incomplete.
+- Head-to-head opponent rotations now persist immediately at draft completion as relative periods; authoritative calendar binding remains pending where source dates are unavailable.
 - Authenticated brand navigation, Account, league overview, roster selection cancellation, draft access through Settings, readable scoring labels and centralized position colors are implemented in the current website batch.
 - Player data was audited read-only; see `docs/PLAYER_DATA_AUDIT.md`.
 - Unit, type, lint, production build and the targeted authenticated browser flow pass. Full milestone regression remains required after the remaining website and gameplay work.
