@@ -109,10 +109,11 @@ export async function dropPlayer(userId: string, leagueId: string, playerId: str
   });
 }
 
-export async function setLineupSlot(userId: string, leagueId: string, rosterEntryId: string, slot: string, sport?: Sport | string, destinationEntryId?: string | null) {
+export async function setLineupSlot(userId: string, leagueId: string, rosterEntryId: string, slot: string, sport?: Sport | string, destinationEntryId?: string | null, slotIndex?: number) {
   const context = await managedRoster(userId, leagueId, sport);
   const requestedSlot = z.string().trim().toUpperCase().max(30).parse(slot);
   const normalizedSlot = requestedSlot === "IR" ? "UNIVERSAL_IR" : requestedSlot;
+  const requestedIndex = z.number().int().positive().optional().parse(slotIndex);
   const database = getDatabase();
   await captureDueGameLineups(new Date());
   const entry = await database.rosterEntry.findUnique({ where: { id: rosterEntryId }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
@@ -142,18 +143,28 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
       : normalizedSlot === "UNIVERSAL_IR" ? context.membership.league.universalIrSlots
       : context.leagueSport.rosterSlots.filter((value) => value === normalizedSlot).length;
     if (allowed < 1) throw new Error("That roster position is not configured for this league.");
-    const occupants = await tx.rosterEntry.findMany({ where: { rosterId: context.roster.id, releasedAt: null, slot: normalizedSlot, id: { not: current.id } }, orderBy: { id: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
-    const scopedOccupants = normalizedSlot.startsWith("UNIVERSAL_")
-      ? await tx.rosterEntry.findMany({ where: { teamId: current.teamId, releasedAt: null, slot: normalizedSlot, id: { not: current.id } }, orderBy: [{ slotIndex: "asc" }, { id: "asc" }], include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } })
-      : occupants;
-    const requestedDestination = destinationEntryId ? scopedOccupants.find(({ id }) => id === destinationEntryId) : null;
+    const occupants = await tx.rosterEntry.findMany({
+      where: {
+        teamId: current.teamId, rosterId: normalizedSlot.startsWith("UNIVERSAL_") ? undefined : context.roster.id,
+        releasedAt: null, id: { not: current.id },
+        slot: normalizedSlot === "UNIVERSAL_IR" ? { in: ["IR", "UNIVERSAL_IR"] } : normalizedSlot,
+      },
+      orderBy: [{ slotIndex: "asc" }, { id: "asc" }],
+      include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } },
+    });
+    const requestedDestination = destinationEntryId ? occupants.find(({ id }) => id === destinationEntryId) : null;
     if (destinationEntryId && !requestedDestination) throw new Error("That destination roster position changed. Refresh and try again.");
-    const openIndex = firstOpenSlot(new Set(scopedOccupants.map(({ slotIndex }) => slotIndex)), allowed);
-    const displaced = requestedDestination ?? (!openIndex && scopedOccupants.length ? scopedOccupants[0] : null);
+    const occupiedIndexes = new Set(occupants.map(({ slotIndex }) => slotIndex));
+    if (requestedIndex !== undefined && (requestedIndex > allowed || (requestedDestination
+      ? requestedDestination.slotIndex !== requestedIndex : occupiedIndexes.has(requestedIndex)))) {
+      throw new Error("That destination roster position changed. Refresh and try again.");
+    }
+    const openIndex = requestedIndex ?? firstOpenSlot(occupiedIndexes, allowed);
+    const displaced = requestedDestination ?? (!openIndex ? occupants[0] : null);
     const targetIndex = displaced?.slotIndex ?? openIndex;
     if (!targetIndex) throw new Error("That roster position is full.");
     if (displaced?.lockedAt) throw new Error("The player occupying that destination is locked.");
-    if (displaced && displaced.rosterId !== current.rosterId && !current.slot.startsWith("UNIVERSAL_")) {
+    if (displaced && displaced.rosterId !== current.rosterId && !current.slot.startsWith("UNIVERSAL_") && current.slot !== "IR") {
       throw new Error("A cross-sport universal slot cannot displace a player into a sport-specific position. Free a universal slot first.");
     }
     const currentIsStarter = !["BENCH", "UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"].includes(current.slot);

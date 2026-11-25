@@ -247,6 +247,10 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await movable.click();
     await expect(page.locator(".position-button.legal").first()).toBeVisible();
     await page.screenshot({ path: "reports/screenshots/m3-7-2-roster-position-selection.png", fullPage: true });
+    await page.getByRole("button", { name: /to U-BENCH 3$/ }).click();
+    await expect.poll(async () => database.rosterEntry.findFirst({
+      where: { leagueId, sport: "NBA", slot: "UNIVERSAL_BENCH", slotIndex: 3, releasedAt: null }, select: { slotIndex: true },
+    })).toEqual({ slotIndex: 3 });
     await page.getByRole("link", { name: "Scoring", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Universal Balanced Points V9" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();

@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { lineupAction } from "@/app/actions/leagues";
+import type { Sport } from "@/generated/prisma/enums";
 
 export type PositionRow = {
   key: string;
   label: string;
-  entry: null | { id: string; name: string; positions: string[]; team: string | null; locked: boolean };
+  slot: string;
+  index: number;
+  entry: null | { id: string; playerId: string; sport: Sport; name: string; positions: string[]; team: string | null; locked: boolean };
 };
 
-export function RosterPositionEditor({ leagueId, sport, rows, legalDestinations }: {
+export function RosterPositionEditor({ leagueId, rows, legalDestinations }: {
   leagueId: string;
-  sport: string;
   rows: PositionRow[];
   legalDestinations: Record<string, string[]>;
 }) {
@@ -27,10 +29,17 @@ export function RosterPositionEditor({ leagueId, sport, rows, legalDestinations 
       const destination = Boolean(source?.entry && legal.has(row.key));
       const disabled = Boolean(source?.entry && !destination && !selected);
       const button = row.entry && !source ? <button type="button" className="position-button" disabled={row.entry.locked} aria-label={`Move ${row.entry.name} from ${row.label}`} onClick={() => setSelectedKey(row.key)}>{row.label}</button>
-        : destination && source?.entry ? <form action={lineupAction.bind(null, leagueId)}><input type="hidden" name="sport" value={sport} /><input type="hidden" name="entryId" value={source.entry.id} /><input type="hidden" name="slot" value={row.label} />{row.entry && <input type="hidden" name="destinationEntryId" value={row.entry.id} />}<button className="position-button legal" aria-label={`Move ${source.entry.name} to ${row.label}`}>{row.label}</button></form>
+        : destination && source?.entry ? <form action={lineupAction.bind(null, leagueId)}>
+          <input type="hidden" name="sport" value={source.entry.sport} />
+          <input type="hidden" name="entryId" value={source.entry.id} />
+          <input type="hidden" name="slot" value={row.slot} />
+          <input type="hidden" name="slotIndex" value={row.index} />
+          {row.entry && <input type="hidden" name="destinationEntryId" value={row.entry.id} />}
+          <button className="position-button legal" aria-label={`Move ${source.entry.name} to ${row.label} ${row.index}`}>{row.label}</button>
+        </form>
         : <button type="button" className={`position-button ${selected ? "selected" : ""}`} disabled={disabled || !row.entry}>{row.label}</button>;
       return <div key={row.key} className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
-        {button}<strong>{row.entry?.name ?? "Empty"}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry?.positions.join(", ") || "N/A"}</span><span>N/A</span><span>N/A</span>
+        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry?.positions.join(", ") || "N/A"}</span><span>N/A</span><span>N/A</span>
       </div>;
     })}
   </div>;

@@ -174,7 +174,10 @@ export async function dropPlayerAction(leagueId: string, form: FormData) {
 export async function lineupAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "lineup", 120);
-  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")), String(form.get("sport") ?? "") || undefined, String(form.get("destinationEntryId") ?? "") || null);
+  const slotIndex = form.get("slotIndex");
+  await setLineupSlot(user.id, leagueId, String(form.get("entryId")), String(form.get("slot")),
+    String(form.get("sport") ?? "") || undefined, String(form.get("destinationEntryId") ?? "") || null,
+    slotIndex == null ? undefined : Number(slotIndex));
   await actionNotice("Roster positions updated.");
   revalidatePath(`/leagues/${leagueId}/team`);
 }

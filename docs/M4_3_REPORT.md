@@ -26,5 +26,7 @@ Development already had 45 roster entries and 45 roster assignment events before
 - Releases start a 24-hour hold. Eligible waiver claims can reserve funds during the hold, and free-agent pickup cannot bypass pending claims.
 - Pending claims reserve the sport's FAAB in the same serializable transaction that creates the bid. Cancellation frees the reservation, and an award debits funds and records the existing acquisition transaction atomically. The manager sees the spendable amount and reserved amount.
 - The 24-test PostgreSQL suite covers release-clock boundaries, isolated sport balances, concurrent bids against one balance, idempotent settlement, and recovery from expired IR eligibility.
+- The roster editor exposes the team's shared bench and IR slots on each sport tab. Exact slot selection and cross-sport swaps preserve each player's sport roster. Draft capacity counts the sport's own lineup and bench positions and checks roster compliance before a pick.
+- The shared-slot continuation passed 27 PostgreSQL tests and eight Chromium tests. Chromium verified an exact shared bench position through the roster editor.
 
 Rolling priority, independently verified game-completion holds, the cycle-scoped universal account, the dedicated immutable FAAB ledger, and offseason acquisition rules remain open.

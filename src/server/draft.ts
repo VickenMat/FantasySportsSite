@@ -1,8 +1,12 @@
 import { z } from "zod";
 import type { Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
+import { firstOpenSlot } from "@/rosters/compliance";
 import { fitsSlot } from "@/simulation/config";
 import { leagueContext, resolveLeagueSport } from "./league";
+import { currentCompliance } from "./rosters";
+
+const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
 export function teamForPick(order: readonly string[], overall: number) {
   if (!order.length || overall < 1) throw new Error("Draft order and pick number must be valid.");
@@ -31,7 +35,9 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
   const currentTeamIds = membership.league.teams.map(({ id }) => id);
   const configured = leagueSport.draftOrder;
   const order = configured.length === currentTeamIds.length && new Set(configured).size === currentTeamIds.length && configured.every((id) => currentTeamIds.includes(id)) ? configured : currentTeamIds;
-  const retainedRows = await getDatabase().rosterEntry.groupBy({ by: ["teamId"], where: { leagueId, sport: leagueSport.sport, releasedAt: null }, _count: true });
+  const retainedRows = await getDatabase().rosterEntry.groupBy({
+    by: ["teamId"], where: { leagueId, sport: leagueSport.sport, releasedAt: null, slot: { notIn: universalSlots } }, _count: true,
+  });
   const retained = new Map(retainedRows.map((row) => [row.teamId, row._count]));
   const pickOrder = buildPickOrder(order, leagueSport.draftRounds, retained);
   if (!pickOrder.length) throw new Error(`${leagueSport.sport} rosters are already full for this season.`);
@@ -79,7 +85,7 @@ export async function automaticCandidate(draftId: string, teamId: string) {
   const database = getDatabase(); const draft = await database.draft.findUniqueOrThrow({ where: { id: draftId }, include: { leagueSport: true } });
   const queue = await database.draftQueueEntry.findMany({ where: { draftId, teamId, player: { sport: draft.sport, rosterEntries: { none: { leagueId: draft.leagueId, sport: draft.sport, releasedAt: null } } } }, orderBy: { rank: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
   const [roster, candidates] = await Promise.all([
-    database.rosterEntry.findMany({ where: { leagueId: draft.leagueId, sport: draft.sport, teamId, releasedAt: null }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } }),
+    database.rosterEntry.findMany({ where: { leagueId: draft.leagueId, sport: draft.sport, teamId, releasedAt: null, slot: { notIn: universalSlots } }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } }),
     availablePlayers(draft.leagueId, "", undefined, 100, draft.sport),
   ]);
   if (roster.length >= draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots) return null;
@@ -104,8 +110,12 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const player = await tx.player.findUniqueOrThrow({ where: { id: input.playerId }, include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true } } } });
     if (player.sport !== draft.sport) throw new Error(`Only ${draft.sport} players are eligible for this draft.`);
     const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId, leagueSportId: draft.leagueSportId } } });
+    const compliance = await currentCompliance(tx, teamId, now);
+    if (compliance.state !== "COMPLIANT") throw new Error("Resolve roster noncompliance before making a draft selection.");
     const round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1; const roundPick = (draft.currentPick - 1) % draft.order.length + 1;
-    const activeRoster = await tx.rosterEntry.findMany({ where: { rosterId: roster.id, releasedAt: null }, select: { slot: true, slotIndex: true } });
+    const activeRoster = await tx.rosterEntry.findMany({
+      where: { rosterId: roster.id, releasedAt: null, slot: { notIn: universalSlots } }, select: { slot: true, slotIndex: true },
+    });
     const maximum = draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots;
     if (activeRoster.length >= maximum) throw new Error("This sport roster is full.");
     const positions = new Set(player.gameStats[0]?.observedPositions ?? []); const occupied = new Map<string, number>();
@@ -113,8 +123,8 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const slot = draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
     const capacity = slot === "BENCH" ? draft.leagueSport.benchSlots : draft.leagueSport.rosterSlots.filter((value) => value === slot).length;
     const usedIndexes = new Set(activeRoster.filter((entry) => entry.slot === slot).map(({ slotIndex }) => slotIndex));
-    let slotIndex = 1; while (usedIndexes.has(slotIndex) && slotIndex <= capacity) slotIndex++;
-    if (slotIndex > capacity) throw new Error(`No open ${slot} roster position remains.`);
+    const slotIndex = firstOpenSlot(usedIndexes, capacity);
+    if (!slotIndex) throw new Error(`No open ${slot} roster position remains.`);
     const pick = await tx.draftPick.create({ data: { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false } });
     const entry = await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: draft.sport, seasonId: draft.leagueSport.seasonId, slot, slotIndex, acquiredAt: now } });
     await tx.rosterAssignmentEvent.create({ data: { leagueId: draft.leagueId, teamId, rosterEntryId: entry.id, actorUserId: input.userId,

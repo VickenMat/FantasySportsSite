@@ -80,3 +80,25 @@ it("uses the latest verified IR designation and blocks acquisition until the ros
   await expect(addFreeAgent(user.id, league.id, available, "NFL")).resolves.toMatchObject({ playerId: available });
   await database.league.delete({ where: { id: league.id } });
 });
+
+it("moves and swaps exact shared slot indexes without changing either player's sport roster", async () => {
+  const { user, league, playerIds: [football, anotherFootball, , basketball] } = await fixture();
+  const nfl = await addFreeAgent(user.id, league.id, football, "NFL");
+  const nba = await addFreeAgent(user.id, league.id, basketball, "NBA");
+  await expect(setLineupSlot(user.id, league.id, nfl.id, "UNIVERSAL_BENCH", "NFL", null, 3))
+    .resolves.toMatchObject({ slot: "UNIVERSAL_BENCH", slotIndex: 3 });
+  await expect(setLineupSlot(user.id, league.id, nba.id, "UNIVERSAL_BENCH", "NBA", null, 4))
+    .resolves.toMatchObject({ slot: "UNIVERSAL_BENCH", slotIndex: 4 });
+  await expect(setLineupSlot(user.id, league.id, nfl.id, "UNIVERSAL_BENCH", "NFL", nba.id, 4))
+    .resolves.toMatchObject({ sport: "NFL", rosterId: nfl.rosterId, slotIndex: 4 });
+  expect(await database.rosterEntry.findUniqueOrThrow({ where: { id: nba.id } }))
+    .toMatchObject({ sport: "NBA", rosterId: nba.rosterId, slot: "UNIVERSAL_BENCH", slotIndex: 3 });
+
+  const alternate = await addFreeAgent(user.id, league.id, anotherFootball, "NFL");
+  await expect(setLineupSlot(user.id, league.id, alternate.id, "UNIVERSAL_BENCH", "NFL", nba.id, 3))
+    .rejects.toThrow(/sport-specific position/i);
+  await expect(setLineupSlot(user.id, league.id, alternate.id, "UNIVERSAL_BENCH", "NFL", null, 3))
+    .rejects.toThrow(/position changed/i);
+  expect(await database.rosterEntry.findUniqueOrThrow({ where: { id: alternate.id } })).toMatchObject({ slot: "BENCH" });
+  await database.league.delete({ where: { id: league.id } });
+});
