@@ -763,7 +763,7 @@ model WaiverClaim {
 }
 
 model FaabAccount {
-  id                  String             @id @default(uuid()) @db.Uuid
+  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   leagueId            String             @db.Uuid
   teamId              String             @db.Uuid
   scope               FaabScope
@@ -780,13 +780,13 @@ model FaabAccount {
   claims              WaiverClaim[]
   ledgerEntries       FaabLedgerEntry[]
 
-  @@index([leagueId, teamId, scope])
+  @@index([leagueId, teamId, scope], map: "FaabAccount_league_team_scope_idx")
   @@index([leagueSportId, teamId])
   @@index([championshipCycleId, teamId])
 }
 
 model FaabLedgerEntry {
-  id             String         @id @default(uuid()) @db.Uuid
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   accountId      String         @db.Uuid
   claimId        String?        @db.Uuid
   type           FaabLedgerType
@@ -805,13 +805,13 @@ model FaabLedgerEntry {
 }
 
 model WaiverPriority {
-  id            String      @id @default(uuid()) @db.Uuid
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   leagueId      String      @db.Uuid
   leagueSportId String      @db.Uuid
   teamId        String      @db.Uuid
   rank          Int
   createdAt     DateTime    @default(now()) @db.Timestamptz(3)
-  updatedAt     DateTime    @updatedAt @db.Timestamptz(3)
+  updatedAt     DateTime    @default(now()) @updatedAt @db.Timestamptz(3)
   league        League      @relation(fields: [leagueId], references: [id], onDelete: Cascade)
   leagueSport   LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
   team          FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
@@ -965,7 +965,7 @@ model LeagueSport {
 }
 
 model RelativeMatchupPeriod {
-  id              String            @id @default(uuid()) @db.Uuid
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   leagueId        String            @db.Uuid
   leagueSportId   String            @db.Uuid
   sport           Sport
@@ -982,7 +982,7 @@ model RelativeMatchupPeriod {
 }
 
 model RelativeMatchup {
-  id         String                @id @default(uuid()) @db.Uuid
+  id         String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   periodId   String                @db.Uuid
   homeTeamId String                @db.Uuid
   awayTeamId String                @db.Uuid
@@ -1181,7 +1181,7 @@ model Season {
 }
 
 model RookieEligibilityEvidence {
-  id           String   @id @default(uuid()) @db.Uuid
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   playerId     String   @db.Uuid
   seasonId     String   @db.Uuid
   sport        Sport
@@ -1275,7 +1275,7 @@ model PlayerAvailabilityEvidence {
 }
 
 model GameCompletionEvidence {
-  id           String   @id @default(uuid()) @db.Uuid
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   gameId       String   @db.Uuid
   provider     String
   externalId   String
