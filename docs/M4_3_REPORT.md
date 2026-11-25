@@ -19,3 +19,12 @@ Each integration run deploys and seeds a unique schema inside `fantasy_evolution
 Automated database tests used `fantasy_evolution_test`. Development inspection used read-only PostgreSQL transactions. All 17 development migrations were present and all 17 append-only triggers were enabled. The fingerprints of the historical schedules, crosswalks, player statistics, scoring ledgers, users and leagues matched before and after testing.
 
 Development already had 45 roster entries and 45 roster assignment events before testing, compared with 40 of each in the handoff. The running development draft timer recorded automatic NBA picks 9 and 10 in the existing League1 during verification, bringing both counts to 47. Its periodic jobs and live application session activity also changed the all-table fingerprint. The recovery run left the development services and their records in place.
+
+## Acquisition continuation
+
+- The latest known designation governs universal IR. An active designation supersedes older injury evidence. An ineligible IR occupant blocks free-agent and waiver acquisitions until the roster manager corrects the slot.
+- Releases start a 24-hour hold. Eligible waiver claims can reserve funds during the hold, and free-agent pickup cannot bypass pending claims.
+- Pending claims reserve the sport's FAAB in the same serializable transaction that creates the bid. Cancellation frees the reservation, and an award debits funds and records the existing acquisition transaction atomically. The manager sees the spendable amount and reserved amount.
+- The 24-test PostgreSQL suite covers release-clock boundaries, isolated sport balances, concurrent bids against one balance, idempotent settlement, and recovery from expired IR eligibility.
+
+Rolling priority, independently verified game-completion holds, the cycle-scoped universal account, the dedicated immutable FAAB ledger, and offseason acquisition rules remain open.

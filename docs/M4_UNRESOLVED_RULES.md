@@ -11,6 +11,7 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Retirement | Verified retirement evidence is not bundled. | Players remain rostered and are never inferred retired from missing statistics. |
 | Professional schedules | V5 is accepted. Four NBA crosswalk rows remain unresolved, five future starts are unpublished, and observed season boundaries lack independent verification. | Use accepted games where eligible and keep unavailable dates pending. |
 | Correction publication time | The development archive has no official publication timestamps on its 107,312 stat revisions. | Preserve statistical revisions and keep competitive outcomes provisional until official timestamps are available. |
+| Waiver game clock | The schedule bundle gives starts and completion statuses. It lacks verified game-completion instants. | Apply the verified release clock. Keep game-completion holds pending until a source provides the required instant. |
 | Schedule normalization | Formula is explicitly unapproved. | Extension point only; never apply a multiplier. |
 | Keeper Round 10 fallback | A draft configured below ten rounds has no approved substitute cost. | Reject the keeper configuration until an explicit cost is supplied. |
 | Commissioner lottery | Lottery algorithms are configurable but no default lottery formula is approved. | Manual recorded order or reverse final standings; no hidden random lottery. |

@@ -5,8 +5,10 @@ import { getDatabase } from "@/lib/db";
 import { assessRosterCompliance, firstOpenSlot, type ComplianceEntry } from "@/rosters/compliance";
 import { fitsSlot, slotRule } from "@/simulation/config";
 import { resolveLeagueSport } from "./league";
-import { captureDueGameLineups, verifiedIrEvidence } from "./lineup-snapshots";
+import { captureDueGameLineups } from "./lineup-snapshots";
 import { getEligiblePositions } from "./positions";
+import { irEligiblePlayers } from "./roster-availability";
+import { releaseHoldUntil } from "./waiver-holds";
 
 async function managedRoster(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
@@ -21,18 +23,14 @@ function hash(value: unknown) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
 
-async function currentCompliance(tx: Prisma.TransactionClient, teamId: string, at: Date) {
+export async function currentCompliance(tx: Prisma.TransactionClient, teamId: string, at: Date) {
   const team = await tx.fantasyTeam.findUniqueOrThrow({
     where: { id: teamId },
     include: { league: true, sportRosters: { include: { leagueSport: true, entries: { where: { releasedAt: null } } } } },
   });
   const active = team.sportRosters.flatMap(({ entries }) => entries);
   const irPlayers = active.filter(({ slot }) => slot === "IR" || slot === "UNIVERSAL_IR").map(({ playerId }) => playerId);
-  const evidence = irPlayers.length ? await tx.playerAvailabilityEvidence.findMany({
-    where: { playerId: { in: irPlayers }, irEligible: true, effectiveAt: { lte: at }, knownAt: { lte: at }, OR: [{ expiresAt: null }, { expiresAt: { gt: at } }] },
-    orderBy: [{ effectiveAt: "desc" }, { knownAt: "desc" }],
-  }) : [];
-  const eligible = new Set(evidence.map(({ playerId }) => playerId));
+  const eligible = await irEligiblePlayers(tx, irPlayers, at);
   const entries: ComplianceEntry[] = active.map((entry) => ({
     id: entry.id, rosterId: entry.rosterId, playerId: entry.playerId, sport: entry.sport, slot: entry.slot,
     slotIndex: entry.slotIndex, irEligible: eligible.has(entry.playerId),
@@ -67,10 +65,15 @@ export async function addFreeAgent(userId: string, leagueId: string, playerId: s
     if (before.state !== "COMPLIANT") throw new Error("Resolve roster noncompliance before acquiring another player.");
     const player = await tx.player.findUniqueOrThrow({ where: { id: playerId } });
     if (player.sport !== context.leagueSport.sport) throw new Error(`This player is not eligible for the ${context.leagueSport.sport} roster.`);
+    const acquiredAt = new Date();
+    const hold = await releaseHoldUntil(tx, leagueId, playerId);
+    if (hold && hold > acquiredAt) throw new Error("This player is on release waivers. Submit a waiver claim.");
+    if (await tx.waiverClaim.findFirst({ where: { leagueId, addPlayerId: playerId, status: "PENDING" }, select: { id: true } })) {
+      throw new Error("This player has pending waiver claims.");
+    }
     const bench = await tx.rosterEntry.findMany({ where: { rosterId: context.roster.id, releasedAt: null, slot: "BENCH" }, select: { slotIndex: true } });
     const slotIndex = firstOpenSlot(new Set(bench.map(({ slotIndex }) => slotIndex)), context.leagueSport.benchSlots);
     if (!slotIndex) throw new Error("Your sport bench is full. Move an eligible player to a universal bench slot or release a player first.");
-    const acquiredAt = new Date();
     const entry = await tx.rosterEntry.create({ data: {
       leagueId, teamId: context.membership.fantasyTeam!.id, rosterId: context.roster.id, playerId,
       sport: context.leagueSport.sport, seasonId: context.leagueSport.seasonId, slot: "BENCH", slotIndex, acquiredAt,
@@ -128,12 +131,12 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : entry.player.gameStats[0]?.observedPositions ?? [];
     if (!fitsSlot(context.leagueSport.sport, normalizedSlot, new Set(positions))) throw new Error("The player's recorded eligibility does not fit that slot.");
   }
-  if (normalizedSlot === "UNIVERSAL_IR" && !(await verifiedIrEvidence(entry.playerId, decisionAt))) {
-    throw new Error("Universal IR requires current, source-backed IR eligibility. Offseason status or missing data does not qualify.");
-  }
   return database.$transaction(async (tx) => {
     const current = await tx.rosterEntry.findFirst({ where: { id: entry.id, rosterId: context.roster.id, releasedAt: null }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
     if (!current || current.lockedAt) throw new Error("That roster entry is no longer movable.");
+    if (normalizedSlot === "UNIVERSAL_IR" && !(await irEligiblePlayers(tx, [current.playerId], decisionAt)).has(current.playerId)) {
+      throw new Error("Universal IR requires current, source-backed IR eligibility.");
+    }
     const allowed = normalizedSlot === "BENCH" ? context.leagueSport.benchSlots
       : normalizedSlot === "UNIVERSAL_BENCH" ? context.membership.league.universalBenchSlots
       : normalizedSlot === "UNIVERSAL_IR" ? context.membership.league.universalIrSlots
@@ -160,9 +163,8 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
       if (!fitsSlot(context.leagueSport.sport, current.slot, new Set(positions))) throw new Error(`The swap is invalid because ${displaced.player.displayName} cannot occupy ${current.slot}.`);
     }
     if (displaced && (current.slot === "UNIVERSAL_IR" || current.slot === "IR")) {
-      const evidence = await tx.playerAvailabilityEvidence.findFirst({ where: { playerId: displaced.playerId, irEligible: true,
-        effectiveAt: { lte: decisionAt }, knownAt: { lte: decisionAt }, OR: [{ expiresAt: null }, { expiresAt: { gt: decisionAt } }] } });
-      if (!evidence) throw new Error(`The swap is invalid because ${displaced.player.displayName} lacks verified IR eligibility.`);
+      const eligible = await irEligiblePlayers(tx, [displaced.playerId], decisionAt);
+      if (!eligible.has(displaced.playerId)) throw new Error(`The swap is invalid because ${displaced.player.displayName} lacks verified IR eligibility.`);
     }
     const movedAt = new Date();
     const before = await currentCompliance(tx, current.teamId, movedAt);
@@ -178,8 +180,8 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
       fromSlot: current.slot, fromSlotIndex: current.slotIndex, toSlot: normalizedSlot, toSlotIndex: targetIndex,
       effectiveAt: movedAt, reason: displaced ? "Atomic roster swap" : "Roster position change", key: `move:${current.id}:${movedAt.toISOString()}` });
     const after = await currentCompliance(tx, current.teamId, movedAt);
-    if (before.state !== "COMPLIANT" && after.state !== "COMPLIANT" && after.reasons.length >= before.reasons.length) {
-      throw new Error("A noncompliant roster may only make a move that reduces or resolves its violations.");
+    if (after.state !== "COMPLIANT" && (before.state === "COMPLIANT" || after.reasons.length >= before.reasons.length)) {
+      throw new Error("Roster moves must preserve compliance or reduce existing violations.");
     }
     return updated;
   }, { isolationLevel: "Serializable" });

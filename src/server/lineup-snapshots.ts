@@ -51,13 +51,6 @@ export async function recordAvailabilityEvidence(input: z.input<typeof availabil
   });
 }
 
-export async function verifiedIrEvidence(playerId: string, at = new Date()) {
-  return getDatabase().playerAvailabilityEvidence.findFirst({
-    where: { playerId, irEligible: true, effectiveAt: { lte: at }, knownAt: { lte: at }, OR: [{ expiresAt: null }, { expiresAt: { gt: at } }] },
-    orderBy: [{ effectiveAt: "desc" }, { knownAt: "desc" }, { createdAt: "desc" }],
-  });
-}
-
 export async function captureGameLineups(gameId: string, now = new Date()) {
   const database = getDatabase();
   const game = await database.game.findUnique({ where: { id: gameId }, select: { id: true, startsAt: true, sport: true } });
