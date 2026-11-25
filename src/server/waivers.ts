@@ -5,6 +5,7 @@ import { resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
 import { waiverHoldUntil } from "./waiver-holds";
 import { accountForWaiver, moveWaiverWinnerToBottom, releaseFaabReservation, reserveFaab, settleFaab } from "./faab";
+import { assertRookieDraftComplete } from "./rookies";
 
 export async function reservedSportFaab(tx: Prisma.TransactionClient, rosterId: string) {
   const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { id: rosterId } });
@@ -39,6 +40,7 @@ export async function submitWaiver(userId: string, input: { leagueId: string; sp
     if (compliance.state !== "COMPLIANT") throw new Error("Resolve roster noncompliance before submitting a waiver claim.");
     const player = await tx.player.findUniqueOrThrow({ where: { id: value.addPlayerId } });
     if (player.sport !== leagueSport.sport) throw new Error(`This player is not in the ${leagueSport.sport} waiver pool.`);
+    await assertRookieDraftComplete(tx, leagueSport.id, leagueSport.seasonId, player.id, now);
     if (await tx.rosterEntry.findFirst({ where: { leagueId: value.leagueId, playerId: value.addPlayerId, releasedAt: null } })) {
       throw new Error("That player is already owned in this sport.");
     }

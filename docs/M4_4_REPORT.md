@@ -8,4 +8,8 @@ The new migration is additive and has been exercised in the disposable test envi
 
 Both the regular and shuffled 26-test PostgreSQL suites passed. The eight Chromium tests include granting 48 four-round NBA picks for four franchises and repeating the grant through the browser. TypeScript, ESLint, Prisma validation, the 136 unit tests, and the Turbopack build passed. Read-only development fingerprints matched for every table except the running development worker's job log.
 
-Live rookie eligibility needs authoritative sport-specific evidence. Linear rookie draft execution, acquisition gates, pick transfer and consumption, automated rollover, and keeper history and costs remain open. The November 24 master specification will resolve details omitted from the recovered summaries.
+## Master-specification continuation
+
+Rookie status now comes only from append-only sport-and-season evidence. The latest source-known decision gates free-agent and waiver acquisition until an explicitly identified rookie draft is complete; unknown players remain unknown and are not inferred to be rookies. Initial and rookie drafts can coexist for the same sport season. Synthetic disposable-schema coverage verifies the gate and immutable evidence without adding production eligibility facts.
+
+Linear rookie draft execution, future-pick transfer/consumption, automated rollover, and keeper history/costs remain open. Production rookie eligibility remains `PENDING_DATA`.

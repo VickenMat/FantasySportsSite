@@ -8,6 +8,7 @@ import { resolveLeagueSport } from "./league";
 import { captureDueGameLineups } from "./lineup-snapshots";
 import { getEligiblePositions } from "./positions";
 import { irEligiblePlayers } from "./roster-availability";
+import { assertRookieDraftComplete } from "./rookies";
 import { waiverHoldUntil } from "./waiver-holds";
 
 async function managedRoster(userId: string, leagueId: string, requestedSport?: Sport | string) {
@@ -66,6 +67,7 @@ export async function addFreeAgent(userId: string, leagueId: string, playerId: s
     const player = await tx.player.findUniqueOrThrow({ where: { id: playerId } });
     if (player.sport !== context.leagueSport.sport) throw new Error(`This player is not eligible for the ${context.leagueSport.sport} roster.`);
     const acquiredAt = new Date();
+    await assertRookieDraftComplete(tx, context.leagueSport.id, context.leagueSport.seasonId, playerId, acquiredAt);
     if (!context.membership.league.isHistorical && context.membership.league.format === "REDRAFT") {
       const completedDraft = await tx.draft.findFirst({ where: {
         leagueSportId: context.leagueSport.id, seasonId: context.leagueSport.seasonId, status: "COMPLETE",

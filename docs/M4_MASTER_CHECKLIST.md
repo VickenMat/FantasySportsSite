@@ -22,11 +22,11 @@ This checklist implements the reconstructed November 25, 2026 M4 master specific
 - [ ] Rolling waiver priority and 24-hour holds (reverse-snake priority, winner-to-bottom, release and synthetic verified-completion mechanisms verified; auction initial draw and production completion evidence remain gated)
 - [ ] Per-sport $100 and optional cycle-scoped universal $500 FAAB accounts (accounts verified; independent rollover resets remain M4.7)
 - [x] Sealed $0+ bids, reservations, immutable ledger, priority tie resolution and concurrent-spend protection
-- [ ] Dynasty offseason acquisition enabled and redraft disabled until applicable draft; verified-rookie pre-draft block remains M4.4
+- [x] Dynasty offseason acquisition enabled, redraft disabled until applicable draft, and source-verified-rookie pre-draft acquisition block
 
 ## M4.4 dynasty and keepers
 
-- [ ] Verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture coverage required)
+- [x] Append-only verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture verified)
 - [ ] Configurable four-round linear traditional rookie drafts, reverse-placement/manual order provenance, overflow and pick consumption
 - [x] Three-season future-pick inventory and initial ownership history
 - [ ] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and Round 10 fallback gate

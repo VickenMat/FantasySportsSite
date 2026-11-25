@@ -7,6 +7,7 @@ import { recordAvailabilityEvidence } from "@/server/lineup-snapshots";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { cancelWaiver, processWaivers, reservedSportFaab, submitWaiver } from "@/server/waivers";
 import { recordGameCompletionEvidence } from "@/server/waiver-holds";
+import { recordRookieEligibility } from "@/server/rookies";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
@@ -142,6 +143,27 @@ it("uses the latest verified IR designation and blocks acquisition until the ros
   await expect(submitWaiver(user.id, { leagueId: league.id, sport: "NFL", addPlayerId: available, bid: 1 })).rejects.toThrow(/noncompliance/i);
   await expect(setLineupSlot(user.id, league.id, athlete.id, "BENCH", "NFL")).resolves.toMatchObject({ slot: "BENCH" });
   await expect(addFreeAgent(user.id, league.id, available, "NFL")).resolves.toMatchObject({ playerId: available });
+  await database.league.delete({ where: { id: league.id } });
+});
+
+it("blocks only source-verified rookies until the applicable rookie draft completes", async () => {
+  const { user, league, roster, playerIds: [rookie, unknown] } = await fixture();
+  const leagueSport = await database.leagueSport.findUniqueOrThrow({ where: { id: roster.leagueSportId } });
+  const evidence = await recordRookieEligibility({
+    playerId: rookie, seasonId: leagueSport.seasonId, sport: "NFL", eligible: true,
+    effectiveAt: new Date(Date.now() - 2000), knownAt: new Date(Date.now() - 1000),
+    provider: "m44-rookie", externalId: randomUUID(), sourceRecord: { synthetic: true },
+  });
+  await expect(addFreeAgent(user.id, league.id, rookie, "NFL")).rejects.toThrow(/rookie draft completes/i);
+  await expect(addFreeAgent(user.id, league.id, unknown, "NFL")).resolves.toMatchObject({ playerId: unknown });
+  const teams = await database.fantasyTeam.findMany({ where: { leagueId: league.id }, orderBy: { draftSlot: "asc" } });
+  await database.draft.create({ data: {
+    leagueId: league.id, leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId, sport: "NFL", kind: "ROOKIE",
+    status: "COMPLETE", rounds: 4, secondsPerPick: 90, currentPick: 9, order: teams.map(({ id }) => id),
+    pickOrder: Array.from({ length: 4 }).flatMap(() => teams.map(({ id }) => id)), orderProvenance: "Synthetic reverse standings fixture", completedAt: new Date(),
+  } });
+  await expect(addFreeAgent(user.id, league.id, rookie, "NFL")).resolves.toMatchObject({ playerId: rookie });
+  await expect(database.rookieEligibilityEvidence.update({ where: { id: evidence.id }, data: { eligible: false } })).rejects.toThrow(/append-only/i);
   await database.league.delete({ where: { id: league.id } });
 });
 

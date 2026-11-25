@@ -71,6 +71,11 @@ enum DraftStatus {
   COMPLETE
 }
 
+enum DraftKind {
+  INITIAL
+  ROOKIE
+}
+
 enum WaiverStatus {
   PENDING
   WON
@@ -448,6 +453,8 @@ model Draft {
   leagueSportId     String            @db.Uuid
   seasonId          String            @db.Uuid
   sport             Sport
+  kind              DraftKind         @default(INITIAL)
+  orderProvenance   String?
   status            DraftStatus       @default(SCHEDULED)
   rounds            Int
   secondsPerPick    Int               @default(90)
@@ -468,7 +475,7 @@ model Draft {
   picks             DraftPick[]
   queue             DraftQueueEntry[]
 
-  @@unique([leagueSportId, seasonId])
+  @@unique([leagueSportId, seasonId, kind])
   @@index([leagueId, sport, status])
   @@index([status, pickDeadlineAt])
 }
@@ -1066,6 +1073,7 @@ model Player {
   keeperSelections     KeeperSelection[]
   availabilityEvidence PlayerAvailabilityEvidence[]
   lineupSnapshots      GameLineupSnapshot[]
+  rookieEvidence       RookieEligibilityEvidence[]
 
   @@index([sport, displayName])
   @@index([isDemo, sport, displayName])
@@ -1129,8 +1137,29 @@ model Season {
   leagueAssignments    LeagueSportSeason[]
   calendarObservations SeasonCalendarObservation[]
   teamObservations     ProTeamSeasonObservation[]
+  rookieEvidence       RookieEligibilityEvidence[]
 
   @@unique([sport, startYear])
+}
+
+model RookieEligibilityEvidence {
+  id           String   @id @default(uuid()) @db.Uuid
+  playerId     String   @db.Uuid
+  seasonId     String   @db.Uuid
+  sport        Sport
+  eligible     Boolean
+  effectiveAt  DateTime @db.Timestamptz(3)
+  knownAt      DateTime @db.Timestamptz(3)
+  provider     String
+  externalId   String
+  sourceRecord Json
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  player       Player   @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  season       Season   @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, externalId])
+  @@index([playerId, seasonId, knownAt])
+  @@index([sport, seasonId, eligible])
 }
 
 model PlayerExternalId {
