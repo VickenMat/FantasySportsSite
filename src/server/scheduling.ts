@@ -45,6 +45,7 @@ export type SportSchedulePreview = {
 
 export function buildSchedulePreview(input: {
   sports: readonly Sport[]; draftCompleteBy: Date; competitionType: CompetitionType;
+  fantasyPlayoffs?: Partial<Record<Sport, { startsAt: Date; endsAt: Date }>>;
 }, revisions: readonly ScheduleRevision[]): SportSchedulePreview[] {
   return input.sports.map((sport) => {
     const currentBySeason = new Map<string, ScheduleRevision>();
@@ -62,17 +63,21 @@ export function buildSchedulePreview(input: {
         playoffStartsAt: null, playoffEndsAt: null, tradeDeadlineAt: null, rolloverEligibleAt: null, warnings: [] };
     }
     const warnings: string[] = [];
+    const fantasy = input.competitionType === "HEAD_TO_HEAD" ? input.fantasyPlayoffs?.[sport] : undefined;
+    if (fantasy && (fantasy.startsAt >= fantasy.endsAt || fantasy.startsAt <= selected.regularSeasonStartsAt! || fantasy.endsAt > selected.regularSeasonEndsAt!)) {
+      throw new Error("Fantasy playoffs must fit inside the authoritative regular-season window.");
+    }
     let tradeDeadlineAt: Date | null;
     if (input.competitionType === "CUMULATIVE") tradeDeadlineAt = new Date(selected.regularSeasonEndsAt!.getTime() - 14 * DAY);
-    else if (selected.postseasonStartsAt) tradeDeadlineAt = new Date(selected.postseasonStartsAt.getTime() - 14 * DAY);
+    else if (fantasy) tradeDeadlineAt = new Date(fantasy.startsAt.getTime() - 14 * DAY);
     else {
       tradeDeadlineAt = null;
-      warnings.push("Head-to-head trade deadline is pending because the authoritative playoff start is unavailable.");
+      warnings.push("Fantasy playoff dates and the head-to-head trade deadline are pending fantasy competition configuration. Professional postseason dates are not fantasy playoff dates.");
     }
     return { sport, status: "AVAILABLE", reason: "Eligible source-backed schedule found.", seasonId: selected.season.id,
       scheduleRevisionId: selected.id, seasonLabel: selected.season.label, draftDeadlineAt: selected.regularSeasonStartsAt,
       firstScoringAt: selected.regularSeasonStartsAt, scoringEndsAt: selected.regularSeasonEndsAt,
-      playoffStartsAt: selected.postseasonStartsAt, playoffEndsAt: selected.postseasonEndsAt, tradeDeadlineAt,
+      playoffStartsAt: fantasy?.startsAt ?? null, playoffEndsAt: fantasy?.endsAt ?? null, tradeDeadlineAt,
       rolloverEligibleAt: selected.postseasonEndsAt ?? selected.regularSeasonEndsAt, warnings };
   });
 }

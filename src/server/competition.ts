@@ -199,7 +199,15 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
     const weeks = [...groups.entries()].sort((a, b) => a[1][0].startsAt.getTime() - b[1][0].startsAt.getTime());
     const playoffWeeks = competition.configSnapshot.competitionType === "HEAD_TO_HEAD" ? competition.configSnapshot.playoffWeeks : 0;
     if (playoffWeeks >= weeks.length) throw new Error("The authoritative schedule does not contain enough weeks for the configured regular season and playoffs.");
-    const regularCount = weeks.length - playoffWeeks;
+    const regularCount = playoffWeeks && competition.sport === "NFL"
+      ? weeks.findIndex(([, games]) => (games[0].week ?? 0) >= 18 - playoffWeeks)
+      : weeks.length - playoffWeeks;
+    if (playoffWeeks && competition.sport === "NFL" &&
+      (regularCount < 1 || Array.from({ length: playoffWeeks }, (_, index) => 18 - playoffWeeks + index)
+        .some((week) => !weeks.some(([, games]) => games[0].week === week)))) {
+      return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA",
+        statusReason: "NFL fantasy playoff weeks require published starts through Week 17. Missing weeks cannot shift the fantasy playoff window." } });
+    }
     const pairings = competition.configSnapshot.competitionType === "HEAD_TO_HEAD"
       ? roundRobinPairings(competition.league.teams.map(({ id }) => id), regularCount) : [];
     const previous = await tx.scoringPeriod.findFirst({
@@ -213,9 +221,17 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
         sport: competition.sport, number: (previous?.number ?? 0) + index + 1, competitionId: competition.id, periodType,
         startsAt: weekGames[0].startsAt, endsAt: weekGames[weekGames.length - 1].startsAt } });
       await tx.competitionPeriodGame.createMany({ data: weekGames.map((game) => ({ sportCompetitionId: competition.id, scoringPeriodId: period.id, gameId: game.id })) });
-      if (periodType === "REGULAR") for (const pairing of pairings.filter(({ round }) => round === index + 1)) await tx.matchup.create({ data: {
-        leagueId: competition.leagueId, sport: competition.sport, periodId: period.id, homeTeamId: pairing.homeTeamId, awayTeamId: pairing.awayTeamId,
-      } });
+      if (periodType === "REGULAR") {
+        const plan = await tx.relativeMatchupPeriod.findUnique({ where: { leagueSportId_number: {
+          leagueSportId: competition.leagueSportSeason.leagueSportId, number: index + 1,
+        } }, include: { matchups: true } });
+        if (plan?.scoringPeriodId && plan.scoringPeriodId !== period.id) throw new Error("This relative period is already bound to a prior calendar. A new-cycle plan is required.");
+        if (plan) await tx.relativeMatchupPeriod.update({ where: { id: plan.id }, data: { scoringPeriodId: period.id } });
+        const opponents = plan?.matchups ?? pairings.filter(({ round }) => round === index + 1);
+        for (const pairing of opponents) await tx.matchup.create({ data: {
+          leagueId: competition.leagueId, sport: competition.sport, periodId: period.id, homeTeamId: pairing.homeTeamId, awayTeamId: pairing.awayTeamId,
+        } });
+      }
     }
     const fingerprint = createHash("sha256").update(eligible.map((game) => `${game.id}:${game.startsAt.toISOString()}`).join("|")).digest("hex");
     return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "UPCOMING", statusReason: `Source-backed periods provisioned from schedule ${fingerprint}.`,

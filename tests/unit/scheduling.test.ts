@@ -31,7 +31,11 @@ describe("M4.1 source-backed championship scheduling", () => {
     const nba = revision("nba", "NBA", 2027, "2027-10-19T00:00:00Z", "2028-04-14T00:00:00Z", { postseasonStartsAt: new Date("2028-04-20T00:00:00Z"), postseasonEndsAt: new Date("2028-06-20T00:00:00Z") });
     const [headToHead] = buildSchedulePreview({ sports: ["NBA"], draftCompleteBy: new Date("2027-02-01T00:00:00Z"), competitionType: "HEAD_TO_HEAD" }, [nba]);
     const [cumulative] = buildSchedulePreview({ sports: ["NBA"], draftCompleteBy: new Date("2027-02-01T00:00:00Z"), competitionType: "CUMULATIVE" }, [nba]);
-    expect(headToHead.tradeDeadlineAt?.toISOString()).toBe("2028-04-06T00:00:00.000Z");
+    expect(headToHead.tradeDeadlineAt).toBeNull();
+    expect(headToHead.playoffStartsAt).toBeNull();
+    const [configured] = buildSchedulePreview({ sports: ["NBA"], draftCompleteBy: new Date("2027-02-01T00:00:00Z"), competitionType: "HEAD_TO_HEAD",
+      fantasyPlayoffs: { NBA: { startsAt: new Date("2028-03-20T00:00:00Z"), endsAt: new Date("2028-04-10T00:00:00Z") } } }, [nba]);
+    expect(configured.tradeDeadlineAt?.toISOString()).toBe("2028-03-06T00:00:00.000Z");
     expect(cumulative.tradeDeadlineAt?.toISOString()).toBe("2028-03-31T00:00:00.000Z");
     expect(headToHead.rolloverEligibleAt?.toISOString()).toBe("2028-06-20T00:00:00.000Z");
   });

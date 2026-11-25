@@ -163,6 +163,29 @@ test("a new account sees an empty dashboard and cannot view a different league",
   }
 });
 
+test("profile editing persists and explicit account deletion anonymizes identity and revokes sessions", async ({ page }) => {
+  const email = `account-${randomUUID()}@example.test`;
+  const database = getDatabase();
+  await register(page, "Account Manager", email);
+  const original = await database.user.findUniqueOrThrow({ where: { email } });
+  await page.goto("/account");
+  await page.getByLabel("Display name").fill("Updated Account Manager");
+  await page.getByRole("button", { name: "Save profile" }).click();
+  await expect.poll(async () => (await database.user.findUniqueOrThrow({ where: { id: original.id } })).name).toBe("Updated Account Manager");
+  await page.reload();
+  await expect(page.getByLabel("Display name")).toHaveValue("Updated Account Manager");
+  await page.getByLabel("Current password", { exact: true }).last().fill(password);
+  await page.getByLabel("Type DELETE").fill("DELETE");
+  await page.getByRole("checkbox", { name: /I understand/ }).check();
+  await page.getByRole("button", { name: "Delete account", exact: true }).click();
+  await expect(page).toHaveURL("/sign-in?deleted=1");
+  const anonymized = await database.user.findUniqueOrThrow({ where: { id: original.id } });
+  expect(anonymized.email).not.toBe(email);
+  expect(anonymized.name).not.toBe("Updated Account Manager");
+  expect(await database.session.count({ where: { userId: original.id } })).toBe(0);
+  expect(await (await page.request.get("/api/auth/get-session")).json()).toBeNull();
+});
+
 test("password recovery delivers email, updates the password and revokes an existing session", async ({ page, request }) => {
   const email = `recovery-${randomUUID()}@example.test`;
   const newPassword = "updated-manager-password!";

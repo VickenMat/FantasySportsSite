@@ -32,12 +32,12 @@ export async function deleteAccountAction(form: FormData) {
   if (form.get("confirm") !== "on" || String(form.get("confirmation")) !== "DELETE") throw new Error("Confirm account deletion by entering DELETE and selecting the confirmation checkbox.");
   await getAuth().api.verifyPassword({ headers: await headers(), body: { password: String(form.get("password") ?? "") } });
   const database = getDatabase();
-  const activeCommissioner = await database.leagueMember.findFirst({ where: {
-    userId: user.id, role: "COMMISSIONER", league: { status: { not: "COMPLETE" } },
-  }, include: { league: true } });
-  if (activeCommissioner) throw new Error(`Transfer or resolve commissioner ownership for ${activeCommissioner.league.name} before deleting this account.`);
   const suffix = randomUUID();
   await database.$transaction(async (tx) => {
+    const activeCommissioner = await tx.leagueMember.findFirst({ where: {
+      userId: user.id, role: "COMMISSIONER", league: { status: { not: "COMPLETE" } },
+    }, include: { league: true } });
+    if (activeCommissioner) throw new Error(`Transfer or resolve commissioner ownership for ${activeCommissioner.league.name} before deleting this account.`);
     await tx.session.deleteMany({ where: { userId: user.id } });
     await tx.account.deleteMany({ where: { userId: user.id } });
     await tx.user.update({ where: { id: user.id }, data: {

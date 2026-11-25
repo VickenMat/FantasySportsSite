@@ -17,6 +17,7 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Universal cap trade deadline | A universal asset can span independently scheduled sports, but its deadline is not approved. | Implement conserved current-cycle accounting; keep deadline-dependent execution gated. |
 | Same-round playoff placement | Eliminated teams rank primarily by elimination round, but same-round tiebreakers are not approved. | Persist the elimination round and require configured/approved resolution before assigning ambiguous same-round final places. |
 | Higher-salary repeat release | Replacement rather than stacking is approved for subsequent cuts, but the floor/dead-cap basis when the new salary exceeds the prior salary is not approved. | Implement equal-or-lower salary replacement and keep the higher-salary case pending. |
+| MLB/NBA position repair | Current local accepted Parquet files contain no position columns; no repaired position source was found under project data. | Display unknown positions, retain canonical IDs, and keep historical observations separate from current eligibility. Do not infer positions from age, role category or missing records. |
 
 ## Data blockers
 

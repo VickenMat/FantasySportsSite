@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState, type ReactNode } from "react";
 import { lineupAction } from "@/app/actions/leagues";
 import type { Sport } from "@/generated/prisma/enums";
 import { PositionBadges } from "./position-badge";
@@ -10,13 +10,14 @@ export type PositionRow = {
   label: string;
   slot: string;
   index: number;
-  entry: null | { id: string; playerId: string; sport: Sport; name: string; positions: string[]; team: string | null; locked: boolean };
+  entry: null | { id: string; playerId: string; sport: Sport; name: string; positions: string[]; team: string | null; locked: boolean; average?: string; points?: string };
 };
 
-export function RosterPositionEditor({ leagueId, rows, legalDestinations }: {
+export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookiePicks }: {
   leagueId: string;
   rows: PositionRow[];
   legalDestinations: Record<string, string[]>;
+  rookiePicks?: ReactNode;
 }) {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const source = rows.find(({ key }) => key === selectedKey);
@@ -25,7 +26,8 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations }: {
   return <div className="position-editor" data-testid="position-editor">
     {source?.entry && <div className="position-help" role="status"><span>Moving <strong>{source.entry.name}</strong>. Choose a highlighted destination.</span><button type="button" className="button compact secondary" onClick={() => setSelectedKey(null)}>Cancel</button></div>}
     <div className="roster-position-grid roster-position-head"><span>Slot</span><span>Player</span><span>TEAM</span><span>POS</span><span>AVG</span><span>PTS</span></div>
-    {rows.map((row) => {
+    {rows.map((row, index) => {
+      const group = (slot: string) => slot === "BENCH" ? "Sport bench" : slot === "UNIVERSAL_IR" ? "Shared IR" : slot === "UNIVERSAL_BENCH" ? "Shared universal bench" : "Starters";
       const selected = row.key === selectedKey;
       const destination = Boolean(source?.entry && legal.has(row.key));
       const disabled = Boolean(source?.entry && !destination && !selected);
@@ -40,9 +42,15 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations }: {
         </form>
         : <button type="button" className={`position-button ${selected ? "selected" : ""}`} disabled={disabled || !row.entry}
           onClick={selected ? () => setSelectedKey(null) : undefined}>{row.label}</button>;
-      return <div key={row.key} className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
-        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry ? <PositionBadges sport={row.entry.sport} positions={row.entry.positions} /> : "N/A"}</span><span>N/A</span><span>N/A</span>
-      </div>;
+      return <Fragment key={row.key}>
+        {row.slot === "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_IR" && rookiePicks}
+        {(index === 0 || group(row.slot) !== group(rows[index - 1].slot)) && <h3>{group(row.slot)}</h3>}
+        <div className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
+        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry ? <PositionBadges sport={row.entry.sport} positions={row.entry.positions} /> : "N/A"}</span><span>{row.entry?.average ?? "N/A"}</span><span>{row.entry?.points ?? "N/A"}</span>
+        </div>
+        {row.slot === "UNIVERSAL_IR" && rows[index + 1]?.slot !== "UNIVERSAL_IR" && rookiePicks}
+      </Fragment>;
     })}
+    {!rows.some(({ slot }) => slot === "UNIVERSAL_IR" || slot === "UNIVERSAL_BENCH") && rookiePicks}
   </div>;
 }

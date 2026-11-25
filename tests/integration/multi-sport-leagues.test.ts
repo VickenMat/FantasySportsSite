@@ -73,12 +73,17 @@ describe("M3.6 persistent multi-sport leagues", () => {
 
       const commissionerTeam = await database.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: commissioner.id } });
       const retained = await database.rosterEntry.findFirstOrThrow({ where: { leagueId: league.id, teamId: commissionerTeam.id, sport: "NFL", releasedAt: null } });
-      await selectKeeper(commissioner.id, league.id, "NFL", retained.playerId);
+      expect(await selectKeeper(commissioner.id, league.id, "NFL", retained.playerId)).toMatchObject({ draftCost: 1 });
       const nfl = await database.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId: league.id, sport: "NFL" } }, include: { season: true } });
       await transitionSportSeason(commissioner.id, league.id, "NFL", (nfl.season?.startYear ?? 2026) + 1);
       expect(await database.rosterEntry.findFirst({ where: { leagueId: league.id, sport: "NFL", playerId: retained.playerId, releasedAt: null } })).not.toBeNull();
       expect(await database.rosterEntry.count({ where: { leagueId: league.id, sport: "NBA", releasedAt: null } })).toBe(2);
 
+      const nextDraft = await createDraft(commissioner.id, league.id, "NFL");
+      expect(nextDraft.pickOrder).toHaveLength(1);
+      expect(nextDraft.pickOrder).not.toContain(commissionerTeam.id);
+      const nextPick = await makePick({ userId: commissioner.id, draftId: nextDraft.id, playerId: playerIds[2], automatic: true });
+      expect(nextPick).toMatchObject({ round: 1, roundPick: nextDraft.order.indexOf(nextDraft.pickOrder[0]) + 1 });
       await generateSchedule(commissioner.id, league.id, 3, "NFL");
       expect(await database.matchup.count({ where: { leagueId: league.id, sport: "NFL" } })).toBe(3);
       expect(await standings(league.id, "NFL")).toHaveLength(2);

@@ -4,6 +4,7 @@ import { afterAll, describe, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { getH2HChampionshipStandings } from "@/server/championships";
 import { createLeague } from "@/server/league";
+import { ensureRelativeMatchupSchedule } from "@/server/matchups";
 import { ensureRecordedDraw, provisionCompetitionSchedule } from "@/server/competition";
 import { getCumulativeStandings, periodPublicationTime, scoreCapturedStarters } from "@/server/competition-scoring";
 import { captureDueGameLineups, recordAvailabilityEvidence } from "@/server/lineup-snapshots";
@@ -26,7 +27,9 @@ describe("M4.2 persistent competition", () => {
           startsAt: new Date(Date.UTC(2085, 8, week * 7)) } }); gameIds.push(game.id);
       }
       const eligibleGameCount = await database.game.count({ where: { seasonId: leagueSport.seasonId, phase: "REGULAR", startsAt: { not: null }, week: { lte: 17 } } });
+      await database.$transaction((tx) => ensureRelativeMatchupSchedule(tx, { leagueId: league.id, leagueSportId: leagueSport.id, sport: "NFL", periods: 14 }));
       await provisionCompetitionSchedule(user.id, competition.id);
+      expect(await database.relativeMatchupPeriod.count({ where: { leagueSportId: leagueSport.id, scoringPeriodId: { not: null } } })).toBe(14);
       expect(await database.scoringPeriod.count({ where: { competitionId: competition.id } })).toBe(17);
       expect(await database.scoringPeriod.count({ where: { competitionId: competition.id, periodType: "PLAYOFF" } })).toBe(3);
       expect(await database.matchup.count({ where: { leagueId: league.id } })).toBe(42);
@@ -71,7 +74,7 @@ describe("M4.2 persistent competition", () => {
       where: { leagueId: league.id }, include: { leagueSportSeason: true },
     });
     const now = new Date("2084-11-01T00:00:00Z");
-    await database.game.createMany({ data: [1, 2, 3, 4].map((week) => ({
+    await database.game.createMany({ data: [1, 15, 16, 17].map((week) => ({
       sport: "NFL", seasonId: competition.leagueSportSeason.seasonId, provider: "m42-bracket",
       externalId: randomUUID(), phase: "REGULAR", week, startsAt: new Date(Date.UTC(2084, 8, week * 7)),
     })) });

@@ -4,11 +4,30 @@ Read-only development audit on November 25, 2026. No dataset was imported or mod
 
 | Sport | Canonical players | Demo | Synthetic | Real players with normalized historical stats | Real players with observed positions | Players with persisted V9 ledger scores |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| NFL | 1,863 | 2 | 1 | 1,860 / 1,860 (100%) | 1,860 / 1,860 (100%) | 12 |
-| MLB | 1,507 | 2 | 0 | 1,505 / 1,505 (100%) | 33 / 1,505 (2.2%) | 11 |
-| NBA | 3,787 | 2 | 0 | 3,785 / 3,785 (100%) | 0 / 3,785 (0%) | 0 |
-| NHL | 885 | 2 | 0 | 883 / 883 (100%) | 883 / 883 (100%) | 0 |
+| NFL | 1,863 | 2 | 34 | 1,827 / 1,827 (100%) | 1,827 / 1,827 (100%) | 0 |
+| MLB | 1,507 | 2 | 33 | 1,472 / 1,472 (100%) | 0 / 1,472 (0%) | 0 |
+| NBA | 3,787 | 2 | 3,311 | 474 / 474 (100%) | 0 / 474 (0%) | 0 |
+| NHL | 885 | 2 | 11 | 872 / 872 (100%) | 872 / 872 (100%) | 0 |
 
-My Team, Players and Draft all query the canonical `Player` identity and exclude synthetic players from acquisition pools. They use season-scoped imported historical box scores, observed positions or explicit eligibility evidence, and persisted UBP V9 ledgers. Totals and averages are historical actuals through the selected replay boundary; they are not projections. `PROJ` remains `N/A` because no verified projection source exists. Missing positions and scores remain `N/A` rather than inferred.
+My Team, Players and Draft all query canonical `Player` identities and exclude synthetic players from acquisition pools. They share a season-scoped statistics service that uses persisted ledger entries when available and derives historical analytics from accepted normalized box scores otherwise. Derivation writes no competitive ledger events. Missing inputs or ambiguous two-way roles keep totals unknown. `PROJ` remains `N/A`. Historical position display does not itself grant current lineup eligibility.
 
-The accepted archive has complete normalized historical-stat presence for non-demo players, but trusted position coverage is incomplete for MLB and absent for NBA. Persisted V9 score ledgers cover only the current scored fixture/sample subset. Demo identities remain explicitly flagged and are not counted as authoritative production records.
+The earlier audit mistakenly treated unflagged legacy fixtures as real players. Import provenance identifies 3,388 fixture-only players from named test CSVs and fixture names. The user explicitly approved setting their synthetic flags; no identity, statistic or ownership record was removed. The approved ID-set SHA-256 is `ad2140ed00d822115a09579a1b813976fc347deae97260b9c278a872951bb2f9`. Repeat dry run: zero candidates. All 35 persisted score revisions remain preserved and belong to fixtures rather than accepted real-player archive coverage.
+
+## Archive versus imported data
+
+Local archives contain NFL 185,368, MLB 794,974, NBA 260,499 and NHL 506,116 rows spanning 2016–2026 (NBA/NHL through 2026–27). Their metadata contains no MLB/NBA position column. No repaired position file was found under the project data directory. Missing positions are not an omitted-column bug in the current reader: it passes every physical column to the normalizer.
+
+Development contains 103,801 accepted archive stat rows, all for the 2026 start-year season: NFL 10,981 / 1,827 players; MLB 72,510 / 1,472; NBA 5,390 / 474; NHL 14,920 / 872. The other 3,511 stat revisions are preserved fixtures (including synthetic NFL 2097/2098 and one-day 2025 MLB/NBA/NHL data). The large NBA population was primarily 3,311 fixture identities, not evidence of duplicate accepted player IDs.
+
+## On-demand historical score completeness
+
+Read-only verification against development, after approved classification:
+
+| Sport / imported season | Players | Complete totals for all imported appearances | Unknown totals |
+| --- | ---: | ---: | ---: |
+| NFL 2026 | 1,827 | 1,827 (100%) | 0 |
+| MLB 2026 | 1,472 | 1,337 (90.83%) | 135 |
+| NBA 2026–27 | 474 | 474 (100%) | 0 |
+| NHL 2026–27 | 872 | 41 (4.70%) | 831 |
+
+These percentages describe imported historical appearances, not whole-season or live-production completeness. Missing statistics and ambiguous multiple scoring roles remain unknown. Active status, availability, rookie status, retirement and publication-time authority are still unavailable.

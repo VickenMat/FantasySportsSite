@@ -11,6 +11,8 @@ import { historicalProvider } from "@/imports/normalize";
 import { getEligiblePositions, recordPositionEvidence } from "@/server/positions";
 import { getLeagueScoreHistory, recalculateScore } from "@/server/score-ledger";
 import { mlbRow, nbaRow, nflRow, nhlRow, writeHistoricalCsv } from "../helpers/historical-csv";
+import { playerStatistics } from "@/server/player-statistics";
+import { ubpV9Rules } from "@/scoring/ubp-v9";
 
 const db = getDatabase();
 const numberId = () => String(randomInt(1_000_000_000, 2_000_000_000));
@@ -33,6 +35,23 @@ async function athleteGame(sport: Sport, player: string, game: string) {
   ]);
   return { playerId: athlete.playerId, gameId: fixture.id, fixture };
 }
+
+it("derives historical analytics idempotently from corrected box scores without creating competitive ledgers", async () => {
+  const zeros = Object.fromEntries(ubpV9Rules.filter(({ sport }) => sport === "NBA").map(({ statKey }) => [statKey, "0"]));
+  const row = { ...nbaRow, ...zeros, SEASON_YEAR: "2096-97", GAME_DATE: "2096-10-25", GAME_ID: `002${numberId()}`, PLAYER_ID: numberId(), PTS: "10" };
+  const file = await writeHistoricalCsv(join(dir, "analytics.csv"), [row]);
+  await importHistoricalCsv({ path: file, sport: "NBA" });
+  const { playerId, fixture } = await athleteGame("NBA", row.PLAYER_ID, row.GAME_ID);
+  const preset = await db.scoringPreset.findUniqueOrThrow({ where: { version: "ubp-v9-experimental" } });
+  const input = { playerIds: [playerId], seasonId: fixture.seasonId, presetId: preset.id };
+  const unit = ubpV9Rules.find(({ sport, statKey }) => sport === "NBA" && statKey === "PTS")!.coefficientTenths;
+  expect((await playerStatistics(input)).get(playerId)?.totalTenths).toBe(BigInt(unit * 10));
+  expect((await playerStatistics(input)).get(playerId)?.totalTenths).toBe(BigInt(unit * 10));
+  const corrected = await writeHistoricalCsv(join(dir, "analytics-corrected.csv"), [{ ...row, PTS: "20" }]);
+  await importHistoricalCsv({ path: corrected, sport: "NBA", correctionReason: "Synthetic analytics revision" });
+  expect((await playerStatistics(input)).get(playerId)).toMatchObject({ gamesPlayed: 1, scoredGames: 1, totalTenths: BigInt(unit * 20) });
+  expect(await db.scoreLedger.count({ where: { playerId } })).toBe(0);
+});
 
 it("imports all four sports, keeps source IDs intact, and deduplicates bytes and re-encoded rows", async () => {
   const nfl = { ...nflRow, player_id: nflId(), season: "2098", game_id: "2098_01_BUF_BAL" };

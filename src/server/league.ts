@@ -5,6 +5,7 @@ import { getDatabase } from "@/lib/db";
 import { defaultSlots } from "@/simulation/config";
 import { setCommissionerAuditContext } from "@/server/commissioner-audit";
 import { accountForWaiver, syncWaiverPriorities } from "@/server/faab";
+import { keeperRound } from "./keeper-costs";
 import { previewLeagueScheduleWithClient, type SportSchedulePreview } from "@/server/scheduling";
 
 export const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
@@ -343,16 +344,31 @@ export async function updateDraftOrder(userId: string, leagueId: string, sport: 
 
 export async function selectKeeper(userId: string, leagueId: string, sport: Sport, playerId: string) {
   const database = getDatabase();
-  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true, fantasyTeam: true } });
+  return database.$transaction(async (tx) => {
+  const member = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true, fantasyTeam: true } });
   if (!member?.fantasyTeam) throw new Error("You do not manage a franchise in this league.");
   if (member.league.format !== "REDRAFT") throw new Error("Keeper selections apply only to Redraft leagues.");
-  const leagueSport = await resolveLeagueSport(leagueId, sport);
+  const leagueSport = await tx.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId, sport } }, include: { season: true } });
   if (!leagueSport.seasonId || leagueSport.keeperLimit < 1) throw new Error("Keepers are not enabled for this sport.");
   if (leagueSport.keeperDeadline && leagueSport.keeperDeadline <= new Date()) throw new Error("The keeper deadline has passed.");
-  const roster = await database.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId: member.fantasyTeam.id, leagueSportId: leagueSport.id } } });
-  if (!await database.rosterEntry.findFirst({ where: { rosterId: roster.id, playerId, releasedAt: null } })) throw new Error("That player is not on your active sport roster.");
-  if (await database.keeperSelection.count({ where: { rosterId: roster.id, seasonId: leagueSport.seasonId } }) >= leagueSport.keeperLimit) throw new Error("This sport's keeper limit is already filled.");
-  return database.keeperSelection.create({ data: { leagueSportId: leagueSport.id, rosterId: roster.id, teamId: member.fantasyTeam.id, playerId, seasonId: leagueSport.seasonId } });
+  const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId: member.fantasyTeam.id, leagueSportId: leagueSport.id } } });
+  if (!await tx.rosterEntry.findFirst({ where: { rosterId: roster.id, playerId, releasedAt: null } })) throw new Error("That player is not on your active sport roster.");
+  const selected = await tx.keeperSelection.findMany({ where: { rosterId: roster.id, seasonId: leagueSport.seasonId } });
+  if (selected.length >= leagueSport.keeperLimit) throw new Error("This sport's keeper limit is already filled.");
+  const original = await tx.rosterEntry.findFirstOrThrow({ where: { leagueId, sport, playerId },
+    orderBy: [{ season: { startYear: "asc" } }, { acquiredAt: "asc" }], include: { season: true } });
+  if (!original.season || !original.seasonId) throw new Error("The original acquisition season is unknown. Commissioner evidence is required before keeping this player.");
+  const originalPick = await tx.draftPick.findFirst({ where: { playerId, draft: { leagueId, sport, seasonId: original.seasonId } },
+    orderBy: { pickedAt: "asc" } });
+  if (selected.some(({ draftCost }) => draftCost == null)) throw new Error("Existing keeper costs require commissioner review before selecting another keeper.");
+  const previous = await tx.keeperSelection.findFirst({ where: { leagueSportId: leagueSport.id, playerId,
+    retainedAt: { not: null }, season: { startYear: { lt: leagueSport.season.startYear } } },
+    orderBy: { season: { startYear: "desc" } } });
+  const draftCost = keeperRound({ originalYear: original.season.startYear, targetYear: leagueSport.season.startYear + 1,
+    draftRounds: leagueSport.draftRounds, originalDraftRound: originalPick?.round, previousCost: previous?.draftCost ?? undefined,
+    occupiedRounds: selected.map(({ draftCost }) => draftCost!) });
+  return tx.keeperSelection.create({ data: { leagueSportId: leagueSport.id, rosterId: roster.id, teamId: member.fantasyTeam.id, playerId, seasonId: leagueSport.seasonId, draftCost } });
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function transitionSportSeason(userId: string, leagueId: string, sport: Sport, nextStartYear: number) {

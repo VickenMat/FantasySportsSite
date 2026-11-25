@@ -7,6 +7,7 @@ import { leagueContext, resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
 import { ensureRelativeMatchupSchedule } from "./matchups";
 import { GameplayBlockedError, runBackgroundJob } from "./background-jobs";
+import { keeperPickSlots } from "./keeper-costs";
 
 const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
@@ -41,7 +42,13 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
     by: ["teamId"], where: { leagueId, sport: leagueSport.sport, releasedAt: null, slot: { notIn: universalSlots } }, _count: true,
   });
   const retained = new Map(retainedRows.map((row) => [row.teamId, row._count]));
-  const pickOrder = buildPickOrder(order, leagueSport.draftRounds, retained);
+  const keeperCosts = membership.league.format === "REDRAFT" ? await getDatabase().keeperSelection.findMany({
+    where: { leagueSportId: leagueSport.id, retainedAt: { not: null }, season: { startYear: leagueSport.season.startYear - 1 } },
+  }) : [];
+  if (keeperCosts.some(({ draftCost }) => draftCost == null || draftCost < 1 || draftCost > leagueSport.draftRounds)) throw new Error("Retained keeper costs require commissioner review before this draft.");
+  const costs = new Map(order.map((teamId) => [teamId, keeperCosts.filter((keeper) => keeper.teamId === teamId).map(({ draftCost }) => draftCost!)]));
+  const keeperSlots = keeperCosts.length ? keeperPickSlots(order, leagueSport.draftRounds, costs) : null;
+  const pickOrder = keeperSlots ? keeperSlots.map(({ teamId }) => teamId) : buildPickOrder(order, leagueSport.draftRounds, retained);
   if (!pickOrder.length) throw new Error(`${leagueSport.sport} rosters are already full for this season.`);
   const now = new Date();
   return getDatabase().$transaction(async (tx) => {
@@ -51,6 +58,7 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
     return tx.draft.create({ data: {
       leagueId, leagueSportId: leagueSport.id, sport: leagueSport.sport, status: "ACTIVE", rounds: leagueSport.draftRounds,
       seasonId: leagueSport.seasonId,
+      orderProvenance: keeperSlots ? JSON.stringify({ method: "SNAKE_KEEPER", slots: keeperSlots }) : null,
       order, pickOrder, startedAt: now, pickStartedAt: now, pickDeadlineAt: new Date(now.getTime() + leagueSport.draftSecondsPerPick * 1000), secondsPerPick: leagueSport.draftSecondsPerPick,
     } });
   }, { isolationLevel: "Serializable" });
@@ -97,10 +105,11 @@ export async function automaticCandidate(draftId: string, teamId: string) {
   return choice ? candidates.find(({ id }) => id === choice.id) ?? null : null;
 }
 
-export async function makePick(input: { userId?: string; draftId: string; playerId: string; automatic?: boolean; system?: boolean; now?: Date }) {
+export async function makePick(input: { userId?: string; draftId: string; playerId: string; automatic?: boolean; system?: boolean; now?: Date; expectedPick?: number }) {
   z.uuid().parse(input.draftId); z.uuid().parse(input.playerId); const database = getDatabase();
   return database.$transaction(async (tx) => {
     const draft = await tx.draft.findUniqueOrThrow({ where: { id: input.draftId }, include: { leagueSport: true } });
+    if (input.expectedPick !== undefined && input.expectedPick !== draft.currentPick) throw new Error("The draft pick changed before selection; refresh the current pick.");
     if (draft.status !== "ACTIVE") throw new Error("The draft is not active.");
     const teamId = draft.pickOrder[draft.currentPick - 1];
     if (!teamId) throw new Error("The draft pick order is complete.");
@@ -114,7 +123,16 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId, leagueSportId: draft.leagueSportId } } });
     const compliance = await currentCompliance(tx, teamId, now);
     if (compliance.state !== "COMPLIANT") throw new GameplayBlockedError(`Roster noncompliance for franchise ${team.name} (${teamId}): ${compliance.reasons.join(" ")} Move eligible players to legal open slots or release players to restore compliance. Automatic recovery checks every minute.`);
-    const round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1; const roundPick = (draft.currentPick - 1) % draft.order.length + 1;
+    let round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1;
+    let roundPick = (draft.currentPick - 1) % draft.order.length + 1;
+    if (draft.orderProvenance?.startsWith("{")) {
+      const snapshot = JSON.parse(draft.orderProvenance);
+      if (snapshot.method === "SNAKE_KEEPER") {
+        const slot = snapshot.slots[draft.currentPick - 1];
+        if (!slot || slot.teamId !== teamId || !Number.isInteger(slot.round) || !Number.isInteger(slot.roundPick)) throw new GameplayBlockedError("The keeper draft order snapshot is inconsistent. Commissioner review is required.");
+        round = slot.round; roundPick = slot.roundPick;
+      }
+    }
     const activeRoster = await tx.rosterEntry.findMany({
       where: { rosterId: roster.id, releasedAt: null, slot: { notIn: universalSlots } }, select: { slot: true, slotIndex: true },
     });
@@ -153,14 +171,15 @@ export async function autoPick(userId: string, draftId: string) {
   return makePick({ userId, draftId, playerId: candidate.id, automatic: true });
 }
 
-export async function autoPickExpiredDraft(draftId: string, now = new Date()) {
+export async function autoPickExpiredDraft(draftId: string, now = new Date(), expectedPick?: number) {
   const draft = await getDatabase().draft.findUniqueOrThrow({ where: { id: draftId } });
+  if (expectedPick !== undefined && draft.currentPick !== expectedPick) return null;
   const deadline = draft.pickDeadlineAt ?? (draft.pickStartedAt ? new Date(draft.pickStartedAt.getTime() + draft.secondsPerPick * 1000) : null);
   if (draft.status !== "ACTIVE" || !deadline || deadline > now) return null;
   const teamId = draft.pickOrder[draft.currentPick - 1];
   const fallback = await automaticCandidate(draftId, teamId);
   if (!fallback) throw new GameplayBlockedError(`No available ${draft.sport} player or sport roster capacity remains for this pick. Review the player pool and roster capacity.`);
-  return makePick({ draftId, playerId: fallback.id, automatic: true, system: true, now });
+  return makePick({ draftId, playerId: fallback.id, automatic: true, system: true, now, expectedPick: draft.currentPick });
 }
 
 export async function setDraftPaused(userId: string, draftId: string, paused: boolean) {
@@ -254,7 +273,7 @@ export async function processExpiredDrafts(now = new Date()) {
     const deadline = draft.pickDeadlineAt ?? (draft.pickStartedAt ? new Date(+draft.pickStartedAt + draft.secondsPerPick * 1000) : null);
     if (!deadline || deadline > now) continue;
     const outcome = await runBackgroundJob(`draft-pick:${draft.id}:${draft.currentPick}`, "draft-pick",
-      async () => Boolean(await autoPickExpiredDraft(draft.id, now)), now);
+      async () => Boolean(await autoPickExpiredDraft(draft.id, now, draft.currentPick)), now);
     if (outcome.status === "COMPLETE" && outcome.value) picked++;
   }
   return picked;
