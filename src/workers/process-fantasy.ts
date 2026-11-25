@@ -2,6 +2,7 @@ import { getDatabase } from "@/lib/db";
 import { processDueWaivers } from "@/server/waivers";
 import { processExpiredDrafts } from "@/server/draft";
 import { setComputerLineups } from "@/server/rosters";
+import { finalizeDueMatchups } from "@/server/matchups";
 
 async function main() {
   const database = getDatabase();
@@ -27,12 +28,13 @@ async function main() {
     let processed = 0;
     for (const { leagueId } of leagues) processed += await processDueWaivers(leagueId, now);
     const automaticPicks = await processExpiredDrafts(now);
+    const finalizedMatchups = await finalizeDueMatchups(now);
     const expiredTrades = await database.trade.updateMany({ where: { status: "PENDING", expiresAt: { lte: now } }, data: { status: "EXPIRED", respondedAt: now } });
     const activeSports = await database.leagueSport.findMany({ where: { league: { status: "ACTIVE" }, rosters: { some: { team: { isComputer: true } } } }, select: { leagueId: true, sport: true } });
     let computerLineupSlots = 0;
     for (const item of activeSports) computerLineupSlots += await setComputerLineups(item.leagueId, item.sport, now);
     const cleanedRateLimits = await database.rateLimitBucket.deleteMany({ where: { expiresAt: { lt: now } } });
-    const result = { processed, leagues: leagues.length, automaticPicks, computerLineupSlots, expiredTrades: expiredTrades.count, cleanedRateLimits: cleanedRateLimits.count, at: now.toISOString() };
+    const result = { processed, leagues: leagues.length, automaticPicks, finalizedMatchups, computerLineupSlots, expiredTrades: expiredTrades.count, cleanedRateLimits: cleanedRateLimits.count, at: now.toISOString() };
     await database.backgroundJobRun.update({ where: { key }, data: { status: "COMPLETE", completedAt: new Date(), result } });
     await database.$disconnect();
     console.info(JSON.stringify(result));

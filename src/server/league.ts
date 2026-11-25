@@ -63,11 +63,14 @@ export async function createLeague(userId: string, input: z.input<typeof createL
       }
     }
     const firstSport = value.sports[0];
+    const defaultPlayoffTeams = value.maxTeams >= 6 ? 6 : value.maxTeams % 2 ? value.maxTeams - 1 : value.maxTeams;
+    const defaultPlayoffWeeks = defaultPlayoffTeams > 4 ? 3 : defaultPlayoffTeams > 2 ? 2 : 1;
     const league = await tx.league.create({ data: {
       slug: slug(value.name), name: value.name, format: value.format, competitionType: value.competitionType, visibility: value.visibility, maxTeams: value.maxTeams,
       isDemo: value.historical, isHistorical: value.historical, primarySport: firstSport, seasonYear: seasons.get(firstSport)!.startYear,
       startingFaab: value.startingFaab, benchSlots: value.benchSlots, rosterSlots: [...defaultSlots[firstSport]],
-      draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: Math.min(4, value.maxTeams), presetId: preset.id,
+      draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffTeams,
+      playoffPeriods: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffWeeks, presetId: preset.id,
     } });
     const leagueSports = new Map<Sport, { id: string }>();
     for (const sport of value.sports) {
@@ -85,9 +88,20 @@ export async function createLeague(userId: string, input: z.input<typeof createL
     const cycle = await tx.championshipCycle.create({ data: { leagueId: league.id, number: 1, label: "Cycle 1",
       startsAt: starts.length ? new Date(Math.min(...starts.map(Number))) : null,
       endsAt: ends.length ? new Date(Math.max(...ends.map(Number))) : null } });
+    const competitionConfig = { competitionType: value.competitionType, playoffTeams: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffTeams,
+      playoffWeeks: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffWeeks, fixedBracket: true, thirdPlaceEnabled: true,
+      consolationEnabled: true, qualificationPoints: 1, championPoints: 5, runnerUpPoints: 2, thirdPlacePoints: 1,
+      highestPfPoints: 3, lowestPfPoints: -3,
+      standingsTiebreakers: ["RECORD", "REGULAR_PF", "HEAD_TO_HEAD", "REGULAR_PA", "RECORDED_DRAW"],
+      playoffTiebreakers: ["MATCHUP_UBP", "HEAD_TO_HEAD", "REGULAR_PF", "ORIGINAL_SEED"],
+      overallTiebreakers: value.competitionType === "CUMULATIVE"
+        ? ["COMBINED_UBP", "FIRST_PLACE_FINISHES", "SECOND_PLACE_FINISHES", "THIRD_PLACE_FINISHES", "RECORDED_DRAW"]
+        : ["CHAMPIONSHIP_POINTS", "COMBINED_UBP", "SPORT_CHAMPIONSHIPS", "RUNNER_UP_FINISHES", "THIRD_PLACE_FINISHES", "RECORDED_DRAW"] };
+    const configSnapshot = await tx.competitionConfigSnapshot.create({ data: { leagueId: league.id, championshipCycleId: cycle.id, version: 1,
+      ...competitionConfig, contentHash: createHash("sha256").update(JSON.stringify(competitionConfig)).digest("hex") } });
     for (const sport of value.sports) {
       const preview = scheduleBySport.get(sport); const season = seasons.get(sport)!;
-      await tx.leagueSportSeason.create({ data: {
+      const assignment = await tx.leagueSportSeason.create({ data: {
         leagueSportId: leagueSports.get(sport)!.id, seasonId: season.id, championshipCycleId: cycle.id,
         scheduleRevisionId: preview?.scheduleRevisionId ?? null, status: preview?.status === "AVAILABLE" ? "ELIGIBLE" : "PENDING_DATA",
         statusReason: preview?.reason ?? (value.historical ? "Historical replay scheduling is separate from competitive season scheduling." : "Awaiting a source-backed professional season schedule."),
@@ -95,6 +109,9 @@ export async function createLeague(userId: string, input: z.input<typeof createL
         playoffStartsAt: preview?.playoffStartsAt, playoffEndsAt: preview?.playoffEndsAt, tradeDeadlineAt: preview?.tradeDeadlineAt,
         rolloverEligibleAt: preview?.rolloverEligibleAt,
       } });
+      await tx.sportCompetition.create({ data: { leagueId: league.id, leagueSportSeasonId: assignment.id, configSnapshotId: configSnapshot.id,
+        sport, status: "PENDING_DATA", statusReason: "Authoritative UTC professional game schedule is required before competition periods can be generated.",
+        regularSeasonStartsAt: preview?.firstScoringAt, regularSeasonEndsAt: preview?.scoringEndsAt } });
     }
     const membership = await tx.leagueMember.create({ data: { leagueId: league.id, userId, role: "COMMISSIONER" } });
     const team = await tx.fantasyTeam.create({ data: {

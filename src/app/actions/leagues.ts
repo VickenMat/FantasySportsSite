@@ -4,13 +4,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import { actionNotice } from "@/lib/action-notice";
+import { getDatabase } from "@/lib/db";
 import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue, setDraftPaused } from "@/server/draft";
-import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
+import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, resolveLeagueSport, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
+import { provisionCompetitionSchedule } from "@/server/competition";
 
 const limit = (userId: string, action: string, maximum = 60) => enforceRateLimit(userId, action, maximum, 60_000);
 const sports = ["NFL", "NBA", "MLB", "NHL"] as const;
@@ -130,7 +132,14 @@ export async function cancelWaiverAction(leagueId: string, claimId: string) {
 export async function scheduleAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "schedule", 10);
-  await generateSchedule(user.id, leagueId, 14, String(form?.get("sport") ?? "") || undefined);
+  const requestedSport = String(form?.get("sport") ?? "") || undefined;
+  const league = await getDatabase().league.findUniqueOrThrow({ where: { id: leagueId } });
+  if (league.isHistorical && league.competitionType === "HEAD_TO_HEAD") await generateSchedule(user.id, leagueId, 14, requestedSport);
+  else {
+    const selected = await resolveLeagueSport(leagueId, requestedSport);
+    const competition = await getDatabase().sportCompetition.findFirstOrThrow({ where: { leagueId, sport: selected.sport, leagueSportSeason: { leagueSportId: selected.id } } });
+    await provisionCompetitionSchedule(user.id, competition.id);
+  }
   revalidatePath(`/leagues/${leagueId}/matchups`);
 }
 

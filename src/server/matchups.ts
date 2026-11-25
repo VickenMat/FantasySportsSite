@@ -20,6 +20,7 @@ export async function generateSchedule(userId: string, leagueId: string, periods
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: { orderBy: { draftSlot: "asc" } } } } } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can generate the schedule.");
+  if (!member.league.isHistorical) throw new Error("Competitive schedules require authoritative UTC professional games; use source-backed competition provisioning.");
   const teams = member.league.teams.map(({ id }) => id); const pairings = roundRobinPairings(teams, periods);
   return database.$transaction(async (tx) => {
     if (await tx.scoringPeriod.count({ where: { leagueId, sport: leagueSport.sport } })) throw new Error(`A ${leagueSport.sport} schedule already exists.`);
@@ -41,21 +42,49 @@ export async function recalculateMatchups(userId: string, leagueId: string, requ
   const periods = [...new Map(matchups.map(({ period }) => [period.id, period])).values()];
   const first = periods.reduce((value, period) => period.startsAt < value ? period.startsAt : value, periods[0].startsAt);
   const last = periods.reduce((value, period) => period.endsAt > value ? period.endsAt : value, periods[0].endsAt);
-  const roster = await database.rosterEntry.findMany({ where: { leagueId, sport: leagueSport.sport, releasedAt: null }, include: { player: { include: { scoreLedgers: {
-    where: { game: { OR: [{ startsAt: { gte: first, lte: last } }, { gameDate: { gte: first, lte: last } }] } },
-    include: { game: { select: { startsAt: true, gameDate: true } }, entries: { orderBy: { sequence: "desc" }, take: 1 } },
-  } } } } });
+  const roster = await database.rosterEntry.findMany({ where: { leagueId, sport: leagueSport.sport, acquiredAt: { lte: last },
+    OR: [{ releasedAt: null }, { releasedAt: { gte: first } }], slot: { notIn: ["BENCH", "IR", "UNIVERSAL_BENCH", "UNIVERSAL_IR"] } },
+    include: { player: { include: { scoreLedgers: {
+      where: { game: { OR: [{ startsAt: { gte: first, lte: last } }, { gameDate: { gte: first, lte: last } }] } },
+      include: { game: { select: { startsAt: true, gameDate: true } }, entries: { orderBy: { sequence: "desc" }, take: 1 } },
+    } } } } });
   const totals = new Map<string, bigint>();
   for (const entry of roster) for (const ledger of entry.player.scoreLedgers) {
     const at = ledger.game.startsAt ?? ledger.game.gameDate; const period = at ? periods.find(({ startsAt, endsAt }) => at >= startsAt && at <= endsAt) : null;
-    if (!period) continue; const key = `${entry.teamId}:${period.id}`; totals.set(key, (totals.get(key) ?? 0n) + (ledger.entries[0]?.totalTenths ?? 0n));
+    if (!period || at! < entry.acquiredAt || (entry.releasedAt && at! >= entry.releasedAt)) continue;
+    const key = `${entry.teamId}:${period.id}`; totals.set(key, (totals.get(key) ?? 0n) + (ledger.entries[0]?.totalTenths ?? 0n));
   }
   const calculatedAt = new Date();
-  await database.$transaction(matchups.map((matchup) => database.matchup.update({ where: { id: matchup.id }, data: {
-    homeTenths: totals.get(`${matchup.homeTeamId}:${matchup.periodId}`) ?? 0n, awayTenths: totals.get(`${matchup.awayTeamId}:${matchup.periodId}`) ?? 0n,
-    calculatedAt, status: matchup.period.endsAt <= calculatedAt ? "FINAL" : "SCHEDULED",
-  } })));
+  await database.$transaction(async (tx) => {
+    for (const matchup of matchups) {
+      const homeTenths = totals.get(`${matchup.homeTeamId}:${matchup.periodId}`) ?? 0n;
+      const awayTenths = totals.get(`${matchup.awayTeamId}:${matchup.periodId}`) ?? 0n;
+      if (matchup.finalizedAt) continue;
+      const latest = await tx.matchupResultRevision.findFirst({ where: { matchupId: matchup.id }, orderBy: { revision: "desc" } });
+      if (!latest || latest.homeTenths !== homeTenths || latest.awayTenths !== awayTenths) await tx.matchupResultRevision.create({ data: {
+        matchupId: matchup.id, revision: (latest?.revision ?? 0) + 1, homeTenths, awayTenths, calculatedAt,
+        finalizesAt: new Date(calculatedAt.getTime() + 24 * 60 * 60 * 1000), correctionReason: latest ? "Authoritative score ledger changed before competitive finalization." : null,
+      } });
+      await tx.matchup.update({ where: { id: matchup.id }, data: { homeTenths, awayTenths, calculatedAt,
+        resultFinalizesAt: new Date(calculatedAt.getTime() + 24 * 60 * 60 * 1000), status: "SCHEDULED" } });
+    }
+  }, { isolationLevel: "Serializable" });
   return matchups.length;
+}
+
+export async function finalizeDueMatchups(now = new Date()) {
+  const database = getDatabase();
+  return database.$transaction(async (tx) => {
+    const due = await tx.matchup.findMany({ where: { finalizedAt: null, resultFinalizesAt: { lte: now }, resultRevisions: { some: {} } },
+      include: { resultRevisions: { orderBy: { revision: "desc" }, take: 1 } } });
+    for (const matchup of due) {
+      const revision = matchup.resultRevisions[0];
+      await tx.matchup.update({ where: { id: matchup.id }, data: { status: "FINAL", finalizedAt: now } });
+      // Revisions are append-only; finalization is recorded on the competitive result, not by rewriting its statistical source.
+      if (revision && revision.finalizesAt > now) throw new Error("A matchup revision is not yet eligible for finalization.");
+    }
+    return due.length;
+  }, { isolationLevel: "Serializable" });
 }
 
 export async function standings(leagueId: string, requestedSport?: Sport | string) {

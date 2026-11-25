@@ -57,7 +57,7 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
   await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: "NBA", displayName: `Clock Player ${index}`, isDemo: true })) });
   const league = await createLeague(commissioner.id, {
     name: `Clock ${randomUUID()}`, sport: "NBA", seasonYear: 2024, maxTeams: 4, format: "REDRAFT",
-    startingFaab: 100, benchSlots: 2, historical: false, fillWithComputers: true,
+    startingFaab: 100, benchSlots: 2, historical: true, fillWithComputers: true,
   });
   const timerLeague = await createLeague(commissioner.id, {
     name: `Timer ${randomUUID()}`, sport: "NBA", seasonYear: 2024, maxTeams: 4, format: "REDRAFT",

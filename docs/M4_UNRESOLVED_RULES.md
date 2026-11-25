@@ -1,29 +1,20 @@
-# M4 unresolved gameplay rules
+# M4 unresolved and externally blocked behavior
 
-These decisions have no active default. Schema fields may reserve an extension point, but services must reject or show `PENDING_CONFIGURATION` when behavior depends on them.
+The M4 master specification supersedes earlier proposals and resolves salary increases, dead cap, Vickrey acquisition, keeper costs, H2H structure, tiebreakers, universal budgets, and NFL Week 18 handling. The items below remain gated because the specification intentionally defers them or because authoritative evidence is unavailable.
 
-| Area | Unresolved decision | Safe current behavior |
+| Area | Remaining dependency | Safe behavior |
 | --- | --- | --- |
-| Salary rollover | Default fixed-dollar increase | Require explicit commissioner value before enabling increases. |
-| Dead cap | Percentage, duration, and contract interaction | Store no release penalty. Do not claim release compliance when a configured rule would be required. |
-| Non-auction salary | Salary assigned to free agents and waiver winners | Do not enable salary-league non-auction acquisition. |
-| Salary waivers | Nomination and bidding mechanism | Inactive. FAAB is not converted to salary. |
-| Contracts | Expiration, extensions, tags, restricted free agency | Retain only start/duration extension fields; no automatic action. |
-| Over-cap correction | Exact allowed corrective transaction set | Always allow releases in the future design; do not activate other exceptions until confirmed. |
-| Universal FAAB | Reset across independent sport rollover | Prefer per-sport budgets; universal mode remains unavailable. |
-| Universal salary | Rollover boundary across sports | Separate sport caps can proceed; universal mode remains unavailable. |
-| Salary transfers | Asset deadline | Reject configuration without an explicit deadline. |
-| Cross-sport salary | Whether conversion exists | Never convert implicitly. |
-| Rookie eligibility | Sport-specific definitions and sources | No athlete is rookie eligible without verified evidence. |
-| Redraft keepers | Limits, costs, and duration | Preserve existing keeper fields but do not expand semantics. |
-| Rookie order | Alternative methods beyond reverse standings | Reverse standings is documented but cannot run until final standings are authoritative; alternatives remain inactive. |
-| H2H ties | Tied sports and overall matchup tiebreaker | Do not activate individual-sport-victory mode. |
-| Playoff ties | Seeding and matchup tiebreakers | Require explicit configuration before an affected playoff. |
-| Overlapping cycles | Weekly H2H pairing across two cycles | Do not merge or double-count; mark overlapping H2H construction pending. |
-| Normalization | Schedule-normalized scoring formula | Extension point only; no multiplier is applied. |
-| Universal bench/IR | Cross-sport capacity, movement, and simultaneous locks | Do not activate until shared-roster constraints are confirmed. |
-| NFL championship | Exact handling of Week 18 in combined H2H | Week 17 is intended championship week and Week 18 cumulative; overlapping combined rules remain pending. |
+| Contracts | Expiration, extensions, tags and restricted free agency are deferred beyond M4. | Contract automation stays disabled; no expiry is inferred. |
+| Corrective trades | A corrective trade must reduce payroll without bypassing the rule preventing an ineligible team from initiating ordinary proposals. | Permit releases and incoming compliant proposals; require an explicit corrective classification before allowing an over-cap outgoing proposal. |
+| Rookie eligibility | Official sport-specific evidence is not bundled. | `PENDING_DATA`; no player is inferred to be a rookie from age, draft year or absence. |
+| Injury and IR | Complete authoritative availability designations are not bundled. | Only verified evidence can unlock IR; offseason inactivity and retirement do not qualify. |
+| Retirement | Verified retirement evidence is not bundled. | Players remain rostered and are never inferred retired from missing statistics. |
+| Professional schedules | Complete UTC game schedules are being acquired separately. | Schedule-driven competition stays `PENDING_DATA` for missing sport seasons. |
+| Correction publication time | Historical sources do not consistently include the official publication timestamp. | Preserve statistical revisions but do not fabricate a competitive finalization timestamp. |
+| Schedule normalization | Formula is explicitly unapproved. | Extension point only; never apply a multiplier. |
+| Keeper Round 10 fallback | A draft configured below ten rounds has no approved substitute cost. | Reject the keeper configuration until an explicit cost is supplied. |
+| Commissioner lottery | Lottery algorithms are configurable but no default lottery formula is approved. | Manual recorded order or reverse final standings; no hidden random lottery. |
 
 ## Data blockers
 
-Authoritative professional season boundaries, UTC game schedules, current availability, retirement status, rookie eligibility, and statistical-correction publication times are not present across all existing archives. M4 scheduling and eligibility services report provenance and availability instead of extrapolating these values.
+Authoritative UTC schedules, current availability, retirement status, rookie eligibility, and statistical-correction publication times are not present across all archives. Services report provenance and availability instead of extrapolating these values.

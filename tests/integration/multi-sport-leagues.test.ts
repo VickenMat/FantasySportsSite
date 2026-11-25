@@ -47,7 +47,7 @@ describe("M3.6 persistent multi-sport leagues", () => {
     await database.user.create({ data: { id: outsiderId, name: "Public Manager", email: `public-${outsiderId}@example.test` } });
     const playerIds = Array.from({ length: 8 }, () => randomUUID());
     await database.player.createMany({ data: playerIds.map((id, index) => ({ id, sport: index < 4 ? "NFL" : "NBA", displayName: `M36 Player ${index}`, isDemo: true })) });
-    const league = await createLeague(commissioner.id, { name: `M36 Gameplay ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 2, format: "REDRAFT", visibility: "PUBLIC", keeperLimits: { NFL: 1, NBA: 0 }, fillWithComputers: true });
+    const league = await createLeague(commissioner.id, { name: `M36 Gameplay ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 2, format: "REDRAFT", visibility: "PUBLIC", keeperLimits: { NFL: 1, NBA: 0 }, fillWithComputers: true, historical: true, seasonYear: 2024 });
     try {
       expect((await listPublicLeagues(outsiderId)).some(({ id }) => id === league.id)).toBe(true);
       await joinPublicLeague(outsiderId, league.id);
@@ -91,7 +91,7 @@ describe("M3.6 persistent multi-sport leagues", () => {
     const commissioner = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } }); const secondId = randomUUID();
     await database.user.create({ data: { id: secondId, name: "Second Human", email: `human-${secondId}@example.test` } });
     const full = await createLeague(commissioner.id, { name: `Bots 12 ${randomUUID()}`, sports: ["NHL"], maxTeams: 12, visibility: "PUBLIC", fillWithComputers: true });
-    const odd = await createLeague(commissioner.id, { name: `Odd 3 ${randomUUID()}`, sports: ["MLB"], maxTeams: 3, fillWithComputers: true });
+    const odd = await createLeague(commissioner.id, { name: `Odd 3 ${randomUUID()}`, sports: ["MLB"], maxTeams: 3, fillWithComputers: true, historical: true, seasonYear: 2024 });
     try {
       await joinPublicLeague(secondId, full.id);
       expect(await database.fantasyTeam.count({ where: { leagueId: full.id } })).toBe(12);

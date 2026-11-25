@@ -1,4 +1,6 @@
-# Fantasy Evolution M4 gameplay specification v1
+# Fantasy Evolution M4 gameplay specification v2
+
+> Superseded authority note: the November 24, 2026 M4 Master Implementation Specification governs all conflicts. Competition dimensions are independent: `HEAD_TO_HEAD` or `CUMULATIVE`; `REDRAFT` or `DYNASTY`; snake, auction, or linear rookie draft; and rolling/FAAB for traditional leagues versus salary Vickrey for salary dynasty. H2H sports never combine weekly W-L-T records. Multi-sport H2H uses finalized sport-placement championship points. Cumulative leagues have no fantasy playoffs or championship points. The detailed implementation tracker is in `M4_MASTER_CHECKLIST.md`.
 
 Status: architecture baseline for M4. Confirmed behavior is implementable; unresolved behavior is referenced to `M4_UNRESOLVED_RULES.md` and must remain inactive.
 
