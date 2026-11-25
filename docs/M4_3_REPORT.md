@@ -29,4 +29,12 @@ Development already had 45 roster entries and 45 roster assignment events before
 - The roster editor exposes the team's shared bench and IR slots on each sport tab. Exact slot selection and cross-sport swaps preserve each player's sport roster. Draft capacity counts the sport's own lineup and bench positions and checks roster compliance before a pick.
 - The shared-slot continuation passed 27 PostgreSQL tests and eight Chromium tests. Chromium verified an exact shared bench position through the roster editor.
 
-Rolling priority, independently verified game-completion holds, the cycle-scoped universal account, the dedicated immutable FAAB ledger, and offseason acquisition rules remain open.
+## Master-specification continuation
+
+- FAAB now uses exact per-sport $100 accounts or an optional shared $500 championship-cycle account. Pending maximum bids are recorded as immutable reservations; cancellation, loss and settlement append balanced ledger entries and update compatibility mirrors atomically.
+- Rolling priority is persistent per sport. Its initial snake order is reversed, equal FAAB bids use that order, and a successful claimant moves to the bottom. Auction-draft initialization remains gated until the league models an authoritative auction order.
+- Source-backed completion evidence is append-only and starts a 24-hour player hold from the verified completion instant. Synthetic fixtures verify the boundary without converting scheduled starts into completion evidence.
+- Dynasty acquisition remains available in the offseason. Competitive redraft free agency and waivers remain closed until that sport's applicable draft completes. Historical replay retains its separate behavior.
+- The additive waiver-accounting migration was exercised only in fresh disposable schemas. Production game-completion timestamps remain unavailable and no evidence was manufactured.
+
+The verified-rookie block moves with the M4.4 evidence model; trade compliance moves with M4.6; independent FAAB resets move with M4.7.

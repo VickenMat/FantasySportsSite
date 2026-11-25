@@ -4,6 +4,7 @@ import type { CompetitionType, LeagueStatus, Prisma, Sport } from "@/generated/p
 import { getDatabase } from "@/lib/db";
 import { defaultSlots } from "@/simulation/config";
 import { setCommissionerAuditContext } from "@/server/commissioner-audit";
+import { accountForWaiver, syncWaiverPriorities } from "@/server/faab";
 import { previewLeagueScheduleWithClient, type SportSchedulePreview } from "@/server/scheduling";
 
 export const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
@@ -21,6 +22,8 @@ export const createLeagueSchema = z.object({
   format: z.enum(["REDRAFT", "DYNASTY"]).default("DYNASTY"), visibility: z.enum(["PRIVATE", "PUBLIC"]).default("PRIVATE"),
   competitionType: z.enum(["HEAD_TO_HEAD", "CUMULATIVE"]).default("HEAD_TO_HEAD"), draftCompleteBy: z.coerce.date().optional(),
   keeperLimits: keeperLimitsSchema, startingFaab: z.coerce.number().int().min(0).max(100_000).default(100),
+  waiverMethod: z.enum(["ROLLING", "FAAB"]).default("FAAB"), faabScope: z.enum(["SPORT", "UNIVERSAL"]).default("SPORT"),
+  universalStartingFaab: z.coerce.number().int().min(0).max(100_000).default(500),
   benchSlots: z.coerce.number().int().min(0).max(20).default(5), historical: z.coerce.boolean().default(false), fillWithComputers: z.coerce.boolean().default(false),
 }).transform((input) => ({ ...input, sports: [...new Set(input.sports ?? (input.sport ? [input.sport] : sports))] }));
 
@@ -41,6 +44,8 @@ async function createSportRosters(tx: Prisma.TransactionClient, leagueId: string
   await tx.fantasyRoster.createMany({ data: leagueSports.map((item) => ({
     leagueId, leagueSportId: item.id, teamId, sport: item.sport, faabRemaining: item.startingFaab,
   })), skipDuplicates: true });
+  for (const item of leagueSports) await accountForWaiver(tx, leagueId, item.id, teamId);
+  await syncWaiverPriorities(tx, leagueId);
 }
 
 export async function createLeague(userId: string, input: z.input<typeof createLeagueSchema>) {
@@ -69,7 +74,8 @@ export async function createLeague(userId: string, input: z.input<typeof createL
     const league = await tx.league.create({ data: {
       slug: slug(value.name), name: value.name, format: value.format, competitionType: value.competitionType, visibility: value.visibility, maxTeams: value.maxTeams,
       isDemo: value.historical, isHistorical: value.historical, primarySport: firstSport, seasonYear: seasons.get(firstSport)!.startYear,
-      startingFaab: value.startingFaab, benchSlots: value.benchSlots, rosterSlots: [...defaultSlots[firstSport]],
+      startingFaab: value.startingFaab, waiverMethod: value.waiverMethod, faabScope: value.faabScope,
+      universalStartingFaab: value.universalStartingFaab, benchSlots: value.benchSlots, rosterSlots: [...defaultSlots[firstSport]],
       draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffTeams,
       playoffPeriods: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffWeeks, presetId: preset.id,
     } });

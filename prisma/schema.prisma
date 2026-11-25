@@ -79,6 +79,26 @@ enum WaiverStatus {
   CANCELLED
 }
 
+enum WaiverMethod {
+  ROLLING
+  FAAB
+}
+
+enum FaabScope {
+  SPORT
+  UNIVERSAL
+}
+
+enum FaabLedgerType {
+  OPENING
+  RESERVATION
+  RESERVATION_RELEASE
+  SETTLEMENT
+  RESET
+  TRADE
+  AWARD
+}
+
 enum MatchupStatus {
   SCHEDULED
   FINAL
@@ -228,6 +248,9 @@ model League {
   status                    LeagueStatus                 @default(SETUP)
   isHistorical              Boolean                      @default(false)
   startingFaab              Int                          @default(100)
+  waiverMethod              WaiverMethod                 @default(FAAB)
+  faabScope                 FaabScope                    @default(SPORT)
+  universalStartingFaab     Int                          @default(500)
   rosterSlots               String[]                     @default([])
   benchSlots                Int                          @default(5)
   universalBenchSlots       Int                          @default(5)
@@ -254,6 +277,8 @@ model League {
   lineupSnapshots           GameLineupSnapshot[]
   rosterComplianceSnapshots RosterComplianceSnapshot[]
   commissionerAuditEvents   CommissionerAuditEvent[]
+  faabAccounts              FaabAccount[]
+  waiverPriorities          WaiverPriority[]
 
   @@index([status, primarySport])
 }
@@ -341,8 +366,10 @@ model FantasyTeam {
   lineupSnapshots           GameLineupSnapshot[]
   rosterComplianceSnapshots RosterComplianceSnapshot[]
   originalFuturePicks       FutureDraftPick[]            @relation("OriginalFuturePickTeam")
-  ownedFuturePicks           FutureDraftPick[]            @relation("CurrentFuturePickOwner")
-  futurePickOwnership        FutureDraftPickOwnership[]
+  ownedFuturePicks          FutureDraftPick[]            @relation("CurrentFuturePickOwner")
+  futurePickOwnership       FutureDraftPickOwnership[]
+  faabAccounts              FaabAccount[]
+  waiverPriorities          WaiverPriority[]
 
   @@unique([leagueId, managerId])
   @@unique([leagueId, name])
@@ -694,30 +721,93 @@ model CompetitiveTiebreakerEvent {
 }
 
 model WaiverClaim {
-  id            String        @id @default(uuid()) @db.Uuid
-  leagueId      String        @db.Uuid
-  leagueSportId String        @db.Uuid
-  rosterId      String        @db.Uuid
+  id            String            @id @default(uuid()) @db.Uuid
+  leagueId      String            @db.Uuid
+  leagueSportId String            @db.Uuid
+  rosterId      String            @db.Uuid
   sport         Sport
-  teamId        String        @db.Uuid
-  addPlayerId   String        @db.Uuid
-  dropPlayerId  String?       @db.Uuid
+  teamId        String            @db.Uuid
+  addPlayerId   String            @db.Uuid
+  dropPlayerId  String?           @db.Uuid
   bid           Int
   priority      Int
-  processAt     DateTime      @db.Timestamptz(3)
-  status        WaiverStatus  @default(PENDING)
+  processAt     DateTime          @db.Timestamptz(3)
+  status        WaiverStatus      @default(PENDING)
   reason        String?
-  createdAt     DateTime      @default(now()) @db.Timestamptz(3)
-  processedAt   DateTime?     @db.Timestamptz(3)
-  league        League        @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  leagueSport   LeagueSport   @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
-  fantasyRoster FantasyRoster @relation(fields: [rosterId], references: [id], onDelete: Cascade)
-  team          FantasyTeam   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  addPlayer     Player        @relation("WaiverAdd", fields: [addPlayerId], references: [id], onDelete: Restrict)
-  dropPlayer    Player?       @relation("WaiverDrop", fields: [dropPlayerId], references: [id], onDelete: Restrict)
+  createdAt     DateTime          @default(now()) @db.Timestamptz(3)
+  processedAt   DateTime?         @db.Timestamptz(3)
+  faabAccountId String?           @db.Uuid
+  league        League            @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  leagueSport   LeagueSport       @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  fantasyRoster FantasyRoster     @relation(fields: [rosterId], references: [id], onDelete: Cascade)
+  team          FantasyTeam       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  addPlayer     Player            @relation("WaiverAdd", fields: [addPlayerId], references: [id], onDelete: Restrict)
+  dropPlayer    Player?           @relation("WaiverDrop", fields: [dropPlayerId], references: [id], onDelete: Restrict)
+  faabAccount   FaabAccount?      @relation(fields: [faabAccountId], references: [id], onDelete: Restrict)
+  ledgerEntries FaabLedgerEntry[]
 
   @@index([leagueId, sport, processAt, status])
   @@index([teamId, status])
+  @@index([faabAccountId, status])
+}
+
+model FaabAccount {
+  id                  String             @id @default(uuid()) @db.Uuid
+  leagueId            String             @db.Uuid
+  teamId              String             @db.Uuid
+  scope               FaabScope
+  leagueSportId       String?            @db.Uuid
+  championshipCycleId String?            @db.Uuid
+  openingBalance      Int
+  balance             Int
+  reserved            Int                @default(0)
+  createdAt           DateTime           @default(now()) @db.Timestamptz(3)
+  league              League             @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  team                FantasyTeam        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  leagueSport         LeagueSport?       @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  championshipCycle   ChampionshipCycle? @relation(fields: [championshipCycleId], references: [id], onDelete: Cascade)
+  claims              WaiverClaim[]
+  ledgerEntries       FaabLedgerEntry[]
+
+  @@index([leagueId, teamId, scope])
+  @@index([leagueSportId, teamId])
+  @@index([championshipCycleId, teamId])
+}
+
+model FaabLedgerEntry {
+  id             String         @id @default(uuid()) @db.Uuid
+  accountId      String         @db.Uuid
+  claimId        String?        @db.Uuid
+  type           FaabLedgerType
+  balanceDelta   Int
+  reservedDelta  Int
+  balanceAfter   Int
+  reservedAfter  Int
+  reason         String
+  idempotencyKey String         @unique
+  createdAt      DateTime       @default(now()) @db.Timestamptz(3)
+  account        FaabAccount    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  claim          WaiverClaim?   @relation(fields: [claimId], references: [id], onDelete: SetNull)
+
+  @@index([accountId, createdAt])
+  @@index([claimId])
+}
+
+model WaiverPriority {
+  id            String      @id @default(uuid()) @db.Uuid
+  leagueId      String      @db.Uuid
+  leagueSportId String      @db.Uuid
+  teamId        String      @db.Uuid
+  rank          Int
+  createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime    @updatedAt @db.Timestamptz(3)
+  league        League      @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  leagueSport   LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  team          FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([leagueSportId, teamId])
+  @@unique([leagueSportId, rank])
+  @@index([leagueId, leagueSportId, rank])
 }
 
 model FantasyTransaction {
@@ -854,6 +944,8 @@ model LeagueSport {
   keepers             KeeperSelection[]
   seasonAssignments   LeagueSportSeason[]
   futurePicks         FutureDraftPick[]
+  faabAccounts        FaabAccount[]
+  waiverPriorities    WaiverPriority[]
 
   @@unique([leagueId, sport])
   @@index([sport, seasonId])
@@ -1088,6 +1180,7 @@ model Game {
   historicalCrosswalks   HistoricalGameCrosswalk[]
   availabilityEvidence   PlayerAvailabilityEvidence[]
   lineupSnapshots        GameLineupSnapshot[]
+  completionEvidence     GameCompletionEvidence[]
 
   @@unique([sport, provider, externalId])
   @@index([seasonId, gameDate])
@@ -1112,6 +1205,21 @@ model PlayerAvailabilityEvidence {
   @@unique([provider, externalId])
   @@index([playerId, effectiveAt, knownAt])
   @@index([gameId, knownAt])
+}
+
+model GameCompletionEvidence {
+  id           String   @id @default(uuid()) @db.Uuid
+  gameId       String   @db.Uuid
+  provider     String
+  externalId   String
+  completedAt  DateTime @db.Timestamptz(3)
+  knownAt      DateTime @db.Timestamptz(3)
+  sourceRecord Json
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  game         Game     @relation(fields: [gameId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, externalId])
+  @@index([gameId, completedAt, knownAt])
 }
 
 model GameLineupSnapshot {
@@ -1181,6 +1289,7 @@ model ChampionshipCycle {
   gameAssignments     LeagueGameAssignment[]
   competitionConfigs  CompetitionConfigSnapshot[]
   championshipResults ChampionshipResult[]
+  faabAccounts        FaabAccount[]
 
   @@unique([leagueId, number])
   @@index([leagueId, status])

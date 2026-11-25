@@ -8,7 +8,7 @@ import { resolveLeagueSport } from "./league";
 import { captureDueGameLineups } from "./lineup-snapshots";
 import { getEligiblePositions } from "./positions";
 import { irEligiblePlayers } from "./roster-availability";
-import { releaseHoldUntil } from "./waiver-holds";
+import { waiverHoldUntil } from "./waiver-holds";
 
 async function managedRoster(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
@@ -66,8 +66,14 @@ export async function addFreeAgent(userId: string, leagueId: string, playerId: s
     const player = await tx.player.findUniqueOrThrow({ where: { id: playerId } });
     if (player.sport !== context.leagueSport.sport) throw new Error(`This player is not eligible for the ${context.leagueSport.sport} roster.`);
     const acquiredAt = new Date();
-    const hold = await releaseHoldUntil(tx, leagueId, playerId);
-    if (hold && hold > acquiredAt) throw new Error("This player is on release waivers. Submit a waiver claim.");
+    if (!context.membership.league.isHistorical && context.membership.league.format === "REDRAFT") {
+      const completedDraft = await tx.draft.findFirst({ where: {
+        leagueSportId: context.leagueSport.id, seasonId: context.leagueSport.seasonId, status: "COMPLETE",
+      }, select: { id: true } });
+      if (!completedDraft) throw new Error("Redraft free agency opens after the applicable sport draft completes.");
+    }
+    const hold = await waiverHoldUntil(tx, leagueId, playerId, acquiredAt);
+    if (hold && hold > acquiredAt) throw new Error("This player is on release waivers or a verified game-completion hold. Submit a waiver claim.");
     if (await tx.waiverClaim.findFirst({ where: { leagueId, addPlayerId: playerId, status: "PENDING" }, select: { id: true } })) {
       throw new Error("This player has pending waiver claims.");
     }

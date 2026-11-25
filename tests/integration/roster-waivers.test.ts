@@ -6,15 +6,16 @@ import { createLeague } from "@/server/league";
 import { recordAvailabilityEvidence } from "@/server/lineup-snapshots";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { cancelWaiver, processWaivers, reservedSportFaab, submitWaiver } from "@/server/waivers";
+import { recordGameCompletionEvidence } from "@/server/waiver-holds";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
 
-async function fixture() {
+async function fixture(options: { faabScope?: "SPORT" | "UNIVERSAL"; waiverMethod?: "FAAB" | "ROLLING" } = {}) {
   const user = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
   const league = await createLeague(user.id, {
     name: `M43 Waivers ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 2, fillWithComputers: true,
-    historical: true, seasonYear: 2087,
+    historical: true, seasonYear: 2091, ...options,
   });
   const roster = await database.fantasyRoster.findFirstOrThrow({
     where: { leagueId: league.id, sport: "NFL", team: { managerId: user.id } },
@@ -55,6 +56,69 @@ it("holds released players for 24 hours and reserves sealed bids without allowin
   expect(await processWaivers(user.id, league.id, finalClaim.processAt)).toBe(1);
   expect(await processWaivers(user.id, league.id, finalClaim.processAt)).toBe(0);
   expect(await database.fantasyRoster.findUniqueOrThrow({ where: { id: roster.id } })).toMatchObject({ faabRemaining: 0 });
+  const ledger = await database.faabLedgerEntry.findMany({ where: { account: { teamId: roster.teamId, leagueSportId: roster.leagueSportId } } });
+  expect(ledger.map(({ type }) => type)).toEqual(expect.arrayContaining(["OPENING", "RESERVATION", "RESERVATION_RELEASE", "SETTLEMENT"]));
+  await expect(database.faabLedgerEntry.update({ where: { id: ledger[0].id }, data: { reason: "rewrite" } })).rejects.toThrow(/append-only/i);
+  await database.league.delete({ where: { id: league.id } });
+});
+
+it("shares a universal cycle account across sports and keeps rolling priority independent by sport", async () => {
+  const { user, league, playerIds: [football, , , basketball] } = await fixture({ faabScope: "UNIVERSAL" });
+  const nfl = await submitWaiver(user.id, { leagueId: league.id, sport: "NFL", addPlayerId: football, bid: 300 });
+  await expect(submitWaiver(user.id, { leagueId: league.id, sport: "NBA", addPlayerId: basketball, bid: 201 }))
+    .rejects.toThrow(/unreserved FAAB/i);
+  const nba = await submitWaiver(user.id, { leagueId: league.id, sport: "NBA", addPlayerId: basketball, bid: 200 });
+  const account = await database.faabAccount.findFirstOrThrow({ where: { id: nfl.faabAccountId! } });
+  expect(nba.faabAccountId).toBe(account.id);
+  expect(account).toMatchObject({ scope: "UNIVERSAL", balance: 500, reserved: 500 });
+  const priorities = await database.waiverPriority.findMany({ where: { leagueId: league.id }, orderBy: [{ leagueSportId: "asc" }, { rank: "asc" }] });
+  expect(priorities).toHaveLength(4);
+  for (const sportId of new Set(priorities.map(({ leagueSportId }) => leagueSportId))) {
+    expect(priorities.filter(({ leagueSportId }) => leagueSportId === sportId).map(({ rank }) => rank)).toEqual([1, 2]);
+  }
+  await cancelWaiver(user.id, nfl.id);
+  await cancelWaiver(user.id, nba.id);
+  expect(await database.faabAccount.findUniqueOrThrow({ where: { id: account.id } })).toMatchObject({ reserved: 0 });
+  await database.league.delete({ where: { id: league.id } });
+});
+
+it("uses verified completion evidence for a 24-hour game hold and rejects paid rolling claims", async () => {
+  const { user, league, roster, playerIds: [player] } = await fixture({ waiverMethod: "ROLLING" });
+  await expect(submitWaiver(user.id, { leagueId: league.id, sport: "NFL", addPlayerId: player, bid: 1 }))
+    .rejects.toThrow(/do not accept FAAB/i);
+  const game = await database.game.create({ data: {
+    sport: "NFL", seasonId: (await database.leagueSport.findUniqueOrThrow({ where: { id: roster.leagueSportId } })).seasonId,
+    provider: "m43-completion", externalId: randomUUID(), phase: "REGULAR", startsAt: new Date(Date.now() - 7_200_000),
+  } });
+  const club = await database.proTeam.create({ data: { sport: "NFL", provider: "m43-completion", externalId: randomUUID(), displayName: "Completion club" } });
+  await database.gameTeam.create({ data: { gameId: game.id, teamId: club.id } });
+  const batch = await database.importBatch.create({ data: {
+    sport: "NFL", provider: "m43-completion", contentHash: randomUUID(), sourceName: "Synthetic completion fixture", importerVersion: "fixture", summary: {},
+  } });
+  await database.playerGameStat.create({ data: {
+    gameId: game.id, playerId: player, teamId: club.id, importBatchId: batch.id, provider: "m43-completion", role: "FOOTBALL",
+    revision: 1, contentHash: randomUUID(), sourceLine: 1, observedPositions: [], normalized: {}, raw: {},
+  } });
+  const completedAt = new Date(Date.now() - 3_600_000);
+  const evidence = await recordGameCompletionEvidence({
+    gameId: game.id, provider: "m43-completion", externalId: randomUUID(), completedAt,
+    knownAt: new Date(completedAt.getTime() + 300_000), sourceRecord: { synthetic: true },
+  });
+  const claim = await submitWaiver(user.id, { leagueId: league.id, sport: "NFL", addPlayerId: player, bid: 0 });
+  expect(claim.processAt).toEqual(new Date(completedAt.getTime() + 86_400_000));
+  const userPriority = await database.waiverPriority.findUniqueOrThrow({ where: {
+    leagueSportId_teamId: { leagueSportId: roster.leagueSportId, teamId: roster.teamId },
+  } });
+  const firstPriority = await database.waiverPriority.findUniqueOrThrow({ where: { leagueSportId_rank: { leagueSportId: roster.leagueSportId, rank: 1 } } });
+  await database.waiverPriority.update({ where: { id: firstPriority.id }, data: { rank: 100 } });
+  await database.waiverPriority.update({ where: { id: userPriority.id }, data: { rank: 1 } });
+  await database.waiverPriority.update({ where: { id: firstPriority.id }, data: { rank: 2 } });
+  await database.waiverClaim.update({ where: { id: claim.id }, data: { priority: 1 } });
+  expect(await processWaivers(user.id, league.id, claim.processAt, "NFL")).toBe(1);
+  expect(await database.waiverPriority.findUniqueOrThrow({ where: {
+    leagueSportId_teamId: { leagueSportId: roster.leagueSportId, teamId: roster.teamId },
+  } })).toMatchObject({ rank: 2 });
+  await expect(database.gameCompletionEvidence.update({ where: { id: evidence.id }, data: { completedAt: new Date() } })).rejects.toThrow(/append-only/i);
   await database.league.delete({ where: { id: league.id } });
 });
 
