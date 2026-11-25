@@ -10,10 +10,10 @@ Current implementation head descends from `6bf22fc`. The reconstructed M4 specif
 - Ordinary trades now enforce proposer compliance and atomic post-trade compliance for both franchises; the explicitly classified corrective-trade exception remains gated.
 - Authenticated brand navigation, Account, league overview, roster selection cancellation, draft access through Settings, readable scoring labels and centralized position colors are implemented. Player, waiver, roster and draft surfaces now share the position system; draft boards expose franchise ownership and verified position evidence without inventing salary or projection values.
 - Player data was audited read-only; see `docs/PLAYER_DATA_AUDIT.md`.
-- Unit, type, lint, production build and the targeted authenticated browser flow pass. Full milestone regression remains required after the remaining website and gameplay work.
+- The current checkpoint passes 138 unit tests, 31 fresh-schema PostgreSQL integration tests, TypeScript, ESLint and the production Turbopack build. The authenticated browser flow passed at the preceding website checkpoint; full browser regression remains required after the remaining website and gameplay work.
 
 ## Operational dependency
 
-The development database intentionally remains on 17 migrations. Waivers now requires the validated `20261125190000_waiver_accounting_m4_3` migration (and its prerequisite pending migrations) plus an application restart with the regenerated Prisma client. Do not deploy those development migrations without explicit approval. Disposable schemas have applied all 21 migrations successfully.
+The development database intentionally remains on 17 migrations. Waivers now requires the validated `20261125190000_waiver_accounting_m4_3` migration (and its prerequisite pending migrations) plus an application restart with the regenerated Prisma client. Do not deploy those development migrations without explicit approval. Fresh disposable schemas apply all 22 migrations successfully.
 
 No production deployment has been performed.
