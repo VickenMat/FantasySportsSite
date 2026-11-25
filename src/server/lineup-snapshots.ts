@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
 import type { PlayerAvailabilityDesignation } from "@/generated/prisma/enums";
 import { getDatabase } from "@/lib/db";
+import { slotRule } from "@/simulation/config";
 import { getEligiblePositions } from "./positions";
 
 const availabilityInput = z.object({
@@ -88,7 +89,7 @@ export async function captureGameLineups(gameId: string, now = new Date()) {
         leagueId: competition.leagueId, sport: game.sport, playerId: { in: [...playerEvidence.keys()] }, acquiredAt: { lte: game.startsAt },
         OR: [{ releasedAt: null }, { releasedAt: { gt: game.startsAt } }],
       },
-      include: { assignmentEvents: { where: { effectiveAt: { lte: game.startsAt } }, orderBy: [{ effectiveAt: "desc" }, { createdAt: "desc" }], take: 1 } },
+      include: { assignmentEvents: { where: { effectiveAt: { lte: game.startsAt } }, orderBy: [{ effectiveAt: "desc" }, { createdAt: "desc" }, { id: "desc" }], take: 1 } },
     });
     const rows = [];
     for (const entry of entries) {
@@ -97,15 +98,19 @@ export async function captureGameLineups(gameId: string, now = new Date()) {
       const positions = await getEligiblePositions({
         playerId: entry.playerId, sport: game.sport, seasonYear: competition.leagueSportSeason.season.startYear, asOf: game.startsAt,
       });
+      const isStarter = !NON_STARTER_SLOTS.has(event.toSlot) && event.toSlot !== "RELEASED";
+      const eligible = isStarter && positions.available
+        && (slotRule(game.sport, event.toSlot)?.positions.some((position) => positions.positions.includes(position)) ?? false);
       const source = {
         rosterEntryId: entry.id, eventId: event.id, evidenceId: playerEvidence.get(entry.playerId)!.id,
-        gameStartsAt: game.startsAt.toISOString(), slot: event.toSlot, slotIndex: event.toSlotIndex, positions: positions.positions,
+        gameStartsAt: game.startsAt.toISOString(), slot: event.toSlot, slotIndex: event.toSlotIndex, positions: positions.positions, eligible,
       };
       rows.push({
         leagueId: competition.leagueId, sportCompetitionId: competition.id, scoringPeriodId: assignment.scoringPeriod.id,
-        gameId, teamId: entry.teamId, rosterEntryId: entry.id, playerId: entry.playerId, slot: event.toSlot,
-        slotIndex: event.toSlotIndex, isStarter: !NON_STARTER_SLOTS.has(event.toSlot), lockedAt: game.startsAt,
-        eligibility: { available: positions.available, positions: positions.positions, fieldingCounts: positions.fieldingCounts }, sourceHash: digest(source),
+        gameId, teamId: event.teamId, rosterEntryId: entry.id, playerId: entry.playerId, slot: event.toSlot,
+        slotIndex: event.toSlotIndex, isStarter, lockedAt: game.startsAt,
+        eligibility: { available: positions.available, eligible, positions: positions.positions, fieldingCounts: positions.fieldingCounts },
+        sourceHash: digest(source),
       });
     }
     if (rows.length) {
@@ -117,13 +122,39 @@ export async function captureGameLineups(gameId: string, now = new Date()) {
 }
 
 export async function captureDueGameLineups(now = new Date()) {
-  const games = await getDatabase().game.findMany({
-    where: {
-      startsAt: { lte: now }, competitionPeriodGames: { some: {} }, availabilityEvidence: { some: { knownAt: { lte: now } } },
-      lineupSnapshots: { none: {} },
-    },
-    select: { id: true }, orderBy: { startsAt: "asc" }, take: 500,
-  });
+  const games = await getDatabase().$queryRaw<{ id: string }[]>`
+    SELECT game.id
+    FROM "Game" game
+    WHERE game."startsAt" <= ${now} AND EXISTS (
+      SELECT 1
+      FROM "CompetitionPeriodGame" assignment
+      JOIN "SportCompetition" competition ON competition.id = assignment."sportCompetitionId"
+      JOIN "PlayerAvailabilityEvidence" evidence ON evidence."gameId" = game.id
+      JOIN "RosterEntry" roster ON roster."leagueId" = competition."leagueId"
+        AND roster."playerId" = evidence."playerId" AND roster.sport = game.sport
+      JOIN LATERAL (
+        SELECT event."teamId", event."toSlot", event."toSlotIndex"
+        FROM "RosterAssignmentEvent" event
+        WHERE event."rosterEntryId" = roster.id AND event."effectiveAt" <= game."startsAt"
+        ORDER BY event."effectiveAt" DESC, event."createdAt" DESC, event.id DESC
+        LIMIT 1
+      ) event ON true
+      WHERE assignment."gameId" = game.id
+        AND evidence."knownAt" <= game."startsAt" AND evidence."effectiveAt" <= game."startsAt"
+        AND (evidence."expiresAt" IS NULL OR evidence."expiresAt" > game."startsAt")
+        AND roster."acquiredAt" <= game."startsAt"
+        AND (roster."releasedAt" IS NULL OR roster."releasedAt" > game."startsAt")
+        AND NOT EXISTS (
+          SELECT 1 FROM "GameLineupSnapshot" snapshot
+          WHERE snapshot."sportCompetitionId" = competition.id AND snapshot."gameId" = game.id
+            AND snapshot."teamId" = event."teamId"
+            AND (snapshot."playerId" = roster."playerId"
+              OR (snapshot.slot = event."toSlot" AND snapshot."slotIndex" = event."toSlotIndex"))
+        )
+    )
+    ORDER BY game."startsAt", game.id
+    LIMIT 500
+  `;
   let created = 0;
   for (const game of games) created += (await captureGameLineups(game.id, now)).created;
   return { games: games.length, created };

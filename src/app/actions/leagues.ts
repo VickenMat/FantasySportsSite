@@ -8,6 +8,7 @@ import { getDatabase } from "@/lib/db";
 import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue, setDraftPaused } from "@/server/draft";
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, resolveLeagueSport, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
+import { advanceSportPlayoffs } from "@/server/playoffs";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
@@ -137,7 +138,9 @@ export async function scheduleAction(leagueId: string, form?: FormData) {
   if (league.isHistorical && league.competitionType === "HEAD_TO_HEAD") await generateSchedule(user.id, leagueId, 14, requestedSport);
   else {
     const selected = await resolveLeagueSport(leagueId, requestedSport);
-    const competition = await getDatabase().sportCompetition.findFirstOrThrow({ where: { leagueId, sport: selected.sport, leagueSportSeason: { leagueSportId: selected.id } } });
+    const competition = await getDatabase().sportCompetition.findFirstOrThrow({
+      where: { leagueId, sport: selected.sport, leagueSportSeason: { leagueSportId: selected.id, seasonId: selected.seasonId } },
+    });
     await provisionCompetitionSchedule(user.id, competition.id);
   }
   revalidatePath(`/leagues/${leagueId}/matchups`);
@@ -234,7 +237,26 @@ export async function cancelTradeAction(leagueId: string, tradeId: string) {
 
 export async function playoffsAction(leagueId: string, form?: FormData) {
   const { user } = await requireSession(); await limit(user.id, "playoffs", 10);
-  await generateNextPlayoffRound(user.id, leagueId, String(form?.get("sport") ?? "") || undefined); revalidatePath(`/leagues/${leagueId}/matchups`);
+  const sport = await resolveLeagueSport(leagueId, String(form?.get("sport") ?? "") || undefined);
+  const database = getDatabase();
+  const league = await database.league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
+  if (league.isHistorical) {
+    await generateNextPlayoffRound(user.id, leagueId, sport.sport);
+    revalidatePath(`/leagues/${leagueId}/matchups`);
+    return;
+  }
+  const competition = await database.sportCompetition.findFirstOrThrow({
+    where: { leagueId, leagueSportSeason: { leagueSportId: sport.id, seasonId: sport.seasonId } },
+  });
+  const result = await advanceSportPlayoffs(user.id, competition.id);
+  revalidatePath(`/leagues/${leagueId}/matchups`);
+  const notices = {
+    SCHEDULED: "The next playoff matchups are scheduled.",
+    PENDING_REGULAR_RESULTS: "Playoff seeding is waiting for finalized regular-season results.",
+    PENDING_PLAYOFF_RESULTS: "The next round is waiting for finalized playoff results.",
+    FINALIZED: "Sport placements and championship points are final.",
+  };
+  await actionNotice(notices[result.status]);
 }
 
 export async function joinPublicLeagueAction(leagueId: string) {

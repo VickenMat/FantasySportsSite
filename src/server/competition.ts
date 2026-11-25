@@ -1,7 +1,22 @@
 import { createHash, randomBytes } from "node:crypto";
-import type { Sport } from "@/generated/prisma/client";
+import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
-import { roundRobinPairings } from "@/server/matchups";
+
+export function roundRobinPairings(teamIds: readonly string[], rounds: number) {
+  if (teamIds.length < 2) throw new Error("A schedule requires at least two franchises.");
+  const rotation: (string | null)[] = [...teamIds];
+  if (rotation.length % 2) rotation.push(null);
+  const result: { round: number; homeTeamId: string; awayTeamId: string }[] = [];
+  for (let round = 1; round <= rounds; round++) {
+    for (let index = 0; index < rotation.length / 2; index++) {
+      const homeTeamId = rotation[index];
+      const awayTeamId = rotation[rotation.length - 1 - index];
+      if (homeTeamId && awayTeamId) result.push({ round, homeTeamId, awayTeamId });
+    }
+    rotation.splice(1, 0, rotation.pop()!);
+  }
+  return result;
+}
 
 export type StandingInput = { teamId: string; wins: number; losses: number; ties: number; pointsFor: bigint; pointsAgainst: bigint };
 export type MatchupInput = { homeTeamId: string; awayTeamId: string; homeTenths: bigint; awayTenths: bigint };
@@ -19,7 +34,7 @@ function recordCompare(a: StandingInput, b: StandingInput) {
   return (b.wins * 2 + b.ties) * Math.max(1, aGames) - (a.wins * 2 + a.ties) * Math.max(1, bGames);
 }
 
-export function rankH2HStandings(rows: readonly StandingInput[], games: readonly MatchupInput[], drawRanks: ReadonlyMap<string, number>) {
+export function rankH2HStandings(rows: readonly StandingInput[], games: readonly MatchupInput[], drawRanks: ReadonlyMap<string, number>, provisional = false) {
   const headToHead = (teamId: string, group: ReadonlySet<string>) => {
     let earned = 0, possible = 0;
     for (const game of games) {
@@ -29,7 +44,7 @@ export function rankH2HStandings(rows: readonly StandingInput[], games: readonly
     }
     return { earned, possible };
   };
-  return [...rows].sort((a, b) => {
+  const compare = (a: StandingInput, b: StandingInput) => {
     let compared = recordCompare(a, b); if (compared) return compared;
     if (a.pointsFor !== b.pointsFor) return a.pointsFor > b.pointsFor ? -1 : 1;
     const tied = new Set(rows.filter((row) => !recordCompare(a, row) && row.pointsFor === a.pointsFor).map(({ teamId }) => teamId));
@@ -37,9 +52,18 @@ export function rankH2HStandings(rows: readonly StandingInput[], games: readonly
     compared = bh.earned * Math.max(1, ah.possible) - ah.earned * Math.max(1, bh.possible); if (compared) return compared;
     if (a.pointsAgainst !== b.pointsAgainst) return a.pointsAgainst < b.pointsAgainst ? -1 : 1;
     const ad = drawRanks.get(a.teamId); const bd = drawRanks.get(b.teamId);
-    if (ad == null || bd == null) throw new Error("A recorded random draw is required to resolve the standings tie.");
+    if (ad == null || bd == null) {
+      if (provisional) return 0;
+      throw new Error("A recorded random draw is required to resolve the standings tie.");
+    }
     return ad - bd;
-  }).map((row, index) => ({ ...row, rank: index + 1 }));
+  };
+  const ranked = [...rows].sort(compare);
+  let rank = 0;
+  return ranked.map((row, index) => {
+    if (!provisional || index === 0 || compare(ranked[index - 1], row)) rank = index + 1;
+    return { ...row, rank };
+  });
 }
 
 export type PlacementInput = { teamId: string; placement: number; qualified: boolean; regularPfTenths: bigint };
@@ -104,18 +128,43 @@ function weekKey(sport: Sport, game: { startsAt: Date; week: number | null }) {
   const date = new Date(game.startsAt); const day = (date.getUTCDay() + 6) % 7; date.setUTCDate(date.getUTCDate() - day); date.setUTCHours(0, 0, 0, 0); return date.toISOString();
 }
 
-export async function ensureRecordedDraw(leagueId: string, scopeType: string, scopeId: string, teamIds: readonly string[]) {
-  const database = getDatabase();
-  return database.$transaction(async (tx) => {
-    const existing = await tx.competitiveTiebreakerEvent.findMany({ where: { scopeType, scopeId }, orderBy: { drawRank: "asc" } });
-    if (existing.length) {
-      if (existing.length !== teamIds.length || teamIds.some((id) => !existing.some((row) => row.teamId === id))) throw new Error("The recorded draw scope cannot be changed after execution.");
-      return existing;
+export async function recordCompetitionDraw(tx: Prisma.TransactionClient, leagueId: string, scopeType: string, scopeId: string, teamIds: readonly string[]) {
+  const existing = await tx.competitiveTiebreakerEvent.findMany({ where: { scopeType, scopeId }, orderBy: { drawRank: "asc" } });
+  if (existing.length) {
+    if (existing.length !== teamIds.length || teamIds.some((id) => !existing.some((row) => row.teamId === id))) throw new Error("The recorded draw scope cannot be changed after execution.");
+    return existing;
+  }
+  const shuffled = teamIds.map((teamId) => ({ teamId, token: randomBytes(32).toString("hex") })).sort((a, b) => a.token.localeCompare(b.token));
+  await tx.competitiveTiebreakerEvent.createMany({ data: shuffled.map((row, index) => ({ leagueId, scopeType, scopeId, teamId: row.teamId, drawRank: index + 1, randomToken: row.token })) });
+  return tx.competitiveTiebreakerEvent.findMany({ where: { scopeType, scopeId }, orderBy: { drawRank: "asc" } });
+}
+
+export function ensureRecordedDraw(leagueId: string, scopeType: string, scopeId: string, teamIds: readonly string[]) {
+  return getDatabase().$transaction((tx) => recordCompetitionDraw(tx, leagueId, scopeType, scopeId, teamIds), {
+    isolationLevel: "Serializable",
+  });
+}
+
+export function summarizeH2H(teamIds: readonly string[], games: readonly MatchupInput[]) {
+  const rows = new Map(teamIds.map((teamId) => [teamId, { teamId, wins: 0, losses: 0, ties: 0, pointsFor: 0n, pointsAgainst: 0n }]));
+  for (const game of games) {
+    const home = rows.get(game.homeTeamId);
+    const away = rows.get(game.awayTeamId);
+    if (!home || !away) throw new Error("A finalized matchup references a team outside the competition.");
+    home.pointsFor += game.homeTenths;
+    home.pointsAgainst += game.awayTenths;
+    away.pointsFor += game.awayTenths;
+    away.pointsAgainst += game.homeTenths;
+    if (game.homeTenths === game.awayTenths) {
+      home.ties++;
+      away.ties++;
+    } else {
+      const [winner, loser] = game.homeTenths > game.awayTenths ? [home, away] : [away, home];
+      winner.wins++;
+      loser.losses++;
     }
-    const shuffled = teamIds.map((teamId) => ({ teamId, token: randomBytes(32).toString("hex") })).sort((a, b) => a.token.localeCompare(b.token));
-    await tx.competitiveTiebreakerEvent.createMany({ data: shuffled.map((row, index) => ({ leagueId, scopeType, scopeId, teamId: row.teamId, drawRank: index + 1, randomToken: row.token })) });
-    return tx.competitiveTiebreakerEvent.findMany({ where: { scopeType, scopeId }, orderBy: { drawRank: "asc" } });
-  }, { isolationLevel: "Serializable" });
+  }
+  return [...rows.values()];
 }
 
 export async function provisionCompetitionSchedule(userId: string, sportCompetitionId: string) {
@@ -130,6 +179,21 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
     const games = await tx.game.findMany({ where: { seasonId: competition.leagueSportSeason.seasonId, phase: "REGULAR", startsAt: { not: null } }, orderBy: { startsAt: "asc" } });
     const eligible = games.filter((game): game is typeof game & { startsAt: Date } => Boolean(game.startsAt) && !(competition.sport === "NFL" && competition.configSnapshot.competitionType === "HEAD_TO_HEAD" && (game.week ?? 99) > 17));
     if (!eligible.length) return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA", statusReason: "No authoritative UTC regular-season games are available for this professional season." } });
+    const attribution = await tx.leagueGameAssignment.findMany({
+      where: { leagueId: competition.leagueId, gameId: { in: eligible.map(({ id }) => id) } },
+      select: { gameId: true, leagueSportSeasonId: true },
+    });
+    if (attribution.some(({ leagueSportSeasonId }) => leagueSportSeasonId !== competition.leagueSportSeasonId)) {
+      throw new Error("A professional game is already assigned to another season in this league.");
+    }
+    const attributed = new Set(attribution.map(({ gameId }) => gameId));
+    const newGames = eligible.filter(({ id }) => !attributed.has(id));
+    if (newGames.length) await tx.leagueGameAssignment.createMany({
+      data: newGames.map(({ id }) => ({
+        leagueId: competition.leagueId, gameId: id, leagueSportSeasonId: competition.leagueSportSeasonId,
+        championshipCycleId: competition.leagueSportSeason.championshipCycleId,
+      })),
+    });
     const groups = new Map<string, typeof eligible>();
     for (const game of eligible) groups.set(weekKey(competition.sport, game), [...(groups.get(weekKey(competition.sport, game)) ?? []), game]);
     const weeks = [...groups.entries()].sort((a, b) => a[1][0].startsAt.getTime() - b[1][0].startsAt.getTime());
@@ -138,10 +202,15 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
     const regularCount = weeks.length - playoffWeeks;
     const pairings = competition.configSnapshot.competitionType === "HEAD_TO_HEAD"
       ? roundRobinPairings(competition.league.teams.map(({ id }) => id), regularCount) : [];
+    const previous = await tx.scoringPeriod.findFirst({
+      where: { leagueId: competition.leagueId, sport: competition.sport },
+      orderBy: { number: "desc" },
+      select: { number: true },
+    });
     for (let index = 0; index < weeks.length; index++) {
       const weekGames = weeks[index][1]; const periodType = index < regularCount ? "REGULAR" : "PLAYOFF";
       const period = await tx.scoringPeriod.create({ data: { leagueId: competition.leagueId, leagueSportId: competition.leagueSportSeason.leagueSportId,
-        sport: competition.sport, number: index + 1, competitionId: competition.id, periodType,
+        sport: competition.sport, number: (previous?.number ?? 0) + index + 1, competitionId: competition.id, periodType,
         startsAt: weekGames[0].startsAt, endsAt: weekGames[weekGames.length - 1].startsAt } });
       await tx.competitionPeriodGame.createMany({ data: weekGames.map((game) => ({ sportCompetitionId: competition.id, scoringPeriodId: period.id, gameId: game.id })) });
       if (periodType === "REGULAR") for (const pairing of pairings.filter(({ round }) => round === index + 1)) await tx.matchup.create({ data: {

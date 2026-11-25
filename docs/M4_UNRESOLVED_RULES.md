@@ -9,12 +9,12 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Rookie eligibility | Official sport-specific evidence is not bundled. | `PENDING_DATA`; no player is inferred to be a rookie from age, draft year or absence. |
 | Injury and IR | Complete authoritative availability designations are not bundled. | Only verified evidence can unlock IR; offseason inactivity and retirement do not qualify. |
 | Retirement | Verified retirement evidence is not bundled. | Players remain rostered and are never inferred retired from missing statistics. |
-| Professional schedules | Complete UTC game schedules are being acquired separately. | Schedule-driven competition stays `PENDING_DATA` for missing sport seasons. |
-| Correction publication time | Historical sources do not consistently include the official publication timestamp. | Preserve statistical revisions but do not fabricate a competitive finalization timestamp. |
+| Professional schedules | V5 is accepted. Four NBA crosswalk rows remain unresolved, five future starts are unpublished, and observed season boundaries lack independent verification. | Use accepted games where eligible and keep unavailable dates pending. |
+| Correction publication time | The development archive has no official publication timestamps on its 107,312 stat revisions. | Preserve statistical revisions and keep competitive outcomes provisional until official timestamps are available. |
 | Schedule normalization | Formula is explicitly unapproved. | Extension point only; never apply a multiplier. |
 | Keeper Round 10 fallback | A draft configured below ten rounds has no approved substitute cost. | Reject the keeper configuration until an explicit cost is supplied. |
 | Commissioner lottery | Lottery algorithms are configurable but no default lottery formula is approved. | Manual recorded order or reverse final standings; no hidden random lottery. |
 
 ## Data blockers
 
-Authoritative UTC schedules, current availability, retirement status, rookie eligibility, and statistical-correction publication times are not present across all archives. Services report provenance and availability instead of extrapolating these values.
+Current availability, retirement status, rookie eligibility, and official statistical publication times remain unavailable across the development archive. The repository contains the M4 master checklist and the older gameplay summary. The November 24 master specification itself is needed to verify detailed rules that those files omit.

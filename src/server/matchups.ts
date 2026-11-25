@@ -1,26 +1,17 @@
-import type { Sport } from "@/generated/prisma/client";
+import type { Matchup, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
+import { rankH2HStandings, roundRobinPairings, summarizeH2H } from "./competition";
+import { periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
 import { resolveLeagueSport } from "./league";
 import { captureDueGameLineups } from "./lineup-snapshots";
 
-export function roundRobinPairings(teamIds: readonly string[], rounds: number) {
-  if (teamIds.length < 2) throw new Error("A schedule requires at least two franchises.");
-  const rotation: (string | null)[] = [...teamIds]; if (rotation.length % 2) rotation.push(null);
-  const result: { round: number; homeTeamId: string; awayTeamId: string }[] = [];
-  for (let round = 1; round <= rounds; round++) {
-    for (let index = 0; index < rotation.length / 2; index++) {
-      const homeTeamId = rotation[index]; const awayTeamId = rotation[rotation.length - 1 - index];
-      if (homeTeamId && awayTeamId) result.push({ round, homeTeamId, awayTeamId });
-    }
-    rotation.splice(1, 0, rotation.pop()!);
-  }
-  return result;
-}
+export { roundRobinPairings } from "./competition";
 
 export async function generateSchedule(userId: string, leagueId: string, periods = 14, requestedSport?: Sport | string) {
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: { orderBy: { draftSlot: "asc" } } } } } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can generate the schedule.");
+  if (member.league.competitionType === "CUMULATIVE") throw new Error("Cumulative leagues use source-backed scoring periods.");
   if (!member.league.isHistorical) throw new Error("Competitive schedules require authoritative UTC professional games; use source-backed competition provisioning.");
   const teams = member.league.teams.map(({ id }) => id); const pairings = roundRobinPairings(teams, periods);
   return database.$transaction(async (tx) => {
@@ -34,14 +25,77 @@ export async function generateSchedule(userId: string, leagueId: string, periods
   });
 }
 
+type AuthoritativeMatchup = Matchup & { period: { competitionId: string | null } };
+const correctionWindow = 24 * 60 * 60 * 1000;
+
+async function refreshAuthoritativeMatchups(tx: Prisma.TransactionClient, matchups: readonly AuthoritativeMatchup[], now: Date, finalize = false) {
+  const byPeriod = new Map<string, AuthoritativeMatchup[]>();
+  for (const matchup of matchups) {
+    if (!matchup.finalizedAt && matchup.period.competitionId) {
+      const periodMatchups = byPeriod.get(matchup.periodId) ?? [];
+      periodMatchups.push(matchup);
+      byPeriod.set(matchup.periodId, periodMatchups);
+    }
+  }
+  let finalized = 0;
+  for (const [periodId, games] of byPeriod) {
+    const publishedAt = await periodPublicationTime(tx, periodId, now);
+    const deadline = publishedAt ? new Date(publishedAt.getTime() + correctionWindow) : null;
+    const due = deadline != null && deadline <= now;
+    const scores = await scoreCapturedStarters(tx, [games[0].period.competitionId!], now, {
+      periodId, publicationThrough: deadline ? new Date(Math.min(Number(deadline), Number(now))) : undefined,
+    });
+    const byTeam = new Map(scores.map((row) => [row.teamId, row.pointsFor]));
+    if (!scores.some(({ scoredStarters }) => scoredStarters > 0) && !deadline) continue;
+    for (const matchup of games) {
+      const homeTenths = byTeam.get(matchup.homeTeamId) ?? 0n;
+      const awayTenths = byTeam.get(matchup.awayTeamId) ?? 0n;
+      if (deadline) {
+        const last = await tx.matchupResultRevision.findFirst({
+          where: { matchupId: matchup.id }, orderBy: { revision: "desc" },
+        });
+        if (!last || last.homeTenths !== homeTenths || last.awayTenths !== awayTenths || Number(last.finalizesAt) !== Number(deadline)) {
+          await tx.matchupResultRevision.create({ data: {
+            matchupId: matchup.id, revision: (last?.revision ?? 0) + 1,
+            homeTenths, awayTenths, calculatedAt: now, finalizesAt: deadline,
+            correctionReason: last ? "Official starter scores changed within the competitive correction window." : null,
+          } });
+        }
+      }
+      const isFinal = finalize && due;
+      await tx.matchup.update({ where: { id: matchup.id }, data: {
+        homeTenths, awayTenths, calculatedAt: now, resultFinalizesAt: deadline,
+        status: isFinal ? "FINAL" : "SCHEDULED", finalizedAt: isFinal ? now : null,
+      } });
+      if (isFinal) finalized++;
+    }
+  }
+  return finalized;
+}
+
 export async function recalculateMatchups(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
-  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } } });
+  const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { select: { isHistorical: true } } } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can recalculate matchups.");
-  const matchups = await database.matchup.findMany({ where: { leagueId, sport: leagueSport.sport }, include: { period: true } });
-  if (!matchups.length) return 0;
   const calculatedAt = new Date();
   await captureDueGameLineups(calculatedAt);
+  if (!member.league.isHistorical) {
+    return database.$transaction(async (tx) => {
+      const games = await tx.matchup.findMany({
+        where: {
+          leagueId, sport: leagueSport.sport, finalizedAt: null, period: {
+            startsAt: { lte: calculatedAt },
+            competition: { leagueSportSeason: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId } },
+          },
+        },
+        include: { period: true },
+      });
+      await refreshAuthoritativeMatchups(tx, games, calculatedAt);
+      return games.length;
+    }, { isolationLevel: "Serializable" });
+  }
+  const matchups = await database.matchup.findMany({ where: { leagueId, sport: leagueSport.sport }, include: { period: true } });
+  if (!matchups.length) return 0;
   const periods = [...new Map(matchups.map(({ period }) => [period.id, period])).values()];
   const league = await database.league.findUniqueOrThrow({ where: { id: leagueId }, select: { presetId: true } });
   const snapshots = await database.gameLineupSnapshot.findMany({
@@ -64,7 +118,8 @@ export async function recalculateMatchups(userId: string, leagueId: string, requ
       const awayTenths = totals.get(`${matchup.awayTeamId}:${matchup.periodId}`) ?? 0n;
       if (matchup.finalizedAt) continue;
       const latest = await tx.matchupResultRevision.findFirst({ where: { matchupId: matchup.id }, orderBy: { revision: "desc" } });
-      if (!latest || latest.homeTenths !== homeTenths || latest.awayTenths !== awayTenths) await tx.matchupResultRevision.create({ data: {
+      if (latest?.homeTenths === homeTenths && latest.awayTenths === awayTenths) continue;
+      await tx.matchupResultRevision.create({ data: {
         matchupId: matchup.id, revision: (latest?.revision ?? 0) + 1, homeTenths, awayTenths, calculatedAt,
         finalizesAt: new Date(calculatedAt.getTime() + 24 * 60 * 60 * 1000), correctionReason: latest ? "Authoritative score ledger changed before competitive finalization." : null,
       } });
@@ -79,21 +134,40 @@ export async function finalizeDueMatchups(now = new Date()) {
   const database = getDatabase();
   return database.$transaction(async (tx) => {
     const due = await tx.matchup.findMany({ where: { finalizedAt: null, resultFinalizesAt: { lte: now }, resultRevisions: { some: {} } },
-      include: { resultRevisions: { orderBy: { revision: "desc" }, take: 1 } } });
-    for (const matchup of due) {
+      include: { period: true, resultRevisions: { orderBy: { revision: "desc" }, take: 1 } } });
+    const finalized = await refreshAuthoritativeMatchups(tx, due, now, true);
+    const historical = due.filter((matchup) => matchup.period.competitionId == null);
+    for (const matchup of historical) {
       const revision = matchup.resultRevisions[0];
       await tx.matchup.update({ where: { id: matchup.id }, data: { status: "FINAL", finalizedAt: now } });
       // Revisions are append-only; finalization is recorded on the competitive result, not by rewriting its statistical source.
       if (revision && revision.finalizesAt > now) throw new Error("A matchup revision is not yet eligible for finalization.");
     }
-    return due.length;
+    return finalized + historical.length;
   }, { isolationLevel: "Serializable" });
 }
 
 export async function standings(leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport); const database = getDatabase();
   const teams = await database.fantasyTeam.findMany({ where: { leagueId }, orderBy: { name: "asc" } });
-  const matchups = await database.matchup.findMany({ where: { leagueId, sport: leagueSport.sport, status: "FINAL" } });
+  const league = await database.league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
+  const competition = league.isHistorical ? null : await database.sportCompetition.findFirst({
+    where: { leagueId, leagueSportSeason: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId } },
+    select: { id: true },
+  });
+  const matchups = await database.matchup.findMany({ where: {
+    leagueId, sport: leagueSport.sport, status: "FINAL", period: { competitionId: competition?.id ?? null },
+    isPlayoff: competition ? false : undefined,
+  } });
+  if (competition) {
+    const draw = await database.competitiveTiebreakerEvent.findMany({
+      where: { leagueId, scopeType: "STANDINGS", scopeId: competition.id },
+    });
+    const byTeam = new Map(teams.map((team) => [team.id, team]));
+    const rows = summarizeH2H(teams.map(({ id }) => id), matchups);
+    return rankH2HStandings(rows, matchups, new Map(draw.map(({ teamId, drawRank }) => [teamId, drawRank])), true)
+      .map(({ teamId, ...result }) => ({ ...byTeam.get(teamId)!, ...result }));
+  }
   return teams.map((team) => {
     let wins = 0, losses = 0, ties = 0, pointsFor = 0n, pointsAgainst = 0n;
     for (const matchup of matchups) {
@@ -103,13 +177,16 @@ export async function standings(leagueId: string, requestedSport?: Sport | strin
     }
     return { ...team, wins, losses, ties, pointsFor, pointsAgainst };
   }).sort((a, b) => b.wins - a.wins || b.ties - a.ties || (a.pointsFor === b.pointsFor ? 0 : a.pointsFor > b.pointsFor ? -1 : 1) ||
-    (a.pointsAgainst === b.pointsAgainst ? a.name.localeCompare(b.name) : a.pointsAgainst < b.pointsAgainst ? -1 : 1));
+    (a.pointsAgainst === b.pointsAgainst ? a.name.localeCompare(b.name) : a.pointsAgainst < b.pointsAgainst ? -1 : 1))
+    .map((row, index) => ({ ...row, rank: index + 1 }));
 }
 
 export async function generateNextPlayoffRound(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can generate playoffs.");
+  if (member.league.competitionType === "CUMULATIVE") throw new Error("Cumulative leagues have no fantasy playoffs.");
+  if (!member.league.isHistorical) throw new Error("Advance the source-backed competition bracket to schedule playoffs.");
   const prior = await database.matchup.findMany({ where: { leagueId, sport: leagueSport.sport, isPlayoff: true } });
   const seedOrder = (await standings(leagueId, leagueSport.sport)).map(({ id }) => id); let teams: string[]; let round: number;
   if (!prior.length) {

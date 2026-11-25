@@ -6,11 +6,11 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 
 - [x] Immutable cycle configuration snapshots
 - [x] Independent sport H2H periods and balanced schedules
-- [ ] Cumulative sport and combined UBP standings without playoffs (configuration and periods complete; starter aggregation pending M4.3 snapshots)
-- [ ] Fixed H2H playoffs, byes, third-place and consolation placement (validated bracket plan complete; persistence/progression pending)
-- [ ] Championship point ledger and overall championship (exact award engine and schema complete; finalization pending)
+- [x] Cumulative sport and combined UBP standings without playoffs
+- [x] Fixed H2H playoffs, byes, third-place and consolation placement
+- [ ] Championship point ledger and overall championship (sport awards and cycle projections persisted; final live cycle acceptance awaits official publication evidence)
 - [x] Configurable deterministic tiebreakers and recorded random draws
-- [x] Provisional correction revisions and 24-hour competitive finalization
+- [x] Provisional correction revisions and the source-backed 24-hour competitive finalization window
 - [x] Source-backed fantasy playoff scheduling; missing data remains pending
 
 ## M4.3 rosters and traditional waivers
