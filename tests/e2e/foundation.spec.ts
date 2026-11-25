@@ -252,6 +252,14 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await page.getByRole("link", { name: "Trades", exact: true }).click();
     await expect(page.getByRole("heading", { name: "League trades" })).toBeVisible();
     await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
+    await page.getByRole("link", { name: "Settings", exact: true }).click();
+    await page.getByRole("link", { name: "View future picks" }).click();
+    await expect(page.getByRole("heading", { name: "NBA future draft picks" })).toBeVisible();
+    await page.getByRole("button", { name: "Grant future picks" }).click();
+    await expect(page.getByRole("status")).toContainText("Granted 48 future picks");
+    await expect(page.getByRole("table").getByRole("row")).toHaveCount(49);
+    await page.getByRole("button", { name: "Grant future picks" }).click();
+    await expect(page.getByRole("status")).toContainText("already granted");
     await page.goto("/analysis");
     await expect(page.getByRole("heading", { name: "Evidence before conclusions" })).toBeVisible();
     await expect(page.getByText("INSUFFICIENT_VERIFIED_EVIDENCE")).toBeVisible();

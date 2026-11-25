@@ -28,9 +28,9 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 
 - [ ] Verified rookie evidence and pre-draft acquisition block
 - [ ] Four-round linear sport rookie drafts and order provenance
-- [ ] Three-season future-pick inventory and ownership history
+- [x] Three-season future-pick inventory and initial ownership history
 - [ ] Redraft keeper cost/history/conflict validation
-- [ ] Redraft prohibition on future picks and auction keepers
+- [ ] Redraft prohibition on future picks and auction keepers (future picks prohibited in service and PostgreSQL; auction keeper gate pending)
 
 ## M4.5 salary cap, Vickrey and dead cap
 

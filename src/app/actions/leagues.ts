@@ -9,6 +9,7 @@ import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, resolveLeagueSport, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { advanceSportPlayoffs } from "@/server/playoffs";
+import { provisionFutureDraftPicks } from "@/server/dynasty-picks";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
@@ -257,6 +258,14 @@ export async function playoffsAction(leagueId: string, form?: FormData) {
     FINALIZED: "Sport placements and championship points are final.",
   };
   await actionNotice(notices[result.status]);
+}
+
+export async function provisionFuturePicksAction(leagueId: string, leagueSportId: string) {
+  const { user } = await requireSession();
+  await limit(user.id, "future-picks", 10);
+  const result = await provisionFutureDraftPicks(user.id, leagueId, leagueSportId);
+  revalidatePath(`/leagues/${leagueId}/picks`);
+  return result.created ? `Granted ${result.created} future picks.` : "All future picks for this sport are already granted.";
 }
 
 export async function joinPublicLeagueAction(leagueId: string) {

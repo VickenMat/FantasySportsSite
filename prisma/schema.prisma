@@ -322,6 +322,9 @@ model FantasyTeam {
   rosterAssignmentEvents    RosterAssignmentEvent[]
   lineupSnapshots           GameLineupSnapshot[]
   rosterComplianceSnapshots RosterComplianceSnapshot[]
+  originalFuturePicks       FutureDraftPick[]            @relation("OriginalFuturePickTeam")
+  ownedFuturePicks           FutureDraftPick[]            @relation("CurrentFuturePickOwner")
+  futurePickOwnership        FutureDraftPickOwnership[]
 
   @@unique([leagueId, managerId])
   @@unique([leagueId, name])
@@ -832,9 +835,40 @@ model LeagueSport {
   trades              Trade[]
   keepers             KeeperSelection[]
   seasonAssignments   LeagueSportSeason[]
+  futurePicks         FutureDraftPick[]
 
   @@unique([leagueId, sport])
   @@index([sport, seasonId])
+}
+
+model FutureDraftPick {
+  id              String                     @id @default(uuid()) @db.Uuid
+  leagueSportId   String                     @db.Uuid
+  seasonStartYear Int
+  round           Int
+  originalTeamId  String                     @db.Uuid
+  ownerTeamId     String                     @db.Uuid
+  createdAt       DateTime                   @default(now()) @db.Timestamptz(3)
+  leagueSport     LeagueSport                @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  originalTeam    FantasyTeam                @relation("OriginalFuturePickTeam", fields: [originalTeamId], references: [id], onDelete: NoAction)
+  ownerTeam       FantasyTeam                @relation("CurrentFuturePickOwner", fields: [ownerTeamId], references: [id], onDelete: NoAction)
+  ownership       FutureDraftPickOwnership[]
+
+  @@unique([leagueSportId, seasonStartYear, round, originalTeamId], map: "FutureDraftPick_identity")
+  @@index([ownerTeamId, leagueSportId, seasonStartYear], map: "FutureDraftPick_owner_inventory")
+}
+
+model FutureDraftPickOwnership {
+  id             String          @id @default(uuid()) @db.Uuid
+  pickId         String          @db.Uuid
+  ownerTeamId    String          @db.Uuid
+  reason         String
+  idempotencyKey String          @unique
+  recordedAt     DateTime        @default(now()) @db.Timestamptz(3)
+  pick           FutureDraftPick @relation(fields: [pickId], references: [id], onDelete: Cascade)
+  owner          FantasyTeam     @relation(fields: [ownerTeamId], references: [id], onDelete: NoAction)
+
+  @@index([pickId, recordedAt])
 }
 
 model FantasyRoster {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { draftOrderAction, fillComputersAction, inviteAction, leagueSettingsAction, removeComputerAction, transitionSeasonAction } from "@/app/actions/leagues";
 import { LeagueShell } from "@/components/league-shell";
@@ -16,6 +17,10 @@ export default async function SettingsPage({ params, searchParams }: { params: P
     {context.role === "COMMISSIONER" && context.league.status === "SETUP" && <section className="panel"><h2 className="display">Computer franchises</h2><p className="muted">Fill empty capacity for a playable league. A joining manager takes the first computer franchise.</p><form action={fillComputersAction.bind(null, id)}><button className="button secondary" disabled={context.league.teams.length >= context.league.maxTeams}>Fill empty slots</button></form><ul className="transaction-list">{computers.map((team) => <li key={team.id}><strong>{team.name}</strong><form action={removeComputerAction.bind(null, id, team.id)}><button className="button secondary">Remove</button></form></li>)}</ul></section>}
     {context.role === "COMMISSIONER" && <form className="panel form-grid" action={inviteAction.bind(null, id)}><h2 className="display">Invite manager</h2><label>Email restriction, optional<input name="email" type="email" /></label><button className="button primary">Create secure link</button>{inviteUrl && <><label>Invitation URL<input readOnly value={inviteUrl} /></label><p className="muted">This one-use link expires in seven days.</p></>}</form>}
     {context.role === "COMMISSIONER" && <form className="panel form-grid" action={transitionSeasonAction.bind(null, id)}><h2 className="display">Transition {selected.sport} season</h2><p className="muted">Dynasty retains active rosters. Redraft releases non-keepers and carries selected keepers forward. Historical entries remain immutable.</p><input type="hidden" name="sport" value={selected.sport} /><label>Next season start year<input name="startYear" type="number" min="2016" max="2100" defaultValue={(selected.season?.startYear ?? context.league.seasonYear) + 1} /></label><button className="button secondary">Transition season</button></form>}
+    {context.league.format === "DYNASTY" && <section className="panel">
+      <h2 className="display">Rookie draft picks</h2>
+      <Link className="button secondary" href={`/leagues/${id}/picks?sport=${selected.sport}`}>View future picks</Link>
+    </section>}
     </div>
   </LeagueShell>;
 }
