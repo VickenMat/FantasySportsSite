@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest";
 import type { Sport } from "@/generated/prisma/client";
 import { buildPickOrder, chooseAutomaticPlayer, teamForPick } from "@/server/draft";
-import { createLeagueSchema, seasonMetadata } from "@/server/league";
+import { createLeagueSchema, historicalReplayAuthorized, seasonMetadata } from "@/server/league";
 import { roundRobinPairings } from "@/server/matchups";
 import { configSchema, defaultSlots } from "@/simulation/config";
 
 const sports = ["NFL", "NBA", "MLB", "NHL"] as const;
 
 describe("M3.6 league configuration", () => {
+  it("restricts Historical Replay to tests and allowlisted non-production administrators", () => {
+    expect(historicalReplayAuthorized("demo@example.test", { NODE_ENV: "production", DEMO_EMAIL: "demo@example.test", HISTORICAL_REPLAY_ADMIN_EMAILS: "" })).toBe(false);
+    expect(historicalReplayAuthorized("manager@example.test", { NODE_ENV: "development", DEMO_EMAIL: "demo@example.test", HISTORICAL_REPLAY_ADMIN_EMAILS: "admin@example.test" })).toBe(false);
+    expect(historicalReplayAuthorized("admin@example.test", { NODE_ENV: "development", DEMO_EMAIL: "demo@example.test", HISTORICAL_REPLAY_ADMIN_EMAILS: "admin@example.test" })).toBe(true);
+    expect(historicalReplayAuthorized("fixture@example.test", { NODE_ENV: "test", DEMO_EMAIL: undefined, HISTORICAL_REPLAY_ADMIN_EMAILS: undefined })).toBe(true);
+  });
   it("accepts every league size from 2 through 16 and defaults to 12", () => {
     for (let teams = 2; teams <= 16; teams++) {
       expect(createLeagueSchema.parse({ name: "Size Test", sports: ["NFL"], maxTeams: teams }).maxTeams).toBe(teams);

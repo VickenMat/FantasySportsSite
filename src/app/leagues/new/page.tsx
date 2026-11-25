@@ -23,8 +23,6 @@ export default async function CreateLeaguePage() {
         <label>Bench slots per sport<input name="benchSlots" type="number" min="0" max="20" defaultValue="5" /></label>
         <fieldset><legend>Redraft keeper limits</legend><p className="input-help">Leave at zero for traditional redraft. Dynasty ignores these values.</p>{["NFL", "NBA", "MLB", "NHL"].map((sport) => <label key={sport}>{sport}<input name={`keeper_${sport}`} type="number" min="0" max="50" defaultValue="0" /></label>)}</fieldset>
         <label className="check"><input name="fillWithComputers" type="checkbox" /> Fill vacant slots with computer-controlled franchises</label>
-        <label className="check"><input name="historical" type="checkbox" /> Historical replay league</label>
-        <label>Historical season start year<input name="seasonYear" type="number" min="2016" max="2100" placeholder="Only used for historical replay" /></label>
       </div></details>
       <SchedulePreview />
       <button className="button primary" type="submit">Create league</button>

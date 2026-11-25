@@ -14,7 +14,7 @@ export default defineConfig({
     command: `npm run start -- --hostname 127.0.0.1 --port ${testPort}`,
     env: { ...process.env, NODE_ENV: "production" },
     url: baseURL,
-    reuseExistingServer: false,
+    reuseExistingServer: process.env.REUSE_EXISTING_SERVER === "true",
     timeout: 60_000,
   },
 });

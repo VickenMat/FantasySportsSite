@@ -8,9 +8,9 @@ The failing dashboard assertion found all eight seeded players plus 63 synthetic
 
 Each integration run deploys and seeds a unique schema inside `fantasy_evolution_test`. Both model queries and raw SQL use that schema. The temporary schemas were removed after success and failure. Existing rows in the disposable database's public schema were preserved.
 
-## Manual-acceptance runtime diagnosis
+## Manual-acceptance runtime resolution
 
-QA league creation and Waivers use the regenerated 22-migration Prisma Client while the preserved development database remains at 17 migrations. Read-only inspection confirmed that development lacks `League.faabScope` and `League.universalStartingFaab`; league creation writes both fields in its first league insert. The same pending migration creates the FAAB accounting tables used by Waivers. This is a schema/client mismatch, not a playoff-default, season-selection, slug, competition, or championship-cycle defect. Fresh schemas verify two-franchise H2H defaults and all downstream records. A deliberately late transaction failure verifies rollback leaves no league-owned records.
+QA league creation and Waivers used the regenerated 22-migration Prisma Client while the preserved development database remained at 17 migrations. Read-only inspection confirmed that development lacked `League.faabScope` and `League.universalStartingFaab`; league creation writes both fields in its first league insert. The same migration creates the FAAB accounting tables used by Waivers. This was a schema/client mismatch, not a playoff-default, season-selection, slug, competition, or championship-cycle defect. After a verified backup and populated-copy 17→22 migration rehearsal, all five migrations were deployed. Existing data fingerprints remained stable and live browser QA now passes for new and existing leagues. A deliberately late transaction failure verifies rollback leaves no league-owned records.
 
 ## Verification
 

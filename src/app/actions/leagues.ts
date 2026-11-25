@@ -27,12 +27,12 @@ export async function createLeagueAction(form: FormData) {
   await limit(user.id, "create-league", 10);
   const league = await createLeague(user.id, {
     name: String(form.get("name") ?? ""), sports: form.getAll("sports").map(String) as ("NFL" | "NBA" | "MLB" | "NHL")[],
-    seasonYear: form.get("seasonYear") || undefined, maxTeams: form.get("maxTeams"),
+    maxTeams: form.get("maxTeams"),
     format: String(form.get("format") ?? "DYNASTY") as "DYNASTY", visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
     competitionType: String(form.get("competitionType") ?? "HEAD_TO_HEAD") as "HEAD_TO_HEAD", draftCompleteBy: form.get("draftCompleteBy") || undefined,
     keeperLimits: Object.fromEntries(sports.map((sport) => [sport, Number(form.get(`keeper_${sport}`) ?? 0)])) as Record<LeagueSport, number>,
     startingFaab: form.get("startingFaab"), benchSlots: form.get("benchSlots"),
-    historical: form.get("historical") === "on", fillWithComputers: form.get("fillWithComputers") === "on",
+    historical: false, fillWithComputers: form.get("fillWithComputers") === "on",
   });
   await actionNotice("League created successfully.");
   redirect(`/leagues/${league.id}`);

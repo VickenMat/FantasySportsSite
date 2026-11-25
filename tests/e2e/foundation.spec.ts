@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { expect, request as apiRequest, test, type Page } from "@playwright/test";
 import { getDatabase } from "../../src/lib/db";
+import { createLeague } from "../../src/server/league";
 
 const password = "manager-test-12!";
 let testIp = 10;
@@ -219,16 +220,12 @@ test("creates a historical league and opens its persistent draft and analysis pa
   const database = getDatabase();
   try {
     await register(page, "Replay Commissioner", email);
-    await page.goto("/leagues/new");
-    await page.getByLabel("League name").fill(name);
-    await page.locator('input[name="sports"][value="NFL"]').uncheck();
-    await page.locator('input[name="sports"][value="MLB"]').uncheck();
-    await page.locator('input[name="sports"][value="NHL"]').uncheck();
-    await page.getByLabel("Teams").fill("4");
-    await page.getByText("Optional gameplay settings").click();
-    await page.getByLabel("Historical replay league").check();
-    await page.getByLabel(/Fill vacant slots/).check();
-    await page.getByRole("button", { name: "Create league" }).click();
+    const commissioner = await database.user.findUniqueOrThrow({ where: { email } });
+    const previousAdmins = process.env.HISTORICAL_REPLAY_ADMIN_EMAILS;
+    process.env.HISTORICAL_REPLAY_ADMIN_EMAILS = email;
+    const league = await createLeague(commissioner.id, { name, sports: ["NBA"], maxTeams: 4, historical: true, seasonYear: 2026, fillWithComputers: true })
+      .finally(() => { if (previousAdmins === undefined) delete process.env.HISTORICAL_REPLAY_ADMIN_EMAILS; else process.env.HISTORICAL_REPLAY_ADMIN_EMAILS = previousAdmins; });
+    await page.goto(`/leagues/${league.id}`);
     await expect(page.getByRole("heading", { name })).toBeVisible();
     const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
     await page.getByRole("link", { name: "Settings", exact: true }).click();
@@ -241,6 +238,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByRole("heading", { name: "Commissioner audit" })).toBeVisible();
     await page.getByText("View changes").click();
     await expect(page.getByText('{"draftSecondsPerPick":30}', { exact: true })).toBeVisible();
+    await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByRole("link", { name: "Open draft center" }).click();
     await page.getByRole("button", { name: "Start NBA snake draft" }).click();
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();

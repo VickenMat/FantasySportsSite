@@ -32,6 +32,14 @@ function slug(name: string) {
   return `${base}-${randomBytes(4).toString("hex")}`;
 }
 
+export function historicalReplayAuthorized(email: string, environment: Partial<Pick<NodeJS.ProcessEnv, "NODE_ENV" | "DEMO_EMAIL" | "HISTORICAL_REPLAY_ADMIN_EMAILS">> = process.env) {
+  if (environment.NODE_ENV === "production") return false;
+  if (environment.NODE_ENV === "test") return true;
+  const allowed = [environment.DEMO_EMAIL, ...(environment.HISTORICAL_REPLAY_ADMIN_EMAILS ?? "").split(",")]
+    .map((value) => value?.trim().toLowerCase()).filter(Boolean);
+  return allowed.includes(email.trim().toLowerCase());
+}
+
 async function ensureSeason(tx: Prisma.TransactionClient, sport: Sport, startYear: number) {
   const label = sport === "NBA" || sport === "NHL" ? `${startYear}-${String(startYear + 1).slice(-2)}` : String(startYear);
   return tx.season.upsert({ where: { sport_startYear: { sport, startYear } }, update: {}, create: {
@@ -50,6 +58,10 @@ async function createSportRosters(tx: Prisma.TransactionClient, leagueId: string
 
 export async function createLeague(userId: string, input: z.input<typeof createLeagueSchema>) {
   const value = createLeagueSchema.parse(input); const database = getDatabase();
+  if (value.historical) {
+    const user = await database.user.findUniqueOrThrow({ where: { id: userId }, select: { email: true } });
+    if (!historicalReplayAuthorized(user.email)) throw new Error("Historical Replay is restricted to authorized non-production testing.");
+  }
   const preset = await database.scoringPreset.findUniqueOrThrow({ where: { version: "ubp-v9-experimental" } });
   return database.$transaction(async (tx) => {
     const seasons = new Map<Sport, Awaited<ReturnType<typeof ensureSeason>>>();

@@ -15,6 +15,8 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Schedule normalization | Formula is explicitly unapproved. | Extension point only; never apply a multiplier. |
 | Weighted rookie lottery | The weighting formula and number of lottery-selected positions are not approved. | Provide configuration infrastructure only; reverse final standings remains the default and playoff teams are excluded. |
 | Universal cap trade deadline | A universal asset can span independently scheduled sports, but its deadline is not approved. | Implement conserved current-cycle accounting; keep deadline-dependent execution gated. |
+| Same-round playoff placement | Eliminated teams rank primarily by elimination round, but same-round tiebreakers are not approved. | Persist the elimination round and require configured/approved resolution before assigning ambiguous same-round final places. |
+| Higher-salary repeat release | Replacement rather than stacking is approved for subsequent cuts, but the floor/dead-cap basis when the new salary exceeds the prior salary is not approved. | Implement equal-or-lower salary replacement and keep the higher-salary case pending. |
 
 ## Data blockers
 

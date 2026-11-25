@@ -31,7 +31,7 @@ NFL H2H defaults to weeks 1–17: regular season 1–14, quarterfinals 15, semif
 
 ## 5. H2H playoffs and placement
 
-Default top six regular-season teams qualify; fixed single-elimination bracket, no reseeding. Seeds 1 and 2 receive byes; 3 vs 6 and 4 vs 5; seed 1 faces 4/5 winner, seed 2 faces 3/6 winner. Semifinal losers play for third. Consolation games matter and determine highest remaining final placements. Regular-season records determine qualification and initial seeds; final postseason placement determines base awards. Commissioner chooses playoff format. Handle odd sizes, byes and non-power-of-two brackets deterministically; do not fabricate matches. If disabled consolation leaves placement ambiguous, require explicit configuration rather than inventing a rule.
+Default top six regular-season teams qualify; fixed single-elimination bracket, no reseeding. Seeds 1 and 2 receive byes; 3 vs 6 and 4 vs 5; seed 1 faces 4/5 winner, seed 2 faces 3/6 winner. Semifinal losers play for third. Consolation games matter and determine highest remaining final placements. Eliminated playoff teams rank primarily by elimination round; same-round placement tiebreakers remain gated. Regular-season records determine qualification and initial seeds; final postseason placement determines base awards. Commissioner chooses playoff format. Handle odd sizes, byes and non-power-of-two brackets deterministically; do not fabricate matches. If disabled consolation leaves placement ambiguous, require explicit configuration rather than inventing a rule.
 
 ## 6. Championship points and tiebreakers
 
@@ -75,7 +75,7 @@ Default $100 per sport; optional universal $500 instead of sport budgets. No car
 
 ## 12. Dynasty and rookie drafts
 
-Retain players/assets across independent sport offseasons within capacity. Official sport-specific rookie evidence required; no inference from age, draft year or missing statistics. Eligible unrostered rookies only; pre-draft acquisition block. Default four rounds configurable, linear order (worst team picks first each round), before sport season. Reverse final sport standings is the default. A commissioner may enable a weighted lottery for non-playoff teams, with worse finish receiving greater odds; playoff teams are excluded. The weighting formula and number of lottery-selected positions remain explicitly gated. Manual order remains supported and order provenance is recorded. Temporary rookie-draft overflow permitted, correct before season. Undrafted eligible rookies become free agents or salary auction candidates. Salary leagues auction rookies with no fixed rookie salary scale and have no future rookie picks.
+Retain players/assets across independent sport offseasons within capacity. Official sport-specific rookie evidence required; no inference from age, draft year or missing statistics. Eligible unrostered rookies only; pre-draft acquisition block. Default four rounds configurable, linear order (worst team picks first each round), before sport season. Reverse final sport standings is the default. A commissioner may enable a weighted lottery for non-playoff teams, with worse finish receiving greater odds; playoff teams are excluded. Weighted lotteries are approved, while the exact default weighting formula and number of lottery-selected positions remain explicitly gated. Manual order remains supported and order provenance is recorded. Temporary rookie-draft overflow permitted, correct before season. Undrafted eligible rookies become free agents or salary auction candidates. Salary leagues auction rookies with no fixed rookie salary scale and have no future rookie picks.
 
 ## 13. Future picks
 
@@ -95,7 +95,7 @@ Salary leagues only. Sealed 24-hour nomination; nominator automatically bids min
 
 ## 17. Dead cap and corrective actions
 
-Release penalty = ceil(50% of salary); remainder recovered immediately. Example $27 salary yields $14 dead cap and $13 recovered. Penalty remains until another manager acquires player or applicable rollover. Minimum reacquisition bid equals applicable penalty floor. Releasing manager cannot reacquire for seven days. If reacquired at $14 then released, new penalty $7 replaces old penalty, not additive; recover another $7. Atomic clearing/replacement of obligations and new salary; no double counting. $1 release yields $1 penalty. Do not invent reservation credits for self-reacquisition or floor expiry beyond approved rules; gate ambiguous cases. Over-cap teams cannot make ordinary acquisitions, draft picks, lineup changes or outgoing proposals; permit corrective releases, incoming cap and explicitly classified payroll-reducing trades consistent with roster rules. Validate corrective classification and resulting compliance or permitted improvement.
+Release penalty = ceil(50% of salary); remainder recovered immediately. Example $27 salary yields $14 dead cap and $13 recovered. Penalty remains until another manager acquires player or applicable rollover. The released-player acquisition floor persists until lowered by a subsequent cut and is removed when the player is a free agent during the applicable offseason. Minimum reacquisition bid equals the applicable penalty floor. Releasing manager cannot reacquire for seven days. For an otherwise eligible self-reacquisition, existing player-specific dead cap is credited toward the acquisition; settlement must still avoid double counting. If reacquired at $14 then released at the same or lower salary, the new penalty replaces the old penalty rather than stacking; the rule for a subsequent release at a higher salary remains gated. Atomic clearing/replacement of obligations and new salary; no double counting. $1 release yields $1 penalty. Over-cap franchises must cut players until compliance is restored; they cannot make ordinary acquisitions, draft picks, lineup changes or outgoing proposals. Permit corrective releases, incoming cap and explicitly classified payroll-reducing trades consistent with roster rules. Validate corrective classification and resulting compliance or permitted improvement.
 
 ## 18. Cap transfers
 
@@ -128,7 +128,7 @@ Append-only audit actor, previous/new values, effective instant, reason. Commiss
 | Official correction publication | Provisional outcomes |
 | Verified game completion | Pending game-based hold; release hold works |
 | Schedule normalization | Inactive extension only |
-| Weighted rookie lottery | Infrastructure only; formula and number of selected positions require approval |
+| Weighted rookie lottery | Approved for non-playoff teams; exact default formula and number of selected positions remain gated |
 | Contracts | Inactive |
 | Corrective trade classification | Explicit classification; ordinary gate remains |
 | Universal cap trade deadline | Accounting may operate; deadline-dependent execution remains inactive |
