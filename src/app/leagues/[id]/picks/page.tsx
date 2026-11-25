@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { FuturePickCorrectionForm, RookieDraftForm } from "@/components/rookie-draft-form";
 import { FuturePickGrantForm } from "@/components/future-pick-grant-form";
 import { LeagueShell } from "@/components/league-shell";
 import { LeagueSportTabs } from "@/components/league-sport-tabs";
@@ -16,7 +18,7 @@ export default async function FuturePicksPage({ params, searchParams }: {
   const context = await leagueContext(user.id, id);
   if (!context || context.league.format !== "DYNASTY") notFound();
   const sport = await resolveLeagueSport(id, query.sport);
-  const picks = await listFutureDraftPicks(user.id, id, sport.id);
+  const picks = await listFutureDraftPicks(user.id, id, sport.id, true);
   return <LeagueShell leagueId={id}>
     <div className="workspace-intro">
       <h1 className="display">{sport.sport} future draft picks</h1>
@@ -26,10 +28,14 @@ export default async function FuturePicksPage({ params, searchParams }: {
       {context.role === "COMMISSIONER" && (context.league.status === "SETUP"
         ? <p className="muted">Finalize franchise setup before granting picks.</p>
         : <FuturePickGrantForm key={sport.id} leagueId={id} leagueSportId={sport.id} />)}
+      {context.role === "COMMISSIONER" && context.league.status !== "SETUP" && <RookieDraftForm leagueId={id} leagueSportId={sport.id} teams={context.league.teams} />}
+      <Link href={`/leagues/${id}/draft?sport=${sport.sport}`}>Open {sport.sport} draft room</Link>
       {picks.length ? <table className="data-table">
-        <thead><tr><th>Season start year</th><th>Round</th><th>Original franchise</th><th>Current owner</th></tr></thead>
+        <thead><tr><th>Season start year</th><th>Round</th><th>Original franchise</th><th>Current owner</th><th>State and history</th><th>Administration</th></tr></thead>
         <tbody>{picks.map((pick) => <tr key={pick.id}>
           <td>{pick.seasonStartYear}</td><td>{pick.round}</td><td>{pick.originalTeam.name}</td><td>{pick.ownerTeam.name}</td>
+          <td>{pick.state === "CONSUMED" ? "Consumed" : pick.state === "EXPIRED" ? "Expired unused entitlement" : pick.state === "INACTIVE" ? "Outside configured draft rounds" : "Available"}<details><summary>Ownership history</summary><ul>{pick.ownership.map((event) => <li key={event.id}>{event.recordedAt.toISOString()} · {event.reason} · {context.league.teams.find(({ id }) => id === event.ownerTeamId)?.name}</li>)}</ul></details></td>
+          <td>{context.role === "COMMISSIONER" && pick.state === "AVAILABLE" && <FuturePickCorrectionForm leagueId={id} pickId={pick.id} ownerTeamId={pick.ownerTeamId} teams={context.league.teams} />}</td>
         </tr>)}</tbody>
       </table> : <p className="muted">Future picks have not been granted for this sport.</p>}
     </section>

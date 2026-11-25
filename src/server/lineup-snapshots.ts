@@ -19,7 +19,7 @@ const availabilityInput = z.object({
   sourceRecord: z.record(z.string(), z.unknown()),
 });
 
-export const NON_STARTER_SLOTS = new Set(["BENCH", "IR", "UNIVERSAL_BENCH", "UNIVERSAL_IR"]);
+export const NON_STARTER_SLOTS = new Set(["BENCH", "IR", "UNIVERSAL_BENCH", "UNIVERSAL_IR", "ROOKIE_OVERFLOW"]);
 
 function digest(value: unknown) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");

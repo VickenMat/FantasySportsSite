@@ -39,9 +39,9 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 ## M4.4 dynasty and keepers
 
 - [x] Append-only verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture verified)
-- [ ] Configurable four-round linear traditional rookie drafts, reverse-placement/manual/weighted-lottery infrastructure, overflow and pick consumption (weighted lottery approved; exact defaults remain gated)
+- [x] Configurable four-round linear traditional rookie drafts, reverse-placement/manual/weighted-lottery infrastructure, overflow and pick consumption (one–four rounds supported; explicit lottery configuration required, no invented defaults; current production rookie evidence remains pending)
 - [x] Three-season future-pick inventory and initial ownership history
-- [ ] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and last-round fallback (cost persistence, exact next-draft round consumption and rollover fixture verified; comprehensive traded/drop-reacquire history acceptance remains)
+- [x] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and last-round fallback (trade, drop/reacquire, ownership reselection and exact paid-round acceptance verified; auction keeper prohibition is tracked separately below)
 - [ ] Redraft prohibition on future picks and auction keepers (future picks prohibited in service and PostgreSQL; auction keeper gate pending)
 
 ## M4.5 salary cap, Vickrey and dead cap

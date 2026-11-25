@@ -175,7 +175,8 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     if (displaced && displaced.rosterId !== current.rosterId && !current.slot.startsWith("UNIVERSAL_") && current.slot !== "IR") {
       throw new Error("A cross-sport universal slot cannot displace a player into a sport-specific position. Free a universal slot first.");
     }
-    const currentIsStarter = !["BENCH", "UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"].includes(current.slot);
+    const currentIsStarter = !["BENCH", "UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR", "ROOKIE_OVERFLOW"].includes(current.slot);
+    if (displaced && current.slot === "ROOKIE_OVERFLOW") throw new Error("Move rookie overflow into an empty legal slot or release a player first.");
     if (displaced && currentIsStarter) {
       const trusted = await getEligiblePositions({ playerId: displaced.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
       const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : displaced.player.gameStats[0]?.observedPositions ?? [];
@@ -199,7 +200,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
       fromSlot: current.slot, fromSlotIndex: current.slotIndex, toSlot: normalizedSlot, toSlotIndex: targetIndex,
       effectiveAt: movedAt, reason: displaced ? "Atomic roster swap" : "Roster position change", key: `move:${current.id}:${movedAt.toISOString()}` });
     const after = await currentCompliance(tx, current.teamId, movedAt);
-    if (after.state !== "COMPLIANT" && (before.state === "COMPLIANT" || after.reasons.length >= before.reasons.length)) {
+    if (after.state !== "COMPLIANT" && (before.state === "COMPLIANT" || after.violationCount >= before.violationCount)) {
       throw new Error("Roster moves must preserve compliance or reduce existing violations.");
     }
     return updated;

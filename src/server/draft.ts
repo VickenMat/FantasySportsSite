@@ -8,6 +8,8 @@ import { currentCompliance } from "./rosters";
 import { ensureRelativeMatchupSchedule } from "./matchups";
 import { GameplayBlockedError, runBackgroundJob } from "./background-jobs";
 import { keeperPickSlots } from "./keeper-costs";
+import { assertRookieDraftWindow, eligibleRookieIds } from "./rookies";
+import { consumptionKey, type RookieSnapshot } from "./dynasty-picks";
 
 const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
@@ -64,12 +66,12 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
   }, { isolationLevel: "Serializable" });
 }
 
-export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; page?: number; pageSize?: number } = {}) {
+export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; page?: number; pageSize?: number; rookieOnly?: boolean } = {}) {
   const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Math.max(1, Math.trunc(options.page ?? 1));
   const pageSize = Math.min(100, Math.max(1, Math.trunc(options.pageSize ?? 50)));
-  const where = { sport: leagueSport.sport, isSynthetic: false, displayName: options.search ? { contains: options.search, mode: "insensitive" as const } : undefined,
+  const where = { sport: leagueSport.sport, isSynthetic: false, id: options.rookieOnly ? { in: await eligibleRookieIds(getDatabase(), leagueSport.seasonId, new Date()) } : undefined, displayName: options.search ? { contains: options.search, mode: "insensitive" as const } : undefined,
     rosterEntries: { none: { leagueId, sport: leagueSport.sport, releasedAt: null } },
-    OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId }, observedPositions: options.position ? { has: options.position } : undefined } } }] };
+    ...(options.rookieOnly ? {} : { OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId }, observedPositions: options.position ? { has: options.position } : undefined } } }] }) };
   const database = getDatabase();
   const [players, total] = await Promise.all([database.player.findMany({ where, orderBy: [{ displayName: "asc" }, { id: "asc" }],
     skip: (page - 1) * pageSize, take: pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true, displayName: true } } } } } }),
@@ -77,8 +79,8 @@ export async function playerPage(leagueId: string, options: { sport?: Sport | st
   return { items: players.map((player) => ({ ...player, positions: player.gameStats[0]?.observedPositions ?? [] })), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)), sport: leagueSport.sport };
 }
 
-export async function availablePlayers(leagueId: string, search = "", position?: string, limit = 200, sport?: Sport | string) {
-  return (await playerPage(leagueId, { sport, search, position, pageSize: Math.min(100, limit) })).items;
+export async function availablePlayers(leagueId: string, search = "", position?: string, limit = 200, sport?: Sport | string, rookieOnly = false) {
+  return (await playerPage(leagueId, { sport, search, position, pageSize: Math.min(100, limit), rookieOnly })).items;
 }
 
 type PositionedPlayer = { id: string; positions: string[] };
@@ -93,12 +95,13 @@ export function chooseAutomaticPlayer(sport: Sport, slots: readonly string[], ro
 
 export async function automaticCandidate(draftId: string, teamId: string) {
   const database = getDatabase(); const draft = await database.draft.findUniqueOrThrow({ where: { id: draftId }, include: { leagueSport: true } });
-  const queue = await database.draftQueueEntry.findMany({ where: { draftId, teamId, player: { sport: draft.sport, rosterEntries: { none: { leagueId: draft.leagueId, sport: draft.sport, releasedAt: null } } } }, orderBy: { rank: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
+  const rookieOnly = draft.kind === "ROOKIE";
+  const queue = await database.draftQueueEntry.findMany({ where: { draftId, teamId, player: { sport: draft.sport, ...(rookieOnly ? { id: { in: await eligibleRookieIds(database, draft.seasonId, new Date()) } } : {}), rosterEntries: { none: { leagueId: draft.leagueId, sport: draft.sport, releasedAt: null } } } }, orderBy: { rank: "asc" }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
   const [roster, candidates] = await Promise.all([
     database.rosterEntry.findMany({ where: { leagueId: draft.leagueId, sport: draft.sport, teamId, releasedAt: null, slot: { notIn: universalSlots } }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } }),
-    availablePlayers(draft.leagueId, "", undefined, 100, draft.sport),
+    availablePlayers(draft.leagueId, "", undefined, 100, draft.sport, rookieOnly),
   ]);
-  if (roster.length >= draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots) return null;
+  if (!rookieOnly && roster.length >= draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots) return null;
   if (queue[0]) return queue[0].player;
   const choice = chooseAutomaticPlayer(draft.sport, draft.leagueSport.rosterSlots,
     roster.map(({ player }) => ({ id: player.id, positions: player.gameStats[0]?.observedPositions ?? [] })), candidates);
@@ -120,16 +123,18 @@ export async function makePick(input: { userId?: string; draftId: string; player
     if (!(systemAuthorized || team.managerId === input.userId || (input.automatic && member?.role === "COMMISSIONER"))) throw new Error("It is another manager's turn.");
     const player = await tx.player.findUniqueOrThrow({ where: { id: input.playerId }, include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true } } } });
     if (player.sport !== draft.sport) throw new Error(`Only ${draft.sport} players are eligible for this draft.`);
+    if (draft.kind === "ROOKIE") await assertRookieDraftWindow(tx, draft.leagueId, draft.seasonId, now);
+    if (draft.kind === "ROOKIE" && !(await eligibleRookieIds(tx, draft.seasonId, now)).includes(player.id)) throw new Error("PENDING_DATA: current verified rookie eligibility is required for this selection.");
     const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { teamId_leagueSportId: { teamId, leagueSportId: draft.leagueSportId } } });
     const compliance = await currentCompliance(tx, teamId, now);
-    if (compliance.state !== "COMPLIANT") throw new GameplayBlockedError(`Roster noncompliance for franchise ${team.name} (${teamId}): ${compliance.reasons.join(" ")} Move eligible players to legal open slots or release players to restore compliance. Automatic recovery checks every minute.`);
+    if (compliance.state !== "COMPLIANT" && !(draft.kind === "ROOKIE" && compliance.reasons.every((reason) => reason.startsWith("Rookie draft overflow on ")))) throw new GameplayBlockedError(`Roster noncompliance for franchise ${team.name} (${teamId}): ${compliance.reasons.join(" ")} Move eligible players to legal open slots or release players to restore compliance. Automatic recovery checks every minute.`);
     let round = Math.floor((draft.currentPick - 1) / draft.order.length) + 1;
     let roundPick = (draft.currentPick - 1) % draft.order.length + 1;
     if (draft.orderProvenance?.startsWith("{")) {
       const snapshot = JSON.parse(draft.orderProvenance);
-      if (snapshot.method === "SNAKE_KEEPER") {
+      if (snapshot.method === "SNAKE_KEEPER" || snapshot.method === "LINEAR_ROOKIE") {
         const slot = snapshot.slots[draft.currentPick - 1];
-        if (!slot || slot.teamId !== teamId || !Number.isInteger(slot.round) || !Number.isInteger(slot.roundPick)) throw new GameplayBlockedError("The keeper draft order snapshot is inconsistent. Commissioner review is required.");
+        if (!slot || (snapshot.method === "SNAKE_KEEPER" && slot.teamId !== teamId) || !Number.isInteger(slot.round) || !Number.isInteger(slot.roundPick)) throw new GameplayBlockedError("The draft order snapshot is inconsistent. Commissioner review is required.");
         round = slot.round; roundPick = slot.roundPick;
       }
     }
@@ -137,15 +142,25 @@ export async function makePick(input: { userId?: string; draftId: string; player
       where: { rosterId: roster.id, releasedAt: null, slot: { notIn: universalSlots } }, select: { slot: true, slotIndex: true },
     });
     const maximum = draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots;
-    if (activeRoster.length >= maximum) throw new GameplayBlockedError("This sport roster is full. The commissioner must review remaining picks and roster capacity.");
+    if (draft.kind !== "ROOKIE" && activeRoster.length >= maximum) throw new GameplayBlockedError("This sport roster is full. The commissioner must review remaining picks and roster capacity.");
     const positions = new Set(player.gameStats[0]?.observedPositions ?? []); const occupied = new Map<string, number>();
     for (const entry of activeRoster) occupied.set(entry.slot, (occupied.get(entry.slot) ?? 0) + 1);
-    const slot = draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
-    const capacity = slot === "BENCH" ? draft.leagueSport.benchSlots : draft.leagueSport.rosterSlots.filter((value) => value === slot).length;
+    let slot = draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
+    if (draft.kind === "ROOKIE" && slot === "BENCH" && (occupied.get("BENCH") ?? 0) >= draft.leagueSport.benchSlots) slot = "ROOKIE_OVERFLOW";
+    const capacity = slot === "ROOKIE_OVERFLOW" ? draft.pickOrder.length : slot === "BENCH" ? draft.leagueSport.benchSlots : draft.leagueSport.rosterSlots.filter((value) => value === slot).length;
     const usedIndexes = new Set(activeRoster.filter((entry) => entry.slot === slot).map(({ slotIndex }) => slotIndex));
     const slotIndex = firstOpenSlot(usedIndexes, capacity);
     if (!slotIndex) throw new GameplayBlockedError(`No open ${slot} roster position remains. Move a player to a legal open position before drafting.`);
     const pick = await tx.draftPick.create({ data: { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false } });
+    if (draft.kind === "ROOKIE") {
+      const snapshot = JSON.parse(draft.orderProvenance ?? "null") as RookieSnapshot | null;
+      const slot = snapshot?.method === "LINEAR_ROOKIE" ? snapshot.slots[draft.currentPick - 1] : null;
+      if (!slot) throw new GameplayBlockedError("The rookie entitlement snapshot is unavailable.");
+      const entitlement = await tx.futureDraftPick.findUniqueOrThrow({ where: { id: slot.futurePickId }, include: { leagueSport: true } });
+      if (entitlement.ownerTeamId !== teamId || entitlement.leagueSportId !== draft.leagueSportId || entitlement.round !== round || entitlement.originalTeamId !== slot.originalTeamId) throw new GameplayBlockedError("Rookie pick ownership changed; refresh the draft.");
+      await tx.futureDraftPickOwnership.create({ data: { pickId: entitlement.id, ownerTeamId: teamId,
+        reason: `Consumed by rookie draft selection ${pick.id}`, idempotencyKey: consumptionKey(entitlement.id) } });
+    }
     const entry = await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: draft.sport, seasonId: draft.leagueSport.seasonId, slot, slotIndex, acquiredAt: now } });
     await tx.rosterAssignmentEvent.create({ data: { leagueId: draft.leagueId, teamId, rosterEntryId: entry.id, actorUserId: input.userId,
       toSlot: slot, toSlotIndex: slotIndex, effectiveAt: now, reason: "Draft selection", idempotencyKey: `draft-pick:${pick.id}` } });

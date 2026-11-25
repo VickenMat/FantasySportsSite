@@ -73,7 +73,7 @@ function shutdown(code = 0) {
 
 process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
-start("web", "npm", ["run", "dev", "--", "--port", "3000"]);
+start("web", "npm", ["run", process.argv.includes("--turbopack") ? "dev:turbopack" : "dev", "--", "--port", "3000"]);
 start("draft-timer", "npm", ["run", "fantasy:draft-timer"]);
 gameplayTick();
 tickTimer = setInterval(gameplayTick, 60_000);

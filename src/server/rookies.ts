@@ -8,6 +8,20 @@ const evidenceSchema = z.object({
   sourceRecord: z.record(z.string(), z.unknown()),
 }).refine(({ effectiveAt, knownAt }) => knownAt >= effectiveAt, { message: "Rookie evidence cannot be known before it is effective." });
 
+export async function eligibleRookieIds(tx: Prisma.TransactionClient, seasonId: string, at: Date) {
+  const records = await tx.rookieEligibilityEvidence.findMany({ where: { seasonId, effectiveAt: { lte: at }, knownAt: { lte: at } },
+    orderBy: [{ effectiveAt: "desc" }, { knownAt: "desc" }, { id: "desc" }], distinct: ["playerId"] });
+  return records.filter(({ eligible }) => eligible).map(({ playerId }) => playerId);
+}
+
+export async function assertRookieDraftWindow(tx: Prisma.TransactionClient, leagueId: string, seasonId: string, at: Date) {
+  const league = await tx.league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
+  if (league.isHistorical) return;
+  const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId, retrievedAt: { lte: at } }, orderBy: { retrievedAt: "desc" } });
+  if (boundary?.status !== "AVAILABLE" || !boundary.regularSeasonStartsAt) throw new Error("PENDING_DATA: a verified season boundary is required for the rookie draft.");
+  if (at >= boundary.regularSeasonStartsAt) throw new Error("Rookie drafts must finish before the sport season begins.");
+}
+
 export async function recordRookieEligibility(input: z.input<typeof evidenceSchema>) {
   const value = evidenceSchema.parse(input);
   const database = getDatabase();

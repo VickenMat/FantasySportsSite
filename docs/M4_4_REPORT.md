@@ -12,4 +12,4 @@ Both the regular and shuffled 26-test PostgreSQL suites passed. The eight Chromi
 
 Rookie status now comes only from append-only sport-and-season evidence. The latest source-known decision gates free-agent and waiver acquisition until an explicitly identified rookie draft is complete; unknown players remain unknown and are not inferred to be rookies. Initial and rookie drafts can coexist for the same sport season. Synthetic disposable-schema coverage verifies the gate and immutable evidence without adding production eligibility facts.
 
-Linear rookie draft execution, future-pick transfer/consumption, automated rollover, and keeper history/costs remain open. Production rookie eligibility remains `PENDING_DATA`.
+The later continuation implements linear rookie execution, audited commissioner pick ownership corrections, permanent consumption events, historical sport-rollover inventory extension and keeper ownership-history acceptance. See [remaining gameplay implementation](M4_REMAINING_GAMEPLAY_REPORT.md) for the current scope and limitations. Production rookie eligibility remains `PENDING_DATA`; negotiated pick transfers remain advanced-trade work.

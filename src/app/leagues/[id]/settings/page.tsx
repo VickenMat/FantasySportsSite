@@ -24,6 +24,7 @@ export default async function SettingsPage({ params, searchParams }: { params: P
     {context.role === "COMMISSIONER" && context.league.isHistorical && <form className="panel form-grid" action={transitionSeasonAction.bind(null, id)}><h2 className="display">Transition {selected.sport} season</h2><p className="muted">Dynasty retains active rosters. Redraft releases non-keepers and carries selected keepers forward. Historical entries remain immutable.</p><input type="hidden" name="sport" value={selected.sport} /><label>Next season start year<input name="startYear" type="number" min="2016" max="2100" defaultValue={(selected.season?.startYear ?? context.league.seasonYear) + 1} /></label><button className="button secondary">Transition season</button></form>}
     {context.role === "COMMISSIONER" && <section className="panel">
       <h2 className="display">Commissioner audit</h2>
+      <Link className="button secondary" href={`/leagues/${id}/rosters`}>Inspect rosters and correct violations</Link>
       <Link className="button secondary" href={`/leagues/${id}/settings/audit`}>View audit history</Link>
     </section>}
     </div>

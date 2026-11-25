@@ -24,11 +24,21 @@ describe("M4.3 roster compliance", () => {
     const valid = assessRosterCompliance([entry({ slot: "UNIVERSAL_IR", irEligible: true })], {
       universalBenchSlots: 5, universalIrSlots: 5, sportBenchSlots: new Map([["nfl-roster", 5]]),
     });
-    expect(valid).toEqual({ state: "COMPLIANT", reasons: [] });
+    expect(valid).toEqual({ state: "COMPLIANT", reasons: [], violationCount: 0 });
   });
 
   it("chooses deterministic one-based open slot indexes", () => {
     expect(firstOpenSlot(new Set([1, 3, 4]), 5)).toBe(2);
     expect(firstOpenSlot(new Set([1, 2]), 2)).toBeNull();
+  });
+
+  it("measures incremental overflow correction even when the number of reasons stays constant", () => {
+    const limits = { universalBenchSlots: 5, universalIrSlots: 5, sportBenchSlots: new Map([["nfl-roster", 5]]) };
+    const entries = Array.from({ length: 14 }, (_, index) => entry({ id: `b${index}`, playerId: `p${index}`, slotIndex: index + 1 }));
+    const before = assessRosterCompliance(entries, limits);
+    const after = assessRosterCompliance(entries.map((row, index) => index === 13 ? { ...row, slot: "UNIVERSAL_BENCH", slotIndex: 1 } : row), limits);
+    expect(before.violationCount).toBe(9);
+    expect(after.violationCount).toBe(8);
+    expect(after.reasons).toHaveLength(before.reasons.length);
   });
 });

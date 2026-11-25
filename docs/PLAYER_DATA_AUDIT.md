@@ -31,3 +31,46 @@ Read-only verification against development, after approved classification:
 | NHL 2026–27 | 872 | 41 (4.70%) | 831 |
 
 These percentages describe imported historical appearances, not whole-season or live-production completeness. Missing statistics and ambiguous multiple scoring roles remain unknown. Active status, availability, rookie status, retirement and publication-time authority are still unavailable.
+
+## Exact missing-input reconciliation
+
+`npm run data:scoring-completeness` uses a read-only repeatable-read transaction, latest player/game/role revisions and the persisted V9 preset. It does not modify scores or choose a role. November 25 results:
+
+| Sport / season | Reason | Affected appearances | Affected players |
+| --- | --- | ---: | ---: |
+| MLB 2026 | Both HITTER and PITCHER, no selected game scoring role | 215 | 135 |
+| NHL 2026–27 | SKATER `faceoff_wins` | 13,428 | 786 |
+| NHL 2026–27 | SKATER `shorthanded_points_bonus` | 13,428 | 786 |
+| NHL 2026–27 | GOALIE `goalie_win` | 40 | 32 |
+| NHL 2026–27 | GOALIE `shutout` | 38 | 28 |
+
+Counts overlap by reason. NHL union: 13,499 appearances / 831 players. MLB has 72,295 distinct appearances from 72,510 role rows; its ambiguity accounts for all 135 unknown totals, with no additional missing-stat issue. NFL's 10,981 and NBA's 5,390 appearances have no missing V9 inputs. NHL has 14,920 imported appearances. These are imported-season statistics, not authoritative live completeness.
+
+The NHL normalizer intentionally leaves missing decision and shared/short-game shutout evidence unknown; goals against of zero alone does not prove a shutout. A faceoff percentage does not establish integer faceoff wins. Missing shorthanded points cannot be inferred as zero.
+
+## Position source contract and safe reconciliation
+
+The local `reference/position_enrichment/POSITION_ENRICHMENT_STATUS.md` explicitly describes empty, unverified position fields and lookup templates, not a completed repair. Project data, tracked manifests/preparation code and the Developer workspace contain no repaired position dataset. Existing physical archives remain `data/player_data/mlb_2016_2026_final.parquet` and `data/player_data/nba_2016_2027.parquet`, without positions.
+
+Expected supplied files can be named `mlb_positions_verified.json` and `nba_positions_verified.json`. The reconciliation CLI accepts this manifest shape (example identifiers must be replaced with verified source values):
+
+```json
+{
+  "sport": "NBA",
+  "sourceName": "nba_positions_verified.json",
+  "sourceProvider": "verified historical position provider",
+  "rows": [{
+    "playerExternalId": "provider player ID",
+    "identityProvider": "v9-historical",
+    "seasonStartYear": 2026,
+    "positions": ["PG", "SG"],
+    "verificationStatus": "VERIFIED",
+    "sourceReference": "traceable source record or URL",
+    "knownAt": "2026-11-25T00:00:00Z"
+  }]
+}
+```
+
+MLB identity corresponds to original `player_id` + `season`; NBA to `PLAYER_ID` + `SEASON_YEAR` (start year). If supplying CSV instead, include these identity keys plus `primary_position`, pipe-delimited `eligible_positions`, `position_source`, `verification_status`, source reference and known timestamp so a reviewed manifest can be prepared. Batting/pitching category is not fielding eligibility.
+
+Run `npx tsx --env-file=.env src/workers/reconcile-historical-positions.ts /path/to/manifest.json` for a dry run. It resolves existing IDs and appearances, rejects missing or conflicting evidence and fingerprints the exact target revisions and manifest. Apply additionally requires `--apply --expected-fingerprint=...` **and separate user approval for development backfill**. No development repair has been applied or authorized. Applying appends position-only statistical revisions, preserves raw originals and normalized counts, and creates no current eligibility evidence or competitive score-ledger events. Repeat application is a no-op. Synthetic isolated-schema acceptance verifies these properties.

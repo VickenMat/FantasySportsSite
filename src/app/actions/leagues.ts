@@ -9,12 +9,21 @@ import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, resolveLeagueSport, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { advanceSportPlayoffs } from "@/server/playoffs";
-import { provisionFutureDraftPicks } from "@/server/dynasty-picks";
+import { createRookieDraft, provisionFutureDraftPicks, transferFuturePick } from "@/server/dynasty-picks";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
 import { provisionCompetitionSchedule } from "@/server/competition";
+import { commissionerRelease } from "@/server/roster-administration";
+
+export async function commissionerReleaseAction(leagueId: string, entryId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try {
+    await commissionerRelease(user.id, leagueId, entryId, String(form.get("reason")));
+    revalidatePath(`/leagues/${leagueId}`); return "Release recorded. Automatic draft recovery checks the corrected roster every minute.";
+  } catch (error) { return error instanceof Error ? error.message : "Unable to release player."; }
+}
 
 const limit = (userId: string, action: string, maximum = 60) => enforceRateLimit(userId, action, maximum, 60_000);
 const sports = ["NFL", "NBA", "MLB", "NHL"] as const;
@@ -270,6 +279,28 @@ export async function provisionFuturePicksAction(leagueId: string, leagueSportId
   const result = await provisionFutureDraftPicks(user.id, leagueId, leagueSportId);
   revalidatePath(`/leagues/${leagueId}/picks`);
   return result.created ? `Granted ${result.created} future picks.` : "All future picks for this sport are already granted.";
+}
+
+export async function rookieDraftAction(leagueId: string, leagueSportId: string, _state: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "rookie-draft", 10);
+  try {
+    const method = String(form.get("method"));
+    const draft = await createRookieDraft(user.id, leagueId, leagueSportId, {
+      rounds: Number(form.get("rounds")), reason: String(form.get("reason") ?? ""),
+      ...(method === "MANUAL" ? { manualOrder: form.getAll("teamId").map(String) } : {}),
+      ...(method === "LOTTERY" ? { lottery: { selectedPositions: Number(form.get("selectedPositions")), weights: JSON.parse(String(form.get("weights") ?? "[]")) } } : {}),
+    });
+    revalidatePath(`/leagues/${leagueId}`);
+    return `Rookie draft ${draft.status.toLowerCase()}. Open the draft room to select verified rookies.`;
+  } catch (error) { return error instanceof Error ? error.message : "Unable to start rookie draft."; }
+}
+
+export async function correctFuturePickAction(leagueId: string, pickId: string, _state: string, form: FormData) {
+  const { user } = await requireSession(); await limit(user.id, "pick-correction", 20);
+  try {
+    await transferFuturePick(user.id, leagueId, pickId, String(form.get("ownerTeamId")), String(form.get("reason")));
+    revalidatePath(`/leagues/${leagueId}`); return "Pick ownership corrected and recorded in the audit history.";
+  } catch (error) { return error instanceof Error ? error.message : "Unable to correct pick ownership."; }
 }
 
 export async function joinPublicLeagueAction(leagueId: string) {

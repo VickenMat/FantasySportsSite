@@ -95,3 +95,28 @@ export async function moveWaiverWinnerToBottom(tx: Prisma.TransactionClient, lea
   await tx.waiverPriority.updateMany({ where: { leagueSportId, rank: { gt: winner.rank, lte: rows.length } }, data: { rank: { decrement: 1 } } });
   await tx.waiverPriority.update({ where: { id: winner.id }, data: { rank: rows.length } });
 }
+
+/** Sport rollover never resets universal funds or another sport's reservations. */
+export async function resetSportFaab(tx: Prisma.TransactionClient, leagueId: string, leagueSportId: string, seasonId: string) {
+  const league = await tx.league.findUniqueOrThrow({ where: { id: leagueId } });
+  if (league.faabScope !== "SPORT") return;
+  const sport = await tx.leagueSport.findFirstOrThrow({ where: { id: leagueSportId, leagueId } });
+  const rosters = await tx.fantasyRoster.findMany({ where: { leagueSportId } });
+  for (const roster of rosters) {
+    let account = await accountForWaiver(tx, leagueId, leagueSportId, roster.teamId);
+    const key = `faab-reset:${account.id}:${seasonId}`;
+    if (await tx.faabLedgerEntry.findUnique({ where: { idempotencyKey: key } })) continue;
+    const pending = await tx.waiverClaim.findMany({ where: { faabAccountId: account.id, status: "PENDING" } });
+    for (const claim of pending) {
+      await releaseFaabReservation(tx, claim.id, "Previous sport-season bid expired at rollover.");
+      await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "CANCELLED", processedAt: new Date() } });
+    }
+    account = await tx.faabAccount.findUniqueOrThrow({ where: { id: account.id } });
+    if (account.reserved !== 0) throw new Error("Cannot reset an inconsistent FAAB reservation balance.");
+    await tx.faabAccount.update({ where: { id: account.id }, data: { balance: sport.startingFaab, openingBalance: sport.startingFaab } });
+    await tx.faabLedgerEntry.create({ data: { accountId: account.id, type: "RESET", balanceDelta: sport.startingFaab - account.balance,
+      reservedDelta: 0, balanceAfter: sport.startingFaab, reservedAfter: 0, idempotencyKey: key,
+      reason: `Independent ${sport.sport} FAAB reset for season ${seasonId}.` } });
+    await tx.fantasyRoster.update({ where: { id: roster.id }, data: { faabRemaining: sport.startingFaab } });
+  }
+}

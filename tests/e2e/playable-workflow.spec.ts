@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
 import { getDatabase } from "../../src/lib/db";
+import { readFile, writeFile } from "node:fs/promises";
 
 const password = "workflow-manager-12!";
 let clientIp = 150;
@@ -16,7 +17,7 @@ async function register(page: Page, email: string) {
 
 for (const format of ["REDRAFT", "DYNASTY"] as const) {
   test(`fresh ${format} workflow through joining, completed drafts, matchups, trade and waivers`, async ({ page, browser }) => {
-    test.setTimeout(60000);
+    test.setTimeout(process.env.RUN_RESTART_ACCEPTANCE === "true" ? 120000 : 60000);
     const suffix = randomUUID();
     const name = `Full workflow ${suffix}`;
     const email = `workflow-${suffix}@example.test`;
@@ -77,6 +78,21 @@ for (const format of ["REDRAFT", "DYNASTY"] as const) {
       expect(claim.status()).toBe(200);
       await page.goto(`/leagues/${leagueId}/waivers?sport=${requested.sport}`);
       await expect(page.getByRole("heading", { name: `${requested.sport} waiver wire` })).toBeVisible();
+      if (process.env.RUN_RESTART_ACCEPTANCE === "true") {
+        const control = process.env.FANTASY_ACCEPTANCE_CONTROL!;
+        const before = JSON.parse(await readFile(`${control}.status`, "utf8"));
+        await writeFile(control, String(before.generation + 1));
+        await expect.poll(async () => JSON.parse(await readFile(`${control}.status`, "utf8")).generation, { timeout: 30000 }).toBe(before.generation + 1);
+        const after = JSON.parse(await readFile(`${control}.status`, "utf8"));
+        expect(after.pids.every((pid: number) => !before.pids.includes(pid))).toBe(true);
+        await expect.poll(async () => page.request.get("/api/auth/get-session").then((response) => response.json()).then((session) => session?.user?.email).catch(() => null), { timeout: 30000 }).toBe(email);
+        expect((await (await partner.request.get("/api/auth/get-session")).json()).user.email).toBe(partnerEmail);
+        await page.reload();
+        await expect(page.getByRole("button", { name: "Cancel claim" })).toBeVisible();
+        expect(await database.waiverClaim.count({ where: { leagueId, status: "PENDING" } })).toBe(1);
+        expect(await database.draft.count({ where: { leagueId, status: "COMPLETE" } })).toBe(sports.length);
+        expect(await database.trade.count({ where: { leagueId, status: "ACCEPTED" } })).toBe(1);
+      }
       await page.getByRole("button", { name: "Cancel claim" }).click();
       await expect.poll(() => database.waiverClaim.count({ where: { leagueId, status: "CANCELLED" } })).toBe(1);
     } finally {

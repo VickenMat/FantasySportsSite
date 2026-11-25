@@ -21,4 +21,8 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 
 ## Data blockers
 
+The remaining gameplay continuation adds exact missing-input counts in PLAYER_DATA_AUDIT.md. MLB's missing totals are role ambiguity (215 appearances / 135 players), while NHL has missing faceoff/shorthanded inputs and goalie outcomes (13,499 appearances / 831 players, overlapping reasons). These are not authorizations to choose a role or substitute zero. Historical position repairs have an idempotent append-only mechanism and manifest contract, but no concrete development target set or backfill approval exists without verified files.
+
+Rookie drafts currently expose one–four configurable rounds, matching the existing future-pick round constraint. Longer configured drafts are implementation work requiring an additive constraint/configuration change, not an unresolved product decision. Exact lottery defaults remain gated; explicit commissioner-supplied weights and selected positions are supported without defaults.
+
 Current availability, retirement status, rookie eligibility, verified game-completion instants, independently verified future season boundaries, and official statistical publication times remain unavailable across the development archive. The reconstructed master specification is now authoritative for confirmed decisions; isolated synthetic fixtures must exercise the corresponding mechanisms without manufacturing production evidence.

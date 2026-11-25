@@ -27,7 +27,7 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookie
     {source?.entry && <div className="position-help" role="status"><span>Moving <strong>{source.entry.name}</strong>. Choose a highlighted destination.</span><button type="button" className="button compact secondary" onClick={() => setSelectedKey(null)}>Cancel</button></div>}
     <div className="roster-position-grid roster-position-head"><span>Slot</span><span>Player</span><span>TEAM</span><span>POS</span><span>AVG</span><span>PTS</span></div>
     {rows.map((row, index) => {
-      const group = (slot: string) => slot === "BENCH" ? "Sport bench" : slot === "UNIVERSAL_IR" ? "Shared IR" : slot === "UNIVERSAL_BENCH" ? "Shared universal bench" : "Starters";
+      const group = (slot: string) => slot === "ROOKIE_OVERFLOW" ? "Rookie draft overflow" : slot === "BENCH" ? "Sport bench" : slot === "UNIVERSAL_IR" ? "Shared IR" : slot === "UNIVERSAL_BENCH" ? "Shared universal bench" : "Starters";
       const selected = row.key === selectedKey;
       const destination = Boolean(source?.entry && legal.has(row.key));
       const disabled = Boolean(source?.entry && !destination && !selected);

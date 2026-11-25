@@ -1,18 +1,24 @@
 # Fantasy Evolution project status
 
+Latest continuation from `577182e`: linear verified-rookie execution, explicit weighted lottery provenance, future-pick consumption/corrections, keeper ownership-history acceptance, incremental roster repair, audited commissioner releases and independent historical FAAB/inventory rollover are implemented. The master checklist now has 24 checked / 30 unchecked rows. M4 remains incomplete; salary/auctions, advanced multi-party trading and competitive lifecycle remain unimplemented or partial. See [remaining gameplay report](docs/M4_REMAINING_GAMEPLAY_REPORT.md).
+
+The prior 120-second development stability test used Turbopack. Development now defaults to Webpack following the user's independent reproduction; optional Turbopack and unchanged production Turbopack commands are retained. The dedicated isolated restart acceptance command verifies actual web-server/worker restarts and persistent sessions/drafts/trades/waivers.
+
+Exact missing scoring inputs and a dry-run-first historical position reconciliation mechanism are documented in PLAYER_DATA_AUDIT.md. No development position backfill or new migration has been applied. Production source gates and all product decision gates remain in place.
+
 Current implementation head descends from `6bf22fc`. The reconstructed M4 specification is authoritative and now includes the November 25 continuation decisions for salary-dynasty picks, universal cap transfers, short keeper drafts, weighted lotteries, playoff elimination rounds, over-cap cuts, self-reacquisition credit and released-player floors.
 
 ## Current verified state
 
 - M4.3 immutable FAAB accounting, rolling priority, verified-completion mechanism and offseason acquisition gates are implemented.
-- M4.4 rookie evidence and the pre-draft acquisition gate are implemented. Keeper selection now persists escalating costs, short-draft fallback and conflict resolution, and snapshots exact paid rounds for the next snake draft. Full keeper history/ownership acceptance and rookie execution remain incomplete.
+- M4.4 rookie evidence, pre-draft acquisition gates, linear rookie execution, configured lottery infrastructure and consumption history are implemented. Keeper selection persists escalating costs, short-draft fallback, conflict resolution and paid-round snapshots; trade/drop/reacquisition ownership acceptance is verified. Negotiated asset trades and full competitive rollover remain incomplete.
 - Head-to-head opponent rotations now persist immediately at draft completion as relative periods; authoritative calendar binding remains pending where source dates are unavailable.
 - Ordinary trades now enforce proposer compliance and atomic post-trade compliance for both franchises; the explicitly classified corrective-trade exception remains gated.
 - Authenticated brand navigation, Account, league overview, roster selection cancellation, draft access through Settings, readable scoring labels and centralized position colors are implemented. Player, waiver, roster and draft surfaces now share the position system; draft boards expose franchise ownership and verified position evidence without inventing salary or projection values.
 - The Fantasy Evolution brand now always opens the public landing page. That page renders Dashboard and Account links for an existing session and Sign In and Register links for guests; navigation itself never revokes a session.
 - Fresh-league creation is regression-covered across 2, 3, 4, 5, 6, 8, 10 and 12 franchises, normal and historical modes, single- and multi-sport leagues, redraft and dynasty, and H2H and cumulative competition. A forced late foreign-key failure proves the transaction leaves no league, competition or championship-cycle records behind.
 - Player data was audited read-only; see `docs/PLAYER_DATA_AUDIT.md`.
-- The current checkpoint passes 147 unit tests, 43 fresh-schema PostgreSQL integration tests, 11 standard Chromium workflows, TypeScript, ESLint, Prisma validation/generation and the production Turbopack build. The opt-in live-development test is separate. npm audit reports zero vulnerabilities.
+- The current continuation passes 153 unit tests, 50 fresh-schema PostgreSQL integration tests, 12 standard Chromium workflows and two opt-in fresh-user restart workflows. TypeScript, ESLint, Prisma validation and the production Turbopack build pass; npm audit reports zero vulnerabilities. The live-development creation test remains separately opt-in and is not counted as a new run.
 
 ## Operational dependency
 

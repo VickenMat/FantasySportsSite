@@ -75,6 +75,8 @@ Default $100 per sport; optional universal $500 instead of sport budgets. No car
 
 ## 12. Dynasty and rookie drafts
 
+Implementation note, November 25 continuation: linear rookie execution, explicit configured lottery provenance, immutable entitlement consumption and keeper ownership-history mechanisms are implemented and fixture-verified. The current rookie UI supports one through four rounds. This is an implementation limit, not a new gameplay decision forbidding longer configured drafts; extending the inventory's original four-round database constraint remains future additive migration work. Negotiated pick trades and full competitive rollover remain open. See M4_REMAINING_GAMEPLAY_REPORT.md.
+
 Retain players/assets across independent sport offseasons within capacity. Official sport-specific rookie evidence required; no inference from age, draft year or missing statistics. Eligible unrostered rookies only; pre-draft acquisition block. Default four rounds configurable, linear order (worst team picks first each round), before sport season. Reverse final sport standings is the default. A commissioner may enable a weighted lottery for non-playoff teams, with worse finish receiving greater odds; playoff teams are excluded. Weighted lotteries are approved, while the exact default weighting formula and number of lottery-selected positions remain explicitly gated. Manual order remains supported and order provenance is recorded. Temporary rookie-draft overflow permitted, correct before season. Undrafted eligible rookies become free agents or salary auction candidates. Salary leagues auction rookies with no fixed rookie salary scale and have no future rookie picks.
 
 ## 13. Future picks
