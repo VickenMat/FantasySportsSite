@@ -6,7 +6,7 @@ export function DashboardHeader() {
   return (
     <header className="site-header">
       <div className="shell topbar">
-        <Brand href="/dashboard" />
+        <Brand href="/" />
         <nav className="top-links" aria-label="Account navigation">
           <Link className="nav-link" href="/leagues/new">Create league</Link>
           <Link className="nav-link" href="/leagues/discover">Discover</Link>

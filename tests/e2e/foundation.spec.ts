@@ -42,7 +42,7 @@ test("public landing and database status work, and guests are redirected", async
   expect(healthBody).toHaveProperty("workers.gameplayTick");
   const ledger = await page.request.get("/api/scoring/3712b6d3-9fb8-45a1-9717-7fb0a4946601/ledger");
   expect(ledger.status()).toBe(401);
-  await page.getByRole("link", { name: "Open dashboard" }).click();
+  await page.getByRole("link", { name: "Sign in", exact: true }).first().click();
   await expect(page).toHaveURL("/sign-in");
 });
 
@@ -128,7 +128,11 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
   expect(ledger.status()).toBe(200);
   expect(await ledger.json()).toEqual({ items: [], nextOffset: null });
   await page.getByRole("link", { name: "Fantasy Evolution home" }).click();
-  await expect(page).toHaveURL("/dashboard");
+  await expect(page).toHaveURL("/");
+  await expect(page.getByRole("link", { name: "Dashboard", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Account", exact: true })).toBeVisible();
+  expect((await (await page.request.get("/api/auth/get-session")).json()).user.email).toBe(DEMO_EMAIL);
+  await page.getByRole("link", { name: "Dashboard", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Welcome, Demo Manager" })).toBeVisible();
   await page.goto(`/leagues/${leagueId}/scoring`);
   await expect(page.getByRole("row", { name: "NFL Passing Tds 16.0" })).toBeVisible();

@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { Brand } from "@/components/brand";
 import { SportList } from "@/components/sports";
+import { getAuth } from "@/lib/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await getAuth().api.getSession({ headers: await headers() });
   return (
     <>
       <header className="site-header">
@@ -11,8 +14,13 @@ export default function HomePage() {
           <Brand />
           <nav aria-label="Main navigation" className="top-links">
             <a className="nav-link sports-link" href="#sports">Sports</a>
-            <Link className="nav-link" href="/sign-in">Sign in</Link>
-            <Link className="button primary header-cta" href="/sign-up">Get started</Link>
+            {session ? <>
+              <Link className="nav-link" href="/dashboard">Dashboard</Link>
+              <Link className="button primary header-cta" href="/account">Account</Link>
+            </> : <>
+              <Link className="nav-link" href="/sign-in">Sign in</Link>
+              <Link className="button primary header-cta" href="/sign-up">Register</Link>
+            </>}
           </nav>
         </div>
       </header>
@@ -26,8 +34,13 @@ export default function HomePage() {
             <h1 className="display hero-title" id="hero-title">Four sports.<br /><em>One league.</em></h1>
             <p className="hero-description">Bring football, baseball, basketball and hockey together in a dynasty league, or stick with your favorite sport.</p>
             <div className="hero-actions">
-              <Link href="/sign-up" className="button primary">Create an account</Link>
-              <Link href="/dashboard" className="button secondary">Open dashboard</Link>
+              {session ? <>
+                <Link href="/dashboard" className="button primary">Open dashboard</Link>
+                <Link href="/account" className="button secondary">Manage account</Link>
+              </> : <>
+                <Link href="/sign-up" className="button primary">Create an account</Link>
+                <Link href="/sign-in" className="button secondary">Sign in</Link>
+              </>}
             </div>
           </div>
         </section>
