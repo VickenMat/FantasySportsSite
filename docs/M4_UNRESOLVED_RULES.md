@@ -18,4 +18,4 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 
 ## Data blockers
 
-Current availability, retirement status, rookie eligibility, and official statistical publication times remain unavailable across the development archive. The repository contains the M4 master checklist and the older gameplay summary. The November 24 master specification itself is needed to verify detailed rules that those files omit.
+Current availability, retirement status, rookie eligibility, verified game-completion instants, independently verified future season boundaries, and official statistical publication times remain unavailable across the development archive. The reconstructed master specification is now authoritative for confirmed decisions; isolated synthetic fixtures must exercise the corresponding mechanisms without manufacturing production evidence.

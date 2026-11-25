@@ -1,6 +1,6 @@
 # M4 master implementation checklist
 
-This checklist implements the November 24, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete.
+This checklist implements the reconstructed November 25, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete. Explicit data and product gates remain unchecked even when the safe pending behavior exists.
 
 ## M4.2 competition and championships
 
@@ -8,7 +8,7 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 - [x] Independent sport H2H periods and balanced schedules
 - [x] Cumulative sport and combined UBP standings without playoffs
 - [x] Fixed H2H playoffs, byes, third-place and consolation placement
-- [ ] Championship point ledger and overall championship (sport awards and cycle projections persisted; final live cycle acceptance awaits official publication evidence)
+- [ ] Championship point ledger and overall championship (sport award components and cycle projections persist; final cumulative placement and evidence-backed live finalization remain)
 - [x] Configurable deterministic tiebreakers and recorded random draws
 - [x] Provisional correction revisions and the source-backed 24-hour competitive finalization window
 - [x] Source-backed fantasy playoff scheduling; missing data remains pending
@@ -19,29 +19,29 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 - [x] Five sport benches, five universal benches and five universal IR slots
 - [x] Atomic cross-sport slot movement and immutable individual-game lineup locks
 - [ ] Verified IR eligibility and acquisition restriction when noncompliant (free agency, draft, and traditional waivers enforced; trade gate pending)
-- [ ] Rolling waiver priority and 24-hour holds (release hold enforced; verified game-completion clock and priority pending)
-- [ ] Per-sport and cycle-scoped universal FAAB accounts
-- [ ] Sealed bids, reservations, ledger and concurrent-spend protection (sport reservations and concurrent-spend protection verified; dedicated ledger pending)
-- [ ] Offseason redraft/dynasty acquisition rules
+- [ ] Rolling waiver priority and 24-hour holds (release hold enforced; priority and synthetic verified-completion mechanism pending; production completion evidence gated)
+- [ ] Per-sport $100 and optional cycle-scoped universal $500 FAAB accounts with independent reset boundaries
+- [ ] Sealed $0+ bids, reservations, immutable ledger, priority tie resolution and concurrent-spend protection (sport reservations verified; ledger and stable priority pending)
+- [ ] Dynasty offseason acquisition enabled, redraft disabled until applicable draft, and verified-rookie pre-draft block
 
 ## M4.4 dynasty and keepers
 
-- [ ] Verified rookie evidence and pre-draft acquisition block
-- [ ] Four-round linear sport rookie drafts and order provenance
+- [ ] Verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture coverage required)
+- [ ] Configurable four-round linear traditional rookie drafts, reverse-placement/manual order provenance, overflow and pick consumption
 - [x] Three-season future-pick inventory and initial ownership history
-- [ ] Redraft keeper cost/history/conflict validation
+- [ ] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and Round 10 fallback gate
 - [ ] Redraft prohibition on future picks and auction keepers (future picks prohibited in service and PostgreSQL; auction keeper gate pending)
 
 ## M4.5 salary cap, Vickrey and dead cap
 
-- [ ] Per-sport $400 and universal $500 salary accounts
+- [ ] Per-sport $400 and optional universal $500 salary accounts with exact integer ledger
 - [ ] Auction-only salary acquisition and persistent player salary history
-- [ ] $2 idempotent sport-rollover increases
-- [ ] Sealed 24-hour Vickrey auctions and reservations
-- [ ] Recoverable 50% ceiling dead cap and seven-day reacquisition restriction
+- [ ] $2 per-retained-player idempotent sport-rollover increases
+- [ ] Sealed 24-hour Vickrey auctions, maximum-bid reservations, deterministic ties and settlement provenance
+- [ ] Recoverable ceil(50%) dead cap, acquisition clearing/replacement and seven-day releasing-manager restriction
 - [ ] Exact compliance calculation and corrective action gates
-- [ ] Same-sport conserved cap transfers and rollover expiry
-- [ ] Contract automation remains inactive
+- [ ] Same-sport current-season conserved cap transfers and rollover expiry (universal-cap attribution remains gated)
+- [x] Contract automation remains inactive
 
 ## M4.6 advanced trading
 
@@ -50,16 +50,16 @@ This checklist implements the November 24, 2026 M4 master specification. A check
 - [ ] Material revisions invalidate acceptances
 - [ ] Default 24-hour review, veto, expiry and worker execution
 - [ ] Atomic validation/execution and conflicting-offer invalidation
-- [ ] Cross-sport deadlines and offseason restrictions
+- [ ] Per-asset deadlines, review-window deadline guard and dynasty/redraft offseason restrictions
 
 ## M4.7 lifecycle and commissioner controls
 
 - [ ] Idempotent independent redraft and dynasty rollover (idempotent source-backed next-season assignment verified; competitive activation and rollover pending)
 - [ ] Budget resets, pick generation, salary increases and obligation expiry
 - [ ] Sport and overall championship finalization
-- [ ] Versioned future-cycle settings
+- [ ] Versioned future-cycle settings without retroactive finalized-result mutation
 - [ ] Append-only commissioner action audit (settings, draft order, capacity, assignment, and historical transitions verified; further administration pending)
-- [ ] Ownership transfer and offseason-only team removal
+- [ ] Abandoned-team ownership transfer, offseason-only team removal and midseason expansion rejection
 
 ## M4.8 acceptance
 
