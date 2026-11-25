@@ -35,6 +35,7 @@ Development already had 45 roster entries and 45 roster assignment events before
 - Rolling priority is persistent per sport. Its initial snake order is reversed, equal FAAB bids use that order, and a successful claimant moves to the bottom. Auction-draft initialization remains gated until the league models an authoritative auction order.
 - Source-backed completion evidence is append-only and starts a 24-hour player hold from the verified completion instant. Synthetic fixtures verify the boundary without converting scheduled starts into completion evidence.
 - Dynasty acquisition remains available in the offseason. Competitive redraft free agency and waivers remain closed until that sport's applicable draft completes. Historical replay retains its separate behavior.
+- Ordinary outgoing trade proposals now require a compliant proposing roster. Acceptance revalidates ownership, locks, exact cut counts and both franchises' final compliance inside the serializable execution transaction. The explicitly classified payroll-corrective exception remains gated.
 - The additive waiver-accounting migration was exercised only in fresh disposable schemas. Production game-completion timestamps remain unavailable and no evidence was manufactured.
 
-The verified-rookie block moves with the M4.4 evidence model; trade compliance moves with M4.6; independent FAAB resets move with M4.7.
+The verified-rookie block moves with the M4.4 evidence model; multi-party and financial trade assets move with M4.6; independent FAAB resets move with M4.7.

@@ -19,7 +19,7 @@ This checklist implements the reconstructed November 25, 2026 M4 master specific
 - [x] Immutable game-start lineup snapshots and append-only roster assignment history foundation
 - [x] Five sport benches, five universal benches and five universal IR slots
 - [x] Atomic cross-sport slot movement and immutable individual-game lineup locks
-- [ ] Verified IR eligibility and acquisition restriction when noncompliant (free agency, draft, and traditional waivers enforced; trade gate pending)
+- [x] Verified IR eligibility and acquisition restriction when noncompliant across free agency, draft, traditional waivers and ordinary trades; explicitly classified corrective trades remain gated
 - [ ] Rolling waiver priority and 24-hour holds (reverse-snake priority, winner-to-bottom, release and synthetic verified-completion mechanisms verified; auction initial draw and production completion evidence remain gated)
 - [ ] Per-sport $100 and optional cycle-scoped universal $500 FAAB accounts (accounts verified; independent rollover resets remain M4.7)
 - [x] Sealed $0+ bids, reservations, immutable ledger, priority tie resolution and concurrent-spend protection

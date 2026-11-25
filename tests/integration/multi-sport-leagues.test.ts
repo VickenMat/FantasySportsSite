@@ -121,6 +121,10 @@ describe("M3.6 persistent multi-sport leagues", () => {
         const roster = team.sportRosters.find((value) => value.sport === sport)!;
         await database.rosterEntry.create({ data: { leagueId: league.id, teamId: team.id, rosterId: roster.id, playerId: playerIds[index], sport, seasonId: roster.leagueSport.seasonId, slot: "BENCH" } });
       }
+      const ineligibleEntry = await database.rosterEntry.findFirstOrThrow({ where: { leagueId: league.id, teamId: proposer.id, playerId: playerIds[0] } });
+      await database.rosterEntry.update({ where: { id: ineligibleEntry.id }, data: { slot: "UNIVERSAL_IR" } });
+      await expect(proposeTrade(commissioner.id, { leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: playerIds.slice(0, 4), requestPlayerIds: playerIds.slice(4, 8) })).rejects.toThrow(/noncompliance/i);
+      await database.rosterEntry.update({ where: { id: ineligibleEntry.id }, data: { slot: "BENCH" } });
       const trade = await proposeTrade(commissioner.id, { leagueId: league.id, recipientTeamId: recipient.id, offerPlayerIds: playerIds.slice(0, 4), requestPlayerIds: playerIds.slice(4, 8) });
       expect(new Set(trade.assets.map(({ sport }) => sport))).toEqual(new Set(sportOrder));
       expect(trade).toMatchObject({ sport: null, leagueSportId: null, status: "PENDING" });

@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { sports } from "./league";
+import { currentCompliance } from "./rosters";
 
 const proposalSchema = z.object({
   leagueId: z.uuid(),
@@ -80,6 +81,11 @@ export async function proposeTrade(userId: string, input: {
   if (offerIds.some((id) => requestIds.includes(id)) || cutIds.some((id) => offerIds.includes(id) || requestIds.includes(id))) throw new Error("A player can appear only once in a trade.");
   const database = getDatabase();
   return database.$transaction(async (tx) => {
+    const proposedAt = new Date();
+    const proposerCompliance = await currentCompliance(tx, membership.fantasyTeam!.id, proposedAt);
+    if (proposerCompliance.state !== "COMPLIANT") {
+      throw new Error("Resolve roster noncompliance before initiating an ordinary outgoing trade.");
+    }
     const recipient = await tx.fantasyTeam.findFirst({ where: { id: value.recipientTeamId, leagueId: value.leagueId } });
     if (!recipient) throw new Error("The recipient franchise is unavailable.");
     const allIds = [...offerIds, ...requestIds, ...cutIds];
@@ -106,7 +112,7 @@ export async function proposeTrade(userId: string, input: {
       data: {
         leagueId: value.leagueId, leagueSportId: legacyLeagueSport, sport: legacySport,
         proposerTeamId: membership.fantasyTeam!.id, recipientTeamId: recipient.id,
-        message: value.message || null, expiresAt: new Date(Date.now() + value.expiresInHours * 3_600_000),
+        message: value.message || null, expiresAt: new Date(proposedAt.getTime() + value.expiresInHours * 3_600_000),
         assets: { create: [
           ...offered.map((entry) => ({ teamId: entry.teamId, destinationTeamId: recipient.id, sourceRosterId: entry.rosterId, playerId: entry.playerId, sport: entry.sport, side: "PROPOSER" as const })),
           ...requested.map((entry) => ({ teamId: entry.teamId, destinationTeamId: membership.fantasyTeam!.id, sourceRosterId: entry.rosterId, playerId: entry.playerId, sport: entry.sport, side: "RECIPIENT" as const })),
@@ -174,6 +180,11 @@ export async function respondToTrade(userId: string, tradeId: string, response: 
         fromSlot: prior.slot, fromSlotIndex: prior.slotIndex, toSlot: "BENCH", toSlotIndex: slotIndex, effectiveAt: now,
         reason: "Accepted trade", idempotencyKey: `trade-move:${trade.id}:${prior.id}` } });
       await tx.fantasyTransaction.create({ data: { leagueId: trade.leagueId, leagueSportId: destinationState.roster.leagueSportId, rosterId: destinationState.roster.id, sport: asset.sport, teamId: asset.destinationTeamId, playerId: asset.playerId, type: "TRADE", note: `Trade ${trade.id} accepted` } });
+    }
+    const proposerCompliance = await currentCompliance(tx, trade.proposerTeamId, now);
+    const recipientCompliance = await currentCompliance(tx, trade.recipientTeamId, now);
+    if (proposerCompliance.state !== "COMPLIANT" || recipientCompliance.state !== "COMPLIANT") {
+      throw new Error("A trade must leave every participating franchise roster compliant.");
     }
     await tx.tradeCut.updateMany({ where: { tradeId: trade.id }, data: { processedAt: now } });
     return tx.trade.update({ where: { id: trade.id }, data: { status: "ACCEPTED", respondedAt: now, processedAt: now } });
