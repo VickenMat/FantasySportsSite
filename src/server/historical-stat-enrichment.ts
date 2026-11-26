@@ -8,10 +8,12 @@ export type HistoricalStatEnrichmentRow=z.infer<typeof rowSchema>;
 const schema=z.object({version:z.literal('real-nhl-missing-fields-1'),sourceProofs:z.array(z.json()).min(1),rows:z.array(rowSchema).min(1).max(20000)}).strict();
 /** Appends unknown-field revisions only; never rewrites publication, eligibility, ledgers or outcomes. */
 export async function reconcileHistoricalStatistics(raw:unknown,approval?:{expectedFingerprint:string}){
+ return getDatabase().$transaction(async tx=>{if(!approval)await tx.$executeRaw`SET TRANSACTION READ ONLY`;return reconcileHistoricalStatisticsInTransaction(tx,raw,approval);},{isolationLevel:'Serializable',timeout:120000});
+}
+export async function reconcileHistoricalStatisticsInTransaction(tx:Prisma.TransactionClient,raw:unknown,approval?:{expectedFingerprint:string}){
  const manifest=schema.parse(raw),targetFingerprint=fingerprint(manifest);
  if(approval&&approval.expectedFingerprint!==targetFingerprint)throw Error('Historical enrichment manifest changed since review.');
- return getDatabase().$transaction(async tx=>{
-  if(approval)await lockSport(tx,'NHL');else await tx.$executeRaw`SET TRANSACTION READ ONLY`;
+  if(approval)await lockSport(tx,'NHL');
   const ids=manifest.rows.map(r=>r.priorStatId);if(new Set(ids).size!==ids.length)throw Error('Duplicate historical target.');
   const originals=await tx.playerGameStat.findMany({where:{id:{in:ids},game:{sport:'NHL'},player:{sport:'NHL'}}});const originalMap=new Map(originals.map(r=>[r.id,r]));
   const latest=await tx.playerGameStat.findMany({where:{provider:'v9-historical',playerId:{in:[...new Set(manifest.rows.map(r=>r.playerId))]},gameId:{in:[...new Set(manifest.rows.map(r=>r.gameId))]}},orderBy:{revision:'desc'},distinct:['gameId','playerId','role']});
@@ -29,5 +31,4 @@ export async function reconcileHistoricalStatistics(raw:unknown,approval?:{expec
   const revisions:Prisma.PlayerGameStatCreateManyInput[]=changes.map(({target,prior})=>{const source={original:prior.raw,historicalStatEnrichment:{targetFingerprint,fields:target.fields,evidence:target.evidence}} as Prisma.InputJsonValue;return{gameId:prior.gameId,playerId:prior.playerId,teamId:prior.teamId,provider:prior.provider,role:prior.role,importBatchId:batch.id,revision:prior.revision+1,priorRevisionId:prior.id,contentHash:fingerprint(source),sourceLine:prior.sourceLine,observedPositions:prior.observedPositions,normalized:{...(prior.normalized as Prisma.InputJsonObject),...target.fields},raw:source,sourceKnownAt:prior.sourceKnownAt};});
   for(let i=0;i<revisions.length;i+=250)await tx.playerGameStat.createMany({data:revisions.slice(i,i+250)});
   return report;
- },{isolationLevel:'Serializable',timeout:120000});
 }

@@ -2,11 +2,13 @@ import type { Prisma } from "@/generated/prisma/client";
 import { lockSport } from "@/server/sport-lock";
 import { recordPositionEvidence } from "@/server/positions";
 import { promoteLifecycle } from "./lifecycle";
+import { promoteAggregatePosition } from "./aggregate-positions";
 import { promotePositionRevision } from "./position-revisions";
 import { promoteStatistics } from "./statistics";
 import { promoteGameState } from "./game-state";
 import { promoteSeasonBoundary } from "./season-boundaries";
 import { promoteProfessionalIdentity, resolveProfessionalGame } from "./professional-identities";
+import { professionalPlayerIdentityState,resolveProfessionalPlayer } from './identity-resolutions';
 import { contentFingerprint, observationSchema, stableJson, type Observation } from "./contracts";
 
 type Tx=Prisma.TransactionClient;
@@ -21,7 +23,9 @@ async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
  const n=input.normalized;
  if(n.kind==="PLAYER") {
   const references=[{provider:input.provider,externalId:n.externalId},...n.links];
-  const mappings=await tx.playerExternalId.findMany({where:{sport:input.sport,OR:references}});
+  const states=[];for(const ref of references)states.push(await professionalPlayerIdentityState(tx,input.sport,ref,new Date(input.observedAt)));
+  if(states.some(state=>state.status==='RETRACTED'||state.status==='CONFLICT'))return{outcome:'QUARANTINED',reason:'An explicitly retracted or conflicting player reference requires reviewed identity resolution.',targets:{}};
+  const mappings=states.flatMap(state=>state.mapping?[state.mapping]:[]);
   const ids=[...new Set(mappings.map(row=>row.playerId))];
   if(ids.length>1)return {outcome:"QUARANTINED",reason:"Provider identity links disagree; names cannot resolve the conflict.",targets:{playerIds:ids}};
   let playerId=ids[0];
@@ -38,9 +42,10 @@ async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
  if(n.kind==="SEASON_BOUNDARY")return promoteSeasonBoundary(tx,{...input,normalized:n},id);
  if(n.kind==="GAME_STATE")return promoteGameState(tx,{...input,normalized:n},id);
  if(n.kind==="STAT")return promoteStatistics(tx,{...input,normalized:n},id);
+ if(n.kind==="POSITION_AGGREGATE")return promoteAggregatePosition(tx,{...input,normalized:n});
  if(n.kind==="POSITION_REVISION")return promotePositionRevision(tx,{...input,normalized:n},id);
  if(n.kind==="AVAILABILITY"||n.kind==="ROOKIE"||n.kind==="GAME_COMPLETION"||n.kind==="TEAM_ASSIGNMENT")return promoteLifecycle(tx,{...input,normalized:n},id);
- const mapping=await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...n.player}}});
+ const mapping=await resolveProfessionalPlayer(tx,input.sport,n.player,new Date(input.observedAt));
  const season=await tx.season.findUnique({where:{sport_startYear:{sport:input.sport,startYear:n.seasonStartYear}}});
  if(!mapping||!season)return {outcome:"PENDING_DATA",reason:"Position evidence requires an existing canonical player and season.",targets:{}};
  if(!input.publishedAt||!input.effectiveAt)return {outcome:"PENDING_DATA",reason:"Position evidence needs explicit source publication and effective timestamps; observation time is not substituted.",targets:{playerId:mapping.playerId}};
@@ -73,7 +78,7 @@ export async function persistObservation(tx:Tx,raw:unknown,at:Date) {
  else if(latest&&category==="POSITION"&&stableJson(latest.normalized)!==stableJson(input.normalized))decision={outcome:"QUARANTINED",reason:"Position replacement or retraction needs a reviewed evidence-resolution policy; positive history is not silently overwritten.",targets:{}};
  else {
   const targets=latest?.decisions[0]?.targets as {playerId?:string;gameId?:string}|null|undefined;
-  const mapping=targets?.playerId&&"player" in input.normalized?await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...input.normalized.player}}}):null;
+  const mapping=targets?.playerId&&"player" in input.normalized?await resolveProfessionalPlayer(tx,input.sport,input.normalized.player,new Date(input.observedAt)):null;
   const game=targets?.gameId&&input.normalized.kind==="GAME_COMPLETION"?await resolveProfessionalGame(tx,input.sport,input.normalized.game):null;
   if((mapping&&mapping.playerId!==targets?.playerId)||(game&&game.id!==targets?.gameId))decision={outcome:"QUARANTINED",reason:"A source entity revision changed its canonical actor/game identity; review the explicit mapping.",targets:{}};
   else decision=await promote(tx,input,observation.id);

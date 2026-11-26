@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { spawn } from "node:child_process";
 import readline from "node:readline";
 import net from "node:net";
@@ -38,7 +39,8 @@ let stopping = false;
 let tickTimer;
 
 function start(label, command, args) {
-  const child = spawn(command, args, { env: process.env, stdio: ["ignore", "pipe", "pipe"], shell: false, detached: process.platform !== "win32" });
+  const environment=label==='professional-data'?{...process.env,OPEN_DATA_RELEASE_SYNC:process.env.OPEN_DATA_RELEASE_SYNC??'true'}:process.env;
+  const child = spawn(command, args, { env: environment, stdio: ["ignore", "pipe", "pipe"], shell: false, detached: process.platform !== "win32" });
   children.add(child);
   for (const [stream, output] of [[child.stdout, process.stdout], [child.stderr, process.stderr]]) {
     const lines = readline.createInterface({ input: stream });
@@ -68,7 +70,12 @@ function shutdown(code = 0) {
   for (const child of children) {
     try { if (process.platform !== "win32") process.kill(-child.pid, "SIGTERM"); else child.kill("SIGTERM"); } catch {}
   }
-  setTimeout(async () => { await rm(lockDirectory, { recursive: true, force: true }); process.exit(code); }, 1_500);
+  const deadline=Date.now()+10_000;
+  void (async()=>{
+    while(children.size&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,100));
+    for(const child of children){try{if(process.platform!=="win32")process.kill(-child.pid,"SIGKILL");else child.kill("SIGKILL");}catch{}}
+    await rm(lockDirectory,{recursive:true,force:true});process.exit(code);
+  })();
 }
 
 process.on("SIGINT", () => shutdown(0));

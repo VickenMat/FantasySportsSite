@@ -1,0 +1,1006 @@
+{
+  "version": "m5-dataset-readiness-1",
+  "generatedAt": "2026-11-26T22:19:00.405Z",
+  "sourceAudit": "reports/m2-5-analysis.json",
+  "sourceAuditVersion": "m2-5-analysis-1",
+  "archiveHashesFreshlyVerified": true,
+  "m6Started": false,
+  "v10Active": false,
+  "developmentWrites": 0,
+  "physicalRows": 1746957,
+  "archives": [
+    {
+      "sport": "NFL",
+      "file": "nfl_2016_2026_final.parquet",
+      "sha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c",
+      "physicalRows": 185368,
+      "priorAcceptedRows": 185182,
+      "priorQuarantinedRows": 186,
+      "seasons": [
+        {
+          "season": "2016",
+          "startYear": 2016,
+          "physicalRows": 16840,
+          "acceptedRows": 16823,
+          "quarantinedRows": 17,
+          "players": 1855,
+          "games": 256,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 256 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2017",
+          "startYear": 2017,
+          "physicalRows": 16786,
+          "acceptedRows": 16769,
+          "quarantinedRows": 17,
+          "players": 1868,
+          "games": 256,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 256 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2018",
+          "startYear": 2018,
+          "physicalRows": 16728,
+          "acceptedRows": 16711,
+          "quarantinedRows": 17,
+          "players": 1883,
+          "games": 256,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 256 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2019",
+          "startYear": 2019,
+          "physicalRows": 16663,
+          "acceptedRows": 16646,
+          "quarantinedRows": 17,
+          "players": 1888,
+          "games": 256,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 256 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2020",
+          "startYear": 2020,
+          "physicalRows": 16774,
+          "acceptedRows": 16757,
+          "quarantinedRows": 17,
+          "players": 1983,
+          "games": 256,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 256 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2021",
+          "startYear": 2021,
+          "physicalRows": 18128,
+          "acceptedRows": 18110,
+          "quarantinedRows": 18,
+          "players": 2081,
+          "games": 272,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 272 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2022",
+          "startYear": 2022,
+          "physicalRows": 17981,
+          "acceptedRows": 17963,
+          "quarantinedRows": 18,
+          "players": 2006,
+          "games": 271,
+          "coverage": "PARTIAL",
+          "coverageReason": "Observed 271 fixtures versus reconstructed expectation 272.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2023",
+          "startYear": 2023,
+          "physicalRows": 17806,
+          "acceptedRows": 17788,
+          "quarantinedRows": 18,
+          "players": 1942,
+          "games": 272,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 272 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2024",
+          "startYear": 2024,
+          "physicalRows": 18130,
+          "acceptedRows": 18112,
+          "quarantinedRows": 18,
+          "players": 1996,
+          "games": 272,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 272 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2025",
+          "startYear": 2025,
+          "physicalRows": 18540,
+          "acceptedRows": 18522,
+          "quarantinedRows": 18,
+          "players": 2019,
+          "games": 272,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 272 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2026",
+          "startYear": 2026,
+          "physicalRows": 10992,
+          "acceptedRows": 10981,
+          "quarantinedRows": 11,
+          "players": 1827,
+          "games": 158,
+          "coverage": "PARTIAL",
+          "coverageReason": "The file ends during or after the 2026 season boundary and is excluded by the frozen V9 evaluation rules.",
+          "priorMissingStatistics": {}
+        }
+      ]
+    },
+    {
+      "sport": "MLB",
+      "file": "mlb_2016_2026_final.parquet",
+      "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+      "physicalRows": 794974,
+      "priorAcceptedRows": 794974,
+      "priorQuarantinedRows": 0,
+      "seasons": [
+        {
+          "season": "2016",
+          "startYear": 2016,
+          "physicalRows": 80974,
+          "acceptedRows": 80974,
+          "quarantinedRows": 0,
+          "players": 1353,
+          "games": 2428,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2428 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2017",
+          "startYear": 2017,
+          "physicalRows": 81178,
+          "acceptedRows": 81178,
+          "quarantinedRows": 0,
+          "players": 1358,
+          "games": 2430,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2430 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2018",
+          "startYear": 2018,
+          "physicalRows": 82380,
+          "acceptedRows": 82380,
+          "quarantinedRows": 0,
+          "players": 1379,
+          "games": 2431,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2431 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2019",
+          "startYear": 2019,
+          "physicalRows": 82527,
+          "acceptedRows": 82527,
+          "quarantinedRows": 0,
+          "players": 1410,
+          "games": 2429,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2429 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2020",
+          "startYear": 2020,
+          "physicalRows": 26783,
+          "acceptedRows": 26783,
+          "quarantinedRows": 0,
+          "players": 1289,
+          "games": 898,
+          "coverage": "QUARANTINED",
+          "coverageReason": "COVID-disrupted schedule is kept separate from consistent-rule comparisons.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2021",
+          "startYear": 2021,
+          "physicalRows": 82862,
+          "acceptedRows": 82862,
+          "quarantinedRows": 0,
+          "players": 1508,
+          "games": 2429,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2429 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2022",
+          "startYear": 2022,
+          "physicalRows": 71173,
+          "acceptedRows": 71173,
+          "quarantinedRows": 0,
+          "players": 1495,
+          "games": 2430,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2430 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2023",
+          "startYear": 2023,
+          "physicalRows": 71388,
+          "acceptedRows": 71388,
+          "quarantinedRows": 0,
+          "players": 1457,
+          "games": 2430,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2430 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2024",
+          "startYear": 2024,
+          "physicalRows": 71442,
+          "acceptedRows": 71442,
+          "quarantinedRows": 0,
+          "players": 1454,
+          "games": 2429,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2429 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2025",
+          "startYear": 2025,
+          "physicalRows": 71757,
+          "acceptedRows": 71757,
+          "quarantinedRows": 0,
+          "players": 1470,
+          "games": 2430,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 2430 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2026",
+          "startYear": 2026,
+          "physicalRows": 72510,
+          "acceptedRows": 72510,
+          "quarantinedRows": 0,
+          "players": 1472,
+          "games": 2429,
+          "coverage": "PARTIAL",
+          "coverageReason": "The file ends during or after the 2026 season boundary and is excluded by the frozen V9 evaluation rules.",
+          "priorMissingStatistics": {}
+        }
+      ]
+    },
+    {
+      "sport": "NBA",
+      "file": "nba_2016_2027.parquet",
+      "sha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3",
+      "physicalRows": 260499,
+      "priorAcceptedRows": 260499,
+      "priorQuarantinedRows": 0,
+      "seasons": [
+        {
+          "season": "2016-17",
+          "startYear": 2016,
+          "physicalRows": 26139,
+          "acceptedRows": 26139,
+          "quarantinedRows": 0,
+          "players": 486,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2017-18",
+          "startYear": 2017,
+          "physicalRows": 26107,
+          "acceptedRows": 26107,
+          "quarantinedRows": 0,
+          "players": 540,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2018-19",
+          "startYear": 2018,
+          "physicalRows": 26101,
+          "acceptedRows": 26101,
+          "quarantinedRows": 0,
+          "players": 530,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2019-20",
+          "startYear": 2019,
+          "physicalRows": 22393,
+          "acceptedRows": 22393,
+          "quarantinedRows": 0,
+          "players": 529,
+          "games": 1059,
+          "coverage": "QUARANTINED",
+          "coverageReason": "COVID-disrupted schedule is kept separate from consistent-rule comparisons.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2020-21",
+          "startYear": 2020,
+          "physicalRows": 23054,
+          "acceptedRows": 23054,
+          "quarantinedRows": 0,
+          "players": 540,
+          "games": 1080,
+          "coverage": "QUARANTINED",
+          "coverageReason": "COVID-disrupted schedule is kept separate from consistent-rule comparisons.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2021-22",
+          "startYear": 2021,
+          "physicalRows": 26039,
+          "acceptedRows": 26039,
+          "quarantinedRows": 0,
+          "players": 605,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2022-23",
+          "startYear": 2022,
+          "physicalRows": 25894,
+          "acceptedRows": 25894,
+          "quarantinedRows": 0,
+          "players": 539,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2023-24",
+          "startYear": 2023,
+          "physicalRows": 26401,
+          "acceptedRows": 26401,
+          "quarantinedRows": 0,
+          "players": 572,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2024-25",
+          "startYear": 2024,
+          "physicalRows": 26306,
+          "acceptedRows": 26306,
+          "quarantinedRows": 0,
+          "players": 569,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2025-26",
+          "startYear": 2025,
+          "physicalRows": 26651,
+          "acceptedRows": 26651,
+          "quarantinedRows": 0,
+          "players": 582,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {}
+        },
+        {
+          "season": "2026-27",
+          "startYear": 2026,
+          "physicalRows": 5414,
+          "acceptedRows": 5414,
+          "quarantinedRows": 0,
+          "players": 474,
+          "games": 242,
+          "coverage": "PARTIAL",
+          "coverageReason": "The file ends during or after the 2026 season boundary and is excluded by the frozen V9 evaluation rules.",
+          "priorMissingStatistics": {}
+        }
+      ]
+    },
+    {
+      "sport": "NHL",
+      "file": "nhl_2016_2027_final.parquet",
+      "sha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "physicalRows": 506116,
+      "priorAcceptedRows": 506116,
+      "priorQuarantinedRows": 0,
+      "seasons": [
+        {
+          "season": "2016-17",
+          "startYear": 2016,
+          "physicalRows": 49197,
+          "acceptedRows": 49197,
+          "quarantinedRows": 0,
+          "players": 999,
+          "games": 1230,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1230 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 44277,
+            "goalie_win": 197,
+            "shorthanded_points_bonus": 44277,
+            "shutout": 241
+          }
+        },
+        {
+          "season": "2017-18",
+          "startYear": 2017,
+          "physicalRows": 50840,
+          "acceptedRows": 50840,
+          "quarantinedRows": 0,
+          "players": 1005,
+          "games": 1271,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1271 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 45756,
+            "goalie_win": 218,
+            "shorthanded_points_bonus": 45756,
+            "shutout": 213
+          }
+        },
+        {
+          "season": "2018-19",
+          "startYear": 2018,
+          "physicalRows": 50840,
+          "acceptedRows": 50840,
+          "quarantinedRows": 0,
+          "players": 1024,
+          "games": 1271,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1271 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 45756,
+            "goalie_win": 178,
+            "shorthanded_points_bonus": 45756,
+            "shutout": 208
+          }
+        },
+        {
+          "season": "2019-20",
+          "startYear": 2019,
+          "physicalRows": 43280,
+          "acceptedRows": 43280,
+          "quarantinedRows": 0,
+          "players": 983,
+          "games": 1082,
+          "coverage": "QUARANTINED",
+          "coverageReason": "COVID-disrupted schedule is kept separate from consistent-rule comparisons.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 38951,
+            "goalie_win": 143,
+            "shorthanded_points_bonus": 38951,
+            "shutout": 158
+          }
+        },
+        {
+          "season": "2020-21",
+          "startYear": 2020,
+          "physicalRows": 34700,
+          "acceptedRows": 34700,
+          "quarantinedRows": 0,
+          "players": 1032,
+          "games": 868,
+          "coverage": "QUARANTINED",
+          "coverageReason": "COVID-disrupted schedule is kept separate from consistent-rule comparisons.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 31228,
+            "goalie_win": 116,
+            "shorthanded_points_bonus": 31228,
+            "shutout": 156
+          }
+        },
+        {
+          "season": "2021-22",
+          "startYear": 2021,
+          "physicalRows": 52460,
+          "acceptedRows": 52460,
+          "quarantinedRows": 0,
+          "players": 1147,
+          "games": 1312,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1312 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 47211,
+            "goalie_win": 194,
+            "shorthanded_points_bonus": 47211,
+            "shutout": 198
+          }
+        },
+        {
+          "season": "2022-23",
+          "startYear": 2022,
+          "physicalRows": 52460,
+          "acceptedRows": 52460,
+          "quarantinedRows": 0,
+          "players": 1077,
+          "games": 1312,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1312 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 47213,
+            "goalie_win": 161,
+            "shorthanded_points_bonus": 47213,
+            "shutout": 174
+          }
+        },
+        {
+          "season": "2023-24",
+          "startYear": 2023,
+          "physicalRows": 52468,
+          "acceptedRows": 52468,
+          "quarantinedRows": 0,
+          "players": 1041,
+          "games": 1312,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1312 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 47221,
+            "goalie_win": 173,
+            "shorthanded_points_bonus": 47221,
+            "shutout": 199
+          }
+        },
+        {
+          "season": "2024-25",
+          "startYear": 2024,
+          "physicalRows": 52473,
+          "acceptedRows": 52473,
+          "quarantinedRows": 0,
+          "players": 1041,
+          "games": 1312,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1312 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 47225,
+            "goalie_win": 140,
+            "shorthanded_points_bonus": 47225,
+            "shutout": 205
+          }
+        },
+        {
+          "season": "2025-26",
+          "startYear": 2025,
+          "physicalRows": 52478,
+          "acceptedRows": 52478,
+          "quarantinedRows": 0,
+          "players": 1063,
+          "games": 1312,
+          "coverage": "UNVERIFIED",
+          "coverageReason": "Observed 1312 regular-season fixtures, consistent with the reconstructed schedule. Independent fixture evidence is still required for VERIFIED classification.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 47231,
+            "goalie_win": 144,
+            "shorthanded_points_bonus": 47231,
+            "shutout": 161
+          }
+        },
+        {
+          "season": "2026-27",
+          "startYear": 2026,
+          "physicalRows": 14920,
+          "acceptedRows": 14920,
+          "quarantinedRows": 0,
+          "players": 872,
+          "games": 373,
+          "coverage": "PARTIAL",
+          "coverageReason": "The file ends during or after the 2026 season boundary and is excluded by the frozen V9 evaluation rules.",
+          "priorMissingStatistics": {
+            "faceoff_wins": 13428,
+            "goalie_win": 40,
+            "shorthanded_points_bonus": 13428,
+            "shutout": 38
+          }
+        }
+      ]
+    }
+  ],
+  "nhlEvidenceAwareArchive": [
+    {
+      "season": "2016-17",
+      "rows": 49197,
+      "skaterRows": 44277,
+      "goalieRows": 4920,
+      "exactFaceoffMissing": 44277,
+      "shorthandedPointMissing": 44277,
+      "goalieWinMissing": 197,
+      "shutoutEvidenceMissing": 242,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2263,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 1
+    },
+    {
+      "season": "2017-18",
+      "rows": 50840,
+      "skaterRows": 45756,
+      "goalieRows": 5084,
+      "exactFaceoffMissing": 45756,
+      "shorthandedPointMissing": 45756,
+      "goalieWinMissing": 218,
+      "shutoutEvidenceMissing": 217,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2325,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 4
+    },
+    {
+      "season": "2018-19",
+      "rows": 50840,
+      "skaterRows": 45756,
+      "goalieRows": 5084,
+      "exactFaceoffMissing": 45756,
+      "shorthandedPointMissing": 45756,
+      "goalieWinMissing": 178,
+      "shutoutEvidenceMissing": 210,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2364,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 2
+    },
+    {
+      "season": "2019-20",
+      "rows": 43280,
+      "skaterRows": 38951,
+      "goalieRows": 4329,
+      "exactFaceoffMissing": 38951,
+      "shorthandedPointMissing": 38951,
+      "goalieWinMissing": 143,
+      "shutoutEvidenceMissing": 161,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2023,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 3
+    },
+    {
+      "season": "2020-21",
+      "rows": 34700,
+      "skaterRows": 31228,
+      "goalieRows": 3472,
+      "exactFaceoffMissing": 31228,
+      "shorthandedPointMissing": 31228,
+      "goalieWinMissing": 116,
+      "shutoutEvidenceMissing": 161,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 1620,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 5
+    },
+    {
+      "season": "2021-22",
+      "rows": 52460,
+      "skaterRows": 47211,
+      "goalieRows": 5249,
+      "exactFaceoffMissing": 47211,
+      "shorthandedPointMissing": 47211,
+      "goalieWinMissing": 194,
+      "shutoutEvidenceMissing": 200,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2431,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 2
+    },
+    {
+      "season": "2022-23",
+      "rows": 52460,
+      "skaterRows": 47213,
+      "goalieRows": 5247,
+      "exactFaceoffMissing": 47213,
+      "shorthandedPointMissing": 47213,
+      "goalieWinMissing": 161,
+      "shutoutEvidenceMissing": 179,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2462,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 5
+    },
+    {
+      "season": "2023-24",
+      "rows": 52468,
+      "skaterRows": 47221,
+      "goalieRows": 5247,
+      "exactFaceoffMissing": 47221,
+      "shorthandedPointMissing": 47221,
+      "goalieWinMissing": 173,
+      "shutoutEvidenceMissing": 200,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2450,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 1
+    },
+    {
+      "season": "2024-25",
+      "rows": 52473,
+      "skaterRows": 47225,
+      "goalieRows": 5248,
+      "exactFaceoffMissing": 47225,
+      "shorthandedPointMissing": 47225,
+      "goalieWinMissing": 140,
+      "shutoutEvidenceMissing": 206,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2484,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 1
+    },
+    {
+      "season": "2025-26",
+      "rows": 52478,
+      "skaterRows": 47231,
+      "goalieRows": 5247,
+      "exactFaceoffMissing": 47231,
+      "shorthandedPointMissing": 47231,
+      "goalieWinMissing": 144,
+      "shutoutEvidenceMissing": 163,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 2479,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 2
+    },
+    {
+      "season": "2026-27",
+      "rows": 14920,
+      "skaterRows": 13428,
+      "goalieRows": 1492,
+      "exactFaceoffMissing": 13428,
+      "shorthandedPointMissing": 13428,
+      "goalieWinMissing": 40,
+      "shutoutEvidenceMissing": 40,
+      "explicitPositiveShutoutCredits": 0,
+      "zeroIceTimeGoalieRows": 706,
+      "unknownIceTimeGoalieRows": 0,
+      "legacy65MinuteInferenceCandidates": 2
+    }
+  ],
+  "mlbArchiveRolePairs": [
+    {
+      "season": "2016",
+      "physicalRoleRows": 80974,
+      "pairedAppearances": 10523,
+      "pairedPlayers": 626
+    },
+    {
+      "season": "2017",
+      "physicalRoleRows": 81178,
+      "pairedAppearances": 10434,
+      "pairedPlayers": 619
+    },
+    {
+      "season": "2018",
+      "physicalRoleRows": 82380,
+      "pairedAppearances": 10790,
+      "pairedPlayers": 678
+    },
+    {
+      "season": "2019",
+      "physicalRoleRows": 82527,
+      "pairedAppearances": 10843,
+      "pairedPlayers": 702
+    },
+    {
+      "season": "2020",
+      "physicalRoleRows": 26783,
+      "pairedAppearances": 62,
+      "pairedPlayers": 54
+    },
+    {
+      "season": "2021",
+      "physicalRoleRows": 82862,
+      "pairedAppearances": 11241,
+      "pairedPlayers": 766
+    },
+    {
+      "season": "2022",
+      "physicalRoleRows": 71173,
+      "pairedAppearances": 262,
+      "pairedPlayers": 144
+    },
+    {
+      "season": "2023",
+      "physicalRoleRows": 71388,
+      "pairedAppearances": 244,
+      "pairedPlayers": 154
+    },
+    {
+      "season": "2024",
+      "physicalRoleRows": 71442,
+      "pairedAppearances": 171,
+      "pairedPlayers": 129
+    },
+    {
+      "season": "2025",
+      "physicalRoleRows": 71757,
+      "pairedAppearances": 207,
+      "pairedPlayers": 144
+    },
+    {
+      "season": "2026",
+      "physicalRoleRows": 72510,
+      "pairedAppearances": 215,
+      "pairedPlayers": 135
+    }
+  ],
+  "mlbCanonicalPlayerGames": 739982,
+  "currentImportedCompleteness": [
+    {
+      "sport": "NFL",
+      "season": "2026",
+      "appearances": 10981,
+      "players": 1827,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "MLB",
+      "season": "2026",
+      "appearances": 72295,
+      "players": 1472,
+      "affectedAppearances": 18,
+      "affectedPlayers": 18,
+      "issues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 18,
+          "players": 18
+        }
+      ],
+      "fixedScoringRoles": 197,
+      "rawArchiveIssues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 215,
+          "players": 135
+        }
+      ]
+    },
+    {
+      "sport": "NBA",
+      "season": "2026-27",
+      "appearances": 5390,
+      "players": 474,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "NHL",
+      "season": "2026-27",
+      "appearances": 14920,
+      "players": 872,
+      "affectedAppearances": 1693,
+      "affectedPlayers": 678,
+      "issues": [
+        {
+          "reason": "GOALIE:goalie_win",
+          "appearances": 40,
+          "players": 32
+        },
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 40,
+          "players": 28
+        },
+        {
+          "reason": "SKATER:faceoff_wins",
+          "appearances": 1620,
+          "players": 633
+        },
+        {
+          "reason": "SKATER:shorthanded_points_bonus",
+          "appearances": 1620,
+          "players": 633
+        }
+      ],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": [
+        {
+          "reason": "GOALIE:goalie_win",
+          "appearances": 40,
+          "players": 32
+        },
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 38,
+          "players": 28
+        },
+        {
+          "reason": "SKATER:faceoff_wins",
+          "appearances": 1620,
+          "players": 633
+        },
+        {
+          "reason": "SKATER:shorthanded_points_bonus",
+          "appearances": 1620,
+          "players": 633
+        }
+      ]
+    }
+  ],
+  "positionRecovery": {
+    "mlb": {
+      "playerSeasons": 15645,
+      "conflictingPopulatedLists": 531,
+      "statusCounts": {
+        "RECORDED_THRESHOLD_SUPPORTED": 9772,
+        "INSUFFICIENT_THRESHOLD_EVIDENCE": 5873
+      },
+      "requiresTeamScopeValidation": 102
+    },
+    "nba": {
+      "playerSeasons": 5492,
+      "conflictingPopulatedLists": 346,
+      "conflictsIncludingEmpty": 349,
+      "embedded": {
+        "rows": 260499,
+        "populated": 242798,
+        "withSameSeasonRepair": 242798,
+        "exactTeamEstimateMatch": 242798,
+        "seasonEstimateUnionMatch": 233569,
+        "withoutRepair": 0,
+        "currentSeasonRows": 5414,
+        "currentSeasonPlayers": 474
+      },
+      "qualityCounts": {
+        "ESTIMATED": 5972,
+        "MANUAL_REVIEW": 9,
+        "UNMATCHED": 301
+      }
+    }
+  },
+  "currentImportedRoleSelection": {
+    "materializedAppearances": 197,
+    "remainingAmbiguousAppearances": 18,
+    "remainingAmbiguousPlayers": 18,
+    "fullArchivePairedRoleAppearances": 54992,
+    "scope": "197 validated role selections apply only to the imported 2026 target; other seasons need the same evidence policy, not hindsight score selection."
+  },
+  "cautions": [
+    "Current imported completeness is not a complete season or archive-wide completeness.",
+    "Prior NHL missing-stat audit predates the explicit shutout evidence correction; current evidence-aware counts are separately supplied.",
+    "NBA repaired minutes estimates are retrospective evidence, not dated authoritative eligibility.",
+    "NHL zero-TOI backup rows do not establish played-game participation.",
+    "Season coverage classifications are retained prior audit classifications, not fresh independent schedule verification."
+  ]
+}

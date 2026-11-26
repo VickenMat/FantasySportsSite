@@ -89,6 +89,21 @@ try {
     process.stdout.write(validation.stdout);
     if (validation.status !== 0) throw new Error(validation.stderr || "Recovered enrichment validation failed in disposable schema.");
   }
+  if (process.argv.includes("--verify-accelerated-batch")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-accelerated-batch.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Accelerated batch validation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-mlb-position-continuation")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-mlb-position-continuation.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "MLB historical position continuation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-four-sport-history")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-four-sport-history.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Four-sport historical acceptance failed in disposable populated schema.");
+  }
   if (process.argv.includes("--verify-real-sources")) {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-real-sources.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
     process.stdout.write(validation.stdout);

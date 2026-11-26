@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
+import { aggregatePositionSchema } from "@/positions/aggregate-evidence";
 export function stableJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
   if (value && typeof value === "object") return `{${Object.entries(value).filter(([,entry])=>entry!==undefined).sort(([a], [b]) => a.localeCompare(b)).map(([k,v]) => `${JSON.stringify(k)}:${stableJson(v)}`).join(",")}}`;
@@ -8,6 +9,7 @@ export function stableJson(value: unknown): string {
 export const fingerprint = (value: unknown) => createHash("sha256").update(stableJson(value)).digest("hex");
 const external = z.object({ provider: z.string().min(1).max(100), externalId: z.string().min(1).max(200) }).strict();
 const normalized = z.discriminatedUnion("kind", [
+  aggregatePositionSchema,
   z.object({ kind: z.literal("PLAYER"), externalId: z.string().min(1).max(200), displayName: z.string().trim().min(1).max(200), links: z.array(external).max(20), discovery: z.enum(["EXISTING", "NEW"]) }).strict(),
   z.object({ kind: z.literal("POSITION"), player: external, seasonStartYear: z.number().int().min(1900).max(2200), code: z.string().regex(/^[A-Z0-9]{1,12}$/), evidenceKind: z.enum(["LISTED", "FIELDING"]), gameId: z.uuid().optional(), started: z.boolean().optional() }).strict(),
   z.object({ kind:z.literal("AVAILABILITY"), player:external, game:external.nullable(), designation:z.enum(["ACTIVE","QUESTIONABLE","DOUBTFUL","OUT","INJURED_RESERVE","SUSPENDED","RETIRED","UNKNOWN"]), irEligible:z.boolean(), expiresAt:z.iso.datetime({offset:true}).nullable() }).strict(),

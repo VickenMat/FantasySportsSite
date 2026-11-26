@@ -1,0 +1,256 @@
+{
+  "version": "m5-closure-audit-2",
+  "baselineCommit": "e758a46",
+  "checklistTotal": 32,
+  "baselineChecked": 12,
+  "baselineUnchecked": 20,
+  "requirements": [
+    {
+      "id": "U01",
+      "milestone": "M5.1 provider research and architecture",
+      "requirement": "Select and approve permitted provider/product rights, retention, redistribution, credentials and costs",
+      "classification": [],
+      "evidence": "Minimum set nflverse + SportsDataverse redistribution products is selected under the approved $0 strategy. Registry records exact CC BY 4.0 data links, attribution/change notice, immutable retention, no credentials or subscription cost, shared limits and enabled read-only scope. Restricted direct feeds/media are excluded.",
+      "closureAction": "Closed for the selected products only; preserve attribution, conservative retrieval limits and separate approval for canonical backfills or newly scoped products.",
+      "status": "CLOSED_SELECTED_PRODUCT_SCOPE"
+    },
+    {
+      "id": "U02",
+      "milestone": "M5.1 provider research and architecture",
+      "requirement": "Verify contracted field coverage, historical years, measured latency, reliability and publication semantics with real samples",
+      "classification": [
+        "Real-source acceptance incomplete",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "Fifteen actual release products, immutable source hashes and four observed Nov 25\u219226 injury revisions establish sampled coverage and one daily transition, not live latency or long-run reliability.",
+      "closureAction": "Verify remaining category coverage, chronological corrections and update reliability. Keep absent official publication/completion fields explicit; accept an approved precision policy or obtain exact evidence.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U03",
+      "milestone": "M5.2 identities and positions",
+      "requirement": "Integrate licensed discovery, professional team assignment/history, position revisions/retractions and identity conflict resolution",
+      "classification": [
+        "Partial implementation",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "Exact NBA 58/538-alias and NFL 1,248/3402-alias targets passed populated-copy preservation, replay and identity checks; no development application or current eligibility promotion. Team/position temporal semantics remain gated.",
+      "closureAction": "Complete controlled tests and populated-copy/replay checks; approve/apply exact population targets, then verify dated team/position revisions under approved evidence policy.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U04",
+      "milestone": "M5.2 identities and positions",
+      "requirement": "Resolve MLB/NBA historical positions with verified sources and exact approved backfill manifests (MLB conservative target approved/validated; unresolved subset and NBA current evidence remain)",
+      "classification": [
+        "Partial implementation",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "All 537 MLB holds audited: separate 251 historical revisions/nine players passed copy/replay, observed coverage 935\u2192944 players and 66,629\u219266,879 distinct appearances. Aggregate mechanism explicitly supports fielding, starting pitching, relief and DH; nullable counts and independent lower bounds retain unknowns without summing or claiming complete teams. The 140 real carry cases remain undated; NBA coarse positions remain unapproved.",
+      "closureAction": "Obtain dated authoritative aggregate facts for 140 carry cases, resolve other threshold/team-scope holds, approve/apply exact 251 historical-only targets and settle granular/coarse NBA mapping plus dated target. Never promote historical display evidence as current eligibility.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U05",
+      "milestone": "M5.3 schedules and boundaries",
+      "requirement": "Reconcile independently verified regular/postseason boundaries and unpublished future starts",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Accepted V 5 is preserved. Five future NBA rows are ESPN-only with negative team placeholders and date-only information; licensed crosswalk supplements provide no starts or verified season boundaries.",
+      "closureAction": "Obtain independently published regular/postseason endpoints and following-season IDs; consume positive-team/explicit-start updates. Do not treat min/max observed dates as boundaries.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U06",
+      "milestone": "M5.3 schedules and boundaries",
+      "requirement": "Integrate actual start/completion instants, postponements, rescheduling, cancellations and suspensions",
+      "classification": [
+        "Partial implementation",
+        "Missing authoritative evidence",
+        "Product decision blocked"
+      ],
+      "evidence": "State, correction and cancellation mechanisms are fixture-verified. Current licensed snapshots do not prove exact actual start/completion instants.",
+      "closureAction": "Integrate permitted exact fields where present; otherwise retain observation intervals and submit the dedicated evidence-policy alternatives. Keep current exact-time gates until explicit approval and run real lock/hold/postponement/cancelled-period acceptance.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U07",
+      "milestone": "M5.3 schedules and boundaries",
+      "requirement": "Resolve remaining historical crosswalks without forced identity matches; verify draft/lock/hold/deadline/rollover interaction",
+      "classification": [
+        "Partial implementation",
+        "Real-source acceptance incomplete",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "Four unique same-team/final-score nearby-date NBA candidates have exact canonical targets and retained one-day start conflicts. No accepted crosswalk changed.",
+      "closureAction": "Review corroborated candidate manifest 2c 5a 373aeca 22b 5b 703015b 8c 484a 8debb 7cb 0aa 874c 232cb 1ff 9b 8a 2e 3071cd separately; append only accepted identity mappings and verify consumers/schedule interactions without changing timestamps.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U08",
+      "milestone": "M5.4 historical reconciliation",
+      "requirement": "Obtain verified NHL faceoff/shorthanded/goalie outcome inputs and resolve MLB role evidence/any confirmed scoring decision",
+      "classification": [
+        "Partial implementation",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "399/399 NHL source games now validate; proposed 1,660 revisions cover 1,620 exact skater FO/SH fields and 40 proven goalie non-wins. Sixteen additional MLB roles are supported; two remain held. No new development application claimed.",
+      "closureAction": "Validate/apply exact approved targets; obtain explicit shutout evidence for 40 rows/28 players and participation evidence for Kyle Freeland 823317 and Orion Kerkering 824807. Never infer nulls as zero.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U09",
+      "milestone": "M5.4 historical reconciliation",
+      "requirement": "Complete licensed repair manifests, historical scoring reconciliation and approved selective materialization",
+      "classification": [
+        "Partial implementation",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Both exact main 387869\u2026 and independent MLB 251/ee 097\u2026 populated-copy reviews passed:89 application tables preserved,196FK valid,drift 0,replay 0; main invalid-component rollback verified. Historical complete copy 4617/4647 versus accepted development 3949/4645. Targets remain unapplied.",
+      "closureAction": "Obtain one consolidated exact development approval, create verified private backup, apply only approved fingerprints, compare all original rows and measure actual coverage. Preserve every original source/competitive row.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U10",
+      "milestone": "M5.5 automated ingestion",
+      "requirement": "Activate approved network adapters, rate-window enforcement, incremental schedules and live/final box scores",
+      "classification": [
+        "Partial implementation",
+        "Real-source acceptance incomplete",
+        "Licensing or permission blocked"
+      ],
+      "evidence": "Fifteen recurring licensed release products synced. Managed first sync 30HTTP plus conditional follow-up 2=32; immediate due-wait replay 0. Actual managed data-worker graceful stop/restart passed. No live feed or canonical auto-promotion.",
+      "closureAction": "Verify final restart/failure/rate-window regression; obtain permitted live/incremental fields and exact temporal semantics for the remaining mixed requirement. Do not call daily releases live.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U11",
+      "milestone": "M5.6 availability and lifecycle",
+      "requirement": "Map licensed availability/injury/IR/suspension evidence with source status and effective/known timestamps",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Four real injury products are retained and decoded: latest NFL 800, NBA 97, NHL 118 and MLB 144 athletes. Source-reported day/record time is separate from unknown effective/publication time; identity bridges and policy remain incomplete.",
+      "closureAction": "Complete explicit sport ID bridges and approved snapshot/effective policy, then integrate verified status/IR/retractions. Day-To-Day/profileActive/omission cannot become healthy or IR eligibility.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U12",
+      "milestone": "M5.6 availability and lifecycle",
+      "requirement": "Integrate authoritative rookie classification without inference",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "NFL roster contains explicit rookie_year, but novelty/age is never used. Other sports and authoritative temporal integration remain incomplete.",
+      "closureAction": "Validate source-reported rookie-year meaning and canonical links, then demonstrate actual rookie gates where sufficient; retain other sports pending explicit evidence.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U13",
+      "milestone": "M5.6 availability and lifecycle",
+      "requirement": "Integrate team changes and retirement evidence without automatic dynasty removal",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "NFL source includes 22 explicit RET records and current team codes; absence is not retirement, and exact effective change times are absent. No dynasty ownership is removed.",
+      "closureAction": "Map explicit supported retirement/team facts with identity, approved precision and retractions; verify retention. Obtain missing sport coverage rather than infer from roster absence.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U14",
+      "milestone": "M5.6 availability and lifecycle",
+      "requirement": "Verify real independent sport lifecycle operation from authoritative evidence",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Independent sport lifecycle code and M 4 journeys are fixture-backed. Real complete-season boundaries/results are still unavailable.",
+      "closureAction": "Run actual independent activation/close/rollover from accepted source evidence once boundaries and final placements are established. Preserve each sport cycle and retirement retention.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U15",
+      "milestone": "M5.7 corrections and finalization",
+      "requirement": "Establish approved source publication/correction semantics distinct from ingestion/update timestamps",
+      "classification": [
+        "Missing authoritative evidence",
+        "Product decision blocked"
+      ],
+      "evidence": "ObservedAt, file last-modified, final status and publication are distinguished. Current products do not supply exact original/corrected official statistical publication.",
+      "closureAction": "Use a source with documented publication semantics or request an explicitly named conservative evidence policy with fairness implications. Source release update time cannot silently start the 24-hour clock.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U16",
+      "milestone": "M5.7 corrections and finalization",
+      "requirement": "Integrate original/corrected statistics and completion evidence into existing provisional V9 results",
+      "classification": [
+        "Partial implementation",
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Real V9/analytics samples and 197 accepted MLB scores replay safely. Two actual NFL releases have 11,392 unchanged normalized keys, 69 additions, 0 removals, 0 normalized-stat corrections and 0 position changes. No actual chronological correction episode or official completion/publication clock is demonstrated.",
+      "closureAction": "Obtain an actual source correction episode with trustworthy revision order and required completion/publication evidence, then verify provisional competitive revision. Preserve post-final protections; do not relabel added records or artifact modification as correction/publication.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U17",
+      "milestone": "M5.7 corrections and finalization",
+      "requirement": "Verify authoritative 24-hour finalization, post-final correction safety, playoffs and cumulative championships",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete",
+        "Product decision blocked"
+      ],
+      "evidence": "The 24-hour window, finalization and playoff/cumulative protections are implemented and fixture-verified. Exact source clock evidence does not exist in the current batch products.",
+      "closureAction": "Complete real authoritative correction-window/finalization acceptance after accepted clock evidence or a separately approved policy alternative. Do not weaken the existing clock or rewrite finalized competition.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U18",
+      "milestone": "M5.7 corrections and finalization",
+      "requirement": "Verify final placement/rookie order and rollover from the licensed real-data pipeline",
+      "classification": [
+        "Missing authoritative evidence",
+        "Real-source acceptance incomplete"
+      ],
+      "evidence": "Placement, reverse rookie order and rollover mechanisms exist; an authoritative end-to-end licensed season result has not been produced.",
+      "closureAction": "After real final standings/results are accepted, verify fixed final placement, deterministic rookie order and independent rollover. Do not fabricate source finals to close this row.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U19",
+      "milestone": "M5.8 acceptance and website",
+      "requirement": "Complete source-to-V9-to-gameplay-to-website acceptance with freshness/unknown/provisional/final indicators",
+      "classification": [
+        "Real-source acceptance incomplete",
+        "Missing authoritative evidence"
+      ],
+      "evidence": "Actual four-sport 25-score V9+shared analytics samples passed, separate NFL 3739/NHL 11808 staging+100-score replays 0, populated-player Chromium 1passed. Real competitive finalization remains unsupported by exact publication clocks.",
+      "closureAction": "Run final real-source\u2192canonical role\u2192immutable starter\u2192provisional score\u2192website acceptance with bench/IR exclusion; label synthetic calendar/clock portions and keep strict finalization gates.",
+      "status": "OPEN"
+    },
+    {
+      "id": "U20",
+      "milestone": "M5.8 acceptance and website",
+      "requirement": "Complete real-source coverage/failure/rate-limit/replay/restart/concurrency matrix for all sports",
+      "classification": [
+        "Real-source acceptance incomplete",
+        "Partial implementation"
+      ],
+      "evidence": "All automated checks passed: 198 units, 129 normal/129 shuffled integration (seed 261129), 20 standard Chromium, two actual restarts, one actual populated Chromium; Webpack/full TypeScript, ESLint, Prisma, audit 0,diff. Real conditional refresh, worker recovery, 12-writer atomic storage, lease fences, disabled-heartbeat history and both copy replays passed. Chronological source correction/reliability coverage remains incomplete.",
+      "closureAction": "Retain the completed regression/failure/rate/restart proofs; accumulate actual source update/correction and reliability history across the missing categories. Keep real observations distinct from injected 429/network faults and fixtures.",
+      "status": "OPEN"
+    }
+  ],
+  "financialCommitmentsRequiredOrApproved": false,
+  "newProductAlternativesActivated": false,
+  "currentChecked": 13,
+  "currentUnchecked": 19,
+  "finalVerification": "ALL_AUTOMATED_CHECKS_PASSED_198_UNIT_129_NORMAL_129_SHUFFLED_20_STANDARD_2_RESTART_1_POPULATED_GIT_PENDING"
+}

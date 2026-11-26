@@ -50,7 +50,14 @@
     "data:open:nba-positions": "tsx --env-file-if-exists=.env src/workers/prepare-current-nba-positions.ts",
     "data:open:validate": "node scripts/verify-pending-migrations.mjs --verify-real-sources",
     "data:open:validate-mlb-roles": "node scripts/verify-pending-migrations.mjs --verify-real-mlb-roles",
-    "test:e2e:real-populations": "node scripts/verify-pending-migrations.mjs --verify-real-website"
+    "test:e2e:real-populations": "node scripts/verify-pending-migrations.mjs --verify-real-website",
+    "data:releases:sync": "tsx --env-file-if-exists=.env src/workers/sync-open-releases.ts",
+    "data:operations": "tsx --env-file-if-exists=.env src/workers/professional-data-status.ts",
+    "data:identity:review": "tsx --env-file-if-exists=.env src/workers/review-player-identity.ts",
+    "data:accelerated:prepare": "tsx --env-file-if-exists=.env src/workers/prepare-accelerated-batch.ts",
+    "data:accelerated:validate": "node scripts/verify-pending-migrations.mjs --verify-accelerated-batch",
+    "build:webpack": "next build --webpack",
+    "data:mlb-positions:validate": "node scripts/verify-pending-migrations.mjs --verify-mlb-position-continuation"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

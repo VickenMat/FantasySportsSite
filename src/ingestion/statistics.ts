@@ -3,6 +3,7 @@ import type{Prisma}from"@/generated/prisma/client";
 import{applicableRules,calculateScore,sportByRole}from"@/scoring/engine";
 import{ubpV9Rules}from"@/scoring/ubp-v9";
 import{contentFingerprint,type Observation}from"./contracts";
+import{resolveProfessionalPlayer}from'./identity-resolutions';
 export const statEntityKey=(gameId:string,playerId:string,role:string)=>`stat:${gameId}:${playerId}:${role}`;
 type StatObservation=Observation&{normalized:Extract<Observation["normalized"],{kind:"STAT"}>};
 /** Materialize only explicitly mapped incremental rows. Ledger selection is a separate reviewed step. */
@@ -17,7 +18,7 @@ export async function promoteStatistics(tx:Prisma.TransactionClient,input:StatOb
  if(n.role==="GOALIE"&&[n.stats.goalie_win,n.stats.shutout].some(v=>v!=null&&v>1))return reject("Goalie decisions and shutouts require explicit binary evidence.");
  if(n.publicationSemantics==="OFFICIAL_BOX_SCORE"&&!input.publishedAt)return pending("Official box-score publication semantics require an explicit publication instant.");
  if(n.initialPublishedAt&&(n.publicationSemantics!=="OFFICIAL_BOX_SCORE"||n.phase==="LIVE"||!input.publishedAt||new Date(n.initialPublishedAt)>new Date(input.publishedAt)))return reject("Initial final-box publication requires verified original-publication evidence no later than the current publication.");
- const player=await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...n.player}}});
+ const player=await resolveProfessionalPlayer(tx,input.sport,n.player,new Date(input.observedAt));
  const game=await resolveProfessionalGame(tx,input.sport,n.game);
  const team=await resolveProfessionalTeam(tx,input.sport,n.team);
  if(!player||!game||!team)return pending("Statistics require explicit canonical player, game and professional-team mappings.");

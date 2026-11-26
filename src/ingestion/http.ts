@@ -7,7 +7,7 @@ export function retryAfter(value:string|null,now:Date):number|null {
  const time=Date.parse(value);return Number.isFinite(time)?Math.min(86400000,Math.max(0,time-+now)):null;
 }
 /** Central source fetch; preview permission never enables database promotion. */
-export async function fetchPublicData(policy:HttpPolicy,cache?:HttpCache,fetcher:typeof fetch=fetch,clock:()=>Date=()=>new Date()) {
+export async function fetchPublicData(policy:HttpPolicy,cache?:HttpCache,fetcher:typeof fetch=fetch,clock:()=>Date=()=>new Date(),beforeRequest?:()=>Promise<void>) {
  if(policy.permission!=="OPEN_DATA_PREVIEW")return {status:"PENDING_PERMISSION" as const};
  if(!Number.isInteger(policy.maxBytes)||policy.maxBytes<1||policy.maxBytes>64*1024*1024||policy.timeoutMs<100||policy.timeoutMs>60000)throw new Error("Invalid bounded HTTP policy.");
  if(cache&&(cache.sourceUrl!==policy.sourceUrl||cache.body.byteLength>policy.maxBytes))throw new Error("Cached representation does not match the approved source and body bounds.");
@@ -18,7 +18,7 @@ export async function fetchPublicData(policy:HttpPolicy,cache?:HttpCache,fetcher
   const headers:Record<string,string>={Accept:"text/csv, application/json"};
   // Validators follow only allowlisted public redirects; the cache is bound to the stable source URL.
   if(cache){if(cache.etag)headers["If-None-Match"]=cache.etag;if(cache.lastModified)headers["If-Modified-Since"]=cache.lastModified;}
-  requests++;const response=await fetcher(url,{headers,redirect:"manual",signal});
+  await beforeRequest?.();requests++;const response=await fetcher(url,{headers,redirect:"manual",signal});
   if([301,302,303,307,308].includes(response.status)){
    await response.body?.cancel();const location=response.headers.get("location");if(!location||redirects===3)throw new Error("Provider redirect limit exceeded.");url=checked(new URL(location,url).href);continue;
   }

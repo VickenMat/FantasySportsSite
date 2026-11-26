@@ -32,3 +32,16 @@ Migration 28 adds only SKIPPED matchup state and an observation lookup index. Th
 ## Real-source limitations and completed exact backfills
 
 The exact NHL manifest was validated, approved and applied after a fresh verified backup, preserving all 90 original tables. Current missing-input coverage is 678 players / 1,693 evidence-aware appearances. It cannot create official publication/completion evidence or authorize feed activation. SportsDataverse NBA roster data matches 469 of 474 imported IDs; the five unmatched IDs are explicitly listed in the ignored canonical review. Its coarse positions and absent dated evidence cannot establish five-position current eligibility. Batch updates have measured fetch/internal processing timings, with no supported live 60-second publication SLA. No all-sport availability, rookie, retirement or actual completion coverage is manufactured from roster presence or final status.
+
+## Accelerated continuation: smallest remaining decisions
+
+The permitted minimum release set is selected: nflverse plus SportsDataverse, with product-specific data-license references and attribution in the registry. Fifteen read-only recurring release products are active; this does not activate direct restricted APIs, live feeds or automatic canonical promotion. No purchase is needed for this work.
+
+Two precise product choices remain unapproved; see [evidence policy review](M5_EVIDENCE_POLICY_REVIEW.md) for source examples, alternatives and fairness effects:
+
+1. Keep strict granular NBA eligibility, or approve explicit coarse-family mapping (G→PG/SG; F→SF/PF; C→C; G-F/F-G→PG/SG/SF/PF; F-C/C-F→SF/PF/C). Blank remains unknown. This is a fantasy rule, not a claim that source labels contain granular positions. A dated target still needs review.
+2. Keep exact event/publication instants; accept separately labeled bounded events/status snapshots while retaining strict official publication; or additionally approve the distinct observed-complete-box 24-hour policy. None is active; retrieval/update timestamps never become official publication.
+
+A consolidated concrete data proposal is prepared, not applied: NBA 58 real players/538 aliases; NFL 1,248 real players/3,402 aliases and 162 missing statistics on seven existing V5 games; NHL 1,660 append-only revisions/665 players; MLB 16 historical scores. Both main and independent 251-revision historical-position populated-copy reviews passed:89 original application tables preserved,196 foreign keys valid,zero drift,replay0; the main failure rollback was verified. One consolidated exact development approval remains required; neither target is applied. See [review](M5_ACCELERATED_BACKFILL_REVIEW.md). No broad permission is inferred from previous exact approvals. Expected completeness improvements are conditional, not current development counts.
+
+NHL remaining explicit shutout evidence: 40 rows/28 players. MLB remaining role/participation evidence: Kyle Freeland game 823317 and Orion Kerkering 824807. Licensed NBA schedule supplements leave five future starts unknown; four historical crosswalk candidates remain separately proposed with one-day date/start conflicts retained. Current injury snapshots and 22 NFL RET labels provide facts to retain, not automatic health/IR/retirement/rookie gates. All original-week postponement, MLB role and V9 decisions remain settled.

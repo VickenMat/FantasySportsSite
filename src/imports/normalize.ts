@@ -135,7 +135,7 @@ function codeTeam(code: string, side: GameSide = "UNKNOWN"): Team {
   return { externalId: code, code, displayName: code, side };
 }
 
-function nflTeamCode(value: string) {
+export function nflTeamCode(value: string) {
   const aliases: Record<string, string> = { OAK: "LV", SD: "LAC" };
   return teamCode(aliases[value] ?? value);
 }

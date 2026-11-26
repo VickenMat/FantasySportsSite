@@ -1,13 +1,14 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { GET } from "@/app/health/route";
 
-const { query, findUnique, findFirst, hasTable, blockedSchedules } = vi.hoisted(() => ({ query: vi.fn(), findUnique: vi.fn(), findFirst: vi.fn(), hasTable: vi.fn(), blockedSchedules: vi.fn() }));
+const { query, findUnique, findFirst, hasTable, blockedSchedules, operations } = vi.hoisted(() => ({ query: vi.fn(), findUnique: vi.fn(), findFirst: vi.fn(), hasTable: vi.fn(), blockedSchedules: vi.fn(), operations:vi.fn() }));
+vi.mock('@/ingestion/open-data/operations',()=>({releaseOperations:operations}));
 vi.mock("@/server/gameplay-storage", () => ({ hasGameplayTable: hasTable }));
 vi.mock("@/lib/db", () => ({ getDatabase: () => ({ $queryRaw: query,
   draftPlan: { count: blockedSchedules },
   draft: { findMany: async () => [] }, backgroundJobRun: { findUnique, findFirst, count: async () => 0 } }) }));
 
-beforeEach(() => { query.mockReset(); findUnique.mockReset(); findFirst.mockReset(); hasTable.mockReset().mockResolvedValue(false); blockedSchedules.mockReset().mockResolvedValue(0); });
+beforeEach(() => { query.mockReset(); findUnique.mockReset(); findFirst.mockReset(); hasTable.mockReset().mockResolvedValue(false); blockedSchedules.mockReset().mockResolvedValue(0); operations.mockReset().mockResolvedValue({worker:'HEALTHY',products:[],competitiveScoring:'PENDING_AUTHORITATIVE_TIMESTAMPS'}); });
 
 it("returns uncached degradation when workers are absent despite a reachable database", async () => {
   query.mockResolvedValueOnce([{ "?column?": 1 }]);
@@ -33,6 +34,15 @@ it("reports a database outage without leaking the underlying error", async () =>
 
   expect(response.status).toBe(503);
   expect(await response.json()).toEqual({ status: "unavailable", database: "unreachable" });
+});
+
+it('distinguishes data monitoring failure from a database outage',async()=>{
+  query.mockResolvedValueOnce([]);
+  findUnique.mockResolvedValueOnce({status:'RUNNING',startedAt:new Date(),result:{}});
+  findFirst.mockResolvedValueOnce({status:'COMPLETE',startedAt:new Date(),result:{}});
+  operations.mockRejectedValueOnce(Error('private provider details'));
+  const response=await GET();
+  expect(await response.json()).toMatchObject({database:'connected',workers:{data:'UNAVAILABLE'},data:{liveFeedEnabled:false}});
 });
 
 it("reports degradation for a persistently blocked scheduled draft even while both workers are healthy", async () => {

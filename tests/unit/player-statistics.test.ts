@@ -35,13 +35,13 @@ it("keeps missing statistics and ambiguous two-way roles unknown", async () => {
     { playerId: "two-way", gameId: "mlb", role: "PITCHER", normalized: {}, observedPositions: [] },
   ]);
   const values = await playerStatistics({ playerIds: ["p", "two-way"], presetId: "v9", seasonId: "s" });
-  expect(values.get("p")).toMatchObject({ gamesPlayed: 1, scoredGames: 0, totalTenths: null, averageTenths: null });
+  expect(values.get("p")).toMatchObject({ gamesPlayed: null,knownPlayedGames:0,unknownParticipationGames:1, scoredGames: 0, totalTenths: null, averageTenths: null });
   expect(values.get("two-way")?.totalTenths).toBeNull();
 });
 
 it("does not count an appearance twice when its persisted ledger is present", async () => {
   ledgers.mockResolvedValue([{ playerId: "p", gameId: "g", entries: [{ totalTenths: 100n, missingStats: [] }] }]);
-  stats.mockResolvedValue([{ playerId: "p", gameId: "g", role: "BASKETBALL", normalized: {}, observedPositions: [] }]);
+  stats.mockResolvedValue([{ playerId: "p", gameId: "g", role: "BASKETBALL", normalized: {}, raw:{MIN:'12'}, observedPositions: [] }]);
   const values = await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" });
   expect(values.get("p")).toMatchObject({ gamesPlayed: 1, totalTenths: 100n });
 });
@@ -54,5 +54,5 @@ it("keeps unselected professional sources, conflicting legacy sources and incomp
   stats.mockResolvedValue([{ ...row, raw: {} }, { ...row, provider: "source-b", raw: {} }]);
   expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")?.totalTenths).toBeNull();
   ledgers.mockResolvedValue([{ playerId: "p", gameId: "g", entries: [{ totalTenths: 100n, missingStats: ["REB"] }] }]);
-  expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")).toMatchObject({ gamesPlayed: 1, scoredGames: 0, totalTenths: null });
+  expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")).toMatchObject({ gamesPlayed: null,unknownParticipationGames:1, scoredGames: 0, totalTenths: null });
 });

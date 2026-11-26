@@ -4,6 +4,7 @@ import type{Observation}from"./contracts";
 import{recordAvailabilityEvidence}from"@/server/lineup-snapshots";
 import{recordRookieEligibility}from"@/server/rookies";
 import{recordGameCompletionEvidence}from"@/server/waiver-holds";
+import{resolveProfessionalPlayer}from'./identity-resolutions';
 type Tx=Prisma.TransactionClient;
 type LifecycleObservation=Observation&{normalized:Extract<Observation["normalized"],{kind:"AVAILABILITY"|"ROOKIE"|"GAME_COMPLETION"|"TEAM_ASSIGNMENT"}>};
 export async function promoteLifecycle(tx:Tx,input:LifecycleObservation,observationId:string){
@@ -24,7 +25,7 @@ export async function promoteLifecycle(tx:Tx,input:LifecycleObservation,observat
   const evidence=await recordGameCompletionEvidence({gameId:game.id,provider:input.provider,externalId:observationId,completedAt,knownAt,sourceRecord},tx);
   return{outcome:"ACCEPTED" as const,reason:"Explicit completion instant recorded; final status and fetch time were not used as substitutes.",targets:{gameId:game.id,evidenceId:evidence.id}};
  }
- const mapping=await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...n.player}}});
+ const mapping=await resolveProfessionalPlayer(tx,input.sport,n.player,new Date(input.observedAt));
  if(!mapping)return pending("Lifecycle evidence requires an explicit canonical player identifier.");
  if(n.kind==="TEAM_ASSIGNMENT"){
   if((n.assignment==="ROSTERED")!==Boolean(n.team))return quarantine("Team assignment status and explicit team reference disagree.");

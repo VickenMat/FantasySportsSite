@@ -1,0 +1,129 @@
+{
+  "baseline": "e758a46",
+  "artifacts": [
+    {
+      "path": "data/raw/recovered/nfl_2016_2026_final.csv",
+      "sha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_2016_2026_final.csv",
+      "sha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_2016-2027_final.csv",
+      "sha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nhl_2016_2027_final.csv",
+      "sha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_positions_repaired.csv",
+      "sha256": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_positions_repaired.csv",
+      "sha256": "a649f4cda8dfad62fea653c19248cc22089102a4d9a9a2f4a22b817290faa929",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/_nba_player_positions_2016_2026.csv",
+      "sha256": "0161a58e1fd80b8da77e02b8580cf8a35a1d79b60ea43a1571bde812c844da6a",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nfl_2016_2026_final.parquet",
+      "sha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/mlb_2016_2026_final.parquet",
+      "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nba_2016_2027.parquet",
+      "sha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nhl_2016_2027_final.parquet",
+      "sha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_schedules.parquet",
+      "sha256": "1724f7cc6143615036aee574de27aced3b9789de046a68b4991c399b6816671c",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/season_calendar.parquet",
+      "sha256": "25f322a5316f9690dd72d30ade7ff65be113adf77b05e5f34fb9ec50fb4ef160",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_id_crosswalk.parquet",
+      "sha256": "70a4f633d2b9a9e6f17a456f8243ed941d3b16a7af1de12129230761515b1edb",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/team_master.parquet",
+      "sha256": "1b219050df3f51f27f25a6c4d81d208c5f8318ecf359d0b50c831d5305593be7",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/schedule_validation.json",
+      "sha256": "ec3571bdd0a2391edc1c62df20d0ef449ca95b5f813c082a603b36de4c7196e1",
+      "preserved": true
+    }
+  ],
+  "v9SourceUnchanged": true,
+  "v9SourceSha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+  "databaseVerification": {
+    "tables": 90,
+    "unchangedNonOperationalTables": 87,
+    "canonicalBackfillsApplied": false,
+    "unexpectedChanges": 0,
+    "operationalDifferences": [
+      {
+        "table": "BackgroundJobRun",
+        "beforeCount": "16434",
+        "afterCount": "17859"
+      },
+      {
+        "table": "ProfessionalSyncState",
+        "beforeCount": "0",
+        "afterCount": "15"
+      },
+      {
+        "table": "RateLimitBucket",
+        "beforeCount": "7",
+        "afterCount": "11"
+      }
+    ],
+    "migrationCount": 28,
+    "weightRows": 56
+  },
+  "userScreenshots": [
+    {
+      "file": "m3-7-2-cross-sport-trade-builder.png",
+      "sha256": "c65f660a7aad3efb18056666183c95f67bc44eb2c66526d4bc0d3ccf90a97811",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-draft-room.png",
+      "sha256": "67f04b5a7684c7012de8680499efa35e41d3440ab91fccf7752452f97fc31a2e",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-roster-position-selection.png",
+      "sha256": "612960d908d286431a19bbe65c792e93f545e9994aa193b6de4c2070d1a8299c",
+      "preserved": true
+    }
+  ]
+}

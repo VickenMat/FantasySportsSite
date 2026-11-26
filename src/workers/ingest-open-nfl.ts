@@ -3,7 +3,7 @@ import'dotenv/config';
 import{writeFile}from'node:fs/promises';
 import{getDatabase}from'@/lib/db';
 import{sourceProduct}from'@/ingestion/open-data/read';
-import{normalizeHistoricalRow}from'@/imports/normalize';
+import{normalizeHistoricalRow,nflTeamCode}from'@/imports/normalize';
 import{assertIsolatedIngestionDatabase}from'@/ingestion/persist';
 import{projectOpenData}from'@/ingestion/open-data/project';
 import{selectAndScoreSource}from'@/ingestion/source-selection';
@@ -14,19 +14,23 @@ const db=getDatabase(),provider='nflverse-open-data';
 const product=await sourceProduct('nfl-statistics-2026'),rosters=await sourceProduct('nfl-rosters-2026');
 const at=()=>new Date();
 try{
- const [players,games,teams]=await Promise.all([db.playerExternalId.findMany({where:{provider:'v9-historical',sport:'NFL',player:{isSynthetic:false}},include:{player:true}}),db.game.findMany({where:{provider:'v9-historical',sport:'NFL',season:{startYear:2026}},include:{teams:true}}),db.proTeam.findMany({where:{provider:'v9-historical',sport:'NFL'}})]);
- const playerMap=new Map(players.map(p=>[p.externalId,p])),gameMap=new Map(games.map(g=>[g.externalId,g])),teamMap=new Map(teams.map(t=>[t.externalId,t]));
+ const [players,games,teams]=await Promise.all([db.playerExternalId.findMany({where:{provider:'v9-historical',sport:'NFL',player:{isSynthetic:false}},include:{player:true}}),db.game.findMany({where:{provider:{in:['v9-historical','schedule-v5']},sport:'NFL',season:{startYear:2026}},include:{teams:{include:{team:true}}}}),db.proTeam.findMany({where:{provider:'v9-historical',sport:'NFL'}})]);
+ const playerMap=new Map(players.map(p=>[p.externalId,p])),teamMap=new Map(teams.map(t=>[t.externalId,t]));
+ const gameGroups=new Map<string,typeof games>();for(const game of games)gameGroups.set(game.externalId,[...(gameGroups.get(game.externalId)??[]),game]);
+ const gameMap=new Map([...gameGroups].filter(([,values])=>values.length===1).map(([key,values])=>[key,values[0]]));
  const counts={received:product.rows.length,normalized:0,invalid:0,missingCanonical:0,unsupportedPosition:0};
  const statistics:Observation[]=[],identities=new Map<string,Observation>(),teamIdentities=new Map<string,Observation>();
  const base={provider,sport:'NFL' as const,revisionToken:product.proof.sha256,revisionOrdinal:Date.parse(product.proof.artifactModifiedAt??'')||null,sourceReference:product.source.sourceUrl,observedAt:product.proof.receivedAt,effectiveAt:null,publishedAt:null};
  for(const [index,row]of product.rows.entries()){
   let normalized;try{normalized=normalizeHistoricalRow('NFL',row,index+2);counts.normalized++;}catch{counts.invalid++;continue;}
   if(!['QB','RB','FB','WR','TE'].includes(row.position)){counts.unsupportedPosition++;continue;}
-  const player=playerMap.get(normalized.player.externalId),game=gameMap.get(normalized.game.externalId),team=teamMap.get(normalized.team.externalId);
-  if(!player||!game||!team||!game.teams.some(t=>t.teamId===team.id)){counts.missingCanonical++;continue;}
+  const player=playerMap.get(normalized.player.externalId),game=gameMap.get(normalized.game.externalId);
+  const team=game?.teams.find(participant=>nflTeamCode(participant.team.code??participant.team.externalId)===normalized.team.externalId)?.team;
+  const identityTeam=teamMap.get(normalized.team.externalId);
+  if(!player||!game||!team||!identityTeam||game.week!==normalized.game.week||game.phase!==normalized.game.phase){counts.missingCanonical++;continue;}
   identities.set(player.playerId,{...base,entityKey:`player:${normalized.player.externalId}`,raw:{...row,sourceProof:stableSourceProof(product.proof)},normalized:{kind:'PLAYER',externalId:normalized.player.externalId,displayName:normalized.player.displayName,links:[{provider:'v9-historical',externalId:normalized.player.externalId}],discovery:'EXISTING'}});
-  teamIdentities.set(team.id,{...base,entityKey:`team:${normalized.team.externalId}`,raw:{sourceProof:stableSourceProof(product.proof)},normalized:{kind:'TEAM_IDENTITY',externalId:normalized.team.externalId,displayName:team.displayName,code:team.code,links:[{provider:'v9-historical',externalId:team.externalId}],discovery:'EXISTING'}});
-  statistics.push({...base,entityKey:statEntityKey(game.id,player.playerId,'FOOTBALL'),raw:{...row,sourceProof:stableSourceProof(product.proof)},normalized:{kind:'STAT',player:{provider,externalId:normalized.player.externalId},game:{provider:'v9-historical',externalId:normalized.game.externalId},team:{provider:'v9-historical',externalId:normalized.team.externalId},role:'FOOTBALL',phase:'FINAL',publicationSemantics:'UNVERIFIED',initialPublishedAt:null,stats:normalized.stats}});
+  teamIdentities.set(identityTeam.id,{...base,entityKey:`team:${normalized.team.externalId}`,raw:{sourceProof:stableSourceProof(product.proof)},normalized:{kind:'TEAM_IDENTITY',externalId:normalized.team.externalId,displayName:identityTeam.displayName,code:identityTeam.code,links:[{provider:'v9-historical',externalId:identityTeam.externalId}],discovery:'EXISTING'}});
+  statistics.push({...base,entityKey:statEntityKey(game.id,player.playerId,'FOOTBALL'),raw:{...row,sourceProof:stableSourceProof(product.proof)},normalized:{kind:'STAT',player:{provider,externalId:normalized.player.externalId},game:{provider:game.provider,externalId:game.externalId},team:{provider:team.provider,externalId:team.externalId},role:'FOOTBALL',phase:'FINAL',publicationSemantics:'UNVERIFIED',initialPublishedAt:null,stats:normalized.stats}});
  }
  const project=(stream:string,records:Observation[])=>projectOpenData(provider,'NFL',stream,product.proof.sha256,records);
  const started=Date.now(),identityResult=await project('PLAYER',[...identities.values()]),teamResult=await project('TEAM_IDENTITY',[...teamIdentities.values()]),statResult=await project('STAT',statistics);

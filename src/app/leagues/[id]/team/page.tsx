@@ -78,6 +78,7 @@ export default async function TeamPage({ params, searchParams }: {
       team: teamHistory.status === "SOURCE_RECORDED" ? teamHistory.current?.team?.code ?? (teamHistory.current?.assignment === "FREE_AGENT" ? "FA" : teamHistory.current?.team?.displayName ?? null) : teamHistory.status === "CONFLICT" || teamHistory.status === "PENDING_DATA" ? null : stat?.team.code ?? null, teamSource: teamHistory.status === "SOURCE_RECORDED" ? "Recorded" : teamHistory.status === "CONFLICT" ? "Conflicting" : stat?.team.code ? "Historical" : "Unverified", locked: Boolean(entry.lockedAt),
       average: displayTenths(statistics.get(entry.playerId)?.averageTenths),
       points: displayTenths(statistics.get(entry.playerId)?.totalTenths),
+      gamesPlayed:statistics.get(entry.playerId)?.gamesPlayed??null,
     };
   }));
   const byId = new Map(displayedEntries.map((entry) => [entry.id, entry]));

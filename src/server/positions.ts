@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { Sport } from "@/generated/prisma/enums";
 import { getDatabase } from "@/lib/db";
 import { calculateEligibility, type PositionEvidence } from "@/positions/eligibility";
+import { aggregatePositionEligibility } from "@/positions/aggregate-evidence";
 import { lockSport } from "./sport-lock";
 
 const evidenceBase = z.object({
@@ -90,12 +91,22 @@ export async function getEligiblePositions(input: { playerId: string; sport: Spo
     return row.gameId && row.started != null ? [{ ...base, kind: "FIELDING", gameId: row.gameId, started: row.started }] : [];
   });
   const result = calculateEligibility({ ...input, evidence });
-  return { ...result, available: result.available || records.some(row=>inactiveEvidence.has(row.id)) };
+  const aggregateRows = sport === "MLB" && client.professionalDataObservation ? await client.professionalDataObservation.findMany({
+    where: { sport, category: "POSITION_AGGREGATE", observedAt: { lte: asOf }, publishedAt: { lte: asOf }, effectiveAt: { lte: asOf },
+      decisions: { some: { outcome: "ACCEPTED", targets: { path: ["playerId"], equals: playerId } } } },
+    include: { decisions: { where: { decidedAt: { lte: asOf } }, orderBy: { version: "desc" }, take: 1 } },
+  }) : [];
+  const aggregate = aggregatePositionEligibility({ playerId, seasonYear, asOf, observations: aggregateRows });
+  // Per-game observations may overlap the total. Qualify independently; never add them.
+  const contradictory = new Set(aggregate.aggregateCounts.filter(total => result.fieldingCounts.some(row => row.code === total.code && row.seasonYear === total.seasonYear && (total.starts !== null && row.starts > total.starts || total.appearances !== null && row.appearances > total.appearances))).map(row => row.code));
+  return { ...result, aggregateCounts: aggregate.aggregateCounts, aggregateLowerBounds: aggregate.aggregateLowerBounds, aggregateConflicts: [...aggregate.aggregateConflicts, ...[...contradictory].map(code => `FIELDING_TOTAL:${code}`)],
+    positions: [...new Set([...result.positions, ...aggregate.positions.filter(code => !contradictory.has(code))])].sort(),
+    available: result.available || aggregate.available || records.some(row=>inactiveEvidence.has(row.id)) };
 }
 
 /** Historical repairs are display evidence, never a fallback grant of current eligibility. */
 export function legacyPositionFallback(stat?: { observedPositions: string[]; raw: unknown } | null): string[] {
   if (!stat) return [];
-  if (stat.raw && typeof stat.raw === "object" && "historicalPositionRepair" in stat.raw) return [];
+  if (stat.raw && typeof stat.raw === "object" && ("historicalPositionRepair" in stat.raw || "reviewedNflStatistics" in stat.raw)) return [];
   return stat.observedPositions;
 }
