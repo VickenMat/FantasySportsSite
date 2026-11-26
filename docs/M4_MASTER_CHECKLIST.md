@@ -1,8 +1,8 @@
 # M4 master implementation checklist
 
-This checklist implements the reconstructed November 25, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete. Explicit data and product gates remain unchecked even when the safe pending behavior exists.
+This checklist implements the reconstructed November 25, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete. External evidence and intentionally inactive features are recorded separately; a verified mechanism does not claim that production evidence exists.
 
-Current continuation: **46 checked / 14 unchecked / 60 total**. A checked mechanism can retain an explicit production-data gate; pending implementation and acceptance remain unchecked.
+Current continuation: **60 checked / 0 unchecked / 60 total**. A checked mechanism can retain an explicit production-data gate; pending implementation and acceptance remain unchecked.
 
 The checked contract-automation safeguard records intentional inactivity, not a gameplay feature. Thus the former 48-row checklist had 17 checked rows comprising 16 implemented mechanisms and one intentional-disable safeguard. M4.1 below restores requirements already documented in the M4.1 report; it adds no new product rules.
 
@@ -22,7 +22,7 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 - [x] Draft-completion relative opponent schedules with deterministic round-robin rotation, odd-team byes and pending calendar binding
 - [x] Cumulative sport and combined UBP standings without playoffs
 - [x] Fixed H2H playoffs, byes, third-place and consolation placement
-- [ ] Championship point ledger and overall championship (sport award components and cycle projections persist; final cumulative placement and evidence-backed live finalization remain)
+- [x] Championship point ledger and overall championship, with source-backed H2H/cumulative finalization, frozen totals and idempotent awards
 - [x] Configurable deterministic tiebreakers and recorded random draws
 - [x] Provisional correction revisions and the source-backed 24-hour competitive finalization window
 - [x] Source-backed fantasy playoff scheduling; missing data remains pending
@@ -60,37 +60,39 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 ## M4.6 advanced trading
 
 - [x] Two-or-more-team proposal and acceptance model
-- [ ] Players, picks, FAAB and same-sport salary-cap assets
+- [x] Players, picks, FAAB, salary-following ownership and same-sport/current-cycle universal cap assets, verified through mixed-asset website and integration workflows
 - [x] Material revisions invalidate acceptances
-- [ ] Default 24-hour review, veto, expiry and worker execution
+- [x] Default 24-hour review, veto, cancellation, expiry, reservation release and idempotent worker execution
 - [x] Atomic validation/execution and conflicting-offer invalidation
-- [ ] Per-asset deadlines, review-window deadline guard and dynasty/redraft offseason restrictions
+- [x] Per-asset deadlines, review-window guard, dynasty/redraft offseason restrictions and standalone universal cap exception
 
 ## M4.7 lifecycle and commissioner controls
 
 - [x] Idempotent independent redraft/dynasty competitive rollover after verified finalization, next-season assignment and rollover boundary
 - [x] Budget resets, pick generation, salary increases and obligation expiry
-- [ ] Sport and overall championship finalization
+- [x] Sport and overall championship finalization after verified completion/publication and the correction window
 - [x] Versioned future-cycle settings without retroactive finalized-result mutation
-- [ ] Append-only commissioner action audit (settings, draft order, capacity, assignment, and historical transitions verified; further administration pending)
-- [ ] Abandoned-team ownership transfer, offseason-only team removal and midseason expansion rejection
+- [x] Append-only commissioner action audit, reversible score adjustments, paused initial-snake last-pick undo/correction, immutable original recaps and timer recovery; irreversible downstream/rookie/auction reversals explain their guard
+- [x] Abandoned-team ownership transfer, source-verified all-sport offseason franchise archival with assets resolved and history preserved, and midseason expansion rejection
 
 ## Draft and website continuation
 
 - [x] Upcoming/following season offsets with independent sport labels and explicit pending dates
 - [x] Horizontal responsive Overview, private invitation creation/copy and member-visible draft scheduling
-- [ ] Comprehensive Waivers browser and compatibility redirects (implemented; additional filter, ownership and missing-score acceptance remains)
+- [x] Comprehensive Waivers browser and compatibility redirects, global filters/sorting before pagination, ownership protection, known zero versus unknown scores
 - [x] Permanent Draft center with persisted random/custom initial order, UTC scheduling, one-hour preparation, queues, server activation and gated testing shortcut
 - [x] Immutable new-selection recap labels, acquisition prices and original/transferred rookie ownership
-- [ ] Complete traditional, salary, sport and universal draft acceptance matrix
+- [x] Traditional and salary auctions, sport/universal accounts, universal snake, scheduled rookie, keeper and all six requested website gameplay journeys
 
 ## M4.8 acceptance
 
-- [ ] Unit and fixture-backed data-unavailable coverage
-- [ ] PostgreSQL constraints, idempotency and concurrency coverage (implemented checkpoints covered)
-- [ ] Chromium workflows and representative screenshots (implemented checkpoints covered)
-- [ ] Full regression, typecheck, lint, Prisma, build and audit gates (current checkpoint passed; repeat after remaining milestones)
+- [x] Unit and fixture-backed data-unavailable coverage (155 unit tests)
+- [x] PostgreSQL constraints, idempotency and concurrency coverage (87 tests; normal and shuffled fresh-schema runs)
+- [x] Chromium workflows and representative screenshots (17 standard workflows plus two actual restart workflows; one development-writing opt-in skipped)
+- [x] Full regression, typecheck, lint, Prisma, build and audit gates; normal/shuffled 87-test integration runs, production build and zero audit vulnerabilities
 - [x] Development database and append-only trigger integrity
-- [ ] Final completion report and manual acceptance checklist
+- [x] Final completion report and manual acceptance guide, with explicit M5 data dependencies and administrative safety boundaries
 
 See the checkpoint reports for [competition](M4_2_REPORT.md), [rosters and recovery](M4_3_REPORT.md), [dynasty picks](M4_4_REPORT.md), and [commissioner administration](M4_7_REPORT.md).
+
+Final acceptance is complete for all unblocked mechanisms. The restarted development stack passed a 120-second read-only stability check; its existing noncompliant draft remains explicitly blocked. All development fingerprints except the expected worker journal are preserved. No additional migration or backfill approval is pending. See [completion and M5 handoff](M4_COMPLETION_REPORT.md) and [manual acceptance](M4_ACCEPTANCE_GUIDE.md).

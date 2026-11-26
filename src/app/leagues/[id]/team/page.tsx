@@ -7,9 +7,12 @@ import { requireSession } from "@/lib/auth";
 import { getDatabase } from "@/lib/db";
 import { leagueContext, resolveLeagueSport } from "@/server/league";
 import { getEligiblePositions } from "@/server/positions";
+import { sportIsOffseason } from "@/server/sport-offseason";
 import { irEligiblePlayers } from "@/server/roster-availability";
 import { slotRule } from "@/simulation/config";
 import { displayTenths, playerStatistics } from "@/server/player-statistics";
+import { financePolicy } from "@/server/finance";
+import { waiverFunds } from "@/server/faab";
 import { listFutureDraftPicks } from "@/server/dynasty-picks";
 
 export default async function TeamPage({ params, searchParams }: {
@@ -43,13 +46,15 @@ export default async function TeamPage({ params, searchParams }: {
     context.league.format === "DYNASTY" ? listFutureDraftPicks(user.id, id, selected.id, true)
       .then((picks) => picks.filter((pick) => pick.ownerTeamId === context.fantasyTeam!.id && pick.state === "AVAILABLE")) : [],
   ]);
+  const financial = await financePolicy(database, id);
+  const funds = await waiverFunds(database, id, selected.id, context.fantasyTeam.id);
   const now = new Date();
   const decisionTimes = new Map(replayPeriods.map(({ sport, startsAt }) => [sport, startsAt]));
   const statistics = new Map((await Promise.all(leagueSports.map(async (leagueSport) => [...await playerStatistics({
     playerIds: entries.filter((entry) => entry.sport === leagueSport.sport).map(({ playerId }) => playerId),
     presetId: context.league.presetId, seasonId: leagueSport.seasonId, asOf: decisionTimes.get(leagueSport.sport),
   })]))).flat());
-  const irEligible = new Set((await Promise.all(leagueSports.map(({ sport }) => irEligiblePlayers(
+  const irEligible = new Set((await Promise.all(leagueSports.map(async ({ id: sportId, sport }) => await sportIsOffseason(database, sportId, now) ? new Set<string>() : irEligiblePlayers(
     database, entries.filter((entry) => entry.sport === sport).map(({ playerId }) => playerId), decisionTimes.get(sport) ?? now,
   )))).flatMap((players) => [...players]));
   const movementPositions = new Map<string, string[]>();
@@ -108,7 +113,7 @@ export default async function TeamPage({ params, searchParams }: {
   }));
 
   return <LeagueShell leagueId={id}>
-    <div className="workspace-intro"><p className="eyebrow">My franchise</p><form action={renameTeamAction.bind(null, id)} className="inline-form"><label className="sr-only" htmlFor="franchise-name">Franchise name</label><input id="franchise-name" className="display inline-title-input" name="name" defaultValue={context.fantasyTeam.name} required /><button className="button compact secondary" aria-label="Rename franchise">✎</button></form><p className="muted">{selected.sport} · {selected.seasonLabel} · {roster.faabRemaining} FAAB remaining</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    <div className="workspace-intro"><p className="eyebrow">My franchise</p><form action={renameTeamAction.bind(null, id)} className="inline-form"><label className="sr-only" htmlFor="franchise-name">Franchise name</label><input id="franchise-name" className="display inline-title-input" name="name" defaultValue={context.fantasyTeam.name} required /><button className="button compact secondary" aria-label="Rename franchise">✎</button></form><p className="muted">{selected.sport} · {selected.seasonLabel} · {financial?.salaryMode ? "Salary dynasty · full salaries and obligations in Finances" : `${funds.balance} ${funds.scope === "UNIVERSAL" ? "universal cycle " : ""}FAAB remaining · ${funds.reserved} reserved`}</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
     <section className="panel"><div className="section-heading"><div><h2 className="display">{selected.sport} roster</h2><p className="muted">Select a player&apos;s position button, then choose a highlighted legal destination. Occupied destinations swap atomically.</p></div></div>
       {overflow.length > 0 && <p role="alert">{overflow.length} player{overflow.length === 1 ? " is" : "s are"} outside configured roster capacity. Every player is shown below. Move eligible players to empty legal slots or use the named Drop controls. Acquisitions remain blocked until compliance is restored.</p>}
       <p className="muted">Historical actuals for {selected.seasonLabel}; shared players use their own sport season. Unknown or incomplete scores are N/A. No projections.</p>

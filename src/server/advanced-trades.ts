@@ -9,6 +9,7 @@ import { openAcquisitionSlot } from "@/rosters/acquisition-slot";
 import { getEligiblePositions } from "./positions";
 import { hasGameplayTable } from "./gameplay-storage";
 import { runBackgroundJob } from "./background-jobs";
+import { clearOffseasonPlayerFloors } from "./sport-offseason";
 
 type Tx = Prisma.TransactionClient;
 const route = { from: z.uuid(), to: z.uuid() };
@@ -229,6 +230,7 @@ export async function executeAdvancedTrade(proposalId: string, at = new Date()) 
     }
     for (const [accountId, payroll] of [...payrollDeltas].sort(([a], [b]) => a.localeCompare(b))) await bookFinance(tx, accountId, `trade:${proposalId}:payroll:${accountId}`, "SALARY_TRANSFER", { payroll }, { proposalId, revision: proposal.currentRevision }, false);
     for (const move of salaryMoves) await tx.playerSalary.update({ where: { id: move.salaryId }, data: { teamId: move.to, accountId: move.accountId, version: { increment: 1 } } });
+    if ((await financePolicy(tx, proposal.leagueId))?.salaryMode) for (const sport of await tx.leagueSport.findMany({ where: { leagueId: proposal.leagueId } })) await clearOffseasonPlayerFloors(tx, sport.id, revision.actorUserId, at);
     for (const teamId of proposal.participantIds) if ((await currentCompliance(tx, teamId, at)).state !== "COMPLIANT") throw new Error("Every participating franchise must be compliant after settlement.");
     await audit(tx, proposal.leagueId, revision.actorUserId, proposalId, "EXECUTE_TRADE", { revision: proposal.currentRevision, assets }, "Atomic worker settlement after all participants accepted identical terms and the review period elapsed.");
     const result = await tx.tradeProposal.update({ where: { id: proposalId }, data: { status: "EXECUTED", processedAt: at } });

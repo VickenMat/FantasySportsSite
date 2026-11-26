@@ -9,7 +9,7 @@ import { getDatabase } from "@/lib/db";
 import { browsePlayers } from "@/server/player-browser";
 import { leagueContext, resolveLeagueSport } from "@/server/league";
 import { displayTenths } from "@/server/player-statistics";
-import { reservedSportFaab } from "@/server/waivers";
+import { waiverFunds } from "@/server/faab";
 import { waiverHoldUntil } from "@/server/waiver-holds";
 import { financePolicy } from "@/server/finance";
 import { AuctionPanel } from "@/components/auction-panel";
@@ -24,16 +24,17 @@ export default async function WaiversPage({ params, searchParams }: { params: Pr
   const availability = ["ALL", "FREE_AGENTS", "WAIVERS", "ROSTERED"].includes(query.availability ?? "") ? query.availability as "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" : "ALL";
   const pool = await browsePlayers(id, { sport: selected.sport, search: query.q, position: query.position || undefined, page: Number(query.page ?? 1), pageSize: 50, availability, presetId: context.league.presetId, seasonId: selected.seasonId, asOf: replay?.endsAt, sort: query.sort, points: query.points });
   const ids = pool.items.map(({ id }) => id);
-  const [claims, transactions, ownership, reserved] = await Promise.all([
+  const [claims, transactions, ownership, funds] = await Promise.all([
     roster ? db.waiverClaim.findMany({ where: { rosterId: roster.id }, include: { addPlayer: true, dropPlayer: true }, orderBy: { createdAt: "desc" }, take: 100 }) : [],
     db.fantasyTransaction.findMany({ where: { leagueId: id, sport: selected.sport }, include: { player: true, team: true }, orderBy: { createdAt: "desc" }, take: 100 }),
     db.rosterEntry.findMany({ where: { leagueId: id, playerId: { in: ids }, releasedAt: null }, include: { team: { select: { name: true } } } }),
-    roster ? reservedSportFaab(db, roster.id) : 0,
+    roster ? waiverFunds(db, id, selected.id, context.fantasyTeam!.id) : { scope: context.league.faabScope, balance: 0, reserved: 0 },
   ]);
   const owners = new Map(ownership.map((entry) => [entry.playerId, entry.team.name]));
   const now = new Date();
   const holds = new Map(await Promise.all(ids.filter((id) => !owners.has(id)).map(async (playerId) => [playerId, await waiverHoldUntil(db, id, playerId, now)] as const)));
-  const spendable = Math.max(0, (roster?.faabRemaining ?? 0) - reserved);
+  const reserved = funds.reserved;
+  const spendable = Math.max(0, funds.balance - reserved);
   return <LeagueShell leagueId={id}>
     <div className="workspace-intro"><h1 className="display">{selected.sport} waiver wire</h1><p>All canonical players can be browsed here. Only unrostered players can be acquired, subject to roster, budget, eligibility and lifecycle validation.</p><LeagueSportTabs leagueId={id} path="/waivers" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
     {financial?.salaryMode && <><p><Link href={"/leagues/" + id + "/finances"}>My salary cap, reservations and dead cap</Link></p><AuctionPanel userId={user.id} leagueId={id} /></>}

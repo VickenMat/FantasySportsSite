@@ -40,12 +40,19 @@ export async function assertRookieDraftComplete(
   playerId: string,
   at: Date,
 ) {
+  const sport = await tx.leagueSport.findUniqueOrThrow({ where: { id: leagueSportId }, include: { league: true } });
+  if (sport.league.format !== "DYNASTY") return;
+  const completedRookie = await tx.draft.findUnique({ where: { leagueSportId_seasonId_kind: { leagueSportId, seasonId, kind: "ROOKIE" } } });
+  if (completedRookie?.status === "COMPLETE") return;
+  const assignment = await tx.leagueSportSeason.findUnique({ where: { leagueSportId_seasonId: { leagueSportId, seasonId } }, include: { championshipCycle: true } });
+  const initial = await tx.draft.findUnique({ where: { leagueSportId_seasonId_kind: { leagueSportId, seasonId, kind: "INITIAL" } } });
+  if (assignment?.championshipCycle.number === 1 && initial?.status === "COMPLETE") return;
   const evidence = await tx.rookieEligibilityEvidence.findFirst({
     where: { playerId, seasonId, knownAt: { lte: at }, effectiveAt: { lte: at } },
     orderBy: [{ effectiveAt: "desc" }, { knownAt: "desc" }, { id: "desc" }],
   });
+  // Unknown status does not grant rookie eligibility. Ordinary free agents remain
+  // governed by the approved verified-rookie-only pre-draft restriction.
   if (!evidence?.eligible) return;
-  if (!await tx.draft.findUnique({ where: {
-    leagueSportId_seasonId_kind: { leagueSportId, seasonId, kind: "ROOKIE" },
-  } }).then((draft) => draft?.status === "COMPLETE")) throw new Error("Verified rookies cannot be acquired before the applicable rookie draft completes.");
+  throw new Error("Verified rookies cannot be acquired before the applicable rookie draft completes.");
 }

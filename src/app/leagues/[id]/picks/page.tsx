@@ -1,4 +1,7 @@
-import { notFound } from "next/navigation";
+import { financePolicy } from "@/server/finance";
+import { getDatabase } from "@/lib/db";
+import { hasGameplayTable } from "@/server/gameplay-storage";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { FuturePickCorrectionForm, RookieDraftForm } from "@/components/rookie-draft-form";
 import { FuturePickGrantForm } from "@/components/future-pick-grant-form";
@@ -17,7 +20,10 @@ export default async function FuturePicksPage({ params, searchParams }: {
   const query = await searchParams;
   const context = await leagueContext(user.id, id);
   if (!context || context.league.format !== "DYNASTY") notFound();
+  if ((await financePolicy(getDatabase(), id))?.salaryMode) redirect(`/leagues/${id}/finances`);
   const sport = await resolveLeagueSport(id, query.sport);
+  const rookiePlan = await hasGameplayTable("DraftPlan") ? await getDatabase().draftPlan.findUnique({ where: { leagueSportId_seasonId_kind: { leagueSportId: sport.id, seasonId: sport.seasonId, kind: "ROOKIE" } } }) : null;
+  const rule = await hasGameplayTable("RookieDraftRule") ? await getDatabase().rookieDraftRule.findUnique({ where: { leagueSportId: sport.id } }) : null;
   const picks = await listFutureDraftPicks(user.id, id, sport.id, true);
   return <LeagueShell leagueId={id}>
     <div className="workspace-intro">
@@ -28,7 +34,7 @@ export default async function FuturePicksPage({ params, searchParams }: {
       {context.role === "COMMISSIONER" && (context.league.status === "SETUP"
         ? <p className="muted">Finalize franchise setup before granting picks.</p>
         : <FuturePickGrantForm key={sport.id} leagueId={id} leagueSportId={sport.id} />)}
-      {context.role === "COMMISSIONER" && context.league.status !== "SETUP" && <RookieDraftForm leagueId={id} leagueSportId={sport.id} teams={context.league.teams} />}
+      {context.role === "COMMISSIONER" && context.league.status !== "SETUP" && <RookieDraftForm current={rookiePlan ? { version: rookiePlan.version, scheduledAt: rookiePlan.scheduledAt?.toISOString() ?? null, secondsPerPick: rookiePlan.secondsPerPick } : undefined} rounds={rule?.rounds ?? 4} leagueId={id} leagueSportId={sport.id} teams={context.league.teams} />}
       <Link href={`/leagues/${id}/draft?sport=${sport.sport}`}>Open {sport.sport} draft room</Link>
       {picks.length ? <table className="data-table">
         <thead><tr><th>Season start year</th><th>Round</th><th>Original franchise</th><th>Current owner</th><th>State and history</th><th>Administration</th></tr></thead>

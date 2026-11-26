@@ -77,3 +77,28 @@ it("rejects auction keepers and retains immutable names after a completed snake 
     expect(plan.method).toBe("SNAKE");
   } finally { await db.league.delete({ where: { id: league.id } }); }
 });
+it("executes a queue-first universal snake across independent sport rosters without changing season selections", async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id, { name: `Universal snake fixture ${randomUUID()}`, sports: ["NFL", "NBA"], historical: true, seasonYear: 2083, maxTeams: 2, fillWithComputers: true });
+  try {
+    const sports = await db.leagueSport.findMany({ where: { leagueId: league.id } });
+    const nfl = sports.find(({ sport }) => sport === "NFL")!;
+    const teams = await db.fantasyTeam.findMany({ where: { leagueId: league.id }, orderBy: { draftSlot: "asc" } });
+    const plan = await configureDraftPlan(user.id, { leagueId: league.id, leagueSportId: nfl.id, scope: "UNIVERSAL", method: "SNAKE", orderMethod: "CUSTOM", order: teams.map(({ id }) => id), rounds: 1, secondsPerPick: 30, scheduledAt: null, timezone: "UTC" });
+    const { createDraft } = await import("@/server/draft");
+    const draft = await createDraft(user.id, league.id, "NBA");
+    expect(draft.id).toBe(plan.draftId);
+    const nba = await db.player.findFirstOrThrow({ where: { sport: "NBA", isDemo: true } });
+    await queuePlayer(user.id, draft.id, nba.id);
+    const first = await autoPickExpiredDraft(draft.id, draft.pickDeadlineAt!);
+    expect(first?.playerId).toBe(nba.id);
+    const state = await db.draft.findUniqueOrThrow({ where: { id: draft.id } });
+    await autoPickExpiredDraft(draft.id, state.pickDeadlineAt!);
+    const entries = await db.rosterEntry.findMany({ where: { leagueId: league.id, releasedAt: null }, include: { fantasyRoster: true } });
+    expect(entries).toHaveLength(2);
+    expect(entries.find(({ teamId }) => teamId === teams[0].id)?.sport).toBe("NBA");
+    expect(entries.every((entry) => entry.sport === entry.fantasyRoster.sport)).toBe(true);
+    expect((await db.leagueSport.findMany({ where: { leagueId: league.id } })).map(({ seasonId }) => seasonId).sort()).toEqual(sports.map(({ seasonId }) => seasonId).sort());
+    expect(await db.relativeMatchupPeriod.count({ where: { leagueId: league.id } })).toBe(28);
+  } finally { await db.league.delete({ where: { id: league.id } }); }
+});

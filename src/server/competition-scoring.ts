@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { Prisma, type Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 
@@ -17,7 +18,7 @@ export async function scoreCapturedStarters(
   options: { periodId?: string; publicationThrough?: Date } = {},
 ) {
   if (!competitionIds.length) return [];
-  return tx.$queryRaw<StarterTotal[]>`
+  const totals = await tx.$queryRaw<StarterTotal[]>`
     SELECT snapshot."sportCompetitionId" AS "competitionId",
       snapshot."scoringPeriodId" AS "periodId", snapshot."teamId",
       COALESCE(SUM(score."totalTenths"), 0)::bigint AS "pointsFor",
@@ -42,6 +43,13 @@ export async function scoreCapturedStarters(
       ${options.periodId ? Prisma.sql`AND snapshot."scoringPeriodId" = ${options.periodId}::uuid` : Prisma.empty}
     GROUP BY snapshot."sportCompetitionId", snapshot."scoringPeriodId", snapshot."teamId"
   `;
+  const corrections = totals.length ? await tx.commissionerAuditEvent.findMany({ where: { action: "CORRECT_PERIOD_SCORE", targetType: "ScoringPeriod", targetId: { in: [...new Set(totals.map(({ periodId }) => periodId))] }, effectiveAt: { lte: through } } }) : [];
+  for (const entry of corrections) {
+    const adjustment = entry.after as { teamId: string; deltaTenths: number };
+    const total = totals.find(({ periodId, teamId }) => periodId === entry.targetId && teamId === adjustment.teamId);
+    if (total) total.pointsFor += BigInt(adjustment.deltaTenths);
+  }
+  return totals;
 }
 
 export async function periodPublicationTime(tx: Prisma.TransactionClient, periodId: string, now: Date) {
@@ -108,6 +116,7 @@ export function getCumulativeStandings(leagueId: string, selection: CumulativeSe
       select: {
         number: true,
         label: true,
+        status: true,
         sportSeasons: {
           where: { leagueSportId: sport?.id },
           select: { competition: { select: { id: true, status: true, placements: true, periods: { select: { startsAt: true } } } } },
@@ -126,6 +135,8 @@ export function getCumulativeStandings(leagueId: string, selection: CumulativeSe
         },
       },
     }) : 0;
+    const participants = cycle?.status === "COMPLETE" ? new Set(competitions.flatMap(({ placements }) => placements.map(({ teamId }) => teamId))) : null;
+    league.teams = participants ? league.teams.filter(({ id }) => participants.has(id)) : await activeFranchises(tx, leagueId, league.teams);
     const teams = new Map(league.teams.map((team) => [team.id, {
       ...team, pointsFor: 0n, scoredStarters: 0, pendingStarters: 0, rank: null as number | null,
     }]));

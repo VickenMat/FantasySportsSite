@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { createHash, randomBytes } from "node:crypto";
 import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
@@ -214,6 +215,7 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
       return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA",
         statusReason: "NFL fantasy playoff weeks require published starts through Week 17. Missing weeks cannot shift the fantasy playoff window." } });
     }
+    competition.league.teams = await activeFranchises(tx, competition.leagueId, competition.league.teams);
     const pairings = competition.configSnapshot.competitionType === "HEAD_TO_HEAD"
       ? roundRobinPairings(competition.league.teams.map(({ id }) => id), regularCount) : [];
     const previous = await tx.scoringPeriod.findFirst({

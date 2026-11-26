@@ -1,5 +1,6 @@
 import { z } from "zod";
-import type { Sport } from "@/generated/prisma/client";
+import { draftCorrectionState, draftJobKey } from "./draft-corrections";
+import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { firstOpenSlot } from "@/rosters/compliance";
 import { fitsSlot } from "@/simulation/config";
@@ -48,7 +49,9 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
     throw new Error(`This league has ${filled} of ${membership.league.maxTeams} team slots filled. Invite ${open} more manager${open === 1 ? "" : "s"}, reduce the league capacity to ${filled}, or add computer-controlled franchises.`);
   }
   const currentTeamIds = membership.league.teams.map(({ id }) => id);
-  const configured = leagueSport.draftOrder;
+  const configured = plan?.order ?? leagueSport.draftOrder;
+  const rounds = plan?.rounds ?? leagueSport.draftRounds;
+  const secondsPerPick = plan?.secondsPerPick ?? leagueSport.draftSecondsPerPick;
   if (plan && (configured.length !== currentTeamIds.length || new Set(configured).size !== currentTeamIds.length || configured.some((id) => !currentTeamIds.includes(id)))) throw new GameplayBlockedError("The saved draft order no longer matches participating franchises. The commissioner must save a complete order.");
   const order = configured.length === currentTeamIds.length && new Set(configured).size === currentTeamIds.length && configured.every((id) => currentTeamIds.includes(id)) ? configured : currentTeamIds;
   const retainedRows = await getDatabase().rosterEntry.groupBy({
@@ -58,10 +61,10 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
   const keeperCosts = membership.league.format === "REDRAFT" ? await getDatabase().keeperSelection.findMany({
     where: { leagueSportId: leagueSport.id, retainedAt: { not: null }, season: { startYear: leagueSport.season.startYear - 1 } },
   }) : [];
-  if (keeperCosts.some(({ draftCost }) => draftCost == null || draftCost < 1 || draftCost > leagueSport.draftRounds)) throw new Error("Retained keeper costs require commissioner review before this draft.");
+  if (keeperCosts.some(({ draftCost }) => draftCost == null || draftCost < 1 || draftCost > rounds)) throw new Error("Retained keeper costs require commissioner review before this draft.");
   const costs = new Map(order.map((teamId) => [teamId, keeperCosts.filter((keeper) => keeper.teamId === teamId).map(({ draftCost }) => draftCost!)]));
-  const keeperSlots = keeperCosts.length ? keeperPickSlots(order, leagueSport.draftRounds, costs) : null;
-  const pickOrder = plan?.method === "AUCTION" ? Array.from({ length: leagueSport.draftRounds }, () => [...order]).flat() : keeperSlots ? keeperSlots.map(({ teamId }) => teamId) : buildPickOrder(order, leagueSport.draftRounds, retained);
+  const keeperSlots = keeperCosts.length ? keeperPickSlots(order, rounds, costs) : null;
+  const pickOrder = plan?.method === "AUCTION" ? Array.from({ length: rounds }, () => [...order]).flat() : keeperSlots ? keeperSlots.map(({ teamId }) => teamId) : buildPickOrder(order, rounds, retained);
   if (!pickOrder.length) throw new Error(`${leagueSport.sport} rosters are already full for this season.`);
   const now = options.now ?? new Date();
   return getDatabase().$transaction(async (tx) => {
@@ -74,20 +77,21 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
     if (!membership.league.isHistorical) for (const selected of coveredSports) {
       const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: selected.seasonId, retrievedAt: { lte: now } }, orderBy: { retrievedAt: "desc" } });
       if (boundary?.status !== "AVAILABLE" || !boundary.regularSeasonStartsAt) throw new GameplayBlockedError("PENDING_DATA: the selected season needs a verified professional start before drafting can begin.");
-      if (+now + pickOrder.length * leagueSport.draftSecondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new GameplayBlockedError("The draft cannot fit before the selected professional season. Reschedule without changing the selected season.");
+      if (+now + pickOrder.length * secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new GameplayBlockedError("The draft cannot fit before the selected professional season. Reschedule without changing the selected season.");
     }
     for (const teamId of currentTeamIds) {
       const compliance = await currentCompliance(tx, teamId, now);
       if (compliance.state !== "COMPLIANT") throw new GameplayBlockedError(`Franchise ${teamId}: ${compliance.reasons.join(" ")}`);
     }
-    const existing = await tx.draft.findFirst({ where: { leagueId, sport: leagueSport.sport, status: { in: ["SCHEDULED", "ACTIVE", "PAUSED"] } } });
+    if (await tx.draft.findFirst({ where: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId, kind: "ROOKIE", status: { in: ["SCHEDULED", "ACTIVE", "PAUSED"] } } })) throw new Error("This sport already has a rookie draft; its reverse-placement plan cannot be replaced by an initial draft.");
+    const existing = await tx.draft.findUnique({ where: { leagueSportId_seasonId_kind: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId, kind: "INITIAL" } } });
     if (existing && existing.status !== "SCHEDULED") return existing;
     await tx.league.update({ where: { id: leagueId }, data: { status: "DRAFTING" } });
     const data = {
-      leagueId, leagueSportId: leagueSport.id, sport: leagueSport.sport, status: "ACTIVE", rounds: leagueSport.draftRounds,
+      leagueId, leagueSportId: leagueSport.id, sport: leagueSport.sport, status: "ACTIVE", rounds,
       seasonId: leagueSport.seasonId,
       orderProvenance: plan?.method === "AUCTION" ? JSON.stringify({ method: "AUCTION", nominationOrder: order }) : keeperSlots ? JSON.stringify({ method: "SNAKE_KEEPER", slots: keeperSlots }) : null,
-      order, pickOrder, startedAt: now, pickStartedAt: now, pickDeadlineAt: new Date(now.getTime() + leagueSport.draftSecondsPerPick * 1000), secondsPerPick: leagueSport.draftSecondsPerPick,
+      order, pickOrder, startedAt: now, pickStartedAt: now, pickDeadlineAt: new Date(now.getTime() + secondsPerPick * 1000), secondsPerPick,
     } as const;
     const draft = existing ? await tx.draft.update({ where: { id: existing.id }, data }) : await tx.draft.create({ data });
     if (plan?.method === "AUCTION") for (const selected of coveredSports) for (const teamId of order) await accountForAcquisition(tx, selected.id, teamId, draft.id);
@@ -97,7 +101,7 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
 }
 
 export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; page?: number; pageSize?: number; allResults?: boolean; rookieOnly?: boolean; availability?: "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" | "AVAILABLE" } = {}) {
-  const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Math.max(1, Math.trunc(options.page ?? 1));
+  const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Number.isFinite(options.page ?? 1) ? Math.max(1, Math.trunc(options.page ?? 1)) : 1;
   const pageSize = Math.min(100, Math.max(1, Math.trunc(options.pageSize ?? 50)));
   const league = await getDatabase().league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
   const cutoff = new Date(Date.now() - 86400000);
@@ -170,9 +174,9 @@ export async function automaticCandidate(draftId: string, teamId: string) {
   return choice ? candidates.find(({ id }) => id === choice.id) ?? null : null;
 }
 
-export async function makePick(input: { userId?: string; draftId: string; playerId: string; automatic?: boolean; system?: boolean; now?: Date; expectedPick?: number }) {
+export async function makePick(input: { userId?: string; draftId: string; playerId: string; automatic?: boolean; system?: boolean; now?: Date; expectedPick?: number }, transaction?: Prisma.TransactionClient) {
   z.uuid().parse(input.draftId); z.uuid().parse(input.playerId); const database = getDatabase();
-  return database.$transaction(async (tx) => {
+  const work = async (tx: Prisma.TransactionClient) => {
     const draft = await tx.draft.findUniqueOrThrow({ where: { id: input.draftId }, include: { leagueSport: true } });
     if (input.expectedPick !== undefined && input.expectedPick !== draft.currentPick) throw new Error("The draft pick changed before selection; refresh the current pick.");
     if (draft.status !== "ACTIVE") throw new Error("The draft is not active.");
@@ -221,7 +225,10 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const usedIndexes = new Set(activeRoster.filter((entry) => entry.slot === slot).map(({ slotIndex }) => slotIndex));
     const slotIndex = universalPlacement?.slotIndex ?? firstOpenSlot(usedIndexes, capacity);
     if (!slotIndex) throw new GameplayBlockedError(`No open ${slot} roster position remains. Move a player to a legal open position before drafting.`);
-    const pick = await tx.draftPick.create({ data: { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false } });
+    const previous = await tx.draftPick.findUnique({ where: { draftId_overall: { draftId: draft.id, overall: draft.currentPick } } });
+    if (previous && (await draftCorrectionState(tx, [previous.id])).get(previous.id)?.action !== "UNDO_DRAFT_PICK") throw new Error("This draft selection is already recorded.");
+    const pickData = { draftId: draft.id, teamId, playerId: player.id, overall: draft.currentPick, round, roundPick, automatic: input.automatic ?? false, pickedAt: now };
+    const pick = previous ? await tx.draftPick.update({ where: { id: previous.id }, data: pickData }) : await tx.draftPick.create({ data: pickData });
     if (draft.kind === "ROOKIE") {
       const snapshot = JSON.parse(draft.orderProvenance ?? "null") as RookieSnapshot | null;
       const slot = snapshot?.method === "LINEAR_ROOKIE" ? snapshot.slots[draft.currentPick - 1] : null;
@@ -235,7 +242,7 @@ export async function makePick(input: { userId?: string; draftId: string; player
     await captureDraftSelection(tx, pick.id, provenance?.slots[draft.currentPick - 1]?.originalTeamId ?? teamId, draft.kind === "ROOKIE" ? "LINEAR" : "SNAKE");
     const entry = await tx.rosterEntry.create({ data: { leagueId: draft.leagueId, teamId, rosterId: roster.id, playerId: player.id, sport: player.sport, seasonId: selectionSport.seasonId, slot, slotIndex, acquiredAt: now } });
     await tx.rosterAssignmentEvent.create({ data: { leagueId: draft.leagueId, teamId, rosterEntryId: entry.id, actorUserId: input.userId,
-      toSlot: slot, toSlotIndex: slotIndex, effectiveAt: now, reason: "Draft selection", idempotencyKey: `draft-pick:${pick.id}` } });
+      toSlot: slot, toSlotIndex: slotIndex, effectiveAt: now, reason: "Draft selection", idempotencyKey: `draft-pick:${pick.id}:${entry.id}` } });
     await tx.fantasyTransaction.create({ data: { leagueId: draft.leagueId, leagueSportId: selectionSport.id, rosterId: roster.id, sport: player.sport, teamId, playerId: player.id, type: "DRAFT", note: `Drafted ${round}.${roundPick}` } });
     const complete = draft.currentPick >= draft.pickOrder.length;
     if (complete && await hasGameplayTable("DraftPlan", tx)) await tx.draftPlan.updateMany({ where: { draftId: draft.id }, data: { status: "COMPLETED", blockedReason: null } });
@@ -248,7 +255,8 @@ export async function makePick(input: { userId?: string; draftId: string; player
       await tx.league.update({ where: { id: draft.leagueId }, data: { status: "ACTIVE" } });
     }
     return pick;
-  }, { isolationLevel: "Serializable" });
+  };
+  return transaction ? work(transaction) : database.$transaction(work, { isolationLevel: "Serializable" });
 }
 
 export async function autoPick(userId: string, draftId: string) {
@@ -277,6 +285,7 @@ export async function setDraftPaused(userId: string, draftId: string, paused: bo
     if (paused && draft.status !== "ACTIVE") throw new Error("Only an active draft can be paused.");
     if (!paused && draft.status !== "PAUSED") throw new Error("Only a paused draft can be resumed.");
     const now = at;
+    await tx.commissionerAuditEvent.create({ data: { leagueId: draft.leagueId, actorUserId: userId, action: paused ? "PAUSE_DRAFT" : "RESUME_DRAFT", targetType: "Draft", targetId: draftId, sport: draft.sport, before: { status: draft.status, pickDeadlineAt: draft.pickDeadlineAt?.toISOString() ?? null }, after: { status: paused ? "PAUSED" : "ACTIVE" }, effectiveAt: now, reason: paused ? "Commissioner explicitly paused the draft timer." : "Commissioner explicitly resumed the persisted draft timer." } });
     if (paused) {
       if (await hasGameplayTable("DraftPlan", tx)) await tx.draftPlan.updateMany({ where: { draftId }, data: { status: "PAUSED" } });
       const deadline = draft.pickDeadlineAt ?? new Date((draft.pickStartedAt?.getTime() ?? now.getTime()) + draft.secondsPerPick * 1000);
@@ -364,13 +373,13 @@ export async function reorderQueue(userId: string, draftId: string, entryIds: st
 }
 
 export async function processExpiredDrafts(now = new Date()) {
-  const drafts = await getDatabase().draft.findMany({ where: { status: "ACTIVE", OR: [{ pickDeadlineAt: { lte: now } }, { pickDeadlineAt: null, pickStartedAt: { not: null } }] }, select: { id: true, currentPick: true, pickDeadlineAt: true, pickStartedAt: true, secondsPerPick: true } });
+  const drafts = await getDatabase().draft.findMany({ where: { status: "ACTIVE", OR: [{ pickDeadlineAt: { lte: now } }, { pickDeadlineAt: null, pickStartedAt: { not: null } }] }, select: { id: true, orderProvenance: true, currentPick: true, pickDeadlineAt: true, pickStartedAt: true, secondsPerPick: true } });
   let picked = 0;
   for (const draft of drafts) {
     if (await hasGameplayTable("DraftPlan") && (await getDatabase().draftPlan.findUnique({ where: { draftId: draft.id } }))?.method === "AUCTION") continue;
     const deadline = draft.pickDeadlineAt ?? (draft.pickStartedAt ? new Date(+draft.pickStartedAt + draft.secondsPerPick * 1000) : null);
     if (!deadline || deadline > now) continue;
-    const outcome = await runBackgroundJob(`draft-pick:${draft.id}:${draft.currentPick}`, "draft-pick",
+    const outcome = await runBackgroundJob(draftJobKey(draft), "draft-pick",
       async () => Boolean(await autoPickExpiredDraft(draft.id, now, draft.currentPick)), now);
     if (outcome.status === "COMPLETE" && outcome.value) picked++;
   }

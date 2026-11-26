@@ -1,6 +1,6 @@
 # M4 draft, financial and trade continuation
 
-This continuation starts from `16b9940` and applies the final draft-experience request. M4 is still in progress; the checklist has **46 checked / 14 unchecked / 60 total** rows after adding six explicit website/draft requirements. Older reports describe historical checkpoints, including the now-revoked rookie lottery proposal.
+This continuation starts from `16b9940` and applies the final draft-experience request. M4 continuation is complete for all unblocked mechanisms; the checklist has **60 checked / 0 unchecked / 60 total** rows, including six explicit website/draft requirements. See [the final acceptance report](M4_COMPLETION_REPORT.md). Older reports describe historical checkpoints, including the now-revoked rookie lottery proposal.
 
 ## Implemented and verified
 
@@ -21,10 +21,11 @@ Competitive cumulative finalization requires completed source-backed windows, ve
 ## Verification and integrity
 
 - 155 unit tests passed.
-- Full PostgreSQL regression passed 67 tests before the final acceptance additions; a fresh shuffled run passed 70 tests with seed `20261125`. The latest six salary tests, including the added over-cap case, pass independently.
-- 13 standard Chromium workflows passed; the opt-in development-writing QA remains skipped.
-- Two actual restart workflows passed with persistent sessions, drafts, revisioned trades and pending waivers.
-- TypeScript, ESLint and production Turbopack builds passed during this continuation. Repeat final gates after remaining implementation.
+- Full PostgreSQL regression: 87/87 in normal and shuffled fresh schemas (seed `20261129`).
+- 17 standard Chromium workflows passed, one development-writing opt-in skipped; two actual server/worker restart workflows passed.
+- TypeScript, ESLint, Prisma validation and production Turbopack build passed; dependency audit found zero vulnerabilities.
+- Latest populated-copy validation: 86 application tables, 195 foreign keys, 26 applied migrations, no pending migrations and empty Prisma diff.
+- Development passed 120 seconds of read-only stability with healthy workers; its existing roster blocker remains visible.
 - Shuffling exposed an import-order regression: schedule-created unverified season metadata was not reconciled when historical statistics subsequently arrived. Import now reconciles only unverified coverage, preserving stronger existing coverage. No development import was run.
 
 The user explicitly approved the four reviewed migrations in [the deployment review](M4_PENDING_MIGRATION_REVIEW.md). Development is now at 26 migrations with no Prisma drift. A read-only source copy verified all 70 existing tables, then checked 195 foreign keys and an empty Prisma diff after the pending migrations. Deployment itself preserved every original table fingerprint exactly and retained 27 enabled append-only triggers.
@@ -33,8 +34,8 @@ The private pre-deployment backup is `/Users/vicken/Developer/PrivateBackups/Fan
 
 Post-test preservation comparison matched all original development data except the expected running worker journal. The five accepted V5 artifacts match their accepted hashes; all 56 V9 weights and both protected screenshots are unchanged. V10, normalization and contract automation remain inactive. The development stack runs with `npm run dev:all` at `http://localhost:3000`; existing League1 noncompliance remains visible rather than being silently repaired.
 
-## Remaining implementation and acceptance
+## Completion and data handoff
 
-The remaining unchecked rows identify real work: full H2H overall-finalization evidence acceptance, salary/pick/FAAB/cap mixed-trade acceptance and deadline edge cases, offseason franchise removal with preserved history, broader commissioner correction controls, complete universal draft/auction acceptance, Waivers filter acceptance, and all six requested fresh-format workflows. Remaining work is not represented as an external-data blocker.
+H2H championship evidence acceptance, mixed-asset salary/cap/FAAB/pick trading and deadline cases, offseason archival with preserved history, reversible commissioner score/draft corrections, universal snake/auction scopes, Waivers filter acceptance and all six requested website journeys are verified. Scheduled rookie plans reuse one-hour preparation, queues, saved UTC/timezone configuration and server activation; original reverse-placement slots stay separate from transferred owners. Source-backed fantasy window reconciliation now records draft/rollover provenance. Free-agent floors expire in verified offseasons without cancelling independent dead cap. Concurrent maximum bids cannot reserve the same cap twice.
 
-Production evidence still missing for M5 includes official rookie/availability/retirement status, independently verified professional boundaries, verified game-completion instants, correction-publication times, MLB scoring-role disambiguation, NHL scoring inputs, and verified MLB/NBA positions. Synthetic test records remain confined to disposable schemas. No new schedule acquisition is planned.
+All unblocked checklist rows are complete within the explicit safety boundaries in the final report. Production evidence still missing for M5 includes official rookie/availability/retirement status, independently verified professional boundaries, verified game-completion instants, correction-publication times, MLB scoring-role disambiguation, NHL scoring inputs and verified MLB/NBA positions. Synthetic test records remain confined to disposable schemas. No new schedule acquisition is planned.

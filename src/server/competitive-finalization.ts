@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { getDatabase } from "@/lib/db";
 import { periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
 import { recordCompetitionDraw } from "./competition";
@@ -11,6 +12,7 @@ export async function finalizeCumulativeSport(competitionId: string, at = new Da
     if (competition.finalizedAt) return { status: "FINALIZED" as const };
     const end = competition.leagueSportSeason.scoringEndsAt;
     if (!end || end > at || !competition.periods.length) return { status: "PENDING_DATA" as const, reason: "A completed source-backed sport scoring window is required." };
+    competition.league.teams = await activeFranchises(tx, competition.leagueId, competition.league.teams);
     const points = new Map(competition.league.teams.map(({ id }) => [id, 0n]));
     for (const period of competition.periods) {
       const publication = await periodPublicationTime(tx, period.id, at);
@@ -35,6 +37,7 @@ export async function finalizeCumulativeCycle(cycleId: string, at = new Date()) 
     if (cycle.status === "COMPLETE") return { status: "FINALIZED" };
     const config = cycle.competitionConfigs[0];
     if (config?.competitionType !== "CUMULATIVE") throw new Error("Cumulative championship configuration is required.");
+    cycle.league.teams = await activeFranchises(tx, cycle.leagueId, cycle.league.teams);
     const competitions = cycle.sportSeasons.flatMap(({ competition }) => competition ? [competition] : []);
     if (competitions.length !== cycle.league.sports.length || competitions.some((row) => !row.finalizedAt || row.placements.length !== cycle.league.teams.length)) return { status: "PENDING_SPORTS" };
     const rows = cycle.league.teams.map(({ id }) => ({ teamId: id, points: 0n, first: 0, second: 0, third: 0 }));

@@ -1,3 +1,4 @@
+import { draftJobKey } from "@/server/draft-corrections";
 import { getDatabase } from "@/lib/db";
 import { workerState } from "@/server/worker-health";
 import { hasGameplayTable } from "@/server/gameplay-storage";
@@ -15,9 +16,9 @@ export async function GET() {
       database.backgroundJobRun.findFirst({ where: { jobType: "fantasy-tick" }, orderBy: { startedAt: "desc" }, select: { status: true, startedAt: true, completedAt: true, result: true } }),
     ]);
     const now = new Date();
-    const activeDrafts = await database.draft.findMany({ where: { status: "ACTIVE" }, select: { id: true, currentPick: true } });
+    const activeDrafts = await database.draft.findMany({ where: { status: "ACTIVE" }, select: { id: true, currentPick: true, orderProvenance: true } });
     const blockedDrafts = await database.backgroundJobRun.count({ where: { jobType: "draft-pick", status: "BLOCKED",
-      key: { in: activeDrafts.map((draft) => `draft-pick:${draft.id}:${draft.currentPick}`) } } });
+      key: { in: activeDrafts.map((draft) => draftJobKey(draft)) } } });
     const blockedSchedules = await hasGameplayTable("DraftPlan") ? await database.draftPlan.count({ where: { status: "BLOCKED" } }) : 0;
     const draftState = workerState(draftTimer, now, 45_000);
     const gameplayState = workerState(gameplayTick, now, 150_000);

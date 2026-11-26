@@ -3,6 +3,8 @@ import { getDatabase } from "@/lib/db";
 import { captureDueGameLineups } from "./lineup-snapshots";
 import { currentCompliance } from "./rosters";
 import { releaseSalary } from "./finance";
+import { clearOffseasonPlayerFloors } from "./sport-offseason";
+import { financePolicy } from "./finance";
 
 export async function commissionerRelease(userId: string, leagueId: string, entryId: string, reason: string) {
   z.string().trim().min(10).max(1000).parse(reason);
@@ -16,6 +18,7 @@ export async function commissionerRelease(userId: string, leagueId: string, entr
     const at = new Date();
     await releaseSalary(tx, leagueId, entry.playerId, entry.teamId, at);
     await tx.rosterEntry.update({ where: { id: entryId }, data: { releasedAt: at } });
+    if ((await financePolicy(tx, leagueId))?.salaryMode) await clearOffseasonPlayerFloors(tx, entry.fantasyRoster.leagueSportId, userId, at);
     await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: entry.teamId, rosterEntryId: entryId, actorUserId: userId,
       fromSlot: entry.slot, fromSlotIndex: entry.slotIndex, toSlot: "RELEASED", toSlotIndex: 1, effectiveAt: at,
       reason, idempotencyKey: `commissioner-release:${entryId}` } });

@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import type { Prisma } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { addRational, rational, recordCompetitionDraw } from "./competition";
@@ -23,6 +24,7 @@ export async function refreshH2HChampionship(tx: Prisma.TransactionClient, cycle
   const completed = competitions.filter(({ finalizedAt }) => finalizedAt != null && finalizedAt <= now);
   if (!completed.length) return;
 
+  cycle.league.teams = await activeFranchises(tx, cycle.leagueId, cycle.league.teams);
   const rows = new Map(cycle.league.teams.map(({ id }) => [id, {
     teamId: id, points: rational(0), combinedUbpTenths: 0n, sportChampionships: 0, runnerUpFinishes: 0, thirdPlaceFinishes: 0,
   }]));

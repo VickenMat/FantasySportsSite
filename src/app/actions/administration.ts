@@ -1,16 +1,22 @@
 "use server";
+import { correctLastDraftSelection, undoLastDraftSelection } from "@/server/draft-corrections";
+import { correctPeriodScore } from "@/server/score-administration";
 import { configureFantasyWindow } from "@/server/fantasy-windows";
 import { revalidatePath } from "next/cache";
 import { requireSession } from "@/lib/auth";
-import { configureFutureCompetition, transferFranchiseOwnership } from "@/server/league-administration";
+import { archiveFranchise, configureFutureCompetition, transferFranchiseOwnership } from "@/server/league-administration";
 import { assignNextSportSeason } from "@/server/scheduling";
 import { sports, transitionSportSeason } from "@/server/league";
 import { z } from "zod";
 
-export async function administerLeague(leagueId: string, operation: "ASSIGN" | "ROLLOVER" | "FUTURE_SETTINGS" | "OWNERSHIP" | "WINDOW", _state: string, form: FormData) {
+export async function administerLeague(leagueId: string, operation: "ASSIGN" | "ROLLOVER" | "FUTURE_SETTINGS" | "OWNERSHIP" | "WINDOW" | "ARCHIVE" | "SCORE" | "DRAFT_UNDO" | "DRAFT_CORRECT", _state: string, form: FormData) {
   const { user } = await requireSession();
   try {
-    if (operation === "WINDOW") {
+    if (operation === "DRAFT_UNDO") await undoLastDraftSelection(user.id, leagueId, String(form.get("draftId")), String(form.get("reason")));
+    else if (operation === "DRAFT_CORRECT") await correctLastDraftSelection(user.id, leagueId, String(form.get("draftId")), String(form.get("playerId")), String(form.get("reason")));
+    else if (operation === "SCORE") await correctPeriodScore(user.id, leagueId, { requestId: String(form.get("requestId")), periodId: String(form.get("periodId")), teamId: String(form.get("teamId")), deltaTenths: Number(form.get("deltaTenths")), reason: String(form.get("reason")) });
+    else if (operation === "ARCHIVE") await archiveFranchise(user.id, leagueId, String(form.get("teamId")), String(form.get("reason")));
+    else if (operation === "WINDOW") {
       const instant = (name: string) => form.get(name) ? new Date(String(form.get(name)) + "Z") : null;
       await configureFantasyWindow(user.id, { leagueSportId: String(form.get("leagueSportId")), seasonId: String(form.get("seasonId")), startsAt: instant("startsAt")!, endsAt: instant("endsAt")!, playoffStartsAt: instant("playoffStartsAt"), playoffEndsAt: instant("playoffEndsAt"), matchupDays: Number(form.get("matchupDays")), reason: String(form.get("reason")) });
     } else if (operation === "OWNERSHIP") await transferFranchiseOwnership(user.id, leagueId, String(form.get("teamId")), String(form.get("email")), String(form.get("reason")));

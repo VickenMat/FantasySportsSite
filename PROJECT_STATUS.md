@@ -1,29 +1,37 @@
 # Fantasy Evolution project status
 
-Continuation from `16b9940`: the final draft-experience and gameplay corrections are implemented across scheduling, Overview, Draft, Waivers, auctions, salary accounting, revisioned trading and independent lifecycle mechanisms. M4 remains in progress: **46 checked / 14 unchecked / 60 checklist rows**. See [the current continuation report](docs/M4_DRAFT_FINANCE_TRADE_REPORT.md) and [master checklist](docs/M4_MASTER_CHECKLIST.md).
+M4.1–M4.8 is implemented and verified for all unblocked gameplay mechanisms. The reconciled master checklist is **60 checked / 0 unchecked / 60 total**. Authoritative production-data readiness remains M5 work. See [the completion report](docs/M4_COMPLETION_REPORT.md), [master checklist](docs/M4_MASTER_CHECKLIST.md), [acceptance guide](docs/M4_ACCEPTANCE_GUIDE.md) and [external dependencies/safety boundaries](docs/M4_UNRESOLVED_RULES.md).
 
-Rookie lotteries and ordinary custom rookie ordering are revoked. Reverse finalized sport placements determine the same original linear slots each round; transferred ownership remains separate. Historical audit records are preserved. V9's 56 weights remain unchanged; V10, contract automation and schedule normalization remain inactive.
+Continuation follows `16b9940` and synchronized implementation checkpoint `853f45f`. The final delivery identifies the completion commit and verified upstream synchronization. User-owned screenshot modifications remain preserved and unstaged. No force push or production deployment occurred.
 
-## Current verification
+## Gameplay and website
 
-- 155 unit tests pass.
-- The full PostgreSQL suite passed 67 tests, followed by a fresh shuffled run of 70 tests with seed `20261125`. The latest six salary tests, including incremental over-cap cuts, also pass independently.
-- 13 standard Chromium workflows and two actual restart workflows pass. Browser fixtures now always use isolated disposable schemas.
-- TypeScript, ESLint, Prisma validation and production Turbopack builds pass at the current implementation checkpoint; repeat final acceptance after remaining work.
-- Shuffled execution exposed and fixed an import-order regression: incoming historical coverage now reconciles previously unverified schedule-only season metadata, preserving stronger existing coverage. No development import was run.
+Confirmed decisions are reconciled across scheduling, H2H/cumulative championships, immutable lineup/roster history, waivers/FAAB, dynasty picks and keepers, salary/Vickrey/dead-cap accounting, multi-party revisioned trades and independent lifecycle/admin controls. Rookie order is reverse finalized sport placement only; original linear slots remain separate from traded ownership. Salary leagues have no future rookie picks. Over-cap franchises must cut players; standalone current-cycle universal cap transfers remain available throughout the cycle. Floors only decrease and expire for free agents in verified offseasons.
 
-## Database and runtime
+Overview is responsive and carries secure invitation copy plus shared schedules. Draft is permanent navigation, with saved random/custom initial order, canonical UTC/timezone configuration, exactly one-hour preparation, persistent queues, server activation and testing-only Start Now. Rookie scheduling uses reverse-placement controls. Completed recaps preserve original labels/prices; audited replacements retain original snapshots. Waivers consolidates canonical browsing and historical statistics with complete availability/ownership filters and distinct unknown scores. The public landing remains authentication-aware and the brand preserves sessions.
 
-The user approved and deployed the four reviewed migrations from 22 to 26 after a fresh verified private backup and populated-copy validation. All 70 original application-table fingerprints were identical immediately before/after deployment. The copy validated 195 foreign keys and an empty Prisma schema diff. Development has 27 enabled append-only triggers. Subsequent preservation checks differ only in the expected running worker journal.
+Commissioner score corrections are compensating audit entries within the competitive correction window. Paused unfinished initial snake drafts support reversible last-pick undo/correction; downstream/consumed/settled records remain protected. Offseason removal archives future participation and preserves all historical franchise rows/results, after active assets, obligations and outstanding entitlements are resolved.
 
-Development retains 11 users, seven leagues, 8,042 players, 107,312 player-stat revisions, 47 roster entries, 48 assignment events, 35 score entries, 57,352 schedule observations and 52,866 historical crosswalks. No existing league was converted to salary mode and no competitive evidence was fabricated or backfilled.
+## Final verification
 
-The private pre-26 backup and its checksum are documented in [the reviewed migration record](docs/M4_PENDING_MIGRATION_REVIEW.md). The prior pre-22 backup is retained. All five accepted V5 fingerprints and the protected screenshots match. The earlier approved classification of 3,388 fixture players remains the only player-classification backfill.
+- 155/155 unit tests.
+- 87/87 PostgreSQL tests in separate normal and shuffled fresh schemas (seed `20261129`); an earlier 79-test shuffled suite also passed.
+- 17 standard Chromium workflows; one development-writing opt-in intentionally skipped. All six required gameplay journeys pass.
+- Two actual server/worker restart workflows.
+- TypeScript, ESLint, Prisma validation, production Turbopack build and Git whitespace checks pass; dependency audit has zero vulnerabilities.
+- Current populated copy validates 86 application tables, 195 foreign keys, 26 applied migrations and empty Prisma drift.
+- Restarted development passed a 120-second read-only stability check: landing 200, database connected, both workers healthy. The known League1 roster-noncompliant draft remains blocked and keeps health at 503.
 
-Start with `npm run dev:all` at `http://localhost:3000`. Webpack remains the default development bundler; production uses Turbopack. The restarted web and worker processes use the migrated schema. Existing League1 roster noncompliance remains an explicit block; operational health may report 503 while unrelated jobs continue. No production deployment has occurred.
+## Database and integrity
 
-## Remaining work
+The four expressly approved development migrations were deployed from 22 to 26 after a fresh verified private backup. All 70 original application-table fingerprints matched exactly before/after deployment; 27 append-only triggers remain enabled. Later read-only preservation checks match every original table except the expected running worker journal. There are no pending migrations, salary conversions or backfill approval requests.
 
-The unchecked rows track additional acceptance and real implementation: H2H overall-finalization evidence acceptance, complete mixed-asset salary trading and deadline coverage, offseason franchise removal with preserved history, broader audited commissioner corrections, comprehensive universal draft/auction workflows, Waivers filter acceptance and the full requested format matrix. These are not mislabeled as external data dependencies.
+Development retains 11 users, seven leagues, 8,042 players, 107,312 stat revisions, 47 roster entries, three drafts, 48 assignment events, 35 score entries, 57,352 schedule observations and 52,866 crosswalks. Existing leagues were not converted to salary mode and no source evidence was fabricated. Private backups stay outside Git. The earlier approved classification of 3,388 fixture players remains the only player-classification backfill.
 
-M5 must supply official rookie/availability/retirement evidence, independent professional boundaries, verified game-completion instants, correction-publication times, MLB scoring-role disambiguation, NHL scoring inputs and verified MLB/NBA positions. Details remain in [the player audit](docs/PLAYER_DATA_AUDIT.md). Existing mechanisms use isolated synthetic evidence for acceptance; unknown values remain pending rather than zero.
+All five accepted V5 artifacts match their accepted fingerprints. All 56 V9 weights and the protected screenshots remain unchanged. V10, contract automation and unapproved normalization remain inactive. The accepted four unresolved historical NBA games remain documented. Neither the iCloud workspace nor damaged recovery backup was accessed.
+
+## Startup and next milestone
+
+Run `npm run dev:all` from `~/Developer/FantasySportsSite`; open <http://localhost:3000>. Webpack is the default development bundler, with persistent draft and gameplay workers. Stop the existing supervisor before starting another. The Docker project/database/volume are preserved.
+
+M4 is ready for fixture-backed gameplay acceptance. M5 must supply independently verified season boundaries and future starts, official rookie/availability/retirement/current-position evidence, verified completion instants and correction-publication times. Resolve MLB role ambiguity for 135 players and NHL scoring-input gaps for 831 players, plus verified MLB/NBA position files. Missing values remain unknown; historical analytics remain separate from competitive ledgers. Use the existing source/reconciliation interfaces and review concrete backfill manifests before any development data import. Production deployment and release supervision remain separate work.

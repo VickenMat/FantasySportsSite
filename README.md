@@ -53,7 +53,7 @@ Better Auth manages scrypt password hashes and PostgreSQL-backed sessions. Prism
 
 ## M4 authoritative season scheduling
 
-M4.1 replaces calendar guesses in competitive schedule selection with append-only, source-backed professional schedule revisions. On the new-league page, select head-to-head or cumulative competition, choose an expected draft completion time, and preview the next eligible season for every selected sport. A season is eligible only when its imported regular season begins after that instant. Missing or incomplete data remains visibly `PENDING_DATA`; the application does not invent dates.
+M4.1 replaces calendar guesses in competitive schedule selection with append-only, source-backed professional schedule revisions. On the new-league page, select head-to-head or cumulative competition and the upcoming or immediately following eligible season. The selected offset applies independently to every sport; draft completion does not change the selection. Missing or incomplete data remains visibly `PENDING_DATA`; the application does not invent dates.
 
 Operators can import a reviewed JSON source with:
 
@@ -61,9 +61,9 @@ Operators can import a reviewed JSON source with:
 npm run db:import:schedules -- /path/to/professional-schedules.json
 ```
 
-The document contains `provider`, `sourceName`, `sourceVersion`, `retrievedAt`, and a `seasons` array. Each season supplies `sport`, `startYear`, `label`, `status`, regular-season boundaries, and optional postseason boundaries and reason. `AVAILABLE` requires a valid regular-season window. Reimporting identical source records is a no-op; changed records append a revision and the prior revision cannot be edited or deleted. No authoritative production schedule dataset is bundled with the repository.
+The document contains `provider`, `sourceName`, `sourceVersion`, `retrievedAt`, and a `seasons` array. Each season supplies `sport`, `startYear`, `label`, `status`, regular-season boundaries, and optional postseason boundaries and reason. `AVAILABLE` requires a valid regular-season window. Reimporting identical source records is a no-op; changed records append a revision and the prior revision cannot be edited or deleted. The accepted local V5 schedule artifacts remain preserved and excluded from Git. Independently verified future boundaries and unpublished starts remain explicit data dependencies.
 
-Each league now has championship cycles and immutable sport-season schedule snapshots. A database uniqueness constraint prevents a professional game from being assigned to more than one championship cycle in the same league. Sports can be assigned their immediate next professional season independently. Cross-sport head-to-head overlap construction remains `PENDING_CONFIGURATION` until its unresolved rules are chosen. See [M4.1 results](docs/M4_1_REPORT.md) and [unresolved M4 rules](docs/M4_UNRESOLVED_RULES.md).
+Each league now has championship cycles and immutable sport-season schedule snapshots. A database uniqueness constraint prevents a professional game from being assigned to more than one championship cycle in the same league. Sports can be assigned their immediate next professional season independently. Sport competitions roll independently and contribute to the overall championship through the confirmed configuration. See [M4 acceptance](docs/M4_ACCEPTANCE_GUIDE.md), [the master checklist](docs/M4_MASTER_CHECKLIST.md) and [external M5 dependencies](docs/M4_UNRESOLVED_RULES.md).
 
 ## M1 historical imports and scoring
 
@@ -144,7 +144,7 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 - [x] M3 · Persistent snake drafts, roster ownership, bench management, and recorded-position lineup validation. Authoritative live availability feeds remain release work.
 - [x] M3.5 · Draft clocks and reconnects, commissioner controls, trades, playoff seeding, authorization and rate limiting, query hardening, and measured local load tests.
 - [x] M3.6 · Two-to-sixteen-team multi-sport leagues, sport rosters and drafts, Public discovery, Redraft keepers, computer franchises, season rollover, and gameplay acceptance.
-- [ ] M4 · Competitive gameplay and league lifecycle. M4.0 architecture and M4.1 source-backed scheduling are complete; competition finalization, advanced waivers, dynasty assets, salary leagues, advanced trades, and lifecycle controls remain.
+- [x] M4 · Fixture-verified competitive gameplay and league lifecycle, with explicit production-data gates. See [the completion report](docs/M4_COMPLETION_REPORT.md) for mechanisms, verification and supported administrative safety boundaries.
 - [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
 - [ ] M7 · Release hardening, performance and accessibility review, recovery, and deployment.
@@ -192,9 +192,9 @@ Historical demo play requires importing the reviewed local Parquet source for th
 ### Current limitations
 
 - The Parquet sources do not establish verified pregame evidence, so sealed held-out cross-sport balance evaluation and V10 model selection remain blocked on better source data.
-- NFL Parquet rows do not contain game dates. Historical replay still requires a separately timestamped schedule feed before NFL lineup evidence can become reconstructed or verified.
-- Lineup eligibility uses the latest stored observed positions. A production feed must create dated position and availability evidence before live locks can be treated as authoritative.
-- The local scheduler command must be invoked by cron or another deployment scheduler. No production deployment or background scheduler was configured in this milestone.
+- The accepted V5 schedule crosswalk supplies schedule attribution; independently verified availability, positions, game-completion instants and correction-publication times remain necessary for authoritative competitive operation.
+- Dated position and availability evidence drives competitive eligibility. Missing current evidence is not replaced by inferred positions or injury designations.
+- `npm run dev:all` supervises the local web and workers. A production supervisor/scheduler and production deployment remain M7 work.
 
 ## M3.5 gameplay completion and hardening
 

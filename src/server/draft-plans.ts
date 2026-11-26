@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { randomInt } from "node:crypto";
 import { z } from "zod";
 import type { DraftPlan, Prisma } from "@/generated/prisma/client";
@@ -7,6 +8,7 @@ import { hasGameplayTable } from "./gameplay-storage";
 import { runBackgroundJob } from "./background-jobs";
 import { setCommissionerAuditContext } from "./commissioner-audit";
 import { financePolicy } from "./finance";
+import { activateScheduledRookieDraft } from "./rookie-draft-plans";
 
 export function draftRoomState(plan: Pick<DraftPlan, "scheduledAt" | "status">, now: Date) {
   if (["IN_PROGRESS", "PAUSED", "BLOCKED", "COMPLETED", "CANCELLED"].includes(plan.status)) return plan.status;
@@ -38,6 +40,7 @@ export async function configureDraftPlan(userId: string, raw: z.input<typeof con
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can configure drafts.");
     const sport = await tx.leagueSport.findFirstOrThrow({ where: { id: input.leagueSportId, leagueId: input.leagueId }, include: { league: { include: { teams: true } } } });
     const policy = await financePolicy(tx, input.leagueId);
+    if (await tx.draft.findFirst({ where: { leagueSportId: sport.id, seasonId: sport.seasonId, kind: "ROOKIE", status: { in: ["SCHEDULED", "ACTIVE", "PAUSED"] } } })) throw new Error("Finish or reschedule the existing rookie draft through its linear rookie controls before configuring another draft.");
     if (policy?.salaryMode && input.method !== "AUCTION") throw new Error("Salary dynasty initial drafts must use auction.");
     if (input.method === "AUCTION" && !policy) throw new Error("Configure an explicit traditional auction budget or salary cap first.");
     if (input.method === "AUCTION" && sport.keeperLimit > 0) throw new Error("Auction drafts cannot use redraft keepers.");
@@ -53,6 +56,7 @@ export async function configureDraftPlan(userId: string, raw: z.input<typeof con
     const draft = await tx.draft.findUnique({ where: { leagueSportId_seasonId_kind: identity } });
     if (draft && draft.status !== "SCHEDULED") throw new Error("Draft configuration is locked after the draft begins.");
     if (existing && input.expectedVersion !== existing.version) throw new Error("Draft configuration changed. Refresh before saving.");
+    sport.league.teams = await activeFranchises(tx, input.leagueId, sport.league.teams);
     const ids = sport.league.teams.map(({ id }) => id);
     let order = input.order;
     if (input.orderMethod === "RANDOM") {
@@ -101,7 +105,8 @@ export async function processScheduledDrafts(now = new Date()) {
     outcomes.push(await runBackgroundJob(`scheduled-draft:${plan.id}:${plan.version}`, "scheduled-draft", async () => {
       const commissioner = await db.leagueMember.findFirstOrThrow({ where: { leagueId: plan.leagueId, role: "COMMISSIONER" } });
       try {
-        await createDraft(commissioner.userId, plan.leagueId, undefined, { planId: plan.id, now });
+        if (plan.kind === "ROOKIE") await activateScheduledRookieDraft(commissioner.userId, plan.id, now);
+        else await createDraft(commissioner.userId, plan.leagueId, undefined, { planId: plan.id, now });
         return true;
       } catch (error) {
         await db.draftPlan.updateMany({ where: { id: plan.id, version: plan.version }, data: { status: "BLOCKED", blockedReason: error instanceof Error ? error.message : "Draft start failed" } });

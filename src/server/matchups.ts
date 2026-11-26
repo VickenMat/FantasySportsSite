@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import type { Matchup, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { rankH2HStandings, roundRobinPairings, summarizeH2H } from "./competition";
@@ -17,6 +18,7 @@ export async function ensureRelativeMatchupSchedule(tx: Prisma.TransactionClient
   if (league.competitionType === "CUMULATIVE") return { periods: 0, matchups: 0 };
   const sport = await tx.leagueSport.findUniqueOrThrow({ where: { id: input.leagueSportId } });
   const scoped = await hasSeasonScopedSchedules(tx);
+  league.teams = await activeFranchises(tx, input.leagueId, league.teams);
   const pairings = roundRobinPairings(league.teams.map(({ id }) => id), input.periods);
   for (let number = 1; number <= input.periods; number++) {
     const period = scoped ? await tx.relativeMatchupPeriod.upsert({
@@ -36,6 +38,7 @@ export async function generateSchedule(userId: string, leagueId: string, periods
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can generate the schedule.");
   if (member.league.competitionType === "CUMULATIVE") throw new Error("Cumulative leagues use source-backed scoring periods.");
   if (!member.league.isHistorical) throw new Error("Competitive schedules require authoritative UTC professional games; use source-backed competition provisioning.");
+  member.league.teams = await activeFranchises(database, leagueId, member.league.teams);
   const teams = member.league.teams.map(({ id }) => id); const pairings = roundRobinPairings(teams, periods);
   return database.$transaction(async (tx) => {
     if (await tx.scoringPeriod.count({ where: { leagueId, sport: leagueSport.sport } })) throw new Error(`A ${leagueSport.sport} schedule already exists.`);
@@ -96,11 +99,11 @@ async function refreshAuthoritativeMatchups(tx: Prisma.TransactionClient, matchu
   return finalized;
 }
 
-export async function recalculateMatchups(userId: string, leagueId: string, requestedSport?: Sport | string) {
+export async function recalculateMatchups(userId: string, leagueId: string, requestedSport?: Sport | string, at = new Date()) {
   const database = getDatabase(); const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
   const member = await database.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: { select: { isHistorical: true } } } });
   if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can recalculate matchups.");
-  const calculatedAt = new Date();
+  const calculatedAt = at;
   await captureDueGameLineups(calculatedAt);
   if (!member.league.isHistorical) {
     return database.$transaction(async (tx) => {
@@ -172,12 +175,13 @@ export async function finalizeDueMatchups(now = new Date(), leagueId?: string) {
 
 export async function standings(leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport); const database = getDatabase();
-  const teams = await database.fantasyTeam.findMany({ where: { leagueId }, orderBy: { name: "asc" } });
+  let teams = await database.fantasyTeam.findMany({ where: { leagueId }, orderBy: { name: "asc" } });
   const league = await database.league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
   const competition = league.isHistorical ? null : await database.sportCompetition.findFirst({
     where: { leagueId, leagueSportSeason: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId } },
-    select: { id: true },
+    select: { id: true, finalizedAt: true, placements: { select: { teamId: true } } },
   });
+  teams = competition?.finalizedAt ? teams.filter(({ id }) => competition.placements.some(({ teamId }) => teamId === id)) : await activeFranchises(database, leagueId, teams);
   const matchups = await database.matchup.findMany({ where: {
     leagueId, sport: leagueSport.sport, status: "FINAL", period: { competitionId: competition?.id ?? null },
     isPlayoff: competition ? false : undefined,

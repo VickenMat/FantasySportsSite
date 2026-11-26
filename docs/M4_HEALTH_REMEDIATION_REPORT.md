@@ -1,5 +1,7 @@
 # M4 health remediation checkpoint — November 25, 2026
 
+Historical checkpoint, superseded by [the M4 completion report](M4_COMPLETION_REPORT.md). The counts and open work below describe that earlier checkpoint.
+
 M4 is not complete or ready for full acceptance. This checkpoint resolves P0 worker failure propagation, restores startup safety, reconciles schema drift, corrects fantasy/professional deadline separation, improves roster/recap views, introduces read-only historical analytics and implements the keeper cost/paid-round core. Financial dynasty, rookie execution, advanced trading and competitive rollover remain substantial work.
 
 ## Repository and runtime

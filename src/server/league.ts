@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { createHash, randomBytes } from "node:crypto";
 import { z } from "zod";
 import type { CompetitionType, LeagueStatus, Prisma, Sport } from "@/generated/prisma/client";
@@ -262,15 +263,21 @@ export async function leaveLeague(userId: string, leagueId: string) {
     if (membership.role === "COMMISSIONER") throw new Error("Transfer commissioner responsibility before leaving.");
     const team = await tx.fantasyTeam.findUnique({ where: { membershipId: membership.id } });
     if (team && await tx.rosterEntry.count({ where: { teamId: team.id, releasedAt: null } })) throw new Error("A manager with rostered players cannot leave during play.");
-    if (team) await tx.fantasyTeam.delete({ where: { id: team.id } }); await tx.leagueMember.delete({ where: { id: membership.id } });
+    if (team) {
+      await tx.fantasyTeam.update({ where: { id: team.id }, data: { managerId: null, membershipId: null, isComputer: true } });
+      await tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: "LEAVE_FRANCHISE", targetType: "FantasyTeam", targetId: team.id, before: { managerId: userId }, after: { managerId: null, isComputer: true }, reason: "Manager explicitly left an empty franchise; its identity and complete history remain preserved." } });
+    }
+    await tx.leagueMember.delete({ where: { id: membership.id } });
   });
 }
 
 export async function leagueContext(userId: string, leagueId: string) {
-  return getDatabase().leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: {
+  const context = await getDatabase().leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: {
     fantasyTeam: { include: { sportRosters: { include: { entries: { where: { releasedAt: null }, include: { player: true } } } } } },
     league: { include: { sports: { orderBy: { sport: "asc" }, include: { season: true } }, teams: { orderBy: { draftSlot: "asc" }, include: { manager: true, sportRosters: true } }, drafts: { orderBy: { createdAt: "desc" } }, preset: { include: { rules: { orderBy: [{ sport: "asc" }, { statKey: "asc" }] } } } } },
   } });
+  if (context) context.league.teams = await activeFranchises(getDatabase(), leagueId, context.league.teams);
+  return context;
 }
 
 export async function resolveLeagueSport(leagueId: string, requested?: string | null) {
@@ -430,12 +437,12 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
     }
     await resetSportFaab(tx, leagueId, leagueSport.id, season.id);
     if (member.league.format === "DYNASTY" && !(await financePolicy(tx, leagueId))?.salaryMode) {
-      const teams = await tx.fantasyTeam.findMany({ where: { leagueId }, select: { id: true } });
+      const teams = await activeFranchises(tx, leagueId, await tx.fantasyTeam.findMany({ where: { leagueId }, select: { id: true } }));
       await extendFutureDraftPicks(tx, leagueSport.id, year, teams.map(({ id }) => id));
     }
     await setCommissionerAuditContext(tx, userId, "TRANSITION_SPORT_SEASON", "Commissioner advanced the sport season.");
     const updated = await tx.leagueSport.update({ where: { id: leagueSport.id }, data: { seasonId: season.id, seasonLabel: season.label } });
-    if (member.league.faabScope === "UNIVERSAL" && nextAssignment) for (const team of await tx.fantasyTeam.findMany({ where: { leagueId } })) await accountForWaiver(tx, leagueId, leagueSport.id, team.id);
+    if (member.league.faabScope === "UNIVERSAL" && nextAssignment) for (const team of await activeFranchises(tx, leagueId, await tx.fantasyTeam.findMany({ where: { leagueId } }))) await accountForWaiver(tx, leagueId, leagueSport.id, team.id);
     await rolloverSportFinances(tx, leagueId, leagueSport.id, sport, currentSeason.id, season.id, at, userId);
     if (nextAssignment) {
       if (currentAssignment) await tx.leagueSportSeason.update({ where: { id: currentAssignment.id }, data: { status: "ROLLED_OVER" } });
@@ -444,6 +451,7 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
       let configId = config?.id;
       if (!configId && currentAssignment?.competition) {
         const old = await tx.competitionConfigSnapshot.findUniqueOrThrow({ where: { id: currentAssignment.competition.configSnapshotId } });
+        if (old.competitionType === "HEAD_TO_HEAD" && old.playoffTeams > member.league.maxTeams) throw new Error("Save a future competition configuration within the remaining franchise capacity before rollover.");
         const { id: _id, createdAt: _createdAt, championshipCycleId: _cycle, version: _version, ...settings } = old;
         void _id; void _createdAt; void _cycle; void _version;
         configId = (await tx.competitionConfigSnapshot.create({ data: { ...settings, championshipCycleId: nextAssignment.championshipCycleId, version: 1 } })).id;

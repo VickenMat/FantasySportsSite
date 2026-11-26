@@ -9,7 +9,8 @@ import { autoPick, changeQueue, createDraft, makePick, queuePlayer, reorderQueue
 import { createInvitation, createLeague, fillComputerFranchises, joinLeague, joinPublicLeague, removeComputerFranchise, resizeLeague, resolveLeagueSport, selectKeeper, transitionSportSeason, updateDraftOrder, updateLeagueSettings, updateTeamName } from "@/server/league";
 import { advanceHistoricalPeriod, generateNextPlayoffRound, generateSchedule, recalculateMatchups } from "@/server/matchups";
 import { advanceSportPlayoffs } from "@/server/playoffs";
-import { createRookieDraft, provisionFutureDraftPicks, transferFuturePick } from "@/server/dynasty-picks";
+import { provisionFutureDraftPicks, transferFuturePick } from "@/server/dynasty-picks";
+import { configureRookieDraftPlan } from "@/server/rookie-draft-plans";
 import { cancelWaiver, processWaivers, submitWaiver } from "@/server/waivers";
 import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { enforceRateLimit } from "@/server/rate-limit";
@@ -326,11 +327,11 @@ export async function provisionFuturePicksAction(leagueId: string, leagueSportId
 export async function rookieDraftAction(leagueId: string, leagueSportId: string, _state: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "rookie-draft", 10);
   try {
-    const draft = await createRookieDraft(user.id, leagueId, leagueSportId, {
-      rounds: Number(form.get("rounds")), reason: String(form.get("reason") ?? ""),
+    await configureRookieDraftPlan(user.id, { leagueId, leagueSportId,
+      rounds: Number(form.get("rounds")), reason: String(form.get("reason") ?? ""), scheduledAt: new Date(String(form.get("scheduledAt")) + "Z"), timezone: "UTC", secondsPerPick: Number(form.get("secondsPerPick")), expectedVersion: Number(form.get("version")) || undefined,
     });
-    revalidatePath(`/leagues/${leagueId}`);
-    return `Rookie draft ${draft.status.toLowerCase()}. Open the draft room to select verified rookies.`;
+    revalidatePath(`/leagues/${leagueId}`, "layout");
+    return "Rookie draft scheduled. Preparation opens one hour before the saved UTC start; the worker activates selections at that start.";
   } catch (error) { return error instanceof Error ? error.message : "Unable to start rookie draft."; }
 }
 

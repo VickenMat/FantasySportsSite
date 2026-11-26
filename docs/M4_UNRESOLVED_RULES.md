@@ -5,7 +5,6 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 | Area | Remaining dependency | Safe behavior |
 | --- | --- | --- |
 | Contracts | Expiration, extensions, tags and restricted free agency are deferred beyond M4. | Contract automation stays disabled; no expiry is inferred. |
-| Corrective trades | A corrective trade must reduce payroll without bypassing the rule preventing an ineligible team from initiating ordinary proposals. | Permit releases and incoming compliant proposals; require an explicit corrective classification before allowing an over-cap outgoing proposal. |
 | Rookie eligibility | Official sport-specific evidence is not bundled. | `PENDING_DATA`; no player is inferred to be a rookie from age, draft year or absence. |
 | Injury and IR | Complete authoritative availability designations are not bundled. | Only verified evidence can unlock IR; offseason inactivity and retirement do not qualify. |
 | Retirement | Verified retirement evidence is not bundled. | Players remain rostered and are never inferred retired from missing statistics. |
@@ -17,7 +16,7 @@ The M4 master specification supersedes earlier proposals and resolves salary inc
 
 ## Final decisions resolved by the latest request
 
-No rookie lottery or ordinary custom ordering; reverse finalized standings only. Same-round playoff elimination uses original regular-season seed. Standalone universal cap transfers remain available throughout the current cycle; mixed trades obey all player deadlines. Player-specific acquisition floors use min(existing floor, new release penalty) and disappear when free agents in the applicable offseason. These are final rules, not remaining product gates.
+No rookie lottery or ordinary custom ordering; reverse finalized standings only. Same-round playoff elimination uses original regular-season seed. Standalone universal cap transfers remain available throughout the current cycle; mixed trades obey all player deadlines. Player-specific acquisition floors use min(existing floor, new release penalty) and disappear when free agents in the applicable offseason. These are final rules, not remaining product gates. Over-cap franchises restore compliance through cuts; ordinary outgoing trades cannot replace the required releases, while compliant incoming proposals remain eligible. There is no pending authorization to add a bypass.
 
 ## Data blockers
 
@@ -26,3 +25,9 @@ The remaining gameplay continuation adds exact missing-input counts in PLAYER_DA
 Rookie drafts default to four rounds and support longer persisted configurations through the approved lifecycle migration. Inventory expansion preserves existing original slots and traded ownership. Rookie lottery and ordinary custom ordering are revoked. Reverse finalized sport standings is mandatory.
 
 Current availability, retirement status, rookie eligibility, verified game-completion instants, independently verified future season boundaries, and official statistical publication times remain unavailable across the development archive. The reconstructed master specification is now authoritative for confirmed decisions; isolated synthetic fixtures must exercise the corresponding mechanisms without manufacturing production evidence.
+
+## Administrative safety boundaries
+
+Offseason removal archives a franchise through an append-only event; it never deletes its team, results or ownership history. Every sport needs verified offseason bounds; championships and drafts must be finished, at least two participants remain, and assets/reservations/obligations must be resolved. Outstanding original or owned rookie selections block removal rather than being silently cancelled or reassigned.
+
+Score corrections add audited signed adjustments inside the competitive correction window, with compensating entries for reversals. They preserve all V9 ledger entries and captured lineups; final results remain frozen. Draft undo/correction applies to the last reversible selection of an unfinished, paused traditional initial snake draft. Original immutable snapshots remain intact, replacements carry append-only label evidence, and timer jobs use a fresh correction generation. Downstream lineup/movement history, consumed rookie entitlements and settled auction accounting cannot be silently unwound. These are supported-operation guards, not missing-data excuses or ordinary rookie-order controls.

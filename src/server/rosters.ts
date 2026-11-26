@@ -11,6 +11,7 @@ import { irEligiblePlayers } from "./roster-availability";
 import { assertRookieDraftComplete } from "./rookies";
 import { waiverHoldUntil } from "./waiver-holds";
 import { financePolicy, releaseSalary, salaryCompliance } from "./finance";
+import { clearOffseasonPlayerFloors, sportIsOffseason } from "./sport-offseason";
 
 async function managedRoster(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
@@ -33,6 +34,7 @@ export async function currentCompliance(tx: Prisma.TransactionClient, teamId: st
   const active = team.sportRosters.flatMap(({ entries }) => entries);
   const irPlayers = active.filter(({ slot }) => slot === "IR" || slot === "UNIVERSAL_IR").map(({ playerId }) => playerId);
   const eligible = await irEligiblePlayers(tx, irPlayers, at);
+  for (const roster of team.sportRosters) if (roster.entries.some(({ playerId }) => irPlayers.includes(playerId)) && await sportIsOffseason(tx, roster.leagueSportId, at)) for (const entry of roster.entries) eligible.delete(entry.playerId);
   const entries: ComplianceEntry[] = active.map((entry) => ({
     id: entry.id, rosterId: entry.rosterId, playerId: entry.playerId, sport: entry.sport, slot: entry.slot,
     slotIndex: entry.slotIndex, irEligible: eligible.has(entry.playerId),
@@ -111,6 +113,7 @@ export async function dropPlayer(userId: string, leagueId: string, playerId: str
     const releasedAt = at;
     await releaseSalary(tx, leagueId, playerId, entry.teamId, releasedAt);
     await tx.rosterEntry.update({ where: { id: entry.id }, data: { releasedAt } });
+    if ((await financePolicy(tx, leagueId))?.salaryMode) await clearOffseasonPlayerFloors(tx, context.leagueSport.id, userId, releasedAt);
     await recordMove(tx, { entryId: entry.id, leagueId, teamId: entry.teamId, actorUserId: userId,
       fromSlot: entry.slot, fromSlotIndex: entry.slotIndex, toSlot: "RELEASED", toSlotIndex: 1,
       effectiveAt: releasedAt, reason: "Player release", key: `release:${entry.id}:${releasedAt.toISOString()}` });

@@ -1,11 +1,6 @@
 import type { FaabAccount, Prisma } from "@/generated/prisma/client";
 
-export async function accountForWaiver(
-  tx: Prisma.TransactionClient,
-  leagueId: string,
-  leagueSportId: string,
-  teamId: string,
-): Promise<FaabAccount> {
+async function waiverAccountContext(tx: Prisma.TransactionClient, leagueId: string, leagueSportId: string) {
   const league = await tx.league.findUniqueOrThrow({
     where: { id: leagueId },
     select: { faabScope: true, universalStartingFaab: true, championshipCycles: { orderBy: { number: "desc" }, take: 1 } },
@@ -16,13 +11,23 @@ export async function accountForWaiver(
     ? { leagueSportId, championshipCycleId: null, openingBalance: (await tx.leagueSport.findUniqueOrThrow({ where: { id: leagueSportId } })).startingFaab }
     : { leagueSportId: null, championshipCycleId: assignment?.championshipCycleId ?? league.championshipCycles[0]?.id ?? null, openingBalance: league.universalStartingFaab };
   if (league.faabScope === "UNIVERSAL" && !context.championshipCycleId) throw new Error("Universal FAAB requires an active championship cycle.");
+  return { ...context, scope: league.faabScope };
+}
+
+export async function waiverFunds(tx: Prisma.TransactionClient, leagueId: string, leagueSportId: string, teamId: string) {
+  const context = await waiverAccountContext(tx, leagueId, leagueSportId);
+  const account = await tx.faabAccount.findFirst({ where: { leagueId, teamId, scope: context.scope, leagueSportId: context.leagueSportId, championshipCycleId: context.championshipCycleId } });
+  return { scope: context.scope, balance: account?.balance ?? context.openingBalance, reserved: account?.reserved ?? 0 };
+}
+
+export async function accountForWaiver(tx: Prisma.TransactionClient, leagueId: string, leagueSportId: string, teamId: string): Promise<FaabAccount> {
+  const context = await waiverAccountContext(tx, leagueId, leagueSportId);
   const existing = await tx.faabAccount.findFirst({ where: {
-    teamId,
-    ...(league.faabScope === "SPORT" ? { scope: "SPORT", leagueSportId } : { scope: "UNIVERSAL", championshipCycleId: context.championshipCycleId }),
+    leagueId, teamId, scope: context.scope, leagueSportId: context.leagueSportId, championshipCycleId: context.championshipCycleId,
   } });
   if (existing) return existing;
   const account = await tx.faabAccount.create({ data: {
-    leagueId, teamId, scope: league.faabScope, ...context, balance: context.openingBalance,
+    leagueId, teamId, ...context, balance: context.openingBalance,
   } });
   await tx.faabLedgerEntry.create({ data: {
     accountId: account.id, type: "OPENING", balanceDelta: account.openingBalance, reservedDelta: 0,

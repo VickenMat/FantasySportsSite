@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import { getDatabase } from "@/lib/db";
 import { z } from "zod";
 import type { Prisma } from "@/generated/prisma/client";
@@ -34,6 +35,7 @@ export function provisionFutureDraftPicks(userId: string, leagueId: string, leag
     if (sport.league.format === "REDRAFT") throw new Error("Redraft leagues cannot grant future picks.");
     if ((await financePolicy(tx, leagueId))?.salaryMode) throw new Error("Salary dynasty has no future rookie picks.");
     if (sport.league.status === "SETUP") throw new Error("Finalize league setup before granting future picks.");
+    sport.league.teams = await activeFranchises(tx, leagueId, sport.league.teams);
     return extendFutureDraftPicks(tx, leagueSportId, sport.season.startYear, sport.league.teams.map(({ id }) => id));
   }, { isolationLevel: "Serializable" });
 }
@@ -93,23 +95,25 @@ export type RookieSnapshot = { method: "LINEAR_ROOKIE"; slots: { futurePickId: s
 
 export async function createRookieDraft(userId: string, leagueId: string, leagueSportId: string, options: {
   rounds?: number; reason?: string;
-} = {}) {
+} = {}, control: { prepare?: boolean; now?: Date } = {}, transaction?: Prisma.TransactionClient) {
   const configuration = z.object({ rounds: z.number().int().min(1).max(100).optional(), reason: z.string().trim().min(5).optional() }).strict().parse(options);
-  return getDatabase().$transaction(async (tx) => {
+  const work = async (tx: Prisma.TransactionClient) => {
     const sport = await tx.leagueSport.findFirstOrThrow({ where: { id: leagueSportId, leagueId }, include: { season: true, league: { include: { teams: true, members: { where: { userId } } } } } });
     if (sport.league.members[0]?.role !== "COMMISSIONER") throw new Error("Only the commissioner can start rookie drafts.");
     if (sport.league.format !== "DYNASTY") throw new Error("Rookie picks require traditional dynasty.");
     if ((await financePolicy(tx, leagueId))?.salaryMode) throw new Error("Salary dynasty acquires rookies by auction and has no linear rookie drafts.");
     const existing = await tx.draft.findUnique({ where: { leagueSportId_seasonId_kind: { leagueSportId, seasonId: sport.seasonId, kind: "ROOKIE" } } });
-    if (existing) return existing; // Preserve historical provenance, including revoked historical configurations.
+    if (existing && existing.status !== "SCHEDULED") return existing; // Preserve completed/historical provenance.
+    if (existing && !control.prepare) throw new Error("The scheduled rookie draft activates through its saved server-controlled start.");
+    sport.league.teams = await activeFranchises(tx, leagueId, sport.league.teams);
     if (sport.league.teams.length !== sport.league.maxTeams) throw new Error("Fill all franchise slots before drafting.");
-    if (await tx.draft.count({ where: { leagueSportId, status: { in: ["ACTIVE", "PAUSED", "SCHEDULED"] } } })) throw new Error("Finish the other sport draft first.");
-    const now = new Date();
-    await assertRookieDraftWindow(tx, leagueId, sport.seasonId, now);
+    if (await tx.draft.count({ where: { leagueSportId, id: existing ? { not: existing.id } : undefined, status: { in: ["ACTIVE", "PAUSED", "SCHEDULED"] } } })) throw new Error("Finish the other sport draft first.");
+    const now = control.now ?? new Date();
+    if (!control.prepare) await assertRookieDraftWindow(tx, leagueId, sport.seasonId, now);
     const teamIds = sport.league.teams.map(({ id }) => id);
     const previous = await tx.sportCompetition.findFirst({ where: { leagueSportSeason: { leagueSportId, season: { startYear: { lt: sport.season.startYear } } }, status: "FINALIZED" },
       orderBy: { leagueSportSeason: { season: { startYear: "desc" } } }, include: { placements: { orderBy: { placement: "desc" } } } });
-    const order = previous?.placements.filter(({ finalizedAt }) => finalizedAt != null).map(({ teamId }) => teamId) ?? [];
+    const order = previous?.placements.filter(({ finalizedAt, teamId }) => finalizedAt != null && teamIds.includes(teamId)).map(({ teamId }) => teamId) ?? [];
     const orderSource = "REVERSE_FINAL_PLACEMENT";
     if (order.length !== teamIds.length || new Set(order).size !== teamIds.length || order.some((id) => !teamIds.includes(id))) throw new Error("PENDING_DATA: finalized previous sport placements are required. Rookie order cannot be randomized or customized.");
     const storedRule = await hasGameplayTable("RookieDraftRule", tx) ? await tx.rookieDraftRule.findUnique({ where: { leagueSportId } }) : null;
@@ -129,12 +133,14 @@ export async function createRookieDraft(userId: string, leagueId: string, league
       return { ...slot, futurePickId: pick.id };
     }) };
     if (await tx.futureDraftPickOwnership.count({ where: { idempotencyKey: { in: snapshot.slots.map(({ futurePickId }) => consumptionKey(futurePickId)) } } })) throw new Error("A rookie entitlement has already been consumed.");
-    const draft = await tx.draft.create({ data: { leagueId, leagueSportId, seasonId: sport.seasonId, sport: sport.sport, kind: "ROOKIE", status: "ACTIVE", rounds,
+    const data = { leagueId, leagueSportId, seasonId: sport.seasonId, sport: sport.sport, kind: "ROOKIE" as const, status: control.prepare ? "SCHEDULED" : "ACTIVE", rounds,
       order, pickOrder: snapshot.slots.map(({ futurePickId }) => picks.find(({ id }) => id === futurePickId)!.ownerTeamId),
       orderProvenance: JSON.stringify(snapshot),
-      secondsPerPick: sport.draftSecondsPerPick, startedAt: now, pickStartedAt: now, pickDeadlineAt: new Date(+now + sport.draftSecondsPerPick * 1000) } });
-    await tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: "START_ROOKIE_DRAFT", targetType: "Draft", targetId: draft.id, sport: sport.sport,
+      secondsPerPick: sport.draftSecondsPerPick, startedAt: control.prepare ? null : now, pickStartedAt: control.prepare ? null : now, pickDeadlineAt: control.prepare ? null : new Date(+now + sport.draftSecondsPerPick * 1000) } as const;
+    const draft = existing ? await tx.draft.update({ where: { id: existing.id }, data }) : await tx.draft.create({ data });
+    await tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: control.prepare ? "PREPARE_ROOKIE_DRAFT" : "START_ROOKIE_DRAFT", targetType: "Draft", targetId: draft.id, sport: sport.sport,
       before: {}, after: { ...snapshot }, reason: configuration.reason ?? "Reverse finalized sport placement rookie draft" } });
     return draft;
-  }, { isolationLevel: "Serializable" });
+  };
+  return transaction ? work(transaction) : getDatabase().$transaction(work, { isolationLevel: "Serializable" });
 }

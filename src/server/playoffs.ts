@@ -1,3 +1,4 @@
+import { activeFranchises } from "./franchise-participation";
 import type { Matchup } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { refreshH2HChampionship } from "./championships";
@@ -61,6 +62,7 @@ export function advanceSportPlayoffs(userId: string, competitionId: string, now 
     const playoffs = competition.periods.filter(({ periodType }) => periodType === "PLAYOFF");
     if (!regular.length || !playoffs.length) throw new Error("Provision the authoritative playoff schedule first.");
 
+    competition.league.teams = await activeFranchises(tx, competition.leagueId, competition.league.teams);
     const teamIds = competition.league.teams.map(({ id }) => id);
     const finalized = (game: Matchup) => game.status === "FINAL" && game.finalizedAt != null && game.finalizedAt <= now;
     const gamesPerPeriod = Math.floor(teamIds.length / 2);

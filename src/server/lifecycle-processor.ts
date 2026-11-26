@@ -4,6 +4,7 @@ import { assignNextSportSeason } from "./scheduling";
 import { transitionSportSeason } from "./league";
 import { expireCompletedCycleFinance } from "./financial-lifecycle";
 import { hasGameplayTable } from "./gameplay-storage";
+import { clearOffseasonPlayerFloors } from "./sport-offseason";
 
 export async function processSeasonLifecycles(at = new Date()) {
   const db = getDatabase();
@@ -21,6 +22,11 @@ export async function processSeasonLifecycles(at = new Date()) {
     }, at));
   }
   if (await hasGameplayTable("FinanceAccount")) {
+    const salarySports = await db.leagueSport.findMany({ where: { league: { financePolicy: { salaryMode: true } } } });
+    for (const sport of salarySports) {
+      const commissioner = await db.leagueMember.findFirstOrThrow({ where: { leagueId: sport.leagueId, role: "COMMISSIONER" } });
+      outcomes.push(await runBackgroundJob(`offseason-floors:${sport.id}:${at.toISOString().slice(0, 16)}`, "offseason-floors", () => db.$transaction((tx) => clearOffseasonPlayerFloors(tx, sport.id, commissioner.userId, at), { isolationLevel: "Serializable" }), at));
+    }
     const cycles = await db.championshipCycle.findMany({ where: { status: "COMPLETE" } });
     for (const cycle of cycles) outcomes.push(await runBackgroundJob(`cycle-cap-expiry:${cycle.id}`, "cycle-cap-expiry", () => db.$transaction((tx) => expireCompletedCycleFinance(tx, cycle.id), { isolationLevel: "Serializable" }), at));
   }

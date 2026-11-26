@@ -1,3 +1,6 @@
+import { activeFranchises } from "./franchise-participation";
+import { sportIsOffseason } from "./sport-offseason";
+import { consumptionKey } from "./dynasty-picks";
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { getDatabase } from "@/lib/db";
@@ -11,6 +14,7 @@ export async function transferFranchiseOwnership(userId: string, leagueId: strin
     const member = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } } });
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can transfer an abandoned franchise.");
     const team = await tx.fantasyTeam.findFirstOrThrow({ where: { id: teamId, leagueId } });
+    if (!(await activeFranchises(tx, leagueId, [team])).length) throw new Error("An archived franchise cannot receive a new manager.");
     if (team.membershipId === member.id) throw new Error("Commissioner succession requires explicit role transfer; choose another abandoned franchise.");
     const target = await tx.user.findUniqueOrThrow({ where: { email: email.trim().toLowerCase() } });
     if (await tx.fantasyTeam.findFirst({ where: { leagueId, managerId: target.id, id: { not: teamId } } })) throw new Error("This manager already controls a franchise in this league.");
@@ -53,5 +57,35 @@ export async function configureFutureCompetition(userId: string, leagueId: strin
     await tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: "FUTURE_COMPETITION_SETTINGS", targetType: "ChampionshipCycle", targetId: cycleId,
       before: { snapshotId: last?.id ?? null }, after: { snapshotId: snapshot.id, version: snapshot.version, settings }, reason } });
     return snapshot;
+  }, { isolationLevel: "Serializable" });
+}
+
+/** Remove future participation while retaining every historical FK and immutable record. */
+export async function archiveFranchise(userId: string, leagueId: string, teamId: string, reason: string, at = new Date()) {
+  z.string().trim().min(10).max(1000).parse(reason);
+  return getDatabase().$transaction(async (tx) => {
+    const member = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } } });
+    if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can remove a franchise.");
+    const existing = await tx.commissionerAuditEvent.findFirst({ where: { leagueId, action: "ARCHIVE_FRANCHISE", targetId: teamId } });
+    if (existing) return existing;
+    const team = await tx.fantasyTeam.findFirstOrThrow({ where: { id: teamId, leagueId } });
+    if (team.membershipId === member.id) throw new Error("Transfer commissioner responsibility before removing that franchise.");
+    const teams = await activeFranchises(tx, leagueId, await tx.fantasyTeam.findMany({ where: { leagueId } }));
+    if (teams.length <= 2) throw new Error("At least two active franchises must remain.");
+    const sports = await tx.leagueSport.findMany({ where: { leagueId } });
+    for (const sport of sports) if (!await sportIsOffseason(tx, sport.id, at)) throw new Error("Franchise removal requires a source-verified offseason for every included sport.");
+    if (await tx.sportCompetition.count({ where: { leagueId, finalizedAt: null, periods: { some: {} } } }) || await tx.draft.count({ where: { leagueId, status: { in: ["SCHEDULED", "ACTIVE", "PAUSED"] } } })) throw new Error("Finalize every active competition and finish scheduled drafts before removal.");
+    if (await tx.rosterEntry.count({ where: { teamId, releasedAt: null } }) || await tx.playerSalary.count({ where: { leagueId, teamId, active: true } }) || await tx.financeAccount.count({ where: { leagueId, teamId, OR: [{ payroll: { not: 0 } }, { reserved: { not: 0 } }, { deadCap: { not: 0 } }, { capAdjustment: { not: 0 } }] } }) || await tx.faabAccount.count({ where: { leagueId, teamId, reserved: { not: 0 } } })) throw new Error("Resolve roster assets, salary obligations, cap transfers and reserved funds before removal; history will be preserved.");
+    if (await tx.championshipCycle.count({ where: { leagueId, status: { not: "COMPLETE" }, sportSeasons: { some: { competition: { finalizedAt: { not: null } } } } } })) throw new Error("Finalize the overall championship before removing any participant.");
+    const planning = await tx.championshipCycle.findMany({ where: { leagueId, status: "PLANNING" }, include: { competitionConfigs: { orderBy: { version: "desc" }, take: 1 } } });
+    if (planning.some((cycle) => (cycle.competitionConfigs[0]?.playoffTeams ?? 0) > teams.length - 1)) throw new Error("Revise future playoff capacity before removing a participant.");
+    const picks = await tx.futureDraftPick.findMany({ where: { leagueSport: { leagueId }, OR: [{ ownerTeamId: teamId }, { originalTeamId: teamId }] } });
+    for (const pick of picks) if (!await tx.futureDraftPickOwnership.findUnique({ where: { idempotencyKey: consumptionKey(pick.id) } })) throw new Error("Outstanding original or owned rookie selections prevent removal; preserve and resolve their entitlements first.");
+    if (await tx.tradeProposal.count({ where: { leagueId, participantIds: { has: teamId }, status: { in: ["PENDING", "REVIEW"] } } })) throw new Error("Close every pending franchise trade before removal.");
+    await tx.fantasyTeam.update({ where: { id: teamId }, data: { managerId: null, membershipId: null, isComputer: false } });
+    const league = await tx.league.findUniqueOrThrow({ where: { id: leagueId } });
+    await setCommissionerAuditContext(tx, userId, "ARCHIVE_FRANCHISE", reason);
+    await tx.league.update({ where: { id: leagueId }, data: { maxTeams: teams.length - 1, playoffTeams: Math.min(league.playoffTeams, (teams.length - 1) - (teams.length - 1) % 2) } });
+    return tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: "ARCHIVE_FRANCHISE", targetType: "FantasyTeam", targetId: teamId, before: { managerId: team.managerId, membershipId: team.membershipId, capacity: league.maxTeams }, after: { archived: true, capacity: teams.length - 1 }, effectiveAt: at, reason } });
   }, { isolationLevel: "Serializable" });
 }

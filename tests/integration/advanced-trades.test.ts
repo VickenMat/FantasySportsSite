@@ -114,3 +114,45 @@ it("rejects an offer whose review would cross any player deadline and forbids un
     await closeAdvancedTrade(f.owner.id, proposal.id, "CANCEL", "Proposer withdrew offer", f.at);
   } finally { await f.cleanup(); }
 });
+it("expires pending offers and releases accepted money exactly once without moving assets", async () => {
+  const f = await fixture();
+  try {
+    const sport = f.sports[0];
+    const accounts = await db.$transaction(async (tx) => {
+      const rows = [];
+      for (const team of f.teams) rows.push(await accountForWaiver(tx, f.league.id, sport.id, team.id));
+      return rows;
+    });
+    const input = { ...f.input, participants: f.teams.slice(0, 2).map(({ id }) => id), assets: [{ type: "FAAB" as const, from: f.teams[0].id, to: f.teams[1].id, leagueSportId: sport.id, amount: 40 }], expiresAt: new Date(+f.at + 2 * 86400000) };
+    const pending = await proposeAdvancedTrade(f.owner.id, input, f.at);
+    const accepted = await proposeAdvancedTrade(f.owner.id, input, f.at);
+    for (const user of f.users.slice(0, 2)) await acceptAdvancedTrade(user.id, accepted.id, 1, f.at);
+    expect((await db.faabAccount.findUniqueOrThrow({ where: { id: accounts[0].id } })).reserved).toBe(40);
+    await processAdvancedTrades(input.expiresAt);
+    await processAdvancedTrades(new Date(+input.expiresAt + 60000));
+    const closed = await db.tradeProposal.findMany({ where: { id: { in: [pending.id, accepted.id] } } });
+    expect(closed.map(({ status }) => status)).toEqual(["EXPIRED", "EXPIRED"]);
+    const funds = await db.faabAccount.findMany({ where: { leagueId: f.league.id } });
+    expect(funds.every(({ balance, reserved }) => balance === 100 && reserved === 0)).toBe(true);
+    expect(await db.fantasyTransaction.count({ where: { leagueId: f.league.id, type: "TRADE" } })).toBe(0);
+  } finally { await f.cleanup(); }
+});
+it("allows dynasty offseason players, rejects redraft offseason assets and revalidates each sport deadline", async () => {
+  const f = await fixture();
+  try {
+    await configureTradeReview(f.owner.id, f.league.id, 0);
+    const late = new Date(+f.at + 61 * 86400000);
+    const input = { ...f.input, expiresAt: new Date(+late + 86400000) };
+    const allowed = await proposeAdvancedTrade(f.owner.id, input, late);
+    await closeAdvancedTrade(f.owner.id, allowed.id, "CANCEL", "Offseason acceptance checked", late);
+    await db.league.update({ where: { id: f.league.id }, data: { format: "REDRAFT" } });
+    await expect(proposeAdvancedTrade(f.owner.id, input, late)).rejects.toThrow(/Redraft offseason/);
+    await db.league.update({ where: { id: f.league.id }, data: { format: "DYNASTY" } });
+    const pending = await proposeAdvancedTrade(f.owner.id, f.input, f.at);
+    await db.leagueSportSeason.updateMany({ where: { leagueSportId: f.sports.find(({ sport }) => sport === "NBA")!.id }, data: { tradeDeadlineAt: f.at } });
+    await expect(acceptAdvancedTrade(f.users[1].id, pending.id, 1, f.at)).rejects.toThrow(/deadline has passed/);
+    expect(await db.tradeProposalAcceptance.count({ where: { revision: { proposalId: pending.id } } })).toBe(0);
+    await processAdvancedTrades(f.at);
+    expect((await db.tradeProposal.findUniqueOrThrow({ where: { id: pending.id } })).status).toBe("INVALIDATED");
+  } finally { await f.cleanup(); }
+});

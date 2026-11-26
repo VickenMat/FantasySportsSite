@@ -21,6 +21,9 @@ it("reconciles a commissioner fantasy calendar within verified bounds and groups
     const window = await configureFantasyWindow(user.id, input);
     await expect(db.fantasyWindowRevision.update({ where: { id: window.id }, data: { matchupDays: 7 } })).rejects.toThrow(/append-only/);
     const assignment = await db.leagueSportSeason.findFirstOrThrow({ where: { leagueSportId: sport.id } });
+    expect(assignment.scheduleRevisionId).toBeTruthy();
+    expect(assignment.draftDeadlineAt).toEqual(new Date("2074-09-01"));
+    expect(assignment.rolloverEligibleAt).toEqual(new Date("2074-11-01"));
     expect(assignment.tradeDeadlineAt).toEqual(new Date("2074-09-01"));
     for (const date of ["2074-09-02", "2074-09-09", "2074-09-16", "2074-09-23"]) await db.game.create({ data: { sport: "NBA", seasonId: sport.seasonId, provider: "isolated-window", externalId: randomUUID(), phase: "REGULAR", startsAt: new Date(date) } });
     const competition = await db.sportCompetition.findFirstOrThrow({ where: { leagueId: league.id } });

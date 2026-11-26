@@ -119,7 +119,7 @@ Sport rollover independent of other sports and overall cycle. Redraft releases n
 
 ## 22. Commissioner administration
 
-Append-only audit actor, previous/new values, effective instant, reason. Commissioner roster and score corrections, draft pause/resume/undo/correct, future settings, abandoned team ownership transfer, visible activity log. No midseason expansion; team removal offseason only. Preserve ownership and historical results. Expose only supported controls; unavailable actions explain why.
+Append-only audit actor, previous/new values, effective instant, reason. Commissioner roster and score corrections, draft pause/resume/undo/correct, future settings, abandoned team ownership transfer, visible activity log. No midseason expansion; team removal offseason only. Preserve ownership and historical results. Expose only supported controls; unavailable actions explain why. Removal archives future participation and preserves historical franchise identity; outstanding assets and financial obligations must be resolved. Score adjustments preserve source ledgers and lineup snapshots through compensating audit entries. Reversible draft correction preserves the original selection snapshot and records replacement labels independently; locked/downstream selections and consumed or settled assets cannot be silently unwound.
 
 ## 23. Data and decision gates
 

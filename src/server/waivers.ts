@@ -4,16 +4,13 @@ import { getDatabase } from "@/lib/db";
 import { resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
 import { waiverHoldUntil } from "./waiver-holds";
-import { accountForWaiver, moveWaiverWinnerToBottom, releaseFaabReservation, reserveFaab, settleFaab } from "./faab";
+import { accountForWaiver, moveWaiverWinnerToBottom, releaseFaabReservation, reserveFaab, settleFaab, waiverFunds } from "./faab";
 import { assertRookieDraftComplete } from "./rookies";
 import { financePolicy } from "./finance";
 
 export async function reservedSportFaab(tx: Prisma.TransactionClient, rosterId: string) {
   const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { id: rosterId } });
-  const account = await tx.faabAccount.findFirst({ where: { teamId: roster.teamId, leagueSportId: roster.leagueSportId, scope: "SPORT" } });
-  if (account) return account.reserved;
-  const pending = await tx.waiverClaim.aggregate({ where: { rosterId, status: "PENDING" }, _sum: { bid: true } });
-  return pending._sum.bid ?? 0;
+  return (await waiverFunds(tx, roster.leagueId, roster.leagueSportId, roster.teamId)).reserved;
 }
 
 export async function submitWaiver(userId: string, input: { leagueId: string; sport?: Sport | string; addPlayerId: string; dropPlayerId?: string | null; bid: number; processAt?: Date }) {

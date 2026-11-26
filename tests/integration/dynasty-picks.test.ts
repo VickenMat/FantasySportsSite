@@ -17,6 +17,7 @@ it("grants three seasons of four-round dynasty picks independently by sport and 
   const sports = await database.leagueSport.findMany({ where: { leagueId: league.id } });
   const nfl = sports.find(({ sport }) => sport === "NFL")!;
   const nba = sports.find(({ sport }) => sport === "NBA")!;
+  const futureSeasonsBefore = await database.season.findMany({ where: { sport: "NFL", startYear: { in: [2081, 2082, 2083] } }, orderBy: { startYear: "asc" } });
   await expect(provisionFutureDraftPicks(user.id, league.id, nfl.id)).rejects.toThrow(/finalize league setup/i);
   await database.league.update({ where: { id: league.id }, data: { status: "ACTIVE" } });
   await expect(provisionFutureDraftPicks(randomUUID(), league.id, nfl.id)).rejects.toThrow(/commissioner/i);
@@ -35,9 +36,9 @@ it("grants three seasons of four-round dynasty picks independently by sport and 
   await expect(database.futureDraftPickOwnership.update({
     where: { id: original.id }, data: { reason: "mutable" },
   })).rejects.toThrow(/append-only/i);
-  expect(await database.season.count({ where: { sport: "NFL", startYear: { in: [2081, 2082, 2083] } } })).toBe(0);
+  expect(await database.season.findMany({ where: { sport: "NFL", startYear: { in: [2081, 2082, 2083] } }, orderBy: { startYear: "asc" } })).toEqual(futureSeasonsBefore);
 
-  const next = await database.season.create({ data: { sport: "NFL", startYear: 2081, label: "2081 inventory fixture" } });
+  const next = await database.season.upsert({ where: { sport_startYear: { sport: "NFL", startYear: 2081 } }, create: { sport: "NFL", startYear: 2081, label: "2081 inventory fixture" }, update: {} });
   await database.leagueSport.update({ where: { id: nfl.id }, data: { seasonId: next.id, seasonLabel: next.label } });
   expect(await provisionFutureDraftPicks(user.id, league.id, nfl.id)).toEqual({ created: 8 });
   const rolled = await listFutureDraftPicks(user.id, league.id, nfl.id);

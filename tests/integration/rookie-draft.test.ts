@@ -4,13 +4,49 @@ import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { createLeague } from "@/server/league";
 import { consumptionKey, createRookieDraft, listFutureDraftPicks, provisionFutureDraftPicks, transferFuturePick } from "@/server/dynasty-picks";
-import { makePick } from "@/server/draft";
+import { makePick, queuePlayer } from "@/server/draft";
 import { recordRookieEligibility } from "@/server/rookies";
 import { addFreeAgent, currentCompliance, dropPlayer } from "@/server/rosters";
 import { finalizeRookiePlacements } from "../helpers/rookie-placements";
+import { configureRookieDraftPlan } from "@/server/rookie-draft-plans";
+import { processScheduledDrafts } from "@/server/draft-plans";
 
 const db = getDatabase();
 afterAll(() => db.$disconnect());
+
+it("prepares a scheduled linear rookie room and revalidates transferred ownership at atomic worker activation", async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id, { name: `Scheduled rookie fixture ${randomUUID()}`, sports: ["NHL"], maxTeams: 2, fillWithComputers: true, historical: true, seasonYear: 2070 });
+  try {
+    await db.league.update({ where: { id: league.id }, data: { status: "ACTIVE" } });
+    const sport = await db.leagueSport.findFirstOrThrow({ where: { leagueId: league.id } });
+    const teams = await db.fantasyTeam.findMany({ where: { leagueId: league.id }, orderBy: { draftSlot: "asc" } });
+    await provisionFutureDraftPicks(user.id, league.id, sport.id);
+    await finalizeRookiePlacements(sport.id, teams.map(({ id }) => id));
+    const { transitionSportSeason } = await import("@/server/league");
+    await transitionSportSeason(user.id, league.id, "NHL", 2071);
+    const current = await db.leagueSport.findUniqueOrThrow({ where: { id: sport.id } });
+    const now = new Date(); const start = new Date(+now + 7200000);
+    const input = { leagueId: league.id, leagueSportId: sport.id, rounds: 1, scheduledAt: start, timezone: "UTC", secondsPerPick: 30, reason: "Scheduled reverse-placement rookie fixture" };
+    await expect(configureRookieDraftPlan(user.id, { ...input, orderMethod: "RANDOM" } as never, now)).rejects.toThrow(/unrecognized/i);
+    const plan = await configureRookieDraftPlan(user.id, input, now);
+    const player = await db.player.create({ data: { sport: "NHL", displayName: `Scheduled rookie pool ${randomUUID()}` } });
+    await recordRookieEligibility({ playerId: player.id, seasonId: current.seasonId, sport: "NHL", eligible: true, effectiveAt: new Date("2020-01-01"), knownAt: new Date("2020-01-01"), provider: "isolated-rookie-schedule", externalId: randomUUID(), sourceRecord: { synthetic: true } });
+    await expect(queuePlayer(user.id, plan.draftId!, player.id, new Date(+start - 3600001))).rejects.toThrow(/one hour/);
+    await queuePlayer(user.id, plan.draftId!, player.id, new Date(+start - 3600000));
+    await expect(makePick({ userId: user.id, draftId: plan.draftId!, playerId: player.id, now })).rejects.toThrow(/not active/);
+    await expect(createRookieDraft(user.id, league.id, sport.id)).rejects.toThrow(/server-controlled start/);
+    const entitlement = await db.futureDraftPick.findFirstOrThrow({ where: { leagueSportId: sport.id, seasonStartYear: 2071, round: 1, originalTeamId: teams[0].id } });
+    await transferFuturePick(user.id, league.id, entitlement.id, teams[1].id, "Prepared entitlement ownership correction fixture");
+    await Promise.all([processScheduledDrafts(start), processScheduledDrafts(start)]);
+    const draft = await db.draft.findUniqueOrThrow({ where: { id: plan.draftId! } });
+    expect(draft).toMatchObject({ status: "ACTIVE", startedAt: start, order: teams.map(({ id }) => id) });
+    expect(draft.pickOrder[0]).toBe(teams[1].id);
+    expect(await db.draftQueueEntry.count({ where: { draftId: draft.id } })).toBe(1);
+    expect(await db.draft.count({ where: { leagueId: league.id, kind: "ROOKIE" } })).toBe(1);
+    await expect(configureRookieDraftPlan(user.id, { ...input, expectedVersion: plan.version }, now)).rejects.toThrow(/locked/);
+  } finally { await db.league.delete({ where: { id: league.id } }); }
+});
 
 it("extends configured rookie rounds beyond four without resetting transferred original entitlements", async () => {
   const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
