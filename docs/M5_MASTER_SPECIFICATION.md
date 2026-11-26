@@ -10,6 +10,14 @@ No name-only identity merges. Explicit provider IDs and verified crosswalks reso
 
 Scheduled starts, actual starts, completed status, completion instants, provider update instants, source publication and ingestion time are distinct. The official 24-hour competitive correction window must never start from a fetch timestamp. Corrected observations append revisions and cannot silently rewrite finalized competition.
 
+## Approved free-first strategy
+
+The later M5 Approved Data Strategy and recovered-dataset supplement supersede commercial-first proposals. Development subscriptions have a $0 budget. Use one internal sports-data service with a unified hybrid provider layer. Evaluate ESPN/shared multi-sport coverage first only where permission allows; use sport sources to fill verified gaps. Commercial providers remain optional future extensions and must not block implementation. Endpoint accessibility alone grants no usage rights.
+
+Poll centrally per professional game, never per fantasy league or user. Aim for the fastest permitted freshness, ideally under 60 seconds, with adaptive 15–60 second live polling subject to documented source limits. Distinguish provider publication delay, transport, normalization, scoring and display latency; a polling interval is not a measured end-to-end guarantee. Cache, conditional requests, batching and rolling quota enforcement belong in the shared service.
+
+Recovered CSV files are immutable ignored inputs. Derived enrichment stays separate from accepted Parquet. MLB repaired lists require independently traceable 10-start/20-game evidence; do not sum overlapping team totals. NBA estimated-minute positions remain historical evidence. Substantial backfills require an exact validated manifest and explicit approval.
+
 ## Architecture
 
 Provider adapter → immutable raw/normalized observation → identity and temporal validation → immutable processing decision → existing M4 evidence service → canonical operational data → existing V9 ledger → M4 competition/website. PostgreSQL remains operational storage; full historical archives stay Parquet. No new service infrastructure is required.
@@ -20,7 +28,7 @@ Decisions and observations are append-only. Sync state retains cursor, leases, r
 
 The first promotion slice supports verified player identity bridges and positive position evidence through the existing position service. MLB listed roster roles are quarantined; fielding evidence uses canonical games and explicit starts. Observation time cannot fill absent publication fields. Position retractions, team history, game-state, availability, rookie, retirement, statistics, source arbitration and publication adapters remain tracked requirements.
 
-No provider license exists. The SportsDataIO player decoder is a pure bounded codec, not an activated API connection. Local files default to schema-only dry runs. Fixture promotion requires the authorized isolated test database and schema; development promotion is disabled. Request budgets are persisted hard ceilings, not a claim to implement a vendor's rolling commercial quota.
+No commercial subscription exists. NFLverse player identities have a bounded CC BY 4.0 read-only preview with attribution; ESPN and restricted sport feeds remain disabled. The SportsDataIO player decoder is a pure bounded codec, not an activated API connection. Local files default to schema-only dry runs. Fixture promotion requires the authorized isolated test database and schema; development promotion is disabled. Request budgets are persisted hard ceilings, not a claim to implement a vendor's rolling commercial quota.
 
 ## Milestones
 
@@ -31,3 +39,5 @@ M5.1 researches provider terms/coverage/pricing and selects permitted primary/fa
 The additive staging migration is reviewed/tested only in disposable schemas until explicit development approval. No provider accounts, subscriptions, paid calls, licensing acceptance, development imports or substantive backfills are authorized by a recommendation. Before any such data change, prepare a target manifest, canonical mapping, row fingerprint, source rights, provenance, coverage impact and rollback/recovery plan.
 
 Reuse `historical-position-reconciliation.ts` for approved historical repairs. The current V9 ledger explicitly selects `v9-historical`; new authoritative statistics need a reviewed provider-selection layer rather than a second scoring engine or a silent provider-name alias. Preserve fixed scoring roles and finalized competitive outcomes.
+
+Historical repair preserves original official publication timestamps and never grants current eligibility through a legacy fallback. Source-aware V9 recalculation retains a single canonical ledger and fixed role; a source switch requires an explicit review reason, while replay retains the selected source. Network publication/correction adapters and authoritative end-to-end acceptance remain pending.

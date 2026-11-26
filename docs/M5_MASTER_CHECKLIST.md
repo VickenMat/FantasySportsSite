@@ -1,6 +1,6 @@
 # M5 master checklist
 
-A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint: **11 checked / 21 unchecked / 32 total**.
+A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint (partial recovered-data/provider work does not complete whole rows): **11 checked / 21 unchecked / 32 total**.
 
 ## M5.1 provider research and architecture
 
@@ -14,7 +14,7 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 - [x] Verify accepted canonical identity counts and preserve IDs; fixture-test explicit bridges, discovery and name/conflict quarantine
 - [x] Implement immutable staging decisions and fixture-backed position promotion through existing MLB thresholds
 - [ ] Integrate licensed discovery, professional team assignment/history, position revisions/retractions and identity conflict resolution
-- [ ] Resolve MLB/NBA historical positions with verified sources and exact approved backfill manifests
+- [ ] Resolve MLB/NBA historical positions with verified sources and exact approved backfill manifests (MLB conservative target approved/validated; unresolved subset and NBA current evidence remain)
 
 ## M5.3 schedules and boundaries
 
@@ -35,7 +35,7 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 - [x] Implement bounded pure provider codec/local adapter and default write-free dry-run CLI
 - [x] Fixture-verify persisted leases, budgets, backoff, page/cursor atomicity, replay and restart recovery
 - [ ] Activate approved network adapters, rate-window enforcement, incremental schedules and live/final box scores
-- [ ] Implement source arbitration and source-aware existing V9 ledger promotion without duplicate events
+- [ ] Implement source arbitration and source-aware existing V9 ledger promotion without duplicate events (explicit reviewed source selection/replay implemented; automatic authoritative arbitration/promotion remains)
 
 ## M5.6 availability and lifecycle
 
@@ -57,3 +57,9 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 - [ ] Complete source-to-V9-to-gameplay-to-website acceptance with freshness/unknown/provisional/final indicators
 - [ ] Complete real-source coverage/failure/rate-limit/replay/restart/concurrency matrix for all sports
 - [x] Complete checkpoint M4 regression, populated-copy migration verification, preservation and delivery report (live-source acceptance remains open)
+
+## Recovered-data continuation evidence
+
+Seven immutable recovered files were fingerprinted and all four archives compared by canonical keys, typed values and normalized duplicate-aware multisets. MLB threshold candidates, provenance-preserving NBA history and canonical NHL missing-field requests are reproducible. The conservative MLB manifest passed populated-copy application/idempotence and received explicit development approval. Historical repair now preserves official publication and cannot grant current roster eligibility. See [recovery review](M5_RECOVERED_DATA_REVIEW.md).
+
+The free-first strategy supersedes commercial-first recommendations. A shared bounded HTTPS transport, conditional cache, Retry-After and adaptive per-game polling policy are tested. A real attributed NFLverse identity preview is isolated from operational promotion. Rolling provider-wide quota windows, automatic game scheduling and the remaining typed evidence adapters remain unchecked implementation work.

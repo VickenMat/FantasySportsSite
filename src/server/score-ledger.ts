@@ -14,6 +14,8 @@ type RecalculateOptions = {
   presetVersion?: string;
   role?: GameStatRole;
   teEligible?: boolean;
+  sourceProvider?: string;
+  sourceChangeReason?: string;
   reason: string;
 };
 
@@ -31,14 +33,17 @@ export async function recalculateInTransaction(tx: Prisma.TransactionClient, spo
   });
   const existing = await tx.scoreLedger.findUnique({
     where: { gameId_playerId_presetId: { gameId, playerId, presetId: preset.id } },
-    include: { entries: { orderBy: { sequence: "desc" }, take: 1 } },
+    include: { entries: { orderBy: { sequence: "desc" }, take: 1, include: { stat: { select: { provider: true } } } } },
   });
   if (existing && requestedRole && existing.role !== requestedRole) {
     throw new Error("A scoring role is already fixed for this athlete, game, and preset.");
   }
 
+  const previousProvider = existing?.entries[0]?.stat.provider;
+  const provider = z.string().trim().min(1).max(100).parse(options.sourceProvider ?? previousProvider ?? historicalProvider);
+  if (previousProvider && provider !== previousProvider && !options.sourceChangeReason?.trim()) throw new Error("Changing a ledger's source requires an explicit reviewed source change reason.");
   const revisions = await tx.playerGameStat.findMany({
-    where: { gameId, playerId, provider: historicalProvider, game: { sport } },
+    where: { gameId, playerId, provider, game: { sport } },
     orderBy: { revision: "desc" },
     distinct: ["role"],
     select: { id: true, role: true, normalized: true, observedPositions: true },
@@ -72,7 +77,7 @@ export async function recalculateInTransaction(tx: Prisma.TransactionClient, spo
       statId: stat.id,
       sequence: (previous?.sequence ?? 0) + 1,
       previousEntryId: previous?.id,
-      reason,
+      reason: options.sourceChangeReason ? `${reason}; source review: ${options.sourceChangeReason}` : reason,
       engineVersion,
       inputHash,
       ruleHash,

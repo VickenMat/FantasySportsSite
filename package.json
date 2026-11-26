@@ -36,7 +36,12 @@
     "test:load": "node scripts/run-in-test-environment.mjs -- npx tsx src/workers/load-test.ts",
     "data:ingest": "tsx --env-file-if-exists=.env src/workers/ingest-professional-data.ts",
     "data:m5:audit": "tsx --env-file-if-exists=.env src/workers/audit-m5-baseline.ts",
-    "data:ingestion-status": "tsx --env-file-if-exists=.env src/workers/professional-data-status.ts"
+    "data:ingestion-status": "tsx --env-file-if-exists=.env src/workers/professional-data-status.ts",
+    "data:recovered:audit": "tsx src/workers/audit-recovered-sources.ts",
+    "data:recovered:prepare": "tsx src/workers/prepare-recovered-enrichment.ts",
+    "data:recovered:preview": "tsx --env-file-if-exists=.env src/workers/preview-recovered-backfill.ts",
+    "data:nhl:requests": "tsx --env-file-if-exists=.env src/workers/prepare-nhl-enrichment-requests.ts",
+    "data:nflverse:preview": "tsx src/workers/preview-nflverse-players.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

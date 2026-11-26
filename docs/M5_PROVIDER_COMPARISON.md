@@ -1,6 +1,16 @@
-# M5 provider comparison and conditional recommendations
+# M5 free-first hybrid provider comparison
 
-Research date: November 25, 2026 (America/Los_Angeles). User confirms no existing license: prepare options, purchase nothing, activate no feed. Public documentation availability is not an API credential, license grant, SLA or successful data integration. Unknown product fields remain unknown.
+Research date: November 25, 2026 (America/Los_Angeles). The approved strategy is $0 subscriptions, one internal hybrid service, and ESPN/shared coverage first where permitted. Commercial options are optional future extensions. Public documentation availability is not an API credential, license grant, SLA or successful data integration. Unknown product fields remain unknown.
+
+## Approved development direction
+
+The shared HTTPS service implements bounded bodies/timeouts/redirects, allowlisted hosts, conditional caching and Retry-After; adaptive polling is computed per professional game with provider minimums. Scheduling and rolling provider-wide quotas remain implementation work. No continuous live network job is active.
+
+ESPN remains a candidate, not an approved automated source: [Disney terms covering ESPN](https://disneytermsofuse.com/english/) restrict automated collection/business use absent permission. Research-tool scoreboard probes did not establish endpoint access; they are not outage evidence. No bypass was attempted.
+
+NFLverse's [data license](https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md) and [official player loader](https://github.com/nflverse/nflreadr/blob/main/R/load_players.R) support a bounded attributed player-identity preview. One real preview fetched 24,872 rows: 18,793 standard GSIS identities, 6,079 unsupported primary IDs held out, zero contradictory primary-ID records. The preview writes only ignored files, never eligibility, lifecycle, official publication or operational data. It is not live statistics coverage. Current NBA official positions remain permission-gated; recovered NBA estimates are not substitutes.
+
+Recovered historical sources remove the need to reacquire matching archives. Their local evidence and outstanding targeted NHL requests are detailed in [the recovered-source review](M5_RECOVERED_DATA_REVIEW.md).
 
 ## Coverage matrix
 
@@ -26,23 +36,21 @@ Research date: November 25, 2026 (America/Los_Angeles). User confirms no existin
 | Retrosheet | Current access/rate and license scope unverified | Historical batch candidate | No commercial permission assumed; review current terms first | Medium crosswalk/fielding work; deferred |
 | NBA public/client | Community client does not confer supported API access or limits | No measured SLA/latency; unsuccessful research access is not proof of outage | Fantasy use needs prior permission; client licensing does not grant data rights. | Blocked for automatic fantasy ingestion without permission |
 | NHL public | Access/rates unverified | No measured SLA/latency | Automated fantasy-ingestion rights are not established; permission needed. | Medium/high field mapping; blocked pending rights |
-| SportsDataIO commercial | API key; commercial pricing page advertises unlimited calls, but operational limits still need confirmation | Contract/sample-specific; no numerical latency promised here | Custom quote, no published general price list; raw-feed resale excluded, retention/attribution depend on agreement | Recommended first commercial quote candidate, not an approved selection |
+| SportsDataIO commercial | API key; commercial pricing page advertises unlimited calls, but operational limits still need confirmation | Contract/sample-specific; no numerical latency promised here | Custom quote, no published general price list; raw-feed resale excluded, retention/attribution depend on agreement | Optional future commercial candidate; not required for development |
 | SportsDataIO Discovery Lab | Account; free prior-season exploration and paid personal packages | Lighter personal product; not assumed equivalent to commercial live tier | Personal/non-commercial only; not a license for the public fantasy site. No account created or payment made | Optional private research subject to permitted scope, not production fallback |
 | Sportradar | API key; documented default trial: 30 days, 1,000 requests/rolling 30 days, 1 QPS; production limits per product | Contract/sample-specific; no measured SLA/latency here | Commercial price requires quote; trial rights do not establish production redistribution permission | Recommended alternate commercial quote candidate |
 | MySportsFeeds | Unverified | Unverified | No current quote/rights verified | Additional candidate only; no speculative price or reliability claims |
 
-## Primary/fallback recommendation by category
+## Free-first source plan
 
-These are engineering recommendations conditional on written rights, exact field coverage and price approval.
+| Sport | Historical sources | Current/live gaps | Future optional extension |
+| --- | --- | --- | --- |
+| NFL | Preserve accepted/recovered archives; attributed NFLverse identity preview | Evaluate permitted shared coverage and NFLverse dataset cadence; official publication remains unknown | Commercial only for a later approved need |
+| MLB | Approved conservative recorded-count historical repair | Permitted shared coverage, then official sport gap-fill; current eligibility needs dated evidence | Optional commercial gap-fill |
+| NBA | Preserve archive and estimated/manual historical position provenance | Obtain permitted current positions; estimates cannot substitute | Optional commercial gap-fill |
+| NHL | Preserve archive; canonical requests only for missing scoring fields | Permitted shared/official gap-fill with exact fields and timestamps | Optional commercial gap-fill |
 
-| Sport | Historical identity/statistics | Current positions/availability/lifecycle | Schedule/game-state/live statistics | Official publication/corrections |
-| --- | --- | --- | --- | --- |
-| NFL | Preserve accepted archive; evaluate nflverse releases with attribution; licensed commercial fallback | SportsDataIO quote candidate; Sportradar alternate; nflverse roster/injury supplementary only after field review | SportsDataIO primary quote, Sportradar fallback; nflverse delayed reconciliation where permitted | Whichever contracted provider explicitly supplies the required source timestamps; otherwise pending |
-| MLB | Preserve archive; review licensed box scores/fielding and Retrosheet separately | Licensed per-game fielding starts/appearances; never infer positions from roles | SportsDataIO primary quote, Sportradar alternate; official Stats API only with appropriate permission | Explicitly verified publication/completion fields required; status alone is insufficient |
-| NBA | Preserve archive; obtain permitted historical position source | Licensed positions/status, with identity/time validation | SportsDataIO primary quote, Sportradar alternate; no automatic nba_api fantasy fallback | Contract/sample verification required |
-| NHL | Preserve archive; obtain exact missing V9 inputs | Licensed positions/status and explicit lifecycle evidence | SportsDataIO primary quote, Sportradar alternate; public endpoints only with permission | Exact completion/publication evidence required; never use fetch time |
-
-No provider is approved or activated. A commercial choice requires a written quote covering all four sports, 2016–2026 history plus NBA/NHL 2026–27, fantasy display, storage, derived V9 output, attribution, post-termination retention, freshness/SLA, and exact missing fields. A provider can be primary for one category and insufficient for another.
+No continuous live feed is active. One attributed open-data identity preview does not establish production fantasy coverage. The internal hybrid service supports multiple products without separate provider applications. Commercial quotes are not prerequisites for remaining implementation.
 
 ## Proposed polling budget, inactive
 

@@ -1,6 +1,6 @@
 # M5 data coverage and archive reconciliation
 
-Read-only checkpoint, November 25, 2026. Reproduce with `npm run data:m5:audit`; default machine report is `/private/tmp/fantasy-m5-data-baseline.json`. No archive or operational row was imported, repaired, merged or removed.
+Read-only checkpoint, November 25, 2026. Reproduce with `npm run data:m5:audit`; default machine report is `/private/tmp/fantasy-m5-data-baseline.json`. Updated after the explicitly approved MLB historical repair; accepted archives remain unchanged. See M5_RECOVERED_DATA_REVIEW.md for source fingerprints and evidence limits.
 
 ## Archive versus PostgreSQL
 
@@ -14,14 +14,14 @@ All four physical archive SHA-256 values and Parquet row counts match the prior 
 | NHL | 506,116 | 506,116 | 0 | 14,920 | 872 |
 | Total | 1,746,957 | 1,746,771 | 186 | 103,801 | 4,645 |
 
-The remaining development stat revisions are retained fixtures; total development statistics remain 107,312. Valid archive rows are not automatically a complete, authoritative season or verified pregame dataset. Keep the full archive in Parquet. Materialize only reviewed current-season and query-required subsets, with fingerprints and explicit approval before substantial development backfills.
+The remaining development stat revisions are retained fixtures; total development statistics are now 174,137 immutable revisions after 66,825 approved historical position revisions. Latest accepted appearances remain 103,801; revisions must not be double-counted as games. Valid archive rows are not automatically a complete, authoritative season or verified pregame dataset. Keep the full archive in Parquet. Materialize only reviewed current-season and query-required subsets, with fingerprints and explicit approval before substantial development backfills.
 
 ## Identity, position and historical scoring coverage
 
 | Sport | Accepted canonical identities | Imported historical position observations | Fully scored historical player totals | Current authoritative positions/lifecycle |
 | --- | ---: | --- | --- | --- |
 | NFL | 1,827 | 1,827/1,827 | 1,827/1,827 | Not established by a selected licensed current feed |
-| MLB | 1,472 | 0/1,472 | 1,337/1,472 | Missing verified historical/current fielding source; roster categories do not grant positions |
+| MLB | 1,472 | 935/1,472; 66,825/72,510 latest appearances | 1,337/1,472 | Recorded thresholds support the reviewed historical subset; no current eligibility promotion |
 | NBA | 474 | 0/474 | 474/474 | Missing verified historical/current position source |
 | NHL | 872 | 872/872 | 41/872 | Current source authority not established; historical observed positions remain separate |
 
@@ -57,3 +57,11 @@ Current read-only evidence audit finds zero AVAILABLE independently verified sea
 No licensed live source is selected or active. Actual-start, completion-instant, availability, rookie, retirement and official-publication coverage are unverified for all sports. New staging observations/decisions and cursor/lease/request state are verified in isolated fixtures only. `npm run data:ingestion-status` reports `PENDING_MIGRATION` safely on current development, with live ingestion disabled. After staging deployment it can report persisted stream freshness, failures and decision counts; these are operational metadata, not provider-quality guarantees.
 
 The 215 MLB role conflicts, 831 NHL missing-total players, missing MLB/NBA positions and four historical NBA crosswalks remain visible. New contradictory identities/revisions quarantine without overwriting canonical records. Real-source quarantine counts are not fabricated from synthetic tests. The next coverage matrix must add licensed-field completeness, source-specific freshness and unresolved conflict counts once actual approved samples exist.
+
+## Recovered-source comparison and selective enrichment
+
+All seven recovered sources are present and fingerprinted. The four statistical archives match gameplay normalization for all 1,746,957 rows, including the same 186 rejected NFL rows. Raw shared-column comparisons match; NHL excludes the explicitly differing multilingual name representation and NBA has an extra position column. This is not a claim of byte identity.
+
+NBA embedded positions match repaired same-player/season/team lists on all 242,798 populated rows, without proving official authority. All original 6,282 roster rows match repaired source fields. Preserve 5,972 estimated, nine manual-review and 301 unmatched records separately. The current 2026–27 population still has no position matches.
+
+NHL targeted requests cover 13,499 imported rows with overlapping gaps: 13,428 exact faceoff wins, 13,428 shorthanded points, 40 goalie decisions and 38 shutout values. Recovery supplies no new values. No unknown was replaced by zero. Detailed review and machine report: M5_RECOVERED_DATA_REVIEW.md and reports/m5-recovered-data-audit.json.

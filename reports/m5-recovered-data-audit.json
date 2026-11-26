@@ -1,0 +1,242 @@
+{
+  "sources": [
+    {
+      "file": "nfl_2016_2026_final.csv",
+      "bytes": 85746992,
+      "sha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+      "rows": 185368,
+      "columnCount": 150
+    },
+    {
+      "file": "mlb_2016_2026_final.csv",
+      "bytes": 170683454,
+      "sha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+      "rows": 794974,
+      "columnCount": 68
+    },
+    {
+      "file": "nba_2016-2027_final.csv",
+      "bytes": 98359372,
+      "sha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+      "rows": 260499,
+      "columnCount": 74
+    },
+    {
+      "file": "nhl_2016_2027_final.csv",
+      "bytes": 128076530,
+      "sha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+      "rows": 506116,
+      "columnCount": 38
+    },
+    {
+      "file": "mlb_positions_repaired.csv",
+      "bytes": 5212226,
+      "sha256": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72",
+      "rows": 17465,
+      "columnCount": 25
+    },
+    {
+      "file": "nba_positions_repaired.csv",
+      "bytes": 1240095,
+      "sha256": "a649f4cda8dfad62fea653c19248cc22089102a4d9a9a2f4a22b817290faa929",
+      "rows": 6282,
+      "columnCount": 18
+    },
+    {
+      "file": "_nba_player_positions_2016_2026.csv",
+      "bytes": 489087,
+      "sha256": "0161a58e1fd80b8da77e02b8580cf8a35a1d79b60ea43a1571bde812c844da6a",
+      "rows": 6282,
+      "columnCount": 7
+    }
+  ],
+  "comparisons": [
+    {
+      "sport": "NFL",
+      "csvRows": 185368,
+      "parquetRows": 185368,
+      "csvOnlyColumns": [],
+      "parquetOnlyColumns": [],
+      "rawMatches": 185368,
+      "normalizedMatches": 185368,
+      "csvRejected": 186,
+      "parquetRejected": 186,
+      "rawUnmatchedCsv": 0,
+      "rawUnmatchedParquet": 0,
+      "normalizedUnmatchedCsv": 0,
+      "normalizedUnmatchedParquet": 0,
+      "csvSha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+      "parquetSha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c"
+    },
+    {
+      "sport": "MLB",
+      "csvRows": 794974,
+      "parquetRows": 794974,
+      "csvOnlyColumns": [],
+      "parquetOnlyColumns": [],
+      "rawMatches": 794974,
+      "normalizedMatches": 794974,
+      "csvRejected": 0,
+      "parquetRejected": 0,
+      "rawUnmatchedCsv": 0,
+      "rawUnmatchedParquet": 0,
+      "normalizedUnmatchedCsv": 0,
+      "normalizedUnmatchedParquet": 0,
+      "csvSha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+      "parquetSha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e"
+    },
+    {
+      "sport": "NBA",
+      "csvRows": 260499,
+      "parquetRows": 260499,
+      "csvOnlyColumns": [
+        "position"
+      ],
+      "parquetOnlyColumns": [],
+      "rawMatches": 260499,
+      "normalizedMatches": 260499,
+      "csvRejected": 0,
+      "parquetRejected": 0,
+      "rawUnmatchedCsv": 0,
+      "rawUnmatchedParquet": 0,
+      "normalizedUnmatchedCsv": 0,
+      "normalizedUnmatchedParquet": 0,
+      "csvSha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+      "parquetSha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3"
+    },
+    {
+      "sport": "NHL",
+      "csvRows": 506116,
+      "parquetRows": 506116,
+      "csvOnlyColumns": [],
+      "parquetOnlyColumns": [],
+      "rawMatches": 506116,
+      "normalizedMatches": 506116,
+      "csvRejected": 0,
+      "parquetRejected": 0,
+      "rawUnmatchedCsv": 0,
+      "rawUnmatchedParquet": 0,
+      "normalizedUnmatchedCsv": 0,
+      "normalizedUnmatchedParquet": 0,
+      "csvSha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+      "parquetSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "excludedRawColumns": [
+        "name"
+      ],
+      "rawComparisonScope": "All shared columns except locale-expanded name struct; not byte/content identical"
+    }
+  ],
+  "mlb": {
+    "playerSeasons": 15645,
+    "conflictingPopulatedLists": 531,
+    "statusCounts": {
+      "RECORDED_THRESHOLD_SUPPORTED": 9772,
+      "INSUFFICIENT_THRESHOLD_EVIDENCE": 5873
+    },
+    "requiresTeamScopeValidation": 102
+  },
+  "nba": {
+    "playerSeasons": 5492,
+    "conflictingPopulatedLists": 346,
+    "conflictsIncludingEmpty": 349,
+    "embedded": {
+      "rows": 260499,
+      "populated": 242798,
+      "withSameSeasonRepair": 242798,
+      "exactTeamEstimateMatch": 242798,
+      "seasonEstimateUnionMatch": 233569,
+      "withoutRepair": 0,
+      "currentSeasonRows": 5414,
+      "currentSeasonPlayers": 474
+    },
+    "qualityCounts": {
+      "ESTIMATED": 5972,
+      "MANUAL_REVIEW": 9,
+      "UNMATCHED": 301
+    }
+  },
+  "originalNbaRosterComparison": {
+    "originalRows": 6282,
+    "matchedRows": 6282,
+    "unmatchedRows": 0
+  },
+  "nhlArchive": {
+    "goalieRows": 50619,
+    "goalieDecisions": {
+      "O": 2842,
+      "UNKNOWN": 25309,
+      "W": 12655,
+      "L": 9813
+    },
+    "missingFields": [
+      "exactFaceoffWins",
+      "shorthandedPoints",
+      "explicitShutoutEvidence"
+    ],
+    "supplementaryValuesRecovered": 0,
+    "reason": "Recovered statistics normalize identically to accepted archive. Decision absence remains unknown; no percentages or zero-goals inference."
+  },
+  "derivedFingerprints": {
+    "mlb": "87273e2de10a1f83f950def7389016867c2572b7aec0be3720e5f5b19e1a45de",
+    "nba": "678a32977fc1b96a8e4cfe097a3fda2133041e156d14a8e31a9b4dabce9df736"
+  },
+  "mlbPreview": {
+    "changes": 66825,
+    "players": 935,
+    "fingerprint": "22d4af0837a85bc2f89906d7e480536f7836072f2e20e7d75fc374957e6244f4",
+    "applied": false,
+    "manifestFingerprint": "d0633fa38e98956b045380a2e9e5e3d83e4e67dbd4e8edb94bbf02be3a156712",
+    "candidateImportedPlayerSeasons": 1472,
+    "manifestRows": 935,
+    "withheldPlayerSeasons": 537,
+    "knownAtMeaning": "Recovery analysis observation only; original official publication timestamps are preserved.",
+    "developmentWrites": 0
+  },
+  "mlbDisposableValidation": {
+    "changes": 66825,
+    "players": 935,
+    "fingerprint": "22d4af0837a85bc2f89906d7e480536f7836072f2e20e7d75fc374957e6244f4",
+    "applied": true,
+    "preservedTables": 89,
+    "oldRowsUnchanged": true,
+    "normalizedStatisticsUnchanged": true,
+    "officialPublicationUnchanged": true,
+    "currentEligibilityChanges": 0,
+    "repeatChanges": 0,
+    "targetDatabase": "fantasy_evolution_test",
+    "targetSchema": "integration_migration_0ce1da6734514364b919f3436b88e63a"
+  },
+  "nhlTargets": {
+    "importedStatRows": 14920,
+    "requestedStatRows": 13499,
+    "missingFieldCounts": {
+      "faceoff_wins": 13428,
+      "shorthanded_points_bonus": 13428,
+      "goalie_win": 40,
+      "shutout": 38
+    },
+    "targetFingerprint": "c930d3d59c637ad0c241925117e0c62321fb87bfdf91149cfa25be30a3f7b9ed",
+    "availableSupplementaryValues": 0,
+    "databaseWrites": 0,
+    "sourcePolicy": "Acquire only these missing fields from a permitted source. Never infer integer faceoffs from percentages, shutouts from zero goals, or unknown goalie decisions from absence."
+  },
+  "developmentApplication": {
+    "approvedTargetFingerprint": "22d4af0837a85bc2f89906d7e480536f7836072f2e20e7d75fc374957e6244f4",
+    "migration": "20261126010000_professional_ingestion_foundation",
+    "sqlHash": "a1ba35606bfcb47197c55df87214dd0dbe3bc5c174aacd38fa6f60808c9102e0",
+    "appliedMigrations": 27,
+    "originalTablesPreserved": 86,
+    "originalRowsUnchanged": true,
+    "newStatRevisions": 66825,
+    "playersEnriched": 935,
+    "playerGameStatCount": 174137,
+    "currentEligibilityChanges": 0,
+    "scoreLedgerChanges": 0,
+    "backup": {
+      "path": "data/private_backups/fantasy_evolution_pre_m5_2026-11-26T08-14-26-718Z.dump",
+      "sha256": "9352e3d660f1816883e2da890c0e72a397c0dce8c893ca8b9d94c0d6a0edd764",
+      "bytes": 35831832,
+      "archiveListAndFullDecodeVerified": true
+    }
+  }
+}

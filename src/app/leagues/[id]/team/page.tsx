@@ -6,7 +6,7 @@ import { RosterPositionEditor, type PositionRow } from "@/components/roster-posi
 import { requireSession } from "@/lib/auth";
 import { getDatabase } from "@/lib/db";
 import { leagueContext, resolveLeagueSport } from "@/server/league";
-import { getEligiblePositions } from "@/server/positions";
+import { getEligiblePositions, legacyPositionFallback } from "@/server/positions";
 import { sportIsOffseason } from "@/server/sport-offseason";
 import { irEligiblePlayers } from "@/server/roster-availability";
 import { slotRule } from "@/simulation/config";
@@ -64,7 +64,7 @@ export default async function TeamPage({ params, searchParams }: {
       playerId: entry.playerId, sport: entry.sport, seasonYear: leagueSport.season.startYear, asOf: decisionTimes.get(entry.sport) ?? now,
     });
     const stat = entry.player.gameStats[0];
-    movementPositions.set(entry.id, eligibility.positions.length ? eligibility.positions : context.league.isHistorical ? [] : stat?.observedPositions ?? []);
+    movementPositions.set(entry.id, eligibility.positions.length ? eligibility.positions : context.league.isHistorical ? [] : legacyPositionFallback(stat));
     const positions = eligibility.positions.length ? eligibility.positions : stat?.observedPositions ?? [];
     return {
       id: entry.id, playerId: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions,

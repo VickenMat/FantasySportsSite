@@ -80,6 +80,11 @@ try {
   report.preservedTables = report.tables.length;
   await writeFile("/private/tmp/fantasy-pending-migration-verification.json", JSON.stringify(report, null, 2));
   if (/^\s*(ALTER|CREATE|DROP)\b/m.test(report.drift)) throw new Error("Prisma schema drift detected; inspect the verification report before deployment.");
+  if (process.argv.includes("--verify-recovered-backfill")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-recovered-backfill.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8" });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Recovered enrichment validation failed in disposable schema.");
+  }
   process.stdout.write(`Verified ${report.preservedTables} populated tables and ${foreignKeys.length} foreign keys. Report: /private/tmp/fantasy-pending-migration-verification.json\n${report.drift}\n`);
 } finally {
   await source.query("ROLLBACK").catch(() => {});

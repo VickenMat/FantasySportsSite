@@ -8,13 +8,13 @@ const positionCodes = { MLB: new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "
 export const historicalPositionRepairSchema = z.object({
   sport: z.enum(["MLB", "NBA"]), sourceName: z.string().trim().min(1), sourceProvider: z.string().trim().min(1),
   rows: z.array(z.object({ playerExternalId: z.string().trim().min(1), identityProvider: z.string().trim().min(1),
-    seasonStartYear: z.number().int().min(1900).max(2200), positions: z.array(z.string()).min(1),
+    seasonStartYear: z.number().int().min(1900).max(2200), teamExternalId: z.string().trim().min(1).optional(), gameExternalIds: z.array(z.string().min(1)).min(1).max(500).optional(), positions: z.array(z.string()).min(1),
     verificationStatus: z.literal("VERIFIED"), sourceReference: z.string().trim().min(1), knownAt: z.coerce.date(),
   })).min(1),
 }).superRefine((value, context) => {
   const identities = new Set<string>();
   for (const row of value.rows) {
-    const identity = `${row.identityProvider}:${row.playerExternalId}:${row.seasonStartYear}`;
+    const identity = `${row.identityProvider}:${row.playerExternalId}:${row.seasonStartYear}:${row.teamExternalId ?? "all"}:${[...(row.gameExternalIds ?? [])].sort().join(",")}`;
     if (identities.has(identity)) context.addIssue({ code: "custom", message: `Duplicate repair identity ${identity}.` });
     identities.add(identity);
     if (new Set(row.positions).size !== row.positions.length || row.positions.some((code) => !positionCodes[value.sport].has(code))) context.addIssue({ code: "custom", message: "Use distinct verified sport position codes." });
@@ -30,11 +30,12 @@ export async function reconcileHistoricalPositions(raw: z.input<typeof historica
     if (approval) await lockSport(tx, input.sport);
     else await tx.$executeRaw`SET TRANSACTION READ ONLY`;
     const changes = [];
+    const targets = new Set<string>();
     for (const row of input.rows) {
       const identity = await tx.playerExternalId.findUniqueOrThrow({ where: { sport_provider_externalId: {
         sport: input.sport, provider: row.identityProvider, externalId: row.playerExternalId,
       } } });
-      const stats = await tx.playerGameStat.findMany({ where: { playerId: identity.playerId, provider: row.identityProvider, game: { season: { sport: input.sport, startYear: row.seasonStartYear } } },
+      const stats = await tx.playerGameStat.findMany({ where: { playerId: identity.playerId, provider: row.identityProvider, team: row.teamExternalId ? { provider: row.identityProvider, externalId: row.teamExternalId } : undefined, game: { externalId: row.gameExternalIds ? { in: row.gameExternalIds } : undefined, season: { sport: input.sport, startYear: row.seasonStartYear } } },
         orderBy: [{ revision: "desc" }, { recordedAt: "desc" }], distinct: ["gameId", "role"],
       });
       if (!stats.length) throw new Error(`No imported appearances for ${row.playerExternalId} in ${row.seasonStartYear}; no identity will be invented.`);
@@ -42,6 +43,8 @@ export async function reconcileHistoricalPositions(raw: z.input<typeof historica
       for (const stat of stats) if (JSON.stringify([...stat.observedPositions].sort()) !== JSON.stringify(positions)) {
         // Reconciliation fills missing observations. Conflicting evidence needs a separately reviewed correction.
         if (stat.observedPositions.length) throw new Error(`Conflicting historical positions for stat ${stat.id}.`);
+        if (targets.has(stat.id)) throw new Error(`Overlapping historical repair scopes for stat ${stat.id}; provide one unambiguous target.`);
+        targets.add(stat.id);
         changes.push({ stat, positions, row });
       }
     }
@@ -54,15 +57,18 @@ export async function reconcileHistoricalPositions(raw: z.input<typeof historica
       sport: input.sport, provider: input.sourceProvider, contentHash: sourceHash, importerVersion: "historical-position-repair-1",
     } }, update: {}, create: { sport: input.sport, provider: input.sourceProvider, contentHash: sourceHash, sourceName: input.sourceName,
       importerVersion: "historical-position-repair-1", correctionReason: "Approved historical observed position reconciliation; no eligibility promotion.", summary: report } });
+    const revisions: Prisma.PlayerGameStatCreateManyInput[] = [];
     for (const { stat, positions, row } of changes) {
       const raw = { original: stat.raw, historicalPositionRepair: { sourceProvider: input.sourceProvider, sourceReference: row.sourceReference, positions, knownAt: row.knownAt.toISOString() } } as Prisma.InputJsonValue;
-      await tx.playerGameStat.create({ data: { gameId: stat.gameId, playerId: stat.playerId, teamId: stat.teamId, importBatchId: batch.id,
+      revisions.push({ gameId: stat.gameId, playerId: stat.playerId, teamId: stat.teamId, importBatchId: batch.id,
         provider: stat.provider, role: stat.role, revision: stat.revision + 1, priorRevisionId: stat.id,
         contentHash: createHash("sha256").update(JSON.stringify(raw)).digest("hex"), sourceLine: stat.sourceLine,
         observedPositions: positions, normalized: stat.normalized as Prisma.InputJsonValue, raw,
-        sourceKnownAt: row.knownAt,
-      } });
+        // Recovery/position observation time is not official box-score publication.
+        sourceKnownAt: stat.sourceKnownAt,
+      });
     }
+    for (let offset = 0; offset < revisions.length; offset += 500) await tx.playerGameStat.createMany({ data: revisions.slice(offset, offset + 500) });
     return report;
   }, { isolationLevel: "Serializable", timeout: 120_000 });
 }

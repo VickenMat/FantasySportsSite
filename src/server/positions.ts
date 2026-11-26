@@ -78,3 +78,10 @@ export async function getEligiblePositions(input: { playerId: string; sport: Spo
   });
   return calculateEligibility({ ...input, evidence });
 }
+
+/** Historical repairs are display evidence, never a fallback grant of current eligibility. */
+export function legacyPositionFallback(stat?: { observedPositions: string[]; raw: unknown } | null): string[] {
+  if (!stat) return [];
+  if (stat.raw && typeof stat.raw === "object" && "historicalPositionRepair" in stat.raw) return [];
+  return stat.observedPositions;
+}
