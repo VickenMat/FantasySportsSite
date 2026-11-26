@@ -43,7 +43,14 @@
     "data:nhl:requests": "tsx --env-file-if-exists=.env src/workers/prepare-nhl-enrichment-requests.ts",
     "data:nflverse:preview": "tsx src/workers/preview-nflverse-players.ts",
     "data:ingest:games": "tsx --env-file-if-exists=.env src/workers/professional-game-feeds.ts",
-    "data:worker": "tsx --env-file-if-exists=.env src/workers/professional-data-worker.ts"
+    "data:worker": "tsx --env-file-if-exists=.env src/workers/professional-data-worker.ts",
+    "data:open:fetch": "tsx src/workers/fetch-open-data.ts",
+    "data:open:prepare": "tsx --env-file-if-exists=.env src/workers/prepare-real-enrichment.ts",
+    "data:open:mlb-roles": "tsx --env-file-if-exists=.env src/workers/prepare-mlb-role-evidence.ts",
+    "data:open:nba-positions": "tsx --env-file-if-exists=.env src/workers/prepare-current-nba-positions.ts",
+    "data:open:validate": "node scripts/verify-pending-migrations.mjs --verify-real-sources",
+    "data:open:validate-mlb-roles": "node scripts/verify-pending-migrations.mjs --verify-real-mlb-roles",
+    "test:e2e:real-populations": "node scripts/verify-pending-migrations.mjs --verify-real-website"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

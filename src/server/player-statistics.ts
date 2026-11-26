@@ -1,6 +1,7 @@
 import { getDatabase } from "@/lib/db";
 import { calculateScore, type StatValues } from "@/scoring/engine";
 import { historicalProvider } from "@/imports/normalize";
+import { historicalStatsForScoring } from '@/scoring/historical-evidence';
 
 export type PlayerStatistics = { gamesPlayed: number; scoredGames: number; totalTenths: bigint | null; averageTenths: number | null; projectionTenths: null };
 
@@ -53,7 +54,7 @@ export async function playerStatistics(input: { playerIds: string[]; presetId: s
     const row = candidates[0] ?? appearances[0];
     let score: bigint | null = null;
     if (candidates.length === 1) {
-      const result = calculateScore(weights, { role: row.role, stats: row.normalized as StatValues,
+      const result = calculateScore(weights, { role: row.role, stats: historicalStatsForScoring({...row,normalized:row.normalized as StatValues}),
         teEligible: row.role === "FOOTBALL" && row.observedPositions.length ? row.observedPositions.includes("TE") : null });
       if (!result.missingStats.length) score = BigInt(result.totalTenths);
     }

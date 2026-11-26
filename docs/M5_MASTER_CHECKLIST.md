@@ -63,3 +63,18 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 Seven immutable recovered files were fingerprinted and all four archives compared by canonical keys, typed values and normalized duplicate-aware multisets. MLB threshold candidates, provenance-preserving NBA history and canonical NHL missing-field requests are reproducible. The conservative MLB manifest passed populated-copy application/idempotence and received explicit development approval. Historical repair now preserves official publication and cannot grant current roster eligibility. See [recovery review](M5_RECOVERED_DATA_REVIEW.md).
 
 The free-first strategy supersedes commercial-first recommendations. A shared bounded HTTPS transport, conditional cache, Retry-After and adaptive per-game polling policy are tested. A real attributed NFLverse identity preview is isolated from operational promotion. Rolling provider-wide quota windows, central adaptive game scheduling, dependency retries, typed lifecycle/boundary/game/stat adapters, correction-safe V9 promotion and freshness UI are implemented with isolated synthetic fixtures. Mixed requirements above remain unchecked until their real-source component is verified. See [mechanism delivery](M5_INGESTION_MECHANISMS_REPORT.md).
+
+
+## Real-data continuation — November 26
+
+Progress remains **12 checked / 20 unchecked / 32 total** because the remaining rows include unavailable all-sport evidence or live competitive acceptance. Partial real-source success is recorded without checking whole mixed requirements.
+
+- Migration 28 was explicitly approved and deployed; none is pending. All 89 original application tables were preserved, 196 foreign keys validated and Prisma drift was empty.
+- Eleven current-season licensed release products were fetched in 22 successful HTTP requests including redirects. Content-addressed snapshots, source hashes and attribution remain ignored. Real canonical identity staging accepted NFL 586, MLB 1,470, NBA 469 and NHL 786 records in disposable copies.
+- Real NFL and NHL statistical staging accepted 3,577 and 11,808 observations respectively; bounded 100-score samples used the existing V9 ledger with complete inputs. Replays added zero observations, stats or score entries. This is batch-source acceptance, not a live-publication SLA.
+- Approved NHL repair appended exactly 11,808 historical revisions for 785 players. Missing-input players fell 831 → 678; 153 became statistically complete. Source positions/publication and existing ledgers were preserved.
+- Confirmed MLB starter priority resolved 197/215 appearances across 128 players. Exact historical materialization was separately approved and applied: 197 ledgers/entries, zero source-stat changes. Missing-role appearances/players fell 215/135 → 18/18.
+- NBA current roster evidence matches 469/474 imported players; coarse codes and missing effective/publication instants grant zero eligibility. MLB positions remain the earlier approved 935 players / 66,825 revisions, with 537 imported player-seasons withheld.
+- Chromium additionally verified the actual four-sport imported populations on a populated disposable copy. Unknown projections/positions/times remain unknown. Existing V5, recovered sources, accepted archives, 56 V9 weights and user screenshots are preserved.
+
+See [real-data delivery](M5_REAL_DATA_COMPLETION_REPORT.md) and [exact approval/application review](M5_REAL_DATA_REVIEW.md). Remaining goalie evidence, 18 MLB appearances, current eligibility, source publication/completion, independently verified boundaries, lifecycle evidence and continuous permitted live feeds remain open.

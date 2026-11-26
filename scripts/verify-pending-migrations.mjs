@@ -73,6 +73,10 @@ try {
   }
   if (report.foreignKeyViolations.length) throw new Error("Populated-copy foreign key validation failed.");
   targetUrl.searchParams.set("schema", schema);
+  // Prisma qualifies model queries; raw SQL also needs the disposable schema.
+  // Match the integration runner instead of falling back to the public schema.
+  const options = targetUrl.searchParams.get("options");
+  targetUrl.searchParams.set("options", [options, `-c search_path=${schema}`].filter(Boolean).join(" "));
   const drift = spawnSync("npx", ["prisma", "migrate", "diff", "--from-config-datasource", "--to-schema", "prisma/schema.prisma", "--config", "prisma7.config.ts", "--script"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8" });
   if (drift.status !== 0) throw new Error(drift.stderr);
   report.drift = drift.stdout;
@@ -84,6 +88,21 @@ try {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-recovered-backfill.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8" });
     process.stdout.write(validation.stdout);
     if (validation.status !== 0) throw new Error(validation.stderr || "Recovered enrichment validation failed in disposable schema.");
+  }
+  if (process.argv.includes("--verify-real-sources")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-real-sources.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real-source validation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-real-mlb-roles")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-mlb-role-selection.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real MLB role validation failed in disposable schema.");
+  }
+  if (process.argv.includes("--verify-real-website")) {
+    const validation = spawnSync("npx", ["playwright", "test", "tests/e2e/real-source-population.spec.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href, REAL_SOURCE_POPULATION_ACCEPTANCE: "true" }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real-population browser acceptance failed in disposable schema.");
   }
   process.stdout.write(`Verified ${report.preservedTables} populated tables and ${foreignKeys.length} foreign keys. Report: /private/tmp/fantasy-pending-migration-verification.json\n${report.drift}\n`);
 } finally {

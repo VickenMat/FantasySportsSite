@@ -51,6 +51,7 @@ it("reports missing NHL counts and requires a decision or evidence for goalie bo
   });
   const goalie = { ...nhlRow, category: "goalies", position: "G", saves: "32", goalsAgainst: "0", toi: "59:40", starter: "True" };
   expect(normalizeHistoricalRow("NHL", goalie, 3).stats).toMatchObject({ goalie_win: null, shutout: null });
+  expect(normalizeHistoricalRow("NHL", { ...goalie, toi: "65:00", decision: "W" }, 3).stats.shutout).toBeNull();
   expect(normalizeHistoricalRow("NHL", { ...goalie, decision: "W", shutout: "1" }, 3).stats).toMatchObject({ goalie_win: 1, shutout: 1 });
   expect(normalizeHistoricalRow("NHL", { ...goalie, decision: "O", goalsAgainst: "4" }, 3).stats).toMatchObject({ goalie_win: 0, shutout: 0 });
   expect(() => normalizeHistoricalRow("NHL", { ...goalie, shutout: "1", goalsAgainst: "2" }, 3)).toThrow(/conflicts/);

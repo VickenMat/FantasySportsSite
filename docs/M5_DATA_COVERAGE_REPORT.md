@@ -1,5 +1,8 @@
 # M5 data coverage and archive reconciliation
 
+Current continuation: the exact approved NHL repair and MLB role materialization are applied. Read-only post-application coverage is **NHL 678 missing-input players / 1,693 evidence-aware appearances** (from 831 / 13,501 evidence-aware appearances; the older null-only baseline is 13,499), and **MLB 18 unresolved-role players / 18 appearances** (from 135 / 215). The raw MLB archive still retains all 215 paired appearances. Current NBA roster evidence matches 469/474 canonical imported IDs but grants zero dated current eligibility. All accepted sources/archives/V5 and 56 V9 weights are preserved. The older audit sections below retain their original baseline scope. Current evidence and source limitations: [real-data completion report](M5_REAL_DATA_COMPLETION_REPORT.md), [application review](M5_REAL_DATA_REVIEW.md), [machine report](../reports/m5-real-data-integration.json).
+
+
 Read-only checkpoint, November 25, 2026. Reproduce with `npm run data:m5:audit`; default machine report is `/private/tmp/fantasy-m5-data-baseline.json`. Updated after the explicitly approved MLB historical repair; accepted archives remain unchanged. See M5_RECOVERED_DATA_REVIEW.md for source fingerprints and evidence limits.
 
 ## Archive versus PostgreSQL

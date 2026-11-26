@@ -1,6 +1,7 @@
 import { getDatabase } from "@/lib/db";
 import { scoringCompleteness } from "@/scoring/completeness";
 import type { StatValues } from "@/scoring/engine";
+import { historicalStatsForScoring } from '@/scoring/historical-evidence';
 
 // Read-only reconciliation of accepted archive data. Never inserts score ledgers.
 const database = getDatabase();
@@ -15,9 +16,13 @@ try {
     for (const season of seasons) {
       const rows = await tx.playerGameStat.findMany({ where: { game: { seasonId: season.id }, player: { isDemo: false, isSynthetic: false } },
         distinct: ["playerId", "gameId", "role"], orderBy: [{ revision: "desc" }, { recordedAt: "desc" }],
-        select: { playerId: true, gameId: true, role: true, normalized: true, observedPositions: true } });
+        select: { playerId: true, gameId: true, role: true, normalized: true, observedPositions: true, provider: true, raw: true } });
+      const rawAppearances=rows.map(row=>({...row,normalized:row.normalized as StatValues}));
+      const appearances=rawAppearances.map(row=>({...row,normalized:historicalStatsForScoring(row)}));
+      const selections=await tx.scoreLedger.findMany({where:{presetId:preset.id,game:{seasonId:season.id},player:{isDemo:false,isSynthetic:false}},select:{playerId:true,gameId:true,role:true}});
       reports.push({ sport: season.sport, season: season.label,
-        ...scoringCompleteness(rows.map((row) => ({ ...row, normalized: row.normalized as StatValues })), rules) });
+        ...scoringCompleteness(appearances,rules,new Map(selections.map(row=>[`${row.playerId}:${row.gameId}`,row.role]))),
+        fixedScoringRoles:selections.length,rawArchiveIssues:scoringCompleteness(rawAppearances,rules).issues });
     }
     return reports;
   }, { isolationLevel: "RepeatableRead", timeout: 120_000 });

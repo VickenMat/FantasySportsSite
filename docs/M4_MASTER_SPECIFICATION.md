@@ -13,6 +13,7 @@ M4 covers competition, roster management, transactions, dynasty, salary, trading
 ## 2. Architecture and invariants
 
 - Independent dimensions: HEAD_TO_HEAD or CUMULATIVE; REDRAFT or DYNASTY; traditional or salary-cap format; snake or auction initial draft; linear traditional rookie draft; rolling or FAAB traditional waivers; Vickrey salary acquisition.
+- Confirmed MLB single-role scoring: use PITCHER for a starting pitcher; otherwise use HITTER when the player bats. Proven exclusive pitching remains PITCHER. Never combine both roles or choose by realized fantasy points; unavailable participation evidence remains pending. All V9 coefficients remain unchanged.
 - One canonical identity per player, game, asset, balance and result. Raw observations and ownership/financial history are append-only. Corrections create revisions.
 - Use exact integer currency, exact rational championship awards (including split ties), and one-decimal displayed fantasy scores. Do not round intermediate championship calculations.
 - Mutations are authorized, serializable, idempotent where retried, and atomic across all assets. Use database constraints and deterministic locking; no negative available balances or duplicate ownership.

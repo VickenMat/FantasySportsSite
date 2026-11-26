@@ -9,14 +9,15 @@ import{statEntityKey}from"./statistics";
 import{enrichSelectedStatistics}from"./stat-enrichment";
 import{professionalGameProjection}from"@/server/professional-game-state";
 import{getEligiblePositions}from"@/server/positions";
-import{assertFixtureDatabase}from"./persist";
+import{assertFixtureDatabase,assertOpenDataProvider}from"./persist";
 import{fingerprint,observationSchema}from"./contracts";
-const policySchema=z.object({version:z.string().trim().min(1).max(100),enrichment:z.enum(["NONE","MISSING_ONLY"]).default("NONE"),sources:z.array(z.object({provider:z.string().min(1).max(100),priority:z.number().int().min(0).max(1000),maxAgeMs:z.number().int().min(1000).max(31536000000),fields:z.array(z.string().min(1).max(64)).max(200).optional(),allowProvisional:z.boolean(),permission:z.enum(["FIXTURE_ONLY","DISABLED"])}).strict()).max(20)}).strict().refine(v=>new Set(v.sources.map(s=>s.provider)).size===v.sources.length,"Source policies must have unique providers.").refine(v=>v.enrichment==="MISSING_ONLY"||v.sources.every(s=>!s.fields),"Per-field source scopes require explicit missing-field enrichment mode.");
+const policySchema=z.object({version:z.string().trim().min(1).max(100),enrichment:z.enum(["NONE","MISSING_ONLY"]).default("NONE"),sources:z.array(z.object({provider:z.string().min(1).max(100),priority:z.number().int().min(0).max(1000),maxAgeMs:z.number().int().min(1000).max(31536000000),fields:z.array(z.string().min(1).max(64)).max(200).optional(),allowProvisional:z.boolean(),permission:z.enum(["FIXTURE_ONLY","ISOLATED_OPEN_DATA","DISABLED"])}).strict()).max(20)}).strict().refine(v=>new Set(v.sources.map(s=>s.provider)).size===v.sources.length,"Source policies must have unique providers.").refine(v=>v.enrichment==="MISSING_ONLY"||v.sources.every(s=>!s.fields),"Per-field source scopes require explicit missing-field enrichment mode.");
 export type SourceSelectionPolicy=z.input<typeof policySchema>;
-/** Disabled without an explicit reviewed policy. This slice promotes only disposable fixtures. */
+/** Disabled without an explicit reviewed policy. Promotion remains confined to authorized disposable schemas. */
 export async function selectAndScoreSource(input:{sport:Sport;gameId:string;playerId:string;role?:GameStatRole},rawPolicy:SourceSelectionPolicy,at=new Date()){
- const policy=policySchema.parse(rawPolicy),sources=policy.sources.filter(p=>p.permission==="FIXTURE_ONLY");
+ const policy=policySchema.parse(rawPolicy),sources=policy.sources.filter(p=>p.permission!=="DISABLED");
  if(!sources.length)return{status:"PENDING_POLICY" as const};
+ for(const source of sources)if(source.permission==="ISOLATED_OPEN_DATA")assertOpenDataProvider(source.provider);
  assertFixtureDatabase();const db=getDatabase();
  return db.$transaction(async tx=>{
   await lockSport(tx,input.sport);
@@ -53,7 +54,7 @@ export async function selectAndScoreSource(input:{sport:Sport;gameId:string;play
    const [game]=await tx.$queryRaw<{startsAt:Date|null;startYear:number}[]>`SELECT source_start."resolvedStart" AS "startsAt",season."startYear" FROM "Game" game JOIN "Season" season ON season.id=game."seasonId" ${professionalGameProjection(at)} WHERE game.id=${input.gameId}::uuid`;
    if(game?.startsAt){const eligibility=await getEligiblePositions({playerId:input.playerId,sport:input.sport,seasonYear:game.startYear,asOf:game.startsAt},tx);if(eligibility.available)teEligible=eligibility.positions.includes("TE");}
   }
-  const score=await recalculateInTransaction(tx,input.sport,{gameId:input.gameId,playerId:input.playerId,role,sourceProvider:selectedProvider,teEligible,sourceChangeReason:`Reviewed fixture policy ${policy.version} ${fingerprint(policy)}`,reason:"Provider-independent source selection using the existing V9 ledger"});
+  const score=await recalculateInTransaction(tx,input.sport,{gameId:input.gameId,playerId:input.playerId,role,sourceProvider:selectedProvider,teEligible,sourceChangeReason:`Reviewed source policy ${policy.version} ${fingerprint(policy)}`,reason:"Provider-independent source selection using the existing V9 ledger"});
   await recordSelection(score.changed?"SCORED":"UNCHANGED");
   return{status:score.changed?"SCORED" as const:"UNCHANGED" as const,provider:selectedProvider,observationId:selected.observationId,entry:score.entry};
  },{timeout:30000});

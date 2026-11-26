@@ -8,6 +8,8 @@ Preserve canonical IDs, ownership, statistical revisions, financial/competitive 
 
 No name-only identity merges. Explicit provider IDs and verified crosswalks resolve identity; contradictory links quarantine. New identity discovery requires explicit evidence and review. Historical observed positions remain separate from current eligibility. MLB eligibility uses 10 starts OR 20 appearances at a position in the current/following year, never a HITTER/PITCHER role inference.
 
+Confirmed November 26 MLB rule: select PITCHER for a starting pitcher; otherwise HITTER when the player bats. Proven exclusive pitching remains PITCHER. Evidence gaps stay pending; roles are never combined or selected by fantasy total.
+
 Scheduled starts, actual starts, completed status, completion instants, provider update instants, source publication and ingestion time are distinct. The official 24-hour competitive correction window must never start from a fetch timestamp. Corrected observations append revisions and cannot silently rewrite finalized competition.
 
 ## Approved free-first strategy
@@ -43,3 +45,6 @@ Reuse `historical-position-reconciliation.ts` for approved historical repairs. T
 Historical repair preserves original official publication timestamps and never grants current eligibility through a legacy fallback. Source-aware V9 recalculation retains a single canonical ledger and fixed role; a source switch requires an explicit review reason, while replay retains the selected source. Typed publication/correction promotion is fixture-verified; real provider field semantics and authoritative end-to-end acceptance remain pending.
 
 NBA/MLB/NHL postponements retain their originally assigned fantasy week; NFL retains the official professional week. Actual verified starts control immutable lineup capture. Cancelled-only regular periods are skipped without zero-score ties; uncertain playoff/championship consequences remain pending review.
+
+
+November 26 continuation: licensed nflverse/SportsDataverse releases now have bounded real downloads, canonical staging, NFL/NHL V9 samples and populated-copy replay acceptance. Exact NHL missing-field and MLB role materializations were separately approved and applied with fresh verified backups. Those historical applications do not activate continuous feeds or supply unavailable official publication/completion evidence. Current source limitations and exact approvals are recorded in M5_REAL_DATA_COMPLETION_REPORT.md and M5_REAL_DATA_REVIEW.md.

@@ -1,5 +1,13 @@
 # M5 free-first hybrid provider comparison
 
+
+## November 26 real-source continuation
+
+Bounded downloads now use the published CC BY 4.0 nflverse statistics/roster releases and SportsDataverse data releases. The latter identifies its **data** license in its [README](https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md); its software MIT license is a separate grant. These are attributed redistribution sources; direct NBA/NHL/MLB/ESPN endpoints remain disabled. Current-source records, exact hashes, canonical matching, missing evidence and isolated acceptance are detailed in [the real-data review](M5_REAL_DATA_REVIEW.md) and the real integration report. No logo/headshot assets or paid services are used.
+
+Retrosheet's [notice](https://www.retrosheet.org/notice.txt) permits commercial use with its required prominent attribution. Its available historical release does not cover the imported 2026 MLB target, so it does not resolve those current gaps. No unnecessary historical download was performed. Batch release modification/fetch times do not supply official publication or game completion instants, and these sources provide no demonstrated 60-second live SLA.
+
+
 Research date: November 25, 2026 (America/Los_Angeles). The approved strategy is $0 subscriptions, one internal hybrid service, and ESPN/shared coverage first where permitted. Commercial options are optional future extensions. Public documentation availability is not an API credential, license grant, SLA or successful data integration. Unknown product fields remain unknown.
 
 ## Approved development direction

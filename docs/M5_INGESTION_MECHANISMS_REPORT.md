@@ -1,6 +1,6 @@
 # M5 ingestion mechanisms delivery
 
-This continues synchronized `4637185`. Generic M5 mechanisms are implemented with isolated synthetic evidence. M5 remains incomplete: no approved live-game source is active, measured real-source coverage and latency are unverified, and fixture success is not provider acceptance. The subscription budget remains $0.
+This continues synchronized `4637185`. Generic M5 mechanisms are implemented with isolated synthetic evidence. M5 remains incomplete: no approved live-game source is active, full all-sport real-source coverage and publication latency remain unverified, and fixture success is not provider acceptance. The subscription budget remains $0.
 
 ## Implemented behavior
 
@@ -16,7 +16,7 @@ This continues synchronized `4637185`. Generic M5 mechanisms are implemented wit
 
 Operational promotion remains limited to authorized disposable schemas. The managed development worker has an empty approved feed registry and idles without network or database ingestion. Merely adding an adapter does not grant provider rights.
 
-Migration `20261126020000_professional_projection_states` adds the `SKIPPED` matchup enum value and a lookup index. Development remains at 27 migrations pending explicit approval of this separate 27 → 28 change. The populated disposable copy preserves all 89 existing application tables, validates 196 foreign keys and has empty Prisma drift. No backfill accompanies this migration. See [review](M5_PENDING_MIGRATION_REVIEW.md).
+Migration `20261126020000_professional_projection_states` adds the `SKIPPED` matchup enum value and a lookup index. That exact change has now been separately approved and deployed; development is at 28 migrations with none pending. The populated disposable copy preserves all 89 existing application tables, validates 196 foreign keys and has empty Prisma drift. No backfill accompanies this migration. See [review](M5_PENDING_MIGRATION_REVIEW.md).
 
 The earlier explicitly approved migration 27 and exact 66,825-row historical MLB append are complete. Those original-row fingerprints and backup evidence remain in [recovery report](M5_RECOVERY_COMPLETION_REPORT.md). Commissioner draft changes during the session were preserved. Subsequent automated tests use only fresh schemas of `fantasy_evolution_test`.
 
@@ -35,3 +35,6 @@ Unit: 168/168. Integration: 114/114 in a fresh disposable schema; the shuffled f
 Permitted real provider products, documented field/publication/completion semantics and limits, real-source all-sport failure/freshness/restart acceptance, authoritative current NBA positions, exact missing NHL inputs, unresolved MLB thresholds/team aggregation and single-role evidence remain open. Four accepted historical NBA crosswalk limitations remain. These are recorded without fabricating production evidence. Commercial subscriptions are optional future extensions.
 
 Post-application preservation: all 90 development tables (including migration history) were checked with exact counts and row fingerprints. Only BackgroundJobRun advanced during normal running workers; no other difference or missing table was found. All seven recovered source SHA-256 values and all five accepted V5 fingerprints remain exact. The 56 V9 scoring rows are unchanged. Three user-modified screenshots remain unstaged.
+
+
+The later real-data continuation executes bounded licensed downloads, canonical staging and real V9 samples in populated disposable copies. The approved NHL historical target is applied to development. This supersedes the earlier fixture-only coverage statement for the specifically measured products; live competitive publication/finalization remains gated. See M5_REAL_DATA_REVIEW.md and M5_REAL_DATA_COMPLETION_REPORT.md.

@@ -7,6 +7,7 @@ import { calculateScore, chooseRole, engineVersion, formatScore } from "@/scorin
 import { ubpV9 } from "@/scoring/ubp-v9";
 import { historicalProvider } from "@/imports/normalize";
 import { lockSport } from "./sport-lock";
+import { historicalStatsForScoring } from '@/scoring/historical-evidence';
 
 type RecalculateOptions = {
   gameId: string;
@@ -46,7 +47,7 @@ export async function recalculateInTransaction(tx: Prisma.TransactionClient, spo
     where: { gameId, playerId, provider, game: { sport } },
     orderBy: { revision: "desc" },
     distinct: ["role"],
-    select: { id: true, role: true, normalized: true, observedPositions: true },
+    select: { id: true, role: true, normalized: true, observedPositions: true, raw: true },
   });
   const role = chooseRole(revisions.map((revision) => revision.role), existing?.role ?? requestedRole);
   const stat = revisions.find((revision) => revision.role === role);
@@ -62,10 +63,12 @@ export async function recalculateInTransaction(tx: Prisma.TransactionClient, spo
     sport, statKey, applicability, coefficientTenths: Number(coefficient.mul(10).toFixed(0)),
   }));
   const ruleHash = hash([preset.version, rules]);
-  const inputHash = hash([stat.id, engineVersion, ruleHash, role, teEligible, override]);
+  const originalStats=statValues.parse(stat.normalized);
+  const scoringStats=historicalStatsForScoring({provider,role,normalized:originalStats,raw:stat.raw});
+  const inputHash = hash([stat.id, engineVersion, ruleHash, role, teEligible, override,...(scoringStats===originalStats?[]:['explicit-shutout-evidence-required'])]);
   if (previous?.inputHash === inputHash) return { ledger: existing, entry: previous, changed: false };
 
-  const result = calculateScore(rules, { role, stats: statValues.parse(stat.normalized), teEligible });
+  const result = calculateScore(rules, { role, stats: scoringStats, teEligible });
   const ledger = existing ?? await tx.scoreLedger.create({
     data: { gameId, playerId, presetId: preset.id, role },
   });

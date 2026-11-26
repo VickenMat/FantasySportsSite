@@ -1,0 +1,1148 @@
+{
+  "baselineGitCommit": "00fd706",
+  "m4Checklist": {
+    "complete": 60,
+    "total": 60
+  },
+  "m5Checklist": {
+    "complete": 12,
+    "incomplete": 20,
+    "total": 32
+  },
+  "appliedMigrations": 28,
+  "pendingMigrations": [],
+  "dataBudgetDollars": 0,
+  "sources": [
+    {
+      "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_2026.csv",
+      "sha256": "4c896a493ac645ec66c0d0daed9cdbe72584ef9989e1d25d4d6a0092fa1a7698",
+      "bytes": 986205,
+      "requestCount": 2,
+      "requestStartedAt": "2026-11-26T20:36:02.194Z",
+      "receivedAt": "2026-11-26T20:36:03.301Z",
+      "elapsedMs": 1110,
+      "etag": "\"0x8DF4BE4F79EE976\"",
+      "lastModified": "Thu, 26 Nov 2026 17:44:48 GMT",
+      "officialPublishedAt": null,
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "id": "nfl-rosters-2026",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "newRequests": 0
+    },
+    {
+      "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+      "sha256": "b06ab83310fe351db1b16e89e87c074f7de464e51700f6b3ff730315598d0c12",
+      "bytes": 5077093,
+      "requestCount": 2,
+      "requestStartedAt": "2026-11-26T20:36:03.305Z",
+      "receivedAt": "2026-11-26T20:36:07.058Z",
+      "elapsedMs": 3762,
+      "etag": "\"0x8DF4BEF6CD1F15F\"",
+      "lastModified": "Thu, 26 Nov 2026 18:59:40 GMT",
+      "officialPublishedAt": null,
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "id": "nfl-statistics-2026",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-skaters-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "dcaf102977847a02df33aef9d6b3b9cf97bb32a996b48eb1c973d9750b6a83b5",
+      "bytes": 1476879,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:40:23.297Z",
+      "receivedAt": "2026-11-26T20:40:24.483Z",
+      "elapsedMs": 1186,
+      "etag": "\"0x8DF4B93D5B7D81C\"",
+      "lastModified": "Thu, 26 Nov 2026 08:04:02 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-goalies-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "24db76222d6da416a840ef4793bad18d11afdfce7be9098497eeb18fcae36dcc",
+      "bytes": 184446,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:40:24.487Z",
+      "receivedAt": "2026-11-26T20:40:24.805Z",
+      "elapsedMs": 318,
+      "etag": "\"0x8DF4B93DB495091\"",
+      "lastModified": "Thu, 26 Nov 2026 08:04:12 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-scoring-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "8dac66e73efac0560c32cfb69ff1c37d924e320e862c085403df0133c6b7b454",
+      "bytes": 2119202,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:40:24.806Z",
+      "receivedAt": "2026-11-26T20:40:25.462Z",
+      "elapsedMs": 656,
+      "etag": "\"0x8DF4B93F7689FF4\"",
+      "lastModified": "Thu, 26 Nov 2026 08:04:59 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nba-rosters-2027",
+      "provider": "sportsdataverse",
+      "sport": "NBA",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nba_stats_rosters/rosters_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "33851efb72805317c1e5908337d7d4cb32a1f5c35b164af394293dc37734b2a5",
+      "bytes": 76765,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:40:25.467Z",
+      "receivedAt": "2026-11-26T20:40:25.727Z",
+      "elapsedMs": 260,
+      "etag": "\"0x8DF4BE396FBFD1A\"",
+      "lastModified": "Thu, 26 Nov 2026 17:34:57 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "mlb-plays-2026",
+      "provider": "sportsdataverse",
+      "sport": "MLB",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/mlb_pbp/mlb_pbp_2026.csv.gz",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "2b70412a7661d9b15674f3126081ec389d7918482d1c7c7167c6885a105bb6c4",
+      "bytes": 6467196,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:40:25.728Z",
+      "receivedAt": "2026-11-26T20:40:27.172Z",
+      "elapsedMs": 1444,
+      "etag": "\"0x8DF35B8CFF3B529\"",
+      "lastModified": "Thu, 29 Oct 2026 12:33:18 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-events-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "6d16cbc1c1747a54eb6ff5f0b2b2ef399bc5c0a17c1667131cd6989e69318606",
+      "bytes": 5715124,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:42:26.981Z",
+      "receivedAt": "2026-11-26T20:42:28.594Z",
+      "elapsedMs": 1613,
+      "etag": "\"0x8DF4B94260BB037\"",
+      "lastModified": "Thu, 26 Nov 2026 08:06:17 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-game-info-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "0ebc8b3b1f854c78d99f08d5ae81e298d530ab59b970cd14b75eca67621cc1f2",
+      "bytes": 26618,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:42:28.604Z",
+      "receivedAt": "2026-11-26T20:42:28.888Z",
+      "elapsedMs": 284,
+      "etag": "\"0x8DF4B93E61736BB\"",
+      "lastModified": "Thu, 26 Nov 2026 08:04:30 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nba-listed-2027",
+      "provider": "sportsdataverse",
+      "sport": "NBA",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_rosters/rosters_2027.csv",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "b1a1a52879730b931edc8bed0ca7b6f9679270fd3c7b839b8ca37715a45f5258",
+      "bytes": 228228,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:42:28.890Z",
+      "receivedAt": "2026-11-26T20:42:29.334Z",
+      "elapsedMs": 444,
+      "etag": "\"0x8DF4BBA9708B470\"",
+      "lastModified": "Thu, 26 Nov 2026 12:41:27 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    },
+    {
+      "id": "nhl-scoring-structured-2027",
+      "provider": "sportsdataverse",
+      "sport": "NHL",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "attribution": "nflverse contributors and SportsDataverse contributors; upstream NFL, MLB, NBA and NHL statistical sources as identified in each release. CC BY 4.0. Filtered and normalized for Fantasy Evolution; no endorsement implied. Publication/completion instants are not inferred from artifact update times.",
+      "sha256": "8622f48fcd07c9af762fd40257df95964b96100f6fd797bfb7cf5ea00248fa63",
+      "bytes": 291848,
+      "requestCount": 2,
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "requestStartedAt": "2026-11-26T20:48:33.366Z",
+      "receivedAt": "2026-11-26T20:48:34.352Z",
+      "elapsedMs": 986,
+      "etag": "\"0x8DF4B93F83E27E7\"",
+      "lastModified": "Thu, 26 Nov 2026 08:05:00 GMT",
+      "officialPublishedAt": null,
+      "databaseWrites": 0,
+      "newRequests": 0
+    }
+  ],
+  "successfulCatalogHttpAttemptsIncludingRedirects": 22,
+  "catalogBytes": 22649604,
+  "realDisposableAcceptance": {
+    "targetDatabase": "fantasy_evolution_test",
+    "developmentWrites": 0,
+    "nhl": {
+      "dry": {
+        "fingerprint": "ebef6aa292e8cebc466f9b6f12fdd1ce15e21b99bcca6730690ccda70ce30f61",
+        "changes": 0,
+        "players": 0,
+        "alreadyApplied": 11808,
+        "applied": false,
+        "officialPublicationChanges": 0,
+        "eligibilityChanges": 0,
+        "scoreLedgerChanges": 0
+      },
+      "applied": {
+        "fingerprint": "ebef6aa292e8cebc466f9b6f12fdd1ce15e21b99bcca6730690ccda70ce30f61",
+        "changes": 0,
+        "players": 0,
+        "alreadyApplied": 11808,
+        "applied": true,
+        "officialPublicationChanges": 0,
+        "eligibilityChanges": 0,
+        "scoreLedgerChanges": 0
+      },
+      "repeatChanges": 0,
+      "sourcePublicationPreserved": true,
+      "positionsPreserved": true
+    },
+    "nfl": {
+      "provider": "nflverse-open-data",
+      "permission": "CC-BY-4.0_ISOLATED_ONLY",
+      "counts": {
+        "received": 11404,
+        "normalized": 11392,
+        "invalid": 12,
+        "missingCanonical": 138,
+        "unsupportedPosition": 7677
+      },
+      "identityResult": {
+        "pages": 2,
+        "outcomes": {
+          "ACCEPTED": 586
+        }
+      },
+      "teamResult": {
+        "pages": 1,
+        "outcomes": {
+          "ACCEPTED": 32
+        }
+      },
+      "statResult": {
+        "pages": 12,
+        "outcomes": {
+          "ACCEPTED": 3577
+        }
+      },
+      "scoring": {
+        "SCORED": 100
+      },
+      "scoringSampleScope": "QB with zero receptions; no unresolved TE eligibility assumption",
+      "completeScores": 100,
+      "incompleteScores": 0,
+      "scoringMeasurements": {
+        "sample": 100,
+        "minMs": 7,
+        "maxMs": 39,
+        "meanMs": 10.24
+      },
+      "pipelineElapsedMs": 36434,
+      "rosterRecordsReceived": 3082,
+      "rosterCanonicalMatches": 1827,
+      "sourceProofs": [
+        {
+          "id": "nfl-statistics-2026",
+          "provider": "nflverse",
+          "sport": "NFL",
+          "directory": "nflverse/season-2026",
+          "filename": "statistics.csv",
+          "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+          "license": "CC-BY-4.0",
+          "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+          "maxBytes": 16777216,
+          "sha256": "b06ab83310fe351db1b16e89e87c074f7de464e51700f6b3ff730315598d0c12",
+          "receivedAt": "2026-11-26T20:36:07.058Z",
+          "artifactModifiedAt": "Thu, 26 Nov 2026 18:59:40 GMT",
+          "officialPublishedAt": null
+        },
+        {
+          "id": "nfl-rosters-2026",
+          "provider": "nflverse",
+          "sport": "NFL",
+          "directory": "nflverse/season-2026",
+          "filename": "rosters.csv",
+          "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_2026.csv",
+          "license": "CC-BY-4.0",
+          "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+          "maxBytes": 8388608,
+          "sha256": "4c896a493ac645ec66c0d0daed9cdbe72584ef9989e1d25d4d6a0092fa1a7698",
+          "receivedAt": "2026-11-26T20:36:03.301Z",
+          "artifactModifiedAt": "Thu, 26 Nov 2026 17:44:48 GMT",
+          "officialPublishedAt": null
+        }
+      ],
+      "officialPublicationKnown": false,
+      "actualCompletionKnown": false,
+      "competitiveFinalizationEnabled": false,
+      "targetFingerprint": "9403dbe32d6f1d00d17d8bd35a37b7b49be58cdc948a25f4eb941098176e741e",
+      "developmentWrites": 0
+    },
+    "nflRepeated": {
+      "provider": "nflverse-open-data",
+      "permission": "CC-BY-4.0_ISOLATED_ONLY",
+      "counts": {
+        "received": 11404,
+        "normalized": 11392,
+        "invalid": 12,
+        "missingCanonical": 138,
+        "unsupportedPosition": 7677
+      },
+      "identityResult": {
+        "pages": 2,
+        "outcomes": {
+          "DUPLICATE": 586
+        }
+      },
+      "teamResult": {
+        "pages": 1,
+        "outcomes": {
+          "DUPLICATE": 32
+        }
+      },
+      "statResult": {
+        "pages": 12,
+        "outcomes": {
+          "DUPLICATE": 3577
+        }
+      },
+      "scoring": {
+        "UNCHANGED": 100
+      },
+      "scoringSampleScope": "QB with zero receptions; no unresolved TE eligibility assumption",
+      "completeScores": 100,
+      "incompleteScores": 0,
+      "scoringMeasurements": {
+        "sample": 100,
+        "minMs": 7,
+        "maxMs": 39,
+        "meanMs": 9.15
+      },
+      "pipelineElapsedMs": 21876,
+      "rosterRecordsReceived": 3082,
+      "rosterCanonicalMatches": 1827,
+      "sourceProofs": [
+        {
+          "id": "nfl-statistics-2026",
+          "provider": "nflverse",
+          "sport": "NFL",
+          "directory": "nflverse/season-2026",
+          "filename": "statistics.csv",
+          "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+          "license": "CC-BY-4.0",
+          "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+          "maxBytes": 16777216,
+          "sha256": "b06ab83310fe351db1b16e89e87c074f7de464e51700f6b3ff730315598d0c12",
+          "receivedAt": "2026-11-26T20:36:07.058Z",
+          "artifactModifiedAt": "Thu, 26 Nov 2026 18:59:40 GMT",
+          "officialPublishedAt": null
+        },
+        {
+          "id": "nfl-rosters-2026",
+          "provider": "nflverse",
+          "sport": "NFL",
+          "directory": "nflverse/season-2026",
+          "filename": "rosters.csv",
+          "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_2026.csv",
+          "license": "CC-BY-4.0",
+          "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+          "maxBytes": 8388608,
+          "sha256": "4c896a493ac645ec66c0d0daed9cdbe72584ef9989e1d25d4d6a0092fa1a7698",
+          "receivedAt": "2026-11-26T20:36:03.301Z",
+          "artifactModifiedAt": "Thu, 26 Nov 2026 17:44:48 GMT",
+          "officialPublishedAt": null
+        }
+      ],
+      "officialPublicationKnown": false,
+      "actualCompletionKnown": false,
+      "competitiveFinalizationEnabled": false,
+      "targetFingerprint": "9403dbe32d6f1d00d17d8bd35a37b7b49be58cdc948a25f4eb941098176e741e",
+      "developmentWrites": 0
+    },
+    "nflReplay": {
+      "newObservations": 0,
+      "newStatistics": 0,
+      "newLedgerEntries": 0
+    },
+    "otherSports": {
+      "identityReports": [
+        {
+          "sport": "NBA",
+          "sourceRows": 527,
+          "uniqueSourcePlayerIds": 527,
+          "canonicalMatches": 469,
+          "unmatchedSourceIds": [
+            "1643572",
+            "1643539",
+            "1631243",
+            "1630592",
+            "1642873",
+            "1631215",
+            "1641772",
+            "1643113",
+            "1643640",
+            "1641726",
+            "1641844",
+            "1631124",
+            "1630541",
+            "204001",
+            "202710",
+            "1641763",
+            "1643595",
+            "203078",
+            "1627742",
+            "1641757",
+            "1641751",
+            "1642884",
+            "1642880",
+            "1642504",
+            "1628978",
+            "1641780",
+            "1641761",
+            "1643548",
+            "1643589",
+            "1628371",
+            "1643593",
+            "1642869",
+            "1642277",
+            "1630574",
+            "1631166",
+            "1631109",
+            "1631101",
+            "1642951",
+            "1629216",
+            "1627732",
+            "1642875",
+            "1643519",
+            "202699",
+            "1642850",
+            "1641755",
+            "1642927",
+            "1643265",
+            "1631127",
+            "1641723",
+            "203994",
+            "1643563",
+            "1641774",
+            "1642364",
+            "1642391",
+            "1643789",
+            "203914",
+            "1642369",
+            "1643573"
+          ],
+          "pages": 1,
+          "outcomes": {
+            "ACCEPTED": 469
+          }
+        },
+        {
+          "sport": "MLB",
+          "sourceRows": 187064,
+          "uniqueSourcePlayerIds": 1471,
+          "canonicalMatches": 1470,
+          "unmatchedSourceIds": [
+            "605397"
+          ],
+          "pages": 3,
+          "outcomes": {
+            "ACCEPTED": 1470
+          }
+        },
+        {
+          "sport": "NHL",
+          "sourceRows": 14364,
+          "uniqueSourcePlayerIds": 789,
+          "canonicalMatches": 786,
+          "unmatchedSourceIds": [
+            "8477573",
+            "8482451",
+            "8484821"
+          ],
+          "pages": 2,
+          "outcomes": {
+            "ACCEPTED": 786
+          }
+        }
+      ],
+      "nhl": {
+        "sourceRevisions": 11808,
+        "statisticsResult": {
+          "pages": 60,
+          "outcomes": {
+            "ACCEPTED": 11808
+          }
+        },
+        "scoring": {
+          "SCORED": 100
+        },
+        "completeScores": 100,
+        "scoringMilliseconds": {
+          "min": 6,
+          "max": 30,
+          "mean": 7.36
+        },
+        "websiteAnalyticsPlayers": 100
+      },
+      "officialPublicationKnown": false,
+      "actualCompletionKnown": false,
+      "currentEligibilityChanges": 0,
+      "competitiveFinalizationEnabled": false,
+      "developmentWrites": 0
+    },
+    "otherSportsRepeat": {
+      "identityReports": [
+        {
+          "sport": "NBA",
+          "sourceRows": 527,
+          "uniqueSourcePlayerIds": 527,
+          "canonicalMatches": 469,
+          "unmatchedSourceIds": [
+            "1643572",
+            "1643539",
+            "1631243",
+            "1630592",
+            "1642873",
+            "1631215",
+            "1641772",
+            "1643113",
+            "1643640",
+            "1641726",
+            "1641844",
+            "1631124",
+            "1630541",
+            "204001",
+            "202710",
+            "1641763",
+            "1643595",
+            "203078",
+            "1627742",
+            "1641757",
+            "1641751",
+            "1642884",
+            "1642880",
+            "1642504",
+            "1628978",
+            "1641780",
+            "1641761",
+            "1643548",
+            "1643589",
+            "1628371",
+            "1643593",
+            "1642869",
+            "1642277",
+            "1630574",
+            "1631166",
+            "1631109",
+            "1631101",
+            "1642951",
+            "1629216",
+            "1627732",
+            "1642875",
+            "1643519",
+            "202699",
+            "1642850",
+            "1641755",
+            "1642927",
+            "1643265",
+            "1631127",
+            "1641723",
+            "203994",
+            "1643563",
+            "1641774",
+            "1642364",
+            "1642391",
+            "1643789",
+            "203914",
+            "1642369",
+            "1643573"
+          ],
+          "pages": 1,
+          "outcomes": {
+            "DUPLICATE": 469
+          }
+        },
+        {
+          "sport": "MLB",
+          "sourceRows": 187064,
+          "uniqueSourcePlayerIds": 1471,
+          "canonicalMatches": 1470,
+          "unmatchedSourceIds": [
+            "605397"
+          ],
+          "pages": 3,
+          "outcomes": {
+            "DUPLICATE": 1470
+          }
+        },
+        {
+          "sport": "NHL",
+          "sourceRows": 14364,
+          "uniqueSourcePlayerIds": 789,
+          "canonicalMatches": 786,
+          "unmatchedSourceIds": [
+            "8477573",
+            "8482451",
+            "8484821"
+          ],
+          "pages": 2,
+          "outcomes": {
+            "DUPLICATE": 786
+          }
+        }
+      ],
+      "nhl": {
+        "sourceRevisions": 11808,
+        "statisticsResult": {
+          "pages": 60,
+          "outcomes": {
+            "DUPLICATE": 11808
+          }
+        },
+        "scoring": {
+          "UNCHANGED": 100
+        },
+        "completeScores": 100,
+        "scoringMilliseconds": {
+          "min": 6,
+          "max": 35,
+          "mean": 7.63
+        },
+        "websiteAnalyticsPlayers": 100
+      },
+      "officialPublicationKnown": false,
+      "actualCompletionKnown": false,
+      "currentEligibilityChanges": 0,
+      "competitiveFinalizationEnabled": false,
+      "developmentWrites": 0
+    },
+    "otherReplay": {
+      "observations": 0,
+      "statistics": 0,
+      "entries": 0
+    },
+    "originalPopulatedTablesPreserved": 89,
+    "originalRowsUnchanged": true
+  },
+  "nhlDevelopmentApplication": {
+    "approvedFingerprint": "ebef6aa292e8cebc466f9b6f12fdd1ce15e21b99bcca6730690ccda70ce30f61",
+    "applied": {
+      "fingerprint": "ebef6aa292e8cebc466f9b6f12fdd1ce15e21b99bcca6730690ccda70ce30f61",
+      "changes": 11808,
+      "players": 785,
+      "alreadyApplied": 0,
+      "applied": true,
+      "officialPublicationChanges": 0,
+      "eligibilityChanges": 0,
+      "scoreLedgerChanges": 0
+    },
+    "replayChanges": 0,
+    "originalTablesPreserved": 90,
+    "originalRowsUnchanged": true,
+    "publicationAndPositionsPreserved": true,
+    "competitiveLedgerChanges": 0,
+    "backup": {
+      "bytes": 54370306,
+      "sha256": "afc4ba2b2ea7b2b2537e7bc735e217c4bbba3957fce6226f1017424b92ad1e58",
+      "archiveListAndFullDecodeVerified": true
+    },
+    "migrationCount": 28,
+    "resultingStatRevisions": 185945
+  },
+  "mlbRoleDisposableAcceptance": {
+    "manifestFingerprint": "c0efa541b199b0cd7d65c4b58377f848f4d3b052cef602f1cd3eccbc9c175460",
+    "validatedAppearances": 197,
+    "exclusiveAppearances": 105,
+    "starterPriorityAppearances": 92,
+    "players": 128,
+    "newLedgerEntries": 197,
+    "completeScoredAppearances": 197,
+    "replayChanges": 0,
+    "originalLedgersPreserved": true,
+    "statisticalRevisionsAdded": 0,
+    "websiteAnalyticsPlayers": 128,
+    "unresolvedBothRoleAppearances": 0,
+    "otherUnresolvedAppearances": 18,
+    "developmentWrites": 0
+  },
+  "mlbRoleDevelopmentApplication": {
+    "approvedFingerprint": "c0efa541b199b0cd7d65c4b58377f848f4d3b052cef602f1cd3eccbc9c175460",
+    "applied": {
+      "changes": 197,
+      "players": 128
+    },
+    "replayChanges": 0,
+    "originalTablesPreserved": 90,
+    "originalRowsUnchanged": true,
+    "sourceStatChanges": 0,
+    "currentEligibilityChanges": 0,
+    "competitiveResultChanges": 0,
+    "backup": {
+      "bytes": 59315255,
+      "sha256": "ececc4326c330fcba6471ce3aadae1b9ebbf3357683bf9e1d0572dc6a660ec50",
+      "archiveListAndFullDecodeVerified": true
+    },
+    "migrationCount": 28,
+    "resultingGlobalScoreEntries": 232
+  },
+  "nbaCurrentPositionReview": {
+    "sourceRows": 527,
+    "sourcePlayers": 527,
+    "importedPlayers": 474,
+    "canonicalMatches": 469,
+    "unmatchedImportedIds": [
+      {
+        "playerId": "d37017d9-bdff-47d3-b3ce-3bfcc999773d",
+        "sourcePlayerId": "1642434"
+      },
+      {
+        "playerId": "2552d019-2948-4e98-b900-41f9e25576c3",
+        "sourcePlayerId": "1631207"
+      },
+      {
+        "playerId": "49481385-0118-455b-9244-8ef498ece44f",
+        "sourcePlayerId": "1642400"
+      },
+      {
+        "playerId": "9aee1726-e867-4792-b995-2c3459843ee9",
+        "sourcePlayerId": "1643133"
+      },
+      {
+        "playerId": "981f7740-5c70-4d2b-9376-e74382d28aaf",
+        "sourcePlayerId": "1631104"
+      }
+    ],
+    "statusCounts": {
+      "CANONICAL_ID_NOT_IMPORTED": 58,
+      "LISTED_EVIDENCE_WITHOUT_EFFECTIVE_TIME": 469
+    },
+    "currentEligibilityChanges": 0,
+    "historicalBackfillTargets": 0,
+    "developmentWrites": 0,
+    "targetFingerprint": "4a049122d0606f50ed613791c0ebf2668a22d3ec0459e2bb0a1bc24dcd501fed"
+  },
+  "historicalPositionChanges": {
+    "mlbPreviouslyAppliedPlayers": 935,
+    "mlbPreviouslyAppendedRevisions": 66825,
+    "mlbImportedWithheldPlayerSeasons": 537,
+    "nbaEligibilityChanges": 0,
+    "nhlEligibilityChanges": 0
+  },
+  "preservation": {
+    "recovered": [
+      {
+        "file": "nfl_2016_2026_final.csv",
+        "sha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+        "preserved": true
+      },
+      {
+        "file": "mlb_2016_2026_final.csv",
+        "sha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+        "preserved": true
+      },
+      {
+        "file": "nba_2016-2027_final.csv",
+        "sha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+        "preserved": true
+      },
+      {
+        "file": "nhl_2016_2027_final.csv",
+        "sha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+        "preserved": true
+      },
+      {
+        "file": "mlb_positions_repaired.csv",
+        "sha256": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72",
+        "preserved": true
+      },
+      {
+        "file": "nba_positions_repaired.csv",
+        "sha256": "a649f4cda8dfad62fea653c19248cc22089102a4d9a9a2f4a22b817290faa929",
+        "preserved": true
+      },
+      {
+        "file": "_nba_player_positions_2016_2026.csv",
+        "sha256": "0161a58e1fd80b8da77e02b8580cf8a35a1d79b60ea43a1571bde812c844da6a",
+        "preserved": true
+      }
+    ],
+    "v5": [
+      {
+        "file": "game_schedules.parquet",
+        "preserved": true
+      },
+      {
+        "file": "season_calendar.parquet",
+        "preserved": true
+      },
+      {
+        "file": "game_id_crosswalk.parquet",
+        "preserved": true
+      },
+      {
+        "file": "team_master.parquet",
+        "preserved": true
+      },
+      {
+        "file": "schedule_validation.json",
+        "preserved": true
+      }
+    ],
+    "historicalParquet": [
+      {
+        "sport": "NFL",
+        "sha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c",
+        "preserved": true
+      },
+      {
+        "sport": "MLB",
+        "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+        "preserved": true
+      },
+      {
+        "sport": "NBA",
+        "sha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3",
+        "preserved": true
+      },
+      {
+        "sport": "NHL",
+        "sha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+        "preserved": true
+      }
+    ]
+  },
+  "verification": {
+    "unitTests": 177,
+    "integrationTests": 117,
+    "shuffledIntegrationTests": 117,
+    "shuffledSeed": 261128,
+    "controlledSerialRun": true,
+    "concurrentRunTimeout": "One existing 5-second roster-waivers test exceeded its deadline while two suites and compilation ran; exact seed passed serially without assertion/timeout changes.",
+    "standardChromium": 20,
+    "actualRestartChromium": 2,
+    "realPopulationChromium": 1,
+    "typeScript": true,
+    "eslint": true,
+    "prismaValidation": true,
+    "productionBuild": "Final Webpack production build passed after explicit-shutout safety fix; Turbopack subprocess port binding EPERM",
+    "npmAuditVulnerabilities": 0,
+    "standardChromiumSkipped": 2,
+    "skipReasons": [
+      "Development-writing opt-in; never enabled during automated regression",
+      "Real-population workflow requires populated-copy mode and passed separately"
+    ],
+    "finalEvidenceRegressionRevalidation": "passed: 177 unit; 117 integration normal and shuffled seed 261128; final Webpack build; 20 standard Chromium; two actual restart workflows",
+    "refreshAndLegacyEvidenceUnitRegression": true,
+    "finalRealSourceReplay": "passed on the populated post-NHL/post-MLB baseline; no duplicate records",
+    "gitIntegrity": "passed; dangling objects retained",
+    "developmentPreservation": {
+      "tables": 90,
+      "differences": [
+        {
+          "table": "BackgroundJobRun",
+          "count": "16274",
+          "fingerprint": "24cd795d04ca81c326c8a6cbd185e17a"
+        }
+      ],
+      "missing": []
+    },
+    "approvedManifestSnapshotsRetained": true
+  },
+  "continuousApprovedRealFeedsEnabled": 0,
+  "officialPublicationKnown": false,
+  "authoritativeCompetitionReady": false,
+  "unapprovedNormalizationActive": false,
+  "v10Active": false,
+  "contractAutomationActive": false,
+  "m6OrM7Started": false,
+  "actualDevelopmentCompleteness": [
+    {
+      "sport": "NFL",
+      "season": "2026",
+      "appearances": 10981,
+      "players": 1827,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "MLB",
+      "season": "2026",
+      "appearances": 72295,
+      "players": 1472,
+      "affectedAppearances": 18,
+      "affectedPlayers": 18,
+      "issues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 18,
+          "players": 18
+        }
+      ],
+      "fixedScoringRoles": 197,
+      "rawArchiveIssues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 215,
+          "players": 135
+        }
+      ]
+    },
+    {
+      "sport": "NBA",
+      "season": "2026-27",
+      "appearances": 5390,
+      "players": 474,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "NHL",
+      "season": "2026-27",
+      "appearances": 14920,
+      "players": 872,
+      "affectedAppearances": 1693,
+      "affectedPlayers": 678,
+      "issues": [
+        {
+          "reason": "GOALIE:goalie_win",
+          "appearances": 40,
+          "players": 32
+        },
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 40,
+          "players": 28
+        },
+        {
+          "reason": "SKATER:faceoff_wins",
+          "appearances": 1620,
+          "players": 633
+        },
+        {
+          "reason": "SKATER:shorthanded_points_bonus",
+          "appearances": 1620,
+          "players": 633
+        }
+      ],
+      "fixedScoringRoles": 0,
+      "rawArchiveIssues": [
+        {
+          "reason": "GOALIE:goalie_win",
+          "appearances": 40,
+          "players": 32
+        },
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 38,
+          "players": 28
+        },
+        {
+          "reason": "SKATER:faceoff_wins",
+          "appearances": 1620,
+          "players": 633
+        },
+        {
+          "reason": "SKATER:shorthanded_points_bonus",
+          "appearances": 1620,
+          "players": 633
+        }
+      ]
+    }
+  ],
+  "legacyShutoutSafety": {
+    "preservedUnsupportedPositiveSourceRows": 2,
+    "sourceRowsRewritten": 0,
+    "positiveCreditRequiresExplicitEvidence": true,
+    "futureImporterInferenceRemoved": true,
+    "evidenceAwareIncompleteNhlAppearances": 1693,
+    "incompleteNhlPlayers": 678
+  },
+  "nflRejectedRows": {
+    "count": 12,
+    "reason": "Missing player_id and position; no canonical athlete can be fabricated",
+    "sourceSha256": "b06ab83310fe351db1b16e89e87c074f7de464e51700f6b3ff730315598d0c12",
+    "csvLines": [
+      1119,
+      2226,
+      3340,
+      4450,
+      5507,
+      6489,
+      7448,
+      8429,
+      9465,
+      10447,
+      11340,
+      11405
+    ]
+  },
+  "developmentCountsAfterApprovals": {
+    "Account": 11,
+    "AcquisitionAuction": 0,
+    "AcquisitionBid": 0,
+    "ChampionshipCycle": 7,
+    "ChampionshipPointAward": 0,
+    "ChampionshipResult": 0,
+    "CommissionerAuditEvent": 3,
+    "CompetitionConfigSnapshot": 7,
+    "CompetitionPeriodGame": 0,
+    "CompetitiveTiebreakerEvent": 0,
+    "DeadCapObligation": 0,
+    "Draft": 4,
+    "DraftPick": 46,
+    "DraftPlan": 1,
+    "DraftQueueEntry": 0,
+    "DraftSelectionSnapshot": 0,
+    "FaabAccount": 19,
+    "FaabLedgerEntry": 19,
+    "FantasyRoster": 19,
+    "FantasyTeam": 10,
+    "FantasyTransaction": 49,
+    "FantasyWindowRevision": 0,
+    "FinanceAccount": 0,
+    "FinanceLedgerEntry": 0,
+    "FutureDraftPick": 0,
+    "FutureDraftPickOwnership": 0,
+    "Game": 57519,
+    "GameCompletionEvidence": 0,
+    "GameLineupSnapshot": 0,
+    "GameScheduleObservation": 57352,
+    "GameTeam": 114873,
+    "HistoricalGameCrosswalk": 52866,
+    "ImportBatch": 162,
+    "KeeperSelection": 0,
+    "League": 7,
+    "LeagueFinancePolicy": 0,
+    "LeagueGameAssignment": 0,
+    "LeagueInvitation": 3,
+    "LeagueMember": 10,
+    "LeagueSport": 15,
+    "LeagueSportSeason": 15,
+    "Matchup": 0,
+    "MatchupResultRevision": 0,
+    "Player": 8042,
+    "PlayerAvailabilityEvidence": 0,
+    "PlayerExternalId": 8034,
+    "PlayerGameStat": 185945,
+    "PlayerPositionEvidence": 110,
+    "PlayerSalary": 0,
+    "Position": 31,
+    "ProTeam": 256,
+    "ProTeamSeasonObservation": 1396,
+    "ProfessionalDataDecision": 0,
+    "ProfessionalDataObservation": 0,
+    "ProfessionalSeasonScheduleRevision": 45,
+    "ProfessionalSyncState": 0,
+    "RateLimitBucket": 7,
+    "RelativeMatchup": 0,
+    "RelativeMatchupPeriod": 0,
+    "ReleasedPlayerFloor": 0,
+    "RookieDraftRule": 0,
+    "RookieEligibilityEvidence": 0,
+    "RosterAssignmentEvent": 48,
+    "RosterComplianceSnapshot": 1,
+    "RosterEntry": 47,
+    "ScheduleImportBatch": 1,
+    "ScheduleImportIssue": 9,
+    "ScoreLedger": 220,
+    "ScoreLedgerEntry": 232,
+    "ScoringPeriod": 0,
+    "ScoringPreset": 1,
+    "ScoringRule": 56,
+    "Season": 48,
+    "SeasonCalendarObservation": 45,
+    "Session": 39,
+    "SportCompetition": 15,
+    "SportFinalPlacement": 0,
+    "Trade": 1,
+    "TradeAsset": 3,
+    "TradeCut": 0,
+    "TradeProposal": 0,
+    "TradeProposalAcceptance": 0,
+    "TradeProposalRevision": 0,
+    "TradeReviewPolicy": 0,
+    "User": 11,
+    "Verification": 0,
+    "WaiverClaim": 2,
+    "WaiverPriority": 19,
+    "_prisma_migrations": 28
+  }
+}

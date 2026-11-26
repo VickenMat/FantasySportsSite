@@ -6,7 +6,7 @@ export type HistoricalAppearance = {
 };
 
 /** Latest revisions only; counts are distinct player/game appearances, not source rows. */
-export function scoringCompleteness(rows: HistoricalAppearance[], rules: ScoringRuleInput[]) {
+export function scoringCompleteness(rows: HistoricalAppearance[], rules: ScoringRuleInput[], selectedRoles: ReadonlyMap<string, GameStatRole> = new Map()) {
   const groups = new Map<string, HistoricalAppearance[]>();
   for (const row of rows) {
     const key = `${row.playerId}:${row.gameId}`;
@@ -17,8 +17,11 @@ export function scoringCompleteness(rows: HistoricalAppearance[], rules: Scoring
   let affectedAppearances = 0;
   for (const [key, appearances] of groups) {
     const reasons = new Set<string>();
-    if (appearances.length > 1) reasons.add(`AMBIGUOUS_ROLE:${appearances.map(({ role }) => role).sort().join("+")}`);
-    for (const row of appearances) {
+    const fixedRole = selectedRoles.get(key);
+    const selected = fixedRole ? appearances.filter(row => row.role === fixedRole) : appearances;
+    if (fixedRole && !selected.length) reasons.add(`SELECTED_ROLE_MISSING:${fixedRole}`);
+    if (selected.length > 1) reasons.add(`AMBIGUOUS_ROLE:${selected.map(({ role }) => role).sort().join("+")}`);
+    for (const row of selected) {
       const score = calculateScore(rules, { role: row.role, stats: row.normalized,
         teEligible: row.role === "FOOTBALL" && row.observedPositions.length ? row.observedPositions.includes("TE") : null });
       for (const stat of score.missingStats) reasons.add(`${row.role}:${stat}`);

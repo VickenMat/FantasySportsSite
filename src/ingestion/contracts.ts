@@ -36,7 +36,7 @@ export function contentFingerprint(input: Observation) {
   return fingerprint(content);
 }
 export type ProviderPage={ records: Observation[]; nextCursor: string | null };
-export type ProviderPolicy={ provider:string; sport:Observation["sport"]; stream:string; gameId?:string; minIntervalMs:number; maxRequests:number; requestWindows?:{limit:number;windowMs:number}[]; leaseMs:number; permission:"FIXTURE_ONLY" | "DISABLED" };
+export type ProviderPolicy={ provider:string; sport:Observation["sport"]; stream:string; gameId?:string; minIntervalMs:number; maxRequests:number; requestWindows?:{limit:number;windowMs:number}[]; leaseMs:number; permission:"FIXTURE_ONLY" | "ISOLATED_OPEN_DATA" | "DISABLED" };
 export interface ProviderAdapter { fetchPage(cursor:string|null):Promise<ProviderPage> }
 export class ProviderFailure extends Error { constructor(public status:number,public retryAfterMs:number|null=null){super(`Provider request failed (HTTP ${status}).`);} }
 export function retryDelay(failures:number,minIntervalMs:number,retryAfterMs:number|null) {return Math.max(minIntervalMs,retryAfterMs??0,Math.min(86400000,1000*2**Math.min(failures,16)));}

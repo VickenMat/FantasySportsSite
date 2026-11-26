@@ -1,6 +1,9 @@
 # Current continuation
 
-The recovered-data checkpoint below is historical. The current delivery implements fixture-verified lifecycle, game states, boundaries, source arbitration, incremental V9 promotion, hybrid enrichment, rolling quota enforcement and website freshness. See [current mechanisms report](M5_INGESTION_MECHANISMS_REPORT.md). Current checklist: 12/32; real-provider requirements remain open. Migration 27 and the exact approved MLB backfill are applied; separate migration 28 is pending approval.
+Latest delivery: [real-data completion report](M5_REAL_DATA_COMPLETION_REPORT.md). Migration 28 and the separately approved exact NHL/MLB targets are applied; real canonical staging and V9 samples are accepted in disposable copies. M5 remains 12/32 and authoritative live competition remains gated. Older checkpoint details below are historical.
+
+
+The recovered-data checkpoint below is historical. The current delivery implements fixture-verified lifecycle, game states, boundaries, source arbitration, incremental V9 promotion, hybrid enrichment, rolling quota enforcement and website freshness. See [current mechanisms report](M5_INGESTION_MECHANISMS_REPORT.md). Current checklist: 12/32; real-provider requirements remain open. Migration 27 and the exact approved MLB backfill are applied; migration 28 has also been separately approved and deployed, preserving all 89 application tables. See M5_REAL_DATA_REVIEW.md for the separate proposed NHL target.
 
 # M5 current checkpoint
 

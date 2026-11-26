@@ -9,7 +9,7 @@
   "foreignKeysChecked": 196,
   "foreignKeyViolations": [],
   "drift": "-- This is an empty migration.\n\n",
-  "developmentDeployed": false,
+  "developmentDeployed": true,
   "backfillRows": 0,
   "unitTests": 168,
   "integrationTests": 114,
@@ -29,5 +29,8 @@
   },
   "recoveredSourceHashesPreserved": 7,
   "acceptedV5HashesPreserved": 5,
-  "unchangedV9Weights": 56
+  "unchangedV9Weights": 56,
+  "developmentAppliedMigrations": 28,
+  "currentDelivery": "reports/m5-real-data-integration.json",
+  "originalMechanismCheckpointCountsRetained": true
 }

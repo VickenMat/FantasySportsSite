@@ -170,7 +170,7 @@ const rawRulesByRole = Object.fromEntries(
   ),
 ) as Record<GameStatRole, typeof ubpV9Rules>;
 
-function normalizeStats(raw: RawRow, role: GameStatRole, phase: GamePhase): StatValues {
+function normalizeStats(raw: RawRow, role: GameStatRole): StatValues {
   const stats: StatValues = {};
   for (const { statKey } of rawRulesByRole[role]) {
     if (statKey === "pitching_innings") stats.pitching_outs = pitchingOuts(raw);
@@ -187,17 +187,15 @@ function normalizeStats(raw: RawRow, role: GameStatRole, phase: GamePhase): Stat
     const timeMatch = time ? /^(\d{1,3}):([0-5]\d)$/.exec(time) : null;
     if (time && !timeMatch) fail("Invalid NHL time on ice.");
     const seconds = timeMatch ? 60 * Number(timeMatch[1]) + Number(timeMatch[2]) : null;
-    const starter = boolean(raw, "starter");
+    boolean(raw, "starter");
     const explicitWin = count(raw, "goalie_win");
     const explicitShutout = count(raw, "shutout");
     if ((explicitWin ?? 0) > 1 || (explicitShutout ?? 0) > 1) fail("NHL win and shutout must be binary.");
     if (decision && explicitWin != null && explicitWin !== Number(decision === "W")) fail("NHL goalie win disagrees with decision.");
     if (explicitShutout === 1 && (stats.goalsAgainst ?? 0) > 0) fail("NHL shutout conflicts with goals against.");
     stats.goalie_win = explicitWin ?? (decision ? Number(decision === "W") : seconds === 0 ? 0 : null);
-    // Pre-2026 regular-season overtime can finish at 65:00. Shorter clean
-    // appearances may be shared, so those need a provider-confirmed shutout.
-    const cleanFullGame = stats.goalsAgainst === 0 && phase === "REGULAR" && starter === true && seconds === 3900;
-    stats.shutout = explicitShutout ?? (cleanFullGame ? 1 : (stats.goalsAgainst ?? 0) > 0 || seconds === 0 ? 0 : null);
+    // Zero goals against and elapsed ice time do not establish an explicit credit.
+    stats.shutout = explicitShutout ?? ((stats.goalsAgainst ?? 0) > 0 || seconds === 0 ? 0 : null);
   }
   return stats;
 }
@@ -265,5 +263,5 @@ export function normalizeHistoricalRow(sport: Sport, raw: RawRow, line: number):
     game = { externalId, gameDate: dateFor(raw, "game_date", season, sport), week: null, phase };
   }
 
-  return { season, game, player, team, opponent, role, observedPositions, stats: normalizeStats(raw, role, game.phase), raw, line };
+  return { season, game, player, team, opponent, role, observedPositions, stats: normalizeStats(raw, role), raw, line };
 }

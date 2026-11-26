@@ -11,10 +11,12 @@ import { contentFingerprint, observationSchema, stableJson, type Observation } f
 
 type Tx=Prisma.TransactionClient;
 type Decision={outcome:"ACCEPTED"|"STALE"|"QUARANTINED"|"PENDING_DATA";reason:string;targets:Prisma.InputJsonValue};
-export function assertFixtureDatabase() {
+export function assertIsolatedIngestionDatabase() {
  const url=new URL(process.env.DATABASE_URL!);
- if(url.pathname!=="/fantasy_evolution_test"||!url.searchParams.get("schema")?.startsWith("integration_")||!(process.env.AUTHORIZED_TEST_DATABASES??"").split(",").includes("fantasy_evolution_test"))throw new Error("M5 fixture promotion requires an authorized isolated disposable schema. Development/live ingestion remains disabled.");
+ if(url.pathname!=="/fantasy_evolution_test"||!url.searchParams.get("schema")?.startsWith("integration_")||!(process.env.AUTHORIZED_TEST_DATABASES??"").split(",").includes("fantasy_evolution_test"))throw new Error("M5 promotion requires an authorized isolated disposable schema. Development/live ingestion remains disabled.");
 }
+export const assertFixtureDatabase = assertIsolatedIngestionDatabase;
+export function assertOpenDataProvider(provider:string){if(!['nflverse-open-data','sportsdataverse-open-data'].includes(provider))throw new Error('Open-data promotion requires an explicitly reviewed release provider.');}
 async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
  const n=input.normalized;
  if(n.kind==="PLAYER") {
