@@ -25,10 +25,12 @@ test("draft center persists custom order and UTC scheduling for every member, op
     await expect(page.getByRole("link", { name: "Players", exact: true })).toHaveCount(0);
     await page.getByLabel("Draft rounds per franchise", { exact: true }).fill("1");
     await page.getByLabel("Draft timer (seconds)").fill("30");
-    const local = new Date(Date.now() + 5 * 60000).toISOString().slice(0, 16);
-    await page.getByLabel(/Draft date and time/).fill(local);
+    const local = new Date(Math.ceil((Date.now() + 5 * 60000) / 900000) * 900000).toISOString().slice(0, 16);
+    await page.getByLabel("Timezone", {exact:true}).selectOption("UTC");
+    await page.getByLabel("Draft Date", {exact:true}).fill(local.slice(0,10));
+    await page.getByLabel("Draft Time", {exact:true}).selectOption(local.slice(11,16));
     await page.getByRole("button", { name: "Move Commissioner's Franchise down", exact: true }).click();
-    await page.getByRole("button", { name: "Save Draft Order and Schedule" }).click();
+    await page.getByRole("button", { name: "Save Draft Schedule" }).click();
     await expect(page.getByRole("status")).toContainText("saved for every league member");
     const plan = await db.draftPlan.findFirstOrThrow({ where: { leagueId: league.id } });
     expect(plan.scheduledAt?.toISOString()).toBe(local + ":00.000Z");
@@ -44,7 +46,7 @@ test("draft center persists custom order and UTC scheduling for every member, op
     await expect.poll(() => db.draftQueueEntry.count({ where: { draftId: plan.draftId! } })).toBe(1);
     await memberPage.reload();
     await expect(memberPage.locator(".draft-sidebar")).toContainText("My Draft Queue");
-    await expect(memberPage.getByRole("button", { name: "Save Draft Order and Schedule" })).toHaveCount(0);
+    await expect(memberPage.getByRole("button", { name: "Save Draft Schedule" })).toHaveCount(0);
     await processScheduledDrafts(new Date(+plan.scheduledAt! - 1));
     expect((await db.draft.findUniqueOrThrow({ where: { id: plan.draftId! } })).status).toBe("SCHEDULED");
     await processScheduledDrafts(plan.scheduledAt!);

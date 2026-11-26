@@ -2,8 +2,7 @@ import Link from "next/link";
 
 const items = [
   ["Overview", ""], ["My Team", "/team"], ["Draft", "/draft"],
-  ["Matchups", "/matchups"], ["Standings", "/standings"], ["Waivers", "/waivers"], ["Settings", "/settings"],
-  ["Trades", "/trades"], ["Scoring", "/scoring"],
+  ["Matchups", "/matchups"], ["Standings", "/standings"], ["Waivers", "/waivers"], ["Trades", "/trades"], ["Settings", "/settings"], ["Scoring", "/scoring"],
 ] as const;
 
 export function LeagueNav({ leagueId }: { leagueId: string }) {

@@ -220,3 +220,27 @@ it("moves and swaps exact shared slot indexes without changing either player's s
   expect(await database.rosterEntry.findUniqueOrThrow({ where: { id: alternate.id } })).toMatchObject({ slot: "BENCH" });
   await database.league.delete({ where: { id: league.id } });
 });
+
+it('validates conditional cuts before reservation and never releases them for cancelled or losing claims',async()=>{
+ const {user,league,roster,playerIds:[cut,target,alternate]}=await fixture();
+ try {
+  await database.leagueSport.update({where:{id:roster.leagueSportId},data:{benchSlots:1}});
+  const entry=await addFreeAgent(user.id,league.id,cut,'NFL');
+  await expect(submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:target,bid:1})).rejects.toThrow(/bench/i);
+  expect(await database.waiverClaim.count({where:{leagueId:league.id}})).toBe(0);
+  const cancelled=await submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:target,dropPlayerId:cut,bid:10});
+  expect((await database.rosterEntry.findUniqueOrThrow({where:{id:entry.id}})).releasedAt).toBeNull();
+  await cancelWaiver(user.id,cancelled.id);expect(await reservedSportFaab(database,roster.id)).toBe(0);
+  const lost=await submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:target,dropPlayerId:cut,bid:10});
+  const other=await database.fantasyRoster.findFirstOrThrow({where:{leagueId:league.id,sport:'NFL',teamId:{not:roster.teamId}}});
+  await database.rosterEntry.create({data:{leagueId:league.id,rosterId:other.id,teamId:other.teamId,seasonId:(await database.leagueSport.findUniqueOrThrow({where:{id:other.leagueSportId}})).seasonId,sport:'NFL',slot:'BENCH',slotIndex:1,playerId:target}});
+  await processWaivers(user.id,league.id);expect((await database.waiverClaim.findUniqueOrThrow({where:{id:lost.id}})).status).toBe('LOST');expect((await database.rosterEntry.findUniqueOrThrow({where:{id:entry.id}})).releasedAt).toBeNull();expect(await reservedSportFaab(database,roster.id)).toBe(0);
+  const failed=await submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:alternate,dropPlayerId:cut,bid:2});
+  await database.rosterEntry.update({where:{id:entry.id},data:{lockedAt:new Date()}});await processWaivers(user.id,league.id);
+  expect((await database.waiverClaim.findUniqueOrThrow({where:{id:failed.id}})).status).toBe('REJECTED');expect((await database.rosterEntry.findUniqueOrThrow({where:{id:entry.id}})).releasedAt).toBeNull();expect(await reservedSportFaab(database,roster.id)).toBe(0);
+  await expect(submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:alternate,dropPlayerId:cut,bid:1})).rejects.toThrow(/locked/i);
+  await database.rosterEntry.update({where:{id:entry.id},data:{lockedAt:null}});
+  const winner=await submitWaiver(user.id,{leagueId:league.id,sport:'NFL',addPlayerId:alternate,dropPlayerId:cut,bid:0});await processWaivers(user.id,league.id);
+  expect((await database.waiverClaim.findUniqueOrThrow({where:{id:winner.id}})).status).toBe('WON');expect((await database.rosterEntry.findUniqueOrThrow({where:{id:entry.id}})).releasedAt).not.toBeNull();
+ }finally{await database.league.delete({where:{id:league.id}});}
+});

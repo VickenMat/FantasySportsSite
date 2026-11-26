@@ -1,5 +1,8 @@
 "use server";
+import { draftTimeCandidates } from "@/lib/draft-time";
 
+import { cookies } from "next/headers";
+import { waiverFunds } from "@/server/faab";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
@@ -42,6 +45,11 @@ export async function bidAuctionAction(leagueId: string, auctionId: string, _sta
 export async function configureDraftAction(leagueId: string, leagueSportId: string, _state: string, form: FormData) {
   const { user } = await requireSession();
   try {
+    const sport = await getDatabase().leagueSport.findFirstOrThrow({ where: { id: leagueSportId, leagueId } });
+    if (String(form.get("seasonId")) !== sport.seasonId) throw new Error("The selected season changed. Refresh the draft center.");
+    const candidates = draftTimeCandidates(String(form.get("draftDate")), String(form.get("draftTime")), String(form.get("timezone")));
+    const instant = candidates[Number(form.get("occurrence") ?? 0)];
+    if (!instant || instant !== String(form.get("scheduledAt"))) throw new Error("Choose a valid draft date, time and timezone.");
     await configureDraftPlan(user.id, { leagueId, leagueSportId, method: String(form.get("method")) as "SNAKE", orderMethod: String(form.get("orderMethod")) as "CUSTOM",
       scope: String(form.get("scope") ?? "SPORT") as "SPORT" | "UNIVERSAL", order: JSON.parse(String(form.get("order"))), rounds: Number(form.get("rounds")), secondsPerPick: Number(form.get("secondsPerPick")),
       scheduledAt: form.get("scheduledAt") ? String(form.get("scheduledAt")) : null, timezone: String(form.get("timezone")), regenerate: form.get("regenerate") === "true",
@@ -107,6 +115,7 @@ export async function renameTeamAction(leagueId: string, form: FormData) {
   await limit(user.id, "team-rename", 20);
   await updateTeamName(user.id, leagueId, String(form.get("name") ?? ""));
   await actionNotice("Franchise name updated.");
+  revalidatePath(`/leagues/${leagueId}/team`);
   revalidatePath(`/leagues/${leagueId}`);
 }
 
@@ -166,6 +175,38 @@ export async function waiverAction(leagueId: string, form: FormData) {
   });
   await actionNotice("Private waiver claim submitted.");
   revalidatePath(`/leagues/${leagueId}/waivers`);
+}
+
+export async function previewClaimAction(leagueId: string, sport: string, playerId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try {
+    const member=await getDatabase().leagueMember.findUniqueOrThrow({where:{leagueId_userId:{leagueId,userId:user.id}},include:{fantasyTeam:true,league:true}});
+    if(!member.fantasyTeam) throw new Error("You do not manage a franchise.");
+    const selected=await resolveLeagueSport(leagueId,sport);
+    if(selected.sport!==sport) throw new Error("Select a participating sport.");
+    const player=await getDatabase().player.findFirst({where:{id:playerId,sport:selected.sport,rosterEntries:{none:{leagueId,releasedAt:null}}}});
+    if(!player) throw new Error("This player is no longer available.");
+    const bid=Number(form.get("bid")??0),funds=await waiverFunds(getDatabase(),leagueId,selected.id,member.fantasyTeam.id);
+    if(!Number.isSafeInteger(bid)||bid<0||bid>funds.balance-funds.reserved) throw new Error("Choose an affordable whole-number bid.");
+    if(member.league.waiverMethod!=="FAAB"&&bid!==0) throw new Error("Rolling waivers do not accept FAAB bids.");
+    (await cookies()).set("pending-acquisition",JSON.stringify({leagueId,sport,playerId,bid,userId:user.id}),{httpOnly:true,sameSite:"strict",secure:process.env.AUTH_URL?.startsWith("https:")??false,path:"/",maxAge:900});
+  } catch(error) { return error instanceof Error?error.message:"Unable to prepare claim."; }
+  redirect(`/leagues/${leagueId}/team?sport=${encodeURIComponent(sport)}`);
+}
+export async function cancelAcquisitionAction(leagueId:string,sport:string) {
+  await requireSession();(await cookies()).delete("pending-acquisition");
+  redirect(`/leagues/${leagueId}/team?sport=${encodeURIComponent(sport)}`);
+}
+
+export async function finalClaimAction(leagueId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try {
+    await limit(user.id, "waiver-submit", 60);
+    await submitWaiver(user.id, { leagueId, sport: String(form.get("sport")), addPlayerId: String(form.get("addPlayerId")), dropPlayerId: String(form.get("dropPlayerId") || "") || null, bid: Number(form.get("bid")) });
+    revalidatePath(`/leagues/${leagueId}`, "layout");
+  } catch(error) { return error instanceof Error ? error.message : "Claim could not be submitted."; }
+  (await cookies()).delete("pending-acquisition");
+  redirect(`/leagues/${leagueId}/waivers?sport=${encodeURIComponent(String(form.get("sport")))}`);
 }
 
 export async function processWaiversAction(leagueId: string, form?: FormData) {
@@ -249,12 +290,13 @@ export async function draftPauseAction(leagueId: string, draftId: string, paused
 export async function leagueSettingsAction(leagueId: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "league-settings", 20);
   await updateLeagueSettings(user.id, leagueId, {
+    name: String(form.get("name") ?? "") || undefined,
     sport: sportValue(form.get("sport")),
     draftSecondsPerPick: Number(form.get("draftSecondsPerPick")), startingFaab: Number(form.get("startingFaab")),
     playoffTeams: Number(form.get("playoffTeams")), playoffPeriods: Number(form.get("playoffPeriods")),
     maxTeams: Number(form.get("maxTeams")), visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
     keeperLimit: Number(form.get("keeperLimit") ?? 0), draftRounds: Number(form.get("draftRounds")),
-    keeperDeadline: form.get("keeperDeadline") ? new Date(String(form.get("keeperDeadline"))) : null,
+    keeperDeadline: form.get("keeperDeadline") ? new Date(String(form.get("keeperDeadline")) + "Z") : null,
     regularSeasonMatchups: form.get("regularSeasonMatchups") ? Number(form.get("regularSeasonMatchups")) : undefined,
   });
   await actionNotice("League settings saved.");

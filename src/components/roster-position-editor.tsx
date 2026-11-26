@@ -27,7 +27,7 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookie
     {source?.entry && <div className="position-help" role="status"><span>Moving <strong>{source.entry.name}</strong>. Choose a highlighted destination.</span><button type="button" className="button compact secondary" onClick={() => setSelectedKey(null)}>Cancel</button></div>}
     <div className="roster-position-grid roster-position-head"><span>Slot</span><span>Player</span><span>TEAM</span><span>POS</span><span>AVG</span><span>PTS</span></div>
     {rows.map((row, index) => {
-      const group = (slot: string) => slot === "ROOKIE_OVERFLOW" ? "Rookie draft overflow" : slot === "BENCH" ? "Sport bench" : slot === "UNIVERSAL_IR" ? "Shared IR" : slot === "UNIVERSAL_BENCH" ? "Shared universal bench" : "Starters";
+      const group = (slot: string) => slot === "ROOKIE_OVERFLOW" ? "Rookie draft overflow" : slot === "BENCH" ? "Bench" : slot === "UNIVERSAL_IR" ? "IR" : slot === "UNIVERSAL_BENCH" ? "U Bench" : "Starters";
       const selected = row.key === selectedKey;
       const destination = Boolean(source?.entry && legal.has(row.key));
       const disabled = Boolean(source?.entry && !destination && !selected);
@@ -44,7 +44,7 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookie
           onClick={selected ? () => setSelectedKey(null) : undefined}>{row.label}</button>;
       return <Fragment key={row.key}>
         {row.slot === "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_IR" && rookiePicks}
-        {(index === 0 || group(row.slot) !== group(rows[index - 1].slot)) && <h3>{group(row.slot)}</h3>}
+        {(index === 0 || group(row.slot) !== group(rows[index - 1].slot)) && <h3 className="roster-section-heading">{group(row.slot)}{["BENCH","UNIVERSAL_IR","UNIVERSAL_BENCH"].includes(row.slot) && <small>{rows.filter(r=>r.slot===row.slot&&r.entry).length}/{rows.filter(r=>r.slot===row.slot).length}</small>}</h3>}
         <div className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
         {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}{row.entry?.teamSource && <small className="position-provenance">{row.entry.teamSource}</small>}</span><span>{row.entry ? <><PositionBadges sport={row.entry.sport} positions={row.entry.positions} />{row.entry.positionSource && <small className="position-provenance">{row.entry.positionSource}</small>}</> : "N/A"}</span><span>{row.entry?.average ?? "N/A"}</span><span>{row.entry?.points ?? "N/A"}</span>
         </div>

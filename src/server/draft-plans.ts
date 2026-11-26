@@ -57,6 +57,7 @@ export async function configureDraftPlan(userId: string, raw: z.input<typeof con
     if (draft && draft.status !== "SCHEDULED") throw new Error("Draft configuration is locked after the draft begins.");
     if (existing && input.expectedVersion !== existing.version) throw new Error("Draft configuration changed. Refresh before saving.");
     sport.league.teams = await activeFranchises(tx, input.leagueId, sport.league.teams);
+    if (sport.league.teams.length < 2) throw new Error("At least two participating franchises are required.");
     const ids = sport.league.teams.map(({ id }) => id);
     let order = input.order;
     if (input.orderMethod === "RANDOM") {
@@ -69,6 +70,13 @@ export async function configureDraftPlan(userId: string, raw: z.input<typeof con
     const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: sport.seasonId, retrievedAt: { lte: now } }, orderBy: { retrievedAt: "desc" } });
     if (!sport.league.isHistorical && boundary?.status === "AVAILABLE" && boundary.regularSeasonStartsAt && input.scheduledAt &&
       +input.scheduledAt + input.rounds * ids.length * input.secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new Error("The scheduled draft must fit before the selected professional season. Select an earlier start; the chosen season will not change.");
+    if (input.scope === "UNIVERSAL" && !sport.league.isHistorical && input.scheduledAt) {
+      const covered = await tx.leagueSport.findMany({where:{leagueId:input.leagueId}});
+      for (const target of covered) {
+        const evidence = await tx.professionalSeasonScheduleRevision.findFirst({where:{seasonId:target.seasonId,retrievedAt:{lte:now}},orderBy:{retrievedAt:"desc"}});
+        if (evidence?.status === "AVAILABLE" && evidence.regularSeasonStartsAt && +input.scheduledAt+input.rounds*ids.length*input.secondsPerPick*1000>=+evidence.regularSeasonStartsAt) throw new Error(`The universal draft must finish before the selected ${target.sport} season.`);
+      }
+    }
     const data = { method: input.method, scope: input.scope, orderMethod: input.orderMethod, order, rounds: input.rounds, secondsPerPick: input.secondsPerPick,
       scheduledAt: input.scheduledAt, timezone: input.timezone, status: input.scheduledAt ? "SCHEDULED" : "UNSCHEDULED", blockedReason: null };
     await setCommissionerAuditContext(tx, userId, "CONFIGURE_DRAFT", "Commissioner saved draft center configuration.");

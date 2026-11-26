@@ -23,9 +23,9 @@ export function AdvancedTradeBuilder({ leagueId, teams, choices, sports, salaryM
       return [...next, choice.type === "PICK" ? { type: "PICK", from: choice.from, to: target, pickId: choice.id } : target === "CUT" ? { type: "CUT", from: choice.from, playerId: choice.id } : { type: "PLAYER", from: choice.from, to: target, playerId: choice.id }];
     });
   }
-  return <form action={action} className="form-grid"><input type="hidden" name="assets" value={JSON.stringify(assets)} /><input type="hidden" name="proposalId" value={proposalId ?? ""} /><input type="hidden" name="revision" value={revision ?? ""} />
-    <p>Select destinations for players or picks from any participating franchise. Every participant must accept the same terms, including any cuts. Ownership, deadlines, capacity and financial compliance are checked again at execution.</p>
-    {teams.map((team) => <fieldset key={team.id}><legend>{team.name}</legend>{choices.filter((choice) => choice.from === team.id).map((choice) => {
+  return <form action={action} className="form-grid trade-builder-grid"><input type="hidden" name="assets" value={JSON.stringify(assets)} /><input type="hidden" name="proposalId" value={proposalId ?? ""} /><input type="hidden" name="revision" value={revision ?? ""} />
+
+    {teams.map((team) => <fieldset className="franchise-assets" key={team.id}><legend>{team.name} · outgoing</legend><div className="incoming-assets"><strong>Incoming</strong>{assets.filter(asset=>"to" in asset&&asset.to===team.id).map((asset,i)=><small key={i}>{asset.type=== "PLAYER" || asset.type=== "PICK" ? choices.find(c=>c.id===("playerId" in asset?asset.playerId:asset.pickId))?.label : asset.type=== "FAAB" || asset.type=== "CAP" ? `${asset.amount} ${asset.type}` : ""}</small>)}</div>{choices.filter((choice) => choice.from === team.id).map((choice) => {
       const routed = assets.find((asset) => (asset.type === "PLAYER" || asset.type === "CUT") ? asset.playerId === choice.id : asset.type === "PICK" && asset.pickId === choice.id);
       return <label key={choice.key}>{choice.label}<select aria-label={`Destination for ${choice.label}`} value={routed ? "to" in routed ? routed.to : "CUT" : ""} onChange={(event) => route(choice, event.target.value)}><option value="">Keep on current franchise</option>{teams.filter(({ id }) => id !== team.id).map((target) => <option value={target.id} key={target.id}>Send to {target.name}</option>)}{choice.type === "PLAYER" && <option value="CUT">Authorize release</option>}</select></label>;
     })}</fieldset>)}

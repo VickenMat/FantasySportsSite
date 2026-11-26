@@ -22,22 +22,24 @@ export default async function LeaguePage({ params }: { params: Promise<{ id: str
   const currentPlans = plans.filter((plan) => league.sports.some((sport) => sport.id === plan.leagueSportId && sport.seasonId === plan.seasonId));
   const now = new Date();
   return <LeagueShell leagueId={id}>
-    <div className="workspace-intro"><Link href="/dashboard">My leagues</Link><h1 className="display">{league.name}</h1><SportTags values={league.sports.map(({ sport }) => sport)} /></div>
+    <div className="workspace-intro"><Link href="/dashboard">My leagues</Link><div className="title-with-secondary"><h1 className="display">{league.name}</h1><span>League Overview</span></div><SportTags values={league.sports.map(({ sport }) => sport)} /></div>
     <div className="league-overview-layout">
-      <section className="panel"><h2 className="display">League overview</h2><dl className="overview-grid">
+      <section className="panel"><dl className="overview-grid">
         <div><dt>Format</dt><dd>{financial?.salaryMode ? "Salary dynasty" : league.format === "DYNASTY" ? "Dynasty" : league.sports.some(({ keeperLimit }) => keeperLimit > 0) ? "Redraft with keepers" : "Redraft"}</dd></div>
         <div><dt>Competition</dt><dd>{league.competitionType === "HEAD_TO_HEAD" ? "Head-to-head" : "Cumulative"}</dd></div>
-        <div><dt>Franchises</dt><dd>{league.teams.length} of {league.maxTeams}</dd></div>
+
         <div><dt>Commissioner</dt><dd>{commissioner?.user.name ?? "Unavailable"}</dd></div>
         <div><dt>Seasons</dt><dd>{league.sports.map((sport) => sport.sport + " " + sport.seasonLabel).join(" · ")}</dd></div>
         <div><dt>Visibility</dt><dd>{league.visibility === "PRIVATE" ? "Private invitation only" : "Public"}</dd></div>
-      </dl><div className="overview-sports">{league.sports.map((sport) => {
+      </dl></section><section className="panel"><h2 className="display">Draft Center</h2><div className="overview-sports">{league.sports.map((sport) => {
         const plan = currentPlans.find((plan) => plan.leagueSportId === sport.id || plan.scope === "UNIVERSAL");
         const draft = league.drafts.find((draft) => draft.sport === sport.sport && draft.seasonId === sport.seasonId);
         const state = plan ? draftRoomState(plan, now) : draft?.status ?? "UNSCHEDULED";
         const open = ["ROOM_OPEN", "AWAITING_START", "IN_PROGRESS", "ACTIVE", "PAUSED", "BLOCKED"].includes(state);
         return <article key={sport.id} className="mini-card"><h3>{sport.sport} {sport.seasonLabel}</h3>
+          {plan && !["COMPLETED", "CANCELLED"].includes(plan.status) && <p>{plan.method === "AUCTION" ? "Auction" : "Snake"} · {plan.secondsPerPick}s timer · {plan.orderMethod === "RANDOM" ? "Random" : "Custom"} order</p>}
           {plan ? <DraftScheduleStatus scheduledAt={plan.scheduledAt?.toISOString() ?? null} timezone={plan.timezone} status={state} refresh /> : <p>Draft: {state.toLowerCase().replaceAll("_", " ")}</p>}
+          {plan && !["COMPLETED","CANCELLED"].includes(plan.status) && <details><summary>Draft order</summary><ol>{plan.order.map(teamId=><li key={teamId}>{league.teams.find(t=>t.id===teamId)?.name??"Former franchise"}</li>)}</ol></details>}
           {plan?.blockedReason && <p role="alert">{plan.blockedReason}</p>}
           <Link className={"button " + (open ? "primary" : "secondary")} href={"/leagues/" + id + "/draft?sport=" + sport.sport}>{open ? "Join Draft Room" : "Draft center"}</Link>
         </article>;

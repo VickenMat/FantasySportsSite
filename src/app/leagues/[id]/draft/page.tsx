@@ -7,7 +7,7 @@ import { autoPickAction, draftPauseAction, pickAction, queuePlayerAction, startD
 import { DraftClock } from "@/components/draft-clock";
 import { DraftQueue } from "@/components/draft-queue";
 import { LeagueShell } from "@/components/league-shell";
-import { LeagueSportTabs } from "@/components/league-sport-tabs";
+import { DraftSportSelect } from "@/components/draft-sport-select";
 import { PositionBadges } from "@/components/position-badge";
 import { requireSession } from "@/lib/auth";
 import { getDatabase } from "@/lib/db";
@@ -27,7 +27,7 @@ type DraftView = "pool" | "board" | "results";
 
 export default async function DraftPage({ params, searchParams }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ sport?: string; draft?: string; q?: string; position?: string; view?: string }>;
+  searchParams: Promise<{ sport?: string; scope?: string; draft?: string; q?: string; position?: string; view?: string }>;
 }) {
   const { user } = await requireSession();
   const { id } = await params;
@@ -38,8 +38,11 @@ export default async function DraftPage({ params, searchParams }: {
   const database = getDatabase();
   const plans = await listDraftPlans(id);
   const financial = await financePolicy(database, id);
+  const seasonEvidence = context.league.isHistorical ? null : await database.professionalSeasonScheduleRevision.findFirst({where:{seasonId:selected.seasonId,retrievedAt:{lte:new Date()}},orderBy:{retrievedAt:"desc"}});
   const rookieRule = await hasGameplayTable("RookieDraftRule") ? await database.rookieDraftRule.findUnique({ where: { leagueSportId: selected.id } }) : null;
   const plan = plans.find((plan) => plan.draftId === query.draft) ?? plans.find((plan) => plan.leagueSportId === selected.id && plan.seasonId === selected.seasonId && !["CANCELLED", "COMPLETED"].includes(plan.status)) ?? plans.find((plan) => plan.leagueSportId === selected.id && plan.seasonId === selected.seasonId) ?? plans.find((plan) => plan.scope === "UNIVERSAL" && !["CANCELLED", "COMPLETED"].includes(plan.status));
+  const primary = context.league.sports.find(s=>s.sport===context.league.primarySport) ?? context.league.sports[0];
+  const universalSupported = plan?.scope === "UNIVERSAL" || (context.league.sports.length>1 && !context.league.sports.some(s=>s.keeperLimit>0) && !plans.some(p=>p.scope==="SPORT"&&p.leagueSportId!==primary.id&&p.status!=="CANCELLED"));
   const roomState = plan ? draftRoomState(plan, new Date()) : null;
   const draft = await database.draft.findFirst({
     where: { leagueId: id, ...(query.draft ? { id: query.draft } : plan?.draftId ? { id: plan.draftId } : { sport: selected.sport, seasonId: selected.seasonId }) },
@@ -83,7 +86,7 @@ export default async function DraftPage({ params, searchParams }: {
 
   return <LeagueShell leagueId={id}>
     <div className="workspace-intro draft-header"><p className="eyebrow">{draft?.status === "COMPLETE" ? "Draft recap" : "Live draft room"}</p><h1 className="display">{plan?.scope === "UNIVERSAL" ? "Universal" : selected.sport} {draft?.kind === "ROOKIE" ? "rookie " : ""}draft</h1>
-      <LeagueSportTabs leagueId={id} path="/draft" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} />
+      <DraftSportSelect leagueId={id} sports={context.league.sports.map(s=>s.sport)} selected={plan?.scope==="UNIVERSAL"||query.scope==="UNIVERSAL"?"UNIVERSAL":selected.sport} primarySport={context.league.primarySport ?? context.league.sports[0].sport} universal={universalSupported} />
       {draft && <div className="draft-status-grid"><div><span>Status</span><strong>{draft.status}</strong></div><div><span>Round</span><strong>{currentRound}</strong></div><div><span>Overall pick</span><strong>{Math.min(draft.currentPick, draft.pickOrder.length)} / {draft.pickOrder.length}</strong></div><div><span>On the clock</span><strong>{currentTeam?.name ?? "Complete"}{currentTeam?.isComputer ? " (Computer)" : ""}</strong></div><div><span>Next</span><strong>{nextTeam?.name ?? "—"}</strong></div><div><span>My next pick</span><strong>{nextMyOffset < 0 ? "No picks remaining" : nextMyOffset === 0 ? "Now" : `${nextMyOffset} pick${nextMyOffset === 1 ? "" : "s"}`}</strong></div></div>}
       {draft && <div className="draft-controls"><DraftClock status={draft.status} pickDeadlineAt={draft.pickDeadlineAt?.toISOString() ?? null} pausedRemainingMs={draft.pausedRemainingMs} secondsPerPick={draft.secondsPerPick} version={draft.version} />{context.role === "COMMISSIONER" && ["ACTIVE", "PAUSED"].includes(draft.status) && <form action={draftPauseAction.bind(null, id, draft.id, draft.status === "ACTIVE")}><button className="button secondary">{draft.status === "ACTIVE" ? "Pause draft" : "Resume draft"}</button></form>}</div>}
     </div>
@@ -93,7 +96,8 @@ export default async function DraftPage({ params, searchParams }: {
     <p><Link href={"/leagues/" + id + "/finances"}>Auction budgets and salary configuration</Link></p>
     {draft && plan?.method === "AUCTION" && visiblePool && <AuctionPanel userId={user.id} leagueId={id} draftId={draft.id} />}
     {plan && <section className="panel"><DraftScheduleStatus scheduledAt={plan.scheduledAt?.toISOString() ?? null} timezone={plan.timezone} status={roomState!} refresh />{plan.blockedReason && <p role="alert">{plan.blockedReason}</p>}<ol aria-label="Saved initial draft order">{plan.order.map((teamId) => <li key={teamId}>{context.league.teams.find(({ id }) => id === teamId)?.name ?? teamId}</li>)}</ol></section>}
-    {context.role === "COMMISSIONER" && plan?.kind !== "ROOKIE" && (!plan || plan.leagueSportId === selected.id) && (!draft || draft.status === "SCHEDULED") && <DraftConfiguration key={selected.id} leagueId={id} leagueSportId={selected.id} seasonLabel={`${selected.sport} ${selected.seasonLabel}`} teams={context.league.teams} enabled={await hasGameplayTable("DraftPlan")} auctionEnabled={Boolean(financial)} salaryMode={Boolean(financial?.salaryMode)} universalAvailable={selected.sport === context.league.primarySport && context.league.sports.length > 1} current={{ scope: plan?.scope ?? "SPORT", method: plan?.method ?? "SNAKE", version: plan?.version ?? 0, order: plan?.order ?? selected.draftOrder, orderMethod: plan?.orderMethod ?? "CUSTOM", rounds: plan?.rounds ?? selected.draftRounds, secondsPerPick: plan?.secondsPerPick ?? selected.draftSecondsPerPick, scheduledAt: plan?.scheduledAt?.toISOString() ?? null, timezone: plan?.timezone ?? "UTC" }} />}
+    {!context.league.isHistorical && seasonEvidence?.status!=="AVAILABLE" && <p className="muted">A valid plan can be saved while season evidence is pending. Activation requires verified boundaries for every covered sport.</p>}
+    {context.role === "COMMISSIONER" && plan?.kind !== "ROOKIE" && (!plan || plan.leagueSportId === selected.id) && (!draft || draft.status === "SCHEDULED") && <DraftConfiguration key={`${selected.id}:${query.scope??plan?.scope??"SPORT"}`} leagueId={id} leagueSportId={selected.id} seasonId={selected.seasonId} sport={selected.sport} sports={context.league.sports.map(s=>s.sport)} seasonLabel={`${selected.sport} ${selected.seasonLabel}`} teams={context.league.teams} enabled={await hasGameplayTable("DraftPlan")} auctionEnabled={Boolean(financial)} salaryMode={Boolean(financial?.salaryMode)} universalAvailable={selected.id===primary.id && universalSupported} current={{ scope: plan?.scope ?? (query.scope === "UNIVERSAL" && selected.id===primary.id && universalSupported ? "UNIVERSAL" : "SPORT"), method: plan?.method ?? "SNAKE", version: plan?.version ?? 0, order: plan?.order ?? selected.draftOrder, orderMethod: plan?.orderMethod ?? "CUSTOM", rounds: plan?.rounds ?? selected.draftRounds, secondsPerPick: plan?.secondsPerPick ?? draft?.secondsPerPick ?? 60, scheduledAt: plan?.scheduledAt?.toISOString() ?? null, timezone: plan?.timezone ?? "America/New_York" }} />}
     {(!draft || draft.status === "SCHEDULED") && plan?.kind !== "ROOKIE" && context.role === "COMMISSIONER" && testingDraftShortcutAllowed() && <section className="panel"><h2 className="display">Development testing</h2><p>Bypasses the waiting period only. Configuration, participation, season evidence and compliance gates still apply.</p><form action={startDraftAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><button className="button secondary">Start Draft Now (testing)</button></form></section>}
     {draft && <>
       {processing && ["BLOCKED", "FAILED"].includes(processing.status) && <section className="panel" role="alert"><h2 className="display">Automatic selection needs attention</h2><p>{processingReason?.error}</p><Link href={`/leagues/${id}/team?sport=${selected.sport}`}>Review My Team</Link>{context.role === "COMMISSIONER" && <p><Link href={`/leagues/${id}/rosters`}>Inspect every franchise and make an audited roster correction</Link></p>}</section>}

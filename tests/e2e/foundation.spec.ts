@@ -137,7 +137,7 @@ test("demo sign-in shows a persisted league and preset; sign-out revokes the ses
   await page.getByRole("link", { name: "Dashboard", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Welcome, Demo Manager" })).toBeVisible();
   await page.goto(`/leagues/${leagueId}/scoring`);
-  await expect(page.getByRole("row", { name: "NFL Passing Tds 16.0" })).toBeVisible();
+  await expect(page.getByRole("row", { name: "Passing Tds 16.0" })).toBeVisible();
   await page.goto(`/leagues/${leagueId}/waivers?sport=NFL`);
   await expect(page.getByRole("heading", { name: "NFL waiver wire" })).toBeVisible();
 
@@ -292,7 +292,8 @@ test("creates a historical league and opens its persistent draft and analysis pa
       where: { leagueId, sport: "NBA", slot: "UNIVERSAL_BENCH", slotIndex: 3, releasedAt: null }, select: { slotIndex: true },
     })).toEqual({ slotIndex: 3 });
     await page.getByRole("link", { name: "Scoring", exact: true }).click();
-    await expect(page.getByRole("heading", { name: "Universal Balanced Points V9" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Scoring", exact: true })).toBeVisible();
+    await expect(page.getByText("Universal Balanced Points V9", {exact:true})).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
     await expect(page.getByRole("heading", { name: "League trades" })).toBeVisible();
     await page.screenshot({ path: test.info().outputPath("cross-sport-trade-builder.png"), fullPage: true });
@@ -331,15 +332,15 @@ test("creates a playable two-team four-sport league with independent draft rooms
     const leagueId = new URL(page.url()).pathname.split("/").at(-1)!;
     await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByRole("link", { name: "Open draft center" }).click();
-    for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByRole("link", { name: sport, exact: true })).toBeVisible();
+    for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByRole("combobox", {name:"Sport",exact:true}).getByRole("option",{name:sport,exact:true})).toHaveCount(1);
     await installDraftBoundaryFixtures(leagueId);
     await page.getByRole("button", { name: "Start Draft Now (testing)" }).click();
     await expect(page.getByRole("heading", { name: "NFL draft" })).toBeVisible();
-    await page.getByRole("link", { name: "NBA", exact: true }).click();
+    await page.getByRole("combobox", { name: "Sport", exact: true }).selectOption("NBA");
     await expect(page.getByRole("button", { name: "Start Draft Now (testing)" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
-    await expect(page.getByRole("heading", { name: "Multi-team and multi-asset proposals" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Revisioned proposals" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "New Trade", exact:true })).toBeVisible();
+    await expect(page.getByRole("navigation",{name:"Trade sections"}).getByRole("link",{name:"History",exact:true})).toBeVisible();
     await page.screenshot({ path: test.info().outputPath("cross-sport-trade-builder.png"), fullPage: true });
     expect(leagueId).toMatch(/[0-9a-f-]{36}/);
   } finally { await database.league.deleteMany({ where: { name } }); await database.user.deleteMany({ where: { email } }); }

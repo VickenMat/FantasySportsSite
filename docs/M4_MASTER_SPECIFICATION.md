@@ -175,3 +175,7 @@ Each semicolon-separated scenario is an independent verification target; expand 
 ## 26. Completion protocol
 
 Continue through unblocked M4.3–M4.7 and remaining M4.2, then M4.8. Update `M4_MASTER_CHECKLIST.md`, `M4_UNRESOLVED_RULES.md`, `PROJECT_STATUS.md` and `M4_COMPLETION_REPORT.md`. Mark checked only when implemented and verified. Record local commits, tests, pending migrations, data/decision gates, development integrity and manual acceptance instructions. Read relevant modules only, inspect datasets programmatically, keep reports concise. Do not equate passing tests with full specification coverage. Stop only for genuine unresolved decisions preventing correct work; continue unrelated tasks.
+
+## UI refinement clarification, November 26, 2026
+
+Newly configured initial drafts default to 60 seconds and Eastern Time (`America/New_York`); saved timers and UTC instants remain authoritative. Date and time are separate controls with quarter-hour choices and explicit DST disambiguation. Acquisition preview is write-free with respect to claims and financial ledgers; final submission creates the reservation and conditional cut atomically, and only successful settlement releases the designated player. See [UI refinement QA report](UI_REFINEMENT_QA_REPORT.md).

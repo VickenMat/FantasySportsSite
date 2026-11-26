@@ -94,7 +94,7 @@ export async function createLeague(userId: string, input: z.input<typeof createL
       isDemo: value.historical, isHistorical: value.historical, primarySport: firstSport, seasonYear: seasons.get(firstSport)!.startYear,
       startingFaab: value.startingFaab, waiverMethod: value.waiverMethod, faabScope: value.faabScope,
       universalStartingFaab: value.universalStartingFaab, benchSlots: value.benchSlots, rosterSlots: [...defaultSlots[firstSport]],
-      draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffTeams,
+      draftSecondsPerPick: 60, draftRounds: defaultSlots[firstSport].length + value.benchSlots, playoffTeams: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffTeams,
       playoffPeriods: value.competitionType === "CUMULATIVE" ? 0 : defaultPlayoffWeeks, presetId: preset.id,
     } });
     const leagueSports = new Map<Sport, { id: string }>();
@@ -102,7 +102,7 @@ export async function createLeague(userId: string, input: z.input<typeof createL
       const season = seasons.get(sport)!;
       const leagueSport = await tx.leagueSport.create({ data: {
         leagueId: league.id, sport, seasonId: season.id, seasonLabel: season.label, rosterSlots: [...defaultSlots[sport]],
-        benchSlots: value.benchSlots, draftRounds: defaultSlots[sport].length + value.benchSlots, startingFaab: value.startingFaab,
+        benchSlots: value.benchSlots, draftSecondsPerPick: 60, draftRounds: defaultSlots[sport].length + value.benchSlots, startingFaab: value.startingFaab,
         keeperLimit: value.format === "REDRAFT" ? value.keeperLimits?.[sport] ?? 0 : 0,
       } });
       leagueSports.set(sport, leagueSport);
@@ -297,11 +297,11 @@ export async function updateTeamName(userId: string, leagueId: string, name: str
 }
 
 export async function updateLeagueSettings(userId: string, leagueId: string, input: {
-  sport?: Sport; draftSecondsPerPick: number; startingFaab: number; playoffTeams: number; playoffPeriods: number;
+  name?: string; sport?: Sport; draftSecondsPerPick: number; startingFaab: number; playoffTeams: number; playoffPeriods: number;
   visibility?: "PRIVATE" | "PUBLIC"; maxTeams?: number; keeperLimit?: number; keeperDeadline?: Date | null; draftRounds: number;
   regularSeasonMatchups?: number;
 }) {
-  const value = z.object({ sport: z.enum(sports).optional(), draftSecondsPerPick: z.number().int().min(15).max(600), startingFaab: z.number().int().min(0).max(100_000),
+  const value = z.object({ name: z.string().trim().min(3).max(80).optional(), sport: z.enum(sports).optional(), draftSecondsPerPick: z.number().int().min(15).max(600), startingFaab: z.number().int().min(0).max(100_000),
     playoffTeams: z.number().int().min(0).max(16), playoffPeriods: z.number().int().min(0).max(3), visibility: z.enum(["PRIVATE", "PUBLIC"]).optional(),
     maxTeams: z.number().int().min(2).max(16).optional(), keeperLimit: z.number().int().min(0).max(50).optional(), keeperDeadline: z.date().nullable().optional(),
     draftRounds: z.number().int().min(1).max(50), regularSeasonMatchups: z.number().int().min(1).max(100).optional() }).parse(input);
@@ -325,7 +325,7 @@ export async function updateLeagueSettings(userId: string, leagueId: string, inp
     });
     await setCommissionerAuditContext(tx, userId, "UPDATE_GAMEPLAY_SETTINGS", "Commissioner saved gameplay settings.");
     await tx.league.update({ where: { id: leagueId }, data: {
-      maxTeams: size, visibility: value.visibility, playoffTeams: value.playoffTeams, playoffPeriods: value.playoffPeriods,
+      name: value.name, maxTeams: size, visibility: value.visibility, playoffTeams: value.playoffTeams, playoffPeriods: value.playoffPeriods,
     } });
     await tx.leagueSport.update({ where: { id: leagueSport.id }, data: {
       draftSecondsPerPick: value.draftSecondsPerPick, draftRounds: value.draftRounds,

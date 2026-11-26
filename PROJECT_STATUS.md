@@ -2,6 +2,10 @@
 
 M5 is in progress from synchronized `4c730e0`: **12 checked / 20 unchecked / 32 total** at the fixture-verified ingestion-mechanisms checkpoint. M4 remains **60/60**, with all existing gameplay decisions preserved. See [M5 checkpoint](docs/M5_CHECKPOINT_REPORT.md), [provider options](docs/M5_PROVIDER_COMPARISON.md), [coverage](docs/M5_DATA_COVERAGE_REPORT.md) and [checklist](docs/M5_MASTER_CHECKLIST.md).
 
+## UI refinement continuation
+
+The November 26 UI workstream adds compact Overview/Team/Settings/Trades, separate Eastern draft date/time controls, a 60-second default for new drafts, league-specific multi-position filters, private two-step conditional-cut acquisitions and selected-sport scoring with active-weight comparisons. Existing gameplay and M5 data mechanisms are retained. See [request-to-implementation QA mapping](docs/UI_REFINEMENT_QA_REPORT.md). No development migration/backfill is included; migration 28 remains pending separate approval.
+
 ## Current implementation
 
 Provider-independent ingestion now includes immutable identities and team history, revision-aware position corrections, boundaries, lifecycle evidence, actual start/completion/game states, live/final/corrected statistics, provider-wide rolling quotas, central adaptive per-game polling and dependency retries. Reviewed source selection and missing-only hybrid enrichment feed the existing V9 ledger with field provenance and explicit publication semantics. All mechanisms are synthetic-fixture verified; live-source acceptance remains open. Team and Matchups expose freshness and unknown/provisional/source-published status. See [mechanism report](docs/M5_INGESTION_MECHANISMS_REPORT.md).
@@ -12,9 +16,9 @@ M4's authentication-aware public landing, responsive Overview/invitations, perma
 
 ## Current verification
 
-- 168 unit tests pass.
-- 114 PostgreSQL integration tests pass twice in separate fresh schemas, including shuffled order (seed 5261126).
-- 18 production Chromium workflows pass; the development-writing opt-in is skipped. Server/worker restart acceptance is recorded in the mechanism report.
+- 171 unit tests pass, including DST, starter-filter resolution and scoring comparison validation.
+- 115 PostgreSQL integration tests pass twice in separate fresh schemas, including shuffled order (UI seed 261126); added locked-cut assertions also pass the focused acquisition suite.
+- 20 production Chromium workflows pass; the development-writing opt-in is skipped. Two actual server/worker restart workflows pass. UI details and final focused checks are in the UI QA report.
 - TypeScript, ESLint, Prisma validation, production Turbopack build and whitespace checks pass.
 - Pending migration 28 preserves all 89 existing application tables in a disposable populated copy, validates all 196 foreign keys and yields empty Prisma drift.
 

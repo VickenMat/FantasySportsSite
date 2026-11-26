@@ -1,3 +1,4 @@
+import { captureDueGameLineups } from "./lineup-snapshots";
 import { z } from "zod";
 import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
@@ -17,6 +18,7 @@ export async function submitWaiver(userId: string, input: { leagueId: string; sp
   const value = z.object({ leagueId: z.uuid(), addPlayerId: z.uuid(), dropPlayerId: z.uuid().nullish(), bid: z.number().int().min(0) }).parse(input);
   const customTime = z.date().optional().parse(input.processAt);
   const leagueSport = await resolveLeagueSport(value.leagueId, input.sport);
+  await captureDueGameLineups(new Date());
   return getDatabase().$transaction(async (tx) => {
     const membership = await tx.leagueMember.findUnique({
       where: { leagueId_userId: { leagueId: value.leagueId, userId } }, include: { fantasyTeam: true, league: true },
@@ -46,9 +48,11 @@ export async function submitWaiver(userId: string, input: { leagueId: string; sp
     if (await tx.waiverClaim.findFirst({ where: { rosterId: roster.id, addPlayerId: player.id, status: "PENDING" } })) {
       throw new Error("Your roster already has a pending claim for this player.");
     }
-    if (value.dropPlayerId && !await tx.rosterEntry.findFirst({
-      where: { rosterId: roster.id, playerId: value.dropPlayerId, releasedAt: null },
-    })) throw new Error("The dropped player is not on your active sport roster.");
+    const drop = value.dropPlayerId ? await tx.rosterEntry.findFirst({ where: { rosterId: roster.id, playerId: value.dropPlayerId, releasedAt: null } }) : null;
+    if (value.dropPlayerId && !drop) throw new Error("The conditional cut is not on your active sport roster.");
+    if (drop && (drop.lockedAt || await pendingGameCompletionHold(tx, drop.playerId, now))) throw new Error("The conditional cut is locked in a game or awaiting verified completion.");
+    const occupiedBench = await tx.rosterEntry.count({where:{rosterId:roster.id,releasedAt:null,slot:"BENCH",id:drop?{not:drop.id}:undefined}});
+    if (occupiedBench >= leagueSport.benchSlots) throw new Error("Select a conditional sport bench cut or open a sport bench position before claiming.");
     const hold = await waiverHoldUntil(tx, value.leagueId, player.id, now);
     const completionPending = await pendingGameCompletionHold(tx, player.id, now);
     const processAt = new Date(Math.max(Number(now)+(completionPending?60000:0), Number(customTime ?? now), Number(hold ?? now)));
@@ -81,6 +85,7 @@ export async function cancelWaiver(userId: string, claimId: string) {
 }
 
 export async function processDueWaivers(leagueId: string, now = new Date(), requestedSport?: Sport | string) {
+  await captureDueGameLineups(now);
   const database = getDatabase(); const leagueSport = requestedSport ? await resolveLeagueSport(leagueId, requestedSport) : null;
   return database.$transaction(async (tx) => {
     const league = await tx.league.findUniqueOrThrow({ where: { id: leagueId } });
@@ -116,9 +121,11 @@ export async function processDueWaivers(leagueId: string, now = new Date(), requ
         await releaseFaabReservation(tx, claim.id, "A higher-priority claim won this player.");
         await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "LOST", reason: "A higher-priority claim won this player.", processedAt: now } }); continue;
       }
+      try { const sport = await tx.leagueSport.findUniqueOrThrow({where:{id:claim.leagueSportId}}); await assertRookieDraftComplete(tx, sport.id, sport.seasonId, claim.addPlayerId, now); }
+      catch { await releaseFaabReservation(tx, claim.id, "Acquisition eligibility changed."); await tx.waiverClaim.update({where:{id:claim.id},data:{status:"REJECTED",reason:"Acquisition eligibility changed.",processedAt:now}}); continue; }
       const dropped = claim.dropPlayerId ? await tx.rosterEntry.findFirst({ where: { rosterId: roster.id, playerId: claim.dropPlayerId, releasedAt: null } }) : null;
       const compliance = await currentCompliance(tx, claim.teamId, now);
-      if (compliance.state !== "COMPLIANT" || (claim.dropPlayerId && (!dropped || dropped.lockedAt))) {
+      if (compliance.state !== "COMPLIANT" || (claim.dropPlayerId && (!dropped || dropped.lockedAt || await pendingGameCompletionHold(tx, dropped.playerId, now)))) {
         await releaseFaabReservation(tx, claim.id, compliance.state !== "COMPLIANT" ? "Roster is noncompliant." : "The designated drop is unavailable.");
         await tx.waiverClaim.update({ where: { id: claim.id }, data: {
           status: "REJECTED", reason: compliance.state !== "COMPLIANT" ? "Roster is noncompliant." : "The designated drop is unavailable.", processedAt: now,

@@ -75,7 +75,7 @@ for (const format of ["REDRAFT", "DYNASTY"] as const) {
       await page.getByRole("button", { name: "Propose multi-asset trade" }).click();
       await expect.poll(() => database.tradeProposal.count({ where: { leagueId, status: "PENDING" } })).toBe(1);
       await page.getByRole("button", { name: "Accept revision 1", exact: true }).click();
-      await partner.goto(`/leagues/${leagueId}/trades`);
+      await partner.goto(`/leagues/${leagueId}/trades?tab=incoming`);
       await partner.getByRole("button", { name: "Accept revision 1", exact: true }).click();
       await expect.poll(() => database.tradeProposal.count({ where: { leagueId, status: "REVIEW" } })).toBe(1);
       await processAdvancedTrades(new Date());

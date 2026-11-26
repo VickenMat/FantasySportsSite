@@ -36,7 +36,7 @@ it("records authorized league and sport settings atomically, with append-only be
     }),
     expect.objectContaining({
       actorUserId: user.id, action: "UPDATE_GAMEPLAY_SETTINGS", targetType: "LeagueSport", sport: "NFL",
-      before: { draftSecondsPerPick: 90 }, after: { draftSecondsPerPick: 45 },
+      before: { draftSecondsPerPick: 60 }, after: { draftSecondsPerPick: 45 },
     }),
     expect.objectContaining({
       actorUserId: user.id, action: "UPDATE_DRAFT_ORDER", targetType: "LeagueSport", sport: "NFL",

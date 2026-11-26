@@ -1,5 +1,9 @@
+import { cookies } from "next/headers";
+import { FranchiseName } from "@/components/franchise-name";
+import { cancelAcquisitionAction } from "@/app/actions/leagues";
+import { PendingAcquisition } from "@/components/acquisition-flow";
 import { notFound } from "next/navigation";
-import { dropPlayerAction, renameTeamAction, selectKeeperAction } from "@/app/actions/leagues";
+import { dropPlayerAction, selectKeeperAction } from "@/app/actions/leagues";
 import { LeagueShell } from "@/components/league-shell";
 import { LeagueSportTabs } from "@/components/league-sport-tabs";
 import { RosterPositionEditor, type PositionRow } from "@/components/roster-position-editor";
@@ -18,7 +22,7 @@ import { ProfessionalDataStatus } from "@/components/professional-data-status";
 import { listFutureDraftPicks } from "@/server/dynasty-picks";
 
 export default async function TeamPage({ params, searchParams }: {
-  params: Promise<{ id: string }>; searchParams: Promise<{ sport?: string }>;
+  params: Promise<{ id: string }>; searchParams: Promise<{ sport?: string; acquire?: string; bid?: string }>;
 }) {
   const { user } = await requireSession();
   const { id } = await params;
@@ -115,15 +119,20 @@ export default async function TeamPage({ params, searchParams }: {
     return [sourceEntry.id, destinations];
   }));
 
+  let pendingClaim: {leagueId:string;sport:string;playerId:string;bid:number;userId:string}|null=null;
+  try { const value=JSON.parse((await cookies()).get("pending-acquisition")?.value??"null"); if(value?.leagueId===id&&value.sport===selected.sport&&value.userId===user.id&&/^[0-9a-f-]{36}$/i.test(value.playerId)&&Number.isSafeInteger(value.bid)&&value.bid>=0)pendingClaim=value; }catch{}
+  const acquisition = pendingClaim ? await database.player.findFirst({where:{id:pendingClaim.playerId,sport:selected.sport,rosterEntries:{none:{leagueId:id,releasedAt:null}}}}) : null;
   return <LeagueShell leagueId={id}>
-    <div className="workspace-intro"><p className="eyebrow">My franchise</p><form action={renameTeamAction.bind(null, id)} className="inline-form"><label className="sr-only" htmlFor="franchise-name">Franchise name</label><input id="franchise-name" className="display inline-title-input" name="name" defaultValue={context.fantasyTeam.name} required /><button className="button compact secondary" aria-label="Rename franchise">✎</button></form><p className="muted">{selected.sport} · {selected.seasonLabel} · {financial?.salaryMode ? "Salary dynasty · full salaries and obligations in Finances" : `${funds.balance} ${funds.scope === "UNIVERSAL" ? "universal cycle " : ""}FAAB remaining · ${funds.reserved} reserved`}</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    <div className="workspace-intro"><p className="eyebrow">My franchise</p><FranchiseName leagueId={id} name={context.fantasyTeam.name}/><div className="sport-budget"><strong>{selected.sport}</strong><span>{selected.seasonLabel}</span>{!financial?.salaryMode && context.league.waiverMethod === "FAAB" && <span>{Math.max(0,funds.balance-funds.reserved)} {funds.scope === "UNIVERSAL" ? "shared FAAB" : "FAAB"} available</span>}</div><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    {pendingClaim && !acquisition && <section className="panel"><p role="alert">This player is no longer available.</p><form action={cancelAcquisitionAction.bind(null,id,selected.sport)}><button className="button secondary">Cancel acquisition</button></form></section>}
+    {acquisition && !financial?.salaryMode && <PendingAcquisition leagueId={id} sport={selected.sport} playerId={acquisition.id} name={acquisition.displayName} bid={pendingClaim!.bid} faab={context.league.waiverMethod === "FAAB"} available={Math.max(0,funds.balance-funds.reserved)} canAdd={entries.filter(e=>e.rosterId===roster.id&&e.slot==="BENCH").length<selected.benchSlots} cuts={entries.filter(e=>e.rosterId===roster.id).map(e=>({id:e.playerId,name:e.player.displayName,disabled:Boolean(e.lockedAt)}))}/> }
     <ProfessionalDataStatus sport={selected.sport} seasonId={selected.seasonId} historical={context.league.isHistorical} />
-    <section className="panel"><div className="section-heading"><div><h2 className="display">{selected.sport} roster</h2><p className="muted">Select a player&apos;s position button, then choose a highlighted legal destination. Occupied destinations swap atomically.</p></div></div>
+    <section className="panel"><div className="section-heading"><div><h2 className="display">{selected.sport} roster</h2></div></div>
       {overflow.length > 0 && <p role="alert">{overflow.length} player{overflow.length === 1 ? " is" : "s are"} outside configured roster capacity. Every player is shown below. Move eligible players to empty legal slots or use the named Drop controls. Acquisitions remain blocked until compliance is restored.</p>}
-      <p className="muted">Historical actuals for {selected.seasonLabel}; shared players use their own sport season. Unknown or incomplete scores are N/A. No projections.</p>
+
       {keepers.length > 0 && <p>Selected keepers for the next snake draft: {keepers.map((keeper) => `${keeper.player.displayName} (round ${keeper.draftCost ?? "pending review"})`).join(", ")}. A traded player must be selected by the current manager.</p>}
       <RosterPositionEditor leagueId={id} rows={rows} legalDestinations={legalDestinations} rookiePicks={futurePicks.length > 0 ? <section><h2 className="display">{selected.sport} rookie draft picks</h2><div className="table-wrap"><table className="data-table"><thead><tr><th>Season</th><th>Round</th><th>Original owner</th><th>Current owner</th></tr></thead><tbody>{futurePicks.map((pick) => <tr key={pick.id}><td>{pick.seasonStartYear}</td><td>{pick.round}</td><td>{pick.originalTeam.name}</td><td>{pick.ownerTeam.name}</td></tr>)}</tbody></table></div></section> : undefined} />
-      {!entries.length && <p className="muted">This sport roster will populate through its draft and transactions.</p>}
+
       <div className="button-row">{entries.filter((entry) => entry.sport === selected.sport).map((entry) => <span key={entry.id}>{context.league.format === "REDRAFT" && selected.keeperLimit > 0 && !keeperIds.has(entry.playerId) && <form action={selectKeeperAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary">Keep {entry.player.displayName}</button></form>}<form action={dropPlayerAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="playerId" value={entry.playerId} /><button className="button compact secondary" disabled={Boolean(entry.lockedAt)}>Drop {entry.player.displayName}</button></form></span>)}</div>
     </section>
   </LeagueShell>;

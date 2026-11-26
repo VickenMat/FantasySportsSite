@@ -18,8 +18,9 @@ test("redraft keeper survives an independent sport transition and pays its recor
     for (const season of [2077, 2078]) {
       await page.goto(`/leagues/${league.id}/draft?sport=NFL`);
       await page.getByLabel("Draft rounds per franchise").fill("2"); await page.getByLabel("Draft timer (seconds)").fill("30");
-      await page.getByLabel(/Draft date and time/).fill(new Date(Date.now() + 5 * 60000).toISOString().slice(0, 16));
-      await page.getByRole("button", { name: "Save Draft Order and Schedule" }).click(); await expect(page.getByRole("status")).toContainText("saved for every league member");
+      const local = new Date(Math.ceil((Date.now()+5*60000)/900000)*900000).toISOString().slice(0,16);
+      await page.getByLabel("Timezone",{exact:true}).selectOption("UTC"); await page.getByLabel("Draft Date",{exact:true}).fill(local.slice(0,10)); await page.getByLabel("Draft Time",{exact:true}).selectOption(local.slice(11,16));
+      await page.getByRole("button", { name: "Save Draft Schedule" }).click(); await expect(page.getByRole("status")).toContainText("saved for every league member");
       const plan = await db.draftPlan.findFirstOrThrow({ where: { leagueId: league.id, leagueSportId: nfl.id, season: { startYear: season } } });
       await processScheduledDrafts(plan.scheduledAt!); await page.reload();
       for (let pick = 0; pick < (season === 2077 ? 4 : 3); pick++) {

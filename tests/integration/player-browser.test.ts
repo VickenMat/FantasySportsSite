@@ -35,6 +35,13 @@ it("filters canonical ownership, holds, positions and known scores before pagina
     await db.rosterEntry.create({ data: { leagueId: league.id, teamId: other.id, rosterId: roster.id, playerId: players[1].id, sport: "NFL", seasonId: sport.seasonId, slot: "BENCH", slotIndex: 1, releasedAt: new Date(Date.now() - 3600000) } });
     const input = { sport: "NFL", search: prefix, presetId: league.presetId, seasonId: sport.seasonId, availability: "ALL" as const };
     expect((await browsePlayers(league.id, input)).total).toBe(4);
+    const defaultOrder=await browsePlayers(league.id,{...input,pageSize:1});
+    expect(defaultOrder.items[0].id).toBe(players[0].id);
+    expect(defaultOrder.projections.get(players[0].id)).toBeNull();
+    expect(defaultOrder.rosterPercent.get(players[0].id)).toBe(50);
+    const multi=await browsePlayers(league.id,{...input,positions:["QB","WR"],pageSize:1,sort:"PTS"});
+    expect(multi.total).toBe(3);expect(multi.items[0].id).toBe(players[1].id);
+
     expect((await browsePlayers(league.id, { ...input, availability: "ROSTERED" })).items.map(({ id }) => id)).toEqual([players[0].id]);
     expect((await browsePlayers(league.id, { ...input, availability: "WAIVERS" })).items.map(({ id }) => id)).toEqual([players[1].id]);
     expect((await browsePlayers(league.id, { ...input, availability: "FREE_AGENTS" })).items.map(({ id }) => id)).toEqual([players[2].id, players[3].id]);

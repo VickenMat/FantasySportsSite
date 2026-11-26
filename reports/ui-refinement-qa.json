@@ -1,0 +1,37 @@
+{
+  "baselineCommit": "67191c3",
+  "workstream": "UI refinement and manual QA",
+  "unitTests": 171,
+  "integrationTests": 115,
+  "integrationFreshSchemaRuns": 2,
+  "shuffledSeed": 261126,
+  "browserTests": 20,
+  "developmentWritingOptInSkipped": 1,
+  "restartTests": 2,
+  "typecheck": "PASS",
+  "lint": "PASS",
+  "productionBuild": "PASS",
+  "developmentPreservation": {
+    "tables": 90,
+    "differences": [
+      {
+        "table": "BackgroundJobRun",
+        "count": "13183",
+        "fingerprint": "42abc31810854f9efa5182c3f4d7806d"
+      }
+    ],
+    "missing": []
+  },
+  "unchangedV9Weights": 56,
+  "recoveredSourceHashesPreserved": 7,
+  "acceptedV5HashesPreserved": 5,
+  "developmentMigrations": 27,
+  "unapprovedMigrationsApplied": 0,
+  "developmentBackfillRows": 0,
+  "projectionEvidence": "Unavailable; displayed N/A",
+  "rosterPercentageDenominator": "Current franchise rows in this league; exact denominator shown in player details",
+  "requestMapping": "docs/UI_REFINEMENT_QA_REPORT.md",
+  "userScreenshotsExcluded": 3,
+  "finalFocusedBrowserTests": 2,
+  "finalVisualInspection": "PASS"
+}

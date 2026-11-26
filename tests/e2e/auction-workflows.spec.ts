@@ -40,8 +40,9 @@ for (const salary of [false, true]) test(`fresh ${salary ? "salary dynasty" : "t
     await page.goto(`/leagues/${leagueId}/draft`);
     await page.getByRole("combobox", { name: "Draft type", exact: true }).selectOption("AUCTION");
     await page.getByLabel("Draft rounds per franchise").fill("1"); await page.getByLabel("Draft timer (seconds)").fill("30");
-    await page.getByLabel(/Draft date and time/).fill(new Date(Date.now() + 5 * 60000).toISOString().slice(0, 16));
-    await page.getByRole("button", { name: "Save Draft Order and Schedule" }).click();
+    const local = new Date(Math.ceil((Date.now()+5*60000)/900000)*900000).toISOString().slice(0,16);
+      await page.getByLabel("Timezone",{exact:true}).selectOption("UTC"); await page.getByLabel("Draft Date",{exact:true}).fill(local.slice(0,10)); await page.getByLabel("Draft Time",{exact:true}).selectOption(local.slice(11,16));
+    await page.getByRole("button", { name: "Save Draft Schedule" }).click();
     await expect(page.getByRole("status")).toContainText("saved for every league member");
     const plan = await db.draftPlan.findFirstOrThrow({ where: { leagueId } });
     await expect(page.getByRole("button", { name: "Nominate", exact: true }).first()).toBeDisabled();
@@ -80,7 +81,7 @@ for (const salary of [false, true]) test(`fresh ${salary ? "salary dynasty" : "t
     await page.getByLabel("Amount", { exact: true }).fill("7"); await page.getByRole("button", { name: salary ? "Add cap transfer" : "Add FAAB transfer", exact: true }).click();
     await page.getByRole("button", { name: "Propose multi-asset trade" }).click();
     await page.getByRole("button", { name: "Accept revision 1", exact: true }).click();
-    await partner.goto(`/leagues/${leagueId}/trades`); await partner.getByRole("button", { name: "Accept revision 1", exact: true }).click();
+    await partner.goto(`/leagues/${leagueId}/trades?tab=incoming`); await partner.getByRole("button", { name: "Accept revision 1", exact: true }).click();
     await expect.poll(() => db.tradeProposal.count({ where: { leagueId, status: "REVIEW" } })).toBe(1);
     await processAdvancedTrades();
     await expect.poll(() => db.tradeProposal.count({ where: { leagueId, status: "EXECUTED" } })).toBe(1);
@@ -92,7 +93,7 @@ for (const salary of [false, true]) test(`fresh ${salary ? "salary dynasty" : "t
       expect(current.reduce((sum, account) => sum + account.payroll, 0)).toBe(8);
     } else {
       const current = await db.faabAccount.findMany({ where: { leagueId } }); expect(current.reduce((sum, account) => sum + account.balance, 0)).toBe(200);
-      await page.goto(`/leagues/${leagueId}/waivers`); await expect(page.getByText("93 FAAB available to bid", { exact: false })).toBeVisible();
+      await page.goto(`/leagues/${leagueId}/waivers`); await expect(page.getByText("93 FAAB available", { exact: false })).toBeVisible();
     }
     await page.goto(`/leagues/${leagueId}/draft?view=board`);
     await expect(page.locator(".draft-board-scroll")).toContainText("$7");

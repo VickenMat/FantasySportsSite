@@ -100,7 +100,7 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
   }, { isolationLevel: "Serializable" });
 }
 
-export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; page?: number; pageSize?: number; allResults?: boolean; rookieOnly?: boolean; availability?: "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" | "AVAILABLE" } = {}) {
+export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; positions?: string[]; page?: number; pageSize?: number; allResults?: boolean; rookieOnly?: boolean; availability?: "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" | "AVAILABLE" } = {}) {
   const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Number.isFinite(options.page ?? 1) ? Math.max(1, Math.trunc(options.page ?? 1)) : 1;
   const pageSize = Math.min(100, Math.max(1, Math.trunc(options.pageSize ?? 50)));
   const league = await getDatabase().league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
@@ -110,7 +110,7 @@ export async function playerPage(leagueId: string, options: { sport?: Sport | st
     rosterEntries: options.availability === "ALL" ? undefined : options.availability === "ROSTERED" ? { some: { leagueId, sport: leagueSport.sport, releasedAt: null } } : { none: { leagueId, sport: leagueSport.sport, releasedAt: null } },
     AND: [
       ...(options.availability === "WAIVERS" ? [holds] : options.availability === "FREE_AGENTS" ? [{ NOT: holds }] : []),
-      ...(options.position ? [{ gameStats: { some: { observedPositions: { has: options.position }, ...(league.isHistorical ? { game: { seasonId: leagueSport.seasonId } } : {}) } } }] : []),
+      ...((options.positions?.length || options.position) ? [{ gameStats: { some: { observedPositions: { hasSome: options.positions?.length ? options.positions : [options.position!] }, ...(league.isHistorical ? { game: { seasonId: leagueSport.seasonId } } : {}) } } }] : []),
     ],
     ...(options.rookieOnly || !league.isHistorical ? {} : { OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId } } } }] }) };
   const database = getDatabase();
