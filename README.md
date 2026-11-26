@@ -145,7 +145,7 @@ The [V9 start guide](fantasy_evolution_codex_v9_website_md/00_CODEX_START_HERE.m
 - [x] M3.5 · Draft clocks and reconnects, commissioner controls, trades, playoff seeding, authorization and rate limiting, query hardening, and measured local load tests.
 - [x] M3.6 · Two-to-sixteen-team multi-sport leagues, sport rosters and drafts, Public discovery, Redraft keepers, computer franchises, season rollover, and gameplay acceptance.
 - [x] M4 · Fixture-verified competitive gameplay and league lifecycle, with explicit production-data gates. See [the completion report](docs/M4_COMPLETION_REPORT.md) for mechanisms, verification and supported administrative safety boundaries.
-- [ ] M5 · Four-sport ingestion, data coverage, and season completeness.
+- [ ] M5 · Authoritative four-sport data integration is in progress: [provider options and ingestion checkpoint](docs/M5_CHECKPOINT_REPORT.md), 11/32 checklist rows. No live license/feed or development staging deployment is approved.
 - [ ] M6 · Time-aware simulation and optimization. Import the original historical datasets and pregame enrichment, freeze candidates before the 2025 sealed holdout, and report the observed spread.
 - [ ] M7 · Release hardening, performance and accessibility review, recovery, and deployment.
 

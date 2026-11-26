@@ -19,11 +19,11 @@ const evidenceSchema = z.discriminatedUnion("kind", [
 ]);
 const mlbFieldingPositions = new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P"]);
 
-export async function recordPositionEvidence(input: z.input<typeof evidenceSchema>) {
+export async function recordPositionEvidence(input: z.input<typeof evidenceSchema>, transaction?: import("@/generated/prisma/client").Prisma.TransactionClient) {
   const evidence = evidenceSchema.parse(input);
   const database = getDatabase();
-  const season = await database.season.findUniqueOrThrow({ where: { id: evidence.seasonId }, select: { sport: true } });
-  return database.$transaction(async (tx) => {
+  const season = await (transaction ?? database).season.findUniqueOrThrow({ where: { id: evidence.seasonId }, select: { sport: true } });
+  const work = async (tx: import("@/generated/prisma/client").Prisma.TransactionClient) => {
     await lockSport(tx, season.sport);
     const player = await tx.player.findUniqueOrThrow({ where: { id: evidence.playerId }, select: { sport: true } });
     if (player.sport !== season.sport) throw new Error("Position evidence must match the athlete's sport.");
@@ -56,7 +56,8 @@ export async function recordPositionEvidence(input: z.input<typeof evidenceSchem
       return existing;
     }
     return tx.playerPositionEvidence.create({ data: { ...data, positionId: position.id, gameId, started } });
-  });
+  };
+  return transaction ? work(transaction) : database.$transaction(work);
 }
 
 export async function getEligiblePositions(input: { playerId: string; sport: Sport; seasonYear: number; asOf: Date }, client: Pick<ReturnType<typeof getDatabase>, "playerPositionEvidence"> = getDatabase()) {

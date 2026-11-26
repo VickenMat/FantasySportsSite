@@ -33,7 +33,10 @@
     "db:import:schedule-parquet": "tsx --env-file-if-exists=.env src/workers/import-schedule-parquet.ts",
     "fantasy:process": "tsx --env-file-if-exists=.env src/workers/process-fantasy.ts",
     "fantasy:draft-timer": "tsx --env-file-if-exists=.env src/workers/draft-timer.ts",
-    "test:load": "node scripts/run-in-test-environment.mjs -- npx tsx src/workers/load-test.ts"
+    "test:load": "node scripts/run-in-test-environment.mjs -- npx tsx src/workers/load-test.ts",
+    "data:ingest": "tsx --env-file-if-exists=.env src/workers/ingest-professional-data.ts",
+    "data:m5:audit": "tsx --env-file-if-exists=.env src/workers/audit-m5-baseline.ts",
+    "data:ingestion-status": "tsx --env-file-if-exists=.env src/workers/professional-data-status.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

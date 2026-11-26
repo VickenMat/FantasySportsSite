@@ -1841,6 +1841,59 @@ model PlayerPositionEvidence {
   @@index([playerId, seasonId, knownAt])
 }
 
+// M5 staging: deployment remains subject to explicit development approval.
+model ProfessionalDataObservation {
+  id String @id @default(uuid()) @db.Uuid
+  provider String
+  sport Sport
+  category String
+  entityKey String
+  revisionToken String
+  revisionOrdinal BigInt?
+  contentHash String
+  sourceReference String
+  observedAt DateTime @db.Timestamptz(3)
+  effectiveAt DateTime? @db.Timestamptz(3)
+  publishedAt DateTime? @db.Timestamptz(3)
+  raw Json
+  normalized Json
+  decisions ProfessionalDataDecision[]
+
+  @@unique([provider, sport, category, entityKey, revisionToken, contentHash], map: "ProfessionalDataObservation_identity_key")
+  @@index([provider, sport, category, entityKey])
+}
+
+model ProfessionalDataDecision {
+  id String @id @default(uuid()) @db.Uuid
+  observationId String @db.Uuid
+  version Int
+  outcome String
+  reason String
+  targets Json
+  decidedAt DateTime @db.Timestamptz(3)
+  observation ProfessionalDataObservation @relation(fields: [observationId], references: [id], onDelete: Restrict)
+
+  @@unique([observationId, version])
+  @@index([outcome, decidedAt])
+}
+
+model ProfessionalSyncState {
+  id String @id @default(uuid()) @db.Uuid
+  provider String
+  sport Sport
+  stream String
+  cursor String?
+  nextPollAt DateTime @db.Timestamptz(3)
+  leaseToken String? @db.Uuid
+  leaseUntil DateTime? @db.Timestamptz(3)
+  failures Int @default(0)
+  requests Int @default(0)
+  lastSuccessAt DateTime? @db.Timestamptz(3)
+  lastFailure String?
+
+  @@unique([provider, sport, stream])
+}
+
 model ImportBatch {
   id               String           @id @default(uuid()) @db.Uuid
   sport            Sport
