@@ -213,11 +213,11 @@ export async function makePick(input: { userId?: string; draftId: string; player
     });
     const maximum = draft.leagueSport.rosterSlots.length + draft.leagueSport.benchSlots;
     if (draft.kind !== "ROOKIE" && draftPlan?.scope !== "UNIVERSAL" && activeRoster.length >= maximum) throw new GameplayBlockedError("This sport roster is full. The commissioner must review remaining picks and roster capacity.");
-    const trusted = draftPlan?.scope === "UNIVERSAL" ? await getEligiblePositions({ playerId: player.id, sport: player.sport, seasonYear: (await tx.season.findUniqueOrThrow({ where: { id: selectionSport.seasonId } })).startYear, asOf: now }, tx) : null;
+    const trusted = await getEligiblePositions({ playerId: player.id, sport: player.sport, seasonYear: (await tx.season.findUniqueOrThrow({ where: { id: selectionSport.seasonId } })).startYear, asOf: now }, tx);
     const universalPlacement = draftPlan?.scope === "UNIVERSAL" ? openAcquisitionSlot({ sport: player.sport, rosterId: roster.id, starters: selectionSport.rosterSlots, bench: selectionSport.benchSlots,
-      universalBench: (await tx.league.findUniqueOrThrow({ where: { id: draft.leagueId } })).universalBenchSlots, positions: new Set(trusted?.positions.length ? trusted.positions : legacyPositionFallback(player.gameStats[0])), entries: await tx.rosterEntry.findMany({ where: { teamId, releasedAt: null } }) }) : null;
+      universalBench: (await tx.league.findUniqueOrThrow({ where: { id: draft.leagueId } })).universalBenchSlots, positions: new Set(trusted.available ? trusted.positions : legacyPositionFallback(player.gameStats[0])), entries: await tx.rosterEntry.findMany({ where: { teamId, releasedAt: null } }) }) : null;
     if (draftPlan?.scope === "UNIVERSAL" && !universalPlacement) throw new GameplayBlockedError("No legal sport or shared bench position remains for this universal selection.");
-    const positions = new Set(legacyPositionFallback(player.gameStats[0])); const occupied = new Map<string, number>();
+    const positions = new Set(trusted.available ? trusted.positions : legacyPositionFallback(player.gameStats[0])); const occupied = new Map<string, number>();
     for (const entry of activeRoster) occupied.set(entry.slot, (occupied.get(entry.slot) ?? 0) + 1);
     let slot = universalPlacement?.slot ?? draft.leagueSport.rosterSlots.find((candidate) => fitsSlot(draft.sport, candidate, positions) && (occupied.get(candidate) ?? 0) < draft.leagueSport.rosterSlots.filter((value) => value === candidate).length) ?? "BENCH";
     if (draft.kind === "ROOKIE" && slot === "BENCH" && (occupied.get("BENCH") ?? 0) >= draft.leagueSport.benchSlots) slot = "ROOKIE_OVERFLOW";

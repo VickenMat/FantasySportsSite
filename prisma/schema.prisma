@@ -107,6 +107,7 @@ enum FaabLedgerType {
 enum MatchupStatus {
   SCHEDULED
   FINAL
+  SKIPPED
 }
 
 enum CompetitiveState {
@@ -1861,6 +1862,7 @@ model ProfessionalDataObservation {
 
   @@unique([provider, sport, category, entityKey, revisionToken, contentHash], map: "ProfessionalDataObservation_identity_key")
   @@index([provider, sport, category, entityKey])
+  @@index([sport, category, entityKey, revisionOrdinal], map: "ProfessionalDataObservation_sport_entity_revision_idx")
 }
 
 model ProfessionalDataDecision {

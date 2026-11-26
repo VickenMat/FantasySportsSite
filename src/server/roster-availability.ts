@@ -7,9 +7,9 @@ export async function irEligiblePlayers(tx: Prisma.TransactionClient, playerIds:
     where: { playerId: { in: [...playerIds] }, effectiveAt: { lte: at }, knownAt: { lte: at } },
     orderBy: [{ effectiveAt: "desc" }, { knownAt: "desc" }, { createdAt: "desc" }, { id: "desc" }],
     distinct: ["playerId"],
-    select: { playerId: true, irEligible: true, designation: true, expiresAt: true },
+    select: { playerId: true, player: { select: { sport: true } }, irEligible: true, designation: true, expiresAt: true },
   });
   return new Set(evidence.filter((row) =>
-    row.irEligible && availabilityDesignationAllowsIr(row.designation) && (!row.expiresAt || row.expiresAt > at))
+    row.irEligible && availabilityDesignationAllowsIr(row.designation, row.player.sport) && (!row.expiresAt || row.expiresAt > at))
     .map(({ playerId }) => playerId));
 }

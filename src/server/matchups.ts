@@ -2,7 +2,7 @@ import { activeFranchises } from "./franchise-participation";
 import type { Matchup, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { rankH2HStandings, roundRobinPairings, summarizeH2H } from "./competition";
-import { periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
+import { periodGameActivity, periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
 import { resolveLeagueSport } from "./league";
 import { captureDueGameLineups } from "./lineup-snapshots";
 import { hasSeasonScopedSchedules } from "./gameplay-storage";
@@ -65,6 +65,12 @@ async function refreshAuthoritativeMatchups(tx: Prisma.TransactionClient, matchu
   }
   let finalized = 0;
   for (const [periodId, games] of byPeriod) {
+    const activity = await periodGameActivity(tx, periodId, now);
+    if (activity.total > 0 && activity.active === 0) {
+      if (!games.some(game=>game.isPlayoff)) await tx.matchup.updateMany({ where: { id: { in: games.map(game=>game.id) }, finalizedAt: null }, data: { status: "SKIPPED", finalizedAt: now, calculatedAt: now, resultFinalizesAt: null, homeTenths: 0n, awayTenths: 0n } });
+      else await tx.sportCompetition.updateMany({ where: { id: games[0].period.competitionId!, finalizedAt: null }, data: { status: "PENDING_DATA", statusReason: "All professional games in this playoff period were cancelled. Commissioner review is required." } });
+      continue;
+    }
     const publishedAt = await periodPublicationTime(tx, periodId, now);
     const deadline = publishedAt ? new Date(publishedAt.getTime() + correctionWindow) : null;
     const due = deadline != null && deadline <= now;
@@ -97,6 +103,15 @@ async function refreshAuthoritativeMatchups(tx: Prisma.TransactionClient, matchu
     }
   }
   return finalized;
+}
+
+export async function refreshDueAuthoritativeMatchups(now = new Date(), leagueId?: string) {
+  const database = getDatabase();
+  return database.$transaction(async tx=>{
+    const games = await tx.matchup.findMany({ where: { leagueId, finalizedAt: null, league: { isHistorical: false }, period: { competitionId: { not: null }, startsAt: { lte: now } } }, include: { period: true } });
+    await refreshAuthoritativeMatchups(tx, games, now);
+    return { examined: games.length };
+  }, { isolationLevel: "Serializable", timeout: 120_000 });
 }
 
 export async function recalculateMatchups(userId: string, leagueId: string, requestedSport?: Sport | string, at = new Date()) {

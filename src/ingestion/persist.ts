@@ -1,6 +1,12 @@
 import type { Prisma } from "@/generated/prisma/client";
 import { lockSport } from "@/server/sport-lock";
 import { recordPositionEvidence } from "@/server/positions";
+import { promoteLifecycle } from "./lifecycle";
+import { promotePositionRevision } from "./position-revisions";
+import { promoteStatistics } from "./statistics";
+import { promoteGameState } from "./game-state";
+import { promoteSeasonBoundary } from "./season-boundaries";
+import { promoteProfessionalIdentity, resolveProfessionalGame } from "./professional-identities";
 import { contentFingerprint, observationSchema, stableJson, type Observation } from "./contracts";
 
 type Tx=Prisma.TransactionClient;
@@ -26,6 +32,12 @@ async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
   for(const ref of references)await tx.playerExternalId.upsert({where:{sport_provider_externalId:{sport:input.sport,...ref}},create:{sport:input.sport,...ref,playerId},update:{}});
   return {outcome:"ACCEPTED",reason:"Canonical identity resolved from provider identifiers.",targets:{playerId}};
  }
+ if(n.kind==="TEAM_IDENTITY"||n.kind==="GAME_IDENTITY")return promoteProfessionalIdentity(tx,{...input,normalized:n});
+ if(n.kind==="SEASON_BOUNDARY")return promoteSeasonBoundary(tx,{...input,normalized:n},id);
+ if(n.kind==="GAME_STATE")return promoteGameState(tx,{...input,normalized:n},id);
+ if(n.kind==="STAT")return promoteStatistics(tx,{...input,normalized:n},id);
+ if(n.kind==="POSITION_REVISION")return promotePositionRevision(tx,{...input,normalized:n},id);
+ if(n.kind==="AVAILABILITY"||n.kind==="ROOKIE"||n.kind==="GAME_COMPLETION"||n.kind==="TEAM_ASSIGNMENT")return promoteLifecycle(tx,{...input,normalized:n},id);
  const mapping=await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...n.player}}});
  const season=await tx.season.findUnique({where:{sport_startYear:{sport:input.sport,startYear:n.seasonStartYear}}});
  if(!mapping||!season)return {outcome:"PENDING_DATA",reason:"Position evidence requires an existing canonical player and season.",targets:{}};
@@ -54,9 +66,18 @@ export async function persistObservation(tx:Tx,raw:unknown,at:Date) {
  let decision:Decision;
  if(previous.some(row=>row.id!==observation.id&&row.revisionToken===input.revisionToken&&row.contentHash!==hash))decision={outcome:"QUARANTINED",reason:"The same source revision has conflicting content.",targets:{}};
  else if(latest&&input.revisionOrdinal!=null&&latest.revisionOrdinal!=null&&BigInt(input.revisionOrdinal)<latest.revisionOrdinal)decision={outcome:"STALE",reason:"Out-of-order source revision preserved without changing canonical evidence.",targets:{}};
+ else if(latest&&category!=="PLAYER"&&latest.publishedAt&&input.publishedAt&&new Date(input.publishedAt)<latest.publishedAt)decision={outcome:"QUARANTINED",reason:"Increasing source revision has a regressing publication timestamp; resolve its temporal semantics before projection.",targets:{}};
  else if(latest&&(input.revisionOrdinal==null||latest.revisionOrdinal==null||BigInt(input.revisionOrdinal)<=latest.revisionOrdinal))decision={outcome:"QUARANTINED",reason:"Changed content lacks an unambiguous increasing source revision.",targets:{}};
  else if(latest&&category==="POSITION"&&stableJson(latest.normalized)!==stableJson(input.normalized))decision={outcome:"QUARANTINED",reason:"Position replacement or retraction needs a reviewed evidence-resolution policy; positive history is not silently overwritten.",targets:{}};
- else decision=await promote(tx,input,observation.id);
+ else {
+  const targets=latest?.decisions[0]?.targets as {playerId?:string;gameId?:string}|null|undefined;
+  const mapping=targets?.playerId&&"player" in input.normalized?await tx.playerExternalId.findUnique({where:{sport_provider_externalId:{sport:input.sport,...input.normalized.player}}}):null;
+  const game=targets?.gameId&&input.normalized.kind==="GAME_COMPLETION"?await resolveProfessionalGame(tx,input.sport,input.normalized.game):null;
+  if((mapping&&mapping.playerId!==targets?.playerId)||(game&&game.id!==targets?.gameId))decision={outcome:"QUARANTINED",reason:"A source entity revision changed its canonical actor/game identity; review the explicit mapping.",targets:{}};
+  else decision=await promote(tx,input,observation.id);
+ }
+ const receipt=same?.decisions[0];
+ if(receipt&&receipt.outcome===decision.outcome&&receipt.reason===decision.reason&&stableJson(receipt.targets)===stableJson(decision.targets))return{observationId:observation.id,...decision};
  const version=(same?.decisions[0]?.version??0)+1;
  await tx.professionalDataDecision.create({data:{observationId:observation.id,version,...decision,decidedAt:at}});
  return {observationId:observation.id,...decision};

@@ -8,6 +8,8 @@ import { addFreeAgent, dropPlayer, setLineupSlot } from "@/server/rosters";
 import { cancelWaiver, processWaivers, reservedSportFaab, submitWaiver } from "@/server/waivers";
 import { recordGameCompletionEvidence } from "@/server/waiver-holds";
 import { recordRookieEligibility } from "@/server/rookies";
+import { persistObservation } from "@/ingestion/persist";
+import type { Observation } from "@/ingestion/contracts";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
@@ -120,6 +122,36 @@ it("uses verified completion evidence for a 24-hour game hold and rejects paid r
     leagueSportId_teamId: { leagueSportId: roster.leagueSportId, teamId: roster.teamId },
   } })).toMatchObject({ rank: 2 });
   await expect(database.gameCompletionEvidence.update({ where: { id: evidence.id }, data: { completedAt: new Date() } })).rejects.toThrow(/append-only/i);
+  await database.league.delete({ where: { id: league.id } });
+});
+
+it("retains a sealed bid while completion is unknown, then uses the exact completion hold before awarding", async () => {
+  const { user, league, roster, playerIds: [playerId] } = await fixture();
+  await database.player.update({ where: { id: playerId }, data: { isSynthetic: true } });
+  const provider = `pending-completion-${randomUUID()}`, now = new Date();
+  const game = await database.game.create({ data: { sport: "NFL", seasonId: (await database.leagueSport.findUniqueOrThrow({ where: { id: roster.leagueSportId } })).seasonId, provider, externalId: randomUUID(), phase: "REGULAR", startsAt: new Date(+now - 7200000) } });
+  const club = await database.proTeam.create({ data: { sport: "NFL", provider, externalId: randomUUID(), displayName: "Synthetic completion club" } });
+  await database.gameTeam.create({ data: { gameId: game.id, teamId: club.id } });
+  const batch = await database.importBatch.create({ data: { sport: "NFL", provider, contentHash: randomUUID(), sourceName: "Synthetic hold fixture", importerVersion: "fixture", summary: { synthetic: true } } });
+  await database.playerGameStat.create({ data: { gameId: game.id, playerId, teamId: club.id, importBatchId: batch.id, provider, role: "FOOTBALL", revision: 1, contentHash: randomUUID(), sourceLine: 1, observedPositions: [], normalized: {}, raw: { synthetic: true } } });
+  const live: Observation = { provider, sport: "NFL", entityKey: `game-state:${game.id}`, revisionToken: "1", revisionOrdinal: 1, sourceReference: "https://fixture.invalid/unknown-completion", observedAt: now.toISOString(), publishedAt: now.toISOString(), effectiveAt: game.startsAt!.toISOString(), raw: { synthetic: true }, normalized: { kind: "GAME_STATE", game: { provider, externalId: game.externalId }, status: "LIVE", scheduledStartsAt: game.startsAt!.toISOString(), actualStartsAt: game.startsAt!.toISOString(), completedAt: null } };
+  await database.$transaction(tx=>persistObservation(tx,live,now));
+  const claim = await submitWaiver(user.id, { leagueId: league.id, sport: "NFL", addPlayerId: playerId, bid: 50 });
+  expect(claim.reason).toMatch(/Awaiting verified game completion/);
+  expect(await processWaivers(user.id, league.id, new Date(+claim.processAt + 1), "NFL")).toBe(0);
+  expect(await reservedSportFaab(database, roster.id)).toBe(50);
+  expect(await database.rosterEntry.count({ where: { leagueId: league.id, playerId, releasedAt: null } })).toBe(0);
+  const pending = await database.waiverClaim.findUniqueOrThrow({ where: { id: claim.id } });
+  const completedAt = new Date(+pending.processAt + 5000), publishedAt = new Date(+completedAt + 5000);
+  const final: Observation = { ...live, revisionToken: "2", revisionOrdinal: 2, observedAt: publishedAt.toISOString(), publishedAt: publishedAt.toISOString(), effectiveAt: completedAt.toISOString(), normalized: { ...live.normalized as Extract<Observation["normalized"], {kind:"GAME_STATE"}>, status: "FINAL", completedAt: completedAt.toISOString() } };
+  await database.$transaction(tx=>persistObservation(tx,final,publishedAt));
+  expect(await processWaivers(user.id, league.id, publishedAt, "NFL")).toBe(0);
+  const held = await database.waiverClaim.findUniqueOrThrow({ where: { id: claim.id } });
+  expect(held.processAt).toEqual(new Date(+completedAt + 86400000));
+  expect(await reservedSportFaab(database, roster.id)).toBe(50);
+  expect(await processWaivers(user.id, league.id, held.processAt, "NFL")).toBe(1);
+  expect(await reservedSportFaab(database, roster.id)).toBe(0);
+  expect(await database.waiverClaim.findUniqueOrThrow({ where: { id: claim.id } })).toMatchObject({ status: "WON", reason: null });
   await database.league.delete({ where: { id: league.id } });
 });
 

@@ -44,7 +44,7 @@ The approved V9 specification explicitly prohibits scoring one athlete as pitche
 
 ## NHL missing inputs
 
-The prior accepted read-only reconciliation remains unresolved: 831 affected players, with overlapping missing reasons. SKATER faceoff wins and shorthanded bonus affect 13,428 appearances / 786 players; goalie wins affect 40 appearances / 32 players; shutouts affect 38 appearances / 28 players. The union is 13,499 appearances. Obtain exact official inputs. Faceoff percentage cannot supply integer wins; zero goals against cannot alone prove an individual goalie shutout. No missing value is replaced with zero.
+The prior accepted read-only reconciliation remains unresolved: 831 affected players, with overlapping missing reasons. SKATER faceoff wins and shorthanded bonus affect 13,428 appearances / 786 players; goalie wins affect 40 appearances / 32 players; shutouts affect 38 appearances / 28 players. The initial null-only union is 13,499 appearances; the refined explicit-evidence request set is 13,501. Obtain exact official inputs. Faceoff percentage cannot supply integer wins; zero goals against cannot alone prove an individual goalie shutout. No missing value is replaced with zero.
 
 ## Schedules, boundaries and publication
 
@@ -60,8 +60,10 @@ The 215 MLB role conflicts, 831 NHL missing-total players, missing MLB/NBA posit
 
 ## Recovered-source comparison and selective enrichment
 
-All seven recovered sources are present and fingerprinted. The four statistical archives match gameplay normalization for all 1,746,957 rows, including the same 186 rejected NFL rows. Raw shared-column comparisons match; NHL excludes the explicitly differing multilingual name representation and NBA has an extra position column. This is not a claim of byte identity.
+All seven recovered sources are present and fingerprinted. The four statistical archives match gameplay normalization for all 1,746,957 rows, including the same 186 rejected NFL rows. Raw shared-column comparisons match; NHL includes validated decoded multilingual names and NBA has an extra position column. This is not a claim of byte identity.
 
 NBA embedded positions match repaired same-player/season/team lists on all 242,798 populated rows, without proving official authority. All original 6,282 roster rows match repaired source fields. Preserve 5,972 estimated, nine manual-review and 301 unmatched records separately. The current 2026–27 population still has no position matches.
 
-NHL targeted requests cover 13,499 imported rows with overlapping gaps: 13,428 exact faceoff wins, 13,428 shorthanded points, 40 goalie decisions and 38 shutout values. Recovery supplies no new values. No unknown was replaced by zero. Detailed review and machine report: M5_RECOVERED_DATA_REVIEW.md and reports/m5-recovered-data-audit.json.
+NHL targeted requests cover 13,501 imported rows with overlapping gaps: 13,428 exact faceoff wins, 13,428 shorthanded points, 40 goalie decisions and 40 shutout evidence requests (38 null plus two unverified positive credits). Recovery supplies no new values. No unknown was replaced by zero. Detailed review and machine report: M5_RECOVERED_DATA_REVIEW.md and reports/m5-recovered-data-audit.json.
+
+Continuation: all shared NHL fields now compare successfully after validated name decoding. The refined NHL request set includes two legacy positive shutout credits needing explicit evidence: 13,501 targeted rows, 40 shutout requests; accepted values were not changed. See [current mechanism delivery](M5_INGESTION_MECHANISMS_REPORT.md) for subsequent implementation and verification; earlier checkpoint test totals above are historical.

@@ -120,10 +120,8 @@
       "normalizedUnmatchedParquet": 0,
       "csvSha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
       "parquetSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
-      "excludedRawColumns": [
-        "name"
-      ],
-      "rawComparisonScope": "All shared columns except locale-expanded name struct; not byte/content identical"
+      "excludedRawColumns": [],
+      "rawComparisonScope": "All shared columns; Python name dictionaries canonicalized and null-only locale expansion ignored; not byte identical"
     }
   ],
   "mlb": {
@@ -208,17 +206,18 @@
   },
   "nhlTargets": {
     "importedStatRows": 14920,
-    "requestedStatRows": 13499,
+    "requestedStatRows": 13501,
     "missingFieldCounts": {
       "faceoff_wins": 13428,
       "shorthanded_points_bonus": 13428,
       "goalie_win": 40,
-      "shutout": 38
+      "shutout": 40
     },
-    "targetFingerprint": "c930d3d59c637ad0c241925117e0c62321fb87bfdf91149cfa25be30a3f7b9ed",
+    "targetFingerprint": "7c1b59869db35a993c935709b43065f2073a80e49d69062ac376bc79be61cc37",
     "availableSupplementaryValues": 0,
     "databaseWrites": 0,
-    "sourcePolicy": "Acquire only these missing fields from a permitted source. Never infer integer faceoffs from percentages, shutouts from zero goals, or unknown goalie decisions from absence."
+    "sourcePolicy": "Acquire only these missing fields from a permitted source. Never infer integer faceoffs from percentages, shutouts from zero goals, or unknown goalie decisions from absence.",
+    "unverifiedLegacyPositiveShutoutCredits": 2
   },
   "developmentApplication": {
     "approvedTargetFingerprint": "22d4af0837a85bc2f89906d7e480536f7836072f2e20e7d75fc374957e6244f4",
@@ -238,5 +237,25 @@
       "bytes": 35831832,
       "archiveListAndFullDecodeVerified": true
     }
+  },
+  "nhlInitialNullOnlyTargets": {
+    "importedStatRows": 14920,
+    "requestedStatRows": 13499,
+    "missingFieldCounts": {
+      "faceoff_wins": 13428,
+      "shorthanded_points_bonus": 13428,
+      "goalie_win": 40,
+      "shutout": 38
+    },
+    "targetFingerprint": "c930d3d59c637ad0c241925117e0c62321fb87bfdf91149cfa25be30a3f7b9ed",
+    "availableSupplementaryValues": 0,
+    "databaseWrites": 0,
+    "sourcePolicy": "Acquire only these missing fields from a permitted source. Never infer integer faceoffs from percentages, shutouts from zero goals, or unknown goalie decisions from absence."
+  },
+  "nhlNameValidation": {
+    "decodedRows": 506116,
+    "failedRows": 0,
+    "allSharedFieldsCompared": true,
+    "method": "Safe literal dictionary decoding; null locale keys omitted; source record order and raw-name SHA verified."
   }
 }

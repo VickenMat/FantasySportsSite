@@ -5,7 +5,7 @@ import{nflversePlayerPolicy}from"@/ingestion/providers";
 import{fingerprint}from"@/ingestion/contracts";
 const directory="data/provider_previews/nflverse";await mkdir(directory,{recursive:true});
 let cache:HttpCache|undefined;
-try{const metadata=JSON.parse(await readFile(`${directory}/cache.json`,"utf8"));cache={...metadata,body:await readFile(`${directory}/players.csv`)};}catch(error){if((error as NodeJS.ErrnoException).code!=="ENOENT")throw error;}
+try{const metadata=JSON.parse(await readFile(`${directory}/cache.json`,"utf8"));if(metadata.sourceUrl===nflversePlayerPolicy.sourceUrl)cache={...metadata,body:await readFile(`${directory}/players.csv`)};}catch(error){if((error as NodeJS.ErrnoException).code!=="ENOENT")throw error;}
 const response=await fetchPublicData(nflversePlayerPolicy,cache);
 if(response.status==="PENDING_PERMISSION")throw new Error("Provider preview is not permitted.");
 const {body,...metadata}=response.cache;

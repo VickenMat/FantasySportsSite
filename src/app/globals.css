@@ -395,3 +395,5 @@ body {
 .tone-purple { background: #d8b4fe; }.tone-yellow { background: #fde047; }.tone-teal { background: #5eead4; }.tone-pink { background: #f9a8d4; }
 .tone-brown { background: #d6a77a; }.tone-neutral { background: #d1d5db; }
 @media (prefers-color-scheme: dark) { .position-badge { color: #111827; } }
+
+.position-provenance { display: block; color: var(--muted); font-size: 0.72rem; line-height: 1.3; }

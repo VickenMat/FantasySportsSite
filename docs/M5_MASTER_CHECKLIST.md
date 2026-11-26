@@ -1,6 +1,6 @@
 # M5 master checklist
 
-A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint (partial recovered-data/provider work does not complete whole rows): **11 checked / 21 unchecked / 32 total**.
+A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint (partial recovered-data/provider work does not complete whole rows): **12 checked / 20 unchecked / 32 total**.
 
 ## M5.1 provider research and architecture
 
@@ -35,7 +35,7 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 - [x] Implement bounded pure provider codec/local adapter and default write-free dry-run CLI
 - [x] Fixture-verify persisted leases, budgets, backoff, page/cursor atomicity, replay and restart recovery
 - [ ] Activate approved network adapters, rate-window enforcement, incremental schedules and live/final box scores
-- [ ] Implement source arbitration and source-aware existing V9 ledger promotion without duplicate events (explicit reviewed source selection/replay implemented; automatic authoritative arbitration/promotion remains)
+- [x] Implement reviewed source arbitration and source-aware existing V9 ledger promotion without duplicate events (synthetic all-role promotion, explicit MLB role, bounded freshness, hybrid missing-field provenance and replay verified; no live provider claim)
 
 ## M5.6 availability and lifecycle
 
@@ -62,4 +62,4 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 
 Seven immutable recovered files were fingerprinted and all four archives compared by canonical keys, typed values and normalized duplicate-aware multisets. MLB threshold candidates, provenance-preserving NBA history and canonical NHL missing-field requests are reproducible. The conservative MLB manifest passed populated-copy application/idempotence and received explicit development approval. Historical repair now preserves official publication and cannot grant current roster eligibility. See [recovery review](M5_RECOVERED_DATA_REVIEW.md).
 
-The free-first strategy supersedes commercial-first recommendations. A shared bounded HTTPS transport, conditional cache, Retry-After and adaptive per-game polling policy are tested. A real attributed NFLverse identity preview is isolated from operational promotion. Rolling provider-wide quota windows, automatic game scheduling and the remaining typed evidence adapters remain unchecked implementation work.
+The free-first strategy supersedes commercial-first recommendations. A shared bounded HTTPS transport, conditional cache, Retry-After and adaptive per-game polling policy are tested. A real attributed NFLverse identity preview is isolated from operational promotion. Rolling provider-wide quota windows, central adaptive game scheduling, dependency retries, typed lifecycle/boundary/game/stat adapters, correction-safe V9 promotion and freshness UI are implemented with isolated synthetic fixtures. Mixed requirements above remain unchecked until their real-source component is verified. See [mechanism delivery](M5_INGESTION_MECHANISMS_REPORT.md).

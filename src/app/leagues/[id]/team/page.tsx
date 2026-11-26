@@ -6,6 +6,7 @@ import { RosterPositionEditor, type PositionRow } from "@/components/roster-posi
 import { requireSession } from "@/lib/auth";
 import { getDatabase } from "@/lib/db";
 import { leagueContext, resolveLeagueSport } from "@/server/league";
+import { professionalTeamHistory } from "@/server/professional-team-history";
 import { getEligiblePositions, legacyPositionFallback } from "@/server/positions";
 import { sportIsOffseason } from "@/server/sport-offseason";
 import { irEligiblePlayers } from "@/server/roster-availability";
@@ -13,6 +14,7 @@ import { slotRule } from "@/simulation/config";
 import { displayTenths, playerStatistics } from "@/server/player-statistics";
 import { financePolicy } from "@/server/finance";
 import { waiverFunds } from "@/server/faab";
+import { ProfessionalDataStatus } from "@/components/professional-data-status";
 import { listFutureDraftPicks } from "@/server/dynasty-picks";
 
 export default async function TeamPage({ params, searchParams }: {
@@ -63,12 +65,13 @@ export default async function TeamPage({ params, searchParams }: {
     const eligibility = await getEligiblePositions({
       playerId: entry.playerId, sport: entry.sport, seasonYear: leagueSport.season.startYear, asOf: decisionTimes.get(entry.sport) ?? now,
     });
+    const teamHistory = await professionalTeamHistory({ playerId: entry.playerId, sport: entry.sport, asOf: decisionTimes.get(entry.sport) ?? now });
     const stat = entry.player.gameStats[0];
-    movementPositions.set(entry.id, eligibility.positions.length ? eligibility.positions : context.league.isHistorical ? [] : legacyPositionFallback(stat));
-    const positions = eligibility.positions.length ? eligibility.positions : stat?.observedPositions ?? [];
+    movementPositions.set(entry.id, eligibility.available ? eligibility.positions : context.league.isHistorical ? [] : legacyPositionFallback(stat));
+    const positions = eligibility.available ? eligibility.positions : stat?.observedPositions ?? [];
     return {
-      id: entry.id, playerId: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions,
-      team: stat?.team.code ?? null, locked: Boolean(entry.lockedAt),
+      id: entry.id, playerId: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions, positionSource: eligibility.available ? "Eligibility evidence" : positions.length ? "Historical" : "Unverified",
+      team: teamHistory.status === "SOURCE_RECORDED" ? teamHistory.current?.team?.code ?? (teamHistory.current?.assignment === "FREE_AGENT" ? "FA" : teamHistory.current?.team?.displayName ?? null) : teamHistory.status === "CONFLICT" || teamHistory.status === "PENDING_DATA" ? null : stat?.team.code ?? null, teamSource: teamHistory.status === "SOURCE_RECORDED" ? "Recorded" : teamHistory.status === "CONFLICT" ? "Conflicting" : stat?.team.code ? "Historical" : "Unverified", locked: Boolean(entry.lockedAt),
       average: displayTenths(statistics.get(entry.playerId)?.averageTenths),
       points: displayTenths(statistics.get(entry.playerId)?.totalTenths),
     };
@@ -114,6 +117,7 @@ export default async function TeamPage({ params, searchParams }: {
 
   return <LeagueShell leagueId={id}>
     <div className="workspace-intro"><p className="eyebrow">My franchise</p><form action={renameTeamAction.bind(null, id)} className="inline-form"><label className="sr-only" htmlFor="franchise-name">Franchise name</label><input id="franchise-name" className="display inline-title-input" name="name" defaultValue={context.fantasyTeam.name} required /><button className="button compact secondary" aria-label="Rename franchise">✎</button></form><p className="muted">{selected.sport} · {selected.seasonLabel} · {financial?.salaryMode ? "Salary dynasty · full salaries and obligations in Finances" : `${funds.balance} ${funds.scope === "UNIVERSAL" ? "universal cycle " : ""}FAAB remaining · ${funds.reserved} reserved`}</p><LeagueSportTabs leagueId={id} path="/team" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    <ProfessionalDataStatus sport={selected.sport} seasonId={selected.seasonId} historical={context.league.isHistorical} />
     <section className="panel"><div className="section-heading"><div><h2 className="display">{selected.sport} roster</h2><p className="muted">Select a player&apos;s position button, then choose a highlighted legal destination. Occupied destinations swap atomically.</p></div></div>
       {overflow.length > 0 && <p role="alert">{overflow.length} player{overflow.length === 1 ? " is" : "s are"} outside configured roster capacity. Every player is shown below. Move eligible players to empty legal slots or use the named Drop controls. Acquisitions remain blocked until compliance is restored.</p>}
       <p className="muted">Historical actuals for {selected.seasonLabel}; shared players use their own sport season. Unknown or incomplete scores are N/A. No projections.</p>

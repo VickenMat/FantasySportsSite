@@ -1,6 +1,6 @@
 import { activeFranchises } from "./franchise-participation";
 import { getDatabase } from "@/lib/db";
-import { periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
+import { periodGameActivity, periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
 import { recordCompetitionDraw } from "./competition";
 import { advanceSportPlayoffs } from "./playoffs";
 import { runBackgroundJob } from "./background-jobs";
@@ -14,7 +14,11 @@ export async function finalizeCumulativeSport(competitionId: string, at = new Da
     if (!end || end > at || !competition.periods.length) return { status: "PENDING_DATA" as const, reason: "A completed source-backed sport scoring window is required." };
     competition.league.teams = await activeFranchises(tx, competition.leagueId, competition.league.teams);
     const points = new Map(competition.league.teams.map(({ id }) => [id, 0n]));
+    let activePeriods = 0;
     for (const period of competition.periods) {
+      const activity = await periodGameActivity(tx, period.id, at);
+      if (activity.total > 0 && activity.active === 0) continue;
+      activePeriods++;
       const publication = await periodPublicationTime(tx, period.id, at);
       if (!publication) return { status: "PENDING_DATA" as const, reason: "Verified game completion and official initial score publication are required for every period." };
       const deadline = new Date(+publication + 86400000);
@@ -23,6 +27,7 @@ export async function finalizeCumulativeSport(competitionId: string, at = new Da
       if (!scores.length || scores.some(({ pendingStarters }) => pendingStarters > 0)) return { status: "PENDING_DATA" as const, reason: "One or more captured starter scores are unavailable." };
       for (const score of scores) points.set(score.teamId, (points.get(score.teamId) ?? 0n) + score.pointsFor);
     }
+    if (!activePeriods) return { status: "PENDING_DATA" as const, reason: "No active professional games remain; an abandoned season requires commissioner review." };
     const draw = await recordCompetitionDraw(tx, competition.leagueId, "CUMULATIVE_SPORT_FINAL", competitionId, [...points.keys()]);
     const ranks = new Map(draw.map(({ teamId, drawRank }) => [teamId, drawRank]));
     const rows = [...points].sort(([a, ap], [b, bp]) => ap === bp ? ranks.get(a)! - ranks.get(b)! : ap > bp ? -1 : 1);

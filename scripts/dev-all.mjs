@@ -75,6 +75,7 @@ process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 start("web", "npm", ["run", process.argv.includes("--turbopack") ? "dev:turbopack" : "dev", "--", "--port", "3000"]);
 start("draft-timer", "npm", ["run", "fantasy:draft-timer"]);
+start("professional-data", "npm", ["run", "data:worker"]);
 gameplayTick();
 tickTimer = setInterval(gameplayTick, 60_000);
-process.stdout.write("[dev-all] Web, draft timer, and idempotent gameplay processing started. Press Ctrl+C to stop all processes.\n");
+process.stdout.write("[dev-all] Web, draft timer, permission-gated data scheduler, and idempotent gameplay processing started. Press Ctrl+C to stop all processes.\n");

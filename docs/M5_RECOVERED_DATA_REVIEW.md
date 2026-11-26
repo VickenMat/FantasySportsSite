@@ -11,7 +11,7 @@ Duplicate-aware canonical-key multisets compare shared typed raw values and, ind
 | NFL | 185,368 | 185,368 | 185,368 | Same 186 rejected rows on both sides; 185,182 accepted normalized rows |
 | MLB | 794,974 | 794,974 | 794,974 | No shared-field discrepancies |
 | NBA | 260,499 | 260,499 | 260,499 | CSV additionally contains positions; these are excluded from statistical equivalence |
-| NHL | 506,116 | 506,116 | 506,116 | Raw comparison excludes `name`: CSV Python dictionary text differs from the Parquet locale-expanded struct. Boolean starter values are normalized by schema. This is not full raw-content identity. |
+| NHL | 506,116 | 506,116 | 506,116 | All shared columns match, including safely decoded multilingual names and typed booleans. Encoding and bytes remain distinct. |
 
 Accepted Parquet hashes match the existing full audit. The seven recovered SHA-256 values, schemas and derived fingerprints are recorded in `reports/m5-recovered-data-audit.json`. The NHL multilingual name representation is retained unchanged and not used for identity merging.
 
@@ -41,7 +41,7 @@ The 2026–27 population contains 5,414 rows and 474 players, with zero embedded
 
 The recovered archive adds no missing scoring values over accepted normalization. Among 50,619 goalie records, decisions are W 12,655; L 9,813; O 2,842; unknown 25,309. Unknown does not imply a loss or zero.
 
-The canonical-ID selective request manifest targets 13,499 of 14,920 accepted imported rows: exact faceoff wins missing in 13,428, shorthanded points in 13,428, goalie win in 40, explicit/accepted shutout evidence in 38. Field counts overlap. Target fingerprint: `c930d3d59c637ad0c241925117e0c62321fb87bfdf91149cfa25be30a3f7b9ed`. No supplementary values are available to apply. Never derive integer faceoffs from percentages or shutouts merely from zero goals against.
+The canonical-ID selective request manifest targets 13,501 of 14,920 accepted imported rows: exact faceoff wins missing in 13,428, shorthanded points in 13,428, goalie win in 40, explicit shutout evidence requested in 40 (38 unknown plus two legacy positive credits without explicit evidence). Field counts overlap. Target fingerprint: `7c1b59869db35a993c935709b43065f2073a80e49d69062ac376bc79be61cc37`. No supplementary values are available to apply. Never derive integer faceoffs from percentages or shutouts merely from zero goals against.
 
 ## Consolidated approval scope
 
@@ -52,3 +52,5 @@ Approval was subsequently received and the exact scope applied; all original row
 ## Reproduction
 
 `npm run data:recovered:audit` inventories and compares sources; `npm run data:recovered:prepare` builds conservative derived candidates; `npm run data:recovered:preview` reads development and generates the exact dry-run manifest; `npm run data:nhl:requests` creates missing-field targets. `node scripts/verify-pending-migrations.mjs --verify-recovered-backfill` reads development into an authorized disposable copy, applies pending migrations there and validates enrichment there. It never deploys to development.
+
+Continuation: all shared NHL fields now compare successfully after validated name decoding. The refined NHL request set includes two legacy positive shutout credits needing explicit evidence: 13,501 targeted rows, 40 shutout requests; accepted values were not changed. See [current mechanism delivery](M5_INGESTION_MECHANISMS_REPORT.md) for subsequent implementation and verification; earlier checkpoint test totals above are historical.

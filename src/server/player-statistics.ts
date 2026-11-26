@@ -1,5 +1,6 @@
 import { getDatabase } from "@/lib/db";
 import { calculateScore, type StatValues } from "@/scoring/engine";
+import { historicalProvider } from "@/imports/normalize";
 
 export type PlayerStatistics = { gamesPlayed: number; scoredGames: number; totalTenths: bigint | null; averageTenths: number | null; projectionTenths: null };
 
@@ -16,7 +17,7 @@ export async function playerStatistics(input: { playerIds: string[]; presetId: s
       playerId: true, gameId: true,
       entries: {
         ...(asOf ? { where: { stat: { OR: [{ sourceKnownAt: { lte: asOf } }, { sourceKnownAt: null, recordedAt: { lte: asOf } }] } } } : {}),
-        orderBy: { sequence: "desc" }, take: 1, select: { totalTenths: true },
+        orderBy: { sequence: "desc" }, take: 1, select: { totalTenths: true, missingStats: true },
       },
     },
   });
@@ -24,7 +25,7 @@ export async function playerStatistics(input: { playerIds: string[]; presetId: s
   for (const ledger of ledgers) {
     const entry = ledger.entries[0];
     if (!entry) continue;
-    perGame.set(`${ledger.playerId}:${ledger.gameId}`, { playerId: ledger.playerId, score: entry.totalTenths });
+    perGame.set(`${ledger.playerId}:${ledger.gameId}`, { playerId: ledger.playerId, score: entry.missingStats.length ? null : entry.totalTenths });
   }
   // Historical analytics can be computed without creating competitive ledger events.
   // Unknown fields or ambiguous two-way roles produce an unknown total, never zero.
@@ -33,8 +34,8 @@ export async function playerStatistics(input: { playerIds: string[]; presetId: s
       ...(asOf ? { OR: [{ startsAt: { lte: asOf } }, { startsAt: null, gameDate: { lte: asOf } }] } : {}) },
       ...(asOf ? { OR: [{ sourceKnownAt: { lte: asOf } }, { sourceKnownAt: null, recordedAt: { lte: asOf } }] } : {}) },
       orderBy: [{ revision: "desc" }, { recordedAt: "desc" }],
-      distinct: ["playerId", "gameId", "role"],
-      select: { playerId: true, gameId: true, role: true, normalized: true, observedPositions: true } }),
+      distinct: ["playerId", "gameId", "provider", "role"],
+      select: { playerId: true, gameId: true, provider: true, raw: true, role: true, normalized: true, observedPositions: true } }),
     getDatabase().scoringRule.findMany({ where: { presetId: input.presetId } }),
   ]);
   const weights = rules.map((rule) => ({ sport: rule.sport, statKey: rule.statKey, applicability: rule.applicability,
@@ -46,9 +47,12 @@ export async function playerStatistics(input: { playerIds: string[]; presetId: s
   }
   for (const [key, appearances] of groups) {
     if (perGame.has(key)) continue;
-    const row = appearances[0];
+    const historical = appearances.filter(row=>row.provider===historicalProvider);
+    const legacy = appearances.filter(row=>!(row.raw&&typeof row.raw==="object"&&"professionalObservation" in row.raw));
+    const candidates = historical.length ? historical : legacy;
+    const row = candidates[0] ?? appearances[0];
     let score: bigint | null = null;
-    if (appearances.length === 1) {
+    if (candidates.length === 1) {
       const result = calculateScore(weights, { role: row.role, stats: row.normalized as StatValues,
         teEligible: row.role === "FOOTBALL" && row.observedPositions.length ? row.observedPositions.includes("TE") : null });
       if (!result.missingStats.length) score = BigInt(result.totalTenths);

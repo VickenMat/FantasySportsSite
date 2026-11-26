@@ -64,7 +64,7 @@ export function advanceSportPlayoffs(userId: string, competitionId: string, now 
 
     competition.league.teams = await activeFranchises(tx, competition.leagueId, competition.league.teams);
     const teamIds = competition.league.teams.map(({ id }) => id);
-    const finalized = (game: Matchup) => game.status === "FINAL" && game.finalizedAt != null && game.finalizedAt <= now;
+    const finalized = (game: Matchup) => (game.status === "FINAL" || (!game.isPlayoff && game.status === "SKIPPED")) && game.finalizedAt != null && game.finalizedAt <= now;
     const gamesPerPeriod = Math.floor(teamIds.length / 2);
     if (regular.some(({ matchups }) => matchups.length !== gamesPerPeriod || matchups.some((game) => !finalized(game)))) {
       return { status: "PENDING_REGULAR_RESULTS" as const, created: 0 };

@@ -4,12 +4,13 @@ import { captureDueGameLineups } from "./lineup-snapshots";
 import { processDueWaivers } from "./waivers";
 import { processExpiredDrafts } from "./draft";
 import { setComputerLineups } from "./rosters";
-import { finalizeDueMatchups } from "./matchups";
+import { finalizeDueMatchups, refreshDueAuthoritativeMatchups } from "./matchups";
 import { processScheduledDrafts } from "./draft-plans";
 import { processDueAuctions, processAuctionDraftClocks } from "./auctions";
 import { processAdvancedTrades } from "./advanced-trades";
 import { processCompetitiveFinalization } from "./competitive-finalization";
 import { processSeasonLifecycles } from "./lifecycle-processor";
+import { processProfessionalGameFeeds } from "@/ingestion/game-feeds";
 
 export async function processGameplay(now = new Date()) {
   const database = getDatabase();
@@ -20,6 +21,7 @@ export async function processGameplay(now = new Date()) {
       const result = await runBackgroundJob(`gameplay:${minute}:${name}`, "gameplay-task", work, now);
       outcomes.push({ task: name, status: result.status, ...("error" in result ? { error: result.error } : {}) });
     }
+    await task("professional-ingestion", () => processProfessionalGameFeeds());
     await task("lineup-capture", () => captureDueGameLineups(now));
     await task("waivers", async () => {
       const leagues = await database.waiverClaim.findMany({ where: { status: "PENDING", processAt: { lte: now } },
@@ -32,6 +34,7 @@ export async function processGameplay(now = new Date()) {
     await task("auction-settlement", () => processDueAuctions(now));
     await task("auction-nominations", () => processAuctionDraftClocks(now));
     await task("advanced-trades", () => processAdvancedTrades(now));
+    await task("authoritative-matchups", () => refreshDueAuthoritativeMatchups(now));
     await task("finalization", async () => {
       const leagues = await database.matchup.findMany({ where: { finalizedAt: null, resultFinalizesAt: { lte: now } },
         distinct: ["leagueId"], select: { leagueId: true } });

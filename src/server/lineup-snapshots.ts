@@ -5,6 +5,7 @@ import type { PlayerAvailabilityDesignation } from "@/generated/prisma/enums";
 import { getDatabase } from "@/lib/db";
 import { slotRule } from "@/simulation/config";
 import { getEligiblePositions } from "./positions";
+import { professionalGameProjection } from "./professional-game-state";
 
 const availabilityInput = z.object({
   playerId: z.uuid(),
@@ -25,12 +26,12 @@ function digest(value: unknown) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
 
-export async function recordAvailabilityEvidence(input: z.input<typeof availabilityInput>) {
+export async function recordAvailabilityEvidence(input: z.input<typeof availabilityInput>, transaction?: Prisma.TransactionClient) {
   const parsed = availabilityInput.parse(input);
   if (parsed.knownAt < parsed.effectiveAt) throw new Error("Availability evidence cannot be known before it became effective.");
   if (parsed.expiresAt && parsed.expiresAt <= parsed.effectiveAt) throw new Error("Availability evidence must expire after it becomes effective.");
   const database = getDatabase();
-  return database.$transaction(async (tx) => {
+  const work = async (tx: Prisma.TransactionClient) => {
     const player = await tx.player.findUniqueOrThrow({ where: { id: parsed.playerId }, select: { sport: true } });
     if (parsed.gameId) {
       const game = await tx.game.findUniqueOrThrow({ where: { id: parsed.gameId }, select: { sport: true } });
@@ -48,14 +49,16 @@ export async function recordAvailabilityEvidence(input: z.input<typeof availabil
     }
     return tx.playerAvailabilityEvidence.create({ data: { ...parsed, sourceRecord: parsed.sourceRecord as Prisma.InputJsonObject,
       gameId: parsed.gameId ?? null, expiresAt: parsed.expiresAt ?? null } });
-  });
+  };
+  return transaction ? work(transaction) : database.$transaction(work);
 }
 
 export async function captureGameLineups(gameId: string, now = new Date()) {
   const database = getDatabase();
-  const game = await database.game.findUnique({ where: { id: gameId }, select: { id: true, startsAt: true, sport: true } });
+  const [game] = await database.$queryRaw<{id:string;startsAt:Date|null;sport:import("@/generated/prisma/enums").Sport}[]>`SELECT game.id, game.sport, source_start."resolvedStart" AS "startsAt" FROM "Game" game ${professionalGameProjection(now)} WHERE game.id=${gameId}::uuid`;
   if (!game?.startsAt) return { status: "PENDING_DATA" as const, created: 0, reason: "The game has no verified start timestamp." };
   if (game.startsAt > now) return { status: "NOT_STARTED" as const, created: 0 };
+  if (await database.gameLineupSnapshot.findFirst({ where: { gameId, lockedAt: { not: game.startsAt } }, select: { id: true } })) return { status: "PENDING_REVIEW" as const, created: 0, reason: "Verified start evidence conflicts with an existing immutable lineup lock." };
 
   const assignments = await database.competitionPeriodGame.findMany({
     where: { gameId },
@@ -118,7 +121,8 @@ export async function captureDueGameLineups(now = new Date()) {
   const games = await getDatabase().$queryRaw<{ id: string }[]>`
     SELECT game.id
     FROM "Game" game
-    WHERE game."startsAt" <= ${now} AND EXISTS (
+    ${professionalGameProjection(now)}
+    WHERE source_start."resolvedStart" <= ${now} AND EXISTS (
       SELECT 1
       FROM "CompetitionPeriodGame" assignment
       JOIN "SportCompetition" competition ON competition.id = assignment."sportCompetitionId"
@@ -128,15 +132,15 @@ export async function captureDueGameLineups(now = new Date()) {
       JOIN LATERAL (
         SELECT event."teamId", event."toSlot", event."toSlotIndex"
         FROM "RosterAssignmentEvent" event
-        WHERE event."rosterEntryId" = roster.id AND event."effectiveAt" <= game."startsAt"
+        WHERE event."rosterEntryId" = roster.id AND event."effectiveAt" <= source_start."resolvedStart"
         ORDER BY event."effectiveAt" DESC, event."createdAt" DESC, event.id DESC
         LIMIT 1
       ) event ON true
       WHERE assignment."gameId" = game.id
-        AND evidence."knownAt" <= game."startsAt" AND evidence."effectiveAt" <= game."startsAt"
-        AND (evidence."expiresAt" IS NULL OR evidence."expiresAt" > game."startsAt")
-        AND roster."acquiredAt" <= game."startsAt"
-        AND (roster."releasedAt" IS NULL OR roster."releasedAt" > game."startsAt")
+        AND evidence."knownAt" <= source_start."resolvedStart" AND evidence."effectiveAt" <= source_start."resolvedStart"
+        AND (evidence."expiresAt" IS NULL OR evidence."expiresAt" > source_start."resolvedStart")
+        AND roster."acquiredAt" <= source_start."resolvedStart"
+        AND (roster."releasedAt" IS NULL OR roster."releasedAt" > source_start."resolvedStart")
         AND NOT EXISTS (
           SELECT 1 FROM "GameLineupSnapshot" snapshot
           WHERE snapshot."sportCompetitionId" = competition.id AND snapshot."gameId" = game.id
@@ -145,7 +149,7 @@ export async function captureDueGameLineups(now = new Date()) {
               OR (snapshot.slot = event."toSlot" AND snapshot."slotIndex" = event."toSlotIndex"))
         )
     )
-    ORDER BY game."startsAt", game.id
+    ORDER BY source_start."resolvedStart", game.id
     LIMIT 500
   `;
   let created = 0;
@@ -153,6 +157,6 @@ export async function captureDueGameLineups(now = new Date()) {
   return { games: games.length, created };
 }
 
-export function availabilityDesignationAllowsIr(designation: PlayerAvailabilityDesignation) {
-  return designation === "INJURED_RESERVE" || designation === "OUT";
+export function availabilityDesignationAllowsIr(designation: PlayerAvailabilityDesignation, sport?: import("@/generated/prisma/enums").Sport) {
+  return designation === "INJURED_RESERVE" || designation === "OUT" || (sport === "NFL" && designation === "SUSPENDED");
 }

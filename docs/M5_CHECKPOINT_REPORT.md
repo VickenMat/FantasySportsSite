@@ -1,3 +1,7 @@
+# Current continuation
+
+The recovered-data checkpoint below is historical. The current delivery implements fixture-verified lifecycle, game states, boundaries, source arbitration, incremental V9 promotion, hybrid enrichment, rolling quota enforcement and website freshness. See [current mechanisms report](M5_INGESTION_MECHANISMS_REPORT.md). Current checklist: 12/32; real-provider requirements remain open. Migration 27 and the exact approved MLB backfill are applied; separate migration 28 is pending approval.
+
 # M5 current checkpoint
 
 Continuation of synchronized `4c730e0`: recovered-source reconciliation, explicitly approved selective MLB backfill, free-first transport/identity preview and source-aware V9 replay. M5 remains **11 checked / 21 unchecked / 32 total**; M4 remains **60/60** within its fixture-backed acceptance scope. Live authoritative fantasy acceptance is not complete.

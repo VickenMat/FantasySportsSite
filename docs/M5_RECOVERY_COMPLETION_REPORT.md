@@ -1,10 +1,10 @@
 # M5 recovered data and free-first continuation
 
-Continued from synchronized `4c730e0`. M5 remains in progress: 11/32 whole checklist requirements are complete; partial delivery does not imply live-source acceptance. M4 remains fixture-verified at 60/60.
+Continued from synchronized `4c730e0`. At the first checkpoint, 11/32 whole checklist requirements were complete; the current mechanism checkpoint is 12/32. partial delivery does not imply live-source acceptance. M4 remains fixture-verified at 60/60.
 
 ## Delivered
 
-- Inventoried/fingerprinted seven immutable recovered files; verified Git exclusion. Canonical typed duplicate-aware comparison covers all 1,746,957 statistical rows. NBA has an additional historical position column; NHL multilingual name representation differs and is explicitly outside shared-value equivalence. Accepted Parquet remains unchanged.
+- Inventoried/fingerprinted seven immutable recovered files; verified Git exclusion. Canonical typed duplicate-aware comparison covers all 1,746,957 statistical rows. NBA has an additional historical position column; NHL multilingual names were safely decoded and all shared fields match, including names; raw files remain distinct encodings. Accepted Parquet remains unchanged.
 - Reconciled MLB recorded counts without selecting duplicate lists or summing unverified team scopes. Generated provenance-bearing conservative candidates and the exact approved repair manifest. Preserved NBA estimates/manual-review/unmatched records separately and verified their relationship to embedded final-CSV and original roster data.
 - Prepared canonical game/player/stat NHL requests for only missing fields; no new NHL values or zeros were invented.
 - Fixed historical repair to preserve official publication timestamps, reject overlapping team/game scopes, append revisions in bounded batches, and keep repaired historical observations out of legacy current-eligibility fallback paths. Display history remains available.
@@ -31,8 +31,10 @@ The session-wide fingerprint check detected commissioner draft-configuration act
 
 TypeScript, ESLint, Prisma validation, production Turbopack build and whitespace checks pass. The initial sandboxed build could not bind its CSS compiler port; clearing only its generated failure cache and building with required process access passed. The old preservation script flags expected approved backfill/older baseline differences; the exact deployment verifier preserves all original rows, and accepted V5 fingerprints remain identical. All 56 V9 rules remain unchanged. No V10, contract automation, archive overwrite, full historical operational import or restricted provider activation occurred. Three user-modified screenshots remain unstaged.
 
-## Remaining work
+## Remaining work at the first checkpoint
 
 Continue team-assignment history, position revisions/retractions, typed game-state/start/completion and availability/rookie/retirement adapters, provider-wide rolling quotas and adaptive job scheduling, automatic reviewed source arbitration, publication-aware statistical promotion, freshness/provenance UI and all-sport end-to-end acceptance. Use synthetic disposable fixtures for mechanisms when real evidence is unavailable. These are implementation requirements, not all external blockers.
 
 External dependencies remain permitted current/live data products, authoritative source timestamp meanings, unresolved MLB role selection and positional scopes, current NBA positions and exact NHL missing inputs. Commercial subscriptions remain optional and the development budget remains $0.
+
+Continuation: all shared NHL fields now compare successfully after validated name decoding. The refined NHL request set includes two legacy positive shutout credits needing explicit evidence: 13,501 targeted rows, 40 shutout requests; accepted values were not changed. See [current mechanism delivery](M5_INGESTION_MECHANISMS_REPORT.md) for subsequent implementation and verification; earlier checkpoint test totals above are historical.

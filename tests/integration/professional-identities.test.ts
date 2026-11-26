@@ -1,0 +1,47 @@
+import "dotenv/config";
+import{randomUUID}from"node:crypto";
+import{afterAll,expect,it}from"vitest";
+import{getDatabase}from"@/lib/db";
+import{persistObservation}from"@/ingestion/persist";
+import{retryPendingProfessionalObservations}from"@/ingestion/pending-retry";
+import{statEntityKey}from"@/ingestion/statistics";
+import{selectAndScoreSource}from"@/ingestion/source-selection";
+import type{Observation}from"@/ingestion/contracts";
+import{applicableRules}from"@/scoring/engine";
+import{captureGameLineups}from"@/server/lineup-snapshots";
+import{ubpV9Rules}from"@/scoring/ubp-v9";
+const db=getDatabase();afterAll(()=>db.$disconnect());
+it("recovers pending discovery and resolves explicit team/game aliases without duplicate canonical records or name merges",async()=>{
+ const provider=`identity-root-${randomUUID()}`,alias=`identity-alias-${randomUUID()}`,at=new Date("2039-01-01T12:00:00Z");
+ await db.season.upsert({where:{sport_startYear:{sport:"NBA",startYear:2039}},create:{sport:"NBA",startYear:2039,label:"2039"},update:{}});
+ const base={provider,sport:"NBA" as const,revisionToken:"1",revisionOrdinal:1,sourceReference:"https://fixture.invalid/professional-identities",observedAt:at.toISOString(),publishedAt:null,effectiveAt:null,raw:{synthetic:true}};
+ const apply=(record:Observation)=>db.$transaction(tx=>persistObservation(tx,record,at));
+ const gameRecord:Observation={...base,entityKey:"game:game-one",normalized:{kind:"GAME_IDENTITY",externalId:"game-one",links:[],discovery:"NEW",seasonStartYear:2039,phase:"REGULAR",gameDate:"2039-01-02",scheduledStartsAt:null,teams:[{team:{provider,externalId:"host"},side:"HOME"},{team:{provider,externalId:"visitor"},side:"AWAY"}]}};
+ const pending=await apply(gameRecord);expect(pending.outcome).toBe("PENDING_DATA");
+ expect(await retryPendingProfessionalObservations({permission:"FIXTURE_ONLY",providers:[provider]},at)).toMatchObject({examined:1,recovered:0});
+ expect(await db.professionalDataDecision.count({where:{observationId:pending.observationId}})).toBe(1);
+ for(const id of["host","visitor"]){
+  const record:Observation={...base,entityKey:`team:${id}`,normalized:{kind:"TEAM_IDENTITY",externalId:id,displayName:`Synthetic ${id} ${randomUUID()}`,code:randomUUID().slice(0,8),links:[],discovery:"NEW"}};
+  expect((await apply(record)).outcome).toBe("ACCEPTED");
+ }
+ expect(await retryPendingProfessionalObservations({permission:"FIXTURE_ONLY",providers:[provider]},new Date(+at+60000))).toMatchObject({examined:1,recovered:1});
+ const game=await db.game.findUniqueOrThrow({where:{sport_provider_externalId:{sport:"NBA",provider,externalId:"game-one"}}});expect(game.startsAt).toBeNull();expect(game.gameDate?.toISOString()).toBe("2039-01-02T00:00:00.000Z");
+ const host=await db.proTeam.findUniqueOrThrow({where:{sport_provider_externalId:{sport:"NBA",provider,externalId:"host"}}});
+ const teamAlias:Observation={...base,provider:alias,entityKey:"team:host-alias",normalized:{kind:"TEAM_IDENTITY",externalId:"host-alias",displayName:"Provider renamed host",code:"RENAMED",links:[{provider,externalId:"host"}],discovery:"EXISTING"}};
+ expect((await apply(teamAlias)).outcome).toBe("ACCEPTED");
+ const sourceGame=gameRecord.normalized as Extract<Observation["normalized"],{kind:"GAME_IDENTITY"}>;
+ const gameAlias:Observation={...base,provider:alias,entityKey:"game:game-alias",publishedAt:at.toISOString(),normalized:{...sourceGame,externalId:"game-alias",links:[{provider,externalId:"game-one"}],discovery:"EXISTING",scheduledStartsAt:"2039-01-02T11:00:00Z",teams:[{team:{provider:alias,externalId:"host-alias"},side:"HOME"},{team:{provider,externalId:"visitor"},side:"AWAY"}]}};
+ expect((await apply(gameAlias)).outcome).toBe("ACCEPTED");expect((await db.game.findUniqueOrThrow({where:{id:game.id}})).startsAt?.toISOString()).toBe("2039-01-02T11:00:00.000Z");
+ expect(await db.game.count({where:{provider:alias}})).toBe(0);expect(await db.proTeam.count({where:{provider:alias}})).toBe(0);expect((await db.proTeam.findUniqueOrThrow({where:{id:host.id}})).displayName).toBe(host.displayName);
+ const player=await db.player.create({data:{sport:"NBA",displayName:"Synthetic alias statistics",isSynthetic:true}});await db.playerExternalId.create({data:{sport:"NBA",provider,externalId:"player",playerId:player.id}});
+ const later=new Date("2039-01-02T12:00:00Z"),stats=Object.fromEntries(applicableRules(ubpV9Rules,"BASKETBALL").map(r=>[r.statKey,0]));
+ const score:Observation={...base,provider:alias,entityKey:statEntityKey(game.id,player.id,"BASKETBALL"),observedAt:later.toISOString(),normalized:{kind:"STAT",player:{provider,externalId:"player"},game:{provider:alias,externalId:"game-alias"},team:{provider:alias,externalId:"host-alias"},role:"BASKETBALL",phase:"LIVE",publicationSemantics:"UNVERIFIED",stats:{...stats,PTS:10}}};
+ expect((await db.$transaction(tx=>persistObservation(tx,score,later))).outcome).toBe("ACCEPTED");
+ expect(await selectAndScoreSource({sport:"NBA",gameId:game.id,playerId:player.id},{version:"alias-fixture",sources:[{provider:alias,priority:0,maxAgeMs:86400000,allowProvisional:true,permission:"FIXTURE_ONLY"}]},later)).toMatchObject({status:"SCORED"});
+ expect(await captureGameLineups(game.id,later)).toMatchObject({status:"PENDING_DATA",created:0});
+ expect(await db.playerGameStat.findFirstOrThrow({where:{playerId:player.id}})).toMatchObject({gameId:game.id,teamId:host.id});
+ const conflict:Observation={...teamAlias,entityKey:"team:ambiguous",normalized:{...teamAlias.normalized as Extract<Observation["normalized"],{kind:"TEAM_IDENTITY"}>,externalId:"ambiguous",links:[{provider,externalId:"host"},{provider,externalId:"visitor"}]}};
+ expect((await apply(conflict)).outcome).toBe("QUARANTINED");
+ const unmatched:Observation={...gameAlias,entityKey:"game:unmatched",normalized:{...gameAlias.normalized as Extract<Observation["normalized"],{kind:"GAME_IDENTITY"}>,externalId:"unmatched",links:[{provider,externalId:"unresolved-historical-fixture"}]}};
+ expect((await apply(unmatched)).outcome).toBe("PENDING_DATA");expect(await db.game.count({where:{provider}})).toBe(1);
+});

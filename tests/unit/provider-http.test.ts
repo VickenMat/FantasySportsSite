@@ -9,6 +9,7 @@ it("uses conditional caching and counts redirects without exposing signed redire
  const cached=vi.fn().mockResolvedValue(new Response(null,{status:304}));
  expect(await fetchPublicData(policy,result.cache,cached)).toMatchObject({status:"NOT_MODIFIED",requests:1});
  expect(cached.mock.calls[0][1].headers["If-None-Match"]).toBe("v1");
+ const other=vi.fn();await expect(fetchPublicData({...policy,sourceUrl:"https://github.com/another/file"},result.cache,other)).rejects.toThrow(/Cached representation/);expect(other).not.toHaveBeenCalled();
 });
 it("rejects out-of-scope redirects and oversized streaming bodies, and leaves disabled providers untouched",async()=>{
  const denied=vi.fn().mockResolvedValue(new Response(null,{status:302,headers:{location:"http://localhost/private"}}));

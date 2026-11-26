@@ -3,7 +3,7 @@ import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { resolveLeagueSport } from "./league";
 import { currentCompliance } from "./rosters";
-import { waiverHoldUntil } from "./waiver-holds";
+import { pendingGameCompletionHold, waiverHoldUntil } from "./waiver-holds";
 import { accountForWaiver, moveWaiverWinnerToBottom, releaseFaabReservation, reserveFaab, settleFaab, waiverFunds } from "./faab";
 import { assertRookieDraftComplete } from "./rookies";
 import { financePolicy } from "./finance";
@@ -50,11 +50,13 @@ export async function submitWaiver(userId: string, input: { leagueId: string; sp
       where: { rosterId: roster.id, playerId: value.dropPlayerId, releasedAt: null },
     })) throw new Error("The dropped player is not on your active sport roster.");
     const hold = await waiverHoldUntil(tx, value.leagueId, player.id, now);
-    const processAt = new Date(Math.max(Number(now), Number(customTime ?? now), Number(hold ?? now)));
+    const completionPending = await pendingGameCompletionHold(tx, player.id, now);
+    const processAt = new Date(Math.max(Number(now)+(completionPending?60000:0), Number(customTime ?? now), Number(hold ?? now)));
     const priority = await tx.waiverPriority.findUniqueOrThrow({ where: { leagueSportId_teamId: { leagueSportId: leagueSport.id, teamId } } });
     const claim = await tx.waiverClaim.create({ data: {
       ...value, leagueSportId: leagueSport.id, rosterId: roster.id, sport: leagueSport.sport, teamId, priority: priority.rank, processAt,
       faabAccountId: account.id,
+      reason: completionPending ? "Awaiting verified game completion; your bid remains reserved." : null,
     } });
     await reserveFaab(tx, account, claim.id, claim.bid);
     return claim;
@@ -99,9 +101,13 @@ export async function processDueWaivers(leagueId: string, now = new Date(), requ
       const roster = rosters.get(claim.rosterId); if (!roster) throw new Error("A waiver roster disappeared during processing.");
       const key = `${claim.sport}:${claim.addPlayerId}`; const owned = ownership.get(key);
       if (!awarded.has(key) && !owned) {
+      if (await pendingGameCompletionHold(tx, claim.addPlayerId, now)) {
+        await tx.waiverClaim.update({ where: { id: claim.id }, data: { processAt: new Date(+now+60000), reason: "Awaiting verified game completion; your bid remains reserved." } });
+        continue;
+      }
         const hold = await waiverHoldUntil(tx, leagueId, claim.addPlayerId, now);
         if (hold && hold > now) {
-          await tx.waiverClaim.update({ where: { id: claim.id }, data: { processAt: hold } });
+          await tx.waiverClaim.update({ where: { id: claim.id }, data: { processAt: hold, reason: "Waiver hold is active." } });
           continue;
         }
       }
@@ -141,7 +147,7 @@ export async function processDueWaivers(leagueId: string, now = new Date(), requ
       if (settled.scope === "SPORT") await tx.fantasyRoster.update({ where: { id: roster.id }, data: { faabRemaining: settled.balance } });
       await tx.fantasyTeam.update({ where: { id: claim.teamId }, data: { faabRemaining: settled.balance } });
       roster.faabRemaining = settled.balance;
-      await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "WON", processedAt: now } });
+      await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "WON", processedAt: now, reason: null } });
       await moveWaiverWinnerToBottom(tx, claim.leagueSportId, claim.teamId);
       await tx.fantasyTransaction.create({ data: { leagueId, leagueSportId: claim.leagueSportId, rosterId: roster.id, sport: claim.sport, teamId: claim.teamId,
         playerId: claim.addPlayerId, relatedPlayerId: claim.dropPlayerId, amount: claim.bid, type: "WAIVER", note: `Waiver won for ${claim.bid} FAAB` } });

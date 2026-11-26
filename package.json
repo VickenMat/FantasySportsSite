@@ -41,7 +41,9 @@
     "data:recovered:prepare": "tsx src/workers/prepare-recovered-enrichment.ts",
     "data:recovered:preview": "tsx --env-file-if-exists=.env src/workers/preview-recovered-backfill.ts",
     "data:nhl:requests": "tsx --env-file-if-exists=.env src/workers/prepare-nhl-enrichment-requests.ts",
-    "data:nflverse:preview": "tsx src/workers/preview-nflverse-players.ts"
+    "data:nflverse:preview": "tsx src/workers/preview-nflverse-players.ts",
+    "data:ingest:games": "tsx --env-file-if-exists=.env src/workers/professional-game-feeds.ts",
+    "data:worker": "tsx --env-file-if-exists=.env src/workers/professional-data-worker.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",

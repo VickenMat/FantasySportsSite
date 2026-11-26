@@ -40,8 +40,19 @@ it("keeps missing statistics and ambiguous two-way roles unknown", async () => {
 });
 
 it("does not count an appearance twice when its persisted ledger is present", async () => {
-  ledgers.mockResolvedValue([{ playerId: "p", gameId: "g", entries: [{ totalTenths: 100n }] }]);
+  ledgers.mockResolvedValue([{ playerId: "p", gameId: "g", entries: [{ totalTenths: 100n, missingStats: [] }] }]);
   stats.mockResolvedValue([{ playerId: "p", gameId: "g", role: "BASKETBALL", normalized: {}, observedPositions: [] }]);
   const values = await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" });
   expect(values.get("p")).toMatchObject({ gamesPlayed: 1, totalTenths: 100n });
+});
+
+it("keeps unselected professional sources, conflicting legacy sources and incomplete selected totals unknown", async () => {
+  const normalized = Object.fromEntries(applicableRules(ubpV9Rules, "BASKETBALL").map(({ statKey }) => [statKey, 0]));
+  const row = { playerId: "p", gameId: "g", role: "BASKETBALL", provider: "source-a", normalized, observedPositions: [], raw: { professionalObservation: { observationId: "fixture" } } };
+  stats.mockResolvedValue([row]);
+  expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")?.totalTenths).toBeNull();
+  stats.mockResolvedValue([{ ...row, raw: {} }, { ...row, provider: "source-b", raw: {} }]);
+  expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")?.totalTenths).toBeNull();
+  ledgers.mockResolvedValue([{ playerId: "p", gameId: "g", entries: [{ totalTenths: 100n, missingStats: ["REB"] }] }]);
+  expect((await playerStatistics({ playerIds: ["p"], presetId: "v9", seasonId: "s" })).get("p")).toMatchObject({ gamesPlayed: 1, scoredGames: 0, totalTenths: null });
 });

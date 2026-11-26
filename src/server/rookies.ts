@@ -22,9 +22,9 @@ export async function assertRookieDraftWindow(tx: Prisma.TransactionClient, leag
   if (at >= boundary.regularSeasonStartsAt) throw new Error("Rookie drafts must finish before the sport season begins.");
 }
 
-export async function recordRookieEligibility(input: z.input<typeof evidenceSchema>) {
+export async function recordRookieEligibility(input: z.input<typeof evidenceSchema>, transaction?: Prisma.TransactionClient) {
   const value = evidenceSchema.parse(input);
-  const database = getDatabase();
+  const database = transaction ?? getDatabase();
   const [player, season] = await Promise.all([
     database.player.findUniqueOrThrow({ where: { id: value.playerId } }),
     database.season.findUniqueOrThrow({ where: { id: value.seasonId } }),

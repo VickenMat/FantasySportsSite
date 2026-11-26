@@ -16,6 +16,7 @@ it("rejects ambiguous timestamps, invalid IDs and source references containing c
  expect(()=>observationSchema.parse({...record,publishedAt:"2026-11-25T13:00:00Z"})).toThrow();
  expect(()=>observationSchema.parse({...record,sourceReference:"https://api.sportsdata.io/x?key=public&api_key=secret"})).toThrow();
  expect(()=>observationSchema.parse({...record,sourceReference:"https://api.sportsdata.io/x?key=secret"})).toThrow();
+ expect(()=>observationSchema.parse({...record,sourceReference:"javascript:alert(1)"})).toThrow();
  expect(()=>observationSchema.parse({...record,observedAt:"2026-11-25T12:00:00"})).toThrow();
 });
 it("honors retry-after and conservative exponential backoff",()=>{

@@ -10,7 +10,7 @@ export type PositionRow = {
   label: string;
   slot: string;
   index: number;
-  entry: null | { id: string; playerId: string; sport: Sport; name: string; positions: string[]; team: string | null; locked: boolean; average?: string; points?: string };
+  entry: null | { id: string; playerId: string; sport: Sport; name: string; positions: string[]; positionSource?: string; team: string | null; teamSource?: string; locked: boolean; average?: string; points?: string };
 };
 
 export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookiePicks }: {
@@ -46,7 +46,7 @@ export function RosterPositionEditor({ leagueId, rows, legalDestinations, rookie
         {row.slot === "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_BENCH" && rows[index - 1]?.slot !== "UNIVERSAL_IR" && rookiePicks}
         {(index === 0 || group(row.slot) !== group(rows[index - 1].slot)) && <h3>{group(row.slot)}</h3>}
         <div className={`roster-position-grid roster-position-row ${selected ? "selected" : ""} ${destination ? "legal" : ""} ${disabled ? "disabled" : ""}`}>
-        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}</span><span>{row.entry ? <PositionBadges sport={row.entry.sport} positions={row.entry.positions} /> : "N/A"}</span><span>{row.entry?.average ?? "N/A"}</span><span>{row.entry?.points ?? "N/A"}</span>
+        {button}<strong>{row.entry?.name ?? "Empty"}{row.entry && row.slot.startsWith("UNIVERSAL_") && <small> · {row.entry.sport}</small>}</strong><span>{row.entry?.team ?? "N/A"}{row.entry?.teamSource && <small className="position-provenance">{row.entry.teamSource}</small>}</span><span>{row.entry ? <><PositionBadges sport={row.entry.sport} positions={row.entry.positions} />{row.entry.positionSource && <small className="position-provenance">{row.entry.positionSource}</small>}</> : "N/A"}</span><span>{row.entry?.average ?? "N/A"}</span><span>{row.entry?.points ?? "N/A"}</span>
         </div>
         {row.slot === "UNIVERSAL_IR" && rows[index + 1]?.slot !== "UNIVERSAL_IR" && rookiePicks}
       </Fragment>;

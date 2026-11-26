@@ -1,4 +1,5 @@
 import { createReadStream } from "node:fs";
+import { createHash } from "node:crypto";
 import { parse } from "csv-parse";
 import { asyncBufferFromFile, parquetMetadataAsync, parquetReadObjects, parquetSchema } from "hyparquet";
 import type { Sport } from "@/generated/prisma/enums";
@@ -33,7 +34,7 @@ function normalized(row:Record<string,unknown>,sport:Sport) {
  }catch(error){return `REJECTED:${error instanceof Error?error.message:"invalid"}`;}
 }
 /** Two independent order-insensitive multisets: common raw values and gameplay-normalized identity/statistics. */
-export async function compareRecoveredArchive(sport:Sport,csvPath:string,parquetPath:string) {
+export async function compareRecoveredArchive(sport:Sport,csvPath:string,parquetPath:string,csvNames?:readonly{sourceRecord:number;rawNameSha256:string;value:unknown}[]) {
  const file=await asyncBufferFromFile(parquetPath),meta=await parquetMetadataAsync(file);
  const schema=parquetSchema(meta).children;
  let csvColumns:string[]=[];for await(const row of csvRecords(csvPath)){csvColumns=Object.keys(row);break;}
@@ -42,8 +43,9 @@ export async function compareRecoveredArchive(sport:Sport,csvPath:string,parquet
  const booleans=new Set(schema.filter(s=>s.element.type==="BOOLEAN").map(s=>s.element.name));
  // NHL's recovered name column is a Python dictionary representation, while
  // Parquet contains a locale-expanded struct. Keep that difference visible.
- const comparable=common.filter(c=>!(sport==="NHL"&&c==="name"));
- const rawHash=(row:Record<string,unknown>)=>fingerprint(comparable.map(c=>[c,canonicalValue(row[c],c,numeric.has(c),booleans.has(c))]));
+ const comparable=common.filter(c=>!(sport==="NHL"&&c==="name"&&!csvNames));
+ const canonicalName=(value:unknown)=>value&&typeof value==="object"?Object.fromEntries(Object.entries(value).filter(([,v])=>v!==null&&v!=="")):value;
+ const rawHash=(row:Record<string,unknown>,name?:unknown)=>fingerprint(comparable.map(c=>[c,sport==="NHL"&&c==="name"?canonicalName(name??row[c]):canonicalValue(row[c],c,numeric.has(c),booleans.has(c))]));
  const rows=new Map<string,number>(),stats=new Map<string,number>();
  let parquetRejected=0;
  for(let offset=0;offset<Number(meta.num_rows);offset+=10000) {
@@ -57,10 +59,12 @@ export async function compareRecoveredArchive(sport:Sport,csvPath:string,parquet
  let csvRows=0,rawMatches=0,normalizedMatches=0,csvRejected=0;const mismatchSamples:{key:string;rawMismatch:boolean;normalizedMismatch:boolean}[]=[];
  for await(const row of csvRecords(csvPath)) {
   csvRows++;const key=archiveKey(row,sport),n=normalized(row,sport);if(n.startsWith("REJECTED:"))csvRejected++;
-  const rawMatch=consume(rows,`${key}:${rawHash(row)}`),statMatch=consume(stats,`${key}:${n}`);
+  const name=csvNames?.[csvRows-1];
+  if(csvNames&&(!name||name.sourceRecord!==csvRows+1||name.rawNameSha256!==createHash("sha256").update(String(row.name??"")).digest("hex")))throw new Error("Prepared NHL name values no longer match the immutable source records.");
+  const rawMatch=consume(rows,`${key}:${rawHash(row,name?.value)}`),statMatch=consume(stats,`${key}:${n}`);
   if(rawMatch)rawMatches++;if(statMatch)normalizedMatches++;
   if((!rawMatch||!statMatch)&&mismatchSamples.length<20)mismatchSamples.push({key,rawMismatch:!rawMatch,normalizedMismatch:!statMatch});
  }
  const rawRemainder=[...rows.values()].reduce((a,b)=>a+b,0),normalizedRemainder=[...stats.values()].reduce((a,b)=>a+b,0);
- return {sport,csvRows,parquetRows:Number(meta.num_rows),commonColumns:common,excludedRawColumns:common.filter(c=>!comparable.includes(c)),rawComparisonScope:sport==="NHL"?"All shared columns except locale-expanded name struct; not byte/content identical":"All shared columns",csvOnlyColumns:csvColumns.filter(c=>!schema.some(s=>s.element.name===c)),parquetOnlyColumns:schema.map(s=>s.element.name).filter(c=>!csvColumns.includes(c)),rawMatches,normalizedMatches,csvRejected,parquetRejected,rawUnmatchedCsv:csvRows-rawMatches,rawUnmatchedParquet:rawRemainder,normalizedUnmatchedCsv:csvRows-normalizedMatches,normalizedUnmatchedParquet:normalizedRemainder,mismatchSamples};
+ return {sport,csvRows,parquetRows:Number(meta.num_rows),commonColumns:common,excludedRawColumns:common.filter(c=>!comparable.includes(c)),rawComparisonScope:sport==="NHL"?(csvNames?"All shared columns; Python name dictionaries canonicalized and null-only locale expansion ignored; not byte identical":"All shared columns except locale-expanded name struct; not byte/content identical"):"All shared columns",csvOnlyColumns:csvColumns.filter(c=>!schema.some(s=>s.element.name===c)),parquetOnlyColumns:schema.map(s=>s.element.name).filter(c=>!csvColumns.includes(c)),rawMatches,normalizedMatches,csvRejected,parquetRejected,rawUnmatchedCsv:csvRows-rawMatches,rawUnmatchedParquet:rawRemainder,normalizedUnmatchedCsv:csvRows-normalizedMatches,normalizedUnmatchedParquet:normalizedRemainder,mismatchSamples};
 }

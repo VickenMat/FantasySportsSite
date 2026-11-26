@@ -10,4 +10,14 @@ Fresh disposable integration preparation applies all 27 migrations. A populated 
 
 The user explicitly approved migration 26 → 27 and the exact MLB historical backfill. Deployment completed after a fresh verified private backup and exact SQL/target checks. All 86 original application-table rows were preserved. The offline schema dry-run and read-only coverage tools work without this migration. Live providers remain disabled independently of migration deployment, and provider licensing/credentials remain separate approvals.
 
-The deployment SQL retained the exact SHA above. Backup SHA-256: `9352e3d660f1816883e2da890c0e72a397c0dce8c893ca8b9d94c0d6a0edd764`; the 35,831,832-byte private archive passed listing and full decode. No pending migration remains at this checkpoint. See M5_RECOVERED_DATA_REVIEW.md and M5_RECOVERY_COMPLETION_REPORT.md.
+The deployment SQL retained the exact SHA above. Backup SHA-256: `9352e3d660f1816883e2da890c0e72a397c0dce8c893ca8b9d94c0d6a0edd764`; the 35,831,832-byte private archive passed listing and full decode. No pending migration remained at that first checkpoint. See M5_RECOVERED_DATA_REVIEW.md and M5_RECOVERY_COMPLETION_REPORT.md.
+
+## Pending projection migration: separate approval required
+
+`20261126020000_professional_projection_states` changes development from 27 to 28 migrations. Exact SQL SHA-256: `e09f1b7f28812757adffe60e950c6544d08ae467806258459968c4fda30c55fa`.
+
+Adds `SKIPPED` to `MatchupStatus` so cancelled-only inactive periods do not become zero-score ties. Adds `ProfessionalDataObservation_sport_entity_revision_idx` over sport/category/entityKey/revisionOrdinal. No table, column or existing row is removed or rewritten; no backfill or provider activation is included.
+
+Fresh disposable schemas and a populated development copy validate this change. All 89 existing application tables preserve exact counts/fingerprints, all 196 foreign keys pass, and Prisma drift is empty. Development was read-only for this verification. The private report is `/private/tmp/fantasy-pending-migration-verification.json`.
+
+The prepared deployment command is `scripts/deploy-reviewed-m5-projection.mjs`. It requires explicit approval tied to the exact SQL hash, rejects any additional pending migration, verifies a fresh ignored private backup by full decode, checks all 89 application fingerprints before/after and requires empty Prisma drift. Pause the managed development stack before deployment, then restore it. The existing migration/backfill approval does not authorize this separate change. Until approved, keep deployment pending and do not activate affected development behavior.

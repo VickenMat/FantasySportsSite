@@ -9,7 +9,7 @@ import { captureDueGameLineups } from "./lineup-snapshots";
 import { getEligiblePositions, legacyPositionFallback } from "./positions";
 import { irEligiblePlayers } from "./roster-availability";
 import { assertRookieDraftComplete } from "./rookies";
-import { waiverHoldUntil } from "./waiver-holds";
+import { pendingGameCompletionHold, waiverHoldUntil } from "./waiver-holds";
 import { financePolicy, releaseSalary, salaryCompliance } from "./finance";
 import { clearOffseasonPlayerFloors, sportIsOffseason } from "./sport-offseason";
 
@@ -80,6 +80,7 @@ export async function addFreeAgent(userId: string, leagueId: string, playerId: s
       }, select: { id: true } });
       if (!completedDraft) throw new Error("Redraft free agency opens after the applicable sport draft completes.");
     }
+    if (await pendingGameCompletionHold(tx, playerId, acquiredAt)) throw new Error("Game completion is awaiting verification. Submit a waiver claim; it will remain pending until the verified post-game hold clears.");
     const hold = await waiverHoldUntil(tx, leagueId, playerId, acquiredAt);
     if (hold && hold > acquiredAt) throw new Error("This player is on release waivers or a verified game-completion hold. Submit a waiver claim.");
     if (await tx.waiverClaim.findFirst({ where: { leagueId, addPlayerId: playerId, status: "PENDING" }, select: { id: true } })) {
@@ -145,7 +146,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     const allowed = context.leagueSport.rosterSlots.filter((value) => value === normalizedSlot).length;
     if (!allowed) throw new Error(`That slot is not configured for this ${context.leagueSport.sport} roster.`);
     const trusted = await getEligiblePositions({ playerId: entry.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
-    const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : legacyPositionFallback(entry.player.gameStats[0]);
+    const positions = trusted.available ? trusted.positions : context.membership.league.isHistorical ? [] : legacyPositionFallback(entry.player.gameStats[0]);
     if (!fitsSlot(context.leagueSport.sport, normalizedSlot, new Set(positions))) throw new Error("The player's recorded eligibility does not fit that slot.");
   }
   return database.$transaction(async (tx) => {
@@ -188,7 +189,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     if (displaced && current.slot === "ROOKIE_OVERFLOW") throw new Error("Move rookie overflow into an empty legal slot or release a player first.");
     if (displaced && currentIsStarter) {
       const trusted = await getEligiblePositions({ playerId: displaced.playerId, sport: context.leagueSport.sport, seasonYear: context.leagueSport.season?.startYear ?? context.membership.league.seasonYear, asOf: decisionAt });
-      const positions = trusted.positions.length ? trusted.positions : context.membership.league.isHistorical ? [] : legacyPositionFallback(displaced.player.gameStats[0]);
+      const positions = trusted.available ? trusted.positions : context.membership.league.isHistorical ? [] : legacyPositionFallback(displaced.player.gameStats[0]);
       if (!fitsSlot(context.leagueSport.sport, current.slot, new Set(positions))) throw new Error(`The swap is invalid because ${displaced.player.displayName} cannot occupy ${current.slot}.`);
     }
     if (displaced && (current.slot === "UNIVERSAL_IR" || current.slot === "IR")) {
@@ -232,7 +233,7 @@ export async function setComputerLineups(leagueId: string, requestedSport?: Spor
     const available = [] as { id: string; positions: Set<string> }[];
     for (const entry of roster.entries) {
       const trusted = await getEligiblePositions({ playerId: entry.playerId, sport: leagueSport.sport, seasonYear: leagueSport.season?.startYear ?? league.seasonYear, asOf: decisionAt });
-      const positions = trusted.positions.length ? trusted.positions : league.isHistorical ? [] : legacyPositionFallback(entry.player.gameStats[0]);
+      const positions = trusted.available ? trusted.positions : league.isHistorical ? [] : legacyPositionFallback(entry.player.gameStats[0]);
       available.push({ id: entry.id, positions: new Set(positions) });
     }
     const assignments = new Map<string, { slot: string; slotIndex: number }>();

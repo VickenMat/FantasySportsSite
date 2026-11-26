@@ -1,0 +1,33 @@
+{
+  "migration": "20261126020000_professional_projection_states",
+  "sqlSha256": "e09f1b7f28812757adffe60e950c6544d08ae467806258459968c4fda30c55fa",
+  "baselineMigrations": 27,
+  "appliedPending": [
+    "20261126020000_professional_projection_states"
+  ],
+  "preservedTables": 89,
+  "foreignKeysChecked": 196,
+  "foreignKeyViolations": [],
+  "drift": "-- This is an empty migration.\n\n",
+  "developmentDeployed": false,
+  "backfillRows": 0,
+  "unitTests": 168,
+  "integrationTests": 114,
+  "shuffledRepeat": {
+    "tests": 114,
+    "seed": 5261126
+  },
+  "browserTests": 18,
+  "developmentBrowserOptInSkipped": 1,
+  "restartTests": 2,
+  "developmentPreservation": {
+    "tablesChecked": 90,
+    "differences": [
+      "BackgroundJobRun"
+    ],
+    "allOtherTableFingerprintsUnchanged": true
+  },
+  "recoveredSourceHashesPreserved": 7,
+  "acceptedV5HashesPreserved": 5,
+  "unchangedV9Weights": 56
+}

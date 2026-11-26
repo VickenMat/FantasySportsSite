@@ -60,7 +60,7 @@ export async function recordPositionEvidence(input: z.input<typeof evidenceSchem
   return transaction ? work(transaction) : database.$transaction(work);
 }
 
-export async function getEligiblePositions(input: { playerId: string; sport: Sport; seasonYear: number; asOf: Date }, client: Pick<ReturnType<typeof getDatabase>, "playerPositionEvidence"> = getDatabase()) {
+export async function getEligiblePositions(input: { playerId: string; sport: Sport; seasonYear: number; asOf: Date }, client: Pick<ReturnType<typeof getDatabase>, "playerPositionEvidence"> & Partial<Pick<ReturnType<typeof getDatabase>,"professionalDataObservation">> = getDatabase()) {
   const { playerId, sport, seasonYear, asOf } = input;
   const records = await client.playerPositionEvidence.findMany({
     where: {
@@ -69,14 +69,28 @@ export async function getEligiblePositions(input: { playerId: string; sport: Spo
     },
     include: { season: { select: { startYear: true } }, position: { select: { code: true } } },
   });
-  const evidence = records.flatMap((row): PositionEvidence[] => {
+  const inactiveEvidence = new Set<string>();
+  if (client.professionalDataObservation) {
+    const revisions = await client.professionalDataObservation.findMany({ where: { sport, category: "POSITION_REVISION", publishedAt: { lte: asOf }, effectiveAt: { lte: asOf }, decisions: { some: { outcome: "ACCEPTED", targets: { path: ["playerId"], equals: playerId } } } },
+      include: { decisions: { where: { outcome: "ACCEPTED" }, orderBy: { version: "desc" }, take: 1 } }, orderBy: [{ revisionOrdinal: "desc" }, { publishedAt: "desc" }, { id: "asc" }] });
+    const latest = new Set<string>();
+    for (const revision of revisions) {
+      const targets = revision.decisions[0]?.targets as { originalEvidenceId?: string; replacementEvidenceIds?: string[] };
+      if (targets.originalEvidenceId) inactiveEvidence.add(targets.originalEvidenceId);
+      const key = `${revision.provider}:${revision.entityKey}`;
+      if (latest.has(key)) for (const id of targets.replacementEvidenceIds ?? []) inactiveEvidence.add(id);
+      latest.add(key);
+    }
+  }
+  const evidence = records.filter(row=>!inactiveEvidence.has(row.id)).flatMap((row): PositionEvidence[] => {
     const base = {
       code: row.position.code, seasonYear: row.season.startYear, effectiveAt: row.effectiveAt, knownAt: row.knownAt,
     };
     if (row.kind === "LISTED") return [{ ...base, kind: "LISTED" }];
     return row.gameId && row.started != null ? [{ ...base, kind: "FIELDING", gameId: row.gameId, started: row.started }] : [];
   });
-  return calculateEligibility({ ...input, evidence });
+  const result = calculateEligibility({ ...input, evidence });
+  return { ...result, available: result.available || records.some(row=>inactiveEvidence.has(row.id)) };
 }
 
 /** Historical repairs are display evidence, never a fallback grant of current eligibility. */
