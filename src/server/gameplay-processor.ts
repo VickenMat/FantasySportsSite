@@ -5,6 +5,11 @@ import { processDueWaivers } from "./waivers";
 import { processExpiredDrafts } from "./draft";
 import { setComputerLineups } from "./rosters";
 import { finalizeDueMatchups } from "./matchups";
+import { processScheduledDrafts } from "./draft-plans";
+import { processDueAuctions, processAuctionDraftClocks } from "./auctions";
+import { processAdvancedTrades } from "./advanced-trades";
+import { processCompetitiveFinalization } from "./competitive-finalization";
+import { processSeasonLifecycles } from "./lifecycle-processor";
 
 export async function processGameplay(now = new Date()) {
   const database = getDatabase();
@@ -23,6 +28,10 @@ export async function processGameplay(now = new Date()) {
       return leagues.length;
     });
     await task("automatic-drafts", () => processExpiredDrafts(now));
+    await task("scheduled-drafts", () => processScheduledDrafts(now));
+    await task("auction-settlement", () => processDueAuctions(now));
+    await task("auction-nominations", () => processAuctionDraftClocks(now));
+    await task("advanced-trades", () => processAdvancedTrades(now));
     await task("finalization", async () => {
       const leagues = await database.matchup.findMany({ where: { finalizedAt: null, resultFinalizesAt: { lte: now } },
         distinct: ["leagueId"], select: { leagueId: true } });
@@ -32,6 +41,8 @@ export async function processGameplay(now = new Date()) {
     await task("trade-expiry", () => database.trade.updateMany({
       where: { status: "PENDING", expiresAt: { lte: now } }, data: { status: "EXPIRED", respondedAt: now },
     }));
+    await task("competition-finalization", () => processCompetitiveFinalization(now));
+    await task("season-lifecycles", () => processSeasonLifecycles(now));
     await task("computer-lineups", async () => {
       const sports = await database.leagueSport.findMany({ where: { league: { status: "ACTIVE" },
         rosters: { some: { team: { isComputer: true } } } }, select: { leagueId: true, sport: true } });

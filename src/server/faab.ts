@@ -10,9 +10,11 @@ export async function accountForWaiver(
     where: { id: leagueId },
     select: { faabScope: true, universalStartingFaab: true, championshipCycles: { orderBy: { number: "desc" }, take: 1 } },
   });
+  const sport = await tx.leagueSport.findFirstOrThrow({ where: { id: leagueSportId, leagueId } });
+  const assignment = league.faabScope === "UNIVERSAL" ? await tx.leagueSportSeason.findUnique({ where: { leagueSportId_seasonId: { leagueSportId, seasonId: sport.seasonId } } }) : null;
   const context = league.faabScope === "SPORT"
     ? { leagueSportId, championshipCycleId: null, openingBalance: (await tx.leagueSport.findUniqueOrThrow({ where: { id: leagueSportId } })).startingFaab }
-    : { leagueSportId: null, championshipCycleId: league.championshipCycles[0]?.id ?? null, openingBalance: league.universalStartingFaab };
+    : { leagueSportId: null, championshipCycleId: assignment?.championshipCycleId ?? league.championshipCycles[0]?.id ?? null, openingBalance: league.universalStartingFaab };
   if (league.faabScope === "UNIVERSAL" && !context.championshipCycleId) throw new Error("Universal FAAB requires an active championship cycle.");
   const existing = await tx.faabAccount.findFirst({ where: {
     teamId,

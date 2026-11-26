@@ -1,37 +1,29 @@
 # Fantasy Evolution project status
 
-Latest continuation from `577182e`: linear verified-rookie execution, explicit weighted lottery provenance, future-pick consumption/corrections, keeper ownership-history acceptance, incremental roster repair, audited commissioner releases and independent historical FAAB/inventory rollover are implemented. The master checklist now has 24 checked / 30 unchecked rows. M4 remains incomplete; salary/auctions, advanced multi-party trading and competitive lifecycle remain unimplemented or partial. See [remaining gameplay report](docs/M4_REMAINING_GAMEPLAY_REPORT.md).
+Continuation from `16b9940`: the final draft-experience and gameplay corrections are implemented across scheduling, Overview, Draft, Waivers, auctions, salary accounting, revisioned trading and independent lifecycle mechanisms. M4 remains in progress: **46 checked / 14 unchecked / 60 checklist rows**. See [the current continuation report](docs/M4_DRAFT_FINANCE_TRADE_REPORT.md) and [master checklist](docs/M4_MASTER_CHECKLIST.md).
 
-The prior 120-second development stability test used Turbopack. Development now defaults to Webpack following the user's independent reproduction; optional Turbopack and unchanged production Turbopack commands are retained. The dedicated isolated restart acceptance command verifies actual web-server/worker restarts and persistent sessions/drafts/trades/waivers.
+Rookie lotteries and ordinary custom rookie ordering are revoked. Reverse finalized sport placements determine the same original linear slots each round; transferred ownership remains separate. Historical audit records are preserved. V9's 56 weights remain unchanged; V10, contract automation and schedule normalization remain inactive.
 
-Exact missing scoring inputs and a dry-run-first historical position reconciliation mechanism are documented in PLAYER_DATA_AUDIT.md. No development position backfill or new migration has been applied. Production source gates and all product decision gates remain in place.
+## Current verification
 
-Current implementation head descends from `6bf22fc`. The reconstructed M4 specification is authoritative and now includes the November 25 continuation decisions for salary-dynasty picks, universal cap transfers, short keeper drafts, weighted lotteries, playoff elimination rounds, over-cap cuts, self-reacquisition credit and released-player floors.
+- 155 unit tests pass.
+- The full PostgreSQL suite passed 67 tests, followed by a fresh shuffled run of 70 tests with seed `20261125`. The latest six salary tests, including incremental over-cap cuts, also pass independently.
+- 13 standard Chromium workflows and two actual restart workflows pass. Browser fixtures now always use isolated disposable schemas.
+- TypeScript, ESLint, Prisma validation and production Turbopack builds pass at the current implementation checkpoint; repeat final acceptance after remaining work.
+- Shuffled execution exposed and fixed an import-order regression: incoming historical coverage now reconciles previously unverified schedule-only season metadata, preserving stronger existing coverage. No development import was run.
 
-## Current verified state
+## Database and runtime
 
-- M4.3 immutable FAAB accounting, rolling priority, verified-completion mechanism and offseason acquisition gates are implemented.
-- M4.4 rookie evidence, pre-draft acquisition gates, linear rookie execution, configured lottery infrastructure and consumption history are implemented. Keeper selection persists escalating costs, short-draft fallback, conflict resolution and paid-round snapshots; trade/drop/reacquisition ownership acceptance is verified. Negotiated asset trades and full competitive rollover remain incomplete.
-- Head-to-head opponent rotations now persist immediately at draft completion as relative periods; authoritative calendar binding remains pending where source dates are unavailable.
-- Ordinary trades now enforce proposer compliance and atomic post-trade compliance for both franchises; the explicitly classified corrective-trade exception remains gated.
-- Authenticated brand navigation, Account, league overview, roster selection cancellation, draft access through Settings, readable scoring labels and centralized position colors are implemented. Player, waiver, roster and draft surfaces now share the position system; draft boards expose franchise ownership and verified position evidence without inventing salary or projection values.
-- The Fantasy Evolution brand now always opens the public landing page. That page renders Dashboard and Account links for an existing session and Sign In and Register links for guests; navigation itself never revokes a session.
-- Fresh-league creation is regression-covered across 2, 3, 4, 5, 6, 8, 10 and 12 franchises, normal and historical modes, single- and multi-sport leagues, redraft and dynasty, and H2H and cumulative competition. A forced late foreign-key failure proves the transaction leaves no league, competition or championship-cycle records behind.
-- Player data was audited read-only; see `docs/PLAYER_DATA_AUDIT.md`.
-- The current continuation passes 153 unit tests, 50 fresh-schema PostgreSQL integration tests, 12 standard Chromium workflows and two opt-in fresh-user restart workflows. TypeScript, ESLint, Prisma validation and the production Turbopack build pass; npm audit reports zero vulnerabilities. The live-development creation test remains separately opt-in and is not counted as a new run.
+The user approved and deployed the four reviewed migrations from 22 to 26 after a fresh verified private backup and populated-copy validation. All 70 original application-table fingerprints were identical immediately before/after deployment. The copy validated 195 foreign keys and an empty Prisma schema diff. Development has 27 enabled append-only triggers. Subsequent preservation checks differ only in the expected running worker journal.
 
-## Operational dependency
+Development retains 11 users, seven leagues, 8,042 players, 107,312 player-stat revisions, 47 roster entries, 48 assignment events, 35 score entries, 57,352 schedule observations and 52,866 historical crosswalks. No existing league was converted to salary mode and no competitive evidence was fabricated or backfilled.
 
-The development database was backed up and upgraded from 17 to all 22 migrations after the populated-copy compatibility check passed. Existing critical counts and compatible fingerprints, all four accepted V5 file hashes and all 56 UBP V9 rules remain unchanged. The additive FAAB migration created 10 opening accounts, ledger entries and waiver priorities for existing franchises. Dedicated live QA verified two-team NFL redraft creation, odd three-team multi-sport dynasty creation, new and existing Waivers pages, existing-league access and authenticated landing navigation.
+The private pre-26 backup and its checksum are documented in [the reviewed migration record](docs/M4_PENDING_MIGRATION_REVIEW.md). The prior pre-22 backup is retained. All five accepted V5 fingerprints and the protected screenshots match. The earlier approved classification of 3,388 fixture players remains the only player-classification backfill.
 
-No production deployment has been performed.
+Start with `npm run dev:all` at `http://localhost:3000`. Webpack remains the default development bundler; production uses Turbopack. The restarted web and worker processes use the migrated schema. Existing League1 roster noncompliance remains an explicit block; operational health may report 503 while unrelated jobs continue. No production deployment has occurred.
 
-## Health audit findings
+## Remaining work
 
-The running stack starts with `npm run dev:all`. P0 remediation isolates per-pick and gameplay jobs, journals blocked states, uses execution ownership and retry backoff, and reports degraded/stale operational health with HTTP 503. League1's existing 14/5 NFL bench overflow remains an explicit draft block; no user roster was changed. Live landing/Dashboard/league stability passed for 120 seconds without refresh loops. See `docs/M4_WORKER_REMEDIATION.md`.
+The unchecked rows track additional acceptance and real implementation: H2H overall-finalization evidence acceptance, complete mixed-asset salary trading and deadline coverage, offseason franchise removal with preserved history, broader audited commissioner corrections, comprehensive universal draft/auction workflows, Waivers filter acceptance and the full requested format matrix. These are not mislabeled as external data dependencies.
 
-All 22 migrations are deployed. Prisma now describes the accepted database defaults/index name accurately; development and fresh-schema diffs report no difference. No additional migration was needed. The verified backup is secured at `/Users/vicken/Developer/PrivateBackups/FantasyEvolution/fantasy_evolution_pre_m4_22_20261125.dump` (SHA-256 `c5b3c50fcd6510bb9a16a539147ac8546788b9c470e498a39da4306565b2a04a`); the original temporary backup is retained.
-
-The user approved fixture classification separately: exactly 3,388 legacy fixture-only players were marked synthetic, with all non-flag player fields, statistics and rosters fingerprint-identical. Accepted real archive coverage is 4,645 players. Historical V9 totals are now derived read-only where inputs are complete; no competitive ledger backfill was performed. See the corrected player audit.
-
-Live QA added two users (including one from the first selector-failed run) and two dedicated leagues. Development now has 11 users and five leagues. Original nine user rows retain their fingerprint; 47 roster entries and 48 assignment events are preserved. There are 22 enabled append-only triggers, zero invalid foreign keys, zero duplicate active ownership groups, and no negative or ledger-inconsistent FAAB accounts.
+M5 must supply official rookie/availability/retirement evidence, independent professional boundaries, verified game-completion instants, correction-publication times, MLB scoring-role disambiguation, NHL scoring inputs and verified MLB/NBA positions. Details remain in [the player audit](docs/PLAYER_DATA_AUDIT.md). Existing mechanisms use isolated synthetic evidence for acceptance; unknown values remain pending rather than zero.

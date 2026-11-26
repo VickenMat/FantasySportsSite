@@ -1,5 +1,6 @@
 import { getDatabase } from "@/lib/db";
 import { workerState } from "@/server/worker-health";
+import { hasGameplayTable } from "@/server/gameplay-storage";
 
 export const dynamic = "force-dynamic";
 
@@ -17,11 +18,12 @@ export async function GET() {
     const activeDrafts = await database.draft.findMany({ where: { status: "ACTIVE" }, select: { id: true, currentPick: true } });
     const blockedDrafts = await database.backgroundJobRun.count({ where: { jobType: "draft-pick", status: "BLOCKED",
       key: { in: activeDrafts.map((draft) => `draft-pick:${draft.id}:${draft.currentPick}`) } } });
+    const blockedSchedules = await hasGameplayTable("DraftPlan") ? await database.draftPlan.count({ where: { status: "BLOCKED" } }) : 0;
     const draftState = workerState(draftTimer, now, 45_000);
     const gameplayState = workerState(gameplayTick, now, 150_000);
-    const healthy = draftState === "HEALTHY" && gameplayState === "HEALTHY" && blockedDrafts === 0;
+    const healthy = draftState === "HEALTHY" && gameplayState === "HEALTHY" && blockedDrafts === 0 && blockedSchedules === 0;
     return Response.json({ status: healthy ? "ok" : "degraded", application: "available", database: "connected",
-      workers: { draftTimer, gameplayTick, draftState, gameplayState }, blockedDrafts },
+      workers: { draftTimer, gameplayTick, draftState, gameplayState }, blockedDrafts, blockedSchedules },
       { headers, status: healthy ? 200 : 503 });
   } catch {
     return Response.json({ status: "unavailable", database: "unreachable" }, { status: 503, headers });

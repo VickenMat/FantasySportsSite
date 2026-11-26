@@ -110,12 +110,12 @@ export function getCumulativeStandings(leagueId: string, selection: CumulativeSe
         label: true,
         sportSeasons: {
           where: { leagueSportId: sport?.id },
-          select: { competition: { select: { id: true, status: true, periods: { select: { startsAt: true } } } } },
+          select: { competition: { select: { id: true, status: true, placements: true, periods: { select: { startsAt: true } } } } },
         },
       },
     });
     const competitions = cycle?.sportSeasons.flatMap(({ competition }) => competition ? [competition] : []) ?? [];
-    const ids = competitions.map(({ id }) => id);
+    const ids = competitions.filter(({ status }) => status !== "FINALIZED").map(({ id }) => id);
     const scores = await scoreCapturedStarters(tx, ids, through);
     const pendingGames = ids.length ? await tx.competitionPeriodGame.count({
       where: {
@@ -136,17 +136,28 @@ export function getCumulativeStandings(leagueId: string, selection: CumulativeSe
       team.scoredStarters += score.scoredStarters;
       team.pendingStarters += score.pendingStarters;
     }
+    for (const competition of competitions.filter(({ status }) => status === "FINALIZED")) for (const placement of competition.placements) {
+      const team = teams.get(placement.teamId);
+      if (team) team.pointsFor += placement.regularPfTenths;
+    }
     const pendingSports = (sport ? 1 : league.sports.length) - competitions.filter((competition) =>
       competition.status !== "PENDING_DATA" && competition.periods.length > 0).length;
-    const hasScores = scores.some(({ scoredStarters }) => scoredStarters > 0);
+    const hasScores = scores.some(({ scoredStarters }) => scoredStarters > 0) || competitions.some(({ status }) => status === "FINALIZED");
     const hasStarted = competitions.some(({ periods }) => periods.some(({ startsAt }) => startsAt <= through));
-    const state = hasScores ? "PROVISIONAL" : pendingSports || hasStarted ? "PENDING_DATA" : "UPCOMING";
+    const finalized = competitions.length > 0 && competitions.every(({ status }) => status === "FINALIZED") && pendingSports === 0;
+    const state = finalized ? "FINALIZED" : hasScores ? "PROVISIONAL" : pendingSports || hasStarted ? "PENDING_DATA" : "UPCOMING";
     const rows = [...teams.values()].sort((a, b) => a.pointsFor === b.pointsFor ? 0 : a.pointsFor > b.pointsFor ? -1 : 1);
     if (hasScores) {
       for (const [index, team] of rows.entries()) {
         const previous = rows[index - 1];
         team.rank = previous && previous.pointsFor === team.pointsFor ? previous.rank : index + 1;
       }
+    }
+    if (finalized) {
+      const finalRanks = sport ? new Map(competitions.flatMap(({ placements }) => placements.map(({ teamId, placement }) => [teamId, placement] as const)))
+        : new Map((await tx.championshipResult.findMany({ where: { championshipCycle: { leagueId, number: cycle!.number }, projected: false } })).map(({ teamId, rank }) => [teamId, rank] as const));
+      for (const team of rows) team.rank = finalRanks.get(team.id) ?? team.rank;
+      rows.sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity));
     }
     return {
       cycle: cycle ? { number: cycle.number, label: cycle.label } : null,

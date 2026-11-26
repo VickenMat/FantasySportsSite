@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { expect, request as apiRequest, test, type Page } from "@playwright/test";
 import { getDatabase } from "../../src/lib/db";
 import { createLeague } from "../../src/server/league";
+import { installDraftBoundaryFixtures } from "../helpers/professional-boundaries";
 
 const password = "manager-test-12!";
 let testIp = 10;
@@ -263,7 +264,7 @@ test("creates a historical league and opens its persistent draft and analysis pa
     await expect(page.getByText('{"draftSecondsPerPick":30}', { exact: true })).toBeVisible();
     await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByRole("link", { name: "Open draft center" }).click();
-    await page.getByRole("button", { name: "Start NBA snake draft" }).click();
+    await page.getByRole("button", { name: "Start Draft Now (testing)" }).click();
     await expect(page.getByRole("heading", { name: "NBA draft" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Player Pool" })).toHaveClass(/active/);
     await expect(page.getByRole("heading", { name: "My Team" })).toBeVisible();
@@ -319,7 +320,8 @@ test("creates a playable two-team four-sport league with independent draft rooms
   try {
     await register(page, "Four Sport Commissioner", email); await page.goto("/leagues/new");
     await page.getByLabel("League name").fill(name); await page.getByLabel("Teams").fill("2");
-    await page.getByLabel("Expected draft completion").fill("2027-02-15T12:00");
+    await expect(page.getByLabel("Expected draft completion")).toHaveCount(0);
+    await page.getByLabel("Season", { exact: true }).selectOption("0");
     await page.getByRole("button", { name: "Preview championship schedule" }).click();
     const scheduleCards = page.locator(".schedule-preview .mini-card");
     await expect(scheduleCards).toHaveCount(4);
@@ -330,13 +332,15 @@ test("creates a playable two-team four-sport league with independent draft rooms
     await page.getByRole("link", { name: "Settings", exact: true }).click();
     await page.getByRole("link", { name: "Open draft center" }).click();
     for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByRole("link", { name: sport, exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Start NFL snake draft" }).click();
+    await installDraftBoundaryFixtures(leagueId);
+    await page.getByRole("button", { name: "Start Draft Now (testing)" }).click();
     await expect(page.getByRole("heading", { name: "NFL draft" })).toBeVisible();
     await page.getByRole("link", { name: "NBA", exact: true }).click();
-    await expect(page.getByRole("button", { name: "Start NBA snake draft" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Start Draft Now (testing)" })).toBeVisible();
     await page.getByRole("link", { name: "Trades", exact: true }).click();
-    for (const sport of ["NFL", "MLB", "NBA", "NHL"]) await expect(page.getByText(`${sport} roster`).first()).toBeVisible();
-    await page.screenshot({ path: "reports/screenshots/m3-7-2-cross-sport-trade-builder.png", fullPage: true });
+    await expect(page.getByRole("heading", { name: "Multi-team and multi-asset proposals" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Revisioned proposals" })).toBeVisible();
+    await page.screenshot({ path: test.info().outputPath("cross-sport-trade-builder.png"), fullPage: true });
     expect(leagueId).toMatch(/[0-9a-f-]{36}/);
   } finally { await database.league.deleteMany({ where: { name } }); await database.user.deleteMany({ where: { email } }); }
 });

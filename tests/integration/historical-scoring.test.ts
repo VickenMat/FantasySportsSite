@@ -55,6 +55,7 @@ it("derives historical analytics idempotently from corrected box scores without 
 
 it("imports all four sports, keeps source IDs intact, and deduplicates bytes and re-encoded rows", async () => {
   const nfl = { ...nflRow, player_id: nflId(), season: "2098", game_id: "2098_01_BUF_BAL" };
+  await db.season.upsert({ where: { sport_startYear: { sport: "NFL", startYear: 2098 } }, create: { sport: "NFL", startYear: 2098, label: "2098", coverage: "UNVERIFIED" }, update: {} });
   const mlb = { ...mlbRow, game_id: numberId(), player_id: numberId() };
   const nba = { ...nbaRow, GAME_ID: `002${numberId()}`, PLAYER_ID: numberId() };
   const nhl = { ...nhlRow, game_id: `202502${numberId()}`, player_id: numberId() };

@@ -37,6 +37,7 @@ export type ScheduleRevision = {
 };
 
 export type SportSchedulePreview = {
+  seasonStartYear?: number;
   sport: Sport; status: "AVAILABLE" | "PENDING_DATA" | "UNAVAILABLE"; reason: string; seasonId: string | null;
   scheduleRevisionId: string | null; seasonLabel: string | null; draftDeadlineAt: Date | null; firstScoringAt: Date | null;
   scoringEndsAt: Date | null; playoffStartsAt: Date | null; playoffEndsAt: Date | null; tradeDeadlineAt: Date | null;
@@ -92,6 +93,34 @@ export function selectNextSeasonRevision(sport: Sport, currentStartYear: number,
 }
 
 type ScheduleClient = Prisma.TransactionClient | ReturnType<typeof getDatabase>;
+
+/** The user selects an offset, never a date that silently chooses another season. */
+export async function previewSelectedSeasons(client: ScheduleClient, input: {
+  sports: readonly Sport[]; seasonOffset: 0 | 1; competitionType: CompetitionType; now?: Date;
+}): Promise<SportSchedulePreview[]> {
+  const now = input.now ?? new Date();
+  const revisions = await client.professionalSeasonScheduleRevision.findMany({ where: { season: { sport: { in: [...input.sports] } }, retrievedAt: { lte: now } }, include: { season: true }, orderBy: [{ retrievedAt: "desc" }, { importedAt: "desc" }] });
+  const seasons = await client.season.findMany({ where: { sport: { in: [...input.sports] } } });
+  return input.sports.map((sport) => {
+    const latest = new Map<string, (typeof revisions)[number]>();
+    for (const row of revisions.filter((row) => row.season.sport === sport)) if (!latest.has(row.seasonId)) latest.set(row.seasonId, row);
+    const future = [...latest.values()].filter((row) => row.regularSeasonStartsAt && row.regularSeasonStartsAt > now && row.status !== "UNAVAILABLE").sort((a, b) => a.season.startYear - b.season.startYear)[0];
+    const begun = [...latest.values()].filter((row) => row.regularSeasonStartsAt && row.regularSeasonStartsAt <= now).map((row) => row.season.startYear);
+    const currentYear = now.getUTCFullYear() - ((sport === "NBA" || sport === "NHL") && now.getUTCMonth() < 6 ? 1 : 0);
+    const catalogYears = seasons.filter((row) => row.sport === sport && row.startYear <= currentYear).map((row) => row.startYear);
+    const upcomingYear = future?.season.startYear ?? Math.max(...begun, ...catalogYears, currentYear - 1) + 1;
+    const year = upcomingYear + input.seasonOffset;
+    const selected = [...latest.values()].find((row) => row.season.startYear === year);
+    const season = seasons.find((row) => row.sport === sport && row.startYear === year);
+    const label = season?.label ?? ((sport === "NBA" || sport === "NHL") ? `${year}-${String(year + 1).slice(-2)}` : String(year));
+    const preview = selected?.status === "AVAILABLE" && selected.regularSeasonStartsAt && selected.regularSeasonStartsAt > now
+      ? buildSchedulePreview({ sports: [sport], draftCompleteBy: now, competitionType: input.competitionType }, [selected])[0] : null;
+    return preview ? { ...preview, seasonStartYear: year } : {
+      sport, seasonStartYear: year, seasonId: season?.id ?? null, seasonLabel: label, status: "PENDING_DATA", reason: "Selected season retained; its authoritative schedule is pending.",
+      scheduleRevisionId: null, draftDeadlineAt: null, firstScoringAt: null, scoringEndsAt: null, playoffStartsAt: null, playoffEndsAt: null,
+      tradeDeadlineAt: null, rolloverEligibleAt: null, warnings: ["No professional season dates have been invented."] };
+  });
+}
 
 export async function previewLeagueScheduleWithClient(client: ScheduleClient, input: {
   sports: readonly Sport[]; draftCompleteBy: Date; competitionType: CompetitionType;

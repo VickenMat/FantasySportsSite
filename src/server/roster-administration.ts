@@ -2,6 +2,7 @@ import { z } from "zod";
 import { getDatabase } from "@/lib/db";
 import { captureDueGameLineups } from "./lineup-snapshots";
 import { currentCompliance } from "./rosters";
+import { releaseSalary } from "./finance";
 
 export async function commissionerRelease(userId: string, leagueId: string, entryId: string, reason: string) {
   z.string().trim().min(10).max(1000).parse(reason);
@@ -13,6 +14,7 @@ export async function commissionerRelease(userId: string, leagueId: string, entr
     if (entry.releasedAt) return;
     if (entry.lockedAt) throw new Error("A locked roster entry cannot be released; its game snapshot must remain intact.");
     const at = new Date();
+    await releaseSalary(tx, leagueId, entry.playerId, entry.teamId, at);
     await tx.rosterEntry.update({ where: { id: entryId }, data: { releasedAt: at } });
     await tx.rosterAssignmentEvent.create({ data: { leagueId, teamId: entry.teamId, rosterEntryId: entryId, actorUserId: userId,
       fromSlot: entry.slot, fromSlotIndex: entry.slotIndex, toSlot: "RELEASED", toSlotIndex: 1, effectiveAt: at,

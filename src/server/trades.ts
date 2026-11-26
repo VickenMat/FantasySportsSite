@@ -3,6 +3,7 @@ import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { sports } from "./league";
 import { currentCompliance } from "./rosters";
+import { financePolicy } from "./finance";
 
 const proposalSchema = z.object({
   leagueId: z.uuid(),
@@ -82,6 +83,7 @@ export async function proposeTrade(userId: string, input: {
   const database = getDatabase();
   return database.$transaction(async (tx) => {
     const proposedAt = new Date();
+    if ((await financePolicy(tx, value.leagueId))?.salaryMode) throw new Error("Use salary-aware advanced proposals so full player salaries and cap obligations settle atomically.");
     const proposerCompliance = await currentCompliance(tx, membership.fantasyTeam!.id, proposedAt);
     if (proposerCompliance.state !== "COMPLIANT") {
       throw new Error("Resolve roster noncompliance before initiating an ordinary outgoing trade.");
@@ -135,6 +137,7 @@ export async function respondToTrade(userId: string, tradeId: string, response: 
     const now = new Date();
     if (trade.expiresAt <= now) { await tx.trade.update({ where: { id: trade.id }, data: { status: "EXPIRED", respondedAt: now } }); throw new Error("This trade has expired."); }
     if (response === "REJECT") return tx.trade.update({ where: { id: trade.id }, data: { status: "REJECTED", respondedAt: now } });
+    if ((await financePolicy(tx, trade.leagueId))?.salaryMode) throw new Error("Salary assets must settle through a salary-aware revisioned proposal.");
     const assetEntries = await tx.rosterEntry.findMany({ where: { leagueId: trade.leagueId, releasedAt: null, playerId: { in: trade.assets.map(({ playerId }) => playerId) } } });
     const owner = new Map(assetEntries.map((entry) => [entry.playerId, entry]));
     for (const asset of trade.assets) {

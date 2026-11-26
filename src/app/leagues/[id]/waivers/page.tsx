@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cancelWaiverAction, processWaiversAction, waiverAction } from "@/app/actions/leagues";
 import { LeagueShell } from "@/components/league-shell";
@@ -5,33 +6,56 @@ import { LeagueSportTabs } from "@/components/league-sport-tabs";
 import { PositionBadges } from "@/components/position-badge";
 import { requireSession } from "@/lib/auth";
 import { getDatabase } from "@/lib/db";
-import { playerPage } from "@/server/draft";
+import { browsePlayers } from "@/server/player-browser";
 import { leagueContext, resolveLeagueSport } from "@/server/league";
-import { displayTenths, playerStatistics } from "@/server/player-statistics";
+import { displayTenths } from "@/server/player-statistics";
 import { reservedSportFaab } from "@/server/waivers";
+import { waiverHoldUntil } from "@/server/waiver-holds";
+import { financePolicy } from "@/server/finance";
+import { AuctionPanel } from "@/components/auction-panel";
+import { NominateAuctionForm } from "@/components/auction-actions";
 
-export default async function WaiversPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ sport?: string; q?: string; position?: string; page?: string; sort?: string }> }) {
+export default async function WaiversPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ sport?: string; q?: string; position?: string; page?: string; sort?: string; availability?: string; points?: string }> }) {
   const { user } = await requireSession(); const { id } = await params; const query = await searchParams;
   const context = await leagueContext(user.id, id); if (!context) notFound(); const selected = await resolveLeagueSport(id, query.sport);
-  const managedRoster = context.fantasyTeam?.sportRosters.find(({ sport }) => sport === selected.sport); const database = getDatabase();
-  const pool = await playerPage(id, { sport: selected.sport, search: query.q, position: query.position, page: Number(query.page ?? 1), pageSize: 50 });
-  const playerIds = pool.items.map(({ id }) => id);
-  const [claims, transactions, latestStats, replayPeriod, reserved] = await Promise.all([
-    managedRoster ? database.waiverClaim.findMany({ where: { rosterId: managedRoster.id }, include: { addPlayer: true, dropPlayer: true }, orderBy: { createdAt: "desc" }, take: 100 }) : [],
-    database.fantasyTransaction.findMany({ where: { leagueId: id, sport: selected.sport }, include: { player: true, relatedPlayer: true, team: true }, orderBy: { createdAt: "desc" }, take: 100 }),
-    database.playerGameStat.findMany({ where: { playerId: { in: playerIds }, game: { seasonId: selected.seasonId } }, distinct: ["playerId"], orderBy: [{ playerId: "asc" }, { recordedAt: "desc" }], include: { team: true } }),
-    context.league.isHistorical ? database.scoringPeriod.findUnique({ where: { leagueId_sport_number: { leagueId: id, sport: selected.sport, number: Math.max(1, context.league.currentPeriod) } } }) : null,
-    managedRoster ? reservedSportFaab(database, managedRoster.id) : 0,
+  const roster = context.fantasyTeam?.sportRosters.find(({ sport }) => sport === selected.sport); const db = getDatabase();
+  const financial = await financePolicy(db, id);
+  const replay = context.league.isHistorical ? await db.scoringPeriod.findUnique({ where: { leagueId_sport_number: { leagueId: id, sport: selected.sport, number: Math.max(1, context.league.currentPeriod) } } }) : null;
+  const availability = ["ALL", "FREE_AGENTS", "WAIVERS", "ROSTERED"].includes(query.availability ?? "") ? query.availability as "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" : "ALL";
+  const pool = await browsePlayers(id, { sport: selected.sport, search: query.q, position: query.position || undefined, page: Number(query.page ?? 1), pageSize: 50, availability, presetId: context.league.presetId, seasonId: selected.seasonId, asOf: replay?.endsAt, sort: query.sort, points: query.points });
+  const ids = pool.items.map(({ id }) => id);
+  const [claims, transactions, ownership, reserved] = await Promise.all([
+    roster ? db.waiverClaim.findMany({ where: { rosterId: roster.id }, include: { addPlayer: true, dropPlayer: true }, orderBy: { createdAt: "desc" }, take: 100 }) : [],
+    db.fantasyTransaction.findMany({ where: { leagueId: id, sport: selected.sport }, include: { player: true, team: true }, orderBy: { createdAt: "desc" }, take: 100 }),
+    db.rosterEntry.findMany({ where: { leagueId: id, playerId: { in: ids }, releasedAt: null }, include: { team: { select: { name: true } } } }),
+    roster ? reservedSportFaab(db, roster.id) : 0,
   ]);
-  const statistics = await playerStatistics({ playerIds, presetId: context.league.presetId, seasonId: selected.seasonId, asOf: replayPeriod?.endsAt });
-  const displayedPlayers = [...pool.items].sort((a, b) => query.sort === "AVG" ? Number(statistics.get(b.id)?.averageTenths ?? -Infinity) - Number(statistics.get(a.id)?.averageTenths ?? -Infinity) : query.sort === "PTS" ? Number(statistics.get(b.id)?.totalTenths ?? -Infinity) - Number(statistics.get(a.id)?.totalTenths ?? -Infinity) : a.displayName.localeCompare(b.displayName));
-  const teams = new Map(latestStats.map((stat) => [stat.playerId, stat.team.code ?? stat.team.displayName]));
-  const spendable = Math.max(0, (managedRoster?.faabRemaining ?? 0) - reserved);
-  const processingText = "Released players are on waivers for 24 hours. The fantasy worker or commissioner can process eligible claims.";
-  return <LeagueShell leagueId={id}><div className="workspace-intro"><p className="eyebrow">FAAB</p><h1 className="display">{selected.sport} waiver wire</h1><p className="muted">{processingText}</p><LeagueSportTabs leagueId={id} path="/waivers" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
-    <section className="panel"><div className="section-heading"><div><h2 className="display">Available players</h2><p className="muted">Position defaults to ALL. PROJ is N/A because no verified projection source is connected.</p></div></div><form method="get" className="inline-form"><input type="hidden" name="sport" value={selected.sport} /><label>Search<input name="q" defaultValue={query.q} /></label><label>Position<input name="position" placeholder="ALL" defaultValue={query.position} /></label><label>Sort<select name="sort" defaultValue={query.sort ?? "NAME"}><option value="NAME">Name</option><option value="AVG">AVG</option><option value="PTS">PTS</option></select></label><button className="button secondary">Filter</button></form>
-      <div className="table-wrap"><table className="data-table"><thead><tr><th>Player</th><th>POS</th><th>TEAM</th><th>GP</th><th>AVG</th><th>PTS</th><th>PROJ</th><th>Status</th><th>Action</th></tr></thead><tbody>{displayedPlayers.map((player) => { const stats = statistics.get(player.id); return <tr key={player.id}><td>{player.displayName}</td><td><PositionBadges sport={selected.sport} positions={player.positions} /></td><td>{teams.get(player.id) ?? "N/A"}</td><td>{stats?.gamesPlayed ?? "N/A"}</td><td>{displayTenths(stats?.averageTenths)}</td><td>{displayTenths(stats?.totalTenths)}</td><td>N/A</td><td><span className="tag">Claimable</span></td><td>{managedRoster && <form action={waiverAction.bind(null, id)} className="inline-form"><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="addPlayerId" value={player.id} /><input name="bid" type="number" min="0" max={spendable} defaultValue="0" aria-label={`FAAB bid for ${player.displayName}`} /><button className="button primary">Claim</button></form>}</td></tr>; })}</tbody></table></div><p className="muted">Page {pool.page} of {pool.pages} · {pool.total} available players</p></section>
-    <div className="league-details"><section className="panel"><h2 className="display">My claims</h2><p className="muted">Private to {context.fantasyTeam?.name ?? "your franchise"}. {spendable} FAAB available to bid{reserved > 0 ? ` · ${reserved} reserved` : ""}.</p><ul className="transaction-list">{claims.map((claim) => <li key={claim.id}><strong>{claim.addPlayer.displayName}</strong><span>{claim.bid} FAAB · {claim.status} · processing {claim.processAt.toLocaleString("en-US", { timeZone: "America/Chicago" })} Central</span>{claim.dropPlayer && <small>Drop {claim.dropPlayer.displayName}</small>}{claim.reason && <small>{claim.reason}</small>}{claim.status === "PENDING" && <form action={cancelWaiverAction.bind(null, id, claim.id)}><button className="button secondary">Cancel claim</button></form>}</li>)}</ul>{!claims.length && <p className="muted">No claims submitted.</p>}{context.role === "COMMISSIONER" && <form action={processWaiversAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><button className="button secondary">Process due claims</button></form>}</section>
-      <section className="panel"><h2 className="display">League transactions</h2><ul className="transaction-list">{transactions.map((transaction) => { const label = transaction.type === "DROP" ? "CUT" : transaction.type === "WAIVER" ? "CLAIM" : transaction.type; return <li key={transaction.id} className={`transaction-${label.toLowerCase()}`}><strong>{label}: {transaction.player?.displayName ?? "Roster transaction"}</strong><span>{transaction.team.name} · {transaction.sport} · {transaction.createdAt.toLocaleString("en-US", { timeZone: "America/Chicago" })} Central</span>{transaction.relatedPlayer && <small>Related player: {transaction.relatedPlayer.displayName}</small>}</li>; })}</ul>{!transactions.length && <p className="muted">No completed transactions.</p>}</section></div>
+  const owners = new Map(ownership.map((entry) => [entry.playerId, entry.team.name]));
+  const now = new Date();
+  const holds = new Map(await Promise.all(ids.filter((id) => !owners.has(id)).map(async (playerId) => [playerId, await waiverHoldUntil(db, id, playerId, now)] as const)));
+  const spendable = Math.max(0, (roster?.faabRemaining ?? 0) - reserved);
+  return <LeagueShell leagueId={id}>
+    <div className="workspace-intro"><h1 className="display">{selected.sport} waiver wire</h1><p>All canonical players can be browsed here. Only unrostered players can be acquired, subject to roster, budget, eligibility and lifecycle validation.</p><LeagueSportTabs leagueId={id} path="/waivers" sports={context.league.sports.map(({ sport }) => sport)} selected={selected.sport} /></div>
+    {financial?.salaryMode && <><p><Link href={"/leagues/" + id + "/finances"}>My salary cap, reservations and dead cap</Link></p><AuctionPanel userId={user.id} leagueId={id} /></>}
+    <section className="panel"><h2 className="display">Player browser</h2><p>Historical actuals for {selected.seasonLabel}{replay ? " through " + replay.endsAt.toISOString() : ""}. Unknown inputs remain N/A; projections are unavailable.</p>
+      <form method="get" className="filter-bar"><input type="hidden" name="sport" value={selected.sport} />
+        <label>Search<input name="q" defaultValue={query.q} /></label><label>Position<input name="position" placeholder="ALL" defaultValue={query.position} /></label>
+        <label>Acquisition status<select name="availability" defaultValue={availability}><option value="ALL">All players</option><option value="FREE_AGENTS">Free agents</option><option value="WAIVERS">On waivers</option><option value="ROSTERED">Rostered players</option></select></label>
+        <label>Fantasy points<select name="points" defaultValue={query.points ?? "ALL"}><option value="ALL">All, including unknown</option><option value="KNOWN">Complete historical points</option><option value="UNKNOWN">Unknown or incomplete points</option></select></label>
+        <label>Sort<select name="sort" defaultValue={query.sort ?? "NAME"}><option value="NAME">Name</option><option value="AVG">AVG</option><option value="PTS">PTS</option></select></label><button className="button secondary">Filter</button>
+      </form>
+      <div className="table-scroll"><table className="data-table"><thead><tr><th>Player</th><th>POS</th><th>TEAM</th><th>Fantasy owner</th><th>GP</th><th>AVG</th><th>PTS</th><th>PROJ</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>{pool.items.map((player) => {
+        const statistics = pool.statistics.get(player.id); const owner = owners.get(player.id); const hold = holds.get(player.id);
+        return <tr key={player.id}><td>{player.displayName}</td><td><PositionBadges sport={selected.sport} positions={player.positions} /></td><td>{player.gameStats[0]?.team.code ?? "N/A"}</td><td>{owner ?? "Unrostered"}</td><td>{statistics?.gamesPlayed ?? "N/A"}</td><td>{displayTenths(statistics?.averageTenths)}</td><td>{displayTenths(statistics?.totalTenths)}</td><td>N/A</td>
+        <td>{owner ? "Rostered" : hold && hold > now ? "On waivers until " + hold.toISOString() : "Free agent · eligibility checks apply"}</td>
+        <td>{roster && !owner && (financial?.salaryMode ? <NominateAuctionForm leagueId={id} leagueSportId={selected.id} playerId={player.id} /> : <form action={waiverAction.bind(null, id)} className="inline-form"><input type="hidden" name="sport" value={selected.sport} /><input type="hidden" name="addPlayerId" value={player.id} /><input name="bid" type="number" min="0" max={spendable} defaultValue="0" aria-label={"FAAB bid for " + player.displayName} /><button className="button primary">Claim</button></form>)}</td></tr>;
+      })}</tbody></table></div><p>{pool.total} matching players · page {pool.page} of {pool.pages}</p>
+      <nav className="pagination" aria-label="Player pages">{pool.page > 1 && <Link href={{ query: { ...query, sport: selected.sport, page: pool.page - 1 } }}>Previous</Link>}{pool.page < pool.pages && <Link href={{ query: { ...query, sport: selected.sport, page: pool.page + 1 } }}>Next</Link>}</nav>
+    </section>
+    <div className="league-details">{!financial?.salaryMode && <section className="panel"><h2 className="display">My claims</h2><p>{spendable} FAAB available to bid{reserved > 0 ? " · " + reserved + " reserved" : ""}. Claims are private to your franchise.</p>
+      <ul className="transaction-list">{claims.map((claim) => <li key={claim.id}><strong>{claim.addPlayer.displayName}</strong><span>{claim.bid} FAAB · {claim.status} · processing {claim.processAt.toISOString()} UTC</span>{claim.dropPlayer && <small>Drop {claim.dropPlayer.displayName}</small>}{claim.reason && <small>{claim.reason}</small>}{claim.status === "PENDING" && <form action={cancelWaiverAction.bind(null, id, claim.id)}><button className="button secondary">Cancel claim</button></form>}</li>)}</ul>
+      {context.role === "COMMISSIONER" && <form action={processWaiversAction.bind(null, id)}><input type="hidden" name="sport" value={selected.sport} /><button className="button secondary">Process due claims</button></form>}
+    </section>}<section className="panel"><h2 className="display">League transactions</h2><ul className="transaction-list">{transactions.map((transaction) => <li key={transaction.id}><strong>{transaction.type === "DROP" ? "CUT" : transaction.type}: {transaction.player?.displayName ?? "Roster transaction"}</strong><span>{transaction.team.name} · {transaction.sport} · {transaction.createdAt.toISOString()} UTC</span><small>{transaction.note}</small></li>)}</ul></section></div>
   </LeagueShell>;
 }

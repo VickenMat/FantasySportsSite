@@ -235,6 +235,14 @@ model Verification {
 }
 
 model League {
+  advancedProposals TradeProposal[]
+  tradingPolicy TradeReviewPolicy?
+  financePolicy             LeagueFinancePolicy?
+  financeAccounts           FinanceAccount[]
+  salaries                  PlayerSalary[]
+  releaseFloors             ReleasedPlayerFloor[]
+  acquisitionAuctions       AcquisitionAuction[]
+  draftPlans                DraftPlan[]
   id                        String                       @id @default(uuid()) @db.Uuid
   slug                      String                       @unique
   name                      String
@@ -338,6 +346,10 @@ model LeagueInvitation {
 }
 
 model FantasyTeam {
+  financeAccounts           FinanceAccount[]
+  salaries                  PlayerSalary[]
+  nominations               AcquisitionAuction[]
+  acquisitionBids           AcquisitionBid[]
   id                        String                       @id @default(uuid()) @db.Uuid
   leagueId                  String                       @db.Uuid
   managerId                 String?                      @db.Uuid
@@ -450,7 +462,169 @@ model RosterComplianceSnapshot {
   @@index([leagueId, teamId, evaluatedAt])
 }
 
+model LeagueFinancePolicy {
+  leagueId    String @id @db.Uuid
+  salaryMode  Boolean
+  scope       String
+  amount      Int
+  league      League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+}
+
+model FinanceAccount {
+  id            String @id @default(uuid()) @db.Uuid
+  leagueId      String @db.Uuid
+  teamId        String @db.Uuid
+  leagueSportId String? @db.Uuid
+  seasonId      String? @db.Uuid
+  cycleId       String? @db.Uuid
+  kind          String
+  scopeKey      String
+  baseCap       Int
+  capAdjustment Int @default(0)
+  payroll       Int @default(0)
+  deadCap       Int @default(0)
+  reserved      Int @default(0)
+  status        String @default("ACTIVE")
+  league        League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  team          FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  leagueSport   LeagueSport? @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  ledger        FinanceLedgerEntry[]
+  salaries      PlayerSalary[]
+  obligations   DeadCapObligation[]
+  bids          AcquisitionBid[]
+  @@unique([teamId, kind, scopeKey])
+  @@index([leagueId, scopeKey])
+}
+
+model FinanceLedgerEntry {
+  id             String @id @default(uuid()) @db.Uuid
+  accountId      String @db.Uuid
+  type           String
+  capDelta       Int @default(0)
+  payrollDelta   Int @default(0)
+  deadDelta      Int @default(0)
+  reservedDelta  Int @default(0)
+  availableAfter Int
+  idempotencyKey String @unique
+  actorUserId    String? @db.Uuid
+  metadata       Json
+  createdAt      DateTime @default(now()) @db.Timestamptz(3)
+  account        FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  @@index([accountId, createdAt])
+}
+
+model PlayerSalary {
+  id        String @id @default(uuid()) @db.Uuid
+  leagueId  String @db.Uuid
+  playerId  String @db.Uuid
+  teamId    String @db.Uuid
+  accountId String @db.Uuid
+  amount    Int
+  active    Boolean @default(true)
+  version   Int @default(1)
+  league    League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  team      FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  account   FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  @@unique([leagueId, playerId])
+  @@index([teamId, active])
+}
+
+model DeadCapObligation {
+  id             String @id @default(uuid()) @db.Uuid
+  accountId      String @db.Uuid
+  playerId       String @db.Uuid
+  amount         Int
+  releaseSalary  Int
+  releasedAt     DateTime @db.Timestamptz(3)
+  clearedAt      DateTime? @db.Timestamptz(3)
+  account        FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  player         Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  @@index([accountId, playerId, releasedAt])
+}
+
+model ReleasedPlayerFloor {
+  id        String @id @default(uuid()) @db.Uuid
+  leagueId  String @db.Uuid
+  playerId  String @db.Uuid
+  amount    Int
+  league    League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  @@unique([leagueId, playerId])
+}
+
+model AcquisitionAuction {
+  id              String @id @default(uuid()) @db.Uuid
+  leagueId        String @db.Uuid
+  leagueSportId   String @db.Uuid
+  playerId        String @db.Uuid
+  nominatorTeamId String @db.Uuid
+  draftId         String? @db.Uuid
+  mode            String
+  priority        String[] @default([])
+  status          String @default("OPEN")
+  minimum         Int
+  opensAt         DateTime @db.Timestamptz(3)
+  closesAt        DateTime @db.Timestamptz(3)
+  winnerTeamId    String? @db.Uuid
+  price           Int?
+  settledAt       DateTime? @db.Timestamptz(3)
+  league          League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  leagueSport     LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  player          Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  nominator       FantasyTeam @relation(fields: [nominatorTeamId], references: [id], onDelete: Cascade)
+  draft           Draft? @relation(fields: [draftId], references: [id], onDelete: SetNull)
+  bids            AcquisitionBid[]
+  @@index([status, closesAt])
+}
+
+model AcquisitionBid {
+  id          String @id @default(uuid()) @db.Uuid
+  auctionId   String @db.Uuid
+  teamId      String @db.Uuid
+  accountId   String @db.Uuid
+  maximum     Int
+  reservation Int
+  tieRank     Int
+  version     Int @default(1)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  auction     AcquisitionAuction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  team        FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  account     FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  @@unique([auctionId, teamId])
+}
+
+model DraftPlan {
+  id            String      @id @default(uuid()) @db.Uuid
+  leagueId      String      @db.Uuid
+  leagueSportId String      @db.Uuid
+  seasonId      String      @db.Uuid
+  draftId       String?     @unique @db.Uuid
+  kind          DraftKind   @default(INITIAL)
+  method        String      @default("SNAKE")
+  scope         String      @default("SPORT")
+  orderMethod   String      @default("CUSTOM")
+  order         String[]
+  rounds        Int
+  secondsPerPick Int        @default(90)
+  scheduledAt   DateTime?   @db.Timestamptz(3)
+  timezone      String      @default("UTC")
+  status        String      @default("UNSCHEDULED")
+  blockedReason String?
+  version       Int         @default(1)
+  createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+  league        League      @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  leagueSport   LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  season        Season      @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  draft         Draft?      @relation(fields: [draftId], references: [id], onDelete: SetNull)
+
+  @@unique([leagueSportId, seasonId, kind])
+  @@index([status, scheduledAt])
+}
+
 model Draft {
+  auctions          AcquisitionAuction[]
+  plan              DraftPlan?
   id                String            @id @default(uuid()) @db.Uuid
   leagueId          String            @db.Uuid
   leagueSportId     String            @db.Uuid
@@ -496,10 +670,96 @@ model DraftPick {
   draft     Draft       @relation(fields: [draftId], references: [id], onDelete: Cascade)
   team      FantasyTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
   player    Player      @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  recap     DraftSelectionSnapshot?
 
   @@unique([draftId, overall])
   @@unique([draftId, playerId])
   @@index([teamId])
+}
+
+model DraftSelectionSnapshot {
+  pickId            String @id @db.Uuid
+  playerName        String
+  franchiseName     String
+  originalTeamId    String @db.Uuid
+  originalTeamName  String
+  sport             Sport
+  positions         String[]
+  price             Int?
+  method            String
+  capturedAt        DateTime @default(now()) @db.Timestamptz(3)
+  pick              DraftPick @relation(fields: [pickId], references: [id], onDelete: Cascade)
+}
+
+model TradeProposal {
+  id String @id @default(uuid()) @db.Uuid
+  leagueId String @db.Uuid
+  proposerTeamId String @db.Uuid
+  participantIds String[]
+  currentRevision Int @default(1)
+  status String @default("PENDING")
+  reviewHours Int @default(24)
+  executeAt DateTime? @db.Timestamptz(3)
+  expiresAt DateTime @db.Timestamptz(3)
+  processedAt DateTime? @db.Timestamptz(3)
+  reason String?
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  revisions TradeProposalRevision[]
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  @@index([leagueId, status])
+  @@index([status, executeAt])
+}
+
+model TradeProposalRevision {
+  id String @id @default(uuid()) @db.Uuid
+  proposalId String @db.Uuid
+  version Int
+  assets Json
+  actorUserId String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  proposal TradeProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  acceptances TradeProposalAcceptance[]
+  @@unique([proposalId, version])
+}
+
+model TradeProposalAcceptance {
+  id String @id @default(uuid()) @db.Uuid
+  revisionId String @db.Uuid
+  teamId String @db.Uuid
+  actorUserId String
+  acceptedAt DateTime @default(now()) @db.Timestamptz(3)
+  revision TradeProposalRevision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+  @@unique([revisionId, teamId])
+}
+
+model TradeReviewPolicy {
+  leagueId String @id @db.Uuid
+  reviewHours Int @default(24)
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+}
+
+model FantasyWindowRevision {
+  id String @id @default(uuid()) @db.Uuid
+  leagueSportId String @db.Uuid
+  seasonId String @db.Uuid
+  version Int
+  startsAt DateTime @db.Timestamptz(3)
+  endsAt DateTime @db.Timestamptz(3)
+  playoffStartsAt DateTime? @db.Timestamptz(3)
+  playoffEndsAt DateTime? @db.Timestamptz(3)
+  matchupDays Int @default(7)
+  actorUserId String @db.Uuid
+  reason String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  leagueSport LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  @@unique([leagueSportId, seasonId, version])
+}
+
+model RookieDraftRule {
+  leagueSportId String @id @db.Uuid
+  rounds Int @default(4)
+  leagueSport LeagueSport @relation(fields: [leagueSportId], references: [id], onDelete: Cascade)
 }
 
 model DraftQueueEntry {
@@ -931,6 +1191,11 @@ model BackgroundJobRun {
 }
 
 model LeagueSport {
+  fantasyWindows FantasyWindowRevision[]
+  rookieRule RookieDraftRule?
+  financeAccounts       FinanceAccount[]
+  acquisitionAuctions   AcquisitionAuction[]
+  draftPlans            DraftPlan[]
   id                    String                  @id @default(uuid()) @db.Uuid
   leagueId              String                  @db.Uuid
   sport                 Sport
@@ -968,6 +1233,7 @@ model RelativeMatchupPeriod {
   id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   leagueId        String            @db.Uuid
   leagueSportId   String            @db.Uuid
+  seasonId        String?           @db.Uuid
   sport           Sport
   number          Int
   scoringPeriodId String?           @unique @db.Uuid
@@ -977,7 +1243,7 @@ model RelativeMatchupPeriod {
   scoringPeriod   ScoringPeriod?    @relation(fields: [scoringPeriodId], references: [id], onDelete: SetNull)
   matchups        RelativeMatchup[]
 
-  @@unique([leagueSportId, number])
+  @@unique([leagueSportId, seasonId, number])
   @@index([leagueId, sport, number])
 }
 
@@ -1090,6 +1356,10 @@ model ScoringRule {
 }
 
 model Player {
+  salaries             PlayerSalary[]
+  releaseFloors        ReleasedPlayerFloor[]
+  deadCaps             DeadCapObligation[]
+  acquisitionAuctions  AcquisitionAuction[]
   id                   String                       @id @default(uuid()) @db.Uuid
   sport                Sport
   displayName          String
@@ -1159,6 +1429,8 @@ enum PositionEvidenceKind {
 }
 
 model Season {
+  fantasyWindows FantasyWindowRevision[]
+  draftPlans           DraftPlan[]
   id                   String                               @id @default(uuid()) @db.Uuid
   sport                Sport
   startYear            Int

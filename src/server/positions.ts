@@ -59,9 +59,9 @@ export async function recordPositionEvidence(input: z.input<typeof evidenceSchem
   });
 }
 
-export async function getEligiblePositions(input: { playerId: string; sport: Sport; seasonYear: number; asOf: Date }) {
+export async function getEligiblePositions(input: { playerId: string; sport: Sport; seasonYear: number; asOf: Date }, client: Pick<ReturnType<typeof getDatabase>, "playerPositionEvidence"> = getDatabase()) {
   const { playerId, sport, seasonYear, asOf } = input;
-  const records = await getDatabase().playerPositionEvidence.findMany({
+  const records = await client.playerPositionEvidence.findMany({
     where: {
       playerId, knownAt: { lte: asOf }, effectiveAt: { lte: asOf },
       season: { sport, startYear: { in: sport === "MLB" ? [seasonYear - 1, seasonYear] : [seasonYear] } },

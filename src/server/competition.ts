@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import type { Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
+import { hasGameplayTable, hasSeasonScopedSchedules } from "./gameplay-storage";
 
 export function roundRobinPairings(teamIds: readonly string[], rounds: number) {
   if (teamIds.length < 2) throw new Error("A schedule requires at least two franchises.");
@@ -177,7 +178,8 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
     if (competition.league.members[0]?.role !== "COMMISSIONER") throw new Error("Only the commissioner can provision competition periods.");
     if (competition.periods.length) return competition;
     const games = await tx.game.findMany({ where: { seasonId: competition.leagueSportSeason.seasonId, phase: "REGULAR", startsAt: { not: null } }, orderBy: { startsAt: "asc" } });
-    const eligible = games.filter((game): game is typeof game & { startsAt: Date } => Boolean(game.startsAt) && !(competition.sport === "NFL" && competition.configSnapshot.competitionType === "HEAD_TO_HEAD" && (game.week ?? 99) > 17));
+    const window = await hasGameplayTable("FantasyWindowRevision", tx) ? await tx.fantasyWindowRevision.findFirst({ where: { leagueSportId: competition.leagueSportSeason.leagueSportId, seasonId: competition.leagueSportSeason.seasonId }, orderBy: { version: "desc" } }) : null;
+    const eligible = games.filter((game): game is typeof game & { startsAt: Date } => Boolean(game.startsAt) && (!window || game.startsAt! >= window.startsAt && game.startsAt! <= window.endsAt) && !(competition.sport === "NFL" && competition.configSnapshot.competitionType === "HEAD_TO_HEAD" && (game.week ?? 99) > 17));
     if (!eligible.length) return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA", statusReason: "No authoritative UTC regular-season games are available for this professional season." } });
     const attribution = await tx.leagueGameAssignment.findMany({
       where: { leagueId: competition.leagueId, gameId: { in: eligible.map(({ id }) => id) } },
@@ -195,14 +197,18 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
       })),
     });
     const groups = new Map<string, typeof eligible>();
-    for (const game of eligible) groups.set(weekKey(competition.sport, game), [...(groups.get(weekKey(competition.sport, game)) ?? []), game]);
+    for (const game of eligible) {
+      const key = window ? String(Math.floor((+game.startsAt - +window.startsAt) / (window.matchupDays * 86400000))) : weekKey(competition.sport, game);
+      groups.set(key, [...(groups.get(key) ?? []), game]);
+    }
     const weeks = [...groups.entries()].sort((a, b) => a[1][0].startsAt.getTime() - b[1][0].startsAt.getTime());
     const playoffWeeks = competition.configSnapshot.competitionType === "HEAD_TO_HEAD" ? competition.configSnapshot.playoffWeeks : 0;
     if (playoffWeeks >= weeks.length) throw new Error("The authoritative schedule does not contain enough weeks for the configured regular season and playoffs.");
-    const regularCount = playoffWeeks && competition.sport === "NFL"
+    const regularCount = window?.playoffStartsAt ? weeks.findIndex(([, games]) => games[0].startsAt >= window.playoffStartsAt!) : playoffWeeks && competition.sport === "NFL"
       ? weeks.findIndex(([, games]) => (games[0].week ?? 0) >= 18 - playoffWeeks)
       : weeks.length - playoffWeeks;
-    if (playoffWeeks && competition.sport === "NFL" &&
+    if (window && playoffWeeks && (regularCount < 1 || weeks.length - regularCount !== playoffWeeks || weeks.some(([, games]) => games[0].startsAt < window.playoffStartsAt! && games.at(-1)!.startsAt >= window.playoffStartsAt!))) throw new Error("Fantasy playoff boundaries must align with the configured matchup periods and number of playoff rounds.");
+    if (!window && playoffWeeks && competition.sport === "NFL" &&
       (regularCount < 1 || Array.from({ length: playoffWeeks }, (_, index) => 18 - playoffWeeks + index)
         .some((week) => !weeks.some(([, games]) => games[0].week === week)))) {
       return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA",
@@ -222,11 +228,12 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
         startsAt: weekGames[0].startsAt, endsAt: weekGames[weekGames.length - 1].startsAt } });
       await tx.competitionPeriodGame.createMany({ data: weekGames.map((game) => ({ sportCompetitionId: competition.id, scoringPeriodId: period.id, gameId: game.id })) });
       if (periodType === "REGULAR") {
-        const plan = await tx.relativeMatchupPeriod.findUnique({ where: { leagueSportId_number: {
-          leagueSportId: competition.leagueSportSeason.leagueSportId, number: index + 1,
-        } }, include: { matchups: true } });
+        const scoped = await hasSeasonScopedSchedules(tx);
+        const plan = await tx.relativeMatchupPeriod.findFirst({ where: {
+          leagueSportId: competition.leagueSportSeason.leagueSportId, ...(scoped ? { seasonId: competition.leagueSportSeason.seasonId } : {}), number: index + 1,
+        }, select: { id: true, scoringPeriodId: true, matchups: true } });
         if (plan?.scoringPeriodId && plan.scoringPeriodId !== period.id) throw new Error("This relative period is already bound to a prior calendar. A new-cycle plan is required.");
-        if (plan) await tx.relativeMatchupPeriod.update({ where: { id: plan.id }, data: { scoringPeriodId: period.id } });
+        if (plan) await tx.relativeMatchupPeriod.update({ where: { id: plan.id }, data: { scoringPeriodId: period.id }, select: { id: true } });
         const opponents = plan?.matchups ?? pairings.filter(({ round }) => round === index + 1);
         for (const pairing of opponents) await tx.matchup.create({ data: {
           leagueId: competition.leagueId, sport: competition.sport, periodId: period.id, homeTeamId: pairing.homeTeamId, awayTeamId: pairing.awayTeamId,

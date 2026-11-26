@@ -10,6 +10,7 @@ import { getEligiblePositions } from "./positions";
 import { irEligiblePlayers } from "./roster-availability";
 import { assertRookieDraftComplete } from "./rookies";
 import { waiverHoldUntil } from "./waiver-holds";
+import { financePolicy, releaseSalary, salaryCompliance } from "./finance";
 
 async function managedRoster(userId: string, leagueId: string, requestedSport?: Sport | string) {
   const leagueSport = await resolveLeagueSport(leagueId, requestedSport);
@@ -41,6 +42,8 @@ export async function currentCompliance(tx: Prisma.TransactionClient, teamId: st
     universalIrSlots: team.league.universalIrSlots,
     sportBenchSlots: new Map(team.sportRosters.map((roster) => [roster.id, roster.leagueSport.benchSlots])),
   });
+  const salary = await salaryCompliance(tx, teamId);
+  if (!salary.compliant) { result.state = "OVER_CAPACITY"; result.reasons.push(...salary.reasons); result.violationCount += salary.excess; }
   const sourceHash = hash({ entries: entries.map(({ id, slot, slotIndex, irEligible }) => ({ id, slot, slotIndex, irEligible })).sort((a, b) => a.id.localeCompare(b.id)), result });
   await tx.rosterComplianceSnapshot.createMany({ data: [{
     leagueId: team.leagueId, teamId, state: result.state, reasons: result.reasons, sourceHash, evaluatedAt: at,
@@ -62,6 +65,7 @@ async function recordMove(tx: Prisma.TransactionClient, input: {
 export async function addFreeAgent(userId: string, leagueId: string, playerId: string, sport?: Sport | string) {
   z.uuid().parse(playerId); const context = await managedRoster(userId, leagueId, sport); const database = getDatabase();
   return database.$transaction(async (tx) => {
+    if ((await financePolicy(tx, leagueId))?.salaryMode) throw new Error("Salary dynasty free agents are acquired through sealed Vickrey auctions.");
     const before = await currentCompliance(tx, context.membership.fantasyTeam!.id, new Date());
     if (before.state !== "COMPLIANT") throw new Error("Resolve roster noncompliance before acquiring another player.");
     const player = await tx.player.findUniqueOrThrow({ where: { id: playerId } });
@@ -97,14 +101,15 @@ export async function addFreeAgent(userId: string, leagueId: string, playerId: s
   }, { isolationLevel: "Serializable" });
 }
 
-export async function dropPlayer(userId: string, leagueId: string, playerId: string, sport?: Sport | string) {
+export async function dropPlayer(userId: string, leagueId: string, playerId: string, sport?: Sport | string, at = new Date()) {
   const context = await managedRoster(userId, leagueId, sport); const database = getDatabase();
   await captureDueGameLineups(new Date());
   return database.$transaction(async (tx) => {
     const entry = await tx.rosterEntry.findFirst({ where: { rosterId: context.roster.id, playerId, releasedAt: null } });
     if (!entry) throw new Error("That player is not on your active sport roster.");
     if (entry.lockedAt) throw new Error("That roster slot is locked.");
-    const releasedAt = new Date();
+    const releasedAt = at;
+    await releaseSalary(tx, leagueId, playerId, entry.teamId, releasedAt);
     await tx.rosterEntry.update({ where: { id: entry.id }, data: { releasedAt } });
     await recordMove(tx, { entryId: entry.id, leagueId, teamId: entry.teamId, actorUserId: userId,
       fromSlot: entry.slot, fromSlotIndex: entry.slotIndex, toSlot: "RELEASED", toSlotIndex: 1,
@@ -143,6 +148,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
   return database.$transaction(async (tx) => {
     const current = await tx.rosterEntry.findFirst({ where: { id: entry.id, rosterId: context.roster.id, releasedAt: null }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
     if (!current || current.lockedAt) throw new Error("That roster entry is no longer movable.");
+    if (!(await salaryCompliance(tx, current.teamId)).compliant) throw new Error("Over-cap franchises must cut players before making lineup changes.");
     if (normalizedSlot === "UNIVERSAL_IR" && !(await irEligiblePlayers(tx, [current.playerId], decisionAt)).has(current.playerId)) {
       throw new Error("Universal IR requires current, source-backed IR eligibility.");
     }

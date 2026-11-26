@@ -3,10 +3,30 @@ import { randomUUID } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { createLeague, transitionSportSeason } from "@/server/league";
-import { assignNextSportSeason, importProfessionalSchedules } from "@/server/scheduling";
+import { assignNextSportSeason, importProfessionalSchedules, previewSelectedSeasons } from "@/server/scheduling";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
+
+it("applies the following-season offset independently and preserves selected labels when one sport's dates are pending", async () => {
+  await importProfessionalSchedules({ provider: `offset-fixture-${randomUUID()}`, sourceName: "Isolated season-offset calendar", sourceVersion: "1", retrievedAt: "2020-01-01", seasons: [
+    { sport: "NFL", startYear: 2098, label: "2098", status: "AVAILABLE", regularSeasonStartsAt: "2098-09-01", regularSeasonEndsAt: "2099-01-10" },
+    { sport: "NBA", startYear: 2097, label: "2097-98", status: "AVAILABLE", regularSeasonStartsAt: "2097-10-01", regularSeasonEndsAt: "2098-04-15" },
+    { sport: "NBA", startYear: 2098, label: "2098-99", status: "AVAILABLE", regularSeasonStartsAt: "2098-10-01", regularSeasonEndsAt: "2099-04-15" },
+  ] });
+  const at = new Date("2097-01-10");
+  const previews = await previewSelectedSeasons(database, { sports: ["NFL", "NBA"], seasonOffset: 1, competitionType: "CUMULATIVE", now: at });
+  expect(previews.map(({ seasonLabel, status }) => [seasonLabel, status])).toEqual([["2099", "PENDING_DATA"], ["2098-99", "AVAILABLE"]]);
+  expect(previews[0].firstScoringAt).toBeNull();
+  const user = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id, { name: `Following season fixture ${randomUUID()}`, sports: ["NFL", "NBA"], competitionType: "CUMULATIVE", seasonOffset: 1, maxTeams: 2 }, at);
+  try {
+    const seasons = await database.leagueSport.findMany({ where: { leagueId: league.id }, orderBy: { sport: "asc" }, include: { season: true } });
+    expect(seasons.map(({ sport, season }) => [sport, season.startYear])).toEqual([["NFL", 2099], ["NBA", 2098]]);
+    const pending = await database.leagueSportSeason.findFirstOrThrow({ where: { leagueSport: { leagueId: league.id, sport: "NFL" } } });
+    expect(pending).toMatchObject({ status: "PENDING_DATA", firstScoringAt: null, draftDeadlineAt: null });
+  } finally { await database.league.delete({ where: { id: league.id } }); }
+});
 
 describe("M4.1 PostgreSQL schedule integrity", () => {
   it("imports immutable source revisions idempotently and persists selected league seasons", async () => {
@@ -23,7 +43,7 @@ describe("M4.1 PostgreSQL schedule integrity", () => {
 
     const user = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
     const league = await createLeague(user.id, { name: `M4 Schedule ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 4,
-      competitionType: "HEAD_TO_HEAD", draftCompleteBy: new Date("2089-02-01T00:00:00Z") });
+      competitionType: "HEAD_TO_HEAD" }, new Date("2089-02-01T00:00:00Z"));
     try {
       const assignments = await database.leagueSportSeason.findMany({ where: { leagueSport: { leagueId: league.id } }, include: { season: true } });
       expect(assignments.map((item) => [item.season.sport, item.season.label, item.status])).toEqual([

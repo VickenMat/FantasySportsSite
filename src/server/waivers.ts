@@ -6,6 +6,7 @@ import { currentCompliance } from "./rosters";
 import { waiverHoldUntil } from "./waiver-holds";
 import { accountForWaiver, moveWaiverWinnerToBottom, releaseFaabReservation, reserveFaab, settleFaab } from "./faab";
 import { assertRookieDraftComplete } from "./rookies";
+import { financePolicy } from "./finance";
 
 export async function reservedSportFaab(tx: Prisma.TransactionClient, rosterId: string) {
   const roster = await tx.fantasyRoster.findUniqueOrThrow({ where: { id: rosterId } });
@@ -30,6 +31,7 @@ export async function submitWaiver(userId: string, input: { leagueId: string; sp
       where: { teamId_leagueSportId: { teamId, leagueSportId: leagueSport.id } },
     });
     const league = await tx.league.findUniqueOrThrow({ where: { id: value.leagueId } });
+    if ((await financePolicy(tx, value.leagueId))?.salaryMode) throw new Error("Salary dynasty uses Vickrey auctions instead of traditional waivers.");
     if (!membership.league.isHistorical && membership.league.format === "REDRAFT" && !await tx.draft.findFirst({
       where: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId, status: "COMPLETE" }, select: { id: true },
     })) throw new Error("Redraft waivers open after the applicable sport draft completes.");

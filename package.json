@@ -16,7 +16,7 @@
     "test": "vitest run tests/unit",
     "test:db:prepare": "node scripts/run-in-test-environment.mjs --prepare",
     "test:integration": "node scripts/run-in-test-environment.mjs --isolated-schema -- npx vitest run tests/integration",
-    "test:e2e": "node scripts/run-in-test-environment.mjs -- npx playwright test",
+    "test:e2e": "node scripts/run-in-test-environment.mjs --isolated-schema -- npx playwright test",
     "test:e2e:restart": "RUN_RESTART_ACCEPTANCE=true node scripts/run-in-test-environment.mjs --isolated-schema -- npx playwright test tests/e2e/playable-workflow.spec.ts",
     "db:migrate": "prisma migrate dev --config prisma7.config.ts",
     "db:deploy": "prisma migrate deploy --config prisma7.config.ts",

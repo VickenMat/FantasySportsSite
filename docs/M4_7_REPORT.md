@@ -1,5 +1,7 @@
 # M4.7 commissioner audit and season assignment checkpoint
 
+Historical checkpoint. Source-gated competitive rollover, salary/FAAB lifecycle, cumulative finalization, future configuration versions and ownership transfers are implemented in [the current continuation](M4_DRAFT_FINANCE_TRADE_REPORT.md); remaining administration work stays unchecked.
+
 The commissioner settings workflow saves league and sport changes in one serializable transaction. PostgreSQL records the actor, action, effective instant, reason, and changed fields with their previous and updated values. The same audit captures capacity changes, draft-order changes, next-season assignments, and historical sport transitions. Direct updates and deletes of audit rows are rejected. Commissioners can review the latest 50 events in league settings.
 
 Next-season assignment uses the sport's current season pointer. Repeating the assignment returns the existing next season, and other sports retain their own pointers. Historical replay retains its commissioner year control. Competitive rollover requires finalized results and a source-backed next-season assignment.

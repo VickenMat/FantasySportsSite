@@ -1,5 +1,7 @@
 # M4.4 future-pick inventory checkpoint
 
+Historical checkpoint. The final rookie-order correction, longer-round inventory, negotiated trades and current validation are recorded in [the continuation report](M4_DRAFT_FINANCE_TRADE_REPORT.md). Rookie lotteries and ordinary custom ordering are revoked.
+
 A dynasty commissioner can grant the next three seasons of four-round rookie pick entitlements from the selected sport's future-picks page once league setup is complete. Each entitlement records the originating franchise and current owner. The grant and its first ownership event are atomic. Repeat grants preserve existing entitlements and their history. A sport that advances to its next season can extend the inventory without changing the other sports.
 
 The inventory uses start years without creating professional season records or guessing draft dates. PostgreSQL rejects redraft grants and picks owned by a franchise from another league. Direct ownership history changes are rejected.

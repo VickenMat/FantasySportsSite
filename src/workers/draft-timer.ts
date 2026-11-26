@@ -1,5 +1,7 @@
 import { getDatabase } from "@/lib/db";
 import { processExpiredDrafts } from "@/server/draft";
+import { processScheduledDrafts } from "@/server/draft-plans";
+import { processDueAuctions, processAuctionDraftClocks } from "@/server/auctions";
 import { Client } from "pg";
 
 const interval = Math.max(250, Number(process.env.DRAFT_TIMER_POLL_MS ?? 1000));
@@ -27,7 +29,7 @@ async function main() {
   while (!stopping) {
     const started = Date.now();
     if (started >= retryAt) {
-      try { await processExpiredDrafts(new Date()); failures = 0; lastError = null; }
+      try { const at = new Date(); await processScheduledDrafts(at); await processDueAuctions(at); await processAuctionDraftClocks(at); await processExpiredDrafts(at); failures = 0; lastError = null; }
       catch (error) {
         failures++;
         lastError = error instanceof Error ? error.message : "Draft timer tick failed.";

@@ -4,10 +4,13 @@ import type { CompetitionType, LeagueStatus, Prisma, Sport } from "@/generated/p
 import { getDatabase } from "@/lib/db";
 import { defaultSlots } from "@/simulation/config";
 import { setCommissionerAuditContext } from "@/server/commissioner-audit";
-import { accountForWaiver, resetSportFaab, syncWaiverPriorities } from "@/server/faab";
+import { accountForWaiver, releaseFaabReservation, resetSportFaab, syncWaiverPriorities } from "@/server/faab";
 import { keeperRound } from "./keeper-costs";
 import { extendFutureDraftPicks } from "./dynasty-picks";
-import { previewLeagueScheduleWithClient, type SportSchedulePreview } from "@/server/scheduling";
+import { previewSelectedSeasons, type SportSchedulePreview } from "@/server/scheduling";
+import { financePolicy } from "./finance";
+import { rolloverSportFinances } from "./financial-lifecycle";
+import { hasGameplayTable } from "./gameplay-storage";
 
 export const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
 
@@ -22,7 +25,7 @@ export const createLeagueSchema = z.object({
   name: z.string().trim().min(3).max(80), sports: z.array(z.enum(sports)).min(1).max(4).optional(), sport: z.enum(sports).optional(),
   seasonYear: z.coerce.number().int().min(2016).max(2100).optional(), maxTeams: z.coerce.number().int().min(2).max(16).default(12),
   format: z.enum(["REDRAFT", "DYNASTY"]).default("DYNASTY"), visibility: z.enum(["PRIVATE", "PUBLIC"]).default("PRIVATE"),
-  competitionType: z.enum(["HEAD_TO_HEAD", "CUMULATIVE"]).default("HEAD_TO_HEAD"), draftCompleteBy: z.coerce.date().optional(),
+  competitionType: z.enum(["HEAD_TO_HEAD", "CUMULATIVE"]).default("HEAD_TO_HEAD"), seasonOffset: z.coerce.number().int().min(0).max(1).default(0),
   keeperLimits: keeperLimitsSchema, startingFaab: z.coerce.number().int().min(0).max(100_000).default(100),
   waiverMethod: z.enum(["ROLLING", "FAAB"]).default("FAAB"), faabScope: z.enum(["SPORT", "UNIVERSAL"]).default("SPORT"),
   universalStartingFaab: z.coerce.number().int().min(0).max(100_000).default(500),
@@ -58,7 +61,7 @@ async function createSportRosters(tx: Prisma.TransactionClient, leagueId: string
   await syncWaiverPriorities(tx, leagueId);
 }
 
-export async function createLeague(userId: string, input: z.input<typeof createLeagueSchema>) {
+export async function createLeague(userId: string, input: z.input<typeof createLeagueSchema>, now = new Date()) {
   const value = createLeagueSchema.parse(input); const database = getDatabase();
   if (value.historical) {
     const user = await database.user.findUniqueOrThrow({ where: { id: userId }, select: { email: true } });
@@ -69,8 +72,8 @@ export async function createLeague(userId: string, input: z.input<typeof createL
     const seasons = new Map<Sport, Awaited<ReturnType<typeof ensureSeason>>>();
     const scheduleBySport = new Map<Sport, SportSchedulePreview>();
     if (!value.historical) {
-      const previews = await previewLeagueScheduleWithClient(tx, {
-        sports: value.sports, draftCompleteBy: value.draftCompleteBy ?? new Date(), competitionType: value.competitionType as CompetitionType,
+      const previews = await previewSelectedSeasons(tx, {
+        sports: value.sports, seasonOffset: value.seasonOffset as 0 | 1, competitionType: value.competitionType as CompetitionType, now,
       });
       for (const preview of previews) scheduleBySport.set(preview.sport, preview);
     }
@@ -78,7 +81,7 @@ export async function createLeague(userId: string, input: z.input<typeof createL
       const preview = scheduleBySport.get(sport);
       if (preview?.seasonId) seasons.set(sport, await tx.season.findUniqueOrThrow({ where: { id: preview.seasonId } }));
       else {
-        const metadata = value.historical && value.seasonYear ? { startYear: value.seasonYear } : seasonMetadata(sport);
+        const metadata = value.historical && value.seasonYear ? { startYear: value.seasonYear } : { startYear: preview?.seasonStartYear ?? seasonMetadata(sport, now).startYear + 1 + value.seasonOffset };
         seasons.set(sport, await ensureSeason(tx, sport, metadata.startYear));
       }
     }
@@ -333,6 +336,7 @@ export async function updateDraftOrder(userId: string, leagueId: string, sport: 
       where: { leagueId_userId: { leagueId, userId } }, include: { league: { include: { teams: true } } },
     });
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can configure draft order.");
+    if (await hasGameplayTable("DraftPlan", tx) && await tx.draftPlan.findFirst({ where: { leagueId, leagueSport: { sport }, status: { notIn: ["COMPLETED", "CANCELLED"] } } })) throw new Error("Use the Draft tab to update the persisted draft order and schedule together.");
     if (member.league.status !== "SETUP") throw new Error("Draft order can only change before drafting begins.");
     const expected = member.league.teams.map(({ id }) => id);
     if (teamIds.length !== expected.length || new Set(teamIds).size !== expected.length || teamIds.some((id) => !expected.includes(id))) {
@@ -382,19 +386,27 @@ export async function selectKeeper(userId: string, leagueId: string, sport: Spor
   }, { isolationLevel: "Serializable" });
 }
 
-export async function transitionSportSeason(userId: string, leagueId: string, sport: Sport, nextStartYear: number) {
+export async function transitionSportSeason(userId: string, leagueId: string, sport: Sport, nextStartYear: number, at = new Date()) {
   const year = z.number().int().min(2016).max(2100).parse(nextStartYear); const database = getDatabase();
   return database.$transaction(async (tx) => {
     const member = await tx.leagueMember.findUnique({ where: { leagueId_userId: { leagueId, userId } }, include: { league: true } });
     if (member?.role !== "COMMISSIONER") throw new Error("Only the commissioner can transition seasons.");
-    if (!member.league.isHistorical) throw new Error("Competitive rollover requires an authoritative next-season assignment and finalized results.");
     const leagueSport = await tx.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId, sport } } });
     const currentSeason = await tx.season.findUniqueOrThrow({ where: { id: leagueSport.seasonId } });
     if (year === currentSeason.startYear) return leagueSport;
     if (year < currentSeason.startYear) throw new Error("The next season must begin after the current sport season.");
+    const currentAssignment = await tx.leagueSportSeason.findUnique({ where: { leagueSportId_seasonId: { leagueSportId: leagueSport.id, seasonId: currentSeason.id } }, include: { competition: true } });
+    const nextAssignment = await tx.leagueSportSeason.findFirst({ where: { leagueSportId: leagueSport.id, season: { startYear: year } }, include: { season: true, scheduleRevision: true } });
+    if (!member.league.isHistorical && (!currentAssignment?.competition?.finalizedAt || !currentAssignment.rolloverEligibleAt || currentAssignment.rolloverEligibleAt > at || !nextAssignment?.scheduleRevision?.regularSeasonStartsAt || nextAssignment.scheduleRevision.status !== "AVAILABLE")) throw new Error("Competitive rollover requires an authoritative next-season assignment and finalized results, after the verified rollover boundary.");
+    if (await tx.draft.findFirst({ where: { leagueSportId: leagueSport.id, status: { in: ["ACTIVE", "PAUSED"] } } })) throw new Error("Finish the current sport draft before advancing its season.");
     const season = await ensureSeason(tx, sport, year);
+    const pendingClaims = await tx.waiverClaim.findMany({ where: { leagueSportId: leagueSport.id, status: "PENDING" } });
+    for (const claim of pendingClaims) {
+      await releaseFaabReservation(tx, claim.id, "Sport-season rollover expired this claim; overlapping sports retain their reservations.");
+      await tx.waiverClaim.update({ where: { id: claim.id }, data: { status: "CANCELLED", processedAt: at, reason: "Sport-season rollover" } });
+    }
     if (member.league.format === "REDRAFT") {
-      const active = await tx.rosterEntry.findMany({ where: { leagueId, sport, releasedAt: null } }); const now = new Date();
+      const active = await tx.rosterEntry.findMany({ where: { leagueId, sport, releasedAt: null } }); const now = at;
       const selections = leagueSport.seasonId ? await tx.keeperSelection.findMany({ where: { leagueSportId: leagueSport.id, seasonId: leagueSport.seasonId } }) : [];
       const keepers = selections.filter((keeper) => active.some((entry) => entry.playerId === keeper.playerId && entry.teamId === keeper.teamId));
       const kept = new Set(keepers.map(({ playerId }) => playerId));
@@ -417,12 +429,29 @@ export async function transitionSportSeason(userId: string, leagueId: string, sp
       if (keepers.length) await tx.keeperSelection.updateMany({ where: { id: { in: keepers.map(({ id }) => id) } }, data: { retainedAt: now } });
     }
     await resetSportFaab(tx, leagueId, leagueSport.id, season.id);
-    if (member.league.format === "DYNASTY") {
+    if (member.league.format === "DYNASTY" && !(await financePolicy(tx, leagueId))?.salaryMode) {
       const teams = await tx.fantasyTeam.findMany({ where: { leagueId }, select: { id: true } });
       await extendFutureDraftPicks(tx, leagueSport.id, year, teams.map(({ id }) => id));
     }
     await setCommissionerAuditContext(tx, userId, "TRANSITION_SPORT_SEASON", "Commissioner advanced the sport season.");
-    return tx.leagueSport.update({ where: { id: leagueSport.id }, data: { seasonId: season.id, seasonLabel: season.label } });
+    const updated = await tx.leagueSport.update({ where: { id: leagueSport.id }, data: { seasonId: season.id, seasonLabel: season.label } });
+    if (member.league.faabScope === "UNIVERSAL" && nextAssignment) for (const team of await tx.fantasyTeam.findMany({ where: { leagueId } })) await accountForWaiver(tx, leagueId, leagueSport.id, team.id);
+    await rolloverSportFinances(tx, leagueId, leagueSport.id, sport, currentSeason.id, season.id, at, userId);
+    if (nextAssignment) {
+      if (currentAssignment) await tx.leagueSportSeason.update({ where: { id: currentAssignment.id }, data: { status: "ROLLED_OVER" } });
+      await tx.leagueSportSeason.update({ where: { id: nextAssignment.id }, data: { status: "ELIGIBLE" } });
+      const config = await tx.competitionConfigSnapshot.findFirst({ where: { championshipCycleId: nextAssignment.championshipCycleId }, orderBy: { version: "desc" } });
+      let configId = config?.id;
+      if (!configId && currentAssignment?.competition) {
+        const old = await tx.competitionConfigSnapshot.findUniqueOrThrow({ where: { id: currentAssignment.competition.configSnapshotId } });
+        const { id: _id, createdAt: _createdAt, championshipCycleId: _cycle, version: _version, ...settings } = old;
+        void _id; void _createdAt; void _cycle; void _version;
+        configId = (await tx.competitionConfigSnapshot.create({ data: { ...settings, championshipCycleId: nextAssignment.championshipCycleId, version: 1 } })).id;
+      }
+      if (configId) await tx.sportCompetition.upsert({ where: { leagueSportSeasonId: nextAssignment.id }, update: {}, create: { leagueId, leagueSportSeasonId: nextAssignment.id, configSnapshotId: configId, sport, status: "PENDING_DATA", regularSeasonStartsAt: nextAssignment.firstScoringAt, regularSeasonEndsAt: nextAssignment.scoringEndsAt, statusReason: "Next season activated; source-backed fantasy periods must be provisioned before competition begins." } });
+    }
+    await tx.commissionerAuditEvent.create({ data: { leagueId, actorUserId: userId, action: "SPORT_ROLLOVER", targetType: "LeagueSport", targetId: leagueSport.id, sport, before: { seasonId: currentSeason.id }, after: { seasonId: season.id }, reason: member.league.isHistorical ? "Authorized historical sport transition" : "Independent competitive rollover after verified finalization and season boundaries", effectiveAt: at } });
+    return updated;
   }, { isolationLevel: "Serializable" });
 }
 

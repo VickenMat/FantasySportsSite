@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { installDraftBoundaryFixtures } from "../helpers/professional-boundaries";
 import { randomUUID } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
@@ -98,6 +99,7 @@ it("persists draft clocks, executes accepted trades, seeds playoffs and enforces
     await generateNextPlayoffRound(commissioner.id, league.id);
     expect(await database.matchup.count({ where: { leagueId: league.id, isPlayoff: true, playoffRound: 1 } })).toBe(2);
 
+    await installDraftBoundaryFixtures(timerLeague.id);
     const timed = await createDraft(commissioner.id, timerLeague.id);
     const firstQueue = await queuePlayer(commissioner.id, timed.id, playerIds[4]); const secondQueue = await queuePlayer(commissioner.id, timed.id, playerIds[5]);
     await changeQueue(commissioner.id, timed.id, secondQueue.id, "UP");

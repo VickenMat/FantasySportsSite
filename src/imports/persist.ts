@@ -48,6 +48,9 @@ async function ensurePlayers(tx: Transaction, sport: Sport, rows: HistoricalRow[
 async function ensureGames(tx: Transaction, sport: Sport, rows: HistoricalRow[], providerName: string) {
   const seasons = indexBy(rows.map(({ season }) => season), ({ startYear }) => startYear);
   await tx.season.createMany({ data: [...seasons.values()].map((season) => ({ ...season, sport })), skipDuplicates: true });
+  // A schedule/league may have created metadata before any statistics arrived.
+  // Preserve stronger existing coverage and reconcile only previously unverified rows.
+  for (const season of seasons.values()) await tx.season.updateMany({ where: { sport, startYear: season.startYear, coverage: "UNVERIFIED" }, data: { coverage: season.coverage, coverageReason: season.coverageReason } });
   const seasonIds = indexBy(await tx.season.findMany({
     where: { sport, startYear: { in: [...seasons.keys()] } },
   }), ({ startYear }) => startYear);

@@ -1,0 +1,58 @@
+import { randomUUID } from "node:crypto";
+import { expect, test } from "@playwright/test";
+import { getDatabase } from "../../src/lib/db";
+import { createLeague, joinPublicLeague } from "../../src/server/league";
+import { processScheduledDrafts } from "../../src/server/draft-plans";
+
+test.use({ timezoneId: "UTC" });
+test("draft center persists custom order and UTC scheduling for every member, opens preparation and activates through the worker", async ({ page, browser }) => {
+  const db = getDatabase();
+  const owner = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const other = await browser.newContext({ baseURL: process.env.AUTH_URL, timezoneId: "UTC" });
+  const email = `scheduled-manager-${randomUUID()}@example.test`;
+  const league = await createLeague(owner.id, { name: `Scheduled browser fixture ${randomUUID()}`, historical: true, seasonYear: 2069, sports: ["NFL"], maxTeams: 2, visibility: "PUBLIC" });
+  try {
+    const registration = await other.request.post("/api/auth/sign-up/email", { data: { name: "Scheduled Manager", email, password: "scheduled-manager-12!" }, headers: { "x-forwarded-for": "198.51.100.215", origin: process.env.AUTH_URL! } });
+    expect(registration.ok()).toBe(true);
+    const manager = await db.user.findUniqueOrThrow({ where: { email } });
+    await joinPublicLeague(manager.id, league.id);
+    await page.goto("/sign-in");
+    await page.getByLabel("Email").fill(process.env.DEMO_EMAIL!); await page.getByLabel("Password", { exact: true }).fill(process.env.DEMO_PASSWORD!);
+    await page.getByRole("button", { name: "Sign in", exact: true }).click();
+    await expect(page).toHaveURL("/dashboard");
+    await page.goto(`/leagues/${league.id}/draft`);
+    await expect(page.getByRole("link", { name: "Draft", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Players", exact: true })).toHaveCount(0);
+    await page.getByLabel("Draft rounds per franchise", { exact: true }).fill("1");
+    await page.getByLabel("Draft timer (seconds)").fill("30");
+    const local = new Date(Date.now() + 5 * 60000).toISOString().slice(0, 16);
+    await page.getByLabel(/Draft date and time/).fill(local);
+    await page.getByRole("button", { name: "Move Commissioner's Franchise down", exact: true }).click();
+    await page.getByRole("button", { name: "Save Draft Order and Schedule" }).click();
+    await expect(page.getByRole("status")).toContainText("saved for every league member");
+    const plan = await db.draftPlan.findFirstOrThrow({ where: { leagueId: league.id } });
+    expect(plan.scheduledAt?.toISOString()).toBe(local + ":00.000Z");
+    expect(plan.order[0]).not.toBe((await db.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id, managerId: owner.id } })).id);
+    const memberPage = await other.newPage();
+    await memberPage.goto(`/leagues/${league.id}`);
+    await expect(memberPage.locator(`time[datetime="${plan.scheduledAt!.toISOString()}"]`)).toBeVisible();
+    await expect(memberPage.getByRole("link", { name: "Join Draft Room", exact: true })).toBeVisible();
+    await memberPage.getByRole("link", { name: "Join Draft Room", exact: true }).click();
+    await expect(memberPage.getByRole("heading", { name: "Available NFL players" })).toBeVisible();
+    await expect(memberPage.getByRole("button", { name: "Draft", exact: true }).first()).toBeDisabled();
+    await memberPage.getByRole("button", { name: "Queue", exact: true }).first().click();
+    await expect.poll(() => db.draftQueueEntry.count({ where: { draftId: plan.draftId! } })).toBe(1);
+    await memberPage.reload();
+    await expect(memberPage.locator(".draft-sidebar")).toContainText("My Draft Queue");
+    await expect(memberPage.getByRole("button", { name: "Save Draft Order and Schedule" })).toHaveCount(0);
+    await processScheduledDrafts(new Date(+plan.scheduledAt! - 1));
+    expect((await db.draft.findUniqueOrThrow({ where: { id: plan.draftId! } })).status).toBe("SCHEDULED");
+    await processScheduledDrafts(plan.scheduledAt!);
+    await memberPage.reload();
+    await expect(memberPage.getByRole("button", { name: "Draft", exact: true }).first()).toBeEnabled();
+    expect(await db.draft.count({ where: { leagueId: league.id } })).toBe(1);
+    await memberPage.screenshot({ path: test.info().outputPath("scheduled-draft-room.png"), fullPage: true });
+  } finally {
+    await other.close(); await db.league.delete({ where: { id: league.id } }); await db.user.deleteMany({ where: { email } });
+  }
+});

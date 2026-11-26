@@ -1,34 +1,20 @@
 "use client";
 
-import { useState, type ChangeEvent, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 
 type Preview = { sport: string; status: string; reason: string; seasonLabel: string | null; draftDeadlineAt: string | null;
   firstScoringAt: string | null; scoringEndsAt: string | null; tradeDeadlineAt: string | null; warnings: string[] };
 
 const show = (value: string | null) => value ? new Date(value).toLocaleString() : "Pending authoritative data";
 
-export function DraftCompletionInput() {
-  const [instant, setInstant] = useState("");
-  function update(event: ChangeEvent<HTMLInputElement>) {
-    const date = new Date(event.currentTarget.value);
-    setInstant(event.currentTarget.value && !Number.isNaN(date.getTime()) ? date.toISOString() : "");
-  }
-  return <label>Expected draft completion<input name="draftCompleteByLocal" type="datetime-local" onChange={update} />
-    <input name="draftCompleteBy" type="hidden" value={instant} />
-    <span className="input-help">Used only to select a professional season that has not started. Leave blank to use creation time. Your browser converts this local time to an exact UTC instant.</span>
-  </label>;
-}
-
 export function SchedulePreview() {
   const [rows, setRows] = useState<Preview[]>([]); const [message, setMessage] = useState(""); const [loading, setLoading] = useState(false);
   async function preview(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.closest("form"); if (!form) return;
-    const data = new FormData(form); const draftValue = String(data.get("draftCompleteBy") ?? "");
-    const draftCompleteBy = new Date(draftValue);
-    if (!draftValue || Number.isNaN(draftCompleteBy.getTime())) { setMessage("Choose an expected draft completion time first."); return; }
+    const data = new FormData(form);
     setLoading(true); setMessage("");
     const response = await fetch("/api/schedule-preview", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
-      sports: data.getAll("sports").map(String), competitionType: String(data.get("competitionType") ?? "HEAD_TO_HEAD"), draftCompleteBy: draftCompleteBy.toISOString(),
+      sports: data.getAll("sports").map(String), competitionType: String(data.get("competitionType") ?? "HEAD_TO_HEAD"), seasonOffset: Number(data.get("seasonOffset") ?? 0),
     }) });
     const body = await response.json() as { sports?: Preview[]; error?: string };
     if (response.ok && body.sports) setRows(body.sports); else setMessage(body.error ?? "Schedule preview failed.");

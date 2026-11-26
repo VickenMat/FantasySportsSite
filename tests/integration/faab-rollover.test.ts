@@ -4,6 +4,7 @@ import { afterAll, expect, it } from "vitest";
 import { getDatabase } from "@/lib/db";
 import { createLeague, transitionSportSeason } from "@/server/league";
 import { accountForWaiver, reserveFaab, resetSportFaab } from "@/server/faab";
+import { assignNextSportSeason, importProfessionalSchedules } from "@/server/scheduling";
 
 const db = getDatabase();
 afterAll(() => db.$disconnect());
@@ -49,5 +50,28 @@ it("does not reset universal cycle FAAB at an independent sport rollover", async
     await transitionSportSeason(user.id, league.id, "NFL", 2068);
     expect(await db.faabAccount.findMany({ where: { leagueId: league.id } })).toEqual(before);
     expect(await db.faabLedgerEntry.count({ where: { account: { leagueId: league.id }, type: "RESET" } })).toBe(0);
+  } finally { await db.league.delete({ where: { id: league.id } }); }
+});
+
+it("opens a fresh universal cycle budget while another sport continues to use its original cycle account", async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id, { name: `Overlapping FAAB fixture ${randomUUID()}`, sports: ["NFL", "NBA"], maxTeams: 2, historical: true, seasonYear: 2076, faabScope: "UNIVERSAL" });
+  try {
+    const team = await db.fantasyTeam.findFirstOrThrow({ where: { leagueId: league.id } });
+    const nfl = await db.leagueSport.findFirstOrThrow({ where: { leagueId: league.id, sport: "NFL" } });
+    const nba = await db.leagueSport.findFirstOrThrow({ where: { leagueId: league.id, sport: "NBA" } });
+    const original = await db.$transaction((tx) => accountForWaiver(tx, league.id, nfl.id, team.id));
+    await importProfessionalSchedules({ provider: `universal-faab-fixture-${randomUUID()}`, sourceName: "Isolated rollover calendar", sourceVersion: "1", retrievedAt: "2020-01-01", seasons: [{ sport: "NFL", startYear: 2077, label: "2077", status: "AVAILABLE", regularSeasonStartsAt: "2077-09-01", regularSeasonEndsAt: "2078-01-10" }] });
+    await assignNextSportSeason(user.id, league.id, "NFL");
+    // Preparing a future cycle must not advance the still-current NBA account.
+    expect((await db.$transaction((tx) => accountForWaiver(tx, league.id, nba.id, team.id))).id).toBe(original.id);
+    await transitionSportSeason(user.id, league.id, "NFL", 2077);
+    await transitionSportSeason(user.id, league.id, "NFL", 2077);
+    const current = await db.$transaction((tx) => accountForWaiver(tx, league.id, nfl.id, team.id));
+    expect(current.id).not.toBe(original.id);
+    expect(current).toMatchObject({ balance: 500, reserved: 0, openingBalance: 500 });
+    expect((await db.$transaction((tx) => accountForWaiver(tx, league.id, nba.id, team.id))).id).toBe(original.id);
+    expect(await db.faabAccount.findUniqueOrThrow({ where: { id: original.id } })).toEqual(original);
+    expect(await db.faabAccount.count({ where: { leagueId: league.id, teamId: team.id } })).toBe(2);
   } finally { await db.league.delete({ where: { id: league.id } }); }
 });

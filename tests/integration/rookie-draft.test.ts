@@ -7,9 +7,33 @@ import { consumptionKey, createRookieDraft, listFutureDraftPicks, provisionFutur
 import { makePick } from "@/server/draft";
 import { recordRookieEligibility } from "@/server/rookies";
 import { addFreeAgent, currentCompliance, dropPlayer } from "@/server/rosters";
+import { finalizeRookiePlacements } from "../helpers/rookie-placements";
 
 const db = getDatabase();
 afterAll(() => db.$disconnect());
+
+it("extends configured rookie rounds beyond four without resetting transferred original entitlements", async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id, { name: `Six-round rookie fixture ${randomUUID()}`, sports: ["NHL"], maxTeams: 2, fillWithComputers: true, format: "DYNASTY", historical: true, seasonYear: 2058 });
+  try {
+    await db.league.update({ where: { id: league.id }, data: { status: "ACTIVE" } });
+    const sport = await db.leagueSport.findFirstOrThrow({ where: { leagueId: league.id } });
+    const teams = await db.fantasyTeam.findMany({ where: { leagueId: league.id }, orderBy: { draftSlot: "asc" } });
+    await provisionFutureDraftPicks(user.id, league.id, sport.id);
+    await finalizeRookiePlacements(sport.id, teams.map(({ id }) => id));
+    const future = await db.futureDraftPick.findFirstOrThrow({ where: { leagueSportId: sport.id, seasonStartYear: 2059, originalTeamId: teams[0].id, round: 1 } });
+    await transferFuturePick(user.id, league.id, future.id, teams[1].id, "Preserve the negotiated entitlement fixture");
+    const { transitionSportSeason } = await import("@/server/league");
+    await transitionSportSeason(user.id, league.id, "NHL", 2059);
+    const draft = await createRookieDraft(user.id, league.id, sport.id, { rounds: 6, reason: "Six-round configured fixture draft" });
+    expect(draft.pickOrder).toHaveLength(12);
+    expect(draft.pickOrder[0]).toBe(teams[1].id);
+    expect(JSON.parse(draft.orderProvenance!).slots[0].originalTeamId).toBe(teams[0].id);
+    expect((await db.futureDraftPick.findUniqueOrThrow({ where: { id: future.id } })).ownerTeamId).toBe(teams[1].id);
+    expect((await db.rookieDraftRule.findUniqueOrThrow({ where: { leagueSportId: sport.id } })).rounds).toBe(6);
+    expect(await db.futureDraftPick.count({ where: { leagueSportId: sport.id, round: 6 } })).toBe(8);
+  } finally { await db.league.delete({ where: { id: league.id } }); }
+});
 
 it("executes linear rookie entitlements with traded ownership, immutable consumption and correctable overflow", async () => {
   const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
@@ -27,8 +51,9 @@ it("executes linear rookie entitlements with traded ownership, immutable consump
     const transferred = picks.find(({ originalTeamId, round }) => originalTeamId === other.id && round === 1)!;
     await expect(transferFuturePick(randomUUID(), league.id, transferred.id, manager.id, "fixture ownership correction")).rejects.toThrow(/commissioner/i);
     await transferFuturePick(user.id, league.id, transferred.id, manager.id, "fixture ownership correction");
-    await expect(createRookieDraft(user.id, league.id, sport.id)).rejects.toThrow(/finalized previous placements/i);
-    const draft = await createRookieDraft(user.id, league.id, sport.id, { manualOrder: [manager.id, other.id], rounds: 2, reason: "Isolated manual rookie order" });
+    await expect(createRookieDraft(user.id, league.id, sport.id)).rejects.toThrow(/finalized previous.*placements/i);
+    await finalizeRookiePlacements(sport.id, [manager.id, other.id]);
+    const draft = await createRookieDraft(user.id, league.id, sport.id, { rounds: 2, reason: "Isolated finalized rookie order" });
     expect(draft.pickOrder).toEqual([manager.id, manager.id, manager.id, other.id]);
     expect((await createRookieDraft(user.id, league.id, sport.id)).id).toBe(draft.id);
     const rookies = [];
@@ -57,7 +82,8 @@ it("executes linear rookie entitlements with traded ownership, immutable consump
     await provisionFutureDraftPicks(user.id, league.id, nba.id);
     const nbaSeason = await db.season.upsert({ where: { sport_startYear: { sport: "NBA", startYear: 2061 } }, create: { sport: "NBA", startYear: 2061, label: "2061 NBA rookie fixture" }, update: {} });
     await db.leagueSport.update({ where: { id: nba.id }, data: { seasonId: nbaSeason.id, seasonLabel: nbaSeason.label } });
-    const nbaDraft = await createRookieDraft(user.id, league.id, nba.id, { rounds: 1, manualOrder: [manager.id, other.id], reason: "Independent NBA rookie fixture order" });
+    await finalizeRookiePlacements(nba.id, [manager.id, other.id]);
+    const nbaDraft = await createRookieDraft(user.id, league.id, nba.id, { rounds: 1, reason: "Independent NBA finalized rookie fixture order" });
     const nbaRookie = await db.player.create({ data: { sport: "NBA", displayName: `NBA rookie ${randomUUID()}`, isSynthetic: true } });
     await recordRookieEligibility({ playerId: nbaRookie.id, seasonId: nbaSeason.id, sport: "NBA", eligible: true, effectiveAt: new Date("2020-01-01"), knownAt: new Date("2020-01-01"), provider: "isolated-rookie-fixture", externalId: randomUUID(), sourceRecord: { synthetic: true } });
     await expect(makePick({ userId: user.id, draftId: nbaDraft.id, playerId: nbaRookie.id, automatic: true, now })).resolves.toMatchObject({ teamId: manager.id, round: 1 });
@@ -70,7 +96,7 @@ it("executes linear rookie entitlements with traded ownership, immutable consump
   }
 });
 
-it("persists an explicitly configured non-playoff lottery and supports unconsumed pick transfers during the draft", async () => {
+it("uses only reverse finalized placement, rejects revoked ordering paths and supports unconsumed pick transfers", async () => {
   const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
   const league = await createLeague(user.id, { name: `Rookie lottery ${randomUUID()}`, sports: ["NBA"], maxTeams: 4, fillWithComputers: true, format: "DYNASTY", historical: true, seasonYear: 2069 });
   try {
@@ -83,15 +109,15 @@ it("persists an explicitly configured non-playoff lottery and supports unconsume
     await provisionFutureDraftPicks(user.id, league.id, sport.id);
     const season = await db.season.upsert({ where: { sport_startYear: { sport: "NBA", startYear: 2070 } }, create: { sport: "NBA", startYear: 2070, label: "2070 lottery fixture" }, update: {} });
     await db.leagueSport.update({ where: { id: sport.id }, data: { seasonId: season.id, seasonLabel: season.label } });
-    await expect(createRookieDraft(user.id, league.id, sport.id, { lottery: { weights: [{ teamId: teams[2].id, weight: 3 }, { teamId: teams[0].id, weight: 1 }], selectedPositions: 1 } })).rejects.toThrow(/only non-playoff/i);
-    const lottery = { weights: [{ teamId: teams[0].id, weight: 3 }, { teamId: teams[1].id, weight: 1 }], selectedPositions: 1 };
-    const draft = await createRookieDraft(user.id, league.id, sport.id, { lottery, rounds: 2, reason: "Explicit isolated lottery configuration" });
+    await expect(createRookieDraft(user.id, league.id, sport.id, { lottery: {} } as never)).rejects.toThrow(/unrecognized/i);
+    await expect(createRookieDraft(user.id, league.id, sport.id, { manualOrder: teams.map(({ id }) => id) } as never)).rejects.toThrow(/unrecognized/i);
+    const draft = await createRookieDraft(user.id, league.id, sport.id, { rounds: 2, reason: "Reverse finalized placement fixture" });
     const snapshot = JSON.parse(draft.orderProvenance!);
-    expect(snapshot.lotteryResult.draws).toHaveLength(1);
-    expect([teams[0].id, teams[1].id]).toContain(snapshot.lotteryResult.draws[0].teamId);
-    expect(draft.order.slice(2)).toEqual([teams[2].id, teams[3].id]);
+    expect(snapshot.orderSource).toBe("REVERSE_FINAL_PLACEMENT");
+    expect(snapshot).not.toHaveProperty("lotteryResult");
+    expect(draft.order).toEqual(teams.map(({ id }) => id));
     expect(draft.pickOrder.slice(0, 4)).toEqual(draft.pickOrder.slice(4));
-    expect((await createRookieDraft(user.id, league.id, sport.id, { lottery })).orderProvenance).toBe(draft.orderProvenance);
+    expect((await createRookieDraft(user.id, league.id, sport.id)).orderProvenance).toBe(draft.orderProvenance);
     const last = snapshot.slots[7];
     await transferFuturePick(user.id, league.id, last.futurePickId, teams[0].id, "Explicit active-draft ownership correction");
     expect((await db.draft.findUniqueOrThrow({ where: { id: draft.id } })).pickOrder[7]).toBe(teams[0].id);

@@ -10,7 +10,7 @@ export function listMemberLeagues(userId: string) {
       league: {
         select: {
           id: true, slug: true, name: true, format: true, isDemo: true, maxTeams: true,
-          sports: { orderBy: { sport: "asc" }, select: { sport: true } },
+          sports: { orderBy: { sport: "asc" }, select: { sport: true, seasonLabel: true } },
         },
       },
     },

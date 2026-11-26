@@ -1,5 +1,7 @@
 # Remaining M4 gameplay implementation — November 25, 2026
 
+Historical checkpoint superseded by [the final draft/financial/trade continuation](M4_DRAFT_FINANCE_TRADE_REPORT.md). Rookie lottery approval below is revoked; its historical implementation provenance is preserved rather than treated as an active rule.
+
 Continuation from `577182e`. M4 remains in progress; this report does not claim all gameplay or full acceptance complete.
 
 ## Implemented continuation

@@ -4,6 +4,7 @@ import { rankH2HStandings, roundRobinPairings, summarizeH2H } from "./competitio
 import { periodPublicationTime, scoreCapturedStarters } from "./competition-scoring";
 import { resolveLeagueSport } from "./league";
 import { captureDueGameLineups } from "./lineup-snapshots";
+import { hasSeasonScopedSchedules } from "./gameplay-storage";
 
 export { roundRobinPairings } from "./competition";
 
@@ -14,12 +15,14 @@ export async function ensureRelativeMatchupSchedule(tx: Prisma.TransactionClient
     competitionType: true, teams: { orderBy: [{ draftSlot: "asc" }, { id: "asc" }], select: { id: true } },
   } });
   if (league.competitionType === "CUMULATIVE") return { periods: 0, matchups: 0 };
+  const sport = await tx.leagueSport.findUniqueOrThrow({ where: { id: input.leagueSportId } });
+  const scoped = await hasSeasonScopedSchedules(tx);
   const pairings = roundRobinPairings(league.teams.map(({ id }) => id), input.periods);
   for (let number = 1; number <= input.periods; number++) {
-    const period = await tx.relativeMatchupPeriod.upsert({
-      where: { leagueSportId_number: { leagueSportId: input.leagueSportId, number } }, update: {},
-      create: { leagueId: input.leagueId, leagueSportId: input.leagueSportId, sport: input.sport, number },
-    });
+    const period = scoped ? await tx.relativeMatchupPeriod.upsert({
+      where: { leagueSportId_seasonId_number: { leagueSportId: input.leagueSportId, seasonId: sport.seasonId, number } }, update: {},
+      create: { leagueId: input.leagueId, leagueSportId: input.leagueSportId, seasonId: sport.seasonId, sport: input.sport, number },
+    }) : (await tx.$queryRaw<{ id: string }[]>`INSERT INTO "RelativeMatchupPeriod" ("leagueId","leagueSportId",sport,number) VALUES (${input.leagueId}::uuid,${input.leagueSportId}::uuid,${input.sport}::"Sport",${number}) ON CONFLICT ("leagueSportId",number) DO UPDATE SET number=EXCLUDED.number RETURNING id`)[0];
     await tx.relativeMatchup.createMany({ data: pairings.filter(({ round }) => round === number).map((pairing) => ({
       periodId: period.id, homeTeamId: pairing.homeTeamId, awayTeamId: pairing.awayTeamId,
     })), skipDuplicates: true });

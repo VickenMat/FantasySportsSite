@@ -5,12 +5,15 @@ import { DashboardHeader } from "@/components/dashboard-header";
 import { SportTags } from "@/components/sports";
 import { requireSession } from "@/lib/auth";
 import { listMemberLeagues } from "@/server/dashboard";
+import { listDraftPlans } from "@/server/draft-plans";
+import { DraftScheduleStatus } from "@/components/draft-schedule-status";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
 export default async function Dashboard() {
   const { user } = await requireSession();
   const memberships = await listMemberLeagues(user.id);
+  const draftPlans = new Map(await Promise.all(memberships.map(async ({ league }) => [league.id, await listDraftPlans(league.id)] as const)));
 
   return (
     <>
@@ -34,6 +37,8 @@ export default async function Dashboard() {
                     <div className="league-title">
                       <h3>{league.name}</h3>
                       <p className="muted">{league.format === "DYNASTY" ? "Dynasty" : "Redraft"} · {league.maxTeams}-team format · {role === "COMMISSIONER" ? "Commissioner" : "Manager"}</p>
+                      <p className="muted">{league.sports.map(({ sport, seasonLabel }) => `${sport} ${seasonLabel}`).join(" · ")}</p>
+                      {(draftPlans.get(league.id) ?? []).filter((plan) => plan.scheduledAt && !["COMPLETED", "CANCELLED"].includes(plan.status)).map((plan) => <DraftScheduleStatus key={plan.id} scheduledAt={plan.scheduledAt!.toISOString()} timezone={plan.timezone} status={plan.status} />)}
                     </div>
                     <SportTags values={league.sports.map(({ sport }) => sport)} />
                     {league.isDemo && <span className="tag">Demo</span>}

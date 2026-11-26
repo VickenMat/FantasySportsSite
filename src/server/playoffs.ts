@@ -72,7 +72,7 @@ export function advanceSportPlayoffs(userId: string, competitionId: string, now 
     const ranked = rankH2HStandings(summarizeH2H(teamIds, games), games, new Map(draw.map((row) => [row.teamId, row.drawRank])));
     const seeds = new Map(ranked.map((row) => [row.teamId, row]));
     const bracket = defaultFixedBracket(ranked.length, config.playoffTeams)
-      .filter(({ key }) => (config.thirdPlaceEnabled || key !== "CHAMP-THIRD") && (config.consolationEnabled || !key.startsWith("CONSOLATION")))
+      .filter(({ key }) => (config.thirdPlaceEnabled || key !== "CHAMP-THIRD") && (config.consolationEnabled || (!key.startsWith("CONSOLATION") && key !== "CHAMP-FIFTH")))
       .map((node) => {
         // Placement games occupy the last published playoff period.
         const weeksBeforeFinal = node.key.includes("-QF-") ? 2 : node.key.includes("-SF-") ? 1 : 0;
@@ -122,8 +122,16 @@ export function advanceSportPlayoffs(userId: string, competitionId: string, now 
     }
     const fixedPlaces = new Set(places.values());
     const openPlaces = ranked.map(({ rank }) => rank).filter((rank) => !fixedPlaces.has(rank));
+    const eliminated = new Map<string, number>();
+    for (const node of bracket.filter(({ key }) => key.startsWith("CHAMP") && !key.endsWith("THIRD") && !key.endsWith("FIFTH"))) {
+      const result = results.get(node.key);
+      if (result) eliminated.set(result.loser, node.round);
+    }
+    const remaining = ranked.filter(({ teamId }) => !places.has(teamId)).sort((a, b) =>
+      (eliminated.get(b.teamId) ?? 0) - (eliminated.get(a.teamId) ?? 0) || a.rank - b.rank);
+    for (const row of remaining) places.set(row.teamId, openPlaces.shift()!);
     const placements = ranked.map((row) => ({
-      teamId: row.teamId, placement: places.get(row.teamId) ?? openPlaces.shift()!,
+      teamId: row.teamId, placement: places.get(row.teamId)!,
       qualified: row.rank <= config.playoffTeams, seed: row.rank, regularPfTenths: row.pointsFor, regularPaTenths: row.pointsAgainst,
     }));
     await tx.sportFinalPlacement.createMany({ data: placements.map((row) => ({
@@ -133,7 +141,7 @@ export function advanceSportPlayoffs(userId: string, competitionId: string, now 
     })) });
     const awards = championshipPointAwards(placements, {
       qualification: config.qualificationPoints, champion: config.championPoints, runnerUp: config.runnerUpPoints,
-      third: config.thirdPlacePoints, highestPf: config.highestPfPoints, lowestPf: config.lowestPfPoints,
+      third: config.thirdPlaceEnabled ? config.thirdPlacePoints : 0, highestPf: config.highestPfPoints, lowestPf: config.lowestPfPoints,
     });
     await tx.championshipPointAward.createMany({ data: awards.map(({ teamId, points, type }) => ({
       sportCompetitionId: competition.id, teamId, awardType: type,

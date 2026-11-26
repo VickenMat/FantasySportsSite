@@ -16,6 +16,38 @@ import { enforceRateLimit } from "@/server/rate-limit";
 import { cancelTrade, proposeTrade, respondToTrade } from "@/server/trades";
 import { provisionCompetitionSchedule } from "@/server/competition";
 import { commissionerRelease } from "@/server/roster-administration";
+import { configureDraftPlan } from "@/server/draft-plans";
+import { nominateAuction, placeAuctionBid } from "@/server/auctions";
+import { configureFinancePolicy } from "@/server/finance";
+
+export async function financePolicyAction(leagueId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try {
+    await configureFinancePolicy(user.id, leagueId, { salaryMode: form.get("mode") === "SALARY", scope: String(form.get("scope")) as "SPORT", amount: form.get("amount") ? Number(form.get("amount")) : undefined });
+    revalidatePath(`/leagues/${leagueId}`, "layout"); return "Financial format configured. Set up your auction through the Draft tab.";
+  } catch (error) { return error instanceof Error ? error.message : "Financial configuration failed."; }
+}
+export async function nominateAuctionAction(leagueId: string, leagueSportId: string, playerId: string, draftId: string | null) {
+  const { user } = await requireSession();
+  try { await nominateAuction(user.id, { leagueId, leagueSportId, playerId, ...(draftId ? { draftId } : {}) }); revalidatePath(`/leagues/${leagueId}`, "layout"); return "Auction nominated and minimum bid reserved."; }
+  catch (error) { return error instanceof Error ? error.message : "Nomination failed."; }
+}
+export async function bidAuctionAction(leagueId: string, auctionId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try { await placeAuctionBid(user.id, auctionId, Number(form.get("maximum"))); revalidatePath(`/leagues/${leagueId}`, "layout"); return "Bid reserved."; }
+  catch (error) { return error instanceof Error ? error.message : "Bid failed."; }
+}
+
+export async function configureDraftAction(leagueId: string, leagueSportId: string, _state: string, form: FormData) {
+  const { user } = await requireSession();
+  try {
+    await configureDraftPlan(user.id, { leagueId, leagueSportId, method: String(form.get("method")) as "SNAKE", orderMethod: String(form.get("orderMethod")) as "CUSTOM",
+      scope: String(form.get("scope") ?? "SPORT") as "SPORT" | "UNIVERSAL", order: JSON.parse(String(form.get("order"))), rounds: Number(form.get("rounds")), secondsPerPick: Number(form.get("secondsPerPick")),
+      scheduledAt: form.get("scheduledAt") ? String(form.get("scheduledAt")) : null, timezone: String(form.get("timezone")), regenerate: form.get("regenerate") === "true",
+      expectedVersion: Number(form.get("version")) || undefined });
+    revalidatePath(`/leagues/${leagueId}`, "layout"); return "Draft order and schedule saved for every league member.";
+  } catch (error) { return error instanceof Error ? error.message : "Draft configuration could not be saved."; }
+}
 
 export async function commissionerReleaseAction(leagueId: string, entryId: string, _state: string, form: FormData) {
   const { user } = await requireSession();
@@ -38,7 +70,7 @@ export async function createLeagueAction(form: FormData) {
     name: String(form.get("name") ?? ""), sports: form.getAll("sports").map(String) as ("NFL" | "NBA" | "MLB" | "NHL")[],
     maxTeams: form.get("maxTeams"),
     format: String(form.get("format") ?? "DYNASTY") as "DYNASTY", visibility: String(form.get("visibility") ?? "PRIVATE") as "PRIVATE",
-    competitionType: String(form.get("competitionType") ?? "HEAD_TO_HEAD") as "HEAD_TO_HEAD", draftCompleteBy: form.get("draftCompleteBy") || undefined,
+    competitionType: String(form.get("competitionType") ?? "HEAD_TO_HEAD") as "HEAD_TO_HEAD", seasonOffset: form.get("seasonOffset") ?? 0,
     keeperLimits: Object.fromEntries(sports.map((sport) => [sport, Number(form.get(`keeper_${sport}`) ?? 0)])) as Record<LeagueSport, number>,
     startingFaab: form.get("startingFaab"), benchSlots: form.get("benchSlots"),
     historical: false, fillWithComputers: form.get("fillWithComputers") === "on",
@@ -57,7 +89,16 @@ export async function inviteAction(leagueId: string, form: FormData) {
   const { user } = await requireSession();
   await limit(user.id, "invite", 20);
   const token = await createInvitation(user.id, leagueId, String(form.get("email") ?? ""));
-  redirect(`/leagues/${leagueId}/settings?invite=${encodeURIComponent(token)}`);
+  redirect(`/leagues/${leagueId}?invite=${encodeURIComponent(token)}`);
+}
+
+export async function createInviteLinkAction(leagueId: string, _state: { url: string; message: string }, form: FormData) {
+  const { user } = await requireSession();
+  await limit(user.id, "invite", 20);
+  try {
+    const token = await createInvitation(user.id, leagueId, String(form.get("email") ?? ""));
+    return { url: new URL(`/join/${encodeURIComponent(token)}`, process.env.AUTH_URL).href, message: "Single-use invitation created." };
+  } catch (error) { return { url: "", message: error instanceof Error ? error.message : "Invitation could not be created." }; }
 }
 
 export async function renameTeamAction(leagueId: string, form: FormData) {
@@ -169,7 +210,7 @@ export async function addPlayerAction(leagueId: string, form: FormData) {
   await limit(user.id, "free-agent-add", 60);
   await addFreeAgent(user.id, leagueId, String(form.get("playerId")), String(form.get("sport") ?? "") || undefined);
   await actionNotice("Player added to your roster.");
-  revalidatePath(`/leagues/${leagueId}/players`); revalidatePath(`/leagues/${leagueId}/team`);
+  revalidatePath(`/leagues/${leagueId}/waivers`); revalidatePath(`/leagues/${leagueId}/team`);
 }
 
 export async function dropPlayerAction(leagueId: string, form: FormData) {
@@ -177,7 +218,7 @@ export async function dropPlayerAction(leagueId: string, form: FormData) {
   await limit(user.id, "roster-drop", 60);
   await dropPlayer(user.id, leagueId, String(form.get("playerId")), String(form.get("sport") ?? "") || undefined);
   await actionNotice("Player released from your roster.");
-  revalidatePath(`/leagues/${leagueId}/players`); revalidatePath(`/leagues/${leagueId}/team`);
+  revalidatePath(`/leagues/${leagueId}/waivers`); revalidatePath(`/leagues/${leagueId}/team`);
 }
 
 export async function lineupAction(leagueId: string, form: FormData) {
@@ -227,6 +268,7 @@ export async function draftOrderAction(leagueId: string, form: FormData) {
 
 export async function proposeTradeAction(leagueId: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "trade-propose", 30);
+  if (await (await import("@/server/gameplay-storage")).hasGameplayTable("TradeProposal")) throw new Error("Use the revisioned multi-asset proposal controls in the trade center. New proposals require identical acceptance and the configured review period.");
   await proposeTrade(user.id, {
     leagueId, sport: String(form.get("sport") ?? "") || undefined, recipientTeamId: String(form.get("recipientTeamId")),
     offerPlayerIds: form.getAll("offerPlayerIds").map(String), requestPlayerIds: form.getAll("requestPlayerIds").map(String),
@@ -284,11 +326,8 @@ export async function provisionFuturePicksAction(leagueId: string, leagueSportId
 export async function rookieDraftAction(leagueId: string, leagueSportId: string, _state: string, form: FormData) {
   const { user } = await requireSession(); await limit(user.id, "rookie-draft", 10);
   try {
-    const method = String(form.get("method"));
     const draft = await createRookieDraft(user.id, leagueId, leagueSportId, {
       rounds: Number(form.get("rounds")), reason: String(form.get("reason") ?? ""),
-      ...(method === "MANUAL" ? { manualOrder: form.getAll("teamId").map(String) } : {}),
-      ...(method === "LOTTERY" ? { lottery: { selectedPositions: Number(form.get("selectedPositions")), weights: JSON.parse(String(form.get("weights") ?? "[]")) } } : {}),
     });
     revalidatePath(`/leagues/${leagueId}`);
     return `Rookie draft ${draft.status.toLowerCase()}. Open the draft room to select verified rookies.`;

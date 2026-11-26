@@ -1,0 +1,18 @@
+# Pending development migration review
+
+The user explicitly approved this consolidated deployment on November 25, 2026. All four migrations are now applied to development: **26 migrations, no Prisma drift, all 70 original table fingerprints preserved, 27 append-only triggers enabled**. No financial backfill or existing-league salary conversion was performed. The following review records the exact approved SQL.
+
+| Migration | Changes | SQL SHA-256 |
+| --- | --- | --- |
+| `20261125210000_draft_center` | Draft plans, persisted schedules/order and immutable snapshots for new draft selections; no fabricated historical recap backfill | `1b22081ffa11a4426b883ce788a40a7fdcbe49cd5b76269f210c44237f7c11c6` |
+| `20261125220000_salary_auction_accounts` | Explicit financial policy, integer accounts/ledger, salary assignments, auctions/bids, dead cap/floors; prohibit new salary-league future picks | `2e611a96a482ba3b4b8462c4dd17f86ff4a5af708a25362745aa516131ee5901` |
+| `20261125230000_revisioned_trades` | Multi-team proposals, immutable revisions/acceptances, review policy and scope constraints | `f29a5915c2964baf7510a0eb8758ed1bec2ae921e7da2a8b3c38fee18fec9c31` |
+| `20261125233000_independent_lifecycle` | Nullable season scope on relative schedules, fantasy-window revisions, rookie round configuration; widen future-pick round constraint from 4 to 100 without creating or changing existing picks | `6ef947872ce118820d15ccd6134472cfe90e869e690a6b6554a2779f5cc7a0e6` |
+
+`scripts/verify-pending-migrations.mjs` opens development in a read-only repeatable-read transaction, copies all 70 existing application tables into an isolated schema in `fantasy_evolution_test`, validates their fingerprints, applies the four pending migrations there, and compares every original column fingerprint again. It also validates all 195 foreign keys and compares the resulting schema to Prisma. The disposable schema is removed afterward. The latest run passed with no drift. Detailed verification output is retained locally at `/private/tmp/fantasy-pending-migration-verification.json`; no copied account or player rows are committed.
+
+The compatibility run preserved 8,042 players, 107,312 player-stat revisions, 47 roster entries, 48 assignment events, 35 score entries, 57,352 schedule observations and 52,866 crosswalks. Development has seven leagues and eleven users; these reflect the current preserved workspace, rather than the earlier recovery counts. Worker journals can advance while the live worker runs.
+
+Fresh-schema verification passes 63 full-suite PostgreSQL tests plus two additional targeted administration tests. Unit tests pass 155; production build and lint pass. Browser validation is recorded separately in the continuation report and is still being expanded.
+
+Deployment followed the explicit approval: the development stack was paused, a fresh private backup was created and verified, exact SQL checksums were rechecked, all four migrations were applied, the client was regenerated, and all original fingerprints and the empty Prisma diff were verified before the stack restarted. Backup: `/Users/vicken/Developer/PrivateBackups/FantasyEvolution/fantasy_evolution_pre_m4_26_20261125.dump`; SHA-256 `bc363fe67a9bbcb1c8c6c07cb4761aa83af79a3726405d5639a2f61b2352fc66`. No reset, reseed, truncation, salary conversion or dataset import occurred. Existing financial accounts open only through explicit authorized gameplay configuration; no production salary evidence is invented.

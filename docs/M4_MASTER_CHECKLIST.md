@@ -2,6 +2,8 @@
 
 This checklist implements the reconstructed November 25, 2026 M4 master specification. A checked item means implemented and verified; a partial item is labeled rather than implied complete. Explicit data and product gates remain unchecked even when the safe pending behavior exists.
 
+Current continuation: **46 checked / 14 unchecked / 60 total**. A checked mechanism can retain an explicit production-data gate; pending implementation and acceptance remain unchecked.
+
 The checked contract-automation safeguard records intentional inactivity, not a gameplay feature. Thus the former 48-row checklist had 17 checked rows comprising 16 implemented mechanisms and one intentional-disable safeguard. M4.1 below restores requirements already documented in the M4.1 report; it adds no new product rules.
 
 ## M4.1 authoritative scheduling foundation
@@ -11,7 +13,7 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 - [x] Championship cycles and independent sport-season assignment snapshots
 - [x] Unique league/game attribution across championship cycles
 - [x] Idempotent schedule import and independent next-season assignment
-- [ ] Complete fantasy-specific preview/calendar/deadline reconciliation (professional postseason must not substitute for fantasy playoff boundaries)
+- [x] Fantasy-specific scoring windows, configurable matchup length and deadlines reconciled within verified professional bounds
 
 ## M4.2 competition and championships
 
@@ -31,47 +33,56 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 - [x] Five sport benches, five universal benches and five universal IR slots
 - [x] Atomic cross-sport slot movement and immutable individual-game lineup locks
 - [x] Verified IR eligibility and acquisition restriction when noncompliant across free agency, draft, traditional waivers and ordinary trades; explicitly classified corrective trades remain gated
-- [ ] Rolling waiver priority and 24-hour holds (reverse-snake priority, winner-to-bottom, release and synthetic verified-completion mechanisms verified; auction initial draw and production completion evidence remain gated)
-- [ ] Per-sport $100 and optional cycle-scoped universal $500 FAAB accounts (accounts verified; independent rollover resets remain M4.7)
+- [x] Rolling waiver priority, recorded auction priority and 24-hour release/completion hold mechanisms (production completion instants remain pending data)
+- [x] Per-sport $100 and cycle-scoped universal $500 FAAB accounts with independent resets and preserved overlapping-cycle balances
 - [x] Sealed $0+ bids, reservations, immutable ledger, priority tie resolution and concurrent-spend protection
 - [x] Dynasty offseason acquisition enabled, redraft disabled until applicable draft, and source-verified-rookie pre-draft acquisition block
 
 ## M4.4 dynasty and keepers
 
 - [x] Append-only verified rookie evidence model and pre-draft acquisition block (production evidence remains `PENDING_DATA`; synthetic fixture verified)
-- [x] Configurable four-round linear traditional rookie drafts, reverse-placement/manual/weighted-lottery infrastructure, overflow and pick consumption (one–four rounds supported; explicit lottery configuration required, no invented defaults; current production rookie evidence remains pending)
+- [x] Configurable linear traditional rookie drafts (four rounds by default; extended inventory supported) using reverse finalized sport placement only, overflow and pick consumption (lottery/custom ordering revoked; historical provenance retained; production rookie evidence remains pending)
 - [x] Three-season future-pick inventory and initial ownership history
 - [x] Snake-only redraft keeper cost/history/escalation/conflict validation, three-year maximum and last-round fallback (trade, drop/reacquire, ownership reselection and exact paid-round acceptance verified; auction keeper prohibition is tracked separately below)
-- [ ] Redraft prohibition on future picks and auction keepers (future picks prohibited in service and PostgreSQL; auction keeper gate pending)
+- [x] Redraft prohibition on future picks and auction keepers, enforced in service/database and regression-tested
 
 ## M4.5 salary cap, Vickrey and dead cap
 
-- [ ] Per-sport $400 and optional universal $500 salary accounts with exact integer ledger
-- [ ] Auction-only salary acquisition and persistent player salary history
-- [ ] $2 per-retained-player idempotent sport-rollover increases
-- [ ] Sealed 24-hour Vickrey auctions, maximum-bid reservations, deterministic ties and settlement provenance
-- [ ] Recoverable ceil(50%) dead cap, player-specific self-reacquisition credit, persistent acquisition floors, clearing/replacement and seven-day releasing-manager restriction (higher-salary repeat-release basis gated)
-- [ ] Exact compliance calculation and corrective action gates
-- [ ] Sport-season and universal current-cycle conserved cap transfers and expiry (universal trade deadline remains gated)
+- [x] Per-sport $400 and optional universal $500 salary accounts with exact integer ledger
+- [x] Auction-only salary acquisition and persistent player salary history
+- [x] $2 per-retained-player idempotent sport-rollover increases
+- [x] Sealed 24-hour Vickrey auctions, maximum-bid reservations, deterministic ties and settlement provenance
+- [x] Recoverable ceil(50%) dead cap, seven-day cooldown, single-use self-reacquisition credit, independent obligations and decreasing player floors
+- [x] Exact compliance calculation and corrective action gates
+- [x] Conserved current sport-season/universal-cycle cap transfers and idempotent expiry without future-cycle transfers
 - [x] Contract automation remains inactive
 
 ## M4.6 advanced trading
 
-- [ ] Two-or-more-team proposal and acceptance model
+- [x] Two-or-more-team proposal and acceptance model
 - [ ] Players, picks, FAAB and same-sport salary-cap assets
-- [ ] Material revisions invalidate acceptances
+- [x] Material revisions invalidate acceptances
 - [ ] Default 24-hour review, veto, expiry and worker execution
-- [ ] Atomic validation/execution and conflicting-offer invalidation
+- [x] Atomic validation/execution and conflicting-offer invalidation
 - [ ] Per-asset deadlines, review-window deadline guard and dynasty/redraft offseason restrictions
 
 ## M4.7 lifecycle and commissioner controls
 
-- [ ] Idempotent independent redraft and dynasty rollover (idempotent source-backed next-season assignment verified; competitive activation and rollover pending)
-- [ ] Budget resets, pick generation, salary increases and obligation expiry
+- [x] Idempotent independent redraft/dynasty competitive rollover after verified finalization, next-season assignment and rollover boundary
+- [x] Budget resets, pick generation, salary increases and obligation expiry
 - [ ] Sport and overall championship finalization
-- [ ] Versioned future-cycle settings without retroactive finalized-result mutation
+- [x] Versioned future-cycle settings without retroactive finalized-result mutation
 - [ ] Append-only commissioner action audit (settings, draft order, capacity, assignment, and historical transitions verified; further administration pending)
 - [ ] Abandoned-team ownership transfer, offseason-only team removal and midseason expansion rejection
+
+## Draft and website continuation
+
+- [x] Upcoming/following season offsets with independent sport labels and explicit pending dates
+- [x] Horizontal responsive Overview, private invitation creation/copy and member-visible draft scheduling
+- [ ] Comprehensive Waivers browser and compatibility redirects (implemented; additional filter, ownership and missing-score acceptance remains)
+- [x] Permanent Draft center with persisted random/custom initial order, UTC scheduling, one-hour preparation, queues, server activation and gated testing shortcut
+- [x] Immutable new-selection recap labels, acquisition prices and original/transferred rookie ownership
+- [ ] Complete traditional, salary, sport and universal draft acceptance matrix
 
 ## M4.8 acceptance
 
@@ -79,7 +90,7 @@ The checked contract-automation safeguard records intentional inactivity, not a 
 - [ ] PostgreSQL constraints, idempotency and concurrency coverage (implemented checkpoints covered)
 - [ ] Chromium workflows and representative screenshots (implemented checkpoints covered)
 - [ ] Full regression, typecheck, lint, Prisma, build and audit gates (current checkpoint passed; repeat after remaining milestones)
-- [ ] Development database and append-only trigger integrity
+- [x] Development database and append-only trigger integrity
 - [ ] Final completion report and manual acceptance checklist
 
 See the checkpoint reports for [competition](M4_2_REPORT.md), [rosters and recovery](M4_3_REPORT.md), [dynasty picks](M4_4_REPORT.md), and [commissioner administration](M4_7_REPORT.md).

@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+.league-overview-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr); gap: 1rem; align-items: start; }
+.overview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.overview-grid dt { font-weight: 700; }
+.overview-grid dd { margin: .3rem 0 0; overflow-wrap: anywhere; }
+.overview-sports { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .8rem; }
+.overview-side { display: grid; gap: 1rem; min-width: 0; }
+@media (max-width: 850px) { .league-overview-layout { grid-template-columns: 1fr; } .overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 :root {
   color-scheme: dark;
   --background: #0a0f1c;

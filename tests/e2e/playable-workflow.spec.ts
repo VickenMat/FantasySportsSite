@@ -2,6 +2,8 @@ import { randomUUID } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
 import { getDatabase } from "../../src/lib/db";
 import { readFile, writeFile } from "node:fs/promises";
+import { configureTradeReview, processAdvancedTrades } from "../../src/server/advanced-trades";
+import { installDraftBoundaryFixtures } from "../helpers/professional-boundaries";
 
 const password = "workflow-manager-12!";
 let clientIp = 150;
@@ -43,12 +45,13 @@ for (const format of ["REDRAFT", "DYNASTY"] as const) {
       await partner.goto("/leagues/discover");
       await partner.locator(".league-entry").filter({ hasText: name }).getByRole("button", { name: "Join league" }).click();
       await expect(partner.getByRole("heading", { name, exact: true })).toBeVisible();
+      await installDraftBoundaryFixtures(leagueId);
       for (const sport of sports) {
         await page.goto(`/leagues/${leagueId}/settings?sport=${sport}`);
         await page.getByLabel("Draft rounds", { exact: true }).fill("1");
         await page.getByRole("button", { name: "Save settings" }).click();
         await page.getByRole("link", { name: "Open draft center" }).click();
-        await page.getByRole("button", { name: `Start ${sport} snake draft` }).click();
+        await page.getByRole("button", { name: "Start Draft Now (testing)" }).click();
         await page.getByRole("button", { name: "Auto-pick current team" }).click();
         await page.getByRole("button", { name: "Auto-pick current team" }).click();
         await expect.poll(() => database.draft.count({ where: { leagueId, sport: sport as "NFL", status: "COMPLETE" } })).toBe(1);
@@ -62,13 +65,21 @@ for (const format of ["REDRAFT", "DYNASTY"] as const) {
       const offered = await database.rosterEntry.findFirstOrThrow({ where: { leagueId, teamId: mine.id, sport: "NFL", releasedAt: null } });
       const requested = await database.rosterEntry.findFirstOrThrow({ where: { leagueId, teamId: { not: mine.id }, sport: format === "DYNASTY" ? "NBA" : "NFL", releasedAt: null } });
       await page.goto(`/leagues/${leagueId}/trades`);
-      await page.locator(`input[name="offerPlayerIds"][value="${offered.playerId}"]`).check();
-      await page.locator(`input[name="requestPlayerIds"][value="${requested.playerId}"]`).check();
-      await page.getByRole("button", { name: "Send atomic proposal" }).click();
-      await expect.poll(() => database.trade.count({ where: { leagueId, status: "PENDING" } })).toBe(1);
+      // Explicit synthetic trade deadlines and a zero-hour review exercise settlement without a real-day wait.
+      await database.leagueSportSeason.updateMany({ where: { leagueSport: { leagueId } }, data: { tradeDeadlineAt: new Date(Date.now() + 30 * 86400000) } });
+      await configureTradeReview(user.id, leagueId, 0);
+      const offeredPlayer = await database.player.findUniqueOrThrow({ where: { id: offered.playerId } });
+      const requestedPlayer = await database.player.findUniqueOrThrow({ where: { id: requested.playerId } });
+      await page.getByLabel(`Destination for ${offered.sport} · ${offeredPlayer.displayName}`, { exact: true }).first().selectOption(requested.teamId);
+      await page.getByLabel(`Destination for ${requested.sport} · ${requestedPlayer.displayName}`, { exact: true }).first().selectOption(mine.id);
+      await page.getByRole("button", { name: "Propose multi-asset trade" }).click();
+      await expect.poll(() => database.tradeProposal.count({ where: { leagueId, status: "PENDING" } })).toBe(1);
+      await page.getByRole("button", { name: "Accept revision 1", exact: true }).click();
       await partner.goto(`/leagues/${leagueId}/trades`);
-      await partner.getByRole("button", { name: "Accept trade", exact: true }).click();
-      await expect(partner.locator(".trade-list .tag")).toHaveText("ACCEPTED");
+      await partner.getByRole("button", { name: "Accept revision 1", exact: true }).click();
+      await expect.poll(() => database.tradeProposal.count({ where: { leagueId, status: "REVIEW" } })).toBe(1);
+      await processAdvancedTrades(new Date());
+      await expect.poll(() => database.tradeProposal.count({ where: { leagueId, status: "EXECUTED" } })).toBe(1);
       await page.goto(`/leagues/${leagueId}/team?sport=${requested.sport}`);
       await page.reload();
       expect(await database.rosterEntry.findFirst({ where: { leagueId, playerId: requested.playerId, teamId: mine.id, releasedAt: null } })).not.toBeNull();
@@ -91,7 +102,7 @@ for (const format of ["REDRAFT", "DYNASTY"] as const) {
         await expect(page.getByRole("button", { name: "Cancel claim" })).toBeVisible();
         expect(await database.waiverClaim.count({ where: { leagueId, status: "PENDING" } })).toBe(1);
         expect(await database.draft.count({ where: { leagueId, status: "COMPLETE" } })).toBe(sports.length);
-        expect(await database.trade.count({ where: { leagueId, status: "ACCEPTED" } })).toBe(1);
+        expect(await database.tradeProposal.count({ where: { leagueId, status: "EXECUTED" } })).toBe(1);
       }
       await page.getByRole("button", { name: "Cancel claim" }).click();
       await expect.poll(() => database.waiverClaim.count({ where: { leagueId, status: "CANCELLED" } })).toBe(1);

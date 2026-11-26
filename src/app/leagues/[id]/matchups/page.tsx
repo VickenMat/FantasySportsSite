@@ -1,3 +1,4 @@
+import { hasSeasonScopedSchedules } from "@/server/gameplay-storage";
 import { notFound } from "next/navigation";
 import { advanceReplayAction, playoffsAction, recalculateAction, scheduleAction } from "@/app/actions/leagues";
 import { LeagueShell } from "@/components/league-shell";
@@ -10,11 +11,12 @@ import { leagueContext, resolveLeagueSport } from "@/server/league";
 export default async function MatchupsPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ sport?: string }> }) {
   const { user } = await requireSession(); const { id } = await params; const query = await searchParams;
   const context = await leagueContext(user.id, id); if (!context) notFound(); const selected = await resolveLeagueSport(id, query.sport);
-  const competition = await getDatabase().sportCompetition.findFirst({ where: { leagueId: id, sport: selected.sport }, include: { configSnapshot: true } });
+  const competition = await getDatabase().sportCompetition.findFirst({ where: { leagueId: id, sport: selected.sport, leagueSportSeason: { seasonId: selected.seasonId } }, include: { configSnapshot: true } });
   const database = getDatabase();
+  const scoped = await hasSeasonScopedSchedules();
   const [matchups, relativePeriods] = await Promise.all([
     database.matchup.findMany({ where: { leagueId: id, sport: selected.sport }, include: { period: true, homeTeam: true, awayTeam: true }, orderBy: [{ period: { number: "asc" } }, { homeTeam: { name: "asc" } }] }),
-    database.relativeMatchupPeriod.findMany({ where: { leagueSportId: selected.id }, orderBy: { number: "asc" }, include: {
+    database.relativeMatchupPeriod.findMany({ where: { leagueSportId: selected.id, ...(scoped ? { seasonId: selected.seasonId } : {}) }, orderBy: { number: "asc" }, select: { id: true, number: true,
       matchups: { orderBy: { homeTeam: { name: "asc" } }, include: { homeTeam: true, awayTeam: true } },
     } }),
   ]);

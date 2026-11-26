@@ -10,6 +10,7 @@ import { getCumulativeStandings, periodPublicationTime, scoreCapturedStarters } 
 import { captureDueGameLineups, recordAvailabilityEvidence } from "@/server/lineup-snapshots";
 import { advanceSportPlayoffs } from "@/server/playoffs";
 import { recordPositionEvidence } from "@/server/positions";
+import { finalizeCumulativeCycle, finalizeCumulativeSport } from "@/server/competitive-finalization";
 
 const database = getDatabase();
 afterAll(() => database.$disconnect());
@@ -64,7 +65,7 @@ describe("M4.2 persistent competition", () => {
     } finally { await database.league.delete({ where: { id: league.id } }); await database.game.deleteMany({ where: { id: { in: gameIds } } }).catch(() => undefined); }
   });
 
-  it("advances a seeded six-team bracket with byes and persists all 12 sport placements and awards", async () => {
+  it.each([true, false])("advances a seeded bracket and preserves seed-based elimination placement (consolation=%s)", async (consolation) => {
     const user = await database.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
     const league = await createLeague(user.id, {
       name: `M42 Bracket ${randomUUID()}`, sports: ["NFL"], maxTeams: 12, historical: true,
@@ -74,6 +75,13 @@ describe("M4.2 persistent competition", () => {
       where: { leagueId: league.id }, include: { leagueSportSeason: true },
     });
     const now = new Date("2084-11-01T00:00:00Z");
+    if (!consolation) {
+      const old = await database.competitionConfigSnapshot.findUniqueOrThrow({ where: { id: competition.configSnapshotId } });
+      const { id: _id, createdAt: _createdAt, ...data } = old;
+      void _id; void _createdAt;
+      const revised = await database.competitionConfigSnapshot.create({ data: { ...data, version: old.version + 1, consolationEnabled: false, contentHash: randomUUID() } });
+      await database.sportCompetition.update({ where: { id: competition.id }, data: { configSnapshotId: revised.id } });
+    }
     await database.game.createMany({ data: [1, 15, 16, 17].map((week) => ({
       sport: "NFL", seasonId: competition.leagueSportSeason.seasonId, provider: "m42-bracket",
       externalId: randomUUID(), phase: "REGULAR", week, startsAt: new Date(Date.UTC(2084, 8, week * 7)),
@@ -87,7 +95,7 @@ describe("M4.2 persistent competition", () => {
       } });
     }
     for (const round of [1, 2, 3]) {
-      expect(await advanceSportPlayoffs(user.id, competition.id, now)).toEqual({ status: "SCHEDULED", created: round === 3 ? 6 : 4 });
+      expect(await advanceSportPlayoffs(user.id, competition.id, now)).toEqual({ status: "SCHEDULED", created: consolation ? round === 3 ? 6 : 4 : 2 });
       expect(await advanceSportPlayoffs(user.id, competition.id, now)).toEqual({ status: "PENDING_PLAYOFF_RESULTS", created: 0 });
       const games = await database.matchup.findMany({ where: { leagueId: league.id, playoffRound: round } });
       if (round === 1) {
@@ -107,6 +115,10 @@ describe("M4.2 persistent competition", () => {
     });
     expect(placements.map(({ placement }) => placement)).toEqual(Array.from({ length: 12 }, (_, index) => index + 1));
     expect(placements[0]).toMatchObject({ initialSeed: 1, qualifiedForPlayoffs: true });
+    if (!consolation) {
+      expect(placements.slice(4).map(({ initialSeed }) => initialSeed)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);
+      expect(await database.matchup.count({ where: { leagueId: league.id, OR: [{ bracketSlot: { startsWith: "CONSOLATION" } }, { bracketSlot: "CHAMP-FIFTH" }] } })).toBe(0);
+    }
     const awards = await database.championshipPointAward.findMany({
       where: { sportCompetitionId: competition.id, teamId: placements[0].teamId },
     });
@@ -244,6 +256,20 @@ describe("M4.2 persistent competition", () => {
       .toMatchObject([{ pointsFor: 71n }]);
     expect((await getCumulativeStandings(league.id, { sport: "NFL" }, publishedLate)).rows[0])
       .toMatchObject({ pointsFor: 123n });
+    await database.leagueSportSeason.updateMany({ where: { leagueSportId: { in: leagues.map(({ id }) => id) } }, data: { scoringEndsAt: scoredAt } });
+    const nflCompetition = competitionBySport.find(({ sport }) => sport === "NFL")!;
+    const nbaCompetition = competitionBySport.find(({ sport }) => sport === "NBA")!;
+    expect(await finalizeCumulativeSport(nflCompetition.id, now)).toMatchObject({ status: "PROVISIONAL" });
+    expect(await finalizeCumulativeSport(nflCompetition.id, publishedLate)).toMatchObject({ status: "FINALIZED" });
+    const assignment = await database.leagueSportSeason.findFirstOrThrow({ where: { leagueSportId: nfl.leagueSport.id } });
+    expect(await finalizeCumulativeCycle(assignment.championshipCycleId, publishedLate)).toMatchObject({ status: "PENDING_SPORTS" });
+    expect(await finalizeCumulativeSport(nbaCompetition.id, publishedLate)).toMatchObject({ status: "FINALIZED" });
+    expect(await finalizeCumulativeCycle(assignment.championshipCycleId, publishedLate)).toMatchObject({ status: "FINALIZED" });
+    await finalizeCumulativeSport(nflCompetition.id, publishedLate);
+    await finalizeCumulativeCycle(assignment.championshipCycleId, publishedLate);
+    expect((await getCumulativeStandings(league.id, { sport: "NFL" }, publishedLate)).rows[0]).toMatchObject({ pointsFor: 71n });
+    expect((await database.championshipResult.findMany({ where: { championshipCycleId: assignment.championshipCycleId }, orderBy: { rank: "asc" } })).map(({ teamId, combinedUbpTenths }) => [teamId, combinedUbpTenths])).toEqual([[teams[1].id, 91n], [teams[0].id, 71n]]);
+    expect(await database.championshipPointAward.count({ where: { sportCompetition: { leagueId: league.id } } })).toBe(0);
     expect(await database.matchup.count({ where: { leagueId: league.id } })).toBe(0);
     expect(await database.championshipPointAward.count({ where: { sportCompetition: { leagueId: league.id } } })).toBe(0);
     await database.league.delete({ where: { id: league.id } });

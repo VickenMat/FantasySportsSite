@@ -4,8 +4,9 @@ import { getDatabase } from "../../src/lib/db";
 import { createLeague, transitionSportSeason } from "../../src/server/league";
 import { provisionFutureDraftPicks } from "../../src/server/dynasty-picks";
 import { recordRookieEligibility } from "../../src/server/rookies";
+import { finalizeRookiePlacements } from "../helpers/rookie-placements";
 
-test("commissioner executes a manual linear rookie draft through the website and sees consumed entitlements", async ({ page }) => {
+test("commissioner executes reverse finalized rookie order through the website and sees consumed entitlements", async ({ page }) => {
   const db = getDatabase();
   const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
   const league = await createLeague(user.id, { name: `Isolated rookie workflow ${randomUUID()}`, sports: ["NFL"], format: "DYNASTY", maxTeams: 2, fillWithComputers: true, historical: true, seasonYear: 2060 });
@@ -13,6 +14,8 @@ test("commissioner executes a manual linear rookie draft through the website and
     await db.league.update({ where: { id: league.id }, data: { status: "ACTIVE" } });
     const sport = await db.leagueSport.findFirstOrThrow({ where: { leagueId: league.id } });
     await provisionFutureDraftPicks(user.id, league.id, sport.id);
+    const teams = await db.fantasyTeam.findMany({ where: { leagueId: league.id }, orderBy: { draftSlot: "asc" } });
+    await finalizeRookiePlacements(sport.id, teams.map(({ id }) => id));
     await transitionSportSeason(user.id, league.id, "NFL", 2061);
     const current = await db.leagueSport.findUniqueOrThrow({ where: { id: sport.id } });
     for (let index = 0; index < 4; index++) {
@@ -27,7 +30,7 @@ test("commissioner executes a manual linear rookie draft through the website and
     await expect(page).toHaveURL("/dashboard");
     await page.goto(`/leagues/${league.id}/picks?sport=NFL`);
     await page.getByText("Start rookie draft", { exact: true }).first().click();
-    await page.getByLabel("Order method").selectOption("MANUAL");
+    await expect(page.getByLabel("Order method")).toHaveCount(0);
     await page.getByRole("combobox", { name: /^Rounds/ }).selectOption("2");
     await page.getByLabel("Reason", { exact: true }).fill("Explicit isolated browser rookie order");
     await page.getByRole("button", { name: "Start rookie draft", exact: true }).click();
