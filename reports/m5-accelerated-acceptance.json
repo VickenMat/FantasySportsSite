@@ -241,7 +241,11 @@
     "prismaValidation": true,
     "npmVulnerabilities": 0,
     "overlapDeadlineFailure": "One prior roster-waivers test exceeded5s during startup/unit/lint overlap; all129 passed alone in both final fresh-schema runs without assertion/deadline changes.",
-    "turbopack": "Not rerun: prior environment subprocess port-binding EPERM; Webpack remains verified."
+    "turbopack": "Not rerun: prior environment subprocess port-binding EPERM; Webpack remains verified.",
+    "standardSkippedWorkflows": [
+      "Mutable live-development smoke test omitted to preserve development data",
+      "Populated-copy test exercised separately:1passed"
+    ]
   },
   "realSourceAcceptance": {
     "schemaMatchesReviewedBatch": true,
@@ -1562,5 +1566,9 @@
     "changes": [],
     "scope": "LOCAL_IMMUTABLE_RELEASE_COMPARISON; artifact revision is not official publication",
     "developmentWrites": 0
-  }
+  },
+  "implementationCheckpoint": "65f50d23371f5181226f63154cd0a33ffba8902a",
+  "implementationSynchronized": true,
+  "remote": "origin/main",
+  "documentationOnlyFollowUp": true
 }

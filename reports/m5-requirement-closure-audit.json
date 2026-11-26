@@ -252,5 +252,7 @@
   "newProductAlternativesActivated": false,
   "currentChecked": 13,
   "currentUnchecked": 19,
-  "finalVerification": "ALL_AUTOMATED_CHECKS_PASSED_198_UNIT_129_NORMAL_129_SHUFFLED_20_STANDARD_2_RESTART_1_POPULATED_GIT_PENDING"
+  "finalVerification": "ALL_AUTOMATED_CHECKS_PASSED_198_UNIT_129_NORMAL_129_SHUFFLED_20_STANDARD_2_RESTART_1_POPULATED",
+  "implementationCheckpoint": "65f50d23371f5181226f63154cd0a33ffba8902a",
+  "implementationSynchronized": true
 }
