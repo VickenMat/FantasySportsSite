@@ -1,0 +1,10 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {fingerprint} from '@/ingestion/contracts';
+import {reviewRecordedRolelessMlbAppearance} from '@/simulation/preparation/role-quality';
+import type {PreparedHistoricalRow} from '@/simulation/preparation/records';
+const [input,output]=process.argv.slice(2);if(!input||!output)throw Error('Pass exact source groups and output paths.');const groups=JSON.parse(await readFile(input,'utf8')) as PreparedHistoricalRow[][];
+if(groups.length!==35)throw Error('The bounded role-quality review contains exactly35 keys.');
+const rows=groups.map(reviewRecordedRolelessMlbAppearance).sort((a,b)=>a.playerGameKey.localeCompare(b.playerGameKey));
+const repeated=groups.map(group=>reviewRecordedRolelessMlbAppearance([...group].reverse())).sort((a,b)=>a.playerGameKey.localeCompare(b.playerGameKey));
+if(fingerprint(rows)!==fingerprint(repeated))throw Error('Recorded role review changed with source row ordering.');
+const body={version:'m6-recorded-role-quality-overlay-1',parentDatasetFingerprint:'34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749',rows,roleQualityKeys:rows.length,sourceRows:groups.reduce((sum,group)=>sum+group.length,0),classification:'ROLE_LEVEL_NON_PLAYING_PLACEHOLDER',actualAthleteDnpClaims:0,assignedScoringRoles:0,productionRoleResolutions:0,scoreMaterializations:0,developmentWrites:0,v10Active:false,replaySemanticChanges:0};const manifest={...body,fingerprint:fingerprint(body)};await writeFile(output,JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({fingerprint:manifest.fingerprint,keys:rows.length,parentDatasetFingerprint:body.parentDatasetFingerprint,sourceOrderReplayChanges:0},null,2));

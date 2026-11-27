@@ -1,0 +1,6669 @@
+{
+  "version": "m6-nhl-full-base-vector-corroboration-1",
+  "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+  "archiveRows": 506116,
+  "seasons": [
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2016,
+      "archiveRows": 49197,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 52677,
+      "sourceRowsOutsideArchive": 3480,
+      "comparisonStatuses": {
+        "AGREEMENT": 49197
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "7b9b646dccd740c324d3b1f7acc20a05209c131d5a8fe622eb4bd2a6f5f86b7d",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2017.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:57:31.443Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "f5deade8ccadea6ba9b5e2d67cfa01776c654236fda346b106f82663ec60e3be",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2017.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:57:31.798Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2016/comparison.jsonl",
+      "comparisonSha256": "b45d6500fa0ad8190d43d7199804d7c98ab1c916a2d2242f9f3bf6d6aafb7de3",
+      "comparisonBytes": 77715355,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2017,
+      "archiveRows": 50840,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 54200,
+      "sourceRowsOutsideArchive": 3360,
+      "comparisonStatuses": {
+        "AGREEMENT": 50840
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "8f2c5706457e4949732446fca3e2bb74612fd87234f1775be644490ece66cd26",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2018.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:09.755Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "8d3710b0aed6874fab7c54aa3a58b9ae43d6a55313ae39bb90b62a7692ca5174",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2018.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:10.059Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2017/comparison.jsonl",
+      "comparisonSha256": "6a0a8539d6b6165a743f1b956f3c3339feeb4457c19f41ec9aa3e44bf4f6f979",
+      "comparisonBytes": 80322398,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2018,
+      "archiveRows": 50840,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 54320,
+      "sourceRowsOutsideArchive": 3480,
+      "comparisonStatuses": {
+        "AGREEMENT": 50840
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "423f22f7edb271d45d0712f0cf77a122294c4fe9d1f312e57bad43f15033d271",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2019.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:17.521Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "b33e5086fafa22ba8dc06a16a7fccd9f15fb84adfc491f85231967cc67813bc2",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2019.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:17.851Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2018/comparison.jsonl",
+      "comparisonSha256": "7a3c4f53c4f0fec199e44888782d5b6ffe2434ae33ce11a87309cc74659b61b9",
+      "comparisonBytes": 80373142,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2019,
+      "archiveRows": 43280,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 48482,
+      "sourceRowsOutsideArchive": 5202,
+      "comparisonStatuses": {
+        "AGREEMENT": 43280
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "776607631c65c9af20ff855595634cd82f83d8eb5e226864006ca2acf7c8c686",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2020.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:25.287Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "91c30b401a9cdb01c2bafccd83facab7129ef9aa998333f65f3fe157e4f38889",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2020.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:25.592Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2019/comparison.jsonl",
+      "comparisonSha256": "14d3d6290f6939f2a5120834290d314e87476dea3944b97e14e914d4ca2a5d65",
+      "comparisonBytes": 68421342,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2020,
+      "archiveRows": 34700,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 38060,
+      "sourceRowsOutsideArchive": 3360,
+      "comparisonStatuses": {
+        "AGREEMENT": 34700
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "4a866381c9e4a4137ecede28efaaaa807f763e7c020cca8ed70005d6814257e2",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2021.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:32.050Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "af1cbd3fcde65c54d2f390b11b2ab38be01d21cc8310b3d7c84a1432ea753a97",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2021.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:32.464Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2020/comparison.jsonl",
+      "comparisonSha256": "e4831c4d05668bcefc76c3fa2c86b0bd3a5a232ef94bff510b174c9db4190ba2",
+      "comparisonBytes": 54857018,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2021,
+      "archiveRows": 52460,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 56020,
+      "sourceRowsOutsideArchive": 3560,
+      "comparisonStatuses": {
+        "AGREEMENT": 52444,
+        "CONFLICT": 16
+      },
+      "conflictFields": {
+        "saves": 16
+      },
+      "conflictGames": 16,
+      "conflicts": [
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020219",
+          "sourcePlayerId": "8471418",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020345",
+          "sourcePlayerId": "8471734",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 32,
+              "sourceValue": 33
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020443",
+          "sourcePlayerId": "8478435",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 26
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020478",
+          "sourcePlayerId": "8478007",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 35,
+              "sourceValue": 36
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020704",
+          "sourcePlayerId": "8477970",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020744",
+          "sourcePlayerId": "8477180",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 42,
+              "sourceValue": 43
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020752",
+          "sourcePlayerId": "8475789",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 17,
+              "sourceValue": 18
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020837",
+          "sourcePlayerId": "8473575",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020919",
+          "sourcePlayerId": "8477968",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 35,
+              "sourceValue": 36
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020933",
+          "sourcePlayerId": "8478470",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021020971",
+          "sourcePlayerId": "8478007",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 20,
+              "sourceValue": 21
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021021070",
+          "sourcePlayerId": "8471734",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021021106",
+          "sourcePlayerId": "8475215",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 27
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021021119",
+          "sourcePlayerId": "8475311",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 41,
+              "sourceValue": 42
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021021267",
+          "sourcePlayerId": "8479496",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 42,
+              "sourceValue": 43
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2021,
+          "sourceGameId": "2021021292",
+          "sourcePlayerId": "8476883",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 33,
+              "sourceValue": 34
+            }
+          ],
+          "teamConflict": false
+        }
+      ],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "8e5bf525a981f74476912f46ae4aac6ff9e2788aa5360dca2fa6a589948fdf60",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2022.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:38.717Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "fa43a9733a38c29c72f012f3f85230179152d2aadbdd257244ed59250cc2ebcd",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2022.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:39.136Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2021/comparison.jsonl",
+      "comparisonSha256": "48c0c1a695cb88f98e6879ad62c517e7023e4a06ae9b8c48f61a0379d8da5ce6",
+      "comparisonBytes": 82934610,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2022,
+      "archiveRows": 52460,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 55980,
+      "sourceRowsOutsideArchive": 3520,
+      "comparisonStatuses": {
+        "AGREEMENT": 52460
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "ad303c67453593f63fa4fb5b4b5dd17a1502ee0461e22698301c4e564ce6ccab",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2023.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:48.960Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "5636c3acd31b13cd47f35770984d4f2d7b9ec734478acaec3e485d2b19c2ef85",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2023.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T02:58:49.276Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2022/comparison.jsonl",
+      "comparisonSha256": "a4c47319f9fe5f6ca4f42d3b74dd693035b390f75c6e942f777cd8efca142808",
+      "comparisonBytes": 82934028,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2023,
+      "archiveRows": 52468,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 55988,
+      "sourceRowsOutsideArchive": 3520,
+      "comparisonStatuses": {
+        "AGREEMENT": 52468
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "5120fa16c1d004d7d56da33c57e5b82da9ea6bdb8a3282d8ff05a5ac9c7e6c25",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2024.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:03:38.463Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "50b5e9b275e1af733b05f74d377c3fb9b617c03afbb661e9a4c71c38bf3fae60",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2024.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:03:44.332Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2023/comparison.jsonl",
+      "comparisonSha256": "1f5cb7db928f5c26e7198764d9d7784948db43922249a978db594e170a7f235e",
+      "comparisonBytes": 82946844,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2024,
+      "archiveRows": 52473,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 55913,
+      "sourceRowsOutsideArchive": 3440,
+      "comparisonStatuses": {
+        "AGREEMENT": 52473
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "d4557ae020c5e2a31db263aaa9981f0a8e420a4ea1eea86ac30cd67e3e133838",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2025.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:04:09.799Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "491b4d994ad2da7b2244c104872d162d2efd25eead7c87f35f51af98120fe421",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2025.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:04:15.829Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2024/comparison.jsonl",
+      "comparisonSha256": "2793bb9b6a60dd990bfc03e13dfce5c3864254f19a5a3678bc3f3af236bd885b",
+      "comparisonBytes": 82954580,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2025,
+      "archiveRows": 52478,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 55758,
+      "sourceRowsOutsideArchive": 3280,
+      "comparisonStatuses": {
+        "AGREEMENT": 52478
+      },
+      "conflictFields": {},
+      "conflictGames": 0,
+      "conflicts": [],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "781c2bc6611cdce4d4f311cf8ce1d54a60891f089e49f77d847140cc7eb08567",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2026.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:04:41.659Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "e7a765628402cda039a722bce9b03805ed7fef9713e2d68fe9adf973cf0cd76d",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2026.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:04:47.679Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2025/comparison.jsonl",
+      "comparisonSha256": "d1867d62e4ab08b4858088c62ee9b260aad0d190fe5b34854310018fcc2f5d52",
+      "comparisonBytes": 82962716,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    },
+    {
+      "version": "m6-nhl-full-base-vector-corroboration-1",
+      "seasonStartYear": 2026,
+      "archiveRows": 14920,
+      "archiveSha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "sourceRows": 15960,
+      "sourceRowsOutsideArchive": 1040,
+      "comparisonStatuses": {
+        "AGREEMENT": 14495,
+        "CONFLICT": 425
+      },
+      "conflictFields": {
+        "blockedShots": 80,
+        "hits": 95,
+        "sog": 142,
+        "saves": 99,
+        "assists": 15,
+        "goals": 4
+      },
+      "conflictGames": 155,
+      "conflicts": [
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020071",
+          "sourcePlayerId": "8483476",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020073",
+          "sourcePlayerId": "8477932",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020085",
+          "sourcePlayerId": "8482055",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020085",
+          "sourcePlayerId": "8483678",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020086",
+          "sourcePlayerId": "8476372",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020086",
+          "sourcePlayerId": "8476461",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020088",
+          "sourcePlayerId": "8477488",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020088",
+          "sourcePlayerId": "8478399",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020088",
+          "sourcePlayerId": "8481559",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020089",
+          "sourcePlayerId": "8476463",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020089",
+          "sourcePlayerId": "8478396",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020090",
+          "sourcePlayerId": "8484471",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020092",
+          "sourcePlayerId": "8480807",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020092",
+          "sourcePlayerId": "8482097",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020092",
+          "sourcePlayerId": "8484145",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020092",
+          "sourcePlayerId": "8484170",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 13,
+              "sourceValue": 14
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020095",
+          "sourcePlayerId": "8478882",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020096",
+          "sourcePlayerId": "8480981",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 16,
+              "sourceValue": 15
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020096",
+          "sourcePlayerId": "8481528",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020098",
+          "sourcePlayerId": "8482176",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020101",
+          "sourcePlayerId": "8476869",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020101",
+          "sourcePlayerId": "8478499",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020101",
+          "sourcePlayerId": "8479639",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020103",
+          "sourcePlayerId": "8480797",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020103",
+          "sourcePlayerId": "8483495",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020106",
+          "sourcePlayerId": "8475184",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020106",
+          "sourcePlayerId": "8479292",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 26
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020106",
+          "sourcePlayerId": "8482487",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 19,
+              "sourceValue": 18
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020106",
+          "sourcePlayerId": "8484186",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020107",
+          "sourcePlayerId": "8480878",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020119",
+          "sourcePlayerId": "8478406",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 29
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020119",
+          "sourcePlayerId": "8478454",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020119",
+          "sourcePlayerId": "8485414",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020120",
+          "sourcePlayerId": "8480022",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020120",
+          "sourcePlayerId": "8481563",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020120",
+          "sourcePlayerId": "8482511",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020126",
+          "sourcePlayerId": "8479359",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020126",
+          "sourcePlayerId": "8482803",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020129",
+          "sourcePlayerId": "8478460",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020129",
+          "sourcePlayerId": "8479323",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020129",
+          "sourcePlayerId": "8482073",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020129",
+          "sourcePlayerId": "8482126",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020129",
+          "sourcePlayerId": "8482982",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 29
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8476902",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8478413",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8481641",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8482062",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8484829",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020130",
+          "sourcePlayerId": "8484938",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020131",
+          "sourcePlayerId": "8480023",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020131",
+          "sourcePlayerId": "8482482",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020132",
+          "sourcePlayerId": "8477960",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020132",
+          "sourcePlayerId": "8478840",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020132",
+          "sourcePlayerId": "8481219",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020132",
+          "sourcePlayerId": "8482155",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020134",
+          "sourcePlayerId": "8471724",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020134",
+          "sourcePlayerId": "8474578",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020134",
+          "sourcePlayerId": "8482758",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020135",
+          "sourcePlayerId": "8474567",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020135",
+          "sourcePlayerId": "8475660",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 33,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020135",
+          "sourcePlayerId": "8482661",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 14,
+              "sourceValue": 13
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020135",
+          "sourcePlayerId": "8482720",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020138",
+          "sourcePlayerId": "8477948",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020138",
+          "sourcePlayerId": "8477989",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020139",
+          "sourcePlayerId": "8476885",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020139",
+          "sourcePlayerId": "8477498",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020139",
+          "sourcePlayerId": "8478178",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020143",
+          "sourcePlayerId": "8475170",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020143",
+          "sourcePlayerId": "8482516",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020145",
+          "sourcePlayerId": "8475171",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020145",
+          "sourcePlayerId": "8476932",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 36,
+              "sourceValue": 35
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020145",
+          "sourcePlayerId": "8478458",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020145",
+          "sourcePlayerId": "8478460",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 9,
+              "sourceValue": 8
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020148",
+          "sourcePlayerId": "8479365",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020149",
+          "sourcePlayerId": "8475831",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 21,
+              "sourceValue": 22
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020149",
+          "sourcePlayerId": "8476457",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020149",
+          "sourcePlayerId": "8482802",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020150",
+          "sourcePlayerId": "8475848",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020150",
+          "sourcePlayerId": "8478970",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020150",
+          "sourcePlayerId": "8482809",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020150",
+          "sourcePlayerId": "8483395",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "goals",
+              "archiveValue": 1,
+              "sourceValue": 0
+            },
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020150",
+          "sourcePlayerId": "8484136",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "goals",
+              "archiveValue": 0,
+              "sourceValue": 1
+            },
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            },
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020152",
+          "sourcePlayerId": "8480045",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 23
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020152",
+          "sourcePlayerId": "8485406",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020153",
+          "sourcePlayerId": "8479314",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020153",
+          "sourcePlayerId": "8480185",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020157",
+          "sourcePlayerId": "8473986",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020157",
+          "sourcePlayerId": "8478024",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020157",
+          "sourcePlayerId": "8478542",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020157",
+          "sourcePlayerId": "8482076",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 15,
+              "sourceValue": 16
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020158",
+          "sourcePlayerId": "8474578",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020158",
+          "sourcePlayerId": "8481725",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020158",
+          "sourcePlayerId": "8483487",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020158",
+          "sourcePlayerId": "8484900",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 18,
+              "sourceValue": 17
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020160",
+          "sourcePlayerId": "8478403",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020160",
+          "sourcePlayerId": "8480023",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020160",
+          "sourcePlayerId": "8480981",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 27
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020160",
+          "sourcePlayerId": "8482077",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020161",
+          "sourcePlayerId": "8478449",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020161",
+          "sourcePlayerId": "8481581",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020162",
+          "sourcePlayerId": "8476463",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020162",
+          "sourcePlayerId": "8478493",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020162",
+          "sourcePlayerId": "8480800",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020162",
+          "sourcePlayerId": "8482445",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 38,
+              "sourceValue": 36
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020163",
+          "sourcePlayerId": "8477478",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020163",
+          "sourcePlayerId": "8478427",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020163",
+          "sourcePlayerId": "8480762",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020164",
+          "sourcePlayerId": "8478872",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 20,
+              "sourceValue": 18
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020164",
+          "sourcePlayerId": "8481554",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020164",
+          "sourcePlayerId": "8484800",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020167",
+          "sourcePlayerId": "8476967",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020168",
+          "sourcePlayerId": "8483760",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020170",
+          "sourcePlayerId": "8475200",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020170",
+          "sourcePlayerId": "8479325",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020170",
+          "sourcePlayerId": "8482700",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020171",
+          "sourcePlayerId": "8476459",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020171",
+          "sourcePlayerId": "8477992",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020178",
+          "sourcePlayerId": "8482078",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020178",
+          "sourcePlayerId": "8482445",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020179",
+          "sourcePlayerId": "8476905",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020179",
+          "sourcePlayerId": "8479985",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020180",
+          "sourcePlayerId": "8477409",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020180",
+          "sourcePlayerId": "8481519",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020181",
+          "sourcePlayerId": "8479979",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 16,
+              "sourceValue": 17
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020181",
+          "sourcePlayerId": "8481601",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020187",
+          "sourcePlayerId": "8477465",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 26
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020187",
+          "sourcePlayerId": "8480834",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020187",
+          "sourcePlayerId": "8482078",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020187",
+          "sourcePlayerId": "8485545",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020188",
+          "sourcePlayerId": "8475660",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020188",
+          "sourcePlayerId": "8477989",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020189",
+          "sourcePlayerId": "8480355",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020189",
+          "sourcePlayerId": "8481611",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 15,
+              "sourceValue": 14
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020191",
+          "sourcePlayerId": "8476412",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 19,
+              "sourceValue": 18
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020191",
+          "sourcePlayerId": "8476875",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020192",
+          "sourcePlayerId": "8475151",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020192",
+          "sourcePlayerId": "8477424",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020194",
+          "sourcePlayerId": "8475462",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020195",
+          "sourcePlayerId": "8474567",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020195",
+          "sourcePlayerId": "8476874",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020195",
+          "sourcePlayerId": "8478872",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 28,
+              "sourceValue": 27
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020198",
+          "sourcePlayerId": "8480839",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020198",
+          "sourcePlayerId": "8482137",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 39,
+              "sourceValue": 38
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020201",
+          "sourcePlayerId": "8474596",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 40,
+              "sourceValue": 39
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020201",
+          "sourcePlayerId": "8478399",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020201",
+          "sourcePlayerId": "8480990",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020201",
+          "sourcePlayerId": "8486171",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020202",
+          "sourcePlayerId": "8475831",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 18,
+              "sourceValue": 17
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020202",
+          "sourcePlayerId": "8479442",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020203",
+          "sourcePlayerId": "8477971",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020203",
+          "sourcePlayerId": "8484471",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020203",
+          "sourcePlayerId": "8484794",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020204",
+          "sourcePlayerId": "8476331",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020204",
+          "sourcePlayerId": "8478398",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020205",
+          "sourcePlayerId": "8479343",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020205",
+          "sourcePlayerId": "8481668",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020205",
+          "sourcePlayerId": "8482657",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020205",
+          "sourcePlayerId": "8485414",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020207",
+          "sourcePlayerId": "8480981",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020207",
+          "sourcePlayerId": "8483505",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020208",
+          "sourcePlayerId": "8479292",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020208",
+          "sourcePlayerId": "8479345",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020208",
+          "sourcePlayerId": "8479525",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020209",
+          "sourcePlayerId": "8481523",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020209",
+          "sourcePlayerId": "8482737",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020210",
+          "sourcePlayerId": "8476917",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020210",
+          "sourcePlayerId": "8478009",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 23,
+              "sourceValue": 22
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020210",
+          "sourcePlayerId": "8478493",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020211",
+          "sourcePlayerId": "8481522",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020211",
+          "sourcePlayerId": "8484145",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020212",
+          "sourcePlayerId": "8478550",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020217",
+          "sourcePlayerId": "8480022",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 38,
+              "sourceValue": 37
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020217",
+          "sourcePlayerId": "8481568",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 7,
+              "sourceValue": 6
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020218",
+          "sourcePlayerId": "8478042",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020218",
+          "sourcePlayerId": "8480023",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020218",
+          "sourcePlayerId": "8480981",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 23,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020218",
+          "sourcePlayerId": "8482077",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020219",
+          "sourcePlayerId": "8474151",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020220",
+          "sourcePlayerId": "8476454",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020220",
+          "sourcePlayerId": "8478009",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 21,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020224",
+          "sourcePlayerId": "8478498",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            },
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020224",
+          "sourcePlayerId": "8479425",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020226",
+          "sourcePlayerId": "8477492",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020226",
+          "sourcePlayerId": "8482949",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020226",
+          "sourcePlayerId": "8484258",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020226",
+          "sourcePlayerId": "8486171",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020228",
+          "sourcePlayerId": "8480043",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020228",
+          "sourcePlayerId": "8480313",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 23,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020228",
+          "sourcePlayerId": "8484873",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020228",
+          "sourcePlayerId": "8485702",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020230",
+          "sourcePlayerId": "8480803",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020230",
+          "sourcePlayerId": "8482073",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020230",
+          "sourcePlayerId": "8482157",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020230",
+          "sourcePlayerId": "8482193",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 20,
+              "sourceValue": 21
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020231",
+          "sourcePlayerId": "8476316",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 20,
+              "sourceValue": 19
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020231",
+          "sourcePlayerId": "8480188",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020231",
+          "sourcePlayerId": "8481563",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020233",
+          "sourcePlayerId": "8475462",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020233",
+          "sourcePlayerId": "8477932",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020235",
+          "sourcePlayerId": "8480748",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020235",
+          "sourcePlayerId": "8485402",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020236",
+          "sourcePlayerId": "8478474",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020236",
+          "sourcePlayerId": "8484386",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020244",
+          "sourcePlayerId": "8480069",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020247",
+          "sourcePlayerId": "8481035",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 23
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020247",
+          "sourcePlayerId": "8484305",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020248",
+          "sourcePlayerId": "8480801",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020248",
+          "sourcePlayerId": "8481519",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020249",
+          "sourcePlayerId": "8470621",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020249",
+          "sourcePlayerId": "8474563",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020249",
+          "sourcePlayerId": "8482137",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 19,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020250",
+          "sourcePlayerId": "8477919",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020250",
+          "sourcePlayerId": "8477986",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020250",
+          "sourcePlayerId": "8482858",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020252",
+          "sourcePlayerId": "8478403",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020252",
+          "sourcePlayerId": "8480193",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020253",
+          "sourcePlayerId": "8476883",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020253",
+          "sourcePlayerId": "8484144",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020254",
+          "sourcePlayerId": "8476412",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 32,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020254",
+          "sourcePlayerId": "8476462",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020254",
+          "sourcePlayerId": "8482146",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020254",
+          "sourcePlayerId": "8483695",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020255",
+          "sourcePlayerId": "8476921",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020256",
+          "sourcePlayerId": "8476459",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020256",
+          "sourcePlayerId": "8479361",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020257",
+          "sourcePlayerId": "8471724",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020257",
+          "sourcePlayerId": "8480022",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 17,
+              "sourceValue": 16
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020257",
+          "sourcePlayerId": "8482177",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020257",
+          "sourcePlayerId": "8483017",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8474574",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8475660",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 27
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8478420",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8481581",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8482660",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8482740",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020258",
+          "sourcePlayerId": "8484829",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020260",
+          "sourcePlayerId": "8477035",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 17,
+              "sourceValue": 16
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020260",
+          "sourcePlayerId": "8484153",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020261",
+          "sourcePlayerId": "8476455",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020261",
+          "sourcePlayerId": "8481020",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020262",
+          "sourcePlayerId": "8482671",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020262",
+          "sourcePlayerId": "8482982",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020263",
+          "sourcePlayerId": "8475200",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020263",
+          "sourcePlayerId": "8478864",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020263",
+          "sourcePlayerId": "8482137",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020263",
+          "sourcePlayerId": "8482859",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020263",
+          "sourcePlayerId": "8485402",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020264",
+          "sourcePlayerId": "8484768",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 7,
+              "sourceValue": 6
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020265",
+          "sourcePlayerId": "8477935",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            },
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020265",
+          "sourcePlayerId": "8480313",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 27
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020265",
+          "sourcePlayerId": "8480801",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020266",
+          "sourcePlayerId": "8474600",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020266",
+          "sourcePlayerId": "8475764",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020266",
+          "sourcePlayerId": "8476892",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020266",
+          "sourcePlayerId": "8477424",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020266",
+          "sourcePlayerId": "8477527",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020269",
+          "sourcePlayerId": "8479619",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020269",
+          "sourcePlayerId": "8481035",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020269",
+          "sourcePlayerId": "8483436",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020272",
+          "sourcePlayerId": "8474102",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020272",
+          "sourcePlayerId": "8477968",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 27,
+              "sourceValue": 26
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020275",
+          "sourcePlayerId": "8474578",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020276",
+          "sourcePlayerId": "8477450",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020276",
+          "sourcePlayerId": "8480029",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020276",
+          "sourcePlayerId": "8482055",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020276",
+          "sourcePlayerId": "8482221",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 21,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020277",
+          "sourcePlayerId": "8474593",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 33,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020277",
+          "sourcePlayerId": "8476854",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020277",
+          "sourcePlayerId": "8477935",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020277",
+          "sourcePlayerId": "8479325",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020277",
+          "sourcePlayerId": "8480280",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 41,
+              "sourceValue": 40
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020280",
+          "sourcePlayerId": "8476883",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 22,
+              "sourceValue": 21
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020280",
+          "sourcePlayerId": "8486025",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020283",
+          "sourcePlayerId": "8479323",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020283",
+          "sourcePlayerId": "8481789",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020283",
+          "sourcePlayerId": "8482221",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 30,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020285",
+          "sourcePlayerId": "8478009",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 39,
+              "sourceValue": 37
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020285",
+          "sourcePlayerId": "8485402",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020285",
+          "sourcePlayerId": "8486103",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020288",
+          "sourcePlayerId": "8473512",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020288",
+          "sourcePlayerId": "8480313",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020289",
+          "sourcePlayerId": "8474593",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 38,
+              "sourceValue": 37
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020289",
+          "sourcePlayerId": "8475660",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 24
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020289",
+          "sourcePlayerId": "8477935",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020289",
+          "sourcePlayerId": "8482705",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020290",
+          "sourcePlayerId": "8479992",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020290",
+          "sourcePlayerId": "8480981",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020290",
+          "sourcePlayerId": "8482111",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020293",
+          "sourcePlayerId": "8483500",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020294",
+          "sourcePlayerId": "8481028",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020294",
+          "sourcePlayerId": "8482747",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020295",
+          "sourcePlayerId": "8476473",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020295",
+          "sourcePlayerId": "8477465",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020295",
+          "sourcePlayerId": "8478569",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020296",
+          "sourcePlayerId": "8477070",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 6,
+              "sourceValue": 7
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020296",
+          "sourcePlayerId": "8478831",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020298",
+          "sourcePlayerId": "8482137",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 34,
+              "sourceValue": 33
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020298",
+          "sourcePlayerId": "8482475",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020300",
+          "sourcePlayerId": "8474567",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020300",
+          "sourcePlayerId": "8478508",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 6,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020300",
+          "sourcePlayerId": "8481557",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020302",
+          "sourcePlayerId": "8482802",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020306",
+          "sourcePlayerId": "8482740",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020307",
+          "sourcePlayerId": "8480459",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020307",
+          "sourcePlayerId": "8480855",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020308",
+          "sourcePlayerId": "8475151",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020310",
+          "sourcePlayerId": "8477969",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020310",
+          "sourcePlayerId": "8482447",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 25,
+              "sourceValue": 26
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020311",
+          "sourcePlayerId": "8478450",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020311",
+          "sourcePlayerId": "8478499",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020311",
+          "sourcePlayerId": "8479525",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020311",
+          "sourcePlayerId": "8481726",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020311",
+          "sourcePlayerId": "8482482",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8477365",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            },
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8479325",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8479591",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8479661",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8482661",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8483017",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020313",
+          "sourcePlayerId": "8483489",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020314",
+          "sourcePlayerId": "8477953",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020314",
+          "sourcePlayerId": "8486161",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8475753",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8476453",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 6,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8476883",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 19,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8477971",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8480193",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 32,
+              "sourceValue": 31
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020316",
+          "sourcePlayerId": "8482802",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020317",
+          "sourcePlayerId": "8483703",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020317",
+          "sourcePlayerId": "8484759",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020318",
+          "sourcePlayerId": "8476474",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020318",
+          "sourcePlayerId": "8476945",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 42,
+              "sourceValue": 43
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020318",
+          "sourcePlayerId": "8478399",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020318",
+          "sourcePlayerId": "8478911",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020319",
+          "sourcePlayerId": "8479361",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 29,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020319",
+          "sourcePlayerId": "8484166",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020320",
+          "sourcePlayerId": "8474593",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 23
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020320",
+          "sourcePlayerId": "8477903",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020320",
+          "sourcePlayerId": "8480459",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020320",
+          "sourcePlayerId": "8481655",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020320",
+          "sourcePlayerId": "8484164",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020321",
+          "sourcePlayerId": "8480817",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020321",
+          "sourcePlayerId": "8482809",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020328",
+          "sourcePlayerId": "8481605",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020328",
+          "sourcePlayerId": "8482178",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020329",
+          "sourcePlayerId": "8475188",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020329",
+          "sourcePlayerId": "8475343",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 7,
+              "sourceValue": 6
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020329",
+          "sourcePlayerId": "8478468",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020329",
+          "sourcePlayerId": "8479353",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020329",
+          "sourcePlayerId": "8481534",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020330",
+          "sourcePlayerId": "8474600",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020330",
+          "sourcePlayerId": "8475200",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020330",
+          "sourcePlayerId": "8477424",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 22,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020330",
+          "sourcePlayerId": "8477498",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020330",
+          "sourcePlayerId": "8477968",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 33,
+              "sourceValue": 32
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020331",
+          "sourcePlayerId": "8482087",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020332",
+          "sourcePlayerId": "8481708",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020332",
+          "sourcePlayerId": "8482055",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020332",
+          "sourcePlayerId": "8484268",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 35,
+              "sourceValue": 34
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020332",
+          "sourcePlayerId": "8484798",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020334",
+          "sourcePlayerId": "8481656",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020334",
+          "sourcePlayerId": "8484999",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020335",
+          "sourcePlayerId": "8476473",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020335",
+          "sourcePlayerId": "8478859",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020335",
+          "sourcePlayerId": "8479314",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020335",
+          "sourcePlayerId": "8480185",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020336",
+          "sourcePlayerId": "8476917",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020336",
+          "sourcePlayerId": "8485388",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020341",
+          "sourcePlayerId": "8482105",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020344",
+          "sourcePlayerId": "8478042",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020344",
+          "sourcePlayerId": "8480280",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 21,
+              "sourceValue": 20
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8476474",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8477015",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8478133",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8482964",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8483515",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020345",
+          "sourcePlayerId": "8484170",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 26,
+              "sourceValue": 28
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020347",
+          "sourcePlayerId": "8476932",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020347",
+          "sourcePlayerId": "8477960",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8475786",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8476883",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 22,
+              "sourceValue": 23
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8478416",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8478854",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8482221",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 18,
+              "sourceValue": 17
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020349",
+          "sourcePlayerId": "8482655",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020351",
+          "sourcePlayerId": "8478440",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020351",
+          "sourcePlayerId": "8479292",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 11,
+              "sourceValue": 10
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020351",
+          "sourcePlayerId": "8482896",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020354",
+          "sourcePlayerId": "8476419",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020354",
+          "sourcePlayerId": "8477504",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020354",
+          "sourcePlayerId": "8482076",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 23,
+              "sourceValue": 22
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020354",
+          "sourcePlayerId": "8482110",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020355",
+          "sourcePlayerId": "8476399",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020355",
+          "sourcePlayerId": "8481692",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 17,
+              "sourceValue": 18
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020355",
+          "sourcePlayerId": "8483495",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020356",
+          "sourcePlayerId": "8475809",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 27,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020356",
+          "sourcePlayerId": "8482178",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020356",
+          "sourcePlayerId": "8485400",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020357",
+          "sourcePlayerId": "8479324",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020357",
+          "sourcePlayerId": "8482259",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020357",
+          "sourcePlayerId": "8482447",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 39,
+              "sourceValue": 38
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020359",
+          "sourcePlayerId": "8480830",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020359",
+          "sourcePlayerId": "8482166",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "blockedShots",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020361",
+          "sourcePlayerId": "8475462",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 5
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020361",
+          "sourcePlayerId": "8484145",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020362",
+          "sourcePlayerId": "8474578",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020362",
+          "sourcePlayerId": "8477424",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 22,
+              "sourceValue": 21
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020362",
+          "sourcePlayerId": "8479525",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020362",
+          "sourcePlayerId": "8480835",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020363",
+          "sourcePlayerId": "8476432",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020363",
+          "sourcePlayerId": "8480280",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 31,
+              "sourceValue": 30
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020365",
+          "sourcePlayerId": "8480865",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020365",
+          "sourcePlayerId": "8483424",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 5,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020366",
+          "sourcePlayerId": "8475287",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 4,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020366",
+          "sourcePlayerId": "8476469",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020370",
+          "sourcePlayerId": "8478474",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020370",
+          "sourcePlayerId": "8480855",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 9,
+              "sourceValue": 8
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8475831",
+          "role": "GOALIE",
+          "conflicts": [
+            {
+              "field": "saves",
+              "archiveValue": 24,
+              "sourceValue": 25
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8476624",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 3,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8477986",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 1,
+              "sourceValue": 2
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8478975",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 3
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8481554",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "goals",
+              "archiveValue": 0,
+              "sourceValue": 1
+            },
+            {
+              "field": "sog",
+              "archiveValue": 3,
+              "sourceValue": 4
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8482858",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "goals",
+              "archiveValue": 1,
+              "sourceValue": 0
+            },
+            {
+              "field": "assists",
+              "archiveValue": 0,
+              "sourceValue": 1
+            },
+            {
+              "field": "sog",
+              "archiveValue": 2,
+              "sourceValue": 1
+            },
+            {
+              "field": "hits",
+              "archiveValue": 2,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8484227",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "hits",
+              "archiveValue": 0,
+              "sourceValue": 1
+            }
+          ],
+          "teamConflict": false
+        },
+        {
+          "seasonStartYear": 2026,
+          "sourceGameId": "2026020372",
+          "sourcePlayerId": "8484800",
+          "role": "SKATER",
+          "conflicts": [
+            {
+              "field": "assists",
+              "archiveValue": 1,
+              "sourceValue": 0
+            }
+          ],
+          "teamConflict": false
+        }
+      ],
+      "sourceProofs": [
+        {
+          "kind": "skaters",
+          "sha256": "e22ab167e15ef7bfb7251e567381300efe8357dd243e5db975e7e9e0294279d1",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2027.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:05:12.997Z"
+        },
+        {
+          "kind": "goalies",
+          "sha256": "c029811b6c86431525eb3cab0ddf6fbdb593faa5928a0ad09f7b6778f250e3dd",
+          "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2027.parquet",
+          "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+          "license": "CC-BY-4.0",
+          "receivedAt": "2026-11-27T03:05:19.054Z"
+        }
+      ],
+      "comparisonPath": "data/simulation/nhl_corroboration/2026/comparison.jsonl",
+      "comparisonSha256": "887b295720d9778d59d94d552a0e842f755f857e0bee139b75bbdaaf153cc7a1",
+      "comparisonBytes": 23609227,
+      "developmentWrites": 0,
+      "existingValuesChanged": 0,
+      "independentSupplementFactsRetained": true
+    }
+  ],
+  "conflictRows": 441,
+  "missingFieldsOnlyOverlayContradictionsAreNotFullVectorAgreement": true,
+  "developmentWrites": 0,
+  "existingValuesChanged": 0,
+  "sourcePreference": "UNRESOLVED; no source revision is silently chosen",
+  "transformationSha256": "55c60e4903d6b749e36edb63fbe6c7c51cb5f0d73702552751e534ea20b1aa37",
+  "fingerprint": "e24c395ea12cb73c627156a1fcc9fd4494c9ca5a294f7adbdbb238154a38b43b"
+}

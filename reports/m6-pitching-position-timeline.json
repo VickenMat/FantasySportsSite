@@ -1,0 +1,159 @@
+{
+  "version": "m6-historical-pitching-day-thresholds-1",
+  "parentDatasetFingerprint": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+  "sourceProofs": [
+    {
+      "path": "data/player_data/mlb_2016_2026_final.parquet",
+      "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+      "provider": "v9-historical",
+      "license": "UNKNOWN_OR_PREVIOUSLY_ACCEPTED_SOURCE; not inferred from possession"
+    },
+    {
+      "path": "data/schedule_data/game_schedules.parquet",
+      "sha256": "1724f7cc6143615036aee574de27aced3b9789de046a68b4991c399b6816671c",
+      "provider": "ACCEPTED_V5",
+      "license": "UNKNOWN_OR_PREVIOUSLY_ACCEPTED_SOURCE; not inferred from possession"
+    },
+    {
+      "path": "data/schedule_data/game_id_crosswalk.parquet",
+      "sha256": "70a4f633d2b9a9e6f17a456f8243ed941d3b16a7af1de12129230761515b1edb",
+      "provider": "ACCEPTED_V5",
+      "license": "UNKNOWN_OR_PREVIOUSLY_ACCEPTED_SOURCE; not inferred from possession"
+    }
+  ],
+  "datedPitchingAppearances": 216671,
+  "fieldingThresholdDatesAvailable": false,
+  "dhThresholdDatesAvailable": false,
+  "sourceKnownAt": null,
+  "developmentWrites": 0,
+  "positionPromotions": 0,
+  "v10Active": false,
+  "sourceOrderReplayChanges": 0,
+  "fingerprint": "45cc27479479a9cb8764bc5d3e7aeb1f00cc92ed07839f5225c76b54135acad2",
+  "cohorts": [
+    {
+      "seasonStartYear": 2016,
+      "uniquePlayers": 450,
+      "thresholds": 859,
+      "SP": 184,
+      "RP": 263,
+      "P": 412,
+      "firstThresholdDate": "2016-05-10",
+      "lastThresholdDate": "2016-10-02",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2017,
+      "uniquePlayers": 463,
+      "thresholds": 878,
+      "SP": 190,
+      "RP": 272,
+      "P": 416,
+      "firstThresholdDate": "2017-05-10",
+      "lastThresholdDate": "2017-10-01",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2018,
+      "uniquePlayers": 476,
+      "thresholds": 920,
+      "SP": 183,
+      "RP": 297,
+      "P": 440,
+      "firstThresholdDate": "2018-05-09",
+      "lastThresholdDate": "2018-09-30",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2019,
+      "uniquePlayers": 484,
+      "thresholds": 933,
+      "SP": 177,
+      "RP": 307,
+      "P": 449,
+      "firstThresholdDate": "2019-05-06",
+      "lastThresholdDate": "2019-09-29",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2020,
+      "uniquePlayers": 218,
+      "thresholds": 350,
+      "SP": 85,
+      "RP": 132,
+      "P": 133,
+      "firstThresholdDate": "2020-08-31",
+      "lastThresholdDate": "2020-09-27",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2021,
+      "uniquePlayers": 502,
+      "thresholds": 961,
+      "SP": 190,
+      "RP": 310,
+      "P": 461,
+      "firstThresholdDate": "2021-05-10",
+      "lastThresholdDate": "2021-10-03",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2022,
+      "uniquePlayers": 481,
+      "thresholds": 923,
+      "SP": 186,
+      "RP": 295,
+      "P": 442,
+      "firstThresholdDate": "2022-05-21",
+      "lastThresholdDate": "2022-10-05",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2023,
+      "uniquePlayers": 463,
+      "thresholds": 882,
+      "SP": 189,
+      "RP": 274,
+      "P": 419,
+      "firstThresholdDate": "2023-05-09",
+      "lastThresholdDate": "2023-10-01",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2024,
+      "uniquePlayers": 459,
+      "thresholds": 871,
+      "SP": 177,
+      "RP": 276,
+      "P": 418,
+      "firstThresholdDate": "2024-05-07",
+      "lastThresholdDate": "2024-09-28",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2025,
+      "uniquePlayers": 472,
+      "thresholds": 894,
+      "SP": 184,
+      "RP": 286,
+      "P": 424,
+      "firstThresholdDate": "2025-05-07",
+      "lastThresholdDate": "2025-09-28",
+      "strictEligiblePlayers": 0
+    },
+    {
+      "seasonStartYear": 2026,
+      "uniquePlayers": 465,
+      "thresholds": 903,
+      "SP": 188,
+      "RP": 281,
+      "P": 434,
+      "firstThresholdDate": "2026-05-06",
+      "lastThresholdDate": "2026-09-27",
+      "strictEligiblePlayers": 0
+    }
+  ],
+  "withheldReasons": {},
+  "sourceAppearanceRows": 216706,
+  "scope": "Historical DAY threshold evidence only, no prior-information eligibility or production grants. GenericP never impliesSP/RP; current+following-season candidates retain null known-at. Fielding/DH dates remain unknown."
+}

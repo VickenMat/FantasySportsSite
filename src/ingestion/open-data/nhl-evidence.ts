@@ -2,7 +2,7 @@ import{integer,type SourceRow}from'./read';
 import{scoringAssistIds}from'./polars-assists';
 import{nhlFinalScoreMatches}from'./nhl-final-score';
 /** Complete event streams prove known zero; percentages only cross-check exact event counts. */
-export function reconcileNhlEvents(skaters:SourceRow[],events:SourceRow[],scoring:SourceRow[],info:SourceRow[],goalies:SourceRow[]=[]){
+export function reconcileNhlEvents(skaters:SourceRow[],events:SourceRow[],scoring:SourceRow[],info:SourceRow[],goalies:SourceRow[]=[],historicalProfile?:{allowSourceOmittedShootoutDecider:true}){
  const games=new Map<string,{skaters:SourceRow[];goalies:SourceRow[];events:SourceRow[];goals:SourceRow[];info:SourceRow|null}>();
  const game=(id:string)=>{if(!games.has(id))games.set(id,{skaters:[],goalies:[],events:[],goals:[],info:null});return games.get(id)!;};
  for(const row of skaters)game(row.game_id).skaters.push(row);for(const row of events)game(row.game_id).events.push(row);for(const row of scoring)game(row.game_id).goals.push(row);for(const row of info)game(row.game_id).info=row;
@@ -22,7 +22,13 @@ export function reconcileNhlEvents(skaters:SourceRow[],events:SourceRow[],scorin
   const shootoutPeriods=new Set(g.events.filter(event=>event.period_type==='SHOOTOUT').map(event=>event.period));
   const statisticalGoals=g.goals.filter(goal=>!shootoutPeriods.has(goal.period_number));
   const shootoutGoals=g.goals.filter(goal=>shootoutPeriods.has(goal.period_number));
-  if(shootoutPeriods.size&&(end.length!==1||end[0].period_type!=='SHOOTOUT'||shootoutGoals.length!==1||scoringAssistIds(shootoutGoals[0]?.assists??'')?.length!==0))reasons.push('SHOOTOUT_STREAM_UNRESOLVED');
+  // Some historical scoring partitions omit the deciding shootout credit. It is
+  // not an individual statistical goal or SH point. The offline-only profile
+  // validates only ordinary scoring. No individual shootout credit is used or
+  // synthesized: explicit final SO period/+1 team adjustment plus all ordinary
+  // goal totals/actors/assists must independently reconcile fully below.
+  const omittedDecider=historicalProfile?.allowSourceOmittedShootoutDecider&&shootoutGoals.length===0&&end.length===1&&end[0].period_type==='SHOOTOUT'&&nhlFinalScoreMatches(end[0],g.info);
+  if(shootoutPeriods.size&&(end.length!==1||end[0].period_type!=='SHOOTOUT'||!omittedDecider&&(shootoutGoals.length!==1||scoringAssistIds(shootoutGoals[0]?.assists??'')?.length!==0)))reasons.push('SHOOTOUT_STREAM_UNRESOLVED');
   if(shootoutGoals.length===1){const goal=shootoutGoals[0],player=players.get(goal.playerId),winner=integer(g.info?.home_score)!>integer(g.info?.away_score)!?g.info?.home_team_abbr:g.info?.away_team_abbr;if(!player||player.team_abbrev!==winner||!g.events.some(event=>event.event_type==='GOAL'&&event.period_type==='SHOOTOUT'&&event.event_player_1_type==='Scorer'&&event.event_player_1_id===goal.playerId))reasons.push('SHOOTOUT_SCORER_UNRESOLVED');}
   if(end.length===1){const home=integer(end[0].home_score),away=integer(end[0].away_score);if(home===null||away===null||statisticalGoals.length!==home+away)reasons.push('GOAL_STREAM_SCORE_TOTAL_MISMATCH');}
   const scoringKey=(r:SourceRow)=>`${r.playerId}:${r.period_number}:${r.timeInPeriod}`;

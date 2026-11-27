@@ -46,6 +46,15 @@ it('requires a complete explicit unique winner inventory before proving another 
   expect(proveNhlGoalieDecisions(rows.map((row,i)=>i===1?{...row,decision:'W'}:row),info,end).accepted).toBe(false);
   expect(proveNhlGoalieDecisions(rows,{...info,home_score:'0',away_score:'1'},{...end,home_score:'0',away_score:'1'}).accepted).toBe(false);
 });
+it('allows a separately reviewed historical omitted shootout credit with explicit SO final adjustment and complete ordinary scoring',()=>{
+ const {skaters,events,info}=nhlFixture();events.push({game_id:'g',event_idx:'3',event_type:'GOAL',event_player_1_id:'8000000',event_player_1_type:'Scorer',period:'5',period_time:'00:00',period_type:'SHOOTOUT'},{game_id:'g',event_idx:'4',event_type:'GAME_END',period:'5',period_type:'SHOOTOUT',home_score:'0',away_score:'0'});
+ expect(reconcileNhlEvents(skaters,events,[],[info]).accepted.size).toBe(0);
+ expect(reconcileNhlEvents(skaters,events,[],[info],[],{allowSourceOmittedShootoutDecider:true}).accepted.size).toBe(30);
+ // Shootout actor credits are excluded entirely; this proves no accidental SH
+ // credit from an attempt, regardless of which shooter won the shootout.
+ expect(reconcileNhlEvents(skaters,events.map(row=>row.event_idx==='3'?{...row,event_player_1_id:'8000020'}:row),[],[info],[],{allowSourceOmittedShootoutDecider:true}).accepted.get('g:8000020')?.shorthanded_points_bonus).toBe(0);
+ expect(reconcileNhlEvents(skaters,events,[],[{...info,home_score:'2'}],[],{allowSourceOmittedShootoutDecider:true}).accepted.size).toBe(0);
+});
 it('does not charge interrupted at-bats or advisories as plate appearances and checks each canonical batter',()=>{
   const rows:SourceRow[]=[{at_bat_index:'0',event_type:'single',batter_id:'11',pitcher_id:'21',outs:'0'},{at_bat_index:'1',event_type:'caught_stealing_2b',batter_id:'99',pitcher_id:'21',outs:'3'},{at_bat_index:'2',event_type:'field_out',batter_id:'11',pitcher_id:'21',outs:'1'},{at_bat_index:'3',event_type:'strikeout',batter_id:'12',pitcher_id:'21',outs:'2'},{at_bat_index:'4',event_type:'game_advisory',batter_id:'99',pitcher_id:'77',outs:'2'}];
   const expected=new Map([['11',2],['12',1]]),result=mlbPlayCompleteness(rows,expected);

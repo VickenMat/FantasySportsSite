@@ -1,0 +1,455 @@
+{
+  "version": "m6-partition-replay-1",
+  "datasetFingerprint": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+  "baseCohorts": 44,
+  "enrichedCohorts": 11,
+  "physicalBaseRows": 1746957,
+  "partitions": [
+    {
+      "partition": "data/simulation/historical_v1/NFL/2016/records.parquet",
+      "rows": 16840,
+      "sha256": "a28f14c1632d6f75760703c95f9eb823432a8a2705528c7e863fb3fd57095c1e",
+      "semanticSha256": "a08fc500d829bbd69b2c82effaf972e31219828c01db3ceafe75dcfb04232546",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2017/records.parquet",
+      "rows": 16786,
+      "sha256": "e99c389e4f7cc85837e669fd7df0b4c61c43e0142418667d821cebc24f32d5c8",
+      "semanticSha256": "a4014241c0f631b33e8b41bd3c234b88dd7c7cd889d4d4d92fa8133ff4d4875b",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2018/records.parquet",
+      "rows": 16728,
+      "sha256": "8cbc3876250b6cdce57c5de312e7b0574b76e337e53cd0285bb8a2092ee256d9",
+      "semanticSha256": "586c51524a99aaa7d498574917b2d1c04a2bf881a41d93bf04c0544415ef09da",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2019/records.parquet",
+      "rows": 16663,
+      "sha256": "26cb8882fa4900f8dddb31b71de4e1816ac8295d166efbc464aac47fa32e3e45",
+      "semanticSha256": "1b53eaa04595fd536c00d5d240b042d3c8ab9ccba8fa163d8467d1a428db7d35",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2020/records.parquet",
+      "rows": 16774,
+      "sha256": "9faf9683b0c1d01d97d8d1b3f6e06148a3dcc58b02624c19f56bc722d3dd4b91",
+      "semanticSha256": "6a4b298860a181b3d8ffe5f49d8e3d5effb0c529096f8b98fe6e642f1114ed3d",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2021/records.parquet",
+      "rows": 18128,
+      "sha256": "1e2b4f7dee04ce2e5e26051a36265ad4c0d8bdb7f7b1dd1a9268d78125f0eeb5",
+      "semanticSha256": "8a16939896a9efa804c955eda0476f1532a25f525d578739a38c606033675cae",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2022/records.parquet",
+      "rows": 17981,
+      "sha256": "cdc252c7dbf0edc09616d6818dce095d8c1b85554e29656f2209b3ee1accc52d",
+      "semanticSha256": "b240c4205a9220d186b5c6c8d2cc337d0ac20944a606db6b0a6a6717e8637702",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2023/records.parquet",
+      "rows": 17806,
+      "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749",
+      "semanticSha256": "e48e4e62ad33ea2277ec7e0f1d89a0a32e9cae3674f9404b0c2a74aa764d138e",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2024/records.parquet",
+      "rows": 18130,
+      "sha256": "f1ad0904e70c359dc2b231a4bcbaf47ac6809e4a12f7f71506bd83c5d2ffd1ee",
+      "semanticSha256": "f418eee6be0fc0b55eb20aee8483cfc7bddfe31d727c646d40d699d1d9501082",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2025/records.parquet",
+      "rows": 18540,
+      "sha256": "f5e71a65959378b634a352259717da64e7dd43232761224f6bb7c8c11f542a77",
+      "semanticSha256": "c28352eaa36117d4759166f2174279e6ec3969438202d7bacbc30f783bd5a315",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NFL/2026/records.parquet",
+      "rows": 10992,
+      "sha256": "07f60c2bf2ed2ebbeefe0f16cf183056aff16c42b7234b242a906810d3ebdbb1",
+      "semanticSha256": "e880c9de9d91027f45c166fd6218b7cd9f99457ed92132a5388686d37e82b3eb",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2016/records.parquet",
+      "rows": 80974,
+      "sha256": "bdccfc6f1a9a3ab4f922246ad221673b8852a9f9f513c554ec671a4ee266dea8",
+      "semanticSha256": "60b7cef68082098b9b06ba35f9a53a4b6af190741f7d314dde246a58a68a41b7",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2017/records.parquet",
+      "rows": 81178,
+      "sha256": "e2a1796688a43902308be7265beef358c00fdd9a869bd83ccdd954415c5f75a5",
+      "semanticSha256": "7572b6932a9eb5624040188f719bd3d4f897cc484c203cd7bd60b79ac8a31a46",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2018/records.parquet",
+      "rows": 82380,
+      "sha256": "3cb4229e62207b7bd66abba56dd256f1ede7e4ed58e2f12bf13b36d5ca64ef37",
+      "semanticSha256": "14514e946242643ae2efa35411a9cd301996cf30f01c4f40fd109c82ac2e8a65",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2019/records.parquet",
+      "rows": 82527,
+      "sha256": "cfbf2e5b2600e78f667f5ffa0de6250cbfaa0b16ad47f1ae4216bca0a23d5851",
+      "semanticSha256": "e026ae10c655bdc6c64d2d4c0b0bc1609b2342e13524a9049068a6b99eee13ac",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2020/records.parquet",
+      "rows": 26783,
+      "sha256": "a32ecea6844e453fc13ecdf9e34e6fcc1dd1a09c890e64b70c35f93c782d7356",
+      "semanticSha256": "7b7647406e8d09e9053c11a2924a9a5688772e8b09dfa2525dd107fc5c8c6b5b",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2021/records.parquet",
+      "rows": 82862,
+      "sha256": "118d700a6cb79734e62a3e008dc107ddca27bf2a802b57eae535c8345be69be8",
+      "semanticSha256": "af05b2e77441b870b45dbbd0279cadfb397dd4894f7df033c9bbb8de4928bb73",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2022/records.parquet",
+      "rows": 71173,
+      "sha256": "42d9da9263e630bfc27f90a4652e9bf79c20380140c67e0ad8be4b2863bda344",
+      "semanticSha256": "25da6f7c7c51bd7ed928c3cd1a97bf3e2bd299bf713cc2b3acb5fabae2761178",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2023/records.parquet",
+      "rows": 71388,
+      "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881",
+      "semanticSha256": "1878fca15c1319eb9d836e82dd2d68c9541934ed9544a6fb33edef3b83ba9aaf",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2024/records.parquet",
+      "rows": 71442,
+      "sha256": "63a58904a58ff3a5808564f42cf08d8944529940da70d2b74e99993feb359501",
+      "semanticSha256": "46f3c053a5c0918ab2d4141ee7b0f510b41057a44e0dd42c64af00e4ee40d22d",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2025/records.parquet",
+      "rows": 71757,
+      "sha256": "6482e722bf0d1fd12ceee8028c9f76a7a5439fe51b9051aa900f720b0cc5dab0",
+      "semanticSha256": "588e6a98da4f03324636e6a8d3cb01aa8629988db4821c280718b7e18c2e42d0",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/MLB/2026/records.parquet",
+      "rows": 72510,
+      "sha256": "f19d8fd6a2980df3d95e27d08e2384039586b8af20f9d6fb78fcb189d8678e3c",
+      "semanticSha256": "085f636b8833f759cf227b0aac50f5f6eecafdde4fcf9780aab295048d4f851f",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2016/records.parquet",
+      "rows": 26139,
+      "sha256": "85090bd2aa20f90de23e7dcca5f1be40938ae044cd8f19e65a8f29563c1c497e",
+      "semanticSha256": "589c3c8f0d39d1f072c0d41dac1eb7b22d4b402d92281c7ddedb6226ff26d35f",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2017/records.parquet",
+      "rows": 26107,
+      "sha256": "f32ae37dd532de4e86d55f4bbe6189e9330ebf98fe9b05c40fa37090824e6834",
+      "semanticSha256": "d26dafddddab11c8dd552735fe57ecb43b6d571e31284f2b8e27ee7e232428a8",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2018/records.parquet",
+      "rows": 26101,
+      "sha256": "208fa36ebe206104893e61c3305965b161ba371c54555d104d73e0b11957ff32",
+      "semanticSha256": "98d82f864d4708803b051f10b259d5644021a4096af9bc32511aad30b9e16309",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2019/records.parquet",
+      "rows": 22393,
+      "sha256": "6a0402aa7edc92602d5d9ad2eb923aae5d03477a1a3ba19be35177713a9396ac",
+      "semanticSha256": "0ed9174fdc834c1bd4c716a4386edb2081e24a0d84f90fa9d365e138cb5aa21c",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2020/records.parquet",
+      "rows": 23054,
+      "sha256": "d87fa435ba1106a97f192890ee66118599669a940abb0e8dccbd9836f72405d2",
+      "semanticSha256": "5599326ff7bf47fed7376f0555761a159cf90a83fb901f6285c30682bcd919d8",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2021/records.parquet",
+      "rows": 26039,
+      "sha256": "2d419cfa90432a4e7d3fcf524a32560288d4ca1a19f58f4f09d238078a19033a",
+      "semanticSha256": "a0b7eb96fe720d4de67d36927338a541b44958cc8d741a582ca68879b413299e",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2022/records.parquet",
+      "rows": 25894,
+      "sha256": "ccfd4f525ffe774f0f854180a88d36585e96600c571010d98008b4b0557eb9e6",
+      "semanticSha256": "e3aac9e098a1d10df7be077202c63635fe426b74cbd98338b40b18a35cc69971",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2023/records.parquet",
+      "rows": 26401,
+      "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82",
+      "semanticSha256": "9f792d92ff0c3387b3be88ff83692e9f319d85539607ac83f9aecaa19455b00c",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2024/records.parquet",
+      "rows": 26306,
+      "sha256": "56d9dd71c9f2dd38cfeb41bdf00bebf14ad5005c4a59d49ff8dedd05bc69db48",
+      "semanticSha256": "e0fde5d51d6b29aa46a32bd9ab7c7db0e010405eb6298343b54301bef259f1cc",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2025/records.parquet",
+      "rows": 26651,
+      "sha256": "568f2b365df00fc143d8a55a4d332c55d239881a4cf394c19b4f52d00a0a7265",
+      "semanticSha256": "394e54f3ccc6ee845580f1b07100a7f763638ea33d1db7044e479c9a83109e16",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NBA/2026/records.parquet",
+      "rows": 5414,
+      "sha256": "bff5633d3182322fa7b4423352f55c6e86006bc4ec7115e439c561dd57202be7",
+      "semanticSha256": "e78cdee7bb859c76a861120533efb5c2b3a7bf365382e2b605f674701d3d8baf",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2016/records.parquet",
+      "rows": 49197,
+      "sha256": "6728e62ffa53f88597eccb7607d0a4c2d632e9e296a1921948bd9a4a5322e5ce",
+      "semanticSha256": "2df0b03ccec692de79b7673433c445303a399001bca626c7179c72a8a5404c38",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2017/records.parquet",
+      "rows": 50840,
+      "sha256": "135c5cfc07498e2891b1826a9db8057340afce07cf326250ebdca345375c54e3",
+      "semanticSha256": "adea039b6650e0bae9aa6c439459b3c3cc2c29f8dd6c32c05f1e7048a4a52d28",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2018/records.parquet",
+      "rows": 50840,
+      "sha256": "5242d36e875ba8878daa841ded37198c1204eff850a0627815fbaa7d05232524",
+      "semanticSha256": "746e23cd21521401a675c945fae203f8d99dd6f12786e84e2eefa10fa8a67ebd",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2019/records.parquet",
+      "rows": 43280,
+      "sha256": "211af8539da5fbe6ca10e52db60f5d49cef0549c0fbffa40eaaed22a10accfaf",
+      "semanticSha256": "1dc328b1342bb8dd222fbb425ac68a4d7cc397cfe4648aa49c9cf62ce7b24adf",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2020/records.parquet",
+      "rows": 34700,
+      "sha256": "bd4955f13d087a6e7c29ac2af2b095238af8847d4edb9a70e50df4881abb3225",
+      "semanticSha256": "e8fb75c2d2778c674cafa72c186e64f462ecd1adda53c06a77bd442e823be0ad",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2021/records.parquet",
+      "rows": 52460,
+      "sha256": "e08d74a7c468a25e6faf169b322ed8b8a2bbb9a56bb8cdc56144fe12fe379058",
+      "semanticSha256": "1a6bda5ef7cc57265f3a05bdd6b3cfaeed5ee0a4c7e1fc31735320657a855e97",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2022/records.parquet",
+      "rows": 52460,
+      "sha256": "d5b69c033d27a894fc3c7a5c69a0dbd14f9f0782b95facf3a287ff11f9640087",
+      "semanticSha256": "16ad7ee5b2f5341eebaa9bf02ebb3c722ae2ec075fbd4ec243d30538f8f99506",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2023/records.parquet",
+      "rows": 52468,
+      "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21",
+      "semanticSha256": "98e93e1163520b61ae3797c0778bd19aba60ff29bf12cc2147d88ab052bcc13e",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2024/records.parquet",
+      "rows": 52473,
+      "sha256": "fd62399c33e20205d0f57cc2beb8051800821a24649f06d4340f9238a0b50df6",
+      "semanticSha256": "46fa196510056918ae1e50f28606130800212cf374872bfcb3f1942369df5f71",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2025/records.parquet",
+      "rows": 52478,
+      "sha256": "ab21c7b047547d58fb7a398c92dc2a4cd8dc0a75460795e084e0d7528dd3a899",
+      "semanticSha256": "8345dc31b5749604d14c63f11f8d4174adb167398e44a465152caed1894c9ef2",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2026/records.parquet",
+      "rows": 14920,
+      "sha256": "650b16c3bd4902c450c7cb263b9b43179c3032704924fc693e5ca948efd762dc",
+      "semanticSha256": "ca93e39ddb3cc78ebad0b57e9b8892ac799a27b5c41bf29732469fa259739260",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2016/enriched-records.parquet",
+      "rows": 49197,
+      "sha256": "82e5780725419f839e719c1227fee490ee3d5a9aa1e08091bcd9ecc8951c5681",
+      "semanticSha256": "7d627696523ba3d6fa3033c4be38e8819d8827fae59a9df1f7f890ef791a5882",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2017/enriched-records.parquet",
+      "rows": 50840,
+      "sha256": "92b17ead076599115aa23c46b99f2cde9596dcc7a14783f96f73a71a5e5be2f9",
+      "semanticSha256": "964bd4ec0646ecda08377af264748af25b19b211a15f10f9430b029213aaf0b0",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2018/enriched-records.parquet",
+      "rows": 50840,
+      "sha256": "699bde09d92489a39dd1585578d301f7bbb1f4c1d7f51bf45bb46e3165f023c2",
+      "semanticSha256": "94a87eff4875652f057ad35c02c684eeacc0e743ec8cd24af40fe3cfef04a9e7",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2019/enriched-records.parquet",
+      "rows": 43280,
+      "sha256": "8ec9766dcb1da17c9d2c5cddde90aec8cb5b38f3660cff4f842dfa7190481fa4",
+      "semanticSha256": "64363f7fa35b671887215dcd876bf100625995f0f38eba1793618ce31cea35d9",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2020/enriched-records.parquet",
+      "rows": 34700,
+      "sha256": "95a696fbdb21d534e4cf17169770a2beee2eb379de159bb1aa02933e2faa1d53",
+      "semanticSha256": "50bbba61216ee7bf02f5501a9e63bf370bda947ed60f500b6006ba28e63a42cb",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2021/enriched-records.parquet",
+      "rows": 52460,
+      "sha256": "b90cc52777d59e65d5441b63731321a6778223555ca93e3c993904e73f8c98f2",
+      "semanticSha256": "e604a0b7c63dffee7c0c2541f2a22e8d49937b670fe3fc787367d5ac39ae4b3f",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2022/enriched-records.parquet",
+      "rows": 52460,
+      "sha256": "3a1f4d947949179a0cf9b9825a921fdc2e60333067a68b819a3c08b7ed0fbbc9",
+      "semanticSha256": "7f91a2e4e86d9ab0b5f1195e28c74a22dd12d0ac6b8050ba6211b88d49521da8",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2023/enriched-records.parquet",
+      "rows": 52468,
+      "sha256": "09011211810faccdbc7f593037ba8a34fb4c90522cd6798aa810c32e2dfb4a82",
+      "semanticSha256": "32bba96de71454c2a6cf369203c1d88a7a1f6b16c90d49fd9045af93811ef0c7",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2024/enriched-records.parquet",
+      "rows": 52473,
+      "sha256": "c04f0e0279382f41fea54431bb5d2a0528742f30ff81feef4c8c6a7a849e2669",
+      "semanticSha256": "1a66b2afc151cc6e8650e2bb397831469b01290c56ca5e68f2e549907b2026cd",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2025/enriched-records.parquet",
+      "rows": 52478,
+      "sha256": "cb4513d31959731d2ffc44a7e2abd1a5cb9f54d6fdf0fc5de2f33f181651c35a",
+      "semanticSha256": "dce1e57c2fdf28719170b5672a13c74d94ccf22a0d726e2b64fbcd2fafa7e4f2",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    },
+    {
+      "partition": "data/simulation/historical_v1/NHL/2026/enriched-records.parquet",
+      "rows": 14920,
+      "sha256": "0fa262e4a85859e13948b3d22aa72c7c71bbaf6b79a4f8acf19cd7750ec4b5e5",
+      "semanticSha256": "a7d56ecc4e3526b8484d98f4399fa65a00e9bb8d7c2706df996331e18ff6dd90",
+      "byteIdentical": true,
+      "semanticIdentical": true
+    }
+  ],
+  "allByteIdentical": true,
+  "allSemanticIdentical": true,
+  "sourceAndTransformationHashesVerified": true,
+  "developmentWrites": 0,
+  "v10Active": false,
+  "replayMethod": "Every Parquet row decoded and canonically hashed before and after fixed-settings re-encoding; frozen transformation hashes checked. No generated timestamps or imputation."
+}

@@ -1,0 +1,333 @@
+{
+  "version": "m6-recorded-role-quality-overlay-1",
+  "parentDatasetFingerprint": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+  "roleQualityKeys": 35,
+  "sourceRows": 70,
+  "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+  "actualAthleteDnpClaims": 0,
+  "assignedScoringRoles": 0,
+  "productionRoleResolutions": 0,
+  "scoreMaterializations": 0,
+  "developmentWrites": 0,
+  "v10Active": false,
+  "replaySemanticChanges": 0,
+  "fingerprint": "e6f3bae647ff28213f9bcc5c3e47b008d20e01de8f0271301f0ba76341803228",
+  "actors": [
+    {
+      "playerGameKey": "MLB:2016:447959:592716",
+      "seasonStartYear": 2016,
+      "sourcePlayerId": "592716",
+      "sourceGameId": "447959",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2016:448650:434622",
+      "seasonStartYear": 2016,
+      "sourcePlayerId": "434622",
+      "sourceGameId": "448650",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2016:448696:445276",
+      "seasonStartYear": 2016,
+      "sourcePlayerId": "445276",
+      "sourceGameId": "448696",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2016:449105:594840",
+      "seasonStartYear": 2016,
+      "sourcePlayerId": "594840",
+      "sourceGameId": "449105",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2017:490559:407822",
+      "seasonStartYear": 2017,
+      "sourcePlayerId": "407822",
+      "sourceGameId": "490559",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2017:490788:457429",
+      "seasonStartYear": 2017,
+      "sourcePlayerId": "457429",
+      "sourceGameId": "490788",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2018:529882:608678",
+      "seasonStartYear": 2018,
+      "sourcePlayerId": "608678",
+      "sourceGameId": "529882",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2018:530553:543475",
+      "seasonStartYear": 2018,
+      "sourcePlayerId": "543475",
+      "sourceGameId": "530553",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2018:531597:453329",
+      "seasonStartYear": 2018,
+      "sourcePlayerId": "453329",
+      "sourceGameId": "531597",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2018:531777:606983",
+      "seasonStartYear": 2018,
+      "sourcePlayerId": "606983",
+      "sourceGameId": "531777",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2019:564949:606162",
+      "seasonStartYear": 2019,
+      "sourcePlayerId": "606162",
+      "sourceGameId": "564949",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2019:565655:518875",
+      "seasonStartYear": 2019,
+      "sourcePlayerId": "518875",
+      "sourceGameId": "565655",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2019:567199:592426",
+      "seasonStartYear": 2019,
+      "sourcePlayerId": "592426",
+      "sourceGameId": "567199",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2020:630988:650893",
+      "seasonStartYear": 2020,
+      "sourcePlayerId": "650893",
+      "sourceGameId": "630988",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2020:631219:656547",
+      "seasonStartYear": 2020,
+      "sourcePlayerId": "656547",
+      "sourceGameId": "631219",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2020:631606:595897",
+      "seasonStartYear": 2020,
+      "sourcePlayerId": "595897",
+      "sourceGameId": "631606",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2021:632192:595928",
+      "seasonStartYear": 2021,
+      "sourcePlayerId": "595928",
+      "sourceGameId": "632192",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2021:632238:621052",
+      "seasonStartYear": 2021,
+      "sourcePlayerId": "621052",
+      "sourceGameId": "632238",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2021:633186:607188",
+      "seasonStartYear": 2021,
+      "sourcePlayerId": "607188",
+      "sourceGameId": "633186",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2021:634248:475479",
+      "seasonStartYear": 2021,
+      "sourcePlayerId": "475479",
+      "sourceGameId": "634248",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2022:661046:647315",
+      "seasonStartYear": 2022,
+      "sourcePlayerId": "647315",
+      "sourceGameId": "661046",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2022:661351:663556",
+      "seasonStartYear": 2022,
+      "sourcePlayerId": "663556",
+      "sourceGameId": "661351",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2022:662769:656730",
+      "seasonStartYear": 2022,
+      "sourcePlayerId": "656730",
+      "sourceGameId": "662769",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2022:662773:666159",
+      "seasonStartYear": 2022,
+      "sourcePlayerId": "666159",
+      "sourceGameId": "662773",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2022:663395:605483",
+      "seasonStartYear": 2022,
+      "sourcePlayerId": "605483",
+      "sourceGameId": "663395",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2023:716445:663978",
+      "seasonStartYear": 2023,
+      "sourcePlayerId": "663978",
+      "sourceGameId": "716445",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2023:716883:663158",
+      "seasonStartYear": 2023,
+      "sourcePlayerId": "663158",
+      "sourceGameId": "716883",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2023:717633:592254",
+      "seasonStartYear": 2023,
+      "sourcePlayerId": "592254",
+      "sourceGameId": "717633",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2023:717779:622098",
+      "seasonStartYear": 2023,
+      "sourcePlayerId": "622098",
+      "sourceGameId": "717779",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2024:744902:592351",
+      "seasonStartYear": 2024,
+      "sourcePlayerId": "592351",
+      "sourceGameId": "744902",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2024:746862:621242",
+      "seasonStartYear": 2024,
+      "sourcePlayerId": "621242",
+      "sourceGameId": "746862",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2025:777076:669438",
+      "seasonStartYear": 2025,
+      "sourcePlayerId": "669438",
+      "sourceGameId": "777076",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2025:777342:690953",
+      "seasonStartYear": 2025,
+      "sourcePlayerId": "690953",
+      "sourceGameId": "777342",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2026:823317:607536",
+      "seasonStartYear": 2026,
+      "sourcePlayerId": "607536",
+      "sourceGameId": "823317",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    },
+    {
+      "playerGameKey": "MLB:2026:824807:689147",
+      "seasonStartYear": 2026,
+      "sourcePlayerId": "689147",
+      "sourceGameId": "824807",
+      "classification": "ROLE_LEVEL_NON_PLAYING_PLACEHOLDER",
+      "athleteParticipation": "PLAYED",
+      "selectedRole": null
+    }
+  ],
+  "scope": "Recorded-role quality only. No claim of actual physical role absence, production role resolution, player DNP or scored zero. Freeland/Kerkering production targets remain withheld."
+}

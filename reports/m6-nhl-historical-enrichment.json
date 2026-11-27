@@ -1,0 +1,1227 @@
+{
+  "version": "m6-nhl-historical-enrichment-report-1",
+  "seasonStartYears": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "sourceFiles": [
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2016,
+      "sha256": "7b9b646dccd740c324d3b1f7acc20a05209c131d5a8fe622eb4bd2a6f5f86b7d",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2017.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 47409,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2016,
+      "sha256": "f5deade8ccadea6ba9b5e2d67cfa01776c654236fda346b106f82663ec60e3be",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2017.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5268,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2016,
+      "sha256": "a93c91c7c9b8e2f838756b04272187bf3361ce883f142bf37648b9f4c3459120",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2017.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1317,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2016,
+      "sha256": "6162e825b7e56a4dbbaf12fa8718e208ef8847e2b78b8252d70869512dafbd2b",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2017.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 7252,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2016,
+      "sha256": "9b62bdfb5e9ce926a7f0d76093a9bcc7bb0963cc7fa70f0b7ca6fc2a637c165d",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2017.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 413339,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2017,
+      "sha256": "8f2c5706457e4949732446fca3e2bb74612fd87234f1775be644490ece66cd26",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2018.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 48780,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2017,
+      "sha256": "8d3710b0aed6874fab7c54aa3a58b9ae43d6a55313ae39bb90b62a7692ca5174",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2018.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5420,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2017,
+      "sha256": "3e763a08e105b0445fe93177b63bfe9b06f44a72985d7c8d3a04b027cd5ecf15",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2018.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1355,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2017,
+      "sha256": "793ce7bf9ef80b917d610f2cc1b8b9fe412b3b1a51898dd4282c0e83dcadbf0d",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2018.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8048,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2017,
+      "sha256": "c43d21c1f04dd41fbb0f3b1ebafa4faa82e26f3a83e93b2ee9faa0e0f9400b9e",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2018.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 434744,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2018,
+      "sha256": "423f22f7edb271d45d0712f0cf77a122294c4fe9d1f312e57bad43f15033d271",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2019.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 48888,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2018,
+      "sha256": "b33e5086fafa22ba8dc06a16a7fccd9f15fb84adfc491f85231967cc67813bc2",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2019.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5432,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2018,
+      "sha256": "28c9a9800ea0ff9958f0a88c9dec1a17d34b72e6082ce042f71f259fcdffae20",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2019.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1358,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2018,
+      "sha256": "878b8eee36e5b3b331fec763b3485d98b7285f187a7a53b3b7bd4bd2c3a2316c",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2019.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8149,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2018,
+      "sha256": "e10a8d9d97491b31a2008ef48bf6c5e8963ea09538faf5f0108b8e0f9b6b14b9",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2019.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 433203,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2019,
+      "sha256": "776607631c65c9af20ff855595634cd82f83d8eb5e226864006ca2acf7c8c686",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2020.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 43632,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2019,
+      "sha256": "91c30b401a9cdb01c2bafccd83facab7129ef9aa998333f65f3fe157e4f38889",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2020.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 4850,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2019,
+      "sha256": "b9c8d5fd2eb9eec8c1c34374a47d8f92fb45d84943fc99e2ef93061efb940b95",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2020.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1212,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2019,
+      "sha256": "9204fe8ab211c2ab4889178278ada73cdc37fe0c066825b261368798c234bd80",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2020.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 7166,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2019,
+      "sha256": "8fb3ef053fa589ff0a615415971e46138949c54daafa957be3b041d0b2843fb8",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2020.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 382738,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2020,
+      "sha256": "4a866381c9e4a4137ecede28efaaaa807f763e7c020cca8ed70005d6814257e2",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2021.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 34252,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2020,
+      "sha256": "af1cbd3fcde65c54d2f390b11b2ab38be01d21cc8310b3d7c84a1432ea753a97",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2021.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 3808,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2020,
+      "sha256": "924da9e68527f7da40530086f435a806aec083195539062e58c42d7b9d461405",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2021.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 952,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2020,
+      "sha256": "72cbd8da1a4c5586bbaca0683e8a67f15cd0ed4ce306f68b8ce5add46c66332f",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2021.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5556,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2020,
+      "sha256": "43e626ae497867f360e4f4552e3be74daeb336ff35fcbe41570dd51b06023c6a",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2021.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 287926,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2021,
+      "sha256": "8e5bf525a981f74476912f46ae4aac6ff9e2788aa5360dca2fa6a589948fdf60",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2022.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 50415,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2021,
+      "sha256": "fa43a9733a38c29c72f012f3f85230179152d2aadbdd257244ed59250cc2ebcd",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2022.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5605,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2021,
+      "sha256": "2e6630e374620a7f9fe7052d241c15711172b1d471fca2f0c5348a000d85bdd3",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2022.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1401,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2021,
+      "sha256": "f3ef996ba733bab3213b9d9a1148c775269c628b48ba522f582c6c66c9cfd8f3",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2022.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8814,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2021,
+      "sha256": "ca87e6cdecca5c5017f55a0b751b177120927155070caff69efd983dc2ccc796",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2022.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 436795,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2022,
+      "sha256": "ad303c67453593f63fa4fb5b4b5dd17a1502ee0461e22698301c4e564ce6ccab",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 50381,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2022,
+      "sha256": "5636c3acd31b13cd47f35770984d4f2d7b9ec734478acaec3e485d2b19c2ef85",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5599,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2022,
+      "sha256": "a4f827b4b58b8931c91a197bf966e519e9157da53d8da493a02c2b07dda551d8",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1400,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2022,
+      "sha256": "98d7ab4072641f7b426e1704856a61c5df252bc739be3c43df7b2943785f4378",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8895,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2022,
+      "sha256": "2745e2198d09969a96eeecbef265a589ce6f3543e44db5c2057849f8a7d643df",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 440786,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2023,
+      "sha256": "5120fa16c1d004d7d56da33c57e5b82da9ea6bdb8a3282d8ff05a5ac9c7e6c25",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 50389,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2023,
+      "sha256": "50b5e9b275e1af733b05f74d377c3fb9b617c03afbb661e9a4c71c38bf3fae60",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5599,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2023,
+      "sha256": "49f09aa417f152d8de94a9c3fc062164f335746c16de70a258d981ea49bc2ae5",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1400,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2023,
+      "sha256": "5470583dda2601f95d70a9683c2299f6f41f11af94625f6d83ed85e93b485071",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8672,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2023,
+      "sha256": "9b77bb56ffdbb6aae73bcdb8f7d4a675a04b5d7ac59723c2ad28e80537eae0c9",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 445452,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2024,
+      "sha256": "d4557ae020c5e2a31db263aaa9981f0a8e420a4ea1eea86ac30cd67e3e133838",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2025.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 50321,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2024,
+      "sha256": "491b4d994ad2da7b2244c104872d162d2efd25eead7c87f35f51af98120fe421",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2025.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5592,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2024,
+      "sha256": "f40aaa3aadc00a8e19a8063460071e5c544b67ea58004a7663a359a8428e5fc0",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2025.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1398,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2024,
+      "sha256": "d1fdbac4dc1bfc4415d1d4813c3a500f0f9d64f72a438345459d9a650ef67a99",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2025.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8512,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2024,
+      "sha256": "acffa15e921fe38fb30c3db0a00ec4606717cbb49b36d20cae4708dde94beed1",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2025.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 451857,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2025,
+      "sha256": "781c2bc6611cdce4d4f311cf8ce1d54a60891f089e49f77d847140cc7eb08567",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2026.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 50183,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2025,
+      "sha256": "e7a765628402cda039a722bce9b03805ed7fef9713e2d68fe9adf973cf0cd76d",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2026.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 5575,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2025,
+      "sha256": "ce19fedf7c4976cadcf494fca155bbcf2dc4f962804338d15ece2d462076d23b",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2026.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1394,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2025,
+      "sha256": "e12536eced631796a21a8eb86d3e08263a104344fafb57d726d890921bad6bfc",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2026.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 8691,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2025,
+      "sha256": "d841278aa6c3022c2deed1dae64f3e0b88bb34fc09c4eddff43d1158920917a4",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2026.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 443569,
+      "missingColumns": []
+    },
+    {
+      "kind": "skaters",
+      "seasonStartYear": 2026,
+      "sha256": "e22ab167e15ef7bfb7251e567381300efe8357dd243e5db975e7e9e0294279d1",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 14364,
+      "missingColumns": []
+    },
+    {
+      "kind": "goalies",
+      "seasonStartYear": 2026,
+      "sha256": "c029811b6c86431525eb3cab0ddf6fbdb593faa5928a0ad09f7b6778f250e3dd",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_goalie_boxscores/goalie_box_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 1596,
+      "missingColumns": []
+    },
+    {
+      "kind": "info",
+      "seasonStartYear": 2026,
+      "sha256": "860ee08716b7a3bb7b187b375c8703d63a1fb5a3d21fe915b96668761c260f88",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_game_info/game_info_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 399,
+      "missingColumns": []
+    },
+    {
+      "kind": "scoring",
+      "seasonStartYear": 2026,
+      "sha256": "8622f48fcd07c9af762fd40257df95964b96100f6fd797bfb7cf5ea00248fa63",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_scoring/scoring_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 2546,
+      "missingColumns": []
+    },
+    {
+      "kind": "events",
+      "seasonStartYear": 2026,
+      "sha256": "6d16cbc1c1747a54eb6ff5f0b2b2ef399bc5c0a17c1667131cd6989e69318606",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2027.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "schemaProfile": "NHL_OFFICIAL_DERIVED_NAMED_FIELDS_V1",
+      "physicalRows": 127771,
+      "missingColumns": []
+    }
+  ],
+  "seasons": [
+    {
+      "seasonStartYear": 2016,
+      "metrics": {
+        "skaterRows": 47409,
+        "goalieRows": 5268,
+        "exactFaceoffRows": 47373,
+        "exactShorthandedRows": 47301,
+        "goalieWinRows": 5268,
+        "shutoutRows": 5010,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 258,
+        "goalieGoalCreditRows": 2836,
+        "sourceRowsCompleteV9Before": 4875,
+        "sourceRowsCompleteV9After": 52311
+      },
+      "sourceGames": 1317,
+      "overlayRows": 52641,
+      "overlaySha256": "eac343ce7180f85bc759f1861d9a81ef0d1f9269a5551658ffad2f45eba9a0b2",
+      "overlayFingerprint": "2a0541d072e1acd1ed35a6553688385cc1a6adfacb5ad82831eb0d20526ff90a",
+      "overlayBytes": 67898604,
+      "uniqueOverlayPlayers": 1002,
+      "uniqueOverlayGames": 1317,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [
+        {
+          "gameId": "2016020029",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        }
+      ],
+      "scoringConflicts": [
+        {
+          "gameId": "2016020029",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2016021152",
+          "reasons": [
+            "BOX_EVENT_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2016021165",
+          "reasons": [
+            "BOX_EVENT_TOTAL_MISMATCH"
+          ]
+        }
+      ],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2016020029",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2017,
+      "metrics": {
+        "skaterRows": 48780,
+        "goalieRows": 5420,
+        "exactFaceoffRows": 48708,
+        "exactShorthandedRows": 48708,
+        "goalieWinRows": 5419,
+        "shutoutRows": 5180,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 240,
+        "goalieGoalCreditRows": 2939,
+        "sourceRowsCompleteV9Before": 5012,
+        "sourceRowsCompleteV9After": 53887
+      },
+      "sourceGames": 1355,
+      "overlayRows": 54128,
+      "overlaySha256": "79320639a6942e581e76593f4cfd842056a07142640c25b6aaa2e1d3597e73e5",
+      "overlayFingerprint": "edc4dac157a7a240e56d1413cc737f62c2969f9492c5a68ba12e38a30297cb6c",
+      "overlayBytes": 69836278,
+      "uniqueOverlayPlayers": 1005,
+      "uniqueOverlayGames": 1355,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [
+        {
+          "gameId": "2017020927",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2017021078",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        }
+      ],
+      "scoringConflicts": [
+        {
+          "gameId": "2017020927",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2017021078",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        }
+      ],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2017020927",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2017021078",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2018,
+      "metrics": {
+        "skaterRows": 48888,
+        "goalieRows": 5432,
+        "exactFaceoffRows": 48816,
+        "exactShorthandedRows": 48816,
+        "goalieWinRows": 5432,
+        "shutoutRows": 5211,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 221,
+        "goalieGoalCreditRows": 2897,
+        "sourceRowsCompleteV9Before": 5070,
+        "sourceRowsCompleteV9After": 54027
+      },
+      "sourceGames": 1358,
+      "overlayRows": 54248,
+      "overlaySha256": "8e68966c7ba256ea1b0be59647a5b7d66f8c47d57e3b78c3fc9ae98daaaeb7b6",
+      "overlayFingerprint": "effce04d8e72070cdffac88170553f5a293cbef44398ed36ee5dd8a1790a0323",
+      "overlayBytes": 69975304,
+      "uniqueOverlayPlayers": 1028,
+      "uniqueOverlayGames": 1358,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [
+        {
+          "gameId": "2018020025",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2018020062",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        }
+      ],
+      "scoringConflicts": [
+        {
+          "gameId": "2018020025",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2018020062",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        }
+      ],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2018020025",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2018020062",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2019,
+      "metrics": {
+        "skaterRows": 43632,
+        "goalieRows": 4850,
+        "exactFaceoffRows": 43524,
+        "exactShorthandedRows": 43415,
+        "goalieWinRows": 4848,
+        "shutoutRows": 4661,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 189,
+        "goalieGoalCreditRows": 2570,
+        "sourceRowsCompleteV9Before": 4550,
+        "sourceRowsCompleteV9After": 48075
+      },
+      "sourceGames": 1212,
+      "overlayRows": 48374,
+      "overlaySha256": "54fe8690a42468eaa12d4fb2cd6a68d0f7c374486c3be99da01706fdf2f4c7bd",
+      "overlayFingerprint": "93a0e4d649dffc1936eeab2d092603d2b1117f675a92e69411805eb7886581de",
+      "overlayBytes": 62935734,
+      "uniqueOverlayPlayers": 991,
+      "uniqueOverlayGames": 1212,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [
+        {
+          "gameId": "2019020253",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019020854",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019030002",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH"
+          ]
+        }
+      ],
+      "scoringConflicts": [
+        {
+          "gameId": "2019020253",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "SHOOTOUT_STREAM_UNRESOLVED",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019020854",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "SHOOTOUT_STREAM_UNRESOLVED",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019020876",
+          "reasons": [
+            "UNRESOLVED_SCORING_CREDIT",
+            "BOX_EVENT_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019030001",
+          "reasons": [
+            "DUPLICATE_OR_CONFLICTING_GOALIE_ACTOR"
+          ]
+        },
+        {
+          "gameId": "2019030002",
+          "reasons": [
+            "FINAL_SCORE_MISMATCH",
+            "GOAL_STREAM_SCORE_TOTAL_MISMATCH",
+            "BOX_EVENT_TOTAL_MISMATCH"
+          ]
+        },
+        {
+          "gameId": "2019030016",
+          "reasons": [
+            "BOX_EVENT_TOTAL_MISMATCH"
+          ]
+        }
+      ],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2019020253",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2019020854",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2019020951",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2019030002",
+          "reasons": [
+            "FINAL_GAME_RESULT_UNRESOLVED"
+          ]
+        },
+        {
+          "gameId": "2019030072",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2020,
+      "metrics": {
+        "skaterRows": 34252,
+        "goalieRows": 3808,
+        "exactFaceoffRows": 34252,
+        "exactShorthandedRows": 34252,
+        "goalieWinRows": 3808,
+        "shutoutRows": 3633,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 175,
+        "goalieGoalCreditRows": 2026,
+        "sourceRowsCompleteV9Before": 3546,
+        "sourceRowsCompleteV9After": 37885
+      },
+      "sourceGames": 952,
+      "overlayRows": 38060,
+      "overlaySha256": "967b4e215d177fdfbef43818b8ff175ec233f6421c18821d31f64372523f62ab",
+      "overlayFingerprint": "99ed1e96fed766674e602ac3cacf3c297319d13bacc172067017b8b961c91596",
+      "overlayBytes": 49074184,
+      "uniqueOverlayPlayers": 1037,
+      "uniqueOverlayGames": 952,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2021,
+      "metrics": {
+        "skaterRows": 50415,
+        "goalieRows": 5605,
+        "exactFaceoffRows": 50415,
+        "exactShorthandedRows": 50415,
+        "goalieWinRows": 5603,
+        "shutoutRows": 5387,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 218,
+        "goalieGoalCreditRows": 3014,
+        "sourceRowsCompleteV9Before": 5232,
+        "sourceRowsCompleteV9After": 55801
+      },
+      "sourceGames": 1401,
+      "overlayRows": 56020,
+      "overlaySha256": "fc0617bf7de4b4d8d19335e99e1b5e78dde8198dee3587334a7bdee9fc3b455f",
+      "overlayFingerprint": "2e2977e0dd0967bcdc4f92195bc79fa0a0e72c7e2bbafd02a2b50c55e55e01d3",
+      "overlayBytes": 72246643,
+      "uniqueOverlayPlayers": 1150,
+      "uniqueOverlayGames": 1401,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2021021307",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2022,
+      "metrics": {
+        "skaterRows": 50381,
+        "goalieRows": 5599,
+        "exactFaceoffRows": 50381,
+        "exactShorthandedRows": 50381,
+        "goalieWinRows": 5599,
+        "shutoutRows": 5405,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 194,
+        "goalieGoalCreditRows": 2983,
+        "sourceRowsCompleteV9Before": 5279,
+        "sourceRowsCompleteV9After": 55786
+      },
+      "sourceGames": 1400,
+      "overlayRows": 55980,
+      "overlaySha256": "a4dae5db71d418a2ab3635c35db5f35050c0f2152fcaed41cbdb0635d0ccc301",
+      "overlayFingerprint": "7e8a7baed279a80ac13aebde142faf76368adb44330325d9106525a796c535aa",
+      "overlayBytes": 72206975,
+      "uniqueOverlayPlayers": 1079,
+      "uniqueOverlayGames": 1400,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2022020756",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2023,
+      "metrics": {
+        "skaterRows": 50389,
+        "goalieRows": 5599,
+        "exactFaceoffRows": 50389,
+        "exactShorthandedRows": 50389,
+        "goalieWinRows": 5599,
+        "shutoutRows": 5390,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 209,
+        "goalieGoalCreditRows": 2979,
+        "sourceRowsCompleteV9Before": 5260,
+        "sourceRowsCompleteV9After": 55779
+      },
+      "sourceGames": 1400,
+      "overlayRows": 55988,
+      "overlaySha256": "5e132dc0f44504f13441cb93afb2dcd0cb10aae89e838ca7c5732b3265832b8f",
+      "overlayFingerprint": "e05ccf5156ffcf58b75524c642dc90f3c7aae03f34731b4ca4500e0336061e79",
+      "overlayBytes": 72203763,
+      "uniqueOverlayPlayers": 1044,
+      "uniqueOverlayGames": 1400,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2023021182",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2024,
+      "metrics": {
+        "skaterRows": 50321,
+        "goalieRows": 5592,
+        "exactFaceoffRows": 50321,
+        "exactShorthandedRows": 50321,
+        "goalieWinRows": 5592,
+        "shutoutRows": 5369,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 223,
+        "goalieGoalCreditRows": 2953,
+        "sourceRowsCompleteV9Before": 5261,
+        "sourceRowsCompleteV9After": 55690
+      },
+      "sourceGames": 1398,
+      "overlayRows": 55913,
+      "overlaySha256": "f0ec292262ce57716c0c8064b520bd7802fae85ea030a8f9a2879f04045943c7",
+      "overlayFingerprint": "fad8a7271545a56e5c81eb6130382cb09b92ac325579cb857dce157ea6b6d422",
+      "overlayBytes": 72104234,
+      "uniqueOverlayPlayers": 1046,
+      "uniqueOverlayGames": 1398,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2025,
+      "metrics": {
+        "skaterRows": 50183,
+        "goalieRows": 5575,
+        "exactFaceoffRows": 50183,
+        "exactShorthandedRows": 50183,
+        "goalieWinRows": 5575,
+        "shutoutRows": 5401,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 174,
+        "goalieGoalCreditRows": 2942,
+        "sourceRowsCompleteV9Before": 5293,
+        "sourceRowsCompleteV9After": 55584
+      },
+      "sourceGames": 1394,
+      "overlayRows": 55758,
+      "overlaySha256": "aff1efb731ccce6df86b3153c3686d974722d89a8ceb99342364084316452c0a",
+      "overlayFingerprint": "f444ae05c93ad68a900ed5b18844e26f4192e5edbb3b35785921c85bfa325672",
+      "overlayBytes": 71903499,
+      "uniqueOverlayPlayers": 1063,
+      "uniqueOverlayGames": 1394,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [
+        {
+          "gameId": "2025021293",
+          "reasons": [
+            "GOALIE_INVENTORY_INCOMPLETE",
+            "GOALIE_TEAM_INVENTORY_UNRESOLVED"
+          ]
+        }
+      ],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    },
+    {
+      "seasonStartYear": 2026,
+      "metrics": {
+        "skaterRows": 14364,
+        "goalieRows": 1596,
+        "exactFaceoffRows": 14364,
+        "exactShorthandedRows": 14364,
+        "goalieWinRows": 1596,
+        "shutoutRows": 1552,
+        "explicitShutoutCredits": 0,
+        "unknownShutoutRows": 44,
+        "goalieGoalCreditRows": 840,
+        "sourceRowsCompleteV9Before": 1518,
+        "sourceRowsCompleteV9After": 15916
+      },
+      "sourceGames": 399,
+      "overlayRows": 15960,
+      "overlaySha256": "8bb9d45e860428d6089a0069dfb6ecfdeb2d87d40b57af99f8aaa2ecfb1ca2d0",
+      "overlayFingerprint": "73f06eba324b6273d8944e6f434e2531950b3e749b4483f29302cd8a5069a72c",
+      "overlayBytes": 20584377,
+      "uniqueOverlayPlayers": 876,
+      "uniqueOverlayGames": 399,
+      "invalidIdentityOrSeasonGames": [],
+      "faceoffConflicts": [],
+      "scoringConflicts": [],
+      "goalieDecisionConflicts": [],
+      "sourceKnownAt": null,
+      "historicalOnly": true,
+      "simulationReady": false
+    }
+  ],
+  "totals": {
+    "skaterRows": 489014,
+    "goalieRows": 54344,
+    "exactFaceoffRows": 488726,
+    "exactShorthandedRows": 488545,
+    "goalieWinRows": 54339,
+    "shutoutRows": 52199,
+    "explicitShutoutCredits": 0,
+    "unknownShutoutRows": 2145,
+    "goalieGoalCreditRows": 28979,
+    "sourceRowsCompleteV9Before": 50896,
+    "sourceRowsCompleteV9After": 540741
+  },
+  "overlayRows": 543070,
+  "fieldProvenanceRequired": true,
+  "activeV9Changed": false,
+  "currentEligibilityChanged": false,
+  "developmentDatabaseWrites": 0,
+  "originalArchivesChanged": false,
+  "historicalKnownAtInferred": false,
+  "scope": "Published licensed NHL seasonal source cohorts, including regular/postseason where present. Exact accepted-archive joins/conflicts/completeness are reported by the separate core44-cohort pipeline. Source-cohort coverage is not archive simulation readiness.",
+  "remainingGates": [
+    "Explicit positive shutout credits absent from these five product families; positive-time zero-GA cases remain unknown.",
+    "Rejected final-score/actor/scoring-credit contradictions remain withheld.",
+    "Historical source publication/known-at times remain unknown; overlays must not drive prior-information-only lineup/draft decisions.",
+    "Do not select a V10 training baseline or optimize weights from these overlays."
+  ],
+  "fingerprint": "2bc5a7082f09a8018706796771f61490b2f426874e5808fc5119072f2f8c11b6"
+}

@@ -1,0 +1,856 @@
+{
+  "version": "m6-nhl-overlay-reconciliation-1",
+  "cohorts": [
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2016,
+      "physicalRows": 49197,
+      "validRows": 49197,
+      "selectedRows": 46931,
+      "exactOverlayMatchedRows": 49161,
+      "overlaySourceKeys": 52641,
+      "overlayUnmatchedSourceKeys": 3480,
+      "baselineCompleteRows": 4552,
+      "enrichedCompleteRows": 48847,
+      "baselineCompleteSelectedRows": 2289,
+      "enrichedCompleteSelectedRows": 46581,
+      "selectedPlayers": 983,
+      "baselineCompletePlayers": 15,
+      "enrichedCompletePlayers": 821,
+      "missingFieldsBefore": {
+        "faceoff_wins": 44277,
+        "shorthanded_points_bonus": 44277,
+        "goalie_win": 197,
+        "shutout": 242
+      },
+      "missingFieldsAfter": {
+        "faceoff_wins": 36,
+        "shorthanded_points_bonus": 108,
+        "shutout": 242
+      },
+      "appliedFields": {
+        "faceoff_wins": 44241,
+        "shorthanded_points_bonus": 44169,
+        "goalie_win": 197
+      },
+      "completePlayerSeasonsBefore": 15,
+      "completePlayerSeasonsAfter": 821,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1001,
+      "gameCompletenessDenominator": 1230,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 44277,
+          "before": 0,
+          "after": 44241
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 44277,
+          "before": 0,
+          "after": 44169
+        },
+        "goalie_win": {
+          "denominator": 4920,
+          "before": 4723,
+          "after": 4920
+        },
+        "shutout": {
+          "denominator": 4920,
+          "before": 4678,
+          "after": 4678
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2016/records.parquet",
+      "baselinePartitionSha256": "6728e62ffa53f88597eccb7607d0a4c2d632e9e296a1921948bd9a4a5322e5ce",
+      "overlaySha256": "eac343ce7180f85bc759f1861d9a81ef0d1f9269a5551658ffad2f45eba9a0b2",
+      "overlayManifestSha256": "f659236d3c2324c20989f6ce9769defad85d714d67e77c11ca9894c0c16e43c0",
+      "partition": "data/simulation/historical_v1/NHL/2016/enriched-records.parquet",
+      "partitionSha256": "82e5780725419f839e719c1227fee490ee3d5a9aa1e08091bcd9ecc8951c5681",
+      "partitionBytes": 3750985,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2017,
+      "physicalRows": 50840,
+      "validRows": 50840,
+      "selectedRows": 48516,
+      "exactOverlayMatchedRows": 50768,
+      "overlaySourceKeys": 54128,
+      "overlayUnmatchedSourceKeys": 3360,
+      "baselineCompleteRows": 4707,
+      "enrichedCompleteRows": 50550,
+      "baselineCompleteSelectedRows": 2383,
+      "enrichedCompleteSelectedRows": 48226,
+      "selectedPlayers": 985,
+      "baselineCompletePlayers": 9,
+      "enrichedCompletePlayers": 844,
+      "missingFieldsBefore": {
+        "faceoff_wins": 45756,
+        "shorthanded_points_bonus": 45756,
+        "goalie_win": 218,
+        "shutout": 217
+      },
+      "missingFieldsAfter": {
+        "shutout": 217,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72,
+        "goalie_win": 1
+      },
+      "appliedFields": {
+        "faceoff_wins": 45684,
+        "shorthanded_points_bonus": 45684,
+        "goalie_win": 217
+      },
+      "completePlayerSeasonsBefore": 9,
+      "completePlayerSeasonsAfter": 844,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1060,
+      "gameCompletenessDenominator": 1271,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 45756,
+          "before": 0,
+          "after": 45684
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 45756,
+          "before": 0,
+          "after": 45684
+        },
+        "goalie_win": {
+          "denominator": 5084,
+          "before": 4866,
+          "after": 5083
+        },
+        "shutout": {
+          "denominator": 5084,
+          "before": 4867,
+          "after": 4867
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2017/records.parquet",
+      "baselinePartitionSha256": "135c5cfc07498e2891b1826a9db8057340afce07cf326250ebdca345375c54e3",
+      "overlaySha256": "79320639a6942e581e76593f4cfd842056a07142640c25b6aaa2e1d3597e73e5",
+      "overlayManifestSha256": "6c7c064a31cca24ec12c9990c45f5bd8e8189d4050dc22c67f5a077a04a4f829",
+      "partition": "data/simulation/historical_v1/NHL/2017/enriched-records.parquet",
+      "partitionSha256": "92b17ead076599115aa23c46b99f2cde9596dcc7a14783f96f73a71a5e5be2f9",
+      "partitionBytes": 3915758,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2018,
+      "physicalRows": 50840,
+      "validRows": 50840,
+      "selectedRows": 48475,
+      "exactOverlayMatchedRows": 50768,
+      "overlaySourceKeys": 54248,
+      "overlayUnmatchedSourceKeys": 3480,
+      "baselineCompleteRows": 4739,
+      "enrichedCompleteRows": 50558,
+      "baselineCompleteSelectedRows": 2375,
+      "enrichedCompleteSelectedRows": 48193,
+      "selectedPlayers": 999,
+      "baselineCompletePlayers": 13,
+      "enrichedCompletePlayers": 860,
+      "missingFieldsBefore": {
+        "faceoff_wins": 45756,
+        "shorthanded_points_bonus": 45756,
+        "goalie_win": 178,
+        "shutout": 210
+      },
+      "missingFieldsAfter": {
+        "shutout": 210,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72
+      },
+      "appliedFields": {
+        "faceoff_wins": 45684,
+        "shorthanded_points_bonus": 45684,
+        "goalie_win": 178
+      },
+      "completePlayerSeasonsBefore": 13,
+      "completePlayerSeasonsAfter": 860,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1072,
+      "gameCompletenessDenominator": 1271,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 45756,
+          "before": 0,
+          "after": 45684
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 45756,
+          "before": 0,
+          "after": 45684
+        },
+        "goalie_win": {
+          "denominator": 5084,
+          "before": 4906,
+          "after": 5084
+        },
+        "shutout": {
+          "denominator": 5084,
+          "before": 4874,
+          "after": 4874
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2018/records.parquet",
+      "baselinePartitionSha256": "5242d36e875ba8878daa841ded37198c1204eff850a0627815fbaa7d05232524",
+      "overlaySha256": "8e68966c7ba256ea1b0be59647a5b7d66f8c47d57e3b78c3fc9ae98daaaeb7b6",
+      "overlayManifestSha256": "05be06839b20bb5c04f8cd5aa849f21cbc9efc268013959dd47ee4b2e0fb077f",
+      "partition": "data/simulation/historical_v1/NHL/2018/enriched-records.parquet",
+      "partitionSha256": "699bde09d92489a39dd1585578d301f7bbb1f4c1d7f51bf45bb46e3165f023c2",
+      "partitionBytes": 3905552,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2019,
+      "physicalRows": 43280,
+      "validRows": 43280,
+      "selectedRows": 41256,
+      "exactOverlayMatchedRows": 43208,
+      "overlaySourceKeys": 48374,
+      "overlayUnmatchedSourceKeys": 5166,
+      "baselineCompleteRows": 4069,
+      "enrichedCompleteRows": 43010,
+      "baselineCompleteSelectedRows": 2047,
+      "enrichedCompleteSelectedRows": 40986,
+      "selectedPlayers": 970,
+      "baselineCompletePlayers": 13,
+      "enrichedCompletePlayers": 801,
+      "missingFieldsBefore": {
+        "faceoff_wins": 38951,
+        "shorthanded_points_bonus": 38951,
+        "goalie_win": 143,
+        "shutout": 161
+      },
+      "missingFieldsAfter": {
+        "shutout": 161,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 108,
+        "goalie_win": 2
+      },
+      "appliedFields": {
+        "faceoff_wins": 38879,
+        "shorthanded_points_bonus": 38843,
+        "goalie_win": 141
+      },
+      "completePlayerSeasonsBefore": 13,
+      "completePlayerSeasonsAfter": 801,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 927,
+      "gameCompletenessDenominator": 1082,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 38951,
+          "before": 0,
+          "after": 38879
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 38951,
+          "before": 0,
+          "after": 38843
+        },
+        "goalie_win": {
+          "denominator": 4329,
+          "before": 4186,
+          "after": 4327
+        },
+        "shutout": {
+          "denominator": 4329,
+          "before": 4168,
+          "after": 4168
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2019/records.parquet",
+      "baselinePartitionSha256": "211af8539da5fbe6ca10e52db60f5d49cef0549c0fbffa40eaaed22a10accfaf",
+      "overlaySha256": "54fe8690a42468eaa12d4fb2cd6a68d0f7c374486c3be99da01706fdf2f4c7bd",
+      "overlayManifestSha256": "c788ad44f7c4c3793e20740cc0fea239e2dfa3acfcd4e78ddda8784bd1a6626c",
+      "partition": "data/simulation/historical_v1/NHL/2019/enriched-records.parquet",
+      "partitionSha256": "8ec9766dcb1da17c9d2c5cddde90aec8cb5b38f3660cff4f842dfa7190481fa4",
+      "partitionBytes": 3335709,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2020,
+      "physicalRows": 34700,
+      "validRows": 34700,
+      "selectedRows": 33078,
+      "exactOverlayMatchedRows": 34700,
+      "overlaySourceKeys": 38060,
+      "overlayUnmatchedSourceKeys": 3360,
+      "baselineCompleteRows": 3229,
+      "enrichedCompleteRows": 34539,
+      "baselineCompleteSelectedRows": 1609,
+      "enrichedCompleteSelectedRows": 32917,
+      "selectedPlayers": 1011,
+      "baselineCompletePlayers": 16,
+      "enrichedCompletePlayers": 941,
+      "missingFieldsBefore": {
+        "faceoff_wins": 31228,
+        "shorthanded_points_bonus": 31228,
+        "shutout": 161,
+        "goalie_win": 116
+      },
+      "missingFieldsAfter": {
+        "shutout": 161
+      },
+      "appliedFields": {
+        "faceoff_wins": 31228,
+        "shorthanded_points_bonus": 31228,
+        "goalie_win": 116
+      },
+      "completePlayerSeasonsBefore": 16,
+      "completePlayerSeasonsAfter": 941,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 714,
+      "gameCompletenessDenominator": 868,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 31228,
+          "before": 0,
+          "after": 31228
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 31228,
+          "before": 0,
+          "after": 31228
+        },
+        "goalie_win": {
+          "denominator": 3472,
+          "before": 3356,
+          "after": 3472
+        },
+        "shutout": {
+          "denominator": 3472,
+          "before": 3311,
+          "after": 3311
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2020/records.parquet",
+      "baselinePartitionSha256": "bd4955f13d087a6e7c29ac2af2b095238af8847d4edb9a70e50df4881abb3225",
+      "overlaySha256": "967b4e215d177fdfbef43818b8ff175ec233f6421c18821d31f64372523f62ab",
+      "overlayManifestSha256": "595c75c3db62c8de696182137947b7599e6a756d6f4de92a053dc2786c017488",
+      "partition": "data/simulation/historical_v1/NHL/2020/enriched-records.parquet",
+      "partitionSha256": "95a696fbdb21d534e4cf17169770a2beee2eb379de159bb1aa02933e2faa1d53",
+      "partitionBytes": 2633184,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2021,
+      "physicalRows": 52460,
+      "validRows": 52460,
+      "selectedRows": 50026,
+      "exactOverlayMatchedRows": 52460,
+      "overlaySourceKeys": 56020,
+      "overlayUnmatchedSourceKeys": 3560,
+      "baselineCompleteRows": 4906,
+      "enrichedCompleteRows": 52259,
+      "baselineCompleteSelectedRows": 2475,
+      "enrichedCompleteSelectedRows": 49825,
+      "selectedPlayers": 1123,
+      "baselineCompletePlayers": 24,
+      "enrichedCompletePlayers": 1048,
+      "missingFieldsBefore": {
+        "faceoff_wins": 47211,
+        "shorthanded_points_bonus": 47211,
+        "goalie_win": 194,
+        "shutout": 200
+      },
+      "missingFieldsAfter": {
+        "shutout": 200,
+        "goalie_win": 2
+      },
+      "appliedFields": {
+        "faceoff_wins": 47211,
+        "shorthanded_points_bonus": 47211,
+        "goalie_win": 192
+      },
+      "completePlayerSeasonsBefore": 24,
+      "completePlayerSeasonsAfter": 1048,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1119,
+      "gameCompletenessDenominator": 1312,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 47211,
+          "before": 0,
+          "after": 47211
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 47211,
+          "before": 0,
+          "after": 47211
+        },
+        "goalie_win": {
+          "denominator": 5249,
+          "before": 5055,
+          "after": 5247
+        },
+        "shutout": {
+          "denominator": 5249,
+          "before": 5049,
+          "after": 5049
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2021/records.parquet",
+      "baselinePartitionSha256": "e08d74a7c468a25e6faf169b322ed8b8a2bbb9a56bb8cdc56144fe12fe379058",
+      "overlaySha256": "fc0617bf7de4b4d8d19335e99e1b5e78dde8198dee3587334a7bdee9fc3b455f",
+      "overlayManifestSha256": "742b73563e0cb61b77957638b491cee6a9756d3d5a354f90d30f777befa42cf2",
+      "partition": "data/simulation/historical_v1/NHL/2021/enriched-records.parquet",
+      "partitionSha256": "b90cc52777d59e65d5441b63731321a6778223555ca93e3c993904e73f8c98f2",
+      "partitionBytes": 4042103,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2022,
+      "physicalRows": 52460,
+      "validRows": 52460,
+      "selectedRows": 49993,
+      "exactOverlayMatchedRows": 52460,
+      "overlaySourceKeys": 55980,
+      "overlayUnmatchedSourceKeys": 3520,
+      "baselineCompleteRows": 4956,
+      "enrichedCompleteRows": 52281,
+      "baselineCompleteSelectedRows": 2494,
+      "enrichedCompleteSelectedRows": 49814,
+      "selectedPlayers": 1058,
+      "baselineCompletePlayers": 18,
+      "enrichedCompletePlayers": 982,
+      "missingFieldsBefore": {
+        "faceoff_wins": 47213,
+        "shorthanded_points_bonus": 47213,
+        "shutout": 179,
+        "goalie_win": 161
+      },
+      "missingFieldsAfter": {
+        "shutout": 179
+      },
+      "appliedFields": {
+        "faceoff_wins": 47213,
+        "shorthanded_points_bonus": 47213,
+        "goalie_win": 161
+      },
+      "completePlayerSeasonsBefore": 18,
+      "completePlayerSeasonsAfter": 982,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1145,
+      "gameCompletenessDenominator": 1312,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 47213,
+          "before": 0,
+          "after": 47213
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 47213,
+          "before": 0,
+          "after": 47213
+        },
+        "goalie_win": {
+          "denominator": 5247,
+          "before": 5086,
+          "after": 5247
+        },
+        "shutout": {
+          "denominator": 5247,
+          "before": 5068,
+          "after": 5068
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2022/records.parquet",
+      "baselinePartitionSha256": "d5b69c033d27a894fc3c7a5c69a0dbd14f9f0782b95facf3a287ff11f9640087",
+      "overlaySha256": "a4dae5db71d418a2ab3635c35db5f35050c0f2152fcaed41cbdb0635d0ccc301",
+      "overlayManifestSha256": "4aa004db8d817665a37c8ca7d78f888fd06b2f88ddbc2cf1967c4b93cd532f17",
+      "partition": "data/simulation/historical_v1/NHL/2022/enriched-records.parquet",
+      "partitionSha256": "3a1f4d947949179a0cf9b9825a921fdc2e60333067a68b819a3c08b7ed0fbbc9",
+      "partitionBytes": 4039876,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2023,
+      "physicalRows": 52468,
+      "validRows": 52468,
+      "selectedRows": 50018,
+      "exactOverlayMatchedRows": 52468,
+      "overlaySourceKeys": 55988,
+      "overlayUnmatchedSourceKeys": 3520,
+      "baselineCompleteRows": 4919,
+      "enrichedCompleteRows": 52268,
+      "baselineCompleteSelectedRows": 2469,
+      "enrichedCompleteSelectedRows": 49818,
+      "selectedPlayers": 1022,
+      "baselineCompletePlayers": 11,
+      "enrichedCompletePlayers": 947,
+      "missingFieldsBefore": {
+        "faceoff_wins": 47221,
+        "shorthanded_points_bonus": 47221,
+        "goalie_win": 173,
+        "shutout": 200
+      },
+      "missingFieldsAfter": {
+        "shutout": 200
+      },
+      "appliedFields": {
+        "faceoff_wins": 47221,
+        "shorthanded_points_bonus": 47221,
+        "goalie_win": 173
+      },
+      "completePlayerSeasonsBefore": 11,
+      "completePlayerSeasonsAfter": 947,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1121,
+      "gameCompletenessDenominator": 1312,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 47221,
+          "before": 0,
+          "after": 47221
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 47221,
+          "before": 0,
+          "after": 47221
+        },
+        "goalie_win": {
+          "denominator": 5247,
+          "before": 5074,
+          "after": 5247
+        },
+        "shutout": {
+          "denominator": 5247,
+          "before": 5047,
+          "after": 5047
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2023/records.parquet",
+      "baselinePartitionSha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21",
+      "overlaySha256": "5e132dc0f44504f13441cb93afb2dcd0cb10aae89e838ca7c5732b3265832b8f",
+      "overlayManifestSha256": "bbe6d4fdeafd0b6b3d4b382cac8537c454a0ed93f2cc36617714bd8d415fcac2",
+      "partition": "data/simulation/historical_v1/NHL/2023/enriched-records.parquet",
+      "partitionSha256": "09011211810faccdbc7f593037ba8a34fb4c90522cd6798aa810c32e2dfb4a82",
+      "partitionBytes": 4048279,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2024,
+      "physicalRows": 52473,
+      "validRows": 52473,
+      "selectedRows": 49988,
+      "exactOverlayMatchedRows": 52473,
+      "overlaySourceKeys": 55913,
+      "overlayUnmatchedSourceKeys": 3440,
+      "baselineCompleteRows": 4947,
+      "enrichedCompleteRows": 52267,
+      "baselineCompleteSelectedRows": 2463,
+      "enrichedCompleteSelectedRows": 49782,
+      "selectedPlayers": 1023,
+      "baselineCompletePlayers": 17,
+      "enrichedCompletePlayers": 953,
+      "missingFieldsBefore": {
+        "faceoff_wins": 47225,
+        "shorthanded_points_bonus": 47225,
+        "shutout": 206,
+        "goalie_win": 140
+      },
+      "missingFieldsAfter": {
+        "shutout": 206
+      },
+      "appliedFields": {
+        "faceoff_wins": 47225,
+        "shorthanded_points_bonus": 47225,
+        "goalie_win": 140
+      },
+      "completePlayerSeasonsBefore": 17,
+      "completePlayerSeasonsAfter": 953,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1115,
+      "gameCompletenessDenominator": 1312,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 47225,
+          "before": 0,
+          "after": 47225
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 47225,
+          "before": 0,
+          "after": 47225
+        },
+        "goalie_win": {
+          "denominator": 5248,
+          "before": 5108,
+          "after": 5248
+        },
+        "shutout": {
+          "denominator": 5248,
+          "before": 5042,
+          "after": 5042
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2024/records.parquet",
+      "baselinePartitionSha256": "fd62399c33e20205d0f57cc2beb8051800821a24649f06d4340f9238a0b50df6",
+      "overlaySha256": "f0ec292262ce57716c0c8064b520bd7802fae85ea030a8f9a2879f04045943c7",
+      "overlayManifestSha256": "071807bcbfd655725bf23362f110a06e5070a2c8756d0807aec6bee9cddf899b",
+      "partition": "data/simulation/historical_v1/NHL/2024/enriched-records.parquet",
+      "partitionSha256": "c04f0e0279382f41fea54431bb5d2a0528742f30ff81feef4c8c6a7a849e2669",
+      "partitionBytes": 4029694,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2025,
+      "physicalRows": 52478,
+      "validRows": 52478,
+      "selectedRows": 49998,
+      "exactOverlayMatchedRows": 52478,
+      "overlaySourceKeys": 55758,
+      "overlayUnmatchedSourceKeys": 3280,
+      "baselineCompleteRows": 4984,
+      "enrichedCompleteRows": 52315,
+      "baselineCompleteSelectedRows": 2505,
+      "enrichedCompleteSelectedRows": 49835,
+      "selectedPlayers": 1038,
+      "baselineCompletePlayers": 16,
+      "enrichedCompletePlayers": 970,
+      "missingFieldsBefore": {
+        "faceoff_wins": 47231,
+        "shorthanded_points_bonus": 47231,
+        "shutout": 163,
+        "goalie_win": 144
+      },
+      "missingFieldsAfter": {
+        "shutout": 163
+      },
+      "appliedFields": {
+        "faceoff_wins": 47231,
+        "shorthanded_points_bonus": 47231,
+        "goalie_win": 144
+      },
+      "completePlayerSeasonsBefore": 16,
+      "completePlayerSeasonsAfter": 970,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 1155,
+      "gameCompletenessDenominator": 1312,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 47231,
+          "before": 0,
+          "after": 47231
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 47231,
+          "before": 0,
+          "after": 47231
+        },
+        "goalie_win": {
+          "denominator": 5247,
+          "before": 5103,
+          "after": 5247
+        },
+        "shutout": {
+          "denominator": 5247,
+          "before": 5084,
+          "after": 5084
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2025/records.parquet",
+      "baselinePartitionSha256": "ab21c7b047547d58fb7a398c92dc2a4cd8dc0a75460795e084e0d7528dd3a899",
+      "overlaySha256": "aff1efb731ccce6df86b3153c3686d974722d89a8ceb99342364084316452c0a",
+      "overlayManifestSha256": "5f7a2bde57a867bf709d17a5778264683ad035218141dae1397add51d3dc877b",
+      "partition": "data/simulation/historical_v1/NHL/2025/enriched-records.parquet",
+      "partitionSha256": "cb4513d31959731d2ffc44a7e2abd1a5cb9f54d6fdf0fc5de2f33f181651c35a",
+      "partitionBytes": 4028497,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "BLOCKED_BY_UNAVAILABLE_SOURCE_EVIDENCE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2026,
+      "physicalRows": 14920,
+      "validRows": 14920,
+      "selectedRows": 14213,
+      "exactOverlayMatchedRows": 14920,
+      "overlaySourceKeys": 15960,
+      "overlayUnmatchedSourceKeys": 1040,
+      "baselineCompleteRows": 1419,
+      "enrichedCompleteRows": 14880,
+      "baselineCompleteSelectedRows": 713,
+      "enrichedCompleteSelectedRows": 14173,
+      "selectedPlayers": 863,
+      "baselineCompletePlayers": 32,
+      "enrichedCompletePlayers": 835,
+      "missingFieldsBefore": {
+        "faceoff_wins": 13428,
+        "shorthanded_points_bonus": 13428,
+        "shutout": 40,
+        "goalie_win": 40
+      },
+      "missingFieldsAfter": {
+        "shutout": 40
+      },
+      "appliedFields": {
+        "faceoff_wins": 13428,
+        "shorthanded_points_bonus": 13428,
+        "goalie_win": 40
+      },
+      "completePlayerSeasonsBefore": 32,
+      "completePlayerSeasonsAfter": 835,
+      "completeGamesBefore": 0,
+      "completeGamesAfter": 335,
+      "gameCompletenessDenominator": 373,
+      "completeGameMetricScope": "All materialized selected rows, not complete professional box inventory",
+      "fieldCoverage": {
+        "faceoff_wins": {
+          "denominator": 13428,
+          "before": 0,
+          "after": 13428
+        },
+        "shorthanded_points_bonus": {
+          "denominator": 13428,
+          "before": 0,
+          "after": 13428
+        },
+        "goalie_win": {
+          "denominator": 1492,
+          "before": 1452,
+          "after": 1492
+        },
+        "shutout": {
+          "denominator": 1492,
+          "before": 1452,
+          "after": 1452
+        }
+      },
+      "sourceConflictRows": 0,
+      "sourceConflictFields": {},
+      "baselineSourcePartition": "data/simulation/historical_v1/NHL/2026/records.parquet",
+      "baselinePartitionSha256": "650b16c3bd4902c450c7cb263b9b43179c3032704924fc693e5ca948efd762dc",
+      "overlaySha256": "8bb9d45e860428d6089a0069dfb6ecfdeb2d87d40b57af99f8aaa2ecfb1ca2d0",
+      "overlayManifestSha256": "9c2505a705dbb7e0ea63d86766baed2f9fb3849cc2104bb17d1afdd673f45653",
+      "partition": "data/simulation/historical_v1/NHL/2026/enriched-records.parquet",
+      "partitionSha256": "0fa262e4a85859e13948b3d22aa72c7c71bbaf6b79a4f8acf19cd7750ec4b5e5",
+      "partitionBytes": 1152759,
+      "historicalKnownAtRows": 0,
+      "reproducibilityVerified": false,
+      "currentEligibilityChanges": 0,
+      "developmentWrites": 0,
+      "readiness": "INCOMPLETE",
+      "readinessReason": "Retrospective statistics only. Missing historical pregame/publication chronology never becomes known-at; remaining stat conflicts stay withheld."
+    }
+  ],
+  "v10Active": false,
+  "developmentWrites": 0,
+  "scorer": "src/scoring/engine.ts unchanged active56UBPV9weights",
+  "transformationFiles": [
+    {
+      "path": "scripts/enrich-m6-historical-nhl.py",
+      "sha256": "c4ad08b8b4ac3dc40acff9a8dec65eb11f70533b3d902fcba5bc020999db6447"
+    },
+    {
+      "path": "src/simulation/preparation/enrichment.ts",
+      "sha256": "a8b302a0ac69a8af1e8590b9e516987f4d062379c62b2040c544268a2c0393d5"
+    },
+    {
+      "path": "src/workers/enrich-historical-simulation-records.ts",
+      "sha256": "7ad24467a88c02e18325e4c1b3af85ed0820c3d7b1805dccbfd346cbb859216e"
+    },
+    {
+      "path": "src/scoring/engine.ts",
+      "sha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338"
+    },
+    {
+      "path": "src/scoring/ubp-v9.ts",
+      "sha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62"
+    }
+  ],
+  "datasetFingerprint": "8bf340e1cb5dd8b59fd1a19f4241f660c2f238c62c14ee6b71a989d71498f15f"
+}

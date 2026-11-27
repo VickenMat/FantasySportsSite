@@ -1,0 +1,680 @@
+{
+  "version": "m6-source-qualified-dataset-package-1",
+  "parentPreparedPartitionBundle": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+  "mandatoryCorroborationReportFingerprint": "e24c395ea12cb73c627156a1fcc9fd4494c9ca5a294f7adbdbb238154a38b43b",
+  "mandatoryCorroborationRows": 506116,
+  "cohorts": [
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2016,
+      "physicalRows": 49197,
+      "inputCompleteRows": 48847,
+      "knownBaseVectorAgreementRows": 49197,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 48847,
+      "selectedParticipationQualifiedRetrospectiveRows": 46581,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 983,
+      "selectedGameDenominator": 1230,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 821,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1001,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 13606,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 13571
+        },
+        "D": {
+          "membershipRows": 14836,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 14799
+        },
+        "G": {
+          "membershipRows": 4920,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2415
+        },
+        "LW": {
+          "membershipRows": 8173,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8158
+        },
+        "RW": {
+          "membershipRows": 7662,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7638
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2016/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "82e5780725419f839e719c1227fee490ee3d5a9aa1e08091bcd9ecc8951c5681",
+      "comparisonSha256": "b45d6500fa0ad8190d43d7199804d7c98ab1c916a2d2242f9f3bf6d6aafb7de3",
+      "partition": "data/simulation/scoring_gates/NHL/2016/scoring-gate.parquet",
+      "partitionSha256": "c28bbd7213497c1b77ae96736b036c40c91179852d700b2e92523c77ad1b3659",
+      "partitionBytes": 534533,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2017,
+      "physicalRows": 50840,
+      "inputCompleteRows": 50550,
+      "knownBaseVectorAgreementRows": 50840,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 50550,
+      "selectedParticipationQualifiedRetrospectiveRows": 48225,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 985,
+      "selectedGameDenominator": 1271,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 844,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1059,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 13899,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 13875
+        },
+        "D": {
+          "membershipRows": 15366,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15342
+        },
+        "G": {
+          "membershipRows": 5084,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2541
+        },
+        "LW": {
+          "membershipRows": 9007,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8996
+        },
+        "RW": {
+          "membershipRows": 7484,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7471
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2017/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "92b17ead076599115aa23c46b99f2cde9596dcc7a14783f96f73a71a5e5be2f9",
+      "comparisonSha256": "6a0a8539d6b6165a743f1b956f3c3339feeb4457c19f41ec9aa3e44bf4f6f979",
+      "partition": "data/simulation/scoring_gates/NHL/2017/scoring-gate.parquet",
+      "partitionSha256": "4424e83b24943662b33e44124268db26771f65336b1d82ed573a27b5d0fc6cb2",
+      "partitionBytes": 556639,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2018,
+      "physicalRows": 50840,
+      "inputCompleteRows": 50558,
+      "knownBaseVectorAgreementRows": 50840,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 50558,
+      "selectedParticipationQualifiedRetrospectiveRows": 48193,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 999,
+      "selectedGameDenominator": 1271,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 860,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1072,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 14345,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 14324
+        },
+        "D": {
+          "membershipRows": 15352,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15328
+        },
+        "G": {
+          "membershipRows": 5084,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2510
+        },
+        "LW": {
+          "membershipRows": 8826,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8810
+        },
+        "RW": {
+          "membershipRows": 7233,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7221
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2018/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "699bde09d92489a39dd1585578d301f7bbb1f4c1d7f51bf45bb46e3165f023c2",
+      "comparisonSha256": "7a3c4f53c4f0fec199e44888782d5b6ffe2434ae33ce11a87309cc74659b61b9",
+      "partition": "data/simulation/scoring_gates/NHL/2018/scoring-gate.parquet",
+      "partitionSha256": "f9796238ad2bb9a0028a08579831e2b096738f5fe40a2a6b8add12556f315d45",
+      "partitionBytes": 558520,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2019,
+      "physicalRows": 43280,
+      "inputCompleteRows": 43010,
+      "knownBaseVectorAgreementRows": 43280,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 43010,
+      "selectedParticipationQualifiedRetrospectiveRows": 40985,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 970,
+      "selectedGameDenominator": 1082,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 801,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 926,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 12412,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 12386
+        },
+        "D": {
+          "membershipRows": 13117,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 13080
+        },
+        "G": {
+          "membershipRows": 4329,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2144
+        },
+        "LW": {
+          "membershipRows": 7795,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7768
+        },
+        "RW": {
+          "membershipRows": 5627,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 5607
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2019/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "8ec9766dcb1da17c9d2c5cddde90aec8cb5b38f3660cff4f842dfa7190481fa4",
+      "comparisonSha256": "14d3d6290f6939f2a5120834290d314e87476dea3944b97e14e914d4ca2a5d65",
+      "partition": "data/simulation/scoring_gates/NHL/2019/scoring-gate.parquet",
+      "partitionSha256": "2fa3f7c03cb67b5c8b6f4f37e758b481861b9fc7ed85c96844e7b4fdbed7bdc6",
+      "partitionBytes": 475170,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2020,
+      "physicalRows": 34700,
+      "inputCompleteRows": 34539,
+      "knownBaseVectorAgreementRows": 34700,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 34539,
+      "selectedParticipationQualifiedRetrospectiveRows": 32917,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1011,
+      "selectedGameDenominator": 868,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 941,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 714,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 9951,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 9951
+        },
+        "D": {
+          "membershipRows": 10482,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 10481
+        },
+        "G": {
+          "membershipRows": 3472,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 1691
+        },
+        "LW": {
+          "membershipRows": 6051,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 6050
+        },
+        "RW": {
+          "membershipRows": 4744,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 4744
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2020/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "95a696fbdb21d534e4cf17169770a2beee2eb379de159bb1aa02933e2faa1d53",
+      "comparisonSha256": "e4831c4d05668bcefc76c3fa2c86b0bd3a5a232ef94bff510b174c9db4190ba2",
+      "partition": "data/simulation/scoring_gates/NHL/2020/scoring-gate.parquet",
+      "partitionSha256": "50aab4636a4a934d86df0b1a99fdff913c1bf95cb5b5d31a136f41f4fc9d6d50",
+      "partitionBytes": 365855,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2021,
+      "physicalRows": 52460,
+      "inputCompleteRows": 52259,
+      "knownBaseVectorAgreementRows": 52444,
+      "knownSourceConflictRows": 16,
+      "completeInputRowsWithSourceConflict": 16,
+      "completeInputAndNoKnownSourceConflictRows": 52243,
+      "selectedParticipationQualifiedRetrospectiveRows": 49809,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1123,
+      "selectedGameDenominator": 1312,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 1048,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1104,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 15287,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15286
+        },
+        "D": {
+          "membershipRows": 15822,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15820
+        },
+        "G": {
+          "membershipRows": 5249,
+          "knownSourceConflictRows": 16,
+          "eligibleRetrospectiveRows": 2601
+        },
+        "LW": {
+          "membershipRows": 9043,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 9043
+        },
+        "RW": {
+          "membershipRows": 7059,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7059
+        }
+      },
+      "conflictFields": {
+        "saves": 16
+      },
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2021/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "b90cc52777d59e65d5441b63731321a6778223555ca93e3c993904e73f8c98f2",
+      "comparisonSha256": "48c0c1a695cb88f98e6879ad62c517e7023e4a06ae9b8c48f61a0379d8da5ce6",
+      "partition": "data/simulation/scoring_gates/NHL/2021/scoring-gate.parquet",
+      "partitionSha256": "bdb48480d63c6ed208f4bd275343c01df94b0bc5a027f0f02844405e09ef05ce",
+      "partitionBytes": 579364,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2022,
+      "physicalRows": 52460,
+      "inputCompleteRows": 52281,
+      "knownBaseVectorAgreementRows": 52460,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 52281,
+      "selectedParticipationQualifiedRetrospectiveRows": 49814,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1058,
+      "selectedGameDenominator": 1312,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 982,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1145,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 15345,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15345
+        },
+        "D": {
+          "membershipRows": 15929,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15927
+        },
+        "G": {
+          "membershipRows": 5247,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2606
+        },
+        "LW": {
+          "membershipRows": 8820,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8818
+        },
+        "RW": {
+          "membershipRows": 7119,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7118
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2022/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "3a1f4d947949179a0cf9b9825a921fdc2e60333067a68b819a3c08b7ed0fbbc9",
+      "comparisonSha256": "a4c47319f9fe5f6ca4f42d3b74dd693035b390f75c6e942f777cd8efca142808",
+      "partition": "data/simulation/scoring_gates/NHL/2022/scoring-gate.parquet",
+      "partitionSha256": "fd06ef5fbac4b5fd0eacf0fd6e33141cc9827f1218b27fc9aa4af00a19456b53",
+      "partitionBytes": 575564,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2023,
+      "physicalRows": 52468,
+      "inputCompleteRows": 52268,
+      "knownBaseVectorAgreementRows": 52468,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 52268,
+      "selectedParticipationQualifiedRetrospectiveRows": 49818,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1022,
+      "selectedGameDenominator": 1312,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 947,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1121,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 14802,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 14802
+        },
+        "D": {
+          "membershipRows": 15930,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15930
+        },
+        "G": {
+          "membershipRows": 5247,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2597
+        },
+        "LW": {
+          "membershipRows": 9011,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 9011
+        },
+        "RW": {
+          "membershipRows": 7478,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7478
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2023/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "09011211810faccdbc7f593037ba8a34fb4c90522cd6798aa810c32e2dfb4a82",
+      "comparisonSha256": "1f5cb7db928f5c26e7198764d9d7784948db43922249a978db594e170a7f235e",
+      "partition": "data/simulation/scoring_gates/NHL/2023/scoring-gate.parquet",
+      "partitionSha256": "2218bb54d72cf94dd7ccf99712d13eb337cab64e0f6dac08f75ff4ad9c0c34da",
+      "partitionBytes": 575451,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2024,
+      "physicalRows": 52473,
+      "inputCompleteRows": 52267,
+      "knownBaseVectorAgreementRows": 52473,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 52267,
+      "selectedParticipationQualifiedRetrospectiveRows": 49782,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1023,
+      "selectedGameDenominator": 1312,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 953,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1115,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 15178,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15178
+        },
+        "D": {
+          "membershipRows": 15885,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15884
+        },
+        "G": {
+          "membershipRows": 5248,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2558
+        },
+        "LW": {
+          "membershipRows": 8617,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8617
+        },
+        "RW": {
+          "membershipRows": 7545,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7545
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2024/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "c04f0e0279382f41fea54431bb5d2a0528742f30ff81feef4c8c6a7a849e2669",
+      "comparisonSha256": "2793bb9b6a60dd990bfc03e13dfce5c3864254f19a5a3678bc3f3af236bd885b",
+      "partition": "data/simulation/scoring_gates/NHL/2024/scoring-gate.parquet",
+      "partitionSha256": "083aba607831249f23840d9ab6206dc40487cad0a3a7597ac8fdd125e1c73fc3",
+      "partitionBytes": 573917,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2025,
+      "physicalRows": 52478,
+      "inputCompleteRows": 52315,
+      "knownBaseVectorAgreementRows": 52478,
+      "knownSourceConflictRows": 0,
+      "completeInputRowsWithSourceConflict": 0,
+      "completeInputAndNoKnownSourceConflictRows": 52315,
+      "selectedParticipationQualifiedRetrospectiveRows": 49835,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 1038,
+      "selectedGameDenominator": 1312,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 970,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 1155,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 15480,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15480
+        },
+        "D": {
+          "membershipRows": 15861,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 15861
+        },
+        "G": {
+          "membershipRows": 5247,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 2605
+        },
+        "LW": {
+          "membershipRows": 8140,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 8140
+        },
+        "RW": {
+          "membershipRows": 7750,
+          "knownSourceConflictRows": 0,
+          "eligibleRetrospectiveRows": 7749
+        }
+      },
+      "conflictFields": {},
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2025/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "cb4513d31959731d2ffc44a7e2abd1a5cb9f54d6fdf0fc5de2f33f181651c35a",
+      "comparisonSha256": "d1867d62e4ab08b4858088c62ee9b260aad0d190fe5b34854310018fcc2f5d52",
+      "partition": "data/simulation/scoring_gates/NHL/2025/scoring-gate.parquet",
+      "partitionSha256": "adada5302bcb72169dba3520a21796ae5aa21dd93a7cfdfde26578ebbf5d3580",
+      "partitionBytes": 574633,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2026,
+      "physicalRows": 14920,
+      "inputCompleteRows": 14880,
+      "knownBaseVectorAgreementRows": 14495,
+      "knownSourceConflictRows": 425,
+      "completeInputRowsWithSourceConflict": 422,
+      "completeInputAndNoKnownSourceConflictRows": 14458,
+      "selectedParticipationQualifiedRetrospectiveRows": 13751,
+      "strictPriorInformationSimulationRows": 0,
+      "selectedPlayerSeasonDenominator": 863,
+      "selectedGameDenominator": 373,
+      "fullSourcedSelectedPlayerSeasonsReadyForRetrospectiveScoring": 551,
+      "fullSourcedSelectedGamesReadyForRetrospectiveScoring": 194,
+      "gameCompletenessScope": "All materialized selected player rows, not a complete professional game inventory.",
+      "positionMembershipImpact": {
+        "C": {
+          "membershipRows": 4331,
+          "knownSourceConflictRows": 92,
+          "eligibleRetrospectiveRows": 4239
+        },
+        "D": {
+          "membershipRows": 4532,
+          "knownSourceConflictRows": 137,
+          "eligibleRetrospectiveRows": 4395
+        },
+        "G": {
+          "membershipRows": 1492,
+          "knownSourceConflictRows": 99,
+          "eligibleRetrospectiveRows": 650
+        },
+        "LW": {
+          "membershipRows": 2232,
+          "knownSourceConflictRows": 57,
+          "eligibleRetrospectiveRows": 2174
+        },
+        "RW": {
+          "membershipRows": 2333,
+          "knownSourceConflictRows": 40,
+          "eligibleRetrospectiveRows": 2293
+        }
+      },
+      "conflictFields": {
+        "blockedShots": 80,
+        "hits": 95,
+        "sog": 142,
+        "saves": 99,
+        "assists": 15,
+        "goals": 4
+      },
+      "parentEnrichedPartition": "data/simulation/historical_v1/NHL/2026/enriched-records.parquet",
+      "parentEnrichedPartitionSha256": "0fa262e4a85859e13948b3d22aa72c7c71bbaf6b79a4f8acf19cd7750ec4b5e5",
+      "comparisonSha256": "887b295720d9778d59d94d552a0e842f755f857e0bee139b75bbdaaf153cc7a1",
+      "partition": "data/simulation/scoring_gates/NHL/2026/scoring-gate.parquet",
+      "partitionSha256": "0f2da85678d5c73e2cf3201c34d3abf1e6794a43f98b628fcefbe584207e0ecc",
+      "partitionBytes": 167469,
+      "sourcePreferenceChosen": false,
+      "existingValuesChanged": 0,
+      "replayVerified": false
+    }
+  ],
+  "inputCompleteNhlRows": 503774,
+  "knownSourceConflictNhlRows": 441,
+  "completeInputAndNoKnownSourceConflictNhlRows": 503336,
+  "selectedParticipationQualifiedRetrospectiveNhlRows": 479710,
+  "strictSimulationEligibleRows": 0,
+  "existingValuesChanged": 0,
+  "developmentWrites": 0,
+  "v10Active": false,
+  "requiredReportBindings": [
+    {
+      "path": "reports/m6-historical-readiness.json",
+      "sha256": "4b7850e4a6914d0972d46170e1878b33409997e929bb0e70cc3085a0543ff183"
+    },
+    {
+      "path": "reports/m6-nhl-enrichment-readiness.json",
+      "sha256": "453895a7cf3966c645ef45dc5e9b2c25e0e71d157ecd5ade4cacfb680387030c"
+    },
+    {
+      "path": "reports/m6-nhl-full-box-corroboration.json",
+      "sha256": "4ae1b16eb16b589aae73ceb5d3bb7efe2dfbe828f8d84f05ca45acf3a11ab8e2"
+    },
+    {
+      "path": "reports/m6-partition-reproducibility.json",
+      "sha256": "3388973e0b18be4b459eef39cb5f3abcdc7b3e84f79d893038ae56174c5bd8b9"
+    },
+    {
+      "path": "reports/m6-mlb-role-quality.json",
+      "sha256": "e6040c373dbbaf9491699477abb67e08a257c1fb5e0760abc90e836261285657"
+    },
+    {
+      "path": "reports/m6-pitching-position-timeline.json",
+      "sha256": "004448afc5661e6fddd13a1dc6f4cc80169958d2c0c4375a37e91bdf57733675"
+    },
+    {
+      "path": "reports/m6-preparation-impact.json",
+      "sha256": "c25cdb714ea2bd139e2142ce4b6402d4ce6caf93d11d5e8da89991f67b0d4d41"
+    },
+    {
+      "path": "reports/m6-operational-canonical-coverage.json",
+      "sha256": "ee4068adea14af635f9c0fdef351d998c8a81547d502ae3590d7b4b761563cb9"
+    },
+    {
+      "path": "reports/m6-dependency-provenance.json",
+      "sha256": "0da3d539ee33bc9bfa546382d1d9ba59058e22d27ea31078c015681b65a300ea"
+    }
+  ],
+  "transformationFiles": [
+    {
+      "path": "scripts/prepare-m6-scoring-package.py",
+      "sha256": "72a791839daa67dee5389c8525e948f59f48a2f2a39bbb1c0c01d11a4f54f0e5"
+    },
+    {
+      "path": "src/simulation/preparation/scoring-readiness.ts",
+      "sha256": "8bf1cd1bbcae131cacd8ed0c928f1f2c71691aa1bd83a508ff1e1b770b729bfe"
+    },
+    {
+      "path": "src/workers/prepare-m6-scoring-gates.ts",
+      "sha256": "2d336b14875b433d6737450cc3d15c53b482afee1deecfbe3b79270314306a18"
+    }
+  ],
+  "consumerContract": {
+    "mandatoryScoringGate": "EveryNHL retrospective score consumer must join exact sourceRow/player/game/role against scoring-gate.parquet. Known conflicts have false eligibility and null gated score.",
+    "frozenEnrichmentConflictCountScope": "Zero only within supplemented-key domain, not full known scoring-vector agreement.",
+    "inputCompletenessIsNotScoringReadiness": true,
+    "strictPriorInformationMethodologyApproved": false,
+    "otherSportsFullIndependentSourceVectorAuditClaimed": false,
+    "knownSourceValuesNeverOverwritten": true
+  },
+  "packageFingerprint": "1bf3ed2bfee3283f010c983c347b5164dfaa729ab4abe6fa3cfc045143a00a6a"
+}

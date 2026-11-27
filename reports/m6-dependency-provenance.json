@@ -1,0 +1,562 @@
+{
+  "version": "m6-transitive-runtime-provenance-addendum-1",
+  "parentPreparedPartitionBundle": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+  "frozenDerivedDataChanged": false,
+  "dependencyEvidence": [
+    {
+      "path": "src/imports/normalize.ts",
+      "sha256": "7bf54812249fb9d7e4e4915f544fcfb5a007cbac8b2e054b4310826b6ba49517",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "7bf54812249fb9d7e4e4915f544fcfb5a007cbac8b2e054b4310826b6ba49517",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "7bf54812249fb9d7e4e4915f544fcfb5a007cbac8b2e054b4310826b6ba49517",
+      "baselineGitBlob": "8364e7e847cd1ff9f4a20f4d3bf75e7329d96ece",
+      "currentGitBlob": "8364e7e847cd1ff9f4a20f4d3bf75e7329d96ece",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/ingestion/contracts.ts",
+      "sha256": "03c0a0b4d02cc2b82c5509cc2cba05c23728e993cac6ad0382283fd85d5281bb",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "03c0a0b4d02cc2b82c5509cc2cba05c23728e993cac6ad0382283fd85d5281bb",
+      "baselineGitBlob": "5d52b44322b47c7f47bff073e86baaaf75eeee26",
+      "currentGitBlob": "5d52b44322b47c7f47bff073e86baaaf75eeee26",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/positions/aggregate-evidence.ts",
+      "sha256": "71935182575c71c3195c0edeacf34796276c84daddee289c979bd1d95f3663f6",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "71935182575c71c3195c0edeacf34796276c84daddee289c979bd1d95f3663f6",
+      "baselineGitBlob": "5fa06d3d4e0ead83c5c5e907741a7803da2dbeb1",
+      "currentGitBlob": "5fa06d3d4e0ead83c5c5e907741a7803da2dbeb1",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/positions/nba-policy.ts",
+      "sha256": "484a8af7f5155dc4c3a50699282b546ffa80b78ede9668a14025eca424f9069e",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "484a8af7f5155dc4c3a50699282b546ffa80b78ede9668a14025eca424f9069e",
+      "baselineGitBlob": "d977a35c6bfb6bd0badcb8783b5b8b7fe3b0dab6",
+      "currentGitBlob": "d977a35c6bfb6bd0badcb8783b5b8b7fe3b0dab6",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/positions/player-snapshot-policy.ts",
+      "sha256": "2b3803a2404127014b3b57233d1cf69fe024f2de3171ef960d96ae8779695403",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "2b3803a2404127014b3b57233d1cf69fe024f2de3171ef960d96ae8779695403",
+      "baselineGitBlob": "caa9a6328b293e697450686279478cd6078b1c25",
+      "currentGitBlob": "caa9a6328b293e697450686279478cd6078b1c25",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/scheduling/season-date-policy.ts",
+      "sha256": "59e35bb53c662a212b471891f7f2784f21adb90dfbae0a705eb2961b922d9dfc",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "59e35bb53c662a212b471891f7f2784f21adb90dfbae0a705eb2961b922d9dfc",
+      "baselineGitBlob": "469d2e701e68f25e52bd8a3c6d31c2d646700b59",
+      "currentGitBlob": "469d2e701e68f25e52bd8a3c6d31c2d646700b59",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/scoring/complete-box-policy.ts",
+      "sha256": "6a0491bfab108cde80904480952faa344e3403512f799a34ed591a5045afa8b1",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "6a0491bfab108cde80904480952faa344e3403512f799a34ed591a5045afa8b1",
+      "baselineGitBlob": "ea7aa14a99be194b0890c40ec74940ea5a482dbf",
+      "currentGitBlob": "ea7aa14a99be194b0890c40ec74940ea5a482dbf",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/scoring/engine.ts",
+      "sha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338",
+      "baselineGitBlob": "516822e0d1e2ae46b91740a31964f41b23ffd3d8",
+      "currentGitBlob": "516822e0d1e2ae46b91740a31964f41b23ffd3d8",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/scoring/historical-evidence.ts",
+      "sha256": "db142783f8eaf7dbda76437d93b1b0f6214cd157098d5a7b24d7569c51ba9282",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "db142783f8eaf7dbda76437d93b1b0f6214cd157098d5a7b24d7569c51ba9282",
+      "baselineGitBlob": "7cda9a08197b33f516cbadbdf7e47fcfca0a8c61",
+      "currentGitBlob": "7cda9a08197b33f516cbadbdf7e47fcfca0a8c61",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/scoring/participation.ts",
+      "sha256": "6284d1dae9ef089e18d8dc480ddc4bae11f6731c816c8d8f3eea6d3e1902b72a",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "6284d1dae9ef089e18d8dc480ddc4bae11f6731c816c8d8f3eea6d3e1902b72a",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "6284d1dae9ef089e18d8dc480ddc4bae11f6731c816c8d8f3eea6d3e1902b72a",
+      "baselineGitBlob": "ab21ff7d49a142b77041cc571a13eb99d58c6330",
+      "currentGitBlob": "ab21ff7d49a142b77041cc571a13eb99d58c6330",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/scoring/ubp-v9.ts",
+      "sha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+      "baselineGitBlob": "9651c30eefa46f8f88eb61118293cf909a67f7e4",
+      "currentGitBlob": "9651c30eefa46f8f88eb61118293cf909a67f7e4",
+      "baselineAndCurrentByteIdentical": true,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/simulation/preparation/enrichment.ts",
+      "sha256": "a8b302a0ac69a8af1e8590b9e516987f4d062379c62b2040c544268a2c0393d5",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "a8b302a0ac69a8af1e8590b9e516987f4d062379c62b2040c544268a2c0393d5",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "989a9b78748915bdfb1dac5e0d19c0483bbd2384",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/simulation/preparation/pitching-timeline.ts",
+      "sha256": "4f9725dc4e08861f8a67228e8e789ddbf29796c006cf3d590aea6590a5764399",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "c0d89fe6710d62a0200fd21d58d243855b23ce74",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/simulation/preparation/records.ts",
+      "sha256": "a32a63bf7995802eca4768f242a03e0032d1e07d23000410f63aca07c73f1538",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "a32a63bf7995802eca4768f242a03e0032d1e07d23000410f63aca07c73f1538",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "73b44dcbab8721061dcadfe695d45d6d02bff324",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/simulation/preparation/role-quality.ts",
+      "sha256": "0eb2709f8e30fa491f48d7ea09a5dcad441a5b56d1150ccdc19f6b3285b2000f",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "53bba0289cb7419e782a569e6c867fc8870bb9e2",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/simulation/preparation/scoring-readiness.ts",
+      "sha256": "8bf1cd1bbcae131cacd8ed0c928f1f2c71691aa1bd83a508ff1e1b770b729bfe",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "8cc0a5bcf9608cc75f31c78425142b9c478c3a97",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/workers/enrich-historical-simulation-records.ts",
+      "sha256": "7ad24467a88c02e18325e4c1b3af85ed0820c3d7b1805dccbfd346cbb859216e",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "7ad24467a88c02e18325e4c1b3af85ed0820c3d7b1805dccbfd346cbb859216e",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "ee72a4ef274975210158b7d1f09e7424c5105072",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/workers/prepare-historical-simulation-records.ts",
+      "sha256": "2a8f6357a16df467d03fdb0676ec369bc5de7652774049381976fb874295242a",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": true,
+      "originalStartupSha256": "2a8f6357a16df467d03fdb0676ec369bc5de7652774049381976fb874295242a",
+      "originalHashMatchesCurrent": true,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "bf3e117ed355b5ef4007f40bea891fe4373e4b15",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": true
+    },
+    {
+      "path": "src/workers/prepare-m6-pitching-timeline.ts",
+      "sha256": "19b183f60798108b33c791d1b47e79064e8ba897de86f786284bb9af5f4080c7",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "2f5c9b4bd395426b8c4fe349ebb6fc4a9525b20e",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/workers/prepare-m6-role-quality.ts",
+      "sha256": "8fc6458686d7140b5582bf86842968fd047a0b3dabee0c3b33b16f246899d2f0",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "bfb0a3025616a37c728bacf1234f0dc784ddac3e",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    },
+    {
+      "path": "src/workers/prepare-m6-scoring-gates.ts",
+      "sha256": "2d336b14875b433d6737450cc3d15c53b482afee1deecfbe3b79270314306a18",
+      "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME",
+      "partOfFrozen55Runtime": false,
+      "originalStartupSha256": null,
+      "originalHashMatchesCurrent": null,
+      "baselineCommit": "7a37ddc",
+      "baselineSha256": null,
+      "baselineGitBlob": null,
+      "currentGitBlob": "d0bf1551d231bc5f38623133532af6de2801ed60",
+      "baselineAndCurrentByteIdentical": null,
+      "historicalStartupHashCaptured": false
+    }
+  ],
+  "reviewRuntimeLock": {
+    "version": "m6-runtime-dependency-lock-1",
+    "sourceFiles": [
+      {
+        "path": "scripts/audit-m6-nhl-full-box.py",
+        "sha256": "55c60e4903d6b749e36edb63fbe6c7c51cb5f0d73702552751e534ea20b1aa37",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/enrich-m6-historical-nhl.py",
+        "sha256": "c4ad08b8b4ac3dc40acff9a8dec65eb11f70533b3d902fcba5bc020999db6447",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/m6-dependency-lock.mjs",
+        "sha256": "fe40ebe7d67681c83534df9d90c06ee78f5374ae667f96144718f4175d5fb116",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-dataset.mjs",
+        "sha256": "3806fa592a84970bfe5b189d6f017e435bdb58d3c70ee06f699021fd42be1238",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-historical.py",
+        "sha256": "31de3cb6d2ab4389407f6651afc8088d2e782224d0bedb4e4b14ae5c5a91397e",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-pitching-timeline.py",
+        "sha256": "805edf953135a302ec6aa00b326284454b68d8135c0923e4e9e0bc55d0a9fa52",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-role-quality.py",
+        "sha256": "2772234883a884085571091c0c3b8ca157ba226b451045f09e1533e1adaa5c0c",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-scoring-package.py",
+        "sha256": "72a791839daa67dee5389c8525e948f59f48a2f2a39bbb1c0c01d11a4f54f0e5",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/report-m6-operational-coverage.py",
+        "sha256": "4326d2e120919298d5c62521d3b9731acf66ca4d4bfcd9ad5d2f6c5b87c9ccc3",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/report-m6-preparation-impact.py",
+        "sha256": "279d03e66896449832c03ec8ed91b357cb01bb7ffe97131bdd8e2e682df0c42e",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/verify-m6-partition-replay.py",
+        "sha256": "47a5aa56d6d980addc23fd5bc37ed39af486b1b9d46b5a5f61376c4d254ad3a9",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "src/imports/normalize.ts",
+        "sha256": "7bf54812249fb9d7e4e4915f544fcfb5a007cbac8b2e054b4310826b6ba49517",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/ingestion/contracts.ts",
+        "sha256": "03c0a0b4d02cc2b82c5509cc2cba05c23728e993cac6ad0382283fd85d5281bb",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/aggregate-evidence.ts",
+        "sha256": "71935182575c71c3195c0edeacf34796276c84daddee289c979bd1d95f3663f6",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/nba-policy.ts",
+        "sha256": "484a8af7f5155dc4c3a50699282b546ffa80b78ede9668a14025eca424f9069e",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/player-snapshot-policy.ts",
+        "sha256": "2b3803a2404127014b3b57233d1cf69fe024f2de3171ef960d96ae8779695403",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scheduling/season-date-policy.ts",
+        "sha256": "59e35bb53c662a212b471891f7f2784f21adb90dfbae0a705eb2961b922d9dfc",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/complete-box-policy.ts",
+        "sha256": "6a0491bfab108cde80904480952faa344e3403512f799a34ed591a5045afa8b1",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/engine.ts",
+        "sha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/historical-evidence.ts",
+        "sha256": "db142783f8eaf7dbda76437d93b1b0f6214cd157098d5a7b24d7569c51ba9282",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/participation.ts",
+        "sha256": "6284d1dae9ef089e18d8dc480ddc4bae11f6731c816c8d8f3eea6d3e1902b72a",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/ubp-v9.ts",
+        "sha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/preparation/enrichment.ts",
+        "sha256": "a8b302a0ac69a8af1e8590b9e516987f4d062379c62b2040c544268a2c0393d5",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/preparation/pitching-timeline.ts",
+        "sha256": "4f9725dc4e08861f8a67228e8e789ddbf29796c006cf3d590aea6590a5764399",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/preparation/records.ts",
+        "sha256": "a32a63bf7995802eca4768f242a03e0032d1e07d23000410f63aca07c73f1538",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/preparation/role-quality.ts",
+        "sha256": "0eb2709f8e30fa491f48d7ea09a5dcad441a5b56d1150ccdc19f6b3285b2000f",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/preparation/scoring-readiness.ts",
+        "sha256": "8bf1cd1bbcae131cacd8ed0c928f1f2c71691aa1bd83a508ff1e1b770b729bfe",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/enrich-historical-simulation-records.ts",
+        "sha256": "7ad24467a88c02e18325e4c1b3af85ed0820c3d7b1805dccbfd346cbb859216e",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/prepare-historical-simulation-records.ts",
+        "sha256": "2a8f6357a16df467d03fdb0676ec369bc5de7652774049381976fb874295242a",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/prepare-m6-pitching-timeline.ts",
+        "sha256": "19b183f60798108b33c791d1b47e79064e8ba897de86f786284bb9af5f4080c7",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/prepare-m6-role-quality.ts",
+        "sha256": "8fc6458686d7140b5582bf86842968fd047a0b3dabee0c3b33b16f246899d2f0",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/prepare-m6-scoring-gates.ts",
+        "sha256": "2d336b14875b433d6737450cc3d15c53b482afee1deecfbe3b79270314306a18",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      }
+    ],
+    "packages": [
+      {
+        "name": "tsx",
+        "version": "4.23.15",
+        "packageJsonSha256": "ab5f14c4251638844ade3905d3cfc52fc1c833644694d655a05f6d0ca746b83c"
+      },
+      {
+        "name": "typescript",
+        "version": "5.9.3",
+        "packageJsonSha256": "822ef7ca6452205657b6288b066481ecf508bfbf43455d715cf7d3ec457561e6"
+      },
+      {
+        "name": "zod",
+        "version": "4.6.7",
+        "packageJsonSha256": "c2d190d9ee4e0bdb60332aaa2130a6a98d65ddb903fe1d29248b15de57832c45"
+      }
+    ],
+    "lockfiles": [
+      {
+        "path": "package-lock.json",
+        "sha256": "fc7c7ddaebc5efc9933ddb0507ecb3b854e6101e26b903d58aedf4f76445bfb1"
+      },
+      {
+        "path": "package.json",
+        "sha256": "147503a00af7a9e591b40d1cfb3e56a4bc757ba5f263910c3f614edec0cb3eec"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "37d1808eab32dff1657f6c18aaf1445245452f45ec68420580e98691f6827e46"
+      }
+    ],
+    "runtimes": {
+      "node": "v24.8.0",
+      "nodeComponentVersions": {
+        "node": "24.8.0",
+        "acorn": "8.15.0",
+        "ada": "3.2.7",
+        "amaro": "1.1.2",
+        "ares": "1.34.5",
+        "brotli": "1.1.0",
+        "cjs_module_lexer": "2.1.0",
+        "cldr": "47.0",
+        "icu": "77.1",
+        "llhttp": "9.3.0",
+        "modules": "137",
+        "napi": "10",
+        "nbytes": "0.1.1",
+        "ncrypto": "0.0.1",
+        "nghttp2": "1.67.0",
+        "openssl": "3.6.0",
+        "simdjson": "3.13.0",
+        "simdutf": "6.4.0",
+        "sqlite": "3.50.4",
+        "tz": "2025a",
+        "undici": "7.14.0",
+        "unicode": "16.0",
+        "uv": "1.51.0",
+        "uvwasi": "0.0.23",
+        "v8": "13.6.233.10-node.27",
+        "zlib": "1.2.12",
+        "zstd": "1.5.7"
+      },
+      "intlLocale": "en-US",
+      "python": "3.12.5",
+      "pythonImplementation": "CPython",
+      "system": "Darwin",
+      "systemRelease": "24.6.0",
+      "machine": "arm64",
+      "pyarrow": "26.0.1",
+      "arrowCpp": "26.0.1",
+      "arrowCppBuild": "CppBuildInfo(version='26.0.1', version_info=VersionInfo(major=26, minor=0, patch=1), so_version='2600', full_so_version='2600.1.0', compiler_id='AppleClang', compiler_version='21.0.0.21000101', compiler_flags=' -fno-aligned-new  -Qunused-arguments -fcolor-diagnostics  -Wall -Wno-unknown-warning-option -Wno-pass-failed -march=armv8-a ', git_id='9e5d6978e9acf372cc989aaaf94e863fe8582c90', git_description='apache-arrow-26.0.1-rc1', package_kind='python-wheel-macos', build_type='release')"
+    },
+    "builtinModules": [
+      "node:crypto",
+      "node:events",
+      "node:fs",
+      "node:fs/promises",
+      "node:readline"
+    ],
+    "scope": "Declared preparation TypeScript entrypoint static/dynamic literal import closure, preparation entry points, package metadata/lockfiles and observed runtime versions. Type-only imports erased before traversal.",
+    "portableEnvironmentFullyImageLocked": false,
+    "limitations": [
+      "Native binaries, OS and all transitive npm module bytes are not a hermetic image lock; package-lock and installed package metadata are recorded.",
+      "Same-environment55-partition semantic/byte replay is separate evidence, not cross-platform byte portability."
+    ]
+  },
+  "reviewRuntimeLockFingerprint": "a8d5646b316f03637aa84d871b4e76467325bcd5022e0898cc542d16ece0059a",
+  "historicalStartupClosureComplete": false,
+  "laterReviewLayersHistoricalStartupHashesClaimed": false,
+  "retrospectiveOmittedDependenciesBaselineAndCurrentVerified": true,
+  "continuityEvidence": "Originally recorded hashes where available; otherwise exact7a37ddc baseline/current SHA256 and Git blob equality. This is retrospective corroboration, not fabricated historical startup instrumentation.",
+  "futurePublicEntrypoint": "node scripts/prepare-m6-dataset.mjs",
+  "futureEntrypointCapturesAndChecksClosureAtStartupAndEachStage": true,
+  "legacyLowLevelEntrypoints": "Original Python files retained as frozen low-level tools. They must be launched through the public entry point for the complete runtime dependency guard.",
+  "portableHermeticEnvironmentClaimed": false,
+  "developmentWrites": 0,
+  "fingerprint": "9cd2c18625354aabcf2465e3347faa30a1a235eb9d2948d78badf869c64bf4e7"
+}
