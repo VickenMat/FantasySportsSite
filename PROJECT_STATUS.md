@@ -1,6 +1,6 @@
 # Fantasy Evolution project status
 
-November 27, 2026: D1–D6 historical simulation policies are approved and implemented offline, continuing from synchronized **a13deab**. The policy fingerprint is **3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa**. All 60 seed configurations are preregistered; no reserved seed or new 2025 campaign was executed. [Approved policy](docs/M6_APPROVED_METHODOLOGY.md).
+November 27, 2026: verified implementation **e35e006** is synchronized to `origin/main`; the final receipt is a metadata-only descendant. D1–D6 historical simulation policies are approved and implemented offline, continuing from synchronized **a13deab**. The policy fingerprint is **3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa**. All 60 seed configurations are preregistered; no reserved seed or new 2025 campaign was executed. [Approved policy](docs/M6_APPROVED_METHODOLOGY.md).
 
 M6.0 preparation and M6.2 engine foundation remain accepted. M6.1 and M6.3 are **not accepted**: independently accepted closed inventories, reliable completion UTC days and schedule chronology, complete participation settlement and defensible statistical uncertainty are still missing. D1–D6 do not require repeat approval. The fixed checklist remains **19/28**. The accepted comparable cohort manifest contains zero cycles; strict and primary accepted decision rows remain zero. **1,263,474** source-calendar candidate rows are separately labeled diagnostics, never promoted into primary eligibility.
 

@@ -1,0 +1,13 @@
+{
+  "version": "m61-git-checkpoint-1",
+  "verifiedAt": "2026-11-27T18:01:23.750740+00:00",
+  "startingCommit": "a13deab",
+  "implementationCommit": "e35e006916099af6625640067014e5aea0e13a6d",
+  "verifiedOriginMain": "e35e006916099af6625640067014e5aea0e13a6d",
+  "synchronized": true,
+  "workingTreeCleanAtVerification": true,
+  "normalNonForcePush": true,
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "acceptedCohortFingerprint": "479e423b6ab23e4fe3ee70c9d90f276ec668ba251805cde40f2b07ead9a3950c",
+  "note": "This receipt is a metadata-only descendant. Actual campaign reports retain the precommit baseline plus content/dependency proofs, rather than being relabeled as postcommit executions. Final receipt commit equality is verified after pushing and reported to the user."
+}
