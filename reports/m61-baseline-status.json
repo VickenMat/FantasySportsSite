@@ -1,0 +1,63 @@
+{
+  "version": "m61-baseline-status-1",
+  "methodologyApproved": true,
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "acceptedCohortFingerprint": "479e423b6ab23e4fe3ee70c9d90f276ec668ba251805cde40f2b07ead9a3950c",
+  "acceptedSportSeasons": 0,
+  "acceptedCompleteFourSportCycles": 0,
+  "strictDecisionEligibleRows": 0,
+  "primaryApprovedDecisionEligibleRows": 0,
+  "sourceCalendarCandidateRowsNotPrimary": 1263474,
+  "acceptedCampaignsExecuted": 0,
+  "diagnosticLeaguesExecuted": 28,
+  "primarySourceCalendarSeeds": [
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+  ],
+  "officialMedians": {
+    "NFL": null,
+    "MLB": null,
+    "NBA": null,
+    "NHL": null
+  },
+  "officialMedianSpreadPercent": null,
+  "officialMeanSpreadPercent": null,
+  "milestones": {
+    "M6.0": "ACCEPTED_PREPARATION",
+    "M6.1": "NOT_ACCEPTED_COHORT_EVIDENCE",
+    "M6.2": "ACCEPTED_EXTENDED_WITH_REAL_DIAGNOSTICS",
+    "M6.3": "NOT_ACCEPTED_NO_COMPLETE_BASELINE"
+  },
+  "checklist": {
+    "checked": 19,
+    "total": 28
+  },
+  "v10OptimizationReady": false,
+  "v10Active": false,
+  "productionWrites": 0,
+  "blockers": [
+    "No independently accepted closed comparable four-sport inventory",
+    "No reliable completion UTC day/schedule-publication history for primary D1/D3",
+    "Missing athlete/game appearances remain UNKNOWN, not explicit nonparticipation",
+    "NHL field and adaptive-strategy uncertainty not defensibly bounded below0.5%",
+    "2025 already exposed in historical diagnostics; no untouched retrospective holdout established"
+  ]
+}

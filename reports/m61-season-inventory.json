@@ -1,0 +1,1554 @@
+{
+  "version": "m61-season-inventory-1",
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "year": 2016,
+      "seasonLabel": "2016",
+      "archiveNativeGames": 256,
+      "v5ObservedGames": 256,
+      "playedFinalV5Games": 256,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2016-09-08",
+        "2017-01-01"
+      ],
+      "statusCounts": {
+        "final_score_present": 256
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2017,
+      "seasonLabel": "2017",
+      "archiveNativeGames": 256,
+      "v5ObservedGames": 256,
+      "playedFinalV5Games": 256,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2017-09-07",
+        "2017-12-31"
+      ],
+      "statusCounts": {
+        "final_score_present": 256
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2018,
+      "seasonLabel": "2018",
+      "archiveNativeGames": 256,
+      "v5ObservedGames": 256,
+      "playedFinalV5Games": 256,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2018-09-06",
+        "2018-12-30"
+      ],
+      "statusCounts": {
+        "final_score_present": 256
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2019,
+      "seasonLabel": "2019",
+      "archiveNativeGames": 256,
+      "v5ObservedGames": 256,
+      "playedFinalV5Games": 256,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2019-09-05",
+        "2019-12-29"
+      ],
+      "statusCounts": {
+        "final_score_present": 256
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2020,
+      "seasonLabel": "2020",
+      "archiveNativeGames": 256,
+      "v5ObservedGames": 256,
+      "playedFinalV5Games": 256,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2020-09-10",
+        "2021-01-03"
+      ],
+      "statusCounts": {
+        "final_score_present": 256
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2021,
+      "seasonLabel": "2021",
+      "archiveNativeGames": 272,
+      "v5ObservedGames": 272,
+      "playedFinalV5Games": 272,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2021-09-09",
+        "2022-01-09"
+      ],
+      "statusCounts": {
+        "final_score_present": 272
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "seasonLabel": "2022",
+      "archiveNativeGames": 271,
+      "v5ObservedGames": 271,
+      "playedFinalV5Games": 271,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2022-09-08",
+        "2023-01-08"
+      ],
+      "statusCounts": {
+        "final_score_present": 271
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "seasonLabel": "2023",
+      "archiveNativeGames": 272,
+      "v5ObservedGames": 272,
+      "playedFinalV5Games": 272,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2023-09-07",
+        "2024-01-07"
+      ],
+      "statusCounts": {
+        "final_score_present": 272
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2024,
+      "seasonLabel": "2024",
+      "archiveNativeGames": 272,
+      "v5ObservedGames": 272,
+      "playedFinalV5Games": 272,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2024-09-05",
+        "2025-01-05"
+      ],
+      "statusCounts": {
+        "final_score_present": 272
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2025,
+      "seasonLabel": "2025",
+      "archiveNativeGames": 272,
+      "v5ObservedGames": 272,
+      "playedFinalV5Games": 272,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2025-09-04",
+        "2026-01-04"
+      ],
+      "statusCounts": {
+        "final_score_present": 272
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "SEALED_HOLDOUT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2026,
+      "seasonLabel": "2026",
+      "archiveNativeGames": 158,
+      "v5ObservedGames": 272,
+      "playedFinalV5Games": 163,
+      "v5GamesMissingStatistics": [
+        "2026_11_CIN_WAS",
+        "2026_11_JAX_NYG",
+        "2026_11_LV_DEN",
+        "2026_11_MIN_SF",
+        "2026_11_NYJ_LAC"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2026-09-09",
+        "2027-01-10"
+      ],
+      "statusCounts": {
+        "final_score_present": 163,
+        "unknown": 109
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "PARTIAL_CURRENT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2016,
+      "seasonLabel": "2016",
+      "archiveNativeGames": 2428,
+      "v5ObservedGames": 2429,
+      "playedFinalV5Games": 2428,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2016-04-03",
+        "2016-10-02"
+      ],
+      "statusCounts": {
+        "Final": 2422,
+        "Completed Early": 6,
+        "Cancelled": 1
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 1,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2017,
+      "seasonLabel": "2017",
+      "archiveNativeGames": 2430,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2430,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2017-04-02",
+        "2017-10-01"
+      ],
+      "statusCounts": {
+        "Final": 2428,
+        "Completed Early": 2
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2018,
+      "seasonLabel": "2018",
+      "archiveNativeGames": 2431,
+      "v5ObservedGames": 2432,
+      "playedFinalV5Games": 2431,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2018-03-29",
+        "2018-10-01"
+      ],
+      "statusCounts": {
+        "Final": 2426,
+        "Completed Early": 5,
+        "Cancelled": 1
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 1,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2019,
+      "seasonLabel": "2019",
+      "archiveNativeGames": 2429,
+      "v5ObservedGames": 2429,
+      "playedFinalV5Games": 2429,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2019-03-20",
+        "2019-09-29"
+      ],
+      "statusCounts": {
+        "Final": 2419,
+        "Completed Early": 10
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2020,
+      "seasonLabel": "2020",
+      "archiveNativeGames": 898,
+      "v5ObservedGames": 898,
+      "playedFinalV5Games": 898,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2020-07-23",
+        "2020-09-27"
+      ],
+      "statusCounts": {
+        "Completed Early": 2,
+        "Final": 896
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2021,
+      "seasonLabel": "2021",
+      "archiveNativeGames": 2429,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2429,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2021-04-01",
+        "2021-10-03"
+      ],
+      "statusCounts": {
+        "Final": 2422,
+        "Completed Early": 7,
+        "Cancelled": 1
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 1,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "seasonLabel": "2022",
+      "archiveNativeGames": 2430,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2430,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2022-04-07",
+        "2022-10-05"
+      ],
+      "statusCounts": {
+        "Final": 2421,
+        "Completed Early": 9
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "seasonLabel": "2023",
+      "archiveNativeGames": 2430,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2430,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2023-03-30",
+        "2023-10-01"
+      ],
+      "statusCounts": {
+        "Final": 2427,
+        "Completed Early": 3
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2024,
+      "seasonLabel": "2024",
+      "archiveNativeGames": 2429,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2429,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2024-03-20",
+        "2024-09-30"
+      ],
+      "statusCounts": {
+        "Final": 2425,
+        "Completed Early": 4,
+        "Cancelled": 1
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 1,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2025,
+      "seasonLabel": "2025",
+      "archiveNativeGames": 2430,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2430,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2025-03-18",
+        "2025-09-28"
+      ],
+      "statusCounts": {
+        "Final": 2425,
+        "Completed Early": 5
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "SEALED_HOLDOUT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2026,
+      "seasonLabel": "2026",
+      "archiveNativeGames": 2429,
+      "v5ObservedGames": 2430,
+      "playedFinalV5Games": 2429,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2026-03-25",
+        "2026-09-27"
+      ],
+      "statusCounts": {
+        "Final": 2427,
+        "Completed Early": 2,
+        "Cancelled": 1
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 1,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "PARTIAL_CURRENT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2016,
+      "seasonLabel": "2016\u20132017",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2016-10-25",
+        "2017-04-12"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2017,
+      "seasonLabel": "2017\u20132018",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1231,
+      "playedFinalV5Games": 1231,
+      "v5GamesMissingStatistics": [
+        "401018033"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2017-10-17",
+        "2018-04-11"
+      ],
+      "statusCounts": {
+        "Final": 1231
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2018,
+      "seasonLabel": "2018\u20132019",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1231,
+      "playedFinalV5Games": 1231,
+      "v5GamesMissingStatistics": [
+        "401098038"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2018-10-16",
+        "2019-04-10"
+      ],
+      "statusCounts": {
+        "Final": 1231
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2019,
+      "seasonLabel": "2019\u20132020",
+      "archiveNativeGames": 1059,
+      "v5ObservedGames": 1060,
+      "playedFinalV5Games": 1060,
+      "v5GamesMissingStatistics": [
+        "401161490",
+        "401161528",
+        "401161530",
+        "401161536",
+        "401197814"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2019-10-22",
+        "2020-08-14"
+      ],
+      "statusCounts": {
+        "Final": 1060
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2020,
+      "seasonLabel": "2020\u20132021",
+      "archiveNativeGames": 1080,
+      "v5ObservedGames": 1080,
+      "playedFinalV5Games": 1080,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2020-12-22",
+        "2021-05-16"
+      ],
+      "statusCounts": {
+        "Final": 1080
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2021,
+      "seasonLabel": "2021\u20132022",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2021-10-19",
+        "2022-04-10"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "seasonLabel": "2022\u20132023",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2022-10-18",
+        "2023-04-09"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "seasonLabel": "2023\u20132024",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2023-10-24",
+        "2024-04-14"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2024,
+      "seasonLabel": "2024\u20132025",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2024-10-22",
+        "2025-04-13"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2025,
+      "seasonLabel": "2025\u20132026",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2025-10-21",
+        "2026-04-12"
+      ],
+      "statusCounts": {
+        "Final": 1230
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "SEALED_HOLDOUT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2026,
+      "seasonLabel": "2026\u20132027",
+      "archiveNativeGames": 242,
+      "v5ObservedGames": 1205,
+      "playedFinalV5Games": 258,
+      "v5GamesMissingStatistics": [
+        "401910030",
+        "401910031",
+        "401910032",
+        "401910033",
+        "401910034",
+        "401910035",
+        "401910036",
+        "401910037",
+        "401910038",
+        "401910039",
+        "401910040",
+        "401910041",
+        "401910042",
+        "401910043",
+        "401910044",
+        "401910045"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 31,
+      "observedRegularSeasonBoundaries": [
+        "2026-10-20",
+        "2027-04-11"
+      ],
+      "statusCounts": {
+        "Final": 258,
+        "In Progress": 1,
+        "Scheduled": 946
+      },
+      "nativeInfoComparison": null,
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "PARTIAL_CURRENT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "seasonLabel": "2016\u20132017",
+      "archiveNativeGames": 1230,
+      "v5ObservedGames": 1230,
+      "playedFinalV5Games": 1230,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 30,
+      "observedRegularSeasonBoundaries": [
+        "2016-10-12",
+        "2017-04-09"
+      ],
+      "statusCounts": {
+        "OFF": 1230
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2017/game_info_2017.parquet",
+        "sha256": "a93c91c7c9b8e2f838756b04272187bf3361ce883f142bf37648b9f4c3459120",
+        "games": 1230,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "seasonLabel": "2017\u20132018",
+      "archiveNativeGames": 1271,
+      "v5ObservedGames": 1271,
+      "playedFinalV5Games": 1271,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 31,
+      "observedRegularSeasonBoundaries": [
+        "2017-10-04",
+        "2018-04-08"
+      ],
+      "statusCounts": {
+        "OFF": 1271
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2018/game_info_2018.parquet",
+        "sha256": "3e763a08e105b0445fe93177b63bfe9b06f44a72985d7c8d3a04b027cd5ecf15",
+        "games": 1271,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "seasonLabel": "2018\u20132019",
+      "archiveNativeGames": 1271,
+      "v5ObservedGames": 1271,
+      "playedFinalV5Games": 1271,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 31,
+      "observedRegularSeasonBoundaries": [
+        "2018-10-03",
+        "2019-04-06"
+      ],
+      "statusCounts": {
+        "OFF": 1271
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2019/game_info_2019.parquet",
+        "sha256": "28c9a9800ea0ff9958f0a88c9dec1a17d34b72e6082ce042f71f259fcdffae20",
+        "games": 1271,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "seasonLabel": "2019\u20132020",
+      "archiveNativeGames": 1082,
+      "v5ObservedGames": 1082,
+      "playedFinalV5Games": 1082,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 31,
+      "observedRegularSeasonBoundaries": [
+        "2019-10-02",
+        "2020-03-11"
+      ],
+      "statusCounts": {
+        "OFF": 1082
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2020/game_info_2020.parquet",
+        "sha256": "b9c8d5fd2eb9eec8c1c34374a47d8f92fb45d84943fc99e2ef93061efb940b95",
+        "games": 1082,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "seasonLabel": "2020\u20132021",
+      "archiveNativeGames": 868,
+      "v5ObservedGames": 868,
+      "playedFinalV5Games": 868,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 31,
+      "observedRegularSeasonBoundaries": [
+        "2021-01-13",
+        "2021-05-19"
+      ],
+      "statusCounts": {
+        "OFF": 868
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2021/game_info_2021.parquet",
+        "sha256": "924da9e68527f7da40530086f435a806aec083195539062e58c42d7b9d461405",
+        "games": 868,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "COVID_CROSS_SPORT_COMPARABILITY",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "seasonLabel": "2021\u20132022",
+      "archiveNativeGames": 1312,
+      "v5ObservedGames": 1312,
+      "playedFinalV5Games": 1312,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2021-10-12",
+        "2022-05-01"
+      ],
+      "statusCounts": {
+        "OFF": 1312
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2022/game_info_2022.parquet",
+        "sha256": "2e6630e374620a7f9fe7052d241c15711172b1d471fca2f0c5348a000d85bdd3",
+        "games": 1312,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "seasonLabel": "2022\u20132023",
+      "archiveNativeGames": 1312,
+      "v5ObservedGames": 1312,
+      "playedFinalV5Games": 1312,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2022-10-07",
+        "2023-04-14"
+      ],
+      "statusCounts": {
+        "OFF": 1312
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2023/game_info_2023.parquet",
+        "sha256": "a4f827b4b58b8931c91a197bf966e519e9157da53d8da493a02c2b07dda551d8",
+        "games": 1312,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "seasonLabel": "2023\u20132024",
+      "archiveNativeGames": 1312,
+      "v5ObservedGames": 1312,
+      "playedFinalV5Games": 1312,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2023-10-10",
+        "2024-04-18"
+      ],
+      "statusCounts": {
+        "OFF": 1312
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2024/game_info_2024.parquet",
+        "sha256": "49f09aa417f152d8de94a9c3fc062164f335746c16de70a258d981ea49bc2ae5",
+        "games": 1312,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "seasonLabel": "2024\u20132025",
+      "archiveNativeGames": 1312,
+      "v5ObservedGames": 1312,
+      "playedFinalV5Games": 1312,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2024-10-04",
+        "2025-04-17"
+      ],
+      "statusCounts": {
+        "OFF": 1312
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2025/game_info_2025.parquet",
+        "sha256": "f40aaa3aadc00a8e19a8063460071e5c544b67ea58004a7663a359a8428e5fc0",
+        "games": 1312,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "CLOSED_INVENTORY_NOT_INDEPENDENTLY_VERIFIED",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "seasonLabel": "2025\u20132026",
+      "archiveNativeGames": 1312,
+      "v5ObservedGames": 1312,
+      "playedFinalV5Games": 1312,
+      "v5GamesMissingStatistics": [],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2025-10-07",
+        "2026-04-16"
+      ],
+      "statusCounts": {
+        "OFF": 1312
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2026/game_info_2026.parquet",
+        "sha256": "ce19fedf7c4976cadcf494fca155bbcf2dc4f962804338d15ece2d462076d23b",
+        "games": 1312,
+        "missingFromArchive": [],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "SEALED_HOLDOUT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "seasonLabel": "2026\u20132027",
+      "archiveNativeGames": 373,
+      "v5ObservedGames": 1344,
+      "playedFinalV5Games": 384,
+      "v5GamesMissingStatistics": [
+        "2026020374",
+        "2026020375",
+        "2026020376",
+        "2026020377",
+        "2026020378",
+        "2026020379",
+        "2026020380",
+        "2026020381",
+        "2026020382",
+        "2026020383",
+        "2026020384"
+      ],
+      "archiveGamesNotInV5": [],
+      "acceptedFourNbaCrosswalkLimitations": 0,
+      "sourceTeams": 32,
+      "observedRegularSeasonBoundaries": [
+        "2026-09-29",
+        "2027-04-10"
+      ],
+      "statusCounts": {
+        "OFF": 384,
+        "FUT": 960
+      },
+      "nativeInfoComparison": {
+        "path": "data/provider_previews/m6-nhl/2027/game_info_2027.parquet",
+        "sha256": "860ee08716b7a3bb7b187b375c8703d63a1fb5a3d21fe915b96668761c260f88",
+        "games": 399,
+        "missingFromArchive": [
+          "2026020374",
+          "2026020375",
+          "2026020376",
+          "2026020377",
+          "2026020378",
+          "2026020379",
+          "2026020380",
+          "2026020381",
+          "2026020382",
+          "2026020383",
+          "2026020384",
+          "2026020385",
+          "2026020386",
+          "2026020387",
+          "2026020388",
+          "2026020389",
+          "2026020390",
+          "2026020391",
+          "2026020392",
+          "2026020393",
+          "2026020394",
+          "2026020395",
+          "2026020396",
+          "2026020397",
+          "2026020398",
+          "2026020399"
+        ],
+        "missingFromInfo": [],
+        "sameOfficialUpstreamLineage": true,
+        "independentPublisher": false
+      },
+      "independentlyVerifiedClosedInventory": false,
+      "expectedGames": null,
+      "cancelled": 0,
+      "suspensionsAndResumptionsVerified": false,
+      "duplicateV5Ids": 0,
+      "sourceClosure": "RECONCILED_V5_ARCHIVE_AND_RETAINED_NATIVE_INFO_REQUIRES_REVIEW",
+      "accepted": false,
+      "exclusionReasons": [
+        "PARTIAL_CURRENT",
+        "COMPLETION_UTC_DAYS_NOT_RETAINED"
+      ]
+    }
+  ],
+  "independentAcceptedCohorts": 0,
+  "reconciledAlternative": "V5_ARCHIVE_NATIVE_INFO_V1",
+  "alternativeAccepted": false,
+  "sourceV5Fingerprint": "1724f7cc6143615036aee574de27aced3b9789de046a68b4991c399b6816671c"
+}

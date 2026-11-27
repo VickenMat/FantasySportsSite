@@ -1,0 +1,1872 @@
+{
+  "version": "m61-missingness-bias-1",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "year": 2016,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2017,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2018,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2019,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2020,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2021,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2024,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2025,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NFL",
+      "year": 2026,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2016,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2017,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2018,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2019,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2020,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2021,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2024,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2025,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "MLB",
+      "year": 2026,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2016,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2017,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2018,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2019,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2020,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2021,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2024,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2025,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NBA",
+      "year": 2026,
+      "missingFields": {},
+      "affectedPlayers": 0,
+      "affectedGames": 0,
+      "byTeam": {},
+      "byPosition": {},
+      "byPriorTier": {},
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "missingFields": {
+        "faceoff_wins": 36,
+        "shorthanded_points_bonus": 108,
+        "shutout": 242
+      },
+      "affectedPlayers": 162,
+      "affectedGames": 229,
+      "byTeam": {
+        "VAN": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "shutout": 6
+        },
+        "CGY": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "shutout": 6
+        },
+        "EDM": {
+          "shutout": 11
+        },
+        "WSH": {
+          "shutout": 14
+        },
+        "MTL": {
+          "shutout": 6
+        },
+        "LAK": {
+          "shutout": 13
+        },
+        "COL": {
+          "shutout": 4
+        },
+        "DET": {
+          "shutout": 6
+        },
+        "PIT": {
+          "shutout": 9
+        },
+        "CBJ": {
+          "shutout": 10,
+          "shorthanded_points_bonus": 18
+        },
+        "MIN": {
+          "shutout": 6
+        },
+        "PHI": {
+          "shutout": 9
+        },
+        "OTT": {
+          "shutout": 13
+        },
+        "WPG": {
+          "shutout": 9
+        },
+        "ANA": {
+          "shutout": 14
+        },
+        "BUF": {
+          "shutout": 4
+        },
+        "BOS": {
+          "shutout": 10,
+          "shorthanded_points_bonus": 18
+        },
+        "STL": {
+          "shutout": 12
+        },
+        "CHI": {
+          "shutout": 6,
+          "shorthanded_points_bonus": 36
+        },
+        "NYR": {
+          "shutout": 10
+        },
+        "TOR": {
+          "shutout": 6
+        },
+        "SJS": {
+          "shutout": 4
+        },
+        "CAR": {
+          "shutout": 7
+        },
+        "FLA": {
+          "shutout": 10
+        },
+        "NSH": {
+          "shutout": 4
+        },
+        "TBL": {
+          "shutout": 8
+        },
+        "ARI": {
+          "shutout": 6
+        },
+        "NYI": {
+          "shutout": 8
+        },
+        "DAL": {
+          "shutout": 6
+        },
+        "NJD": {
+          "shutout": 5
+        }
+      },
+      "byPosition": {
+        "LW": {
+          "faceoff_wins": 7,
+          "shorthanded_points_bonus": 15
+        },
+        "C": {
+          "faceoff_wins": 9,
+          "shorthanded_points_bonus": 34
+        },
+        "G": {
+          "shutout": 242
+        },
+        "D": {
+          "faceoff_wins": 12,
+          "shorthanded_points_bonus": 36
+        },
+        "RW": {
+          "faceoff_wins": 8,
+          "shorthanded_points_bonus": 23
+        }
+      },
+      "byPriorTier": {
+        "UNKNOWN_PRIOR": {
+          "faceoff_wins": 36,
+          "shorthanded_points_bonus": 108,
+          "shutout": 242
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "missingFields": {
+        "shutout": 217,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72,
+        "goalie_win": 1
+      },
+      "affectedPlayers": 141,
+      "affectedGames": 211,
+      "byTeam": {
+        "EDM": {
+          "shutout": 4
+        },
+        "LAK": {
+          "shutout": 10
+        },
+        "NYI": {
+          "shutout": 3
+        },
+        "CBJ": {
+          "shutout": 5
+        },
+        "DAL": {
+          "shutout": 11,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "PIT": {
+          "shutout": 7
+        },
+        "SJS": {
+          "shutout": 9
+        },
+        "NYR": {
+          "shutout": 4
+        },
+        "COL": {
+          "shutout": 8
+        },
+        "BUF": {
+          "shutout": 7
+        },
+        "CGY": {
+          "shutout": 5
+        },
+        "BOS": {
+          "shutout": 5
+        },
+        "ARI": {
+          "shutout": 9
+        },
+        "OTT": {
+          "shutout": 5,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "TOR": {
+          "shutout": 9,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "goalie_win": 1
+        },
+        "VAN": {
+          "shutout": 6
+        },
+        "NSH": {
+          "shutout": 12
+        },
+        "TBL": {
+          "shutout": 9
+        },
+        "NJD": {
+          "shutout": 6
+        },
+        "VGK": {
+          "shutout": 7
+        },
+        "CHI": {
+          "shutout": 4,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "PHI": {
+          "shutout": 9
+        },
+        "DET": {
+          "shutout": 4
+        },
+        "MTL": {
+          "shutout": 4
+        },
+        "MIN": {
+          "shutout": 8
+        },
+        "ANA": {
+          "shutout": 13
+        },
+        "WPG": {
+          "shutout": 9
+        },
+        "WSH": {
+          "shutout": 7
+        },
+        "FLA": {
+          "shutout": 10
+        },
+        "STL": {
+          "shutout": 6
+        },
+        "CAR": {
+          "shutout": 2
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 217,
+          "goalie_win": 1
+        },
+        "RW": {
+          "faceoff_wins": 13,
+          "shorthanded_points_bonus": 13
+        },
+        "D": {
+          "faceoff_wins": 24,
+          "shorthanded_points_bonus": 24
+        },
+        "LW": {
+          "faceoff_wins": 11,
+          "shorthanded_points_bonus": 11
+        },
+        "C": {
+          "faceoff_wins": 24,
+          "shorthanded_points_bonus": 24
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 198,
+          "faceoff_wins": 19,
+          "shorthanded_points_bonus": 19,
+          "goalie_win": 1
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 11,
+          "faceoff_wins": 7,
+          "shorthanded_points_bonus": 7
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "shutout": 6,
+          "faceoff_wins": 6,
+          "shorthanded_points_bonus": 6
+        },
+        "MIDDLE_PRIOR": {
+          "shutout": 2,
+          "faceoff_wins": 40,
+          "shorthanded_points_bonus": 40
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "missingFields": {
+        "shutout": 210,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72
+      },
+      "affectedPlayers": 139,
+      "affectedGames": 199,
+      "byTeam": {
+        "WSH": {
+          "shutout": 5
+        },
+        "BOS": {
+          "shutout": 9
+        },
+        "DAL": {
+          "shutout": 14
+        },
+        "VGK": {
+          "shutout": 10,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "FLA": {
+          "shutout": 5
+        },
+        "MIN": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "shutout": 4
+        },
+        "ANA": {
+          "shutout": 6
+        },
+        "NYI": {
+          "shutout": 16
+        },
+        "CGY": {
+          "shutout": 4
+        },
+        "NJD": {
+          "shutout": 9
+        },
+        "LAK": {
+          "shutout": 8
+        },
+        "NSH": {
+          "shutout": 9
+        },
+        "PIT": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "shutout": 9
+        },
+        "MTL": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "shutout": 5
+        },
+        "BUF": {
+          "shutout": 4
+        },
+        "TBL": {
+          "shutout": 6
+        },
+        "STL": {
+          "shutout": 10
+        },
+        "EDM": {
+          "shutout": 6
+        },
+        "TOR": {
+          "shutout": 4
+        },
+        "OTT": {
+          "shutout": 6
+        },
+        "PHI": {
+          "shutout": 7
+        },
+        "CHI": {
+          "shutout": 3
+        },
+        "SJS": {
+          "shutout": 8
+        },
+        "NYR": {
+          "shutout": 3
+        },
+        "ARI": {
+          "shutout": 9
+        },
+        "COL": {
+          "shutout": 6
+        },
+        "CAR": {
+          "shutout": 6
+        },
+        "CBJ": {
+          "shutout": 12
+        },
+        "WPG": {
+          "shutout": 3
+        },
+        "DET": {
+          "shutout": 3
+        },
+        "VAN": {
+          "shutout": 1
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 210
+        },
+        "C": {
+          "faceoff_wins": 21,
+          "shorthanded_points_bonus": 21
+        },
+        "D": {
+          "faceoff_wins": 24,
+          "shorthanded_points_bonus": 24
+        },
+        "LW": {
+          "faceoff_wins": 16,
+          "shorthanded_points_bonus": 16
+        },
+        "RW": {
+          "faceoff_wins": 11,
+          "shorthanded_points_bonus": 11
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 184,
+          "faceoff_wins": 20,
+          "shorthanded_points_bonus": 20
+        },
+        "MIDDLE_PRIOR": {
+          "faceoff_wins": 43,
+          "shorthanded_points_bonus": 43
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "faceoff_wins": 7,
+          "shorthanded_points_bonus": 7,
+          "shutout": 6
+        },
+        "UNKNOWN_PRIOR": {
+          "faceoff_wins": 2,
+          "shorthanded_points_bonus": 2,
+          "shutout": 20
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "missingFields": {
+        "shutout": 161,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 108,
+        "goalie_win": 2
+      },
+      "affectedPlayers": 169,
+      "affectedGames": 155,
+      "byTeam": {
+        "BOS": {
+          "shutout": 9
+        },
+        "CGY": {
+          "shutout": 5
+        },
+        "PHI": {
+          "shutout": 5,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "TOR": {
+          "shutout": 5,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "MIN": {
+          "shutout": 8
+        },
+        "BUF": {
+          "shutout": 4
+        },
+        "CAR": {
+          "shutout": 8,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18,
+          "goalie_win": 2
+        },
+        "MTL": {
+          "shutout": 4
+        },
+        "NJD": {
+          "shutout": 6
+        },
+        "VGK": {
+          "shutout": 7,
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 18
+        },
+        "EDM": {
+          "shutout": 4
+        },
+        "WPG": {
+          "shutout": 8
+        },
+        "NSH": {
+          "shutout": 9
+        },
+        "OTT": {
+          "shutout": 2
+        },
+        "PIT": {
+          "shutout": 4
+        },
+        "CBJ": {
+          "shutout": 8
+        },
+        "NYI": {
+          "shutout": 6
+        },
+        "FLA": {
+          "shutout": 5
+        },
+        "ARI": {
+          "shutout": 9
+        },
+        "CHI": {
+          "shutout": 3
+        },
+        "COL": {
+          "shutout": 7
+        },
+        "STL": {
+          "shutout": 7,
+          "shorthanded_points_bonus": 18
+        },
+        "ANA": {
+          "shutout": 2,
+          "shorthanded_points_bonus": 18
+        },
+        "NYR": {
+          "shutout": 6
+        },
+        "SJS": {
+          "shutout": 3
+        },
+        "DET": {
+          "shutout": 3
+        },
+        "DAL": {
+          "shutout": 2
+        },
+        "VAN": {
+          "shutout": 3
+        },
+        "TBL": {
+          "shutout": 4
+        },
+        "WSH": {
+          "shutout": 4
+        },
+        "LAK": {
+          "shutout": 1
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 161,
+          "goalie_win": 2
+        },
+        "D": {
+          "faceoff_wins": 24,
+          "shorthanded_points_bonus": 36
+        },
+        "RW": {
+          "faceoff_wins": 16,
+          "shorthanded_points_bonus": 20
+        },
+        "LW": {
+          "faceoff_wins": 14,
+          "shorthanded_points_bonus": 26
+        },
+        "C": {
+          "faceoff_wins": 18,
+          "shorthanded_points_bonus": 26
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 147,
+          "faceoff_wins": 19,
+          "shorthanded_points_bonus": 26,
+          "goalie_win": 2
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 13,
+          "faceoff_wins": 7,
+          "shorthanded_points_bonus": 8
+        },
+        "MIDDLE_PRIOR": {
+          "faceoff_wins": 36,
+          "shorthanded_points_bonus": 56
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "faceoff_wins": 10,
+          "shorthanded_points_bonus": 18,
+          "shutout": 1
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "missingFields": {
+        "shutout": 161
+      },
+      "affectedPlayers": 70,
+      "affectedGames": 154,
+      "byTeam": {
+        "NYI": {
+          "shutout": 10
+        },
+        "CAR": {
+          "shutout": 7
+        },
+        "COL": {
+          "shutout": 9
+        },
+        "NYR": {
+          "shutout": 9
+        },
+        "CGY": {
+          "shutout": 5
+        },
+        "SJS": {
+          "shutout": 6
+        },
+        "ANA": {
+          "shutout": 4
+        },
+        "PHI": {
+          "shutout": 3
+        },
+        "OTT": {
+          "shutout": 6
+        },
+        "MIN": {
+          "shutout": 5
+        },
+        "DAL": {
+          "shutout": 7
+        },
+        "NJD": {
+          "shutout": 3
+        },
+        "VGK": {
+          "shutout": 8
+        },
+        "CBJ": {
+          "shutout": 4
+        },
+        "NSH": {
+          "shutout": 7
+        },
+        "BUF": {
+          "shutout": 3
+        },
+        "WSH": {
+          "shutout": 5
+        },
+        "EDM": {
+          "shutout": 4
+        },
+        "BOS": {
+          "shutout": 7
+        },
+        "ARI": {
+          "shutout": 6
+        },
+        "LAK": {
+          "shutout": 3
+        },
+        "CHI": {
+          "shutout": 6
+        },
+        "TBL": {
+          "shutout": 6
+        },
+        "WPG": {
+          "shutout": 6
+        },
+        "TOR": {
+          "shutout": 3
+        },
+        "VAN": {
+          "shutout": 1
+        },
+        "DET": {
+          "shutout": 5
+        },
+        "PIT": {
+          "shutout": 6
+        },
+        "FLA": {
+          "shutout": 4
+        },
+        "MTL": {
+          "shutout": 2
+        },
+        "STL": {
+          "shutout": 1
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 161
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 133
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 27
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "shutout": 1
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "missingFields": {
+        "shutout": 200,
+        "goalie_win": 2
+      },
+      "affectedPlayers": 75,
+      "affectedGames": 193,
+      "byTeam": {
+        "TOR": {
+          "shutout": 8
+        },
+        "DAL": {
+          "shutout": 7
+        },
+        "SJS": {
+          "shutout": 7
+        },
+        "CGY": {
+          "shutout": 13
+        },
+        "DET": {
+          "shutout": 5
+        },
+        "NYI": {
+          "shutout": 9
+        },
+        "STL": {
+          "shutout": 6
+        },
+        "CAR": {
+          "shutout": 8
+        },
+        "MTL": {
+          "shutout": 7
+        },
+        "NYR": {
+          "shutout": 13
+        },
+        "WSH": {
+          "shutout": 9
+        },
+        "PHI": {
+          "shutout": 1
+        },
+        "ANA": {
+          "shutout": 7,
+          "goalie_win": 2
+        },
+        "FLA": {
+          "shutout": 8
+        },
+        "ARI": {
+          "shutout": 3
+        },
+        "LAK": {
+          "shutout": 5
+        },
+        "NJD": {
+          "shutout": 6
+        },
+        "EDM": {
+          "shutout": 5
+        },
+        "BUF": {
+          "shutout": 3
+        },
+        "PIT": {
+          "shutout": 10
+        },
+        "NSH": {
+          "shutout": 7
+        },
+        "CHI": {
+          "shutout": 6
+        },
+        "COL": {
+          "shutout": 9
+        },
+        "TBL": {
+          "shutout": 5
+        },
+        "CBJ": {
+          "shutout": 4
+        },
+        "BOS": {
+          "shutout": 6
+        },
+        "VAN": {
+          "shutout": 2
+        },
+        "WPG": {
+          "shutout": 6
+        },
+        "OTT": {
+          "shutout": 3
+        },
+        "VGK": {
+          "shutout": 4
+        },
+        "MIN": {
+          "shutout": 5
+        },
+        "SEA": {
+          "shutout": 3
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 200,
+          "goalie_win": 2
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 180,
+          "goalie_win": 2
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 18
+        },
+        "MIDDLE_PRIOR": {
+          "shutout": 2
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "missingFields": {
+        "shutout": 179
+      },
+      "affectedPlayers": 76,
+      "affectedGames": 167,
+      "byTeam": {
+        "VGK": {
+          "shutout": 6
+        },
+        "DET": {
+          "shutout": 7
+        },
+        "EDM": {
+          "shutout": 5
+        },
+        "SEA": {
+          "shutout": 7
+        },
+        "CHI": {
+          "shutout": 6
+        },
+        "STL": {
+          "shutout": 6
+        },
+        "SJS": {
+          "shutout": 5
+        },
+        "WPG": {
+          "shutout": 6
+        },
+        "NYI": {
+          "shutout": 9
+        },
+        "DAL": {
+          "shutout": 7
+        },
+        "ANA": {
+          "shutout": 5
+        },
+        "BOS": {
+          "shutout": 11
+        },
+        "CBJ": {
+          "shutout": 4
+        },
+        "NJD": {
+          "shutout": 8
+        },
+        "WSH": {
+          "shutout": 5
+        },
+        "NYR": {
+          "shutout": 4
+        },
+        "OTT": {
+          "shutout": 8
+        },
+        "TOR": {
+          "shutout": 8
+        },
+        "NSH": {
+          "shutout": 3
+        },
+        "LAK": {
+          "shutout": 5
+        },
+        "FLA": {
+          "shutout": 4
+        },
+        "ARI": {
+          "shutout": 5
+        },
+        "MIN": {
+          "shutout": 7
+        },
+        "CAR": {
+          "shutout": 10
+        },
+        "COL": {
+          "shutout": 7
+        },
+        "PIT": {
+          "shutout": 4
+        },
+        "PHI": {
+          "shutout": 4
+        },
+        "BUF": {
+          "shutout": 3
+        },
+        "VAN": {
+          "shutout": 2
+        },
+        "TBL": {
+          "shutout": 6
+        },
+        "MTL": {
+          "shutout": 1
+        },
+        "CGY": {
+          "shutout": 1
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 179
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 164
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "shutout": 10
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 3
+        },
+        "MIDDLE_PRIOR": {
+          "shutout": 2
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "missingFields": {
+        "shutout": 200
+      },
+      "affectedPlayers": 75,
+      "affectedGames": 191,
+      "byTeam": {
+        "VAN": {
+          "shutout": 9
+        },
+        "MIN": {
+          "shutout": 6
+        },
+        "NSH": {
+          "shutout": 8
+        },
+        "PIT": {
+          "shutout": 11
+        },
+        "DET": {
+          "shutout": 7
+        },
+        "PHI": {
+          "shutout": 6
+        },
+        "NYI": {
+          "shutout": 5
+        },
+        "NYR": {
+          "shutout": 7
+        },
+        "COL": {
+          "shutout": 7
+        },
+        "TOR": {
+          "shutout": 7
+        },
+        "OTT": {
+          "shutout": 4
+        },
+        "TBL": {
+          "shutout": 4
+        },
+        "BOS": {
+          "shutout": 5
+        },
+        "STL": {
+          "shutout": 5
+        },
+        "CAR": {
+          "shutout": 11
+        },
+        "BUF": {
+          "shutout": 6
+        },
+        "FLA": {
+          "shutout": 10
+        },
+        "LAK": {
+          "shutout": 8
+        },
+        "VGK": {
+          "shutout": 5
+        },
+        "SEA": {
+          "shutout": 6
+        },
+        "WSH": {
+          "shutout": 9
+        },
+        "EDM": {
+          "shutout": 6
+        },
+        "WPG": {
+          "shutout": 8
+        },
+        "ARI": {
+          "shutout": 11
+        },
+        "NJD": {
+          "shutout": 6
+        },
+        "DAL": {
+          "shutout": 6
+        },
+        "CHI": {
+          "shutout": 2
+        },
+        "ANA": {
+          "shutout": 3
+        },
+        "CGY": {
+          "shutout": 3
+        },
+        "CBJ": {
+          "shutout": 2
+        },
+        "SJS": {
+          "shutout": 4
+        },
+        "MTL": {
+          "shutout": 3
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 200
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 188
+        },
+        "MIDDLE_PRIOR": {
+          "shutout": 1
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 8
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "shutout": 3
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "missingFields": {
+        "shutout": 206
+      },
+      "affectedPlayers": 70,
+      "affectedGames": 197,
+      "byTeam": {
+        "MTL": {
+          "shutout": 6
+        },
+        "NYR": {
+          "shutout": 10
+        },
+        "WPG": {
+          "shutout": 10
+        },
+        "DET": {
+          "shutout": 9
+        },
+        "DAL": {
+          "shutout": 7
+        },
+        "ANA": {
+          "shutout": 3
+        },
+        "NJD": {
+          "shutout": 13
+        },
+        "STL": {
+          "shutout": 6
+        },
+        "VAN": {
+          "shutout": 7
+        },
+        "FLA": {
+          "shutout": 10
+        },
+        "NSH": {
+          "shutout": 5
+        },
+        "OTT": {
+          "shutout": 12
+        },
+        "UTA": {
+          "shutout": 3
+        },
+        "EDM": {
+          "shutout": 6
+        },
+        "TBL": {
+          "shutout": 7
+        },
+        "VGK": {
+          "shutout": 8
+        },
+        "PHI": {
+          "shutout": 5
+        },
+        "CBJ": {
+          "shutout": 5
+        },
+        "CGY": {
+          "shutout": 5
+        },
+        "BOS": {
+          "shutout": 7
+        },
+        "LAK": {
+          "shutout": 8
+        },
+        "TOR": {
+          "shutout": 5
+        },
+        "SJS": {
+          "shutout": 1
+        },
+        "MIN": {
+          "shutout": 9
+        },
+        "CAR": {
+          "shutout": 6
+        },
+        "SEA": {
+          "shutout": 4
+        },
+        "BUF": {
+          "shutout": 4
+        },
+        "NYI": {
+          "shutout": 9
+        },
+        "COL": {
+          "shutout": 6
+        },
+        "CHI": {
+          "shutout": 2
+        },
+        "WSH": {
+          "shutout": 4
+        },
+        "PIT": {
+          "shutout": 4
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 206
+        }
+      },
+      "byPriorTier": {
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 189
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 17
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "missingFields": {
+        "shutout": 163
+      },
+      "affectedPlayers": 68,
+      "affectedGames": 157,
+      "byTeam": {
+        "PIT": {
+          "shutout": 4
+        },
+        "NYR": {
+          "shutout": 4
+        },
+        "DET": {
+          "shutout": 8
+        },
+        "MIN": {
+          "shutout": 10
+        },
+        "WSH": {
+          "shutout": 5
+        },
+        "EDM": {
+          "shutout": 7
+        },
+        "VGK": {
+          "shutout": 7
+        },
+        "BUF": {
+          "shutout": 7
+        },
+        "SEA": {
+          "shutout": 4
+        },
+        "COL": {
+          "shutout": 12
+        },
+        "FLA": {
+          "shutout": 5
+        },
+        "DAL": {
+          "shutout": 5
+        },
+        "CGY": {
+          "shutout": 4
+        },
+        "PHI": {
+          "shutout": 3
+        },
+        "CAR": {
+          "shutout": 4
+        },
+        "LAK": {
+          "shutout": 9
+        },
+        "STL": {
+          "shutout": 7
+        },
+        "CHI": {
+          "shutout": 5
+        },
+        "NYI": {
+          "shutout": 9
+        },
+        "TOR": {
+          "shutout": 9
+        },
+        "TBL": {
+          "shutout": 3
+        },
+        "NJD": {
+          "shutout": 2
+        },
+        "BOS": {
+          "shutout": 6
+        },
+        "UTA": {
+          "shutout": 5
+        },
+        "NSH": {
+          "shutout": 4
+        },
+        "VAN": {
+          "shutout": 4
+        },
+        "OTT": {
+          "shutout": 4
+        },
+        "MTL": {
+          "shutout": 1
+        },
+        "ANA": {
+          "shutout": 1
+        },
+        "CBJ": {
+          "shutout": 4
+        },
+        "SJS": {
+          "shutout": 1
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 163
+        }
+      },
+      "byPriorTier": {
+        "MIDDLE_PRIOR": {
+          "shutout": 2
+        },
+        "HIGH_PRIOR_QUARTILE": {
+          "shutout": 143
+        },
+        "LOW_PRIOR_QUARTILE": {
+          "shutout": 9
+        },
+        "UNKNOWN_PRIOR": {
+          "shutout": 9
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "missingFields": {
+        "shutout": 40
+      },
+      "affectedPlayers": 28,
+      "affectedGames": 38,
+      "byTeam": {
+        "FLA": {
+          "shutout": 1
+        },
+        "BOS": {
+          "shutout": 2
+        },
+        "PIT": {
+          "shutout": 2
+        },
+        "UTA": {
+          "shutout": 2
+        },
+        "NYR": {
+          "shutout": 1
+        },
+        "STL": {
+          "shutout": 2
+        },
+        "NYI": {
+          "shutout": 1
+        },
+        "OTT": {
+          "shutout": 2
+        },
+        "DAL": {
+          "shutout": 4
+        },
+        "ANA": {
+          "shutout": 3
+        },
+        "DET": {
+          "shutout": 2
+        },
+        "MTL": {
+          "shutout": 2
+        },
+        "CBJ": {
+          "shutout": 2
+        },
+        "LAK": {
+          "shutout": 2
+        },
+        "CAR": {
+          "shutout": 2
+        },
+        "BUF": {
+          "shutout": 1
+        },
+        "EDM": {
+          "shutout": 3
+        },
+        "WPG": {
+          "shutout": 1
+        },
+        "COL": {
+          "shutout": 2
+        },
+        "NJD": {
+          "shutout": 1
+        },
+        "NSH": {
+          "shutout": 2
+        }
+      },
+      "byPosition": {
+        "G": {
+          "shutout": 40
+        }
+      },
+      "byPriorTier": {
+        "UNKNOWN_PRIOR": {
+          "shutout": 40
+        }
+      },
+      "tierDefinition": "Prior season mean among complete provided played rows; incomplete prior histories remain selection-biased",
+      "draftabilityAndStarts": "Join actual campaign trace only, never assume every missing row was a starter"
+    }
+  ],
+  "derivedRows": "data/simulation/approved_model_v1/missingness.jsonl",
+  "derivedRowsSha256": "f90a3a25dabc5b9762df1bfb6bcd6701bc2925a6bb9768992d522e92c65b5297",
+  "missingnessRandom": false,
+  "unmeasured": "Historical injuries/rookies without explicit evidence; actual drafted/started cohorts supplied separately by campaign traces",
+  "newHoldoutScoringResults": false,
+  "productionWrites": 0
+}

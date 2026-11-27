@@ -1,0 +1,18 @@
+{
+  "version": "m61-compilation-proof-1",
+  "transformations": {
+    "scripts/prepare-m61-history.py": "38f83c09e3dc618c781f239a50ae5fe4b3ea5f77e4aaaac5036d5080a2de341e",
+    "scripts/m6_policy.py": "dc840700cb4efb9d39981e929f5061f00412d0297fc9d45fcb19b4fc970b8edd"
+  },
+  "elapsedMs": 145661.97333298624,
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "reports": {
+    "reports/m61-accepted-cohorts.json": "b5c4a7a4b1a7e5b5ead2941370ab484ca10670ae39ca65066a8410843ea1d8bf",
+    "reports/m61-approved-model-gates.json": "8bbf4ee4fc2afff39ad381dcb61ca75fd2e4d8bbd9d9fb986c3d14220254160a",
+    "reports/m61-position-discovery-coverage.json": "72d732bbc97cddde033f339d570eb463bc495a5ad60386110cc2bda87a28fd07",
+    "reports/m61-statistical-uncertainty.json": "83d5de0e972122fbb551df76e7fb196e0424e72f4fb7556025939b7f49115294",
+    "reports/m61-season-inventory.json": "12fddc48b67a0420c5f149e2a4439cba70bc13b02b82826cc14a56c4538fb789",
+    "reports/m61-diagnostic-selections.json": "9fcab7cb3d1a4c7acafba3d0f5f258b59bf1c69c017daa54682c65e122cc30cc"
+  },
+  "productionWrites": 0
+}

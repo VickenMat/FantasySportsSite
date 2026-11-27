@@ -1,5 +1,7 @@
 # Consolidated M6 methodology review
 
+> **Superseded decision status, November 27:** The user approved D1–D6. The alternatives below preserve the historical review; they are no longer pending questions. Current source/cohort acceptance blockers are recorded in [the execution report](M6_METHODOLOGY_EXECUTION_REPORT.md), and implementation is specified in [the approved methodology](M6_APPROVED_METHODOLOGY.md).
+
 November 27, 2026. These choices concern future historical simulation acceptance. None changes production gameplay or authorizes missing-stat imputation. Existing median balance, nine-slot formats, five sport bench/five shared bench/five IR, MLB role priority, weekly waiver baseline and the chronological V9 split are already specified and are not asked again.
 
 | ID | Exact question and evidence | Alternatives and recommendation | Mathematical/competitive/validity effect |

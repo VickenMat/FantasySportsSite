@@ -1,0 +1,14 @@
+{
+  "version": "m61-real-historical-replay-1",
+  "classification": "REAL_SOURCE_CALENDAR_DIAGNOSTIC_NOT_ACCEPTED_BASELINE",
+  "year": 2023,
+  "seed": 31,
+  "beforeFingerprint": "f5c21193baec8e67b5270b09a8ced8c8bdab09daddd014f4feac7e8e7ee0127f",
+  "afterFingerprint": "f5c21193baec8e67b5270b09a8ced8c8bdab09daddd014f4feac7e8e7ee0127f",
+  "sourceHashesIdentical": true,
+  "replayIdentical": true,
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "acceptedCohortManifestFingerprint": "479e423b6ab23e4fe3ee70c9d90f276ec668ba251805cde40f2b07ead9a3950c",
+  "originalTwentySeedInputsPreservedAfterWeeklyFix": true,
+  "officialBaselineReplayed": false
+}

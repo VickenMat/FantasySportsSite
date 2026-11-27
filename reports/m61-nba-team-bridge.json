@@ -1,0 +1,162 @@
+{
+  "version": "m61-native-game-side-team-bridge-1",
+  "conflicts": [
+    {
+      "season": 2024,
+      "nativeTeam": "1610612759",
+      "game": "0022400633",
+      "previous": "24",
+      "new": "11"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612759",
+      "game": "0022400621",
+      "previous": "11",
+      "new": "24"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612754",
+      "game": "0022400621",
+      "previous": "11",
+      "new": "24"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612754",
+      "game": "0022400588",
+      "previous": "24",
+      "new": "11"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612749",
+      "game": "0022401229",
+      "previous": "15",
+      "new": "1"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612760",
+      "game": "0022401230",
+      "previous": "25",
+      "new": "10"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612760",
+      "game": "0022401203",
+      "previous": "10",
+      "new": "25"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612749",
+      "game": "0022401201",
+      "previous": "1",
+      "new": "15"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612764",
+      "game": "0022400147",
+      "previous": "27",
+      "new": "14"
+    },
+    {
+      "season": 2024,
+      "nativeTeam": "1610612764",
+      "game": "0022400121",
+      "previous": "14",
+      "new": "27"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612763",
+      "game": "0022500602",
+      "previous": "29",
+      "new": "19"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612753",
+      "game": "0022500578",
+      "previous": "19",
+      "new": "29"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612763",
+      "game": "0022500578",
+      "previous": "19",
+      "new": "29"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612753",
+      "game": "0022500548",
+      "previous": "29",
+      "new": "19"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612760",
+      "game": "0022501230",
+      "previous": "25",
+      "new": "24"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612753",
+      "game": "0022501229",
+      "previous": "19",
+      "new": "18"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612760",
+      "game": "0022501203",
+      "previous": "24",
+      "new": "25"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612753",
+      "game": "0022501201",
+      "previous": "18",
+      "new": "19"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612765",
+      "game": "0022500147",
+      "previous": "8",
+      "new": "6"
+    },
+    {
+      "season": 2025,
+      "nativeTeam": "1610612765",
+      "game": "0022500129",
+      "previous": "6",
+      "new": "8"
+    },
+    {
+      "season": 2026,
+      "nativeTeam": "1610612754",
+      "game": "0022600189",
+      "previous": "11",
+      "new": "7"
+    },
+    {
+      "season": 2026,
+      "nativeTeam": "1610612754",
+      "game": "0022600178",
+      "previous": "7",
+      "new": "11"
+    }
+  ],
+  "blockedTeamSeasons": 10,
+  "sourceNativeMatchupOrientation": true,
+  "arbitraryResolution": false
+}

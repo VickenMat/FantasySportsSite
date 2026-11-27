@@ -1,0 +1,334 @@
+{
+  "version": "m61-evidence-verification-1",
+  "gitCommit": "a13deaba0e38ea7af3ac3c318aa59c08da9853eb",
+  "implementationUncommittedAtExecution": true,
+  "runtimeLock": {
+    "version": "m6-runtime-dependency-lock-1",
+    "sourceFiles": [
+      {
+        "path": "scripts/audit-m6-nhl-full-box.py",
+        "sha256": "55c60e4903d6b749e36edb63fbe6c7c51cb5f0d73702552751e534ea20b1aa37",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/enrich-m6-historical-nhl.py",
+        "sha256": "c4ad08b8b4ac3dc40acff9a8dec65eb11f70533b3d902fcba5bc020999db6447",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/m6-dependency-lock.mjs",
+        "sha256": "fe40ebe7d67681c83534df9d90c06ee78f5374ae667f96144718f4175d5fb116",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-dataset.mjs",
+        "sha256": "3806fa592a84970bfe5b189d6f017e435bdb58d3c70ee06f699021fd42be1238",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-historical.py",
+        "sha256": "31de3cb6d2ab4389407f6651afc8088d2e782224d0bedb4e4b14ae5c5a91397e",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-pitching-timeline.py",
+        "sha256": "805edf953135a302ec6aa00b326284454b68d8135c0923e4e9e0bc55d0a9fa52",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-role-quality.py",
+        "sha256": "2772234883a884085571091c0c3b8ca157ba226b451045f09e1533e1adaa5c0c",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/prepare-m6-scoring-package.py",
+        "sha256": "72a791839daa67dee5389c8525e948f59f48a2f2a39bbb1c0c01d11a4f54f0e5",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/report-m6-operational-coverage.py",
+        "sha256": "4326d2e120919298d5c62521d3b9731acf66ca4d4bfcd9ad5d2f6c5b87c9ccc3",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/report-m6-preparation-impact.py",
+        "sha256": "279d03e66896449832c03ec8ed91b357cb01bb7ffe97131bdd8e2e682df0c42e",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "scripts/verify-m6-partition-replay.py",
+        "sha256": "47a5aa56d6d980addc23fd5bc37ed39af486b1b9d46b5a5f61376c4d254ad3a9",
+        "scope": "OFFLINE_PREPARATION_ENTRYPOINT"
+      },
+      {
+        "path": "src/generated/prisma/enums.ts",
+        "sha256": "9707bef0f432fccb8ba3b48a9443416f024204b554a78253a09f72f193463597",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/ingestion/contracts.ts",
+        "sha256": "03c0a0b4d02cc2b82c5509cc2cba05c23728e993cac6ad0382283fd85d5281bb",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/aggregate-evidence.ts",
+        "sha256": "71935182575c71c3195c0edeacf34796276c84daddee289c979bd1d95f3663f6",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/eligibility.ts",
+        "sha256": "c5c15a54370335e09f33cb6ef0f5b9c05cd1964476f44ff84ca1f321c2b77c22",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/nba-policy.ts",
+        "sha256": "484a8af7f5155dc4c3a50699282b546ffa80b78ede9668a14025eca424f9069e",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/positions/player-snapshot-policy.ts",
+        "sha256": "2b3803a2404127014b3b57233d1cf69fe024f2de3171ef960d96ae8779695403",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scheduling/season-date-policy.ts",
+        "sha256": "59e35bb53c662a212b471891f7f2784f21adb90dfbae0a705eb2961b922d9dfc",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/complete-box-policy.ts",
+        "sha256": "6a0491bfab108cde80904480952faa344e3403512f799a34ed591a5045afa8b1",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/engine.ts",
+        "sha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/scoring/ubp-v9.ts",
+        "sha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/config.ts",
+        "sha256": "a7c2afae9dcd1d7c3c09c52f68c767994795d880882b9326a4fd660c20af3335",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/cycle.ts",
+        "sha256": "5fa8d0703014f604ba075867cce5f7f6127e259f19a283ad092d358478e038af",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/diagnostics.ts",
+        "sha256": "8ad168e4ae5a439db1a14efac4584f19d6b6ca4d9c669f71cc6f1ab80de03fe9",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/draft.ts",
+        "sha256": "af838e1b3cdeef07380aa569d5ba64d18b1224cfaff6dea0914f7e09fb98bd0a",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/engine.ts",
+        "sha256": "df019ffa74f2668e19b8c81deae7bddf40080606755cc842574969c669688102",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/game-locks.ts",
+        "sha256": "b0b84ebd0fa37cfaba0797461e14cb782fc373c8c3a0014ae7556836a47f4119",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/matching.ts",
+        "sha256": "37c7415f55786675b56ffc3a3e2ccca07f991ee690e53e69e6d04b6c41ec58bc",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/methodology/seeds.ts",
+        "sha256": "0b40cbc8465036a11caf99156e51b62453543038e7320c3ecdefd3578948ece6",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/methodology/uncertainty.ts",
+        "sha256": "a4d15bdda4b501c01922f01f042523f2362ae1217f80d36c8bbffd9f3da76bbc",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/scoring.ts",
+        "sha256": "7eaeaf4a4177eb563438c3c0551d69d5b22309cf895b89f3ee6dc5c6a2dc79d8",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/shared-roster.ts",
+        "sha256": "e1e854deefdfd5fc0aad805d8d1a66fd4c16611601a9d010ff7c480bae1a955a",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/simulation/snapshot.ts",
+        "sha256": "fef881b04b72d2b6d866f770b674beafda3f2fd0b673c00c7db0459028e7069a",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/freeze-m61-methodology.ts",
+        "sha256": "fa3f56cecf657ac2fe36960af448456c7436e348c7b82ae91daf3f66be688dbf",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/run-m61-historical-diagnostics.ts",
+        "sha256": "f538ad6b81bcd34ed0ab960f8e89a80c79ca6e7211e093b9ea38034dc5c858bc",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/verify-m61-historical-leakage.ts",
+        "sha256": "70989ab080b89b47cc1adc237b85a6c7c25521aea0a64ef8344f91c5f49903bb",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      },
+      {
+        "path": "src/workers/verify-m61-scoring.ts",
+        "sha256": "aa4bf70d4f2777b70aa67519d7beed3bcb106f66cb04187e6fd591d04dadafa5",
+        "scope": "TRANSITIVE_TYPESCRIPT_RUNTIME"
+      }
+    ],
+    "packages": [
+      {
+        "name": "tsx",
+        "version": "4.23.15",
+        "packageJsonSha256": "ab5f14c4251638844ade3905d3cfc52fc1c833644694d655a05f6d0ca746b83c"
+      },
+      {
+        "name": "typescript",
+        "version": "5.9.3",
+        "packageJsonSha256": "822ef7ca6452205657b6288b066481ecf508bfbf43455d715cf7d3ec457561e6"
+      },
+      {
+        "name": "zod",
+        "version": "4.6.7",
+        "packageJsonSha256": "c2d190d9ee4e0bdb60332aaa2130a6a98d65ddb903fe1d29248b15de57832c45"
+      }
+    ],
+    "lockfiles": [
+      {
+        "path": "package-lock.json",
+        "sha256": "fc7c7ddaebc5efc9933ddb0507ecb3b854e6101e26b903d58aedf4f76445bfb1"
+      },
+      {
+        "path": "package.json",
+        "sha256": "147503a00af7a9e591b40d1cfb3e56a4bc757ba5f263910c3f614edec0cb3eec"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "37d1808eab32dff1657f6c18aaf1445245452f45ec68420580e98691f6827e46"
+      }
+    ],
+    "runtimes": {
+      "node": "v24.8.0",
+      "nodeComponentVersions": {
+        "node": "24.8.0",
+        "acorn": "8.15.0",
+        "ada": "3.2.7",
+        "amaro": "1.1.2",
+        "ares": "1.34.5",
+        "brotli": "1.1.0",
+        "cjs_module_lexer": "2.1.0",
+        "cldr": "47.0",
+        "icu": "77.1",
+        "llhttp": "9.3.0",
+        "modules": "137",
+        "napi": "10",
+        "nbytes": "0.1.1",
+        "ncrypto": "0.0.1",
+        "nghttp2": "1.67.0",
+        "openssl": "3.6.0",
+        "simdjson": "3.13.0",
+        "simdutf": "6.4.0",
+        "sqlite": "3.50.4",
+        "tz": "2025a",
+        "undici": "7.14.0",
+        "unicode": "16.0",
+        "uv": "1.51.0",
+        "uvwasi": "0.0.23",
+        "v8": "13.6.233.10-node.27",
+        "zlib": "1.2.12",
+        "zstd": "1.5.7"
+      },
+      "intlLocale": "en-US",
+      "python": "3.12.5",
+      "pythonImplementation": "CPython",
+      "system": "Darwin",
+      "systemRelease": "24.6.0",
+      "machine": "arm64",
+      "pyarrow": "26.0.1",
+      "arrowCpp": "26.0.1",
+      "arrowCppBuild": "CppBuildInfo(version='26.0.1', version_info=VersionInfo(major=26, minor=0, patch=1), so_version='2600', full_so_version='2600.1.0', compiler_id='AppleClang', compiler_version='21.0.0.21000101', compiler_flags=' -fno-aligned-new  -Qunused-arguments -fcolor-diagnostics  -Wall -Wno-unknown-warning-option -Wno-pass-failed -march=armv8-a ', git_id='9e5d6978e9acf372cc989aaaf94e863fe8582c90', git_description='apache-arrow-26.0.1-rc1', package_kind='python-wheel-macos', build_type='release')"
+    },
+    "builtinModules": [
+      "node:child_process",
+      "node:crypto",
+      "node:fs/promises"
+    ],
+    "scope": "Declared preparation TypeScript entrypoint static/dynamic literal import closure, preparation entry points, package metadata/lockfiles and observed runtime versions. Type-only imports erased before traversal.",
+    "portableEnvironmentFullyImageLocked": false,
+    "limitations": [
+      "Native binaries, OS and all transitive npm module bytes are not a hermetic image lock; package-lock and installed package metadata are recorded.",
+      "Same-environment55-partition semantic/byte replay is separate evidence, not cross-platform byte portability."
+    ]
+  },
+  "dependencyFingerprint": "29773a61d8a2fe56f669425cb2a6091ec7abbb0341c9667fe79d23c9ccb290c1",
+  "code": [
+    {
+      "path": "scripts/m6_policy.py",
+      "sha256": "dc840700cb4efb9d39981e929f5061f00412d0297fc9d45fcb19b4fc970b8edd"
+    },
+    {
+      "path": "scripts/prepare-m61-history.py",
+      "sha256": "38f83c09e3dc618c781f239a50ae5fe4b3ea5f77e4aaaac5036d5080a2de341e"
+    },
+    {
+      "path": "scripts/audit-m61-holdout.py",
+      "sha256": "0d608b0f549b20451f8f3a2cd2266fc7db460d29a44091396218dd72edd03e93"
+    },
+    {
+      "path": "scripts/audit-m61-missingness.py",
+      "sha256": "5caed6dae8801d9f91feee2ab0dee2bad4c5ba216a60699e7268bce7ea8b486a"
+    },
+    {
+      "path": "scripts/report-m61-methodology.py",
+      "sha256": "28c0c31c63a4922bdc1e41c9303432fdf4456602cd6775c4c51fc982f9f20edf"
+    },
+    {
+      "path": "scripts/report-m61-gates.py",
+      "sha256": "b143aa09e65e159c8bd55d5d13b0bb1d7c8f2bb94a710d846ed7d56c63130129"
+    },
+    {
+      "path": "scripts/report-m61-campaigns.py",
+      "sha256": "e396c1c2195de52bd19bc3acfa2eea67dac4a6c50286bc653f8d35c86d3e8258"
+    },
+    {
+      "path": "scripts/report-m61-execution.py",
+      "sha256": "fcf808d976c37617e7edfa65239fc5f2a802a80eb81b33ac2b9a9dd1d244e002"
+    },
+    {
+      "path": "scripts/sample-m61-scoring.py",
+      "sha256": "d84af7e153402c7d81050b45c0a1b0c77efe7ef0dc1d07ddf7d29904acf00ab3"
+    },
+    {
+      "path": "scripts/verify-m61-preservation.mjs",
+      "sha256": "c452d37292055365d5f52d8a0056604c7f1436edbb98e7ab23e313bed7f5e0c1"
+    },
+    {
+      "path": "scripts/verify-m61-evidence.mjs",
+      "sha256": "fb29a8cbcf6c9e3b8e4b4a67e5029f4504147789f30150032e92db9aed1668a1"
+    }
+  ],
+  "frozenPartitionsAndGatesVerified": 66,
+  "diagnosticSnapshotsVerified": 16,
+  "compilationReportsVerified": 6,
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "acceptedCohortFingerprint": "479e423b6ab23e4fe3ee70c9d90f276ec668ba251805cde40f2b07ead9a3950c",
+  "strictAuditUnchanged": true,
+  "sourcePublicationOverwritten": false,
+  "productionWrites": 0,
+  "v10Active": false
+}

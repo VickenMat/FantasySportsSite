@@ -1,5 +1,7 @@
 # M6 scoring gate review
 
+> **Current comparison:** The strict gate audit below is preserved. D1–D6 are now approved; `reports/m61-approved-model-gates.json` separates calendar candidates from primary eligibility without replacing these strict results.
+
 The old `strictSimulationEligible:false` is unconditional in `src/simulation/preparation/scoring-readiness.ts`. Its eleven materialized artifacts are NHL season partitions2016–2026, totaling506,116physical player/game/role rows. They are not eleven distinct gate algorithms and the zero does not mean zero arithmetically scorable games or players. They remain frozen.
 
 The new independent G01–G11 audit separates statistical and decision predicates across all1,746,957physical rows. All supplied historical statistical known-at fields are null. Measured strict rows therefore remain zero even after source-supported conflict resolution. Counts of strict players/player-seasons, sport-seasons and accepted complete four-sport cycles are consequently zero; those are separately named denominators, not interchangeable meanings of the former flag.

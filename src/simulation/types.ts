@@ -46,6 +46,7 @@ export type Outcome = {
 };
 
 export type SimulationInput = {
+  decisionModel?: {participation:"PRIOR_ONLY";availabilityEvidence:"UNKNOWN";informationModel:"TWO_DAY"|"WEEKLY";positionModel:"DATED_CARRY"|"PRIOR_ESTIMATE"};
   sport: Sport;
   year: number;
   label: string;

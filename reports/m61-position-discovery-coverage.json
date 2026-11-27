@@ -1,0 +1,5604 @@
+{
+  "version": "m61-position-discovery-1",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "year": 2016,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 1855,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 4641,
+          "candidatePlayers": 512,
+          "candidatePlayerSeasons": 512,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 11984,
+            "G10": 11984,
+            "G04": 11277,
+            "G05": 2235,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16823,
+            16823,
+            16823,
+            5563,
+            5298,
+            5298,
+            5298,
+            4641,
+            4641,
+            4641,
+            4641
+          ],
+          "missingByPosition": {
+            "WR": {},
+            "OLB": {},
+            "RB": {},
+            "DT": {},
+            "P": {},
+            "FS": {},
+            "G": {},
+            "DE": {},
+            "K": {},
+            "QB": {},
+            "LB": {},
+            "LS": {},
+            "DB": {},
+            "TE": {},
+            "S": {},
+            "CB": {},
+            "FB": {},
+            "ILB": {},
+            "MLB": {},
+            "OT": {},
+            "C": {},
+            "NT": {},
+            "UNKNOWN": {},
+            "SAF": {},
+            "DL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 1855,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 4641,
+          "candidatePlayers": 512,
+          "candidatePlayerSeasons": 512,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 11984,
+            "G10": 11984,
+            "G04": 11277,
+            "G05": 2235,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16823,
+            16823,
+            16823,
+            5563,
+            5298,
+            5298,
+            5298,
+            4641,
+            4641,
+            4641,
+            4641
+          ],
+          "missingByPosition": {
+            "WR": {},
+            "OLB": {},
+            "RB": {},
+            "DT": {},
+            "P": {},
+            "FS": {},
+            "G": {},
+            "DE": {},
+            "K": {},
+            "QB": {},
+            "LB": {},
+            "LS": {},
+            "DB": {},
+            "TE": {},
+            "S": {},
+            "CB": {},
+            "FB": {},
+            "ILB": {},
+            "MLB": {},
+            "OT": {},
+            "C": {},
+            "NT": {},
+            "UNKNOWN": {},
+            "SAF": {},
+            "DL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2017,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 557,
+          "datedCurrentObservationPlayers": 1868,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1855,
+          "draftEligiblePlayers": 557,
+          "draftPositions": {
+            "WR": 210,
+            "TE": 125,
+            "RB": 151,
+            "QB": 71
+          },
+          "modeledPriorPlayers": 1283,
+          "candidateLagRowsNotPrimaryAccepted": 5059,
+          "candidatePlayers": 526,
+          "candidatePlayerSeasons": 526,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11145,
+            "G05": 2178,
+            "G08": 11482,
+            "G10": 11482,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16769,
+            16769,
+            16769,
+            5641,
+            5369,
+            5369,
+            5369,
+            5059,
+            5059,
+            5059,
+            5059
+          ],
+          "missingByPosition": {
+            "K": {},
+            "QB": {},
+            "P": {},
+            "WR": {},
+            "ILB": {},
+            "DT": {},
+            "DE": {},
+            "FS": {},
+            "S": {},
+            "G": {},
+            "OT": {},
+            "TE": {},
+            "CB": {},
+            "OLB": {},
+            "LB": {},
+            "RB": {},
+            "DB": {},
+            "NT": {},
+            "SAF": {},
+            "FB": {},
+            "MLB": {},
+            "LS": {},
+            "C": {},
+            "DL": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 557,
+          "datedCurrentObservationPlayers": 1868,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1855,
+          "draftEligiblePlayers": 557,
+          "draftPositions": {
+            "WR": 210,
+            "TE": 125,
+            "RB": 151,
+            "QB": 71
+          },
+          "modeledPriorPlayers": 1283,
+          "candidateLagRowsNotPrimaryAccepted": 5059,
+          "candidatePlayers": 526,
+          "candidatePlayerSeasons": 526,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11145,
+            "G05": 2178,
+            "G08": 11482,
+            "G10": 11482,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16769,
+            16769,
+            16769,
+            5641,
+            5369,
+            5369,
+            5369,
+            5059,
+            5059,
+            5059,
+            5059
+          ],
+          "missingByPosition": {
+            "K": {},
+            "QB": {},
+            "P": {},
+            "WR": {},
+            "ILB": {},
+            "DT": {},
+            "DE": {},
+            "FS": {},
+            "S": {},
+            "G": {},
+            "OT": {},
+            "TE": {},
+            "CB": {},
+            "OLB": {},
+            "LB": {},
+            "RB": {},
+            "DB": {},
+            "NT": {},
+            "SAF": {},
+            "FB": {},
+            "MLB": {},
+            "LS": {},
+            "C": {},
+            "DL": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2018,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 553,
+          "datedCurrentObservationPlayers": 1883,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1868,
+          "draftEligiblePlayers": 553,
+          "draftPositions": {
+            "QB": 73,
+            "WR": 214,
+            "TE": 123,
+            "RB": 143
+          },
+          "modeledPriorPlayers": 1296,
+          "candidateLagRowsNotPrimaryAccepted": 4963,
+          "candidatePlayers": 551,
+          "candidatePlayerSeasons": 551,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11208,
+            "G05": 2257,
+            "G08": 11540,
+            "G10": 11540,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16711,
+            16711,
+            16711,
+            5520,
+            5265,
+            5265,
+            5265,
+            4963,
+            4963,
+            4963,
+            4963
+          ],
+          "missingByPosition": {
+            "K": {},
+            "RB": {},
+            "FS": {},
+            "DE": {},
+            "QB": {},
+            "WR": {},
+            "S": {},
+            "C": {},
+            "TE": {},
+            "LB": {},
+            "DT": {},
+            "P": {},
+            "OT": {},
+            "CB": {},
+            "LS": {},
+            "MLB": {},
+            "OLB": {},
+            "DB": {},
+            "UNKNOWN": {},
+            "G": {},
+            "ILB": {},
+            "SAF": {},
+            "NT": {},
+            "FB": {},
+            "DL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 553,
+          "datedCurrentObservationPlayers": 1883,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1868,
+          "draftEligiblePlayers": 553,
+          "draftPositions": {
+            "QB": 73,
+            "WR": 214,
+            "TE": 123,
+            "RB": 143
+          },
+          "modeledPriorPlayers": 1296,
+          "candidateLagRowsNotPrimaryAccepted": 4963,
+          "candidatePlayers": 551,
+          "candidatePlayerSeasons": 551,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11208,
+            "G05": 2257,
+            "G08": 11540,
+            "G10": 11540,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16711,
+            16711,
+            16711,
+            5520,
+            5265,
+            5265,
+            5265,
+            4963,
+            4963,
+            4963,
+            4963
+          ],
+          "missingByPosition": {
+            "K": {},
+            "RB": {},
+            "FS": {},
+            "DE": {},
+            "QB": {},
+            "WR": {},
+            "S": {},
+            "C": {},
+            "TE": {},
+            "LB": {},
+            "DT": {},
+            "P": {},
+            "OT": {},
+            "CB": {},
+            "LS": {},
+            "MLB": {},
+            "OLB": {},
+            "DB": {},
+            "UNKNOWN": {},
+            "G": {},
+            "ILB": {},
+            "SAF": {},
+            "NT": {},
+            "FB": {},
+            "DL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2019,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 577,
+          "datedCurrentObservationPlayers": 1888,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1883,
+          "draftEligiblePlayers": 577,
+          "draftPositions": {
+            "RB": 149,
+            "QB": 72,
+            "WR": 228,
+            "TE": 128
+          },
+          "modeledPriorPlayers": 1295,
+          "candidateLagRowsNotPrimaryAccepted": 5024,
+          "candidatePlayers": 549,
+          "candidatePlayerSeasons": 549,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11133,
+            "G05": 2222,
+            "G08": 11417,
+            "G10": 11417,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16646,
+            16646,
+            16646,
+            5530,
+            5275,
+            5275,
+            5275,
+            5024,
+            5024,
+            5024,
+            5024
+          ],
+          "missingByPosition": {
+            "QB": {},
+            "P": {},
+            "DE": {},
+            "DT": {},
+            "WR": {},
+            "G": {},
+            "TE": {},
+            "K": {},
+            "FS": {},
+            "OT": {},
+            "RB": {},
+            "CB": {},
+            "OLB": {},
+            "MLB": {},
+            "DB": {},
+            "S": {},
+            "LB": {},
+            "C": {},
+            "ILB": {},
+            "SAF": {},
+            "NT": {},
+            "UNKNOWN": {},
+            "LS": {},
+            "FB": {},
+            "DL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 577,
+          "datedCurrentObservationPlayers": 1888,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1883,
+          "draftEligiblePlayers": 577,
+          "draftPositions": {
+            "RB": 149,
+            "QB": 72,
+            "WR": 228,
+            "TE": 128
+          },
+          "modeledPriorPlayers": 1295,
+          "candidateLagRowsNotPrimaryAccepted": 5024,
+          "candidatePlayers": 549,
+          "candidatePlayerSeasons": 549,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11133,
+            "G05": 2222,
+            "G08": 11417,
+            "G10": 11417,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16646,
+            16646,
+            16646,
+            5530,
+            5275,
+            5275,
+            5275,
+            5024,
+            5024,
+            5024,
+            5024
+          ],
+          "missingByPosition": {
+            "QB": {},
+            "P": {},
+            "DE": {},
+            "DT": {},
+            "WR": {},
+            "G": {},
+            "TE": {},
+            "K": {},
+            "FS": {},
+            "OT": {},
+            "RB": {},
+            "CB": {},
+            "OLB": {},
+            "MLB": {},
+            "DB": {},
+            "S": {},
+            "LB": {},
+            "C": {},
+            "ILB": {},
+            "SAF": {},
+            "NT": {},
+            "UNKNOWN": {},
+            "LS": {},
+            "FB": {},
+            "DL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2020,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 572,
+          "datedCurrentObservationPlayers": 1983,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1888,
+          "draftEligiblePlayers": 572,
+          "draftPositions": {
+            "QB": 71,
+            "TE": 125,
+            "RB": 146,
+            "WR": 230
+          },
+          "modeledPriorPlayers": 1307,
+          "candidateLagRowsNotPrimaryAccepted": 5136,
+          "candidatePlayers": 561,
+          "candidatePlayerSeasons": 561,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11104,
+            "G05": 2039,
+            "G08": 11398,
+            "G10": 11398,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16757,
+            16757,
+            16757,
+            5670,
+            5412,
+            5412,
+            5412,
+            5136,
+            5136,
+            5136,
+            5136
+          ],
+          "missingByPosition": {
+            "P": {},
+            "WR": {},
+            "K": {},
+            "DE": {},
+            "CB": {},
+            "LS": {},
+            "DB": {},
+            "FB": {},
+            "TE": {},
+            "G": {},
+            "OLB": {},
+            "SAF": {},
+            "QB": {},
+            "RB": {},
+            "S": {},
+            "MLB": {},
+            "DT": {},
+            "ILB": {},
+            "LB": {},
+            "C": {},
+            "FS": {},
+            "OT": {},
+            "DL": {},
+            "NT": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 572,
+          "datedCurrentObservationPlayers": 1983,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1888,
+          "draftEligiblePlayers": 572,
+          "draftPositions": {
+            "QB": 71,
+            "TE": 125,
+            "RB": 146,
+            "WR": 230
+          },
+          "modeledPriorPlayers": 1307,
+          "candidateLagRowsNotPrimaryAccepted": 5136,
+          "candidatePlayers": 561,
+          "candidatePlayerSeasons": 561,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11104,
+            "G05": 2039,
+            "G08": 11398,
+            "G10": 11398,
+            "G01": 17,
+            "G02": 17,
+            "G06": 17,
+            "G11": 17
+          },
+          "candidateWaterfall": [
+            16757,
+            16757,
+            16757,
+            5670,
+            5412,
+            5412,
+            5412,
+            5136,
+            5136,
+            5136,
+            5136
+          ],
+          "missingByPosition": {
+            "P": {},
+            "WR": {},
+            "K": {},
+            "DE": {},
+            "CB": {},
+            "LS": {},
+            "DB": {},
+            "FB": {},
+            "TE": {},
+            "G": {},
+            "OLB": {},
+            "SAF": {},
+            "QB": {},
+            "RB": {},
+            "S": {},
+            "MLB": {},
+            "DT": {},
+            "ILB": {},
+            "LB": {},
+            "C": {},
+            "FS": {},
+            "OT": {},
+            "DL": {},
+            "NT": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2021,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 602,
+          "datedCurrentObservationPlayers": 2081,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1983,
+          "draftEligiblePlayers": 602,
+          "draftPositions": {
+            "WR": 233,
+            "TE": 130,
+            "RB": 157,
+            "QB": 82
+          },
+          "modeledPriorPlayers": 1373,
+          "candidateLagRowsNotPrimaryAccepted": 5455,
+          "candidatePlayers": 588,
+          "candidatePlayerSeasons": 588,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12141,
+            "G05": 2315,
+            "G08": 12427,
+            "G10": 12427,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18110,
+            18110,
+            18110,
+            5987,
+            5723,
+            5723,
+            5723,
+            5455,
+            5455,
+            5455,
+            5455
+          ],
+          "missingByPosition": {
+            "P": {},
+            "K": {},
+            "DE": {},
+            "WR": {},
+            "C": {},
+            "CB": {},
+            "QB": {},
+            "TE": {},
+            "S": {},
+            "G": {},
+            "OLB": {},
+            "DT": {},
+            "OT": {},
+            "LB": {},
+            "MLB": {},
+            "DB": {},
+            "RB": {},
+            "FS": {},
+            "ILB": {},
+            "FB": {},
+            "SAF": {},
+            "LS": {},
+            "DL": {},
+            "NT": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 602,
+          "datedCurrentObservationPlayers": 2081,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1983,
+          "draftEligiblePlayers": 602,
+          "draftPositions": {
+            "WR": 233,
+            "TE": 130,
+            "RB": 157,
+            "QB": 82
+          },
+          "modeledPriorPlayers": 1373,
+          "candidateLagRowsNotPrimaryAccepted": 5455,
+          "candidatePlayers": 588,
+          "candidatePlayerSeasons": 588,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12141,
+            "G05": 2315,
+            "G08": 12427,
+            "G10": 12427,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18110,
+            18110,
+            18110,
+            5987,
+            5723,
+            5723,
+            5723,
+            5455,
+            5455,
+            5455,
+            5455
+          ],
+          "missingByPosition": {
+            "P": {},
+            "K": {},
+            "DE": {},
+            "WR": {},
+            "C": {},
+            "CB": {},
+            "QB": {},
+            "TE": {},
+            "S": {},
+            "G": {},
+            "OLB": {},
+            "DT": {},
+            "OT": {},
+            "LB": {},
+            "MLB": {},
+            "DB": {},
+            "RB": {},
+            "FS": {},
+            "ILB": {},
+            "FB": {},
+            "SAF": {},
+            "LS": {},
+            "DL": {},
+            "NT": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 633,
+          "datedCurrentObservationPlayers": 2006,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2081,
+          "draftEligiblePlayers": 633,
+          "draftPositions": {
+            "QB": 81,
+            "TE": 131,
+            "WR": 256,
+            "RB": 165
+          },
+          "modeledPriorPlayers": 1444,
+          "candidateLagRowsNotPrimaryAccepted": 5415,
+          "candidatePlayers": 586,
+          "candidatePlayerSeasons": 586,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12063,
+            "G08": 12309,
+            "G10": 12309,
+            "G05": 2287,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            17963,
+            17963,
+            17963,
+            5918,
+            5645,
+            5645,
+            5645,
+            5415,
+            5415,
+            5415,
+            5415
+          ],
+          "missingByPosition": {
+            "QB": {},
+            "DE": {},
+            "OLB": {},
+            "ILB": {},
+            "K": {},
+            "LB": {},
+            "CB": {},
+            "S": {},
+            "RB": {},
+            "MLB": {},
+            "OT": {},
+            "DT": {},
+            "WR": {},
+            "LS": {},
+            "SAF": {},
+            "DB": {},
+            "FS": {},
+            "TE": {},
+            "P": {},
+            "G": {},
+            "DL": {},
+            "UNKNOWN": {},
+            "C": {},
+            "NT": {},
+            "FB": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 633,
+          "datedCurrentObservationPlayers": 2006,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2081,
+          "draftEligiblePlayers": 633,
+          "draftPositions": {
+            "QB": 81,
+            "TE": 131,
+            "WR": 256,
+            "RB": 165
+          },
+          "modeledPriorPlayers": 1444,
+          "candidateLagRowsNotPrimaryAccepted": 5415,
+          "candidatePlayers": 586,
+          "candidatePlayerSeasons": 586,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12063,
+            "G08": 12309,
+            "G10": 12309,
+            "G05": 2287,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            17963,
+            17963,
+            17963,
+            5918,
+            5645,
+            5645,
+            5645,
+            5415,
+            5415,
+            5415,
+            5415
+          ],
+          "missingByPosition": {
+            "QB": {},
+            "DE": {},
+            "OLB": {},
+            "ILB": {},
+            "K": {},
+            "LB": {},
+            "CB": {},
+            "S": {},
+            "RB": {},
+            "MLB": {},
+            "OT": {},
+            "DT": {},
+            "WR": {},
+            "LS": {},
+            "SAF": {},
+            "DB": {},
+            "FS": {},
+            "TE": {},
+            "P": {},
+            "G": {},
+            "DL": {},
+            "UNKNOWN": {},
+            "C": {},
+            "NT": {},
+            "FB": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 608,
+          "datedCurrentObservationPlayers": 1942,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2006,
+          "draftEligiblePlayers": 608,
+          "draftPositions": {
+            "QB": 83,
+            "RB": 158,
+            "WR": 239,
+            "TE": 128
+          },
+          "modeledPriorPlayers": 1396,
+          "candidateLagRowsNotPrimaryAccepted": 5409,
+          "candidatePlayers": 553,
+          "candidatePlayerSeasons": 553,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11909,
+            "G05": 2317,
+            "G08": 12143,
+            "G10": 12143,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            17788,
+            17788,
+            17788,
+            5897,
+            5620,
+            5620,
+            5620,
+            5409,
+            5409,
+            5409,
+            5409
+          ],
+          "missingByPosition": {
+            "K": {},
+            "TE": {},
+            "P": {},
+            "OLB": {},
+            "WR": {},
+            "OT": {},
+            "CB": {},
+            "DE": {},
+            "RB": {},
+            "G": {},
+            "S": {},
+            "QB": {},
+            "NT": {},
+            "DB": {},
+            "LB": {},
+            "DT": {},
+            "SAF": {},
+            "FS": {},
+            "ILB": {},
+            "FB": {},
+            "MLB": {},
+            "LS": {},
+            "C": {},
+            "UNKNOWN": {},
+            "DL": {},
+            "OL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 608,
+          "datedCurrentObservationPlayers": 1942,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2006,
+          "draftEligiblePlayers": 608,
+          "draftPositions": {
+            "QB": 83,
+            "RB": 158,
+            "WR": 239,
+            "TE": 128
+          },
+          "modeledPriorPlayers": 1396,
+          "candidateLagRowsNotPrimaryAccepted": 5409,
+          "candidatePlayers": 553,
+          "candidatePlayerSeasons": 553,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 11909,
+            "G05": 2317,
+            "G08": 12143,
+            "G10": 12143,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            17788,
+            17788,
+            17788,
+            5897,
+            5620,
+            5620,
+            5620,
+            5409,
+            5409,
+            5409,
+            5409
+          ],
+          "missingByPosition": {
+            "K": {},
+            "TE": {},
+            "P": {},
+            "OLB": {},
+            "WR": {},
+            "OT": {},
+            "CB": {},
+            "DE": {},
+            "RB": {},
+            "G": {},
+            "S": {},
+            "QB": {},
+            "NT": {},
+            "DB": {},
+            "LB": {},
+            "DT": {},
+            "SAF": {},
+            "FS": {},
+            "ILB": {},
+            "FB": {},
+            "MLB": {},
+            "LS": {},
+            "C": {},
+            "UNKNOWN": {},
+            "DL": {},
+            "OL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2024,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 577,
+          "datedCurrentObservationPlayers": 1996,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1942,
+          "draftEligiblePlayers": 577,
+          "draftPositions": {
+            "WR": 225,
+            "RB": 148,
+            "TE": 123,
+            "QB": 81
+          },
+          "modeledPriorPlayers": 1367,
+          "candidateLagRowsNotPrimaryAccepted": 5376,
+          "candidatePlayers": 557,
+          "candidatePlayerSeasons": 557,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12195,
+            "G05": 2539,
+            "G08": 12416,
+            "G10": 12416,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18112,
+            18112,
+            18112,
+            5935,
+            5571,
+            5571,
+            5571,
+            5376,
+            5376,
+            5376,
+            5376
+          ],
+          "missingByPosition": {
+            "K": {},
+            "OLB": {},
+            "P": {},
+            "DT": {},
+            "NT": {},
+            "WR": {},
+            "CB": {},
+            "RB": {},
+            "S": {},
+            "OT": {},
+            "QB": {},
+            "LB": {},
+            "SAF": {},
+            "TE": {},
+            "DB": {},
+            "DE": {},
+            "G": {},
+            "MLB": {},
+            "FS": {},
+            "ILB": {},
+            "C": {},
+            "UNKNOWN": {},
+            "LS": {},
+            "FB": {},
+            "DL": {},
+            "OL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 577,
+          "datedCurrentObservationPlayers": 1996,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1942,
+          "draftEligiblePlayers": 577,
+          "draftPositions": {
+            "WR": 225,
+            "RB": 148,
+            "TE": 123,
+            "QB": 81
+          },
+          "modeledPriorPlayers": 1367,
+          "candidateLagRowsNotPrimaryAccepted": 5376,
+          "candidatePlayers": 557,
+          "candidatePlayerSeasons": 557,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12195,
+            "G05": 2539,
+            "G08": 12416,
+            "G10": 12416,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18112,
+            18112,
+            18112,
+            5935,
+            5571,
+            5571,
+            5571,
+            5376,
+            5376,
+            5376,
+            5376
+          ],
+          "missingByPosition": {
+            "K": {},
+            "OLB": {},
+            "P": {},
+            "DT": {},
+            "NT": {},
+            "WR": {},
+            "CB": {},
+            "RB": {},
+            "S": {},
+            "OT": {},
+            "QB": {},
+            "LB": {},
+            "SAF": {},
+            "TE": {},
+            "DB": {},
+            "DE": {},
+            "G": {},
+            "MLB": {},
+            "FS": {},
+            "ILB": {},
+            "C": {},
+            "UNKNOWN": {},
+            "LS": {},
+            "FB": {},
+            "DL": {},
+            "OL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2025,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 589,
+          "datedCurrentObservationPlayers": 2019,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1996,
+          "draftEligiblePlayers": 589,
+          "draftPositions": {
+            "TE": 127,
+            "WR": 236,
+            "RB": 148,
+            "QB": 78
+          },
+          "modeledPriorPlayers": 1409,
+          "candidateLagRowsNotPrimaryAccepted": 5518,
+          "candidatePlayers": 577,
+          "candidatePlayerSeasons": 577,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12432,
+            "G08": 12660,
+            "G10": 12660,
+            "G05": 2389,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18522,
+            18522,
+            18522,
+            6108,
+            5719,
+            5719,
+            5719,
+            5518,
+            5518,
+            5518,
+            5518
+          ],
+          "missingByPosition": {
+            "DE": {},
+            "LB": {},
+            "OLB": {},
+            "WR": {},
+            "RB": {},
+            "DT": {},
+            "S": {},
+            "C": {},
+            "CB": {},
+            "QB": {},
+            "G": {},
+            "DB": {},
+            "P": {},
+            "TE": {},
+            "SAF": {},
+            "OT": {},
+            "K": {},
+            "DL": {},
+            "MLB": {},
+            "ILB": {},
+            "NT": {},
+            "LS": {},
+            "FS": {},
+            "UNKNOWN": {},
+            "FB": {},
+            "OL": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 589,
+          "datedCurrentObservationPlayers": 2019,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1996,
+          "draftEligiblePlayers": 589,
+          "draftPositions": {
+            "TE": 127,
+            "WR": 236,
+            "RB": 148,
+            "QB": 78
+          },
+          "modeledPriorPlayers": 1409,
+          "candidateLagRowsNotPrimaryAccepted": 5518,
+          "candidatePlayers": 577,
+          "candidatePlayerSeasons": 577,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 12432,
+            "G08": 12660,
+            "G10": 12660,
+            "G05": 2389,
+            "G01": 18,
+            "G02": 18,
+            "G06": 18,
+            "G11": 18
+          },
+          "candidateWaterfall": [
+            18522,
+            18522,
+            18522,
+            6108,
+            5719,
+            5719,
+            5719,
+            5518,
+            5518,
+            5518,
+            5518
+          ],
+          "missingByPosition": {
+            "DE": {},
+            "LB": {},
+            "OLB": {},
+            "WR": {},
+            "RB": {},
+            "DT": {},
+            "S": {},
+            "C": {},
+            "CB": {},
+            "QB": {},
+            "G": {},
+            "DB": {},
+            "P": {},
+            "TE": {},
+            "SAF": {},
+            "OT": {},
+            "K": {},
+            "DL": {},
+            "MLB": {},
+            "ILB": {},
+            "NT": {},
+            "LS": {},
+            "FS": {},
+            "UNKNOWN": {},
+            "FB": {},
+            "OL": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NFL",
+      "year": 2026,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 610,
+          "datedCurrentObservationPlayers": 1827,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2019,
+          "draftEligiblePlayers": 610,
+          "draftPositions": {
+            "QB": 81,
+            "TE": 137,
+            "RB": 151,
+            "WR": 241
+          },
+          "modeledPriorPlayers": 1414,
+          "candidateLagRowsNotPrimaryAccepted": 3184,
+          "candidatePlayers": 530,
+          "candidatePlayerSeasons": 530,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 7415,
+            "G08": 7581,
+            "G10": 7581,
+            "G05": 1486,
+            "G01": 11,
+            "G02": 11,
+            "G06": 11,
+            "G11": 11
+          },
+          "candidateWaterfall": [
+            10981,
+            10981,
+            10981,
+            3577,
+            3326,
+            3326,
+            3326,
+            3184,
+            3184,
+            3184,
+            3184
+          ],
+          "missingByPosition": {
+            "S": {},
+            "OLB": {},
+            "QB": {},
+            "WR": {},
+            "DE": {},
+            "OT": {},
+            "TE": {},
+            "P": {},
+            "CB": {},
+            "LB": {},
+            "FS": {},
+            "FB": {},
+            "C": {},
+            "SAF": {},
+            "DT": {},
+            "K": {},
+            "RB": {},
+            "DL": {},
+            "DB": {},
+            "G": {},
+            "LS": {},
+            "ILB": {},
+            "NT": {},
+            "MLB": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 610,
+          "datedCurrentObservationPlayers": 1827,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 2019,
+          "draftEligiblePlayers": 610,
+          "draftPositions": {
+            "QB": 81,
+            "TE": 137,
+            "RB": 151,
+            "WR": 241
+          },
+          "modeledPriorPlayers": 1414,
+          "candidateLagRowsNotPrimaryAccepted": 3184,
+          "candidatePlayers": 530,
+          "candidatePlayerSeasons": 530,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 7415,
+            "G08": 7581,
+            "G10": 7581,
+            "G05": 1486,
+            "G01": 11,
+            "G02": 11,
+            "G06": 11,
+            "G11": 11
+          },
+          "candidateWaterfall": [
+            10981,
+            10981,
+            10981,
+            3577,
+            3326,
+            3326,
+            3326,
+            3184,
+            3184,
+            3184,
+            3184
+          ],
+          "missingByPosition": {
+            "S": {},
+            "OLB": {},
+            "QB": {},
+            "WR": {},
+            "DE": {},
+            "OT": {},
+            "TE": {},
+            "P": {},
+            "CB": {},
+            "LB": {},
+            "FS": {},
+            "FB": {},
+            "C": {},
+            "SAF": {},
+            "DT": {},
+            "K": {},
+            "RB": {},
+            "DL": {},
+            "DB": {},
+            "G": {},
+            "LS": {},
+            "ILB": {},
+            "NT": {},
+            "MLB": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2016,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 1353,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 10551,
+          "candidatePlayers": 436,
+          "candidatePlayerSeasons": 436,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 64891,
+            "G10": 64891,
+            "G04": 10527,
+            "G09": 158,
+            "G11": 158,
+            "G05": 4
+          },
+          "candidateWaterfall": [
+            80974,
+            80974,
+            80974,
+            70447,
+            70447,
+            70447,
+            70447,
+            10570,
+            10551,
+            10551,
+            10551
+          ],
+          "missingByPosition": {
+            "DH": {},
+            "3B": {},
+            "RF": {},
+            "CF": {},
+            "LF": {},
+            "1B": {},
+            "UNKNOWN": {},
+            "SP": {},
+            "RP": {},
+            "2B": {},
+            "C": {},
+            "SS": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 1353,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 10551,
+          "candidatePlayers": 436,
+          "candidatePlayerSeasons": 436,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 64891,
+            "G10": 64891,
+            "G04": 10527,
+            "G09": 158,
+            "G11": 158,
+            "G05": 4
+          },
+          "candidateWaterfall": [
+            80974,
+            80974,
+            80974,
+            70447,
+            70447,
+            70447,
+            70447,
+            10570,
+            10551,
+            10551,
+            10551
+          ],
+          "missingByPosition": {
+            "DH": {},
+            "3B": {},
+            "RF": {},
+            "CF": {},
+            "LF": {},
+            "1B": {},
+            "UNKNOWN": {},
+            "SP": {},
+            "RP": {},
+            "2B": {},
+            "C": {},
+            "SS": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2017,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 899,
+          "datedCurrentObservationPlayers": 1358,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1353,
+          "draftEligiblePlayers": 899,
+          "draftPositions": {
+            "2B": 63,
+            "1B": 63,
+            "LF": 89,
+            "RF": 68,
+            "3B": 63,
+            "CF": 67,
+            "SP": 184,
+            "P": 412,
+            "RP": 263,
+            "C": 75,
+            "SS": 57,
+            "DH": 26
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56748,
+          "candidatePlayers": 905,
+          "candidatePlayerSeasons": 905,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 10436,
+            "G08": 15812,
+            "G10": 15812,
+            "G05": 2,
+            "G09": 51,
+            "G11": 51
+          },
+          "candidateWaterfall": [
+            81178,
+            81178,
+            81178,
+            70742,
+            70742,
+            70742,
+            70742,
+            56781,
+            56748,
+            56748,
+            56748
+          ],
+          "missingByPosition": {
+            "2B": {},
+            "3B": {},
+            "SS": {},
+            "C": {},
+            "CF": {},
+            "LF": {},
+            "RF": {},
+            "1B": {},
+            "DH": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "SP": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 899,
+          "datedCurrentObservationPlayers": 1358,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1353,
+          "draftEligiblePlayers": 899,
+          "draftPositions": {
+            "2B": 63,
+            "1B": 63,
+            "LF": 89,
+            "RF": 68,
+            "3B": 63,
+            "CF": 67,
+            "SP": 184,
+            "P": 412,
+            "RP": 263,
+            "C": 75,
+            "SS": 57,
+            "DH": 26
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56748,
+          "candidatePlayers": 905,
+          "candidatePlayerSeasons": 905,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 10436,
+            "G08": 15812,
+            "G10": 15812,
+            "G05": 2,
+            "G09": 51,
+            "G11": 51
+          },
+          "candidateWaterfall": [
+            81178,
+            81178,
+            81178,
+            70742,
+            70742,
+            70742,
+            70742,
+            56781,
+            56748,
+            56748,
+            56748
+          ],
+          "missingByPosition": {
+            "2B": {},
+            "3B": {},
+            "SS": {},
+            "C": {},
+            "CF": {},
+            "LF": {},
+            "RF": {},
+            "1B": {},
+            "DH": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "SP": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2018,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 910,
+          "datedCurrentObservationPlayers": 1379,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1358,
+          "draftEligiblePlayers": 910,
+          "draftPositions": {
+            "1B": 64,
+            "3B": 69,
+            "CF": 67,
+            "RP": 272,
+            "P": 416,
+            "2B": 68,
+            "DH": 24,
+            "RF": 64,
+            "LF": 89,
+            "SP": 190,
+            "SS": 59,
+            "C": 72
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57394,
+          "candidatePlayers": 926,
+          "candidatePlayerSeasons": 926,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 16140,
+            "G10": 16140,
+            "G04": 10794,
+            "G05": 4,
+            "G09": 141,
+            "G11": 141
+          },
+          "candidateWaterfall": [
+            82380,
+            82380,
+            82380,
+            71586,
+            71586,
+            71586,
+            71586,
+            57491,
+            57394,
+            57394,
+            57394
+          ],
+          "missingByPosition": {
+            "1B": {},
+            "LF": {},
+            "2B": {},
+            "3B": {},
+            "RF": {},
+            "C": {},
+            "SP": {},
+            "DH": {},
+            "RP": {},
+            "SS": {},
+            "CF": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 910,
+          "datedCurrentObservationPlayers": 1379,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1358,
+          "draftEligiblePlayers": 910,
+          "draftPositions": {
+            "1B": 64,
+            "3B": 69,
+            "CF": 67,
+            "RP": 272,
+            "P": 416,
+            "2B": 68,
+            "DH": 24,
+            "RF": 64,
+            "LF": 89,
+            "SP": 190,
+            "SS": 59,
+            "C": 72
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57394,
+          "candidatePlayers": 926,
+          "candidatePlayerSeasons": 926,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 16140,
+            "G10": 16140,
+            "G04": 10794,
+            "G05": 4,
+            "G09": 141,
+            "G11": 141
+          },
+          "candidateWaterfall": [
+            82380,
+            82380,
+            82380,
+            71586,
+            71586,
+            71586,
+            71586,
+            57491,
+            57394,
+            57394,
+            57394
+          ],
+          "missingByPosition": {
+            "1B": {},
+            "LF": {},
+            "2B": {},
+            "3B": {},
+            "RF": {},
+            "C": {},
+            "SP": {},
+            "DH": {},
+            "RP": {},
+            "SS": {},
+            "CF": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2019,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 937,
+          "datedCurrentObservationPlayers": 1410,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1379,
+          "draftEligiblePlayers": 937,
+          "draftPositions": {
+            "C": 77,
+            "1B": 69,
+            "RP": 297,
+            "P": 440,
+            "3B": 75,
+            "CF": 74,
+            "LF": 85,
+            "RF": 77,
+            "2B": 67,
+            "SS": 61,
+            "SP": 183,
+            "DH": 27
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56955,
+          "candidatePlayers": 971,
+          "candidatePlayerSeasons": 971,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 16427,
+            "G10": 16427,
+            "G04": 10846,
+            "G05": 3,
+            "G09": 264,
+            "G11": 264
+          },
+          "candidateWaterfall": [
+            82527,
+            82527,
+            82527,
+            71681,
+            71681,
+            71681,
+            71681,
+            57148,
+            56955,
+            56955,
+            56955
+          ],
+          "missingByPosition": {
+            "1B": {},
+            "DH": {},
+            "LF": {},
+            "RF": {},
+            "3B": {},
+            "UNKNOWN": {},
+            "2B": {},
+            "SS": {},
+            "SP": {},
+            "C": {},
+            "CF": {},
+            "RP": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 937,
+          "datedCurrentObservationPlayers": 1410,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1379,
+          "draftEligiblePlayers": 937,
+          "draftPositions": {
+            "C": 77,
+            "1B": 69,
+            "RP": 297,
+            "P": 440,
+            "3B": 75,
+            "CF": 74,
+            "LF": 85,
+            "RF": 77,
+            "2B": 67,
+            "SS": 61,
+            "SP": 183,
+            "DH": 27
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56955,
+          "candidatePlayers": 971,
+          "candidatePlayerSeasons": 971,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 16427,
+            "G10": 16427,
+            "G04": 10846,
+            "G05": 3,
+            "G09": 264,
+            "G11": 264
+          },
+          "candidateWaterfall": [
+            82527,
+            82527,
+            82527,
+            71681,
+            71681,
+            71681,
+            71681,
+            57148,
+            56955,
+            56955,
+            56955
+          ],
+          "missingByPosition": {
+            "1B": {},
+            "DH": {},
+            "LF": {},
+            "RF": {},
+            "3B": {},
+            "UNKNOWN": {},
+            "2B": {},
+            "SS": {},
+            "SP": {},
+            "C": {},
+            "CF": {},
+            "RP": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2020,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 949,
+          "datedCurrentObservationPlayers": 1289,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1410,
+          "draftEligiblePlayers": 949,
+          "draftPositions": {
+            "1B": 74,
+            "DH": 27,
+            "RP": 307,
+            "P": 449,
+            "SS": 57,
+            "CF": 86,
+            "RF": 81,
+            "C": 74,
+            "LF": 92,
+            "2B": 81,
+            "SP": 177,
+            "3B": 68
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 20643,
+          "candidatePlayers": 830,
+          "candidatePlayerSeasons": 830,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 6057,
+            "G10": 6057,
+            "G04": 65,
+            "G09": 48,
+            "G11": 48,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26783,
+            26783,
+            26783,
+            26718,
+            26718,
+            26718,
+            26718,
+            20681,
+            20643,
+            20643,
+            20643
+          ],
+          "missingByPosition": {
+            "LF": {},
+            "RF": {},
+            "C": {},
+            "3B": {},
+            "CF": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "1B": {},
+            "SS": {},
+            "2B": {},
+            "SP": {},
+            "DH": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 949,
+          "datedCurrentObservationPlayers": 1289,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1410,
+          "draftEligiblePlayers": 949,
+          "draftPositions": {
+            "1B": 74,
+            "DH": 27,
+            "RP": 307,
+            "P": 449,
+            "SS": 57,
+            "CF": 86,
+            "RF": 81,
+            "C": 74,
+            "LF": 92,
+            "2B": 81,
+            "SP": 177,
+            "3B": 68
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 20643,
+          "candidatePlayers": 830,
+          "candidatePlayerSeasons": 830,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 6057,
+            "G10": 6057,
+            "G04": 65,
+            "G09": 48,
+            "G11": 48,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26783,
+            26783,
+            26783,
+            26718,
+            26718,
+            26718,
+            26718,
+            20681,
+            20643,
+            20643,
+            20643
+          ],
+          "missingByPosition": {
+            "LF": {},
+            "RF": {},
+            "C": {},
+            "3B": {},
+            "CF": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "1B": {},
+            "SS": {},
+            "2B": {},
+            "SP": {},
+            "DH": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2021,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 542,
+          "datedCurrentObservationPlayers": 1508,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1289,
+          "draftEligiblePlayers": 542,
+          "draftPositions": {
+            "RF": 35,
+            "3B": 38,
+            "CF": 43,
+            "SS": 40,
+            "LF": 37,
+            "2B": 40,
+            "DH": 23,
+            "1B": 39,
+            "C": 51,
+            "SP": 85,
+            "RP": 132,
+            "P": 133
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 46099,
+          "candidatePlayers": 825,
+          "candidatePlayerSeasons": 825,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 29501,
+            "G10": 29501,
+            "G04": 11245,
+            "G05": 4,
+            "G09": 198,
+            "G11": 198
+          },
+          "candidateWaterfall": [
+            82862,
+            82862,
+            82862,
+            71617,
+            71617,
+            71617,
+            71617,
+            46209,
+            46099,
+            46099,
+            46099
+          ],
+          "missingByPosition": {
+            "3B": {},
+            "RF": {},
+            "2B": {},
+            "C": {},
+            "RP": {},
+            "1B": {},
+            "SS": {},
+            "LF": {},
+            "CF": {},
+            "SP": {},
+            "UNKNOWN": {},
+            "DH": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 542,
+          "datedCurrentObservationPlayers": 1508,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1289,
+          "draftEligiblePlayers": 542,
+          "draftPositions": {
+            "RF": 35,
+            "3B": 38,
+            "CF": 43,
+            "SS": 40,
+            "LF": 37,
+            "2B": 40,
+            "DH": 23,
+            "1B": 39,
+            "C": 51,
+            "SP": 85,
+            "RP": 132,
+            "P": 133
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 46099,
+          "candidatePlayers": 825,
+          "candidatePlayerSeasons": 825,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 29501,
+            "G10": 29501,
+            "G04": 11245,
+            "G05": 4,
+            "G09": 198,
+            "G11": 198
+          },
+          "candidateWaterfall": [
+            82862,
+            82862,
+            82862,
+            71617,
+            71617,
+            71617,
+            71617,
+            46209,
+            46099,
+            46099,
+            46099
+          ],
+          "missingByPosition": {
+            "3B": {},
+            "RF": {},
+            "2B": {},
+            "C": {},
+            "RP": {},
+            "1B": {},
+            "SS": {},
+            "LF": {},
+            "CF": {},
+            "SP": {},
+            "UNKNOWN": {},
+            "DH": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 974,
+          "datedCurrentObservationPlayers": 1495,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1508,
+          "draftEligiblePlayers": 974,
+          "draftPositions": {
+            "SS": 62,
+            "1B": 62,
+            "RP": 310,
+            "P": 461,
+            "CF": 91,
+            "RF": 82,
+            "2B": 83,
+            "SP": 190,
+            "3B": 70,
+            "LF": 94,
+            "DH": 27,
+            "C": 78
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56558,
+          "candidatePlayers": 981,
+          "candidatePlayerSeasons": 981,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 14247,
+            "G10": 14247,
+            "G04": 267,
+            "G05": 5,
+            "G09": 218,
+            "G11": 218
+          },
+          "candidateWaterfall": [
+            71173,
+            71173,
+            71173,
+            70906,
+            70906,
+            70906,
+            70906,
+            56723,
+            56558,
+            56558,
+            56558
+          ],
+          "missingByPosition": {
+            "C": {},
+            "RP": {},
+            "3B": {},
+            "CF": {},
+            "DH": {},
+            "RF": {},
+            "1B": {},
+            "SS": {},
+            "SP": {},
+            "2B": {},
+            "LF": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 974,
+          "datedCurrentObservationPlayers": 1495,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1508,
+          "draftEligiblePlayers": 974,
+          "draftPositions": {
+            "SS": 62,
+            "1B": 62,
+            "RP": 310,
+            "P": 461,
+            "CF": 91,
+            "RF": 82,
+            "2B": 83,
+            "SP": 190,
+            "3B": 70,
+            "LF": 94,
+            "DH": 27,
+            "C": 78
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56558,
+          "candidatePlayers": 981,
+          "candidatePlayerSeasons": 981,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 14247,
+            "G10": 14247,
+            "G04": 267,
+            "G05": 5,
+            "G09": 218,
+            "G11": 218
+          },
+          "candidateWaterfall": [
+            71173,
+            71173,
+            71173,
+            70906,
+            70906,
+            70906,
+            70906,
+            56723,
+            56558,
+            56558,
+            56558
+          ],
+          "missingByPosition": {
+            "C": {},
+            "RP": {},
+            "3B": {},
+            "CF": {},
+            "DH": {},
+            "RF": {},
+            "1B": {},
+            "SS": {},
+            "SP": {},
+            "2B": {},
+            "LF": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 955,
+          "datedCurrentObservationPlayers": 1457,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1495,
+          "draftEligiblePlayers": 955,
+          "draftPositions": {
+            "CF": 75,
+            "LF": 91,
+            "RF": 92,
+            "2B": 79,
+            "C": 75,
+            "DH": 81,
+            "3B": 75,
+            "1B": 69,
+            "SP": 186,
+            "P": 442,
+            "SS": 53,
+            "RP": 295
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 55997,
+          "candidatePlayers": 971,
+          "candidatePlayerSeasons": 971,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 15160,
+            "G10": 15160,
+            "G04": 248,
+            "G09": 65,
+            "G11": 65,
+            "G05": 4
+          },
+          "candidateWaterfall": [
+            71388,
+            71388,
+            71388,
+            71140,
+            71140,
+            71140,
+            71140,
+            56043,
+            55997,
+            55997,
+            55997
+          ],
+          "missingByPosition": {
+            "SP": {},
+            "1B": {},
+            "3B": {},
+            "C": {},
+            "DH": {},
+            "2B": {},
+            "CF": {},
+            "LF": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "RF": {},
+            "SS": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 955,
+          "datedCurrentObservationPlayers": 1457,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1495,
+          "draftEligiblePlayers": 955,
+          "draftPositions": {
+            "CF": 75,
+            "LF": 91,
+            "RF": 92,
+            "2B": 79,
+            "C": 75,
+            "DH": 81,
+            "3B": 75,
+            "1B": 69,
+            "SP": 186,
+            "P": 442,
+            "SS": 53,
+            "RP": 295
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 55997,
+          "candidatePlayers": 971,
+          "candidatePlayerSeasons": 971,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 15160,
+            "G10": 15160,
+            "G04": 248,
+            "G09": 65,
+            "G11": 65,
+            "G05": 4
+          },
+          "candidateWaterfall": [
+            71388,
+            71388,
+            71388,
+            71140,
+            71140,
+            71140,
+            71140,
+            56043,
+            55997,
+            55997,
+            55997
+          ],
+          "missingByPosition": {
+            "SP": {},
+            "1B": {},
+            "3B": {},
+            "C": {},
+            "DH": {},
+            "2B": {},
+            "CF": {},
+            "LF": {},
+            "RP": {},
+            "UNKNOWN": {},
+            "RF": {},
+            "SS": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2024,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 939,
+          "datedCurrentObservationPlayers": 1454,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1457,
+          "draftEligiblePlayers": 939,
+          "draftPositions": {
+            "RP": 274,
+            "P": 419,
+            "CF": 70,
+            "C": 76,
+            "1B": 65,
+            "RF": 79,
+            "2B": 83,
+            "SP": 189,
+            "3B": 78,
+            "SS": 64,
+            "DH": 69,
+            "LF": 87
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57472,
+          "candidatePlayers": 966,
+          "candidatePlayerSeasons": 966,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 13749,
+            "G10": 13749,
+            "G04": 173,
+            "G05": 2,
+            "G09": 100,
+            "G11": 100
+          },
+          "candidateWaterfall": [
+            71442,
+            71442,
+            71442,
+            71269,
+            71269,
+            71269,
+            71269,
+            57561,
+            57472,
+            57472,
+            57472
+          ],
+          "missingByPosition": {
+            "UNKNOWN": {},
+            "CF": {},
+            "RF": {},
+            "1B": {},
+            "C": {},
+            "DH": {},
+            "2B": {},
+            "3B": {},
+            "SP": {},
+            "RP": {},
+            "LF": {},
+            "SS": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 939,
+          "datedCurrentObservationPlayers": 1454,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1457,
+          "draftEligiblePlayers": 939,
+          "draftPositions": {
+            "RP": 274,
+            "P": 419,
+            "CF": 70,
+            "C": 76,
+            "1B": 65,
+            "RF": 79,
+            "2B": 83,
+            "SP": 189,
+            "3B": 78,
+            "SS": 64,
+            "DH": 69,
+            "LF": 87
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57472,
+          "candidatePlayers": 966,
+          "candidatePlayerSeasons": 966,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 13749,
+            "G10": 13749,
+            "G04": 173,
+            "G05": 2,
+            "G09": 100,
+            "G11": 100
+          },
+          "candidateWaterfall": [
+            71442,
+            71442,
+            71442,
+            71269,
+            71269,
+            71269,
+            71269,
+            57561,
+            57472,
+            57472,
+            57472
+          ],
+          "missingByPosition": {
+            "UNKNOWN": {},
+            "CF": {},
+            "RF": {},
+            "1B": {},
+            "C": {},
+            "DH": {},
+            "2B": {},
+            "3B": {},
+            "SP": {},
+            "RP": {},
+            "LF": {},
+            "SS": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2025,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 935,
+          "datedCurrentObservationPlayers": 1470,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1454,
+          "draftEligiblePlayers": 935,
+          "draftPositions": {
+            "C": 73,
+            "RP": 276,
+            "P": 418,
+            "SP": 177,
+            "3B": 77,
+            "RF": 88,
+            "1B": 65,
+            "DH": 77,
+            "LF": 81,
+            "2B": 76,
+            "CF": 72,
+            "SS": 60
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57478,
+          "candidatePlayers": 988,
+          "candidatePlayerSeasons": 988,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 14023,
+            "G10": 14023,
+            "G04": 209,
+            "G05": 2,
+            "G09": 120,
+            "G11": 120
+          },
+          "candidateWaterfall": [
+            71757,
+            71757,
+            71757,
+            71548,
+            71548,
+            71548,
+            71548,
+            57577,
+            57478,
+            57478,
+            57478
+          ],
+          "missingByPosition": {
+            "DH": {},
+            "RF": {},
+            "2B": {},
+            "3B": {},
+            "C": {},
+            "UNKNOWN": {},
+            "SP": {},
+            "LF": {},
+            "RP": {},
+            "SS": {},
+            "CF": {},
+            "1B": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 935,
+          "datedCurrentObservationPlayers": 1470,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1454,
+          "draftEligiblePlayers": 935,
+          "draftPositions": {
+            "C": 73,
+            "RP": 276,
+            "P": 418,
+            "SP": 177,
+            "3B": 77,
+            "RF": 88,
+            "1B": 65,
+            "DH": 77,
+            "LF": 81,
+            "2B": 76,
+            "CF": 72,
+            "SS": 60
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 57478,
+          "candidatePlayers": 988,
+          "candidatePlayerSeasons": 988,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 14023,
+            "G10": 14023,
+            "G04": 209,
+            "G05": 2,
+            "G09": 120,
+            "G11": 120
+          },
+          "candidateWaterfall": [
+            71757,
+            71757,
+            71757,
+            71548,
+            71548,
+            71548,
+            71548,
+            57577,
+            57478,
+            57478,
+            57478
+          ],
+          "missingByPosition": {
+            "DH": {},
+            "RF": {},
+            "2B": {},
+            "3B": {},
+            "C": {},
+            "UNKNOWN": {},
+            "SP": {},
+            "LF": {},
+            "RP": {},
+            "SS": {},
+            "CF": {},
+            "1B": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "MLB",
+      "year": 2026,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 950,
+          "datedCurrentObservationPlayers": 1472,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1470,
+          "draftEligiblePlayers": 950,
+          "draftPositions": {
+            "RP": 286,
+            "P": 424,
+            "C": 73,
+            "LF": 80,
+            "1B": 67,
+            "3B": 81,
+            "2B": 76,
+            "CF": 71,
+            "DH": 73,
+            "SP": 184,
+            "RF": 87,
+            "SS": 54
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56829,
+          "candidatePlayers": 966,
+          "candidatePlayerSeasons": 966,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 15468,
+            "G10": 15468,
+            "G04": 217,
+            "G05": 2,
+            "G09": 58,
+            "G11": 58
+          },
+          "candidateWaterfall": [
+            72510,
+            72510,
+            72510,
+            72293,
+            72293,
+            72293,
+            72293,
+            56876,
+            56829,
+            56829,
+            56829
+          ],
+          "missingByPosition": {
+            "SS": {},
+            "RP": {},
+            "C": {},
+            "SP": {},
+            "DH": {},
+            "LF": {},
+            "3B": {},
+            "1B": {},
+            "UNKNOWN": {},
+            "2B": {},
+            "RF": {},
+            "CF": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 950,
+          "datedCurrentObservationPlayers": 1472,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1470,
+          "draftEligiblePlayers": 950,
+          "draftPositions": {
+            "RP": 286,
+            "P": 424,
+            "C": 73,
+            "LF": 80,
+            "1B": 67,
+            "3B": 81,
+            "2B": 76,
+            "CF": 71,
+            "DH": 73,
+            "SP": 184,
+            "RF": 87,
+            "SS": 54
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 56829,
+          "candidatePlayers": 966,
+          "candidatePlayerSeasons": 966,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 15468,
+            "G10": 15468,
+            "G04": 217,
+            "G05": 2,
+            "G09": 58,
+            "G11": 58
+          },
+          "candidateWaterfall": [
+            72510,
+            72510,
+            72510,
+            72293,
+            72293,
+            72293,
+            72293,
+            56876,
+            56829,
+            56829,
+            56829
+          ],
+          "missingByPosition": {
+            "SS": {},
+            "RP": {},
+            "C": {},
+            "SP": {},
+            "DH": {},
+            "LF": {},
+            "3B": {},
+            "1B": {},
+            "UNKNOWN": {},
+            "2B": {},
+            "RF": {},
+            "CF": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2016,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 486,
+          "familyEvidencePlayers": 387,
+          "estimatedEvidencePlayers": 84,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 0,
+          "candidatePlayers": 0,
+          "candidatePlayerSeasons": 0,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 26139,
+            "G10": 26139,
+            "G04": 1,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26139,
+            26139,
+            26139,
+            26138,
+            26137,
+            26137,
+            26137,
+            0,
+            0,
+            0,
+            0
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 486,
+          "familyEvidencePlayers": 387,
+          "estimatedEvidencePlayers": 84,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 0,
+          "candidatePlayers": 0,
+          "candidatePlayerSeasons": 0,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 26139,
+            "G10": 26139,
+            "G04": 1,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26139,
+            26139,
+            26139,
+            26138,
+            26137,
+            26137,
+            26137,
+            0,
+            0,
+            0,
+            0
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2017,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 446,
+          "datedCurrentObservationPlayers": 540,
+          "familyEvidencePlayers": 431,
+          "estimatedEvidencePlayers": 94,
+          "draftDiscoveredPlayers": 486,
+          "draftEligiblePlayers": 446,
+          "draftPositions": {
+            "PF": 225,
+            "SF": 225,
+            "PG": 205,
+            "SG": 205,
+            "C": 93
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 21447,
+          "candidatePlayers": 382,
+          "candidatePlayerSeasons": 382,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 4658,
+            "G10": 4658,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26107,
+            26107,
+            26107,
+            26104,
+            26104,
+            26104,
+            26104,
+            21447,
+            21447,
+            21447,
+            21447
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "PG": {},
+            "SF": {},
+            "SG": {},
+            "C": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 485,
+          "datedCurrentObservationPlayers": 540,
+          "familyEvidencePlayers": 431,
+          "estimatedEvidencePlayers": 94,
+          "draftDiscoveredPlayers": 486,
+          "draftEligiblePlayers": 485,
+          "draftPositions": {
+            "PF": 237,
+            "SF": 234,
+            "PG": 219,
+            "SG": 218,
+            "C": 104
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 21732,
+          "candidatePlayers": 392,
+          "candidatePlayerSeasons": 392,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 4372,
+            "G10": 4372,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26107,
+            26107,
+            26107,
+            26104,
+            26104,
+            26104,
+            26104,
+            21732,
+            21732,
+            21732,
+            21732
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "PG": {},
+            "SF": {},
+            "SG": {},
+            "C": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2018,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 492,
+          "datedCurrentObservationPlayers": 530,
+          "familyEvidencePlayers": 424,
+          "estimatedEvidencePlayers": 122,
+          "draftDiscoveredPlayers": 540,
+          "draftEligiblePlayers": 492,
+          "draftPositions": {
+            "PF": 243,
+            "PG": 246,
+            "SF": 243,
+            "SG": 246,
+            "C": 112
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22347,
+          "candidatePlayers": 401,
+          "candidatePlayerSeasons": 401,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3752,
+            "G10": 3752,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26101,
+            26101,
+            26101,
+            26098,
+            26098,
+            26098,
+            26098,
+            22347,
+            22347,
+            22347,
+            22347
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 538,
+          "datedCurrentObservationPlayers": 530,
+          "familyEvidencePlayers": 424,
+          "estimatedEvidencePlayers": 122,
+          "draftDiscoveredPlayers": 540,
+          "draftEligiblePlayers": 538,
+          "draftPositions": {
+            "PF": 263,
+            "PG": 259,
+            "SF": 256,
+            "SG": 263,
+            "C": 125
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22648,
+          "candidatePlayers": 412,
+          "candidatePlayerSeasons": 412,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3451,
+            "G10": 3451,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26101,
+            26101,
+            26101,
+            26098,
+            26098,
+            26098,
+            26098,
+            22648,
+            22648,
+            22648,
+            22648
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2019,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 479,
+          "datedCurrentObservationPlayers": 529,
+          "familyEvidencePlayers": 457,
+          "estimatedEvidencePlayers": 92,
+          "draftDiscoveredPlayers": 530,
+          "draftEligiblePlayers": 479,
+          "draftPositions": {
+            "PF": 239,
+            "PG": 231,
+            "SF": 239,
+            "SG": 231,
+            "C": 93
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 18662,
+          "candidatePlayers": 389,
+          "candidatePlayerSeasons": 389,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3731,
+            "G10": 3731,
+            "G05": 1,
+            "G09": 85,
+            "G11": 85
+          },
+          "candidateWaterfall": [
+            22393,
+            22393,
+            22393,
+            22393,
+            22392,
+            22392,
+            22392,
+            18662,
+            18662,
+            18662,
+            18662
+          ],
+          "missingByPosition": {
+            "PG": {},
+            "SG": {},
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 529,
+          "datedCurrentObservationPlayers": 529,
+          "familyEvidencePlayers": 457,
+          "estimatedEvidencePlayers": 92,
+          "draftDiscoveredPlayers": 530,
+          "draftEligiblePlayers": 529,
+          "draftPositions": {
+            "PF": 253,
+            "PG": 245,
+            "SF": 258,
+            "SG": 251,
+            "C": 105
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 19036,
+          "candidatePlayers": 400,
+          "candidatePlayerSeasons": 400,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3357,
+            "G10": 3357,
+            "G05": 1,
+            "G09": 85,
+            "G11": 85
+          },
+          "candidateWaterfall": [
+            22393,
+            22393,
+            22393,
+            22393,
+            22392,
+            22392,
+            22392,
+            19036,
+            19036,
+            19036,
+            19036
+          ],
+          "missingByPosition": {
+            "PG": {},
+            "SG": {},
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2020,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 488,
+          "datedCurrentObservationPlayers": 540,
+          "familyEvidencePlayers": 457,
+          "estimatedEvidencePlayers": 114,
+          "draftDiscoveredPlayers": 529,
+          "draftEligiblePlayers": 488,
+          "draftPositions": {
+            "PF": 285,
+            "SF": 285,
+            "PG": 257,
+            "SG": 257,
+            "C": 96
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 19562,
+          "candidatePlayers": 420,
+          "candidatePlayerSeasons": 420,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3492,
+            "G10": 3492
+          },
+          "candidateWaterfall": [
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            19562,
+            19562,
+            19562,
+            19562
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 528,
+          "datedCurrentObservationPlayers": 540,
+          "familyEvidencePlayers": 457,
+          "estimatedEvidencePlayers": 114,
+          "draftDiscoveredPlayers": 529,
+          "draftEligiblePlayers": 528,
+          "draftPositions": {
+            "PF": 294,
+            "SF": 294,
+            "PG": 274,
+            "SG": 270,
+            "C": 107
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 19839,
+          "candidatePlayers": 435,
+          "candidatePlayerSeasons": 435,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3215,
+            "G10": 3215
+          },
+          "candidateWaterfall": [
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            23054,
+            19839,
+            19839,
+            19839,
+            19839
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2021,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 492,
+          "datedCurrentObservationPlayers": 605,
+          "familyEvidencePlayers": 452,
+          "estimatedEvidencePlayers": 188,
+          "draftDiscoveredPlayers": 540,
+          "draftEligiblePlayers": 492,
+          "draftPositions": {
+            "PG": 257,
+            "SG": 257,
+            "PF": 275,
+            "SF": 275,
+            "C": 99
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22009,
+          "candidatePlayers": 436,
+          "candidatePlayerSeasons": 436,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 4027,
+            "G10": 4027,
+            "G04": 2,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26039,
+            26039,
+            26039,
+            26037,
+            26036,
+            26036,
+            26036,
+            22009,
+            22009,
+            22009,
+            22009
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 536,
+          "datedCurrentObservationPlayers": 605,
+          "familyEvidencePlayers": 452,
+          "estimatedEvidencePlayers": 188,
+          "draftDiscoveredPlayers": 540,
+          "draftEligiblePlayers": 536,
+          "draftPositions": {
+            "PG": 269,
+            "SG": 267,
+            "PF": 290,
+            "SF": 287,
+            "C": 118
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22328,
+          "candidatePlayers": 450,
+          "candidatePlayerSeasons": 450,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3708,
+            "G10": 3708,
+            "G04": 2,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26039,
+            26039,
+            26039,
+            26037,
+            26036,
+            26036,
+            26036,
+            22328,
+            22328,
+            22328,
+            22328
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 487,
+          "datedCurrentObservationPlayers": 539,
+          "familyEvidencePlayers": 449,
+          "estimatedEvidencePlayers": 109,
+          "draftDiscoveredPlayers": 605,
+          "draftEligiblePlayers": 487,
+          "draftPositions": {
+            "PF": 259,
+            "SF": 259,
+            "PG": 258,
+            "SG": 258,
+            "C": 95
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 21928,
+          "candidatePlayers": 406,
+          "candidatePlayerSeasons": 406,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3964,
+            "G10": 3964,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            25894,
+            25894,
+            25894,
+            25892,
+            25892,
+            25892,
+            25892,
+            21928,
+            21928,
+            21928,
+            21928
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 604,
+          "datedCurrentObservationPlayers": 539,
+          "familyEvidencePlayers": 449,
+          "estimatedEvidencePlayers": 109,
+          "draftDiscoveredPlayers": 605,
+          "draftEligiblePlayers": 604,
+          "draftPositions": {
+            "PF": 297,
+            "SF": 302,
+            "PG": 294,
+            "SG": 302,
+            "C": 128
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22637,
+          "candidatePlayers": 433,
+          "candidatePlayerSeasons": 433,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3255,
+            "G10": 3255,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            25894,
+            25894,
+            25894,
+            25892,
+            25892,
+            25892,
+            25892,
+            22637,
+            22637,
+            22637,
+            22637
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 492,
+          "datedCurrentObservationPlayers": 572,
+          "familyEvidencePlayers": 478,
+          "estimatedEvidencePlayers": 118,
+          "draftDiscoveredPlayers": 539,
+          "draftEligiblePlayers": 492,
+          "draftPositions": {
+            "PF": 258,
+            "PG": 248,
+            "SF": 258,
+            "SG": 248,
+            "C": 99
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22850,
+          "candidatePlayers": 437,
+          "candidatePlayerSeasons": 437,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3549,
+            "G10": 3549,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26401,
+            26401,
+            26401,
+            26399,
+            26399,
+            26399,
+            26399,
+            22850,
+            22850,
+            22850,
+            22850
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "SG": {},
+            "PG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 538,
+          "datedCurrentObservationPlayers": 572,
+          "familyEvidencePlayers": 478,
+          "estimatedEvidencePlayers": 118,
+          "draftDiscoveredPlayers": 539,
+          "draftEligiblePlayers": 538,
+          "draftPositions": {
+            "PF": 276,
+            "PG": 263,
+            "SF": 277,
+            "SG": 263,
+            "C": 111
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 23051,
+          "candidatePlayers": 450,
+          "candidatePlayerSeasons": 450,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3348,
+            "G10": 3348,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26401,
+            26401,
+            26401,
+            26399,
+            26399,
+            26399,
+            26399,
+            23051,
+            23051,
+            23051,
+            23051
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "SG": {},
+            "PG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2024,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 522,
+          "datedCurrentObservationPlayers": 569,
+          "familyEvidencePlayers": 474,
+          "estimatedEvidencePlayers": 113,
+          "draftDiscoveredPlayers": 572,
+          "draftEligiblePlayers": 522,
+          "draftPositions": {
+            "C": 96,
+            "PF": 275,
+            "SF": 275,
+            "PG": 257,
+            "SG": 257
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22467,
+          "candidatePlayers": 439,
+          "candidatePlayerSeasons": 439,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3837,
+            "G10": 3837,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26306,
+            26306,
+            26306,
+            26303,
+            26303,
+            26303,
+            26303,
+            22467,
+            22467,
+            22467,
+            22467
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 569,
+          "datedCurrentObservationPlayers": 569,
+          "familyEvidencePlayers": 474,
+          "estimatedEvidencePlayers": 113,
+          "draftDiscoveredPlayers": 572,
+          "draftEligiblePlayers": 569,
+          "draftPositions": {
+            "C": 102,
+            "PF": 290,
+            "SF": 291,
+            "PG": 277,
+            "SG": 280
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22565,
+          "candidatePlayers": 447,
+          "candidatePlayerSeasons": 447,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3739,
+            "G10": 3739,
+            "G04": 3,
+            "G05": 3
+          },
+          "candidateWaterfall": [
+            26306,
+            26306,
+            26306,
+            26303,
+            26303,
+            26303,
+            26303,
+            22565,
+            22565,
+            22565,
+            22565
+          ],
+          "missingByPosition": {
+            "C": {},
+            "PF": {},
+            "SF": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2025,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 522,
+          "datedCurrentObservationPlayers": 582,
+          "familyEvidencePlayers": 464,
+          "estimatedEvidencePlayers": 120,
+          "draftDiscoveredPlayers": 569,
+          "draftEligiblePlayers": 522,
+          "draftPositions": {
+            "PF": 263,
+            "PG": 260,
+            "SF": 263,
+            "SG": 260,
+            "C": 97
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22520,
+          "candidatePlayers": 451,
+          "candidatePlayerSeasons": 451,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 4129,
+            "G10": 4129,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26651,
+            26651,
+            26651,
+            26649,
+            26649,
+            26649,
+            26649,
+            22520,
+            22520,
+            22520,
+            22520
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 566,
+          "datedCurrentObservationPlayers": 582,
+          "familyEvidencePlayers": 464,
+          "estimatedEvidencePlayers": 120,
+          "draftDiscoveredPlayers": 569,
+          "draftEligiblePlayers": 566,
+          "draftPositions": {
+            "PF": 275,
+            "PG": 276,
+            "SF": 279,
+            "SG": 278,
+            "C": 111
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 22921,
+          "candidatePlayers": 463,
+          "candidatePlayerSeasons": 463,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 3728,
+            "G10": 3728,
+            "G04": 2,
+            "G05": 2
+          },
+          "candidateWaterfall": [
+            26651,
+            26651,
+            26651,
+            26649,
+            26649,
+            26649,
+            26649,
+            22921,
+            22921,
+            22921,
+            22921
+          ],
+          "missingByPosition": {
+            "PF": {},
+            "SF": {},
+            "C": {},
+            "PG": {},
+            "SG": {},
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NBA",
+      "year": 2026,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 521,
+          "datedCurrentObservationPlayers": 474,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 582,
+          "draftEligiblePlayers": 521,
+          "draftPositions": {
+            "C": 101,
+            "PG": 260,
+            "SG": 260,
+            "PF": 253,
+            "SF": 253
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 4752,
+          "candidatePlayers": 404,
+          "candidatePlayerSeasons": 404,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 662,
+            "G10": 662
+          },
+          "candidateWaterfall": [
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            4752,
+            4752,
+            4752,
+            4752
+          ],
+          "missingByPosition": {
+            "UNKNOWN": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 578,
+          "datedCurrentObservationPlayers": 474,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 582,
+          "draftEligiblePlayers": 578,
+          "draftPositions": {
+            "C": 116,
+            "PG": 278,
+            "SG": 282,
+            "PF": 272,
+            "SF": 285
+          },
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 4795,
+          "candidatePlayers": 409,
+          "candidatePlayerSeasons": 409,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 619,
+            "G10": 619
+          },
+          "candidateWaterfall": [
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            5414,
+            4795,
+            4795,
+            4795,
+            4795
+          ],
+          "missingByPosition": {
+            "UNKNOWN": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 999,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 45363,
+          "candidatePlayers": 923,
+          "candidatePlayerSeasons": 923,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 1326,
+            "G10": 1326,
+            "G04": 2266,
+            "G05": 2266,
+            "G06": 350
+          },
+          "candidateWaterfall": [
+            49197,
+            49197,
+            49197,
+            46931,
+            46931,
+            46581,
+            46581,
+            45363,
+            45363,
+            45363,
+            45363
+          ],
+          "missingByPosition": {
+            "RW": {
+              "faceoff_wins": 8,
+              "shorthanded_points_bonus": 23
+            },
+            "G": {
+              "shutout": 242
+            },
+            "C": {
+              "faceoff_wins": 9,
+              "shorthanded_points_bonus": 34
+            },
+            "LW": {
+              "faceoff_wins": 7,
+              "shorthanded_points_bonus": 15
+            },
+            "D": {
+              "faceoff_wins": 12,
+              "shorthanded_points_bonus": 36
+            }
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 0,
+          "datedCurrentObservationPlayers": 999,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 0,
+          "draftEligiblePlayers": 0,
+          "draftPositions": {},
+          "modeledPriorPlayers": 0,
+          "candidateLagRowsNotPrimaryAccepted": 45363,
+          "candidatePlayers": 923,
+          "candidatePlayerSeasons": 923,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 1326,
+            "G10": 1326,
+            "G04": 2266,
+            "G05": 2266,
+            "G06": 350
+          },
+          "candidateWaterfall": [
+            49197,
+            49197,
+            49197,
+            46931,
+            46931,
+            46581,
+            46581,
+            45363,
+            45363,
+            45363,
+            45363
+          ],
+          "missingByPosition": {
+            "RW": {
+              "faceoff_wins": 8,
+              "shorthanded_points_bonus": 23
+            },
+            "G": {
+              "shutout": 242
+            },
+            "C": {
+              "faceoff_wins": 9,
+              "shorthanded_points_bonus": 34
+            },
+            "LW": {
+              "faceoff_wins": 7,
+              "shorthanded_points_bonus": 15
+            },
+            "D": {
+              "faceoff_wins": 12,
+              "shorthanded_points_bonus": 36
+            }
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 999,
+          "datedCurrentObservationPlayers": 1005,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 999,
+          "draftEligiblePlayers": 999,
+          "draftPositions": {
+            "LW": 169,
+            "RW": 157,
+            "C": 264,
+            "D": 298,
+            "G": 111
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 48035,
+          "candidatePlayers": 955,
+          "candidatePlayerSeasons": 955,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2324,
+            "G05": 2325,
+            "G08": 218,
+            "G10": 218,
+            "G06": 290
+          },
+          "candidateWaterfall": [
+            50840,
+            50840,
+            50840,
+            48516,
+            48515,
+            48225,
+            48225,
+            48035,
+            48035,
+            48035,
+            48035
+          ],
+          "missingByPosition": {
+            "C": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "G": {
+              "shutout": 217,
+              "goalie_win": 1
+            },
+            "RW": {
+              "faceoff_wins": 13,
+              "shorthanded_points_bonus": 13
+            },
+            "LW": {
+              "faceoff_wins": 11,
+              "shorthanded_points_bonus": 11
+            }
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 999,
+          "datedCurrentObservationPlayers": 1005,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 999,
+          "draftEligiblePlayers": 999,
+          "draftPositions": {
+            "LW": 169,
+            "RW": 157,
+            "C": 264,
+            "D": 298,
+            "G": 111
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 48035,
+          "candidatePlayers": 955,
+          "candidatePlayerSeasons": 955,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2324,
+            "G05": 2325,
+            "G08": 218,
+            "G10": 218,
+            "G06": 290
+          },
+          "candidateWaterfall": [
+            50840,
+            50840,
+            50840,
+            48516,
+            48515,
+            48225,
+            48225,
+            48035,
+            48035,
+            48035,
+            48035
+          ],
+          "missingByPosition": {
+            "C": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "G": {
+              "shutout": 217,
+              "goalie_win": 1
+            },
+            "RW": {
+              "faceoff_wins": 13,
+              "shorthanded_points_bonus": 13
+            },
+            "LW": {
+              "faceoff_wins": 11,
+              "shorthanded_points_bonus": 11
+            }
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1005,
+          "datedCurrentObservationPlayers": 1024,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1005,
+          "draftEligiblePlayers": 1005,
+          "draftPositions": {
+            "LW": 173,
+            "C": 270,
+            "RW": 142,
+            "D": 305,
+            "G": 115
+          },
+          "modeledPriorPlayers": 23,
+          "candidateLagRowsNotPrimaryAccepted": 47990,
+          "candidatePlayers": 977,
+          "candidatePlayerSeasons": 977,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2365,
+            "G05": 2365,
+            "G08": 232,
+            "G10": 232,
+            "G06": 282
+          },
+          "candidateWaterfall": [
+            50840,
+            50840,
+            50840,
+            48475,
+            48475,
+            48193,
+            48193,
+            47990,
+            47990,
+            47990,
+            47990
+          ],
+          "missingByPosition": {
+            "C": {
+              "faceoff_wins": 21,
+              "shorthanded_points_bonus": 21
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "G": {
+              "shutout": 210
+            },
+            "LW": {
+              "faceoff_wins": 16,
+              "shorthanded_points_bonus": 16
+            },
+            "RW": {
+              "faceoff_wins": 11,
+              "shorthanded_points_bonus": 11
+            }
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1005,
+          "datedCurrentObservationPlayers": 1024,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1005,
+          "draftEligiblePlayers": 1005,
+          "draftPositions": {
+            "LW": 173,
+            "C": 270,
+            "RW": 142,
+            "D": 305,
+            "G": 115
+          },
+          "modeledPriorPlayers": 23,
+          "candidateLagRowsNotPrimaryAccepted": 47990,
+          "candidatePlayers": 977,
+          "candidatePlayerSeasons": 977,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2365,
+            "G05": 2365,
+            "G08": 232,
+            "G10": 232,
+            "G06": 282
+          },
+          "candidateWaterfall": [
+            50840,
+            50840,
+            50840,
+            48475,
+            48475,
+            48193,
+            48193,
+            47990,
+            47990,
+            47990,
+            47990
+          ],
+          "missingByPosition": {
+            "C": {
+              "faceoff_wins": 21,
+              "shorthanded_points_bonus": 21
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 24
+            },
+            "G": {
+              "shutout": 210
+            },
+            "LW": {
+              "faceoff_wins": 16,
+              "shorthanded_points_bonus": 16
+            },
+            "RW": {
+              "faceoff_wins": 11,
+              "shorthanded_points_bonus": 11
+            }
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1024,
+          "datedCurrentObservationPlayers": 983,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1024,
+          "draftEligiblePlayers": 1024,
+          "draftPositions": {
+            "RW": 139,
+            "C": 272,
+            "LW": 171,
+            "D": 324,
+            "G": 118
+          },
+          "modeledPriorPlayers": 25,
+          "candidateLagRowsNotPrimaryAccepted": 40792,
+          "candidatePlayers": 957,
+          "candidatePlayerSeasons": 957,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2024,
+            "G05": 2025,
+            "G08": 213,
+            "G10": 213,
+            "G06": 270
+          },
+          "candidateWaterfall": [
+            43280,
+            43280,
+            43280,
+            41256,
+            41255,
+            40985,
+            40985,
+            40792,
+            40792,
+            40792,
+            40792
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 161,
+              "goalie_win": 2
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 36
+            },
+            "RW": {
+              "faceoff_wins": 16,
+              "shorthanded_points_bonus": 20
+            },
+            "C": {
+              "faceoff_wins": 18,
+              "shorthanded_points_bonus": 26
+            },
+            "LW": {
+              "faceoff_wins": 14,
+              "shorthanded_points_bonus": 26
+            }
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1024,
+          "datedCurrentObservationPlayers": 983,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1024,
+          "draftEligiblePlayers": 1024,
+          "draftPositions": {
+            "RW": 139,
+            "C": 272,
+            "LW": 171,
+            "D": 324,
+            "G": 118
+          },
+          "modeledPriorPlayers": 25,
+          "candidateLagRowsNotPrimaryAccepted": 40792,
+          "candidatePlayers": 957,
+          "candidatePlayerSeasons": 957,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2024,
+            "G05": 2025,
+            "G08": 213,
+            "G10": 213,
+            "G06": 270
+          },
+          "candidateWaterfall": [
+            43280,
+            43280,
+            43280,
+            41256,
+            41255,
+            40985,
+            40985,
+            40792,
+            40792,
+            40792,
+            40792
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 161,
+              "goalie_win": 2
+            },
+            "D": {
+              "faceoff_wins": 24,
+              "shorthanded_points_bonus": 36
+            },
+            "RW": {
+              "faceoff_wins": 16,
+              "shorthanded_points_bonus": 20
+            },
+            "C": {
+              "faceoff_wins": 18,
+              "shorthanded_points_bonus": 26
+            },
+            "LW": {
+              "faceoff_wins": 14,
+              "shorthanded_points_bonus": 26
+            }
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 983,
+          "datedCurrentObservationPlayers": 1032,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 983,
+          "draftEligiblePlayers": 983,
+          "draftPositions": {
+            "LW": 166,
+            "RW": 131,
+            "C": 284,
+            "D": 302,
+            "G": 100
+          },
+          "modeledPriorPlayers": 13,
+          "candidateLagRowsNotPrimaryAccepted": 32681,
+          "candidatePlayers": 982,
+          "candidatePlayerSeasons": 982,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 1622,
+            "G05": 1622,
+            "G08": 275,
+            "G10": 275,
+            "G06": 161
+          },
+          "candidateWaterfall": [
+            34700,
+            34700,
+            34700,
+            33078,
+            33078,
+            32917,
+            32917,
+            32681,
+            32681,
+            32681,
+            32681
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 161
+            },
+            "C": {},
+            "D": {},
+            "RW": {},
+            "LW": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 983,
+          "datedCurrentObservationPlayers": 1032,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 983,
+          "draftEligiblePlayers": 983,
+          "draftPositions": {
+            "LW": 166,
+            "RW": 131,
+            "C": 284,
+            "D": 302,
+            "G": 100
+          },
+          "modeledPriorPlayers": 13,
+          "candidateLagRowsNotPrimaryAccepted": 32681,
+          "candidatePlayers": 982,
+          "candidatePlayerSeasons": 982,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 1622,
+            "G05": 1622,
+            "G08": 275,
+            "G10": 275,
+            "G06": 161
+          },
+          "candidateWaterfall": [
+            34700,
+            34700,
+            34700,
+            33078,
+            33078,
+            32917,
+            32917,
+            32681,
+            32681,
+            32681,
+            32681
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 161
+            },
+            "C": {},
+            "D": {},
+            "RW": {},
+            "LW": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1032,
+          "datedCurrentObservationPlayers": 1147,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1032,
+          "draftEligiblePlayers": 1032,
+          "draftPositions": {
+            "C": 292,
+            "LW": 167,
+            "RW": 139,
+            "D": 315,
+            "G": 119
+          },
+          "modeledPriorPlayers": 24,
+          "candidateLagRowsNotPrimaryAccepted": 49559,
+          "candidatePlayers": 1086,
+          "candidatePlayerSeasons": 1086,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 312,
+            "G10": 312,
+            "G04": 2434,
+            "G05": 2434,
+            "G06": 201
+          },
+          "candidateWaterfall": [
+            52460,
+            52460,
+            52460,
+            50026,
+            50026,
+            49825,
+            49825,
+            49559,
+            49559,
+            49559,
+            49559
+          ],
+          "missingByPosition": {
+            "C": {},
+            "RW": {},
+            "G": {
+              "shutout": 200,
+              "goalie_win": 2
+            },
+            "D": {},
+            "LW": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1032,
+          "datedCurrentObservationPlayers": 1147,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1032,
+          "draftEligiblePlayers": 1032,
+          "draftPositions": {
+            "C": 292,
+            "LW": 167,
+            "RW": 139,
+            "D": 315,
+            "G": 119
+          },
+          "modeledPriorPlayers": 24,
+          "candidateLagRowsNotPrimaryAccepted": 49559,
+          "candidatePlayers": 1086,
+          "candidatePlayerSeasons": 1086,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G08": 312,
+            "G10": 312,
+            "G04": 2434,
+            "G05": 2434,
+            "G06": 201
+          },
+          "candidateWaterfall": [
+            52460,
+            52460,
+            52460,
+            50026,
+            50026,
+            49825,
+            49825,
+            49559,
+            49559,
+            49559,
+            49559
+          ],
+          "missingByPosition": {
+            "C": {},
+            "RW": {},
+            "G": {
+              "shutout": 200,
+              "goalie_win": 2
+            },
+            "D": {},
+            "LW": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1147,
+          "datedCurrentObservationPlayers": 1077,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1147,
+          "draftEligiblePlayers": 1147,
+          "draftPositions": {
+            "C": 314,
+            "LW": 191,
+            "RW": 156,
+            "D": 343,
+            "G": 143
+          },
+          "modeledPriorPlayers": 24,
+          "candidateLagRowsNotPrimaryAccepted": 49627,
+          "candidatePlayers": 1029,
+          "candidatePlayerSeasons": 1029,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2467,
+            "G05": 2467,
+            "G08": 213,
+            "G10": 213,
+            "G06": 179
+          },
+          "candidateWaterfall": [
+            52460,
+            52460,
+            52460,
+            49993,
+            49993,
+            49814,
+            49814,
+            49627,
+            49627,
+            49627,
+            49627
+          ],
+          "missingByPosition": {
+            "D": {},
+            "G": {
+              "shutout": 179
+            },
+            "C": {},
+            "RW": {},
+            "LW": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1147,
+          "datedCurrentObservationPlayers": 1077,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1147,
+          "draftEligiblePlayers": 1147,
+          "draftPositions": {
+            "C": 314,
+            "LW": 191,
+            "RW": 156,
+            "D": 343,
+            "G": 143
+          },
+          "modeledPriorPlayers": 24,
+          "candidateLagRowsNotPrimaryAccepted": 49627,
+          "candidatePlayers": 1029,
+          "candidatePlayerSeasons": 1029,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2467,
+            "G05": 2467,
+            "G08": 213,
+            "G10": 213,
+            "G06": 179
+          },
+          "candidateWaterfall": [
+            52460,
+            52460,
+            52460,
+            49993,
+            49993,
+            49814,
+            49814,
+            49627,
+            49627,
+            49627,
+            49627
+          ],
+          "missingByPosition": {
+            "D": {},
+            "G": {
+              "shutout": 179
+            },
+            "C": {},
+            "RW": {},
+            "LW": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1077,
+          "datedCurrentObservationPlayers": 1041,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1077,
+          "draftEligiblePlayers": 1077,
+          "draftPositions": {
+            "C": 290,
+            "LW": 186,
+            "RW": 142,
+            "D": 333,
+            "G": 126
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 49641,
+          "candidatePlayers": 984,
+          "candidatePlayerSeasons": 984,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2450,
+            "G05": 2450,
+            "G08": 203,
+            "G10": 203,
+            "G06": 200
+          },
+          "candidateWaterfall": [
+            52468,
+            52468,
+            52468,
+            50018,
+            50018,
+            49818,
+            49818,
+            49641,
+            49641,
+            49641,
+            49641
+          ],
+          "missingByPosition": {
+            "D": {},
+            "C": {},
+            "RW": {},
+            "LW": {},
+            "G": {
+              "shutout": 200
+            }
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1077,
+          "datedCurrentObservationPlayers": 1041,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1077,
+          "draftEligiblePlayers": 1077,
+          "draftPositions": {
+            "C": 290,
+            "LW": 186,
+            "RW": 142,
+            "D": 333,
+            "G": 126
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 49641,
+          "candidatePlayers": 984,
+          "candidatePlayerSeasons": 984,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2450,
+            "G05": 2450,
+            "G08": 203,
+            "G10": 203,
+            "G06": 200
+          },
+          "candidateWaterfall": [
+            52468,
+            52468,
+            52468,
+            50018,
+            50018,
+            49818,
+            49818,
+            49641,
+            49641,
+            49641,
+            49641
+          ],
+          "missingByPosition": {
+            "D": {},
+            "C": {},
+            "RW": {},
+            "LW": {},
+            "G": {
+              "shutout": 200
+            }
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1041,
+          "datedCurrentObservationPlayers": 1041,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1041,
+          "draftEligiblePlayers": 1041,
+          "draftPositions": {
+            "C": 286,
+            "LW": 179,
+            "RW": 144,
+            "D": 315,
+            "G": 117
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 49598,
+          "candidatePlayers": 991,
+          "candidatePlayerSeasons": 991,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2485,
+            "G05": 2485,
+            "G08": 208,
+            "G10": 208,
+            "G06": 206
+          },
+          "candidateWaterfall": [
+            52473,
+            52473,
+            52473,
+            49988,
+            49988,
+            49782,
+            49782,
+            49598,
+            49598,
+            49598,
+            49598
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 206
+            },
+            "LW": {},
+            "D": {},
+            "RW": {},
+            "C": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1041,
+          "datedCurrentObservationPlayers": 1041,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1041,
+          "draftEligiblePlayers": 1041,
+          "draftPositions": {
+            "C": 286,
+            "LW": 179,
+            "RW": 144,
+            "D": 315,
+            "G": 117
+          },
+          "modeledPriorPlayers": 21,
+          "candidateLagRowsNotPrimaryAccepted": 49598,
+          "candidatePlayers": 991,
+          "candidatePlayerSeasons": 991,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2485,
+            "G05": 2485,
+            "G08": 208,
+            "G10": 208,
+            "G06": 206
+          },
+          "candidateWaterfall": [
+            52473,
+            52473,
+            52473,
+            49988,
+            49988,
+            49782,
+            49782,
+            49598,
+            49598,
+            49598,
+            49598
+          ],
+          "missingByPosition": {
+            "G": {
+              "shutout": 206
+            },
+            "LW": {},
+            "D": {},
+            "RW": {},
+            "C": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1041,
+          "datedCurrentObservationPlayers": 1063,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1041,
+          "draftEligiblePlayers": 1041,
+          "draftPositions": {
+            "RW": 147,
+            "C": 290,
+            "LW": 164,
+            "D": 319,
+            "G": 121
+          },
+          "modeledPriorPlayers": 19,
+          "candidateLagRowsNotPrimaryAccepted": 49637,
+          "candidatePlayers": 1017,
+          "candidatePlayerSeasons": 1017,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2480,
+            "G05": 2480,
+            "G06": 163,
+            "G08": 227,
+            "G10": 227
+          },
+          "candidateWaterfall": [
+            52478,
+            52478,
+            52478,
+            49998,
+            49998,
+            49835,
+            49835,
+            49637,
+            49637,
+            49637,
+            49637
+          ],
+          "missingByPosition": {
+            "LW": {},
+            "D": {},
+            "G": {
+              "shutout": 163
+            },
+            "C": {},
+            "RW": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1041,
+          "datedCurrentObservationPlayers": 1063,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1041,
+          "draftEligiblePlayers": 1041,
+          "draftPositions": {
+            "RW": 147,
+            "C": 290,
+            "LW": 164,
+            "D": 319,
+            "G": 121
+          },
+          "modeledPriorPlayers": 19,
+          "candidateLagRowsNotPrimaryAccepted": 49637,
+          "candidatePlayers": 1017,
+          "candidatePlayerSeasons": 1017,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G04": 2480,
+            "G05": 2480,
+            "G06": 163,
+            "G08": 227,
+            "G10": 227
+          },
+          "candidateWaterfall": [
+            52478,
+            52478,
+            52478,
+            49998,
+            49998,
+            49835,
+            49835,
+            49637,
+            49637,
+            49637,
+            49637
+          ],
+          "missingByPosition": {
+            "LW": {},
+            "D": {},
+            "G": {
+              "shutout": 163
+            },
+            "C": {},
+            "RW": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "models": {
+        "DATED_CARRY": {
+          "priorCarryPlayers": 1063,
+          "datedCurrentObservationPlayers": 872,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1063,
+          "draftEligiblePlayers": 1063,
+          "draftPositions": {
+            "C": 298,
+            "LW": 165,
+            "RW": 152,
+            "D": 325,
+            "G": 123
+          },
+          "modeledPriorPlayers": 26,
+          "candidateLagRowsNotPrimaryAccepted": 14103,
+          "candidatePlayers": 858,
+          "candidatePlayerSeasons": 858,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G06": 40,
+            "G08": 77,
+            "G10": 77,
+            "G04": 707,
+            "G05": 707
+          },
+          "candidateWaterfall": [
+            14920,
+            14920,
+            14920,
+            14213,
+            14213,
+            14173,
+            14173,
+            14103,
+            14103,
+            14103,
+            14103
+          ],
+          "missingByPosition": {
+            "C": {},
+            "G": {
+              "shutout": 40
+            },
+            "D": {},
+            "LW": {},
+            "RW": {}
+          }
+        },
+        "PRIOR_ESTIMATE": {
+          "priorCarryPlayers": 1063,
+          "datedCurrentObservationPlayers": 872,
+          "familyEvidencePlayers": 0,
+          "estimatedEvidencePlayers": 0,
+          "draftDiscoveredPlayers": 1063,
+          "draftEligiblePlayers": 1063,
+          "draftPositions": {
+            "C": 298,
+            "LW": 165,
+            "RW": 152,
+            "D": 325,
+            "G": 123
+          },
+          "modeledPriorPlayers": 26,
+          "candidateLagRowsNotPrimaryAccepted": 14103,
+          "candidatePlayers": 858,
+          "candidatePlayerSeasons": 858,
+          "primaryApprovedRows": 0,
+          "primaryExclusion": "No verified completion UTC days; schedule-known chronology and closed inventory not retained",
+          "independentFailures": {
+            "G06": 40,
+            "G08": 77,
+            "G10": 77,
+            "G04": 707,
+            "G05": 707
+          },
+          "candidateWaterfall": [
+            14920,
+            14920,
+            14920,
+            14213,
+            14213,
+            14173,
+            14173,
+            14103,
+            14103,
+            14103,
+            14103
+          ],
+          "missingByPosition": {
+            "C": {},
+            "G": {
+              "shutout": 40
+            },
+            "D": {},
+            "LW": {},
+            "RW": {}
+          }
+        }
+      },
+      "strictRows": 0,
+      "availabilityEvidence": "UNKNOWN",
+      "irEvents": 0,
+      "firstDiscoveryDelayed": true,
+      "continuity": "Last supported observed team until superseded; stale intervals unbounded without transactions"
+    }
+  ],
+  "officialPublicationPopulated": false
+}

@@ -20,6 +20,7 @@ const positions = z.discriminatedUnion("kind", [
 ]);
 
 const snapshot = z.object({
+  decisionModel:z.object({participation:z.literal("PRIOR_ONLY"),availabilityEvidence:z.literal("UNKNOWN"),informationModel:z.enum(["TWO_DAY","WEEKLY"]),positionModel:z.enum(["DATED_CARRY","PRIOR_ESTIMATE"])}).optional(),
   sport: z.enum(Sport),
   year,
   label: id,

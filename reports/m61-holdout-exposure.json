@@ -1,0 +1,31 @@
+{
+  "version": "m61-holdout-exposure-1",
+  "season2025GenuinelyUntouched": false,
+  "evidence": [
+    {
+      "path": "fantasy_evolution_codex_v9_website_md/16_MULTISEASON_RESULTS_AND_POSITION_SCORES.md",
+      "sha256": "eb391436e061ebf1242592ab7136e99f1667fe9bf4081d5a6a74680db5d78913",
+      "prior2025Exposure": true,
+      "exposureType": "Published V4 optimal full-season 108-player diagnostic and 2023\u20132025 aggregate"
+    },
+    {
+      "path": "reports/m6-v9-input-diagnostics.json",
+      "sha256": "b0f49b64029e4ff9f8df77179b2068de008f613e314eb20203aa90082288390d",
+      "prior2025Exposure": true,
+      "exposureType": "Published per-cohort statistics/coverage diagnostics, not V9 drafted league results"
+    },
+    {
+      "path": "reports/m6-simulation-gate-audit.json",
+      "sha256": "ea909deb055b158934c09291a63c7df815d5ed7aa0caebcb48f2e3c2f31a0a1c",
+      "prior2025Exposure": true,
+      "exposureType": "Published per-cohort statistics/coverage diagnostics, not V9 drafted league results"
+    }
+  ],
+  "new2025ScoringCampaigns": 0,
+  "seeds51Through70Executed": false,
+  "policy": "Keep 2025 season campaigns and seeds51\u201370 sealed going forward, but never describe 2025 as historically untouched",
+  "replacementStrategy": "Preregister a prospective complete 2027-starting-year four-sport cycle before optimization; retain exposed 2025 only as a secondary future validation cohort if approved",
+  "prospectiveReplacementAccepted": false,
+  "replacementLimitations": "2027 complete data are future/unavailable; no current independent untouched retrospective season established",
+  "weightTuningRun": false
+}

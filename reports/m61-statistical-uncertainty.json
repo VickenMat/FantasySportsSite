@@ -1,0 +1,3725 @@
+{
+  "version": "m61-statistical-uncertainty-1",
+  "cohorts": [
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "fieldMissingAllRows": {
+        "faceoff_wins": 36,
+        "shorthanded_points_bonus": 108,
+        "shutout": 242
+      },
+      "fieldMissingPlayedRows": {
+        "faceoff_wins": 36,
+        "shorthanded_points_bonus": 108,
+        "shutout": 242
+      },
+      "affectedPlayers": 162,
+      "byPlayer": {
+        "8467875": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8467876": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8468011": {
+          "shutout": 4
+        },
+        "8468674": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470162": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470358": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470626": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470966": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471303": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471346": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471426": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471498": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473432": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473564": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474091": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474150": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474579": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474642": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474673": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474707": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475163": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475690": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475790": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475907": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476279": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476346": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476440": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476462": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476466": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476867": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476967": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477018": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477497": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477500": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477935": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477937": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479314": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475361": {
+          "shutout": 2
+        },
+        "8475831": {
+          "shutout": 5
+        },
+        "8471219": {
+          "shutout": 3
+        },
+        "8469514": {
+          "shutout": 10
+        },
+        "8473575": {
+          "shutout": 1
+        },
+        "8470657": {
+          "shutout": 2
+        },
+        "8477237": {
+          "shutout": 7
+        },
+        "8475683": {
+          "shutout": 7
+        },
+        "8475660": {
+          "shutout": 7
+        },
+        "8471227": {
+          "shutout": 6
+        },
+        "8473461": {
+          "shutout": 4
+        },
+        "8467950": {
+          "shutout": 5
+        },
+        "8474636": {
+          "shutout": 3
+        },
+        "8474682": {
+          "shutout": 1
+        },
+        "8475195": {
+          "shutout": 1
+        },
+        "8471695": {
+          "shutout": 10
+        },
+        "8474596": {
+          "shutout": 5
+        },
+        "8476945": {
+          "shutout": 6
+        },
+        "8470645": {
+          "shutout": 2
+        },
+        "8468685": {
+          "shutout": 3
+        },
+        "8475789": {
+          "shutout": 1
+        },
+        "8476434": {
+          "shutout": 7
+        },
+        "8471679": {
+          "shutout": 3
+        },
+        "8473541": {
+          "shutout": 6
+        },
+        "8475717": {
+          "shutout": 3
+        },
+        "8473523": {
+          "shutout": 1
+        },
+        "8474593": {
+          "shutout": 2
+        },
+        "8476899": {
+          "shutout": 5
+        },
+        "8474889": {
+          "shutout": 2
+        },
+        "8475663": {
+          "shutout": 3
+        },
+        "8473553": {
+          "shutout": 2
+        },
+        "8474152": {
+          "shutout": 4
+        },
+        "8475852": {
+          "shutout": 2
+        },
+        "8473503": {
+          "shutout": 6
+        },
+        "8471469": {
+          "shutout": 3
+        },
+        "8476883": {
+          "shutout": 3
+        },
+        "8470320": {
+          "shutout": 2
+        },
+        "8473434": {
+          "shutout": 4
+        },
+        "8474651": {
+          "shutout": 9
+        },
+        "8475839": {
+          "shutout": 3
+        },
+        "8470860": {
+          "shutout": 2
+        },
+        "8470140": {
+          "shutout": 5
+        },
+        "8477293": {
+          "shutout": 6
+        },
+        "8475234": {
+          "shutout": 3
+        },
+        "8476932": {
+          "shutout": 2
+        },
+        "8475622": {
+          "shutout": 7
+        },
+        "8477202": {
+          "shutout": 2
+        },
+        "8471750": {
+          "shutout": 2
+        },
+        "8471239": {
+          "shutout": 3
+        },
+        "8475883": {
+          "shutout": 4
+        },
+        "8477356": {
+          "shutout": 1
+        },
+        "8470594": {
+          "shutout": 3
+        },
+        "8477424": {
+          "shutout": 1
+        },
+        "8477180": {
+          "shutout": 2
+        },
+        "8479115": {
+          "shutout": 1
+        },
+        "8470147": {
+          "shutout": 2
+        },
+        "8477225": {
+          "shutout": 2
+        },
+        "8466141": {
+          "shutout": 2
+        },
+        "8474550": {
+          "shutout": 1
+        },
+        "8473607": {
+          "shutout": 3
+        },
+        "8471306": {
+          "shutout": 3
+        },
+        "8476433": {
+          "shutout": 1
+        },
+        "8477968": {
+          "shutout": 1
+        },
+        "8476234": {
+          "shutout": 2
+        },
+        "8476914": {
+          "shutout": 2
+        },
+        "8469608": {
+          "shutout": 3
+        },
+        "8475215": {
+          "shutout": 3
+        },
+        "8473499": {
+          "shutout": 2
+        },
+        "8470880": {
+          "shutout": 2
+        },
+        "8471734": {
+          "shutout": 2
+        },
+        "8476316": {
+          "shutout": 2
+        },
+        "8466148": {
+          "shorthanded_points_bonus": 2
+        },
+        "8466285": {
+          "shorthanded_points_bonus": 2
+        },
+        "8468486": {
+          "shorthanded_points_bonus": 1
+        },
+        "8469547": {
+          "shorthanded_points_bonus": 2
+        },
+        "8469665": {
+          "shorthanded_points_bonus": 2
+        },
+        "8470281": {
+          "shorthanded_points_bonus": 2
+        },
+        "8470607": {
+          "shorthanded_points_bonus": 2
+        },
+        "8470724": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471273": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471677": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471769": {
+          "shorthanded_points_bonus": 2
+        },
+        "8473422": {
+          "shorthanded_points_bonus": 1
+        },
+        "8473604": {
+          "shorthanded_points_bonus": 2
+        },
+        "8474040": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474141": {
+          "shorthanded_points_bonus": 2
+        },
+        "8474685": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474715": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475209": {
+          "shorthanded_points_bonus": 2
+        },
+        "8475233": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475323": {
+          "shorthanded_points_bonus": 2
+        },
+        "8476310": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476432": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476438": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476448": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476981": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477401": {
+          "shorthanded_points_bonus": 2
+        },
+        "8477451": {
+          "shorthanded_points_bonus": 2
+        },
+        "8477495": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477505": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477845": {
+          "shorthanded_points_bonus": 2
+        },
+        "8477929": {
+          "shorthanded_points_bonus": 2
+        },
+        "8477951": {
+          "shorthanded_points_bonus": 2
+        },
+        "8478460": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478528": {
+          "shorthanded_points_bonus": 2
+        },
+        "8478550": {
+          "shorthanded_points_bonus": 2
+        },
+        "8478906": {
+          "shorthanded_points_bonus": 1
+        },
+        "8465009": {
+          "shorthanded_points_bonus": 1
+        },
+        "8468575": {
+          "shorthanded_points_bonus": 1
+        },
+        "8470638": {
+          "shorthanded_points_bonus": 1
+        },
+        "8470655": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471226": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471276": {
+          "shorthanded_points_bonus": 1
+        },
+        "8471717": {
+          "shorthanded_points_bonus": 1
+        },
+        "8473419": {
+          "shorthanded_points_bonus": 1
+        },
+        "8473492": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474062": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475727": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476191": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476374": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476525": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476792": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477956": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478443": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478569": {
+          "shorthanded_points_bonus": 1
+        }
+      },
+      "onlyShutoutMissingRows": 242,
+      "shutoutUpperTenths": 45254,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 4920
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "fieldMissingAllRows": {
+        "shutout": 217,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72,
+        "goalie_win": 1
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 217,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72,
+        "goalie_win": 1
+      },
+      "affectedPlayers": 141,
+      "byPlayer": {
+        "8475660": {
+          "shutout": 1
+        },
+        "8471734": {
+          "shutout": 5
+        },
+        "8470860": {
+          "shutout": 2
+        },
+        "8475683": {
+          "shutout": 5
+        },
+        "8471750": {
+          "shutout": 9
+        },
+        "8476899": {
+          "shutout": 3
+        },
+        "8476316": {
+          "shutout": 1
+        },
+        "8477180": {
+          "shutout": 5
+        },
+        "8468685": {
+          "shutout": 2
+        },
+        "8473575": {
+          "shutout": 5
+        },
+        "8475215": {
+          "shutout": 4
+        },
+        "8469608": {
+          "shutout": 3
+        },
+        "8471418": {
+          "shutout": 2
+        },
+        "8477293": {
+          "shutout": 6
+        },
+        "8467950": {
+          "shutout": 4
+        },
+        "8475883": {
+          "shutout": 5,
+          "goalie_win": 1
+        },
+        "8475195": {
+          "shutout": 3
+        },
+        "8471469": {
+          "shutout": 8
+        },
+        "8476883": {
+          "shutout": 9
+        },
+        "8476234": {
+          "shutout": 3
+        },
+        "8474889": {
+          "shutout": 4
+        },
+        "8475311": {
+          "shutout": 6
+        },
+        "8476861": {
+          "shutout": 1
+        },
+        "8470645": {
+          "shutout": 2
+        },
+        "8471239": {
+          "shutout": 1
+        },
+        "8473607": {
+          "shutout": 3
+        },
+        "8475852": {
+          "shutout": 5
+        },
+        "8479292": {
+          "shutout": 2
+        },
+        "8471774": {
+          "shutout": 2
+        },
+        "8471227": {
+          "shutout": 6
+        },
+        "8473499": {
+          "shutout": 1
+        },
+        "8473461": {
+          "shutout": 2
+        },
+        "8475831": {
+          "shutout": 7
+        },
+        "8466141": {
+          "shutout": 5
+        },
+        "8476341": {
+          "shutout": 1
+        },
+        "8470880": {
+          "shutout": 2
+        },
+        "8473541": {
+          "shutout": 3
+        },
+        "8476876": {
+          "shutout": 1
+        },
+        "8471679": {
+          "shutout": 1
+        },
+        "8476986": {
+          "shutout": 1
+        },
+        "8477465": {
+          "shutout": 2
+        },
+        "8477237": {
+          "shutout": 1
+        },
+        "8471695": {
+          "shutout": 3
+        },
+        "8475809": {
+          "shutout": 1
+        },
+        "8476945": {
+          "shutout": 7
+        },
+        "8475622": {
+          "shutout": 5
+        },
+        "8474593": {
+          "shutout": 3
+        },
+        "8468011": {
+          "shutout": 6
+        },
+        "8474596": {
+          "shutout": 1
+        },
+        "8470147": {
+          "shutout": 4
+        },
+        "8477424": {
+          "shutout": 4
+        },
+        "8473503": {
+          "shutout": 5
+        },
+        "8476434": {
+          "shutout": 6
+        },
+        "8470594": {
+          "shutout": 5
+        },
+        "8471715": {
+          "shutout": 2
+        },
+        "8470320": {
+          "shutout": 2
+        },
+        "8473434": {
+          "shutout": 2
+        },
+        "8471219": {
+          "shutout": 2
+        },
+        "8478965": {
+          "shutout": 2
+        },
+        "8479312": {
+          "shutout": 2
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8471306": {
+          "shutout": 1
+        },
+        "8468483": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469665": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470281": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470607": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471768": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473544": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473573": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473604": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474141": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474250": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474578": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474697": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474739": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474884": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475168": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475175": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475913": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476288": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476323": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476368": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476406": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476419": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476430": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476438": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476473": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476879": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476979": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476994": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477407": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477451": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477472": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477851": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477951": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478469": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479337": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480144": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470140": {
+          "shutout": 1
+        },
+        "8479193": {
+          "shutout": 2
+        },
+        "8466139": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8468493": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469455": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469465": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469521": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471228": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471392": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473463": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473994": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474037": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474581": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474688": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474849": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475098": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475172": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475730": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475752": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475786": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475794": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475906": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476439": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476853": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476889": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476902": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476913": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476941": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477015": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477341": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477406": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477450": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477461": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477939": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477945": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477953": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478408": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478483": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474550": {
+          "shutout": 1
+        },
+        "8479138": {
+          "shutout": 1
+        },
+        "8470657": {
+          "shutout": 1
+        },
+        "8470093": {
+          "shutout": 1
+        },
+        "8476330": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 217,
+      "shutoutUpperTenths": 40579,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5084
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "fieldMissingAllRows": {
+        "shutout": 210,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 210,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72
+      },
+      "affectedPlayers": 139,
+      "byPlayer": {
+        "8474651": {
+          "shutout": 4
+        },
+        "8470860": {
+          "shutout": 5
+        },
+        "8471750": {
+          "shutout": 10
+        },
+        "8476876": {
+          "shutout": 2
+        },
+        "8466141": {
+          "shutout": 2
+        },
+        "8468611": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8468674": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469459": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470595": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470600": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470610": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8470611": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471669": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471817": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474157": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474207": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474688": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474716": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475188": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475191": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475220": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475287": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475715": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475722": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475745": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475750": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475798": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475799": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476372": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476448": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476463": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476525": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476539": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476856": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477447": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477478": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477846": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477930": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477931": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478413": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478493": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476434": {
+          "shutout": 2
+        },
+        "8475215": {
+          "shutout": 8
+        },
+        "8469608": {
+          "shutout": 2
+        },
+        "8476234": {
+          "shutout": 3
+        },
+        "8475789": {
+          "shutout": 5
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8471469": {
+          "shutout": 4
+        },
+        "8470594": {
+          "shutout": 8
+        },
+        "8464989": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8469521": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471215": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471675": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471677": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471724": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471887": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473507": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473544": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473548": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474038": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474176": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474602": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474818": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475193": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475208": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475772": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475810": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475848": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476381": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476422": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476443": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476469": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476479": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476874": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476948": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477404": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477476": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477494": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477503": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478454": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478466": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478866": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479376": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480829": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480945": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8468011": {
+          "shutout": 2
+        },
+        "8476999": {
+          "shutout": 2
+        },
+        "8476899": {
+          "shutout": 4
+        },
+        "8471306": {
+          "shutout": 7
+        },
+        "8477424": {
+          "shutout": 5
+        },
+        "8473503": {
+          "shutout": 3
+        },
+        "8476883": {
+          "shutout": 6
+        },
+        "8471679": {
+          "shutout": 5
+        },
+        "8473434": {
+          "shutout": 3
+        },
+        "8479193": {
+          "shutout": 5
+        },
+        "8475156": {
+          "shutout": 4
+        },
+        "8475883": {
+          "shutout": 1
+        },
+        "8470093": {
+          "shutout": 2
+        },
+        "8470880": {
+          "shutout": 2
+        },
+        "8475622": {
+          "shutout": 2
+        },
+        "8470645": {
+          "shutout": 3
+        },
+        "8475717": {
+          "shutout": 4
+        },
+        "8477180": {
+          "shutout": 5
+        },
+        "8477361": {
+          "shutout": 1
+        },
+        "8480382": {
+          "shutout": 3
+        },
+        "8479016": {
+          "shutout": 1
+        },
+        "8471774": {
+          "shutout": 1
+        },
+        "8476343": {
+          "shutout": 2
+        },
+        "8478499": {
+          "shutout": 3
+        },
+        "8467950": {
+          "shutout": 2
+        },
+        "8473575": {
+          "shutout": 2
+        },
+        "8471734": {
+          "shutout": 2
+        },
+        "8474596": {
+          "shutout": 3
+        },
+        "8475852": {
+          "shutout": 4
+        },
+        "8475683": {
+          "shutout": 9
+        },
+        "8474889": {
+          "shutout": 3
+        },
+        "8471418": {
+          "shutout": 3
+        },
+        "8477831": {
+          "shutout": 1
+        },
+        "8476316": {
+          "shutout": 1
+        },
+        "8478406": {
+          "shutout": 4
+        },
+        "8475660": {
+          "shutout": 2
+        },
+        "8473607": {
+          "shutout": 1
+        },
+        "8476914": {
+          "shutout": 3
+        },
+        "8474636": {
+          "shutout": 1
+        },
+        "8475311": {
+          "shutout": 5
+        },
+        "8476412": {
+          "shutout": 5
+        },
+        "8471227": {
+          "shutout": 3
+        },
+        "8471695": {
+          "shutout": 4
+        },
+        "8476932": {
+          "shutout": 1
+        },
+        "8473541": {
+          "shutout": 2
+        },
+        "8470147": {
+          "shutout": 2
+        },
+        "8475195": {
+          "shutout": 2
+        },
+        "8479294": {
+          "shutout": 1
+        },
+        "8471239": {
+          "shutout": 2
+        },
+        "8475831": {
+          "shutout": 4
+        },
+        "8474593": {
+          "shutout": 1
+        },
+        "8476444": {
+          "shutout": 1
+        },
+        "8476945": {
+          "shutout": 2
+        },
+        "8470657": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 210,
+      "shutoutUpperTenths": 39270,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5084
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "fieldMissingAllRows": {
+        "shutout": 161,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 108,
+        "goalie_win": 2
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 161,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 108,
+        "goalie_win": 2
+      },
+      "affectedPlayers": 169,
+      "byPlayer": {
+        "8470860": {
+          "shutout": 3
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8479394": {
+          "shutout": 1
+        },
+        "8474636": {
+          "shutout": 2
+        },
+        "8471695": {
+          "shutout": 6
+        },
+        "8471774": {
+          "shutout": 5
+        },
+        "8475622": {
+          "shutout": 3
+        },
+        "8475852": {
+          "shutout": 3,
+          "goalie_win": 1
+        },
+        "8471679": {
+          "shutout": 4
+        },
+        "8473503": {
+          "shutout": 5,
+          "goalie_win": 1
+        },
+        "8478406": {
+          "shutout": 4
+        },
+        "8470594": {
+          "shutout": 5
+        },
+        "8475660": {
+          "shutout": 3
+        },
+        "8469608": {
+          "shutout": 1
+        },
+        "8476945": {
+          "shutout": 7
+        },
+        "8471227": {
+          "shutout": 3
+        },
+        "8471469": {
+          "shutout": 3
+        },
+        "8467950": {
+          "shutout": 2
+        },
+        "8476999": {
+          "shutout": 1
+        },
+        "8476899": {
+          "shutout": 1
+        },
+        "8470880": {
+          "shutout": 4
+        },
+        "8478007": {
+          "shutout": 6
+        },
+        "8473575": {
+          "shutout": 4
+        },
+        "8475683": {
+          "shutout": 1
+        },
+        "8475311": {
+          "shutout": 2
+        },
+        "8475215": {
+          "shutout": 2
+        },
+        "8475156": {
+          "shutout": 3
+        },
+        "8471702": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473512": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474027": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474037": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474161": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474162": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475166": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475197": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475718": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475752": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475763": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476404": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476406": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476461": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476853": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476879": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476906": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477021": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477290": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477341": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477512": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477939": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477948": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477953": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478067": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478408": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478439": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478483": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478500": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478857": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479026": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479318": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479358": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8479675": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480797": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8481624": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478470": {
+          "shutout": 1
+        },
+        "8479530": {
+          "shutout": 1
+        },
+        "8480925": {
+          "shutout": 4
+        },
+        "8477293": {
+          "shutout": 4
+        },
+        "8476412": {
+          "shutout": 3
+        },
+        "8477424": {
+          "shutout": 6
+        },
+        "8475839": {
+          "shutout": 1
+        },
+        "8476914": {
+          "shutout": 2
+        },
+        "8476434": {
+          "shutout": 2
+        },
+        "8470645": {
+          "shutout": 1
+        },
+        "8475883": {
+          "shutout": 3
+        },
+        "8480382": {
+          "shutout": 2
+        },
+        "8476904": {
+          "shutout": 3
+        },
+        "8471306": {
+          "shutout": 2
+        },
+        "8474596": {
+          "shutout": 4
+        },
+        "8477180": {
+          "shutout": 1
+        },
+        "8477465": {
+          "shutout": 3
+        },
+        "8477480": {
+          "shutout": 1
+        },
+        "8476316": {
+          "shutout": 1
+        },
+        "8471750": {
+          "shutout": 2
+        },
+        "8474593": {
+          "shutout": 2
+        },
+        "8473541": {
+          "shutout": 2
+        },
+        "8478499": {
+          "shutout": 3
+        },
+        "8468685": {
+          "shutout": 4
+        },
+        "8476883": {
+          "shutout": 3
+        },
+        "8478492": {
+          "shutout": 3
+        },
+        "8475831": {
+          "shutout": 2
+        },
+        "8470147": {
+          "shutout": 1
+        },
+        "8468508": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471669": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8471817": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8473533": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474157": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474207": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474581": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475188": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475191": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475236": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475287": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475750": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475799": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8475913": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476288": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476441": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476539": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476882": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476905": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476934": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8476958": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477220": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477447": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477478": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477488": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477845": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477931": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477938": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477949": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8477998": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478027": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478427": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8478462": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480039": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480727": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8480830": {
+          "faceoff_wins": 1,
+          "shorthanded_points_bonus": 1
+        },
+        "8474651": {
+          "shutout": 1
+        },
+        "8476876": {
+          "shutout": 2
+        },
+        "8470257": {
+          "shorthanded_points_bonus": 1
+        },
+        "8470612": {
+          "shorthanded_points_bonus": 1
+        },
+        "8470655": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474102": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474145": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474565": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474584": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474618": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474641": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475158": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475164": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475170": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475235": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475625": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475753": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475768": {
+          "shorthanded_points_bonus": 1
+        },
+        "8475825": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476312": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476483": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476892": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476897": {
+          "shorthanded_points_bonus": 1
+        },
+        "8476907": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477043": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477240": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477482": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477947": {
+          "shorthanded_points_bonus": 1
+        },
+        "8477964": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478046": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478104": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478407": {
+          "shorthanded_points_bonus": 1
+        },
+        "8478491": {
+          "shorthanded_points_bonus": 1
+        },
+        "8479351": {
+          "shorthanded_points_bonus": 1
+        },
+        "8479368": {
+          "shorthanded_points_bonus": 1
+        },
+        "8479385": {
+          "shorthanded_points_bonus": 1
+        },
+        "8480023": {
+          "shorthanded_points_bonus": 1
+        },
+        "8480748": {
+          "shorthanded_points_bonus": 1
+        },
+        "8474889": {
+          "shutout": 2
+        },
+        "8477967": {
+          "shutout": 1
+        },
+        "8471239": {
+          "shutout": 1
+        },
+        "8471734": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 160,
+      "shutoutUpperTenths": 30107,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 4329
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "fieldMissingAllRows": {
+        "shutout": 161
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 161
+      },
+      "affectedPlayers": 70,
+      "byPlayer": {
+        "8473575": {
+          "shutout": 7
+        },
+        "8475852": {
+          "shutout": 4
+        },
+        "8475831": {
+          "shutout": 8
+        },
+        "8480382": {
+          "shutout": 3
+        },
+        "8474593": {
+          "shutout": 3
+        },
+        "8471227": {
+          "shutout": 2
+        },
+        "8476434": {
+          "shutout": 3
+        },
+        "8478048": {
+          "shutout": 4
+        },
+        "8470880": {
+          "shutout": 2
+        },
+        "8477405": {
+          "shutout": 1
+        },
+        "8478039": {
+          "shutout": 3
+        },
+        "8471418": {
+          "shutout": 3
+        },
+        "8475809": {
+          "shutout": 2
+        },
+        "8470594": {
+          "shutout": 6
+        },
+        "8479979": {
+          "shutout": 4
+        },
+        "8478007": {
+          "shutout": 3
+        },
+        "8471469": {
+          "shutout": 3
+        },
+        "8476999": {
+          "shutout": 2
+        },
+        "8476899": {
+          "shutout": 3
+        },
+        "8477970": {
+          "shutout": 2
+        },
+        "8469608": {
+          "shutout": 4
+        },
+        "8475660": {
+          "shutout": 2
+        },
+        "8482246": {
+          "shutout": 1
+        },
+        "8470860": {
+          "shutout": 2
+        },
+        "8475311": {
+          "shutout": 2
+        },
+        "8478009": {
+          "shutout": 3
+        },
+        "8471734": {
+          "shutout": 2
+        },
+        "8480947": {
+          "shutout": 2
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8476883": {
+          "shutout": 5
+        },
+        "8476316": {
+          "shutout": 2
+        },
+        "8476914": {
+          "shutout": 1
+        },
+        "8478499": {
+          "shutout": 3
+        },
+        "8476876": {
+          "shutout": 3
+        },
+        "8478916": {
+          "shutout": 1
+        },
+        "8475789": {
+          "shutout": 2
+        },
+        "8479394": {
+          "shutout": 1
+        },
+        "8477967": {
+          "shutout": 1
+        },
+        "8474636": {
+          "shutout": 1
+        },
+        "8471306": {
+          "shutout": 4
+        },
+        "8477293": {
+          "shutout": 1
+        },
+        "8480313": {
+          "shutout": 1
+        },
+        "8476234": {
+          "shutout": 2
+        },
+        "8479288": {
+          "shutout": 1
+        },
+        "8479193": {
+          "shutout": 2
+        },
+        "8479406": {
+          "shutout": 1
+        },
+        "8473541": {
+          "shutout": 1
+        },
+        "8471695": {
+          "shutout": 3
+        },
+        "8476904": {
+          "shutout": 3
+        },
+        "8475622": {
+          "shutout": 1
+        },
+        "8477968": {
+          "shutout": 3
+        },
+        "8471679": {
+          "shutout": 2
+        },
+        "8476945": {
+          "shutout": 4
+        },
+        "8477424": {
+          "shutout": 3
+        },
+        "8478492": {
+          "shutout": 2
+        },
+        "8478406": {
+          "shutout": 1
+        },
+        "8477465": {
+          "shutout": 3
+        },
+        "8474889": {
+          "shutout": 1
+        },
+        "8477992": {
+          "shutout": 1
+        },
+        "8480373": {
+          "shutout": 2
+        },
+        "8476932": {
+          "shutout": 1
+        },
+        "8467950": {
+          "shutout": 1
+        },
+        "8480280": {
+          "shutout": 2
+        },
+        "8475215": {
+          "shutout": 1
+        },
+        "8481519": {
+          "shutout": 1
+        },
+        "8478024": {
+          "shutout": 1
+        },
+        "8470147": {
+          "shutout": 1
+        },
+        "8480420": {
+          "shutout": 1
+        },
+        "8477361": {
+          "shutout": 1
+        },
+        "8476509": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 161,
+      "shutoutUpperTenths": 30107,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 3472
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "fieldMissingAllRows": {
+        "shutout": 200,
+        "goalie_win": 2
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 200,
+        "goalie_win": 2
+      },
+      "affectedPlayers": 75,
+      "byPlayer": {
+        "8475789": {
+          "shutout": 6
+        },
+        "8471418": {
+          "shutout": 1
+        },
+        "8478499": {
+          "shutout": 3
+        },
+        "8474593": {
+          "shutout": 9
+        },
+        "8477968": {
+          "shutout": 5
+        },
+        "8478009": {
+          "shutout": 7
+        },
+        "8473503": {
+          "shutout": 2
+        },
+        "8478024": {
+          "shutout": 3
+        },
+        "8475883": {
+          "shutout": 4
+        },
+        "8474596": {
+          "shutout": 3
+        },
+        "8478048": {
+          "shutout": 8
+        },
+        "8478492": {
+          "shutout": 3
+        },
+        "8476412": {
+          "shutout": 2
+        },
+        "8479394": {
+          "shutout": 1
+        },
+        "8476434": {
+          "shutout": 2,
+          "goalie_win": 1
+        },
+        "8478470": {
+          "shutout": 4
+        },
+        "8475683": {
+          "shutout": 4
+        },
+        "8477293": {
+          "shutout": 4
+        },
+        "8475809": {
+          "shutout": 2
+        },
+        "8471734": {
+          "shutout": 2
+        },
+        "8477457": {
+          "shutout": 2
+        },
+        "8478406": {
+          "shutout": 2
+        },
+        "8480382": {
+          "shutout": 5
+        },
+        "8478435": {
+          "shutout": 4
+        },
+        "8473541": {
+          "shutout": 2
+        },
+        "8479973": {
+          "shutout": 2
+        },
+        "8477180": {
+          "shutout": 2
+        },
+        "8477465": {
+          "shutout": 6
+        },
+        "8479979": {
+          "shutout": 3
+        },
+        "8479496": {
+          "shutout": 3
+        },
+        "8479361": {
+          "shutout": 1
+        },
+        "8470594": {
+          "shutout": 4
+        },
+        "8477992": {
+          "shutout": 2
+        },
+        "8476883": {
+          "shutout": 2
+        },
+        "8478007": {
+          "shutout": 2
+        },
+        "8474651": {
+          "shutout": 2
+        },
+        "8476932": {
+          "shutout": 5,
+          "goalie_win": 1
+        },
+        "8478872": {
+          "shutout": 1
+        },
+        "8477424": {
+          "shutout": 4
+        },
+        "8481519": {
+          "shutout": 4
+        },
+        "8480280": {
+          "shutout": 3
+        },
+        "8477967": {
+          "shutout": 1
+        },
+        "8480193": {
+          "shutout": 1
+        },
+        "8479292": {
+          "shutout": 1
+        },
+        "8476945": {
+          "shutout": 4
+        },
+        "8476341": {
+          "shutout": 2
+        },
+        "8479193": {
+          "shutout": 4
+        },
+        "8476316": {
+          "shutout": 2
+        },
+        "8476914": {
+          "shutout": 1
+        },
+        "8470880": {
+          "shutout": 3
+        },
+        "8479313": {
+          "shutout": 1
+        },
+        "8475311": {
+          "shutout": 5
+        },
+        "8478039": {
+          "shutout": 2
+        },
+        "8470860": {
+          "shutout": 1
+        },
+        "8477361": {
+          "shutout": 3
+        },
+        "8482076": {
+          "shutout": 1
+        },
+        "8477970": {
+          "shutout": 4
+        },
+        "8480925": {
+          "shutout": 2
+        },
+        "8475215": {
+          "shutout": 1
+        },
+        "8476899": {
+          "shutout": 1
+        },
+        "8475831": {
+          "shutout": 2
+        },
+        "8475660": {
+          "shutout": 4
+        },
+        "8480420": {
+          "shutout": 1
+        },
+        "8475156": {
+          "shutout": 1
+        },
+        "8478902": {
+          "shutout": 1
+        },
+        "8474682": {
+          "shutout": 1
+        },
+        "8473575": {
+          "shutout": 2
+        },
+        "8476999": {
+          "shutout": 3
+        },
+        "8480313": {
+          "shutout": 1
+        },
+        "8469608": {
+          "shutout": 2
+        },
+        "8477480": {
+          "shutout": 2
+        },
+        "8480947": {
+          "shutout": 1
+        },
+        "8476903": {
+          "shutout": 1
+        },
+        "8474667": {
+          "shutout": 1
+        },
+        "8476904": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 199,
+      "shutoutUpperTenths": 37400,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5249
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "fieldMissingAllRows": {
+        "shutout": 179
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 179
+      },
+      "affectedPlayers": 76,
+      "byPlayer": {
+        "8480313": {
+          "shutout": 3
+        },
+        "8478024": {
+          "shutout": 4
+        },
+        "8479973": {
+          "shutout": 2
+        },
+        "8475831": {
+          "shutout": 2
+        },
+        "8471774": {
+          "shutout": 4
+        },
+        "8474889": {
+          "shutout": 4
+        },
+        "8476412": {
+          "shutout": 2
+        },
+        "8473503": {
+          "shutout": 3
+        },
+        "8476945": {
+          "shutout": 4
+        },
+        "8478009": {
+          "shutout": 7
+        },
+        "8479979": {
+          "shutout": 5
+        },
+        "8476932": {
+          "shutout": 3
+        },
+        "8476999": {
+          "shutout": 3
+        },
+        "8480193": {
+          "shutout": 1
+        },
+        "8477970": {
+          "shutout": 4
+        },
+        "8475311": {
+          "shutout": 5
+        },
+        "8471306": {
+          "shutout": 3
+        },
+        "8480280": {
+          "shutout": 8
+        },
+        "8478048": {
+          "shutout": 3
+        },
+        "8475660": {
+          "shutout": 4
+        },
+        "8478902": {
+          "shutout": 1
+        },
+        "8480947": {
+          "shutout": 1
+        },
+        "8471734": {
+          "shutout": 4
+        },
+        "8481519": {
+          "shutout": 1
+        },
+        "8481033": {
+          "shutout": 4
+        },
+        "8478872": {
+          "shutout": 3
+        },
+        "8470594": {
+          "shutout": 3
+        },
+        "8481611": {
+          "shutout": 4
+        },
+        "8480382": {
+          "shutout": 5
+        },
+        "8477465": {
+          "shutout": 3
+        },
+        "8478433": {
+          "shutout": 1
+        },
+        "8477968": {
+          "shutout": 1
+        },
+        "8478039": {
+          "shutout": 1
+        },
+        "8473575": {
+          "shutout": 2
+        },
+        "8476341": {
+          "shutout": 3
+        },
+        "8476899": {
+          "shutout": 1
+        },
+        "8478492": {
+          "shutout": 5
+        },
+        "8476914": {
+          "shutout": 2
+        },
+        "8479406": {
+          "shutout": 4
+        },
+        "8475683": {
+          "shutout": 2
+        },
+        "8467950": {
+          "shutout": 1
+        },
+        "8477293": {
+          "shutout": 5
+        },
+        "8476433": {
+          "shutout": 2
+        },
+        "8477992": {
+          "shutout": 1
+        },
+        "8475789": {
+          "shutout": 2
+        },
+        "8476434": {
+          "shutout": 2
+        },
+        "8477424": {
+          "shutout": 2
+        },
+        "8480925": {
+          "shutout": 1
+        },
+        "8480420": {
+          "shutout": 1
+        },
+        "8475809": {
+          "shutout": 2
+        },
+        "8479394": {
+          "shutout": 2
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8483158": {
+          "shutout": 1
+        },
+        "8476883": {
+          "shutout": 4
+        },
+        "8478499": {
+          "shutout": 1
+        },
+        "8481544": {
+          "shutout": 1
+        },
+        "8477831": {
+          "shutout": 2
+        },
+        "8477180": {
+          "shutout": 1
+        },
+        "8474596": {
+          "shutout": 1
+        },
+        "8470880": {
+          "shutout": 2
+        },
+        "8478971": {
+          "shutout": 2
+        },
+        "8481035": {
+          "shutout": 1
+        },
+        "8475883": {
+          "shutout": 1
+        },
+        "8478007": {
+          "shutout": 1
+        },
+        "8479193": {
+          "shutout": 1
+        },
+        "8474593": {
+          "shutout": 1
+        },
+        "8475852": {
+          "shutout": 2
+        },
+        "8474636": {
+          "shutout": 1
+        },
+        "8470860": {
+          "shutout": 1
+        },
+        "8480981": {
+          "shutout": 1
+        },
+        "8480045": {
+          "shutout": 1
+        },
+        "8477480": {
+          "shutout": 1
+        },
+        "8479312": {
+          "shutout": 1
+        },
+        "8477967": {
+          "shutout": 1
+        },
+        "8483183": {
+          "shutout": 1
+        },
+        "8478916": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 179,
+      "shutoutUpperTenths": 33473,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5247
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "fieldMissingAllRows": {
+        "shutout": 200
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 200
+      },
+      "affectedPlayers": 75,
+      "byPlayer": {
+        "8479193": {
+          "shutout": 3
+        },
+        "8479406": {
+          "shutout": 3
+        },
+        "8477424": {
+          "shutout": 3
+        },
+        "8477465": {
+          "shutout": 7
+        },
+        "8473503": {
+          "shutout": 4
+        },
+        "8479394": {
+          "shutout": 2
+        },
+        "8478009": {
+          "shutout": 2
+        },
+        "8471734": {
+          "shutout": 3
+        },
+        "8480382": {
+          "shutout": 2
+        },
+        "8479361": {
+          "shutout": 1
+        },
+        "8476914": {
+          "shutout": 2
+        },
+        "8477992": {
+          "shutout": 2
+        },
+        "8480280": {
+          "shutout": 3
+        },
+        "8481031": {
+          "shutout": 2
+        },
+        "8480981": {
+          "shutout": 2
+        },
+        "8477293": {
+          "shutout": 3
+        },
+        "8477967": {
+          "shutout": 6
+        },
+        "8473575": {
+          "shutout": 3
+        },
+        "8480045": {
+          "shutout": 6
+        },
+        "8475683": {
+          "shutout": 6
+        },
+        "8475660": {
+          "shutout": 3
+        },
+        "8478499": {
+          "shutout": 3
+        },
+        "8476433": {
+          "shutout": 1
+        },
+        "8481611": {
+          "shutout": 4
+        },
+        "8478916": {
+          "shutout": 4
+        },
+        "8479292": {
+          "shutout": 7
+        },
+        "8476412": {
+          "shutout": 3
+        },
+        "8477968": {
+          "shutout": 3
+        },
+        "8479312": {
+          "shutout": 2
+        },
+        "8479973": {
+          "shutout": 3
+        },
+        "8476945": {
+          "shutout": 5
+        },
+        "8477831": {
+          "shutout": 1
+        },
+        "8481035": {
+          "shutout": 4
+        },
+        "8478971": {
+          "shutout": 6
+        },
+        "8481033": {
+          "shutout": 3
+        },
+        "8479979": {
+          "shutout": 3
+        },
+        "8476341": {
+          "shutout": 2
+        },
+        "8476883": {
+          "shutout": 2
+        },
+        "8475852": {
+          "shutout": 2
+        },
+        "8478492": {
+          "shutout": 3
+        },
+        "8476932": {
+          "shutout": 4
+        },
+        "8478024": {
+          "shutout": 1
+        },
+        "8474889": {
+          "shutout": 3
+        },
+        "8478872": {
+          "shutout": 4
+        },
+        "8480843": {
+          "shutout": 2
+        },
+        "8480238": {
+          "shutout": 1
+        },
+        "8480947": {
+          "shutout": 4
+        },
+        "8474593": {
+          "shutout": 2
+        },
+        "8482137": {
+          "shutout": 1
+        },
+        "8483575": {
+          "shutout": 1
+        },
+        "8479496": {
+          "shutout": 4
+        },
+        "8475809": {
+          "shutout": 2
+        },
+        "8484293": {
+          "shutout": 1
+        },
+        "8470594": {
+          "shutout": 2
+        },
+        "8475311": {
+          "shutout": 2
+        },
+        "8477970": {
+          "shutout": 1
+        },
+        "8475717": {
+          "shutout": 3
+        },
+        "8478007": {
+          "shutout": 1
+        },
+        "8478406": {
+          "shutout": 3
+        },
+        "8476999": {
+          "shutout": 2
+        },
+        "8478048": {
+          "shutout": 4
+        },
+        "8480051": {
+          "shutout": 3
+        },
+        "8476434": {
+          "shutout": 1
+        },
+        "8480191": {
+          "shutout": 1
+        },
+        "8480313": {
+          "shutout": 1
+        },
+        "8481020": {
+          "shutout": 3
+        },
+        "8475831": {
+          "shutout": 2
+        },
+        "8476316": {
+          "shutout": 3
+        },
+        "8480193": {
+          "shutout": 1
+        },
+        "8481692": {
+          "shutout": 1
+        },
+        "8475883": {
+          "shutout": 3
+        },
+        "8482076": {
+          "shutout": 1
+        },
+        "8478039": {
+          "shutout": 1
+        },
+        "8482661": {
+          "shutout": 1
+        },
+        "8484312": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 200,
+      "shutoutUpperTenths": 37400,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5247
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "fieldMissingAllRows": {
+        "shutout": 206
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 206
+      },
+      "affectedPlayers": 70,
+      "byPlayer": {
+        "8478470": {
+          "shutout": 5
+        },
+        "8478048": {
+          "shutout": 6
+        },
+        "8476945": {
+          "shutout": 8
+        },
+        "8475660": {
+          "shutout": 2
+        },
+        "8479979": {
+          "shutout": 2
+        },
+        "8480843": {
+          "shutout": 1
+        },
+        "8479193": {
+          "shutout": 5
+        },
+        "8474596": {
+          "shutout": 6
+        },
+        "8479312": {
+          "shutout": 5
+        },
+        "8480981": {
+          "shutout": 3
+        },
+        "8480947": {
+          "shutout": 4
+        },
+        "8481519": {
+          "shutout": 4
+        },
+        "8477424": {
+          "shutout": 4
+        },
+        "8476341": {
+          "shutout": 4
+        },
+        "8478872": {
+          "shutout": 2
+        },
+        "8479973": {
+          "shutout": 4
+        },
+        "8476883": {
+          "shutout": 6
+        },
+        "8476999": {
+          "shutout": 5
+        },
+        "8478499": {
+          "shutout": 4
+        },
+        "8481035": {
+          "shutout": 4
+        },
+        "8478007": {
+          "shutout": 1
+        },
+        "8474593": {
+          "shutout": 4
+        },
+        "8478435": {
+          "shutout": 2
+        },
+        "8476914": {
+          "shutout": 3
+        },
+        "8480280": {
+          "shutout": 4
+        },
+        "8475311": {
+          "shutout": 6
+        },
+        "8476932": {
+          "shutout": 4
+        },
+        "8471734": {
+          "shutout": 4
+        },
+        "8481668": {
+          "shutout": 1
+        },
+        "8478406": {
+          "shutout": 4
+        },
+        "8481033": {
+          "shutout": 2
+        },
+        "8479406": {
+          "shutout": 5
+        },
+        "8481692": {
+          "shutout": 3
+        },
+        "8475683": {
+          "shutout": 5
+        },
+        "8477484": {
+          "shutout": 2
+        },
+        "8479361": {
+          "shutout": 1
+        },
+        "8478916": {
+          "shutout": 3
+        },
+        "8480045": {
+          "shutout": 2
+        },
+        "8475809": {
+          "shutout": 4
+        },
+        "8476412": {
+          "shutout": 3
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8478009": {
+          "shutout": 5
+        },
+        "8483530": {
+          "shutout": 1
+        },
+        "8477405": {
+          "shutout": 3
+        },
+        "8475852": {
+          "shutout": 3
+        },
+        "8482123": {
+          "shutout": 1
+        },
+        "8473503": {
+          "shutout": 2
+        },
+        "8481611": {
+          "shutout": 2
+        },
+        "8477992": {
+          "shutout": 1
+        },
+        "8476434": {
+          "shutout": 2
+        },
+        "8482487": {
+          "shutout": 1
+        },
+        "8478492": {
+          "shutout": 2
+        },
+        "8482783": {
+          "shutout": 1
+        },
+        "8475717": {
+          "shutout": 2
+        },
+        "8470594": {
+          "shutout": 4
+        },
+        "8479292": {
+          "shutout": 2
+        },
+        "8474682": {
+          "shutout": 1
+        },
+        "8477465": {
+          "shutout": 3
+        },
+        "8482447": {
+          "shutout": 3
+        },
+        "8480313": {
+          "shutout": 2
+        },
+        "8480193": {
+          "shutout": 2
+        },
+        "8475883": {
+          "shutout": 1
+        },
+        "8477968": {
+          "shutout": 1
+        },
+        "8482076": {
+          "shutout": 3
+        },
+        "8477480": {
+          "shutout": 2
+        },
+        "8477967": {
+          "shutout": 2
+        },
+        "8480819": {
+          "shutout": 1
+        },
+        "8477970": {
+          "shutout": 1
+        },
+        "8484910": {
+          "shutout": 1
+        },
+        "8482982": {
+          "shutout": 2
+        }
+      },
+      "onlyShutoutMissingRows": 206,
+      "shutoutUpperTenths": 38522,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5248
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "fieldMissingAllRows": {
+        "shutout": 163
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 163
+      },
+      "affectedPlayers": 68,
+      "byPlayer": {
+        "8481668": {
+          "shutout": 2
+        },
+        "8478048": {
+          "shutout": 2
+        },
+        "8475660": {
+          "shutout": 3
+        },
+        "8479406": {
+          "shutout": 5
+        },
+        "8479292": {
+          "shutout": 1
+        },
+        "8479973": {
+          "shutout": 2
+        },
+        "8481033": {
+          "shutout": 5
+        },
+        "8479312": {
+          "shutout": 4
+        },
+        "8477465": {
+          "shutout": 3
+        },
+        "8475831": {
+          "shutout": 2
+        },
+        "8478499": {
+          "shutout": 2
+        },
+        "8478916": {
+          "shutout": 2
+        },
+        "8481529": {
+          "shutout": 2
+        },
+        "8475683": {
+          "shutout": 4
+        },
+        "8479979": {
+          "shutout": 4
+        },
+        "8471734": {
+          "shutout": 2
+        },
+        "8482445": {
+          "shutout": 1
+        },
+        "8482783": {
+          "shutout": 1
+        },
+        "8481611": {
+          "shutout": 2
+        },
+        "8475311": {
+          "shutout": 4
+        },
+        "8480981": {
+          "shutout": 6
+        },
+        "8481519": {
+          "shutout": 3
+        },
+        "8478009": {
+          "shutout": 7
+        },
+        "8482661": {
+          "shutout": 5
+        },
+        "8479193": {
+          "shutout": 1
+        },
+        "8481692": {
+          "shutout": 3
+        },
+        "8476341": {
+          "shutout": 5
+        },
+        "8483703": {
+          "shutout": 1
+        },
+        "8483710": {
+          "shutout": 4
+        },
+        "8480193": {
+          "shutout": 1
+        },
+        "8478406": {
+          "shutout": 5
+        },
+        "8479496": {
+          "shutout": 2
+        },
+        "8475809": {
+          "shutout": 5
+        },
+        "8476883": {
+          "shutout": 2
+        },
+        "8474596": {
+          "shutout": 1
+        },
+        "8483548": {
+          "shutout": 2
+        },
+        "8476914": {
+          "shutout": 3
+        },
+        "8478872": {
+          "shutout": 3
+        },
+        "8481020": {
+          "shutout": 4
+        },
+        "8480313": {
+          "shutout": 4
+        },
+        "8476434": {
+          "shutout": 5
+        },
+        "8484268": {
+          "shutout": 2
+        },
+        "8481551": {
+          "shutout": 2
+        },
+        "8477990": {
+          "shutout": 1
+        },
+        "8482515": {
+          "shutout": 1
+        },
+        "8477967": {
+          "shutout": 1
+        },
+        "8475717": {
+          "shutout": 1
+        },
+        "8476999": {
+          "shutout": 3
+        },
+        "8484170": {
+          "shutout": 1
+        },
+        "8479361": {
+          "shutout": 2
+        },
+        "8476412": {
+          "shutout": 1
+        },
+        "8480843": {
+          "shutout": 1
+        },
+        "8482123": {
+          "shutout": 1
+        },
+        "8480280": {
+          "shutout": 2
+        },
+        "8478971": {
+          "shutout": 2
+        },
+        "8482982": {
+          "shutout": 2
+        },
+        "8478435": {
+          "shutout": 1
+        },
+        "8480947": {
+          "shutout": 1
+        },
+        "8478007": {
+          "shutout": 2
+        },
+        "8480022": {
+          "shutout": 1
+        },
+        "8476932": {
+          "shutout": 2
+        },
+        "8482821": {
+          "shutout": 1
+        },
+        "8477970": {
+          "shutout": 2
+        },
+        "8481035": {
+          "shutout": 1
+        },
+        "8473503": {
+          "shutout": 1
+        },
+        "8480045": {
+          "shutout": 1
+        },
+        "8482137": {
+          "shutout": 1
+        },
+        "8474593": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 163,
+      "shutoutUpperTenths": 30481,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 5247
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "fieldMissingAllRows": {
+        "shutout": 40
+      },
+      "fieldMissingPlayedRows": {
+        "shutout": 40
+      },
+      "affectedPlayers": 28,
+      "byPlayer": {
+        "8474593": {
+          "shutout": 1
+        },
+        "8480280": {
+          "shutout": 1
+        },
+        "8481668": {
+          "shutout": 2
+        },
+        "8478872": {
+          "shutout": 2
+        },
+        "8482193": {
+          "shutout": 1
+        },
+        "8480981": {
+          "shutout": 2
+        },
+        "8478009": {
+          "shutout": 1
+        },
+        "8476999": {
+          "shutout": 1
+        },
+        "8479979": {
+          "shutout": 4
+        },
+        "8478024": {
+          "shutout": 2
+        },
+        "8480193": {
+          "shutout": 2
+        },
+        "8484170": {
+          "shutout": 2
+        },
+        "8482982": {
+          "shutout": 2
+        },
+        "8476341": {
+          "shutout": 1
+        },
+        "8481035": {
+          "shutout": 1
+        },
+        "8480022": {
+          "shutout": 1
+        },
+        "8481611": {
+          "shutout": 2
+        },
+        "8481551": {
+          "shutout": 1
+        },
+        "8477465": {
+          "shutout": 2
+        },
+        "8482076": {
+          "shutout": 1
+        },
+        "8478406": {
+          "shutout": 1
+        },
+        "8476945": {
+          "shutout": 1
+        },
+        "8477424": {
+          "shutout": 1
+        },
+        "8482221": {
+          "shutout": 1
+        },
+        "8475311": {
+          "shutout": 1
+        },
+        "8480843": {
+          "shutout": 1
+        },
+        "8475809": {
+          "shutout": 1
+        },
+        "8481020": {
+          "shutout": 1
+        }
+      },
+      "onlyShutoutMissingRows": 40,
+      "shutoutUpperTenths": 7480,
+      "shutoutLowerTenths": 0,
+      "boundScope": "Missing binary credit only, NOT total score or adaptive strategy",
+      "adaptiveStrategyBound": "NOT_PROVEN",
+      "materialityVsHalfPercent": "NOT_ESTABLISHED; unknown faceoff and participation/correction feedback can prevent finite adaptive bounds",
+      "goalieRows": 1492
+    }
+  ],
+  "imputedSourceValues": 0,
+  "adaptiveGlobalBoundsProven": false
+}

@@ -46,3 +46,5 @@ This checklist has 28 fixed tasks: 22 for M6.0–M6.3 and six deferred later pha
 - [ ] M6.9 V10 approval and integration.
 
 Current task accounting: **19 checked / 9 unchecked / 28 total**. M6.0 preparation and M6.2 mechanical foundation are complete within their scopes. M6.1 and M6.3 are not accepted. V10 optimization/activation, contract automation and M7 remain inactive.
+
+November 27 methodology execution update: D1–D6 policies are now explicitly approved and implemented in the separate offline policy/compiler path. M61-05 remains open because comparable cohort inventory and statistical acceptance are still required; this is not a repeat request to approve D1–D6. Current count remains **19/28**. Real historical source-calendar diagnostics extend M6.2 verification but do not close official M63-01/02. See the [current execution report](M6_METHODOLOGY_EXECUTION_REPORT.md).

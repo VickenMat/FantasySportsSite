@@ -1,5 +1,7 @@
 # Unchanged V9 evaluation: baseline status
 
+> **Current execution:** D1–D6 are approved. [The current execution report](M6_METHODOLOGY_EXECUTION_REPORT.md) records real historical diagnostic campaigns and remaining cohort/statistical blockers. The synthetic workloads below remain foundation evidence, not an official baseline.
+
 **No official historical V9 baseline has been executed. No historical four-sport scoring spread is established.** M6.3 remains unaccepted. Unknown inputs, historical chronology, source inventory and material methodology choices are not removed to force a result.
 
 ## Actual historical diagnostics

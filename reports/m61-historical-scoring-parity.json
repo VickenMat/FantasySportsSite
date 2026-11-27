@@ -1,0 +1,2432 @@
+{
+  "version": "m61-historical-scoring-parity-1",
+  "samples": [
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0026158",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 389,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0032063",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 69,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0032775",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 181,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0033118",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 314,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0033376",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 74,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0033871",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 669,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0034270",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": true,
+      "expectedTenths": 615,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0034419",
+      "nativeGame": "2022_01_BAL_NYJ",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 388,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0034286",
+      "nativeGame": "2022_08_NYG_SEA",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": -206,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "nativePlayer": "00-0034177",
+      "nativeGame": "2022_18_MIN_CHI",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": -139,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0030061",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": true,
+      "expectedTenths": 363,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0031260",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": true,
+      "expectedTenths": 417,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0033251",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 0,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0033282",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 526,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0033553",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 592,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0033949",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": -92,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0035659",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 256,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0035662",
+      "nativeGame": "2023_01_ARI_WAS",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": 450,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0036972",
+      "nativeGame": "2023_05_NO_NE",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": -153,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "nativePlayer": "00-0032156",
+      "nativeGame": "2023_15_NYJ_MIA",
+      "role": "FOOTBALL",
+      "teEligible": false,
+      "expectedTenths": -153,
+      "inputKeys": [
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "passing_2pt_conversions",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_2pt_conversions",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_2pt_conversions",
+        "receptions",
+        "rushing_first_downs",
+        "receiving_first_downs",
+        "fumbles_lost_total"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "435559",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -36,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "543685",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 164,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "545361",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 295,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "595978",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -36,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "608070",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 58,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "614177",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -48,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "621493",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 22,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "622110",
+      "nativeGame": "661032",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -36,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "669242",
+      "nativeGame": "661969",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -95,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "666182",
+      "nativeGame": "663056",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -95,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "543238",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 24,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "571901",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 118,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "623474",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -33,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "628452",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 174,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "660853",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 149,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "663474",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 299,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "663776",
+      "nativeGame": "661032",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 775,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "571901",
+      "nativeGame": "661033",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 63,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "543135",
+      "nativeGame": "663271",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -871,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "nativePlayer": "543037",
+      "nativeGame": "661697",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -808,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "425844",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 313,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "650633",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -321,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "663704",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 316,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "664199",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 29,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "666745",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 333,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "669711",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 81,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "672578",
+      "nativeGame": "716352",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 131,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "571945",
+      "nativeGame": "716353",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": 523,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "668881",
+      "nativeGame": "716924",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -822,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "664062",
+      "nativeGame": "716946",
+      "role": "PITCHER",
+      "teEligible": false,
+      "expectedTenths": -814,
+      "inputKeys": [
+        "pitching_outs",
+        "pitching_strikeOuts",
+        "pitching_hits",
+        "pitching_baseOnBalls",
+        "pitching_hitBatsmen",
+        "pitching_homeRuns",
+        "saves",
+        "holds",
+        "blownSaves"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "518934",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 71,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "521692",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -36,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "543309",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 58,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "622110",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 34,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "643396",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 22,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "658668",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 140,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "664314",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": 13,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "665828",
+      "nativeGame": "716352",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -48,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "672284",
+      "nativeGame": "717509",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -95,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "nativePlayer": "543760",
+      "nativeGame": "717792",
+      "role": "HITTER",
+      "teEligible": false,
+      "expectedTenths": -84,
+      "inputKeys": [
+        "atBats",
+        "hits",
+        "doubles",
+        "triples",
+        "homeRuns",
+        "baseOnBalls",
+        "hitByPitch",
+        "stolenBases",
+        "caughtStealing"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1626149",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 12,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1627759",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 256,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1627763",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 155,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1627777",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 16,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1627863",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 28,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1628369",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 305,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1628401",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 57,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1629001",
+      "nativeGame": "0022200001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 43,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "202704",
+      "nativeGame": "0022200338",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": -43,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "nativePlayer": "1630165",
+      "nativeGame": "0022200052",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": -38,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1626167",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 258,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1627741",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 142,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1627747",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 111,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1627777",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 98,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1628378",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 307,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1628386",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 133,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1628971",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 155,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1629614",
+      "nativeGame": "0022300001",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": 34,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1629130",
+      "nativeGame": "0022301220",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": -58,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "nativePlayer": "1631123",
+      "nativeGame": "0022300023",
+      "role": "BASKETBALL",
+      "teEligible": false,
+      "expectedTenths": -39,
+      "inputKeys": [
+        "PTS",
+        "REB",
+        "AST",
+        "STL",
+        "BLK",
+        "TOV",
+        "FGM",
+        "FGA",
+        "FTM",
+        "FTA",
+        "FG3M",
+        "OREB"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8471709",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 7,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474009",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 70,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474053",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 82,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474151",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 204,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474578",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 78,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474600",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 117,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474697",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 28,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8475168",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 193,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8476442",
+      "nativeGame": "2022020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 0,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8473986",
+      "nativeGame": "2022020003",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 0,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8473503",
+      "nativeGame": "2022020001",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 150,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8477424",
+      "nativeGame": "2022020001",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 548,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8478039",
+      "nativeGame": "2022020002",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": -6,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8480947",
+      "nativeGame": "2022020002",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 498,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8476883",
+      "nativeGame": "2022020003",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 246,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8478048",
+      "nativeGame": "2022020003",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 488,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8471734",
+      "nativeGame": "2022020004",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 316,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8480313",
+      "nativeGame": "2022020004",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 388,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8473503",
+      "nativeGame": "2022021145",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": -266,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "nativePlayer": "8474596",
+      "nativeGame": "2022021062",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": -264,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474151",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 140,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474564",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 114,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474568",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 67,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474600",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 46,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474679",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 83,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475158",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 300,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475167",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 122,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475177",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 46,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8482146",
+      "nativeGame": "2023020001",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 0,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8474612",
+      "nativeGame": "2023020004",
+      "role": "SKATER",
+      "teEligible": false,
+      "expectedTenths": 0,
+      "inputKeys": [
+        "goals",
+        "assists",
+        "sog",
+        "blockedShots",
+        "hits",
+        "faceoff_wins",
+        "shorthanded_points_bonus"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8477424",
+      "nativeGame": "2023020001",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 100,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8477992",
+      "nativeGame": "2023020001",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 400,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475852",
+      "nativeGame": "2023020002",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 594,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8477465",
+      "nativeGame": "2023020002",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 198,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475831",
+      "nativeGame": "2023020003",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 102,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8478499",
+      "nativeGame": "2023020003",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 572,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8475883",
+      "nativeGame": "2023020004",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 388,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8476914",
+      "nativeGame": "2023020004",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": 134,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8477293",
+      "nativeGame": "2023020303",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": -424,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "nativePlayer": "8482445",
+      "nativeGame": "2023021293",
+      "role": "GOALIE",
+      "teEligible": false,
+      "expectedTenths": -328,
+      "inputKeys": [
+        "saves",
+        "goalsAgainst",
+        "goalie_win",
+        "shutout"
+      ]
+    }
+  ],
+  "sampleCount": 120,
+  "allMatch": true,
+  "activeRules": 56,
+  "scoringFingerprint": "b63ebf7338e2774ecee07506b1e3ba77db0e01b1f27aa135d54c67aa75db5eae",
+  "scorer": "Production calculateScore; preexisting frozen prepared expectations",
+  "heldout2025Excluded": true,
+  "productionWrites": 0
+}

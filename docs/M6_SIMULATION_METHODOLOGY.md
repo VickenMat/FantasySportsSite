@@ -1,5 +1,7 @@
 # Historical simulation methodology and review boundary
 
+> **Current authority:** D1–D6 are approved. This foundation design is retained for architecture history; [M6_APPROVED_METHODOLOGY.md](M6_APPROVED_METHODOLOGY.md) specifies the frozen execution policy. Cohort acceptance remains distinct from policy approval.
+
 November 27, 2026. This establishes reproducible mechanisms and proposed variants. It does not approve material approximations or an official V9 baseline.
 
 ## Confirmed requirements

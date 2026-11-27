@@ -1,0 +1,4264 @@
+{
+  "version": "m61-approved-model-gates-1",
+  "strictAuditUnchanged": "ea909deb055b158934c09291a63c7df815d5ed7aa0caebcb48f2e3c2f31a0a1c",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "year": 2016,
+      "physicalRows": 16840,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 16823,
+          "newlyExcludedRows": 17
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 16823,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 16823,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5563,
+          "newlyExcludedRows": 11260
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5298,
+          "newlyExcludedRows": 265
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5298,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5298,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5298,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5298
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        16823,
+        16823,
+        16823,
+        5563,
+        5298,
+        5298,
+        5298,
+        4641,
+        4641,
+        4641,
+        4641
+      ],
+      "approvedPrimaryWaterfall": [
+        16823,
+        16823,
+        16823,
+        5563,
+        5298,
+        5298,
+        5298,
+        4641,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 11984,
+        "G10": 11984,
+        "G04": 11277,
+        "G05": 2235,
+        "G01": 17,
+        "G02": 17,
+        "G06": 17,
+        "G11": 17
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2017,
+      "physicalRows": 16786,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 16769,
+          "newlyExcludedRows": 17
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 16769,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 16769,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5641,
+          "newlyExcludedRows": 11128
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5369,
+          "newlyExcludedRows": 272
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5369,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5369,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5369,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5369
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        16769,
+        16769,
+        16769,
+        5641,
+        5369,
+        5369,
+        5369,
+        5059,
+        5059,
+        5059,
+        5059
+      ],
+      "approvedPrimaryWaterfall": [
+        16769,
+        16769,
+        16769,
+        5641,
+        5369,
+        5369,
+        5369,
+        5059,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 11145,
+        "G05": 2178,
+        "G08": 11482,
+        "G10": 11482,
+        "G01": 17,
+        "G02": 17,
+        "G06": 17,
+        "G11": 17
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2018,
+      "physicalRows": 16728,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 16711,
+          "newlyExcludedRows": 17
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 16711,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 16711,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5520,
+          "newlyExcludedRows": 11191
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5265,
+          "newlyExcludedRows": 255
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5265,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5265,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5265,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5265
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        16711,
+        16711,
+        16711,
+        5520,
+        5265,
+        5265,
+        5265,
+        4963,
+        4963,
+        4963,
+        4963
+      ],
+      "approvedPrimaryWaterfall": [
+        16711,
+        16711,
+        16711,
+        5520,
+        5265,
+        5265,
+        5265,
+        4963,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 11208,
+        "G05": 2257,
+        "G08": 11540,
+        "G10": 11540,
+        "G01": 17,
+        "G02": 17,
+        "G06": 17,
+        "G11": 17
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2019,
+      "physicalRows": 16663,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 16646,
+          "newlyExcludedRows": 17
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 16646,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 16646,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5530,
+          "newlyExcludedRows": 11116
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5275,
+          "newlyExcludedRows": 255
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5275,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5275,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5275,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5275
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        16646,
+        16646,
+        16646,
+        5530,
+        5275,
+        5275,
+        5275,
+        5024,
+        5024,
+        5024,
+        5024
+      ],
+      "approvedPrimaryWaterfall": [
+        16646,
+        16646,
+        16646,
+        5530,
+        5275,
+        5275,
+        5275,
+        5024,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 11133,
+        "G05": 2222,
+        "G08": 11417,
+        "G10": 11417,
+        "G01": 17,
+        "G02": 17,
+        "G06": 17,
+        "G11": 17
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2020,
+      "physicalRows": 16774,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 16757,
+          "newlyExcludedRows": 17
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 16757,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 16757,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5670,
+          "newlyExcludedRows": 11087
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5412,
+          "newlyExcludedRows": 258
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5412,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5412,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5412,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5412
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        16757,
+        16757,
+        16757,
+        5670,
+        5412,
+        5412,
+        5412,
+        5136,
+        5136,
+        5136,
+        5136
+      ],
+      "approvedPrimaryWaterfall": [
+        16757,
+        16757,
+        16757,
+        5670,
+        5412,
+        5412,
+        5412,
+        5136,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 11104,
+        "G05": 2039,
+        "G08": 11398,
+        "G10": 11398,
+        "G01": 17,
+        "G02": 17,
+        "G06": 17,
+        "G11": 17
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2021,
+      "physicalRows": 18128,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 18110,
+          "newlyExcludedRows": 18
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 18110,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 18110,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5987,
+          "newlyExcludedRows": 12123
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5723,
+          "newlyExcludedRows": 264
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5723,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5723,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5723,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5723
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        18110,
+        18110,
+        18110,
+        5987,
+        5723,
+        5723,
+        5723,
+        5455,
+        5455,
+        5455,
+        5455
+      ],
+      "approvedPrimaryWaterfall": [
+        18110,
+        18110,
+        18110,
+        5987,
+        5723,
+        5723,
+        5723,
+        5455,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 12141,
+        "G05": 2315,
+        "G08": 12427,
+        "G10": 12427,
+        "G01": 18,
+        "G02": 18,
+        "G06": 18,
+        "G11": 18
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "physicalRows": 17981,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 17963,
+          "newlyExcludedRows": 18
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 17963,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 17963,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5918,
+          "newlyExcludedRows": 12045
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5645,
+          "newlyExcludedRows": 273
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5645,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5645,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5645,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5645
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        17963,
+        17963,
+        17963,
+        5918,
+        5645,
+        5645,
+        5645,
+        5415,
+        5415,
+        5415,
+        5415
+      ],
+      "approvedPrimaryWaterfall": [
+        17963,
+        17963,
+        17963,
+        5918,
+        5645,
+        5645,
+        5645,
+        5415,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 12063,
+        "G08": 12309,
+        "G10": 12309,
+        "G05": 2287,
+        "G01": 18,
+        "G02": 18,
+        "G06": 18,
+        "G11": 18
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "physicalRows": 17806,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 17788,
+          "newlyExcludedRows": 18
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 17788,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 17788,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5897,
+          "newlyExcludedRows": 11891
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5620,
+          "newlyExcludedRows": 277
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5620,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5620,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5620,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5620
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        17788,
+        17788,
+        17788,
+        5897,
+        5620,
+        5620,
+        5620,
+        5409,
+        5409,
+        5409,
+        5409
+      ],
+      "approvedPrimaryWaterfall": [
+        17788,
+        17788,
+        17788,
+        5897,
+        5620,
+        5620,
+        5620,
+        5409,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 11909,
+        "G05": 2317,
+        "G08": 12143,
+        "G10": 12143,
+        "G01": 18,
+        "G02": 18,
+        "G06": 18,
+        "G11": 18
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2024,
+      "physicalRows": 18130,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 18112,
+          "newlyExcludedRows": 18
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 18112,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 18112,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5935,
+          "newlyExcludedRows": 12177
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5571,
+          "newlyExcludedRows": 364
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5571,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5571,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5571,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5571
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        18112,
+        18112,
+        18112,
+        5935,
+        5571,
+        5571,
+        5571,
+        5376,
+        5376,
+        5376,
+        5376
+      ],
+      "approvedPrimaryWaterfall": [
+        18112,
+        18112,
+        18112,
+        5935,
+        5571,
+        5571,
+        5571,
+        5376,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 12195,
+        "G05": 2539,
+        "G08": 12416,
+        "G10": 12416,
+        "G01": 18,
+        "G02": 18,
+        "G06": 18,
+        "G11": 18
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2025,
+      "physicalRows": 18540,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 18522,
+          "newlyExcludedRows": 18
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 18522,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 18522,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 6108,
+          "newlyExcludedRows": 12414
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5719,
+          "newlyExcludedRows": 389
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5719,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5719,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 5719,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5719
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        18522,
+        18522,
+        18522,
+        6108,
+        5719,
+        5719,
+        5719,
+        5518,
+        5518,
+        5518,
+        5518
+      ],
+      "approvedPrimaryWaterfall": [
+        18522,
+        18522,
+        18522,
+        6108,
+        5719,
+        5719,
+        5719,
+        5518,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 12432,
+        "G08": 12660,
+        "G10": 12660,
+        "G05": 2389,
+        "G01": 18,
+        "G02": 18,
+        "G06": 18,
+        "G11": 18
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NFL",
+      "year": 2026,
+      "physicalRows": 10992,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 10981,
+          "newlyExcludedRows": 11
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 10981,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 10981,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 3577,
+          "newlyExcludedRows": 7404
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 3326,
+          "newlyExcludedRows": 251
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 3326,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 3326,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 3326,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 3326
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        10981,
+        10981,
+        10981,
+        3577,
+        3326,
+        3326,
+        3326,
+        3184,
+        3184,
+        3184,
+        3184
+      ],
+      "approvedPrimaryWaterfall": [
+        10981,
+        10981,
+        10981,
+        3577,
+        3326,
+        3326,
+        3326,
+        3184,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 7415,
+        "G08": 7581,
+        "G10": 7581,
+        "G05": 1486,
+        "G01": 11,
+        "G02": 11,
+        "G06": 11,
+        "G11": 11
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2016,
+      "physicalRows": 80974,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 80974,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 80974,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 80974,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 70447,
+          "newlyExcludedRows": 10527
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 70447,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 70447,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 70447,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 64729,
+          "newlyExcludedRows": 5718
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 64729
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        80974,
+        80974,
+        80974,
+        70447,
+        70447,
+        70447,
+        70447,
+        10570,
+        10551,
+        10551,
+        10551
+      ],
+      "approvedPrimaryWaterfall": [
+        80974,
+        80974,
+        80974,
+        70447,
+        70447,
+        70447,
+        70447,
+        10570,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 64891,
+        "G10": 64891,
+        "G04": 10527,
+        "G09": 158,
+        "G11": 158,
+        "G05": 4
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2017,
+      "physicalRows": 81178,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 81178,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 81178,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 81178,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 70742,
+          "newlyExcludedRows": 10436
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 70742,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 70742,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 70742,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 64911,
+          "newlyExcludedRows": 5831
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 64911
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        81178,
+        81178,
+        81178,
+        70742,
+        70742,
+        70742,
+        70742,
+        56781,
+        56748,
+        56748,
+        56748
+      ],
+      "approvedPrimaryWaterfall": [
+        81178,
+        81178,
+        81178,
+        70742,
+        70742,
+        70742,
+        70742,
+        56781,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 10436,
+        "G08": 15812,
+        "G10": 15812,
+        "G05": 2,
+        "G09": 51,
+        "G11": 51
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2018,
+      "physicalRows": 82380,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 82380,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 82380,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 82380,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71586,
+          "newlyExcludedRows": 10794
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71586,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71586,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71586,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 66288,
+          "newlyExcludedRows": 5298
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 66288
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        82380,
+        82380,
+        82380,
+        71586,
+        71586,
+        71586,
+        71586,
+        57491,
+        57394,
+        57394,
+        57394
+      ],
+      "approvedPrimaryWaterfall": [
+        82380,
+        82380,
+        82380,
+        71586,
+        71586,
+        71586,
+        71586,
+        57491,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 16140,
+        "G10": 16140,
+        "G04": 10794,
+        "G05": 4,
+        "G09": 141,
+        "G11": 141
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2019,
+      "physicalRows": 82527,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 82527,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 82527,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 82527,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71681,
+          "newlyExcludedRows": 10846
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71681,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71681,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71681,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 65493,
+          "newlyExcludedRows": 6188
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 65493
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        82527,
+        82527,
+        82527,
+        71681,
+        71681,
+        71681,
+        71681,
+        57148,
+        56955,
+        56955,
+        56955
+      ],
+      "approvedPrimaryWaterfall": [
+        82527,
+        82527,
+        82527,
+        71681,
+        71681,
+        71681,
+        71681,
+        57148,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 16427,
+        "G10": 16427,
+        "G04": 10846,
+        "G05": 3,
+        "G09": 264,
+        "G11": 264
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2020,
+      "physicalRows": 26783,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26783,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26783,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26783,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26718,
+          "newlyExcludedRows": 65
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26718,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26718,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26718,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 18536,
+          "newlyExcludedRows": 8182
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 18536
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26783,
+        26783,
+        26783,
+        26718,
+        26718,
+        26718,
+        26718,
+        20681,
+        20643,
+        20643,
+        20643
+      ],
+      "approvedPrimaryWaterfall": [
+        26783,
+        26783,
+        26783,
+        26718,
+        26718,
+        26718,
+        26718,
+        20681,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 6057,
+        "G10": 6057,
+        "G04": 65,
+        "G09": 48,
+        "G11": 48,
+        "G05": 3
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2021,
+      "physicalRows": 82862,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 82862,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 82862,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 82862,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71617,
+          "newlyExcludedRows": 11245
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71617,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71617,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71617,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 65531,
+          "newlyExcludedRows": 6086
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 65531
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        82862,
+        82862,
+        82862,
+        71617,
+        71617,
+        71617,
+        71617,
+        46209,
+        46099,
+        46099,
+        46099
+      ],
+      "approvedPrimaryWaterfall": [
+        82862,
+        82862,
+        82862,
+        71617,
+        71617,
+        71617,
+        71617,
+        46209,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 29501,
+        "G10": 29501,
+        "G04": 11245,
+        "G05": 4,
+        "G09": 198,
+        "G11": 198
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "physicalRows": 71173,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 71173,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 71173,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 71173,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 70906,
+          "newlyExcludedRows": 267
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 70906,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 70906,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 70906,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 64911,
+          "newlyExcludedRows": 5995
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 64911
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        71173,
+        71173,
+        71173,
+        70906,
+        70906,
+        70906,
+        70906,
+        56723,
+        56558,
+        56558,
+        56558
+      ],
+      "approvedPrimaryWaterfall": [
+        71173,
+        71173,
+        71173,
+        70906,
+        70906,
+        70906,
+        70906,
+        56723,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 14247,
+        "G10": 14247,
+        "G04": 267,
+        "G05": 5,
+        "G09": 218,
+        "G11": 218
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "physicalRows": 71388,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 71388,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 71388,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 71388,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71140,
+          "newlyExcludedRows": 248
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71140,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71140,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71140,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 65252,
+          "newlyExcludedRows": 5888
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 65252
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        71388,
+        71388,
+        71388,
+        71140,
+        71140,
+        71140,
+        71140,
+        56043,
+        55997,
+        55997,
+        55997
+      ],
+      "approvedPrimaryWaterfall": [
+        71388,
+        71388,
+        71388,
+        71140,
+        71140,
+        71140,
+        71140,
+        56043,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 15160,
+        "G10": 15160,
+        "G04": 248,
+        "G09": 65,
+        "G11": 65,
+        "G05": 4
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2024,
+      "physicalRows": 71442,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 71442,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 71442,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 71442,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71269,
+          "newlyExcludedRows": 173
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71269,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71269,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71269,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 65703,
+          "newlyExcludedRows": 5566
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 65703
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        71442,
+        71442,
+        71442,
+        71269,
+        71269,
+        71269,
+        71269,
+        57561,
+        57472,
+        57472,
+        57472
+      ],
+      "approvedPrimaryWaterfall": [
+        71442,
+        71442,
+        71442,
+        71269,
+        71269,
+        71269,
+        71269,
+        57561,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 13749,
+        "G10": 13749,
+        "G04": 173,
+        "G05": 2,
+        "G09": 100,
+        "G11": 100
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2025,
+      "physicalRows": 71757,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 71757,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 71757,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 71757,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 71548,
+          "newlyExcludedRows": 209
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 71548,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 71548,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 71548,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 65563,
+          "newlyExcludedRows": 5985
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 65563
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        71757,
+        71757,
+        71757,
+        71548,
+        71548,
+        71548,
+        71548,
+        57577,
+        57478,
+        57478,
+        57478
+      ],
+      "approvedPrimaryWaterfall": [
+        71757,
+        71757,
+        71757,
+        71548,
+        71548,
+        71548,
+        71548,
+        57577,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 14023,
+        "G10": 14023,
+        "G04": 209,
+        "G05": 2,
+        "G09": 120,
+        "G11": 120
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "MLB",
+      "year": 2026,
+      "physicalRows": 72510,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 72510,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 72510,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 72510,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 72293,
+          "newlyExcludedRows": 217
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 72293,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 72293,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 72293,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 66627,
+          "newlyExcludedRows": 5666
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 66627
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        72510,
+        72510,
+        72510,
+        72293,
+        72293,
+        72293,
+        72293,
+        56876,
+        56829,
+        56829,
+        56829
+      ],
+      "approvedPrimaryWaterfall": [
+        72510,
+        72510,
+        72510,
+        72293,
+        72293,
+        72293,
+        72293,
+        56876,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 15468,
+        "G10": 15468,
+        "G04": 217,
+        "G05": 2,
+        "G09": 58,
+        "G11": 58
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2016,
+      "physicalRows": 26139,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26139,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26139,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26139,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26138,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26137,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26137,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26137,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 25939,
+          "newlyExcludedRows": 198
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 25939
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26139,
+        26139,
+        26139,
+        26138,
+        26137,
+        26137,
+        26137,
+        0,
+        0,
+        0,
+        0
+      ],
+      "approvedPrimaryWaterfall": [
+        26139,
+        26139,
+        26139,
+        26138,
+        26137,
+        26137,
+        26137,
+        0,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 26139,
+        "G10": 26139,
+        "G04": 1,
+        "G05": 2
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2017,
+      "physicalRows": 26107,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26107,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26107,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26107,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26104,
+          "newlyExcludedRows": 3
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26104,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26104,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26104,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 25960,
+          "newlyExcludedRows": 144
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 25960
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26107,
+        26107,
+        26107,
+        26104,
+        26104,
+        26104,
+        26104,
+        21447,
+        21447,
+        21447,
+        21447
+      ],
+      "approvedPrimaryWaterfall": [
+        26107,
+        26107,
+        26107,
+        26104,
+        26104,
+        26104,
+        26104,
+        21447,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 4658,
+        "G10": 4658,
+        "G04": 3,
+        "G05": 3
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2018,
+      "physicalRows": 26101,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26101,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26101,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26101,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26098,
+          "newlyExcludedRows": 3
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26098,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26098,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26098,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 25935,
+          "newlyExcludedRows": 163
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 25935
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26101,
+        26101,
+        26101,
+        26098,
+        26098,
+        26098,
+        26098,
+        22347,
+        22347,
+        22347,
+        22347
+      ],
+      "approvedPrimaryWaterfall": [
+        26101,
+        26101,
+        26101,
+        26098,
+        26098,
+        26098,
+        26098,
+        22347,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3752,
+        "G10": 3752,
+        "G04": 3,
+        "G05": 3
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2019,
+      "physicalRows": 22393,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 22393,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 22393,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 22393,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 22393,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 22392,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 22392,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 22392,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 22314,
+          "newlyExcludedRows": 78
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 22314
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        22393,
+        22393,
+        22393,
+        22393,
+        22392,
+        22392,
+        22392,
+        18662,
+        18662,
+        18662,
+        18662
+      ],
+      "approvedPrimaryWaterfall": [
+        22393,
+        22393,
+        22393,
+        22393,
+        22392,
+        22392,
+        22392,
+        18662,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3731,
+        "G10": 3731,
+        "G05": 1,
+        "G09": 85,
+        "G11": 85
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2020,
+      "physicalRows": 23054,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 23054,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 22966,
+          "newlyExcludedRows": 88
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 22966
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        19562,
+        19562,
+        19562,
+        19562
+      ],
+      "approvedPrimaryWaterfall": [
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        23054,
+        19562,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3492,
+        "G10": 3492
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2021,
+      "physicalRows": 26039,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26039,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26039,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26039,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26037,
+          "newlyExcludedRows": 2
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26036,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26036,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26036,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 25890,
+          "newlyExcludedRows": 146
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 25890
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26039,
+        26039,
+        26039,
+        26037,
+        26036,
+        26036,
+        26036,
+        22009,
+        22009,
+        22009,
+        22009
+      ],
+      "approvedPrimaryWaterfall": [
+        26039,
+        26039,
+        26039,
+        26037,
+        26036,
+        26036,
+        26036,
+        22009,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 4027,
+        "G10": 4027,
+        "G04": 2,
+        "G05": 3
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "physicalRows": 25894,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 25894,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 25894,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 25894,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 25892,
+          "newlyExcludedRows": 2
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 25892,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 25892,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 25892,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 25762,
+          "newlyExcludedRows": 130
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 25762
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        25894,
+        25894,
+        25894,
+        25892,
+        25892,
+        25892,
+        25892,
+        21928,
+        21928,
+        21928,
+        21928
+      ],
+      "approvedPrimaryWaterfall": [
+        25894,
+        25894,
+        25894,
+        25892,
+        25892,
+        25892,
+        25892,
+        21928,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3964,
+        "G10": 3964,
+        "G04": 2,
+        "G05": 2
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "physicalRows": 26401,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26401,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26401,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26401,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26399,
+          "newlyExcludedRows": 2
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26399,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26399,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26399,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 26246,
+          "newlyExcludedRows": 153
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 26246
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26401,
+        26401,
+        26401,
+        26399,
+        26399,
+        26399,
+        26399,
+        22850,
+        22850,
+        22850,
+        22850
+      ],
+      "approvedPrimaryWaterfall": [
+        26401,
+        26401,
+        26401,
+        26399,
+        26399,
+        26399,
+        26399,
+        22850,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3549,
+        "G10": 3549,
+        "G04": 2,
+        "G05": 2
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2024,
+      "physicalRows": 26306,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26306,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26306,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26306,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26303,
+          "newlyExcludedRows": 3
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26303,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26303,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26303,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 26078,
+          "newlyExcludedRows": 225
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 26078
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26306,
+        26306,
+        26306,
+        26303,
+        26303,
+        26303,
+        26303,
+        22467,
+        22467,
+        22467,
+        22467
+      ],
+      "approvedPrimaryWaterfall": [
+        26306,
+        26306,
+        26306,
+        26303,
+        26303,
+        26303,
+        26303,
+        22467,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 3837,
+        "G10": 3837,
+        "G04": 3,
+        "G05": 3
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2025,
+      "physicalRows": 26651,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 26651,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 26651,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 26651,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 26649,
+          "newlyExcludedRows": 2
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 26649,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 26649,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 26649,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 26476,
+          "newlyExcludedRows": 173
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 26476
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        26651,
+        26651,
+        26651,
+        26649,
+        26649,
+        26649,
+        26649,
+        22520,
+        22520,
+        22520,
+        22520
+      ],
+      "approvedPrimaryWaterfall": [
+        26651,
+        26651,
+        26651,
+        26649,
+        26649,
+        26649,
+        26649,
+        22520,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 4129,
+        "G10": 4129,
+        "G04": 2,
+        "G05": 2
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NBA",
+      "year": 2026,
+      "physicalRows": 5414,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 5414,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 0,
+          "newlyExcludedRows": 5414
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        4752,
+        4752,
+        4752,
+        4752
+      ],
+      "approvedPrimaryWaterfall": [
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        5414,
+        4752,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 662,
+        "G10": 662
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "physicalRows": 49197,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 49197,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 49197,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 49197,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 46931,
+          "newlyExcludedRows": 2266
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 46931,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 46581,
+          "newlyExcludedRows": 350
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 46581,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 46581,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 46581
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        49197,
+        49197,
+        49197,
+        46931,
+        46931,
+        46581,
+        46581,
+        45363,
+        45363,
+        45363,
+        45363
+      ],
+      "approvedPrimaryWaterfall": [
+        49197,
+        49197,
+        49197,
+        46931,
+        46931,
+        46581,
+        46581,
+        45363,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 1326,
+        "G10": 1326,
+        "G04": 2266,
+        "G05": 2266,
+        "G06": 350
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "physicalRows": 50840,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 48516,
+          "newlyExcludedRows": 2324
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 48515,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 48225,
+          "newlyExcludedRows": 290
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 48225,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 48225,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 48225
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        50840,
+        50840,
+        50840,
+        48516,
+        48515,
+        48225,
+        48225,
+        48035,
+        48035,
+        48035,
+        48035
+      ],
+      "approvedPrimaryWaterfall": [
+        50840,
+        50840,
+        50840,
+        48516,
+        48515,
+        48225,
+        48225,
+        48035,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2324,
+        "G05": 2325,
+        "G08": 218,
+        "G10": 218,
+        "G06": 290
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "physicalRows": 50840,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 50840,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 48475,
+          "newlyExcludedRows": 2365
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 48475,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 48193,
+          "newlyExcludedRows": 282
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 48193,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 48193,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 48193
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        50840,
+        50840,
+        50840,
+        48475,
+        48475,
+        48193,
+        48193,
+        47990,
+        47990,
+        47990,
+        47990
+      ],
+      "approvedPrimaryWaterfall": [
+        50840,
+        50840,
+        50840,
+        48475,
+        48475,
+        48193,
+        48193,
+        47990,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2365,
+        "G05": 2365,
+        "G08": 232,
+        "G10": 232,
+        "G06": 282
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "physicalRows": 43280,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 43280,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 43280,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 43280,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 41256,
+          "newlyExcludedRows": 2024
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 41255,
+          "newlyExcludedRows": 1
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 40985,
+          "newlyExcludedRows": 270
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 40985,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 40985,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 40985
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        43280,
+        43280,
+        43280,
+        41256,
+        41255,
+        40985,
+        40985,
+        40792,
+        40792,
+        40792,
+        40792
+      ],
+      "approvedPrimaryWaterfall": [
+        43280,
+        43280,
+        43280,
+        41256,
+        41255,
+        40985,
+        40985,
+        40792,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2024,
+        "G05": 2025,
+        "G08": 213,
+        "G10": 213,
+        "G06": 270
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "physicalRows": 34700,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 34700,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 34700,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 34700,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 33078,
+          "newlyExcludedRows": 1622
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 33078,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 32917,
+          "newlyExcludedRows": 161
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 32917,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 32917,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 32917
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        34700,
+        34700,
+        34700,
+        33078,
+        33078,
+        32917,
+        32917,
+        32681,
+        32681,
+        32681,
+        32681
+      ],
+      "approvedPrimaryWaterfall": [
+        34700,
+        34700,
+        34700,
+        33078,
+        33078,
+        32917,
+        32917,
+        32681,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 1622,
+        "G05": 1622,
+        "G08": 275,
+        "G10": 275,
+        "G06": 161
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "physicalRows": 52460,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 50026,
+          "newlyExcludedRows": 2434
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 50026,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 49825,
+          "newlyExcludedRows": 201
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 49825,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 49825,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 49825
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        52460,
+        52460,
+        52460,
+        50026,
+        50026,
+        49825,
+        49825,
+        49559,
+        49559,
+        49559,
+        49559
+      ],
+      "approvedPrimaryWaterfall": [
+        52460,
+        52460,
+        52460,
+        50026,
+        50026,
+        49825,
+        49825,
+        49559,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G08": 312,
+        "G10": 312,
+        "G04": 2434,
+        "G05": 2434,
+        "G06": 201
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "physicalRows": 52460,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 52460,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 49993,
+          "newlyExcludedRows": 2467
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 49993,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 49814,
+          "newlyExcludedRows": 179
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 49814,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 49814,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 49814
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        52460,
+        52460,
+        52460,
+        49993,
+        49993,
+        49814,
+        49814,
+        49627,
+        49627,
+        49627,
+        49627
+      ],
+      "approvedPrimaryWaterfall": [
+        52460,
+        52460,
+        52460,
+        49993,
+        49993,
+        49814,
+        49814,
+        49627,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2467,
+        "G05": 2467,
+        "G08": 213,
+        "G10": 213,
+        "G06": 179
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "physicalRows": 52468,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 52468,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 52468,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 52468,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 50018,
+          "newlyExcludedRows": 2450
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 50018,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 49818,
+          "newlyExcludedRows": 200
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 49818,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 49818,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 49818
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        52468,
+        52468,
+        52468,
+        50018,
+        50018,
+        49818,
+        49818,
+        49641,
+        49641,
+        49641,
+        49641
+      ],
+      "approvedPrimaryWaterfall": [
+        52468,
+        52468,
+        52468,
+        50018,
+        50018,
+        49818,
+        49818,
+        49641,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2450,
+        "G05": 2450,
+        "G08": 203,
+        "G10": 203,
+        "G06": 200
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "physicalRows": 52473,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 52473,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 52473,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 52473,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 49988,
+          "newlyExcludedRows": 2485
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 49988,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 49782,
+          "newlyExcludedRows": 206
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 49782,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 49782,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 49782
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        52473,
+        52473,
+        52473,
+        49988,
+        49988,
+        49782,
+        49782,
+        49598,
+        49598,
+        49598,
+        49598
+      ],
+      "approvedPrimaryWaterfall": [
+        52473,
+        52473,
+        52473,
+        49988,
+        49988,
+        49782,
+        49782,
+        49598,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2485,
+        "G05": 2485,
+        "G08": 208,
+        "G10": 208,
+        "G06": 206
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "physicalRows": 52478,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 52478,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 52478,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 52478,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 49998,
+          "newlyExcludedRows": 2480
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 49998,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 49835,
+          "newlyExcludedRows": 163
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 49835,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 49835,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 49835
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        52478,
+        52478,
+        52478,
+        49998,
+        49998,
+        49835,
+        49835,
+        49637,
+        49637,
+        49637,
+        49637
+      ],
+      "approvedPrimaryWaterfall": [
+        52478,
+        52478,
+        52478,
+        49998,
+        49998,
+        49835,
+        49835,
+        49637,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G04": 2480,
+        "G05": 2480,
+        "G06": 163,
+        "G08": 227,
+        "G10": 227
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "physicalRows": 14920,
+      "strictWaterfall": [
+        {
+          "gate": "G01",
+          "remainingRows": 14920,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G02",
+          "remainingRows": 14920,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G03",
+          "remainingRows": 14920,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G04",
+          "remainingRows": 14213,
+          "newlyExcludedRows": 707
+        },
+        {
+          "gate": "G05",
+          "remainingRows": 14213,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G06",
+          "remainingRows": 14173,
+          "newlyExcludedRows": 40
+        },
+        {
+          "gate": "G07",
+          "remainingRows": 14173,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G08",
+          "remainingRows": 14173,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G09",
+          "remainingRows": 0,
+          "newlyExcludedRows": 14173
+        },
+        {
+          "gate": "G10",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        },
+        {
+          "gate": "G11",
+          "remainingRows": 0,
+          "newlyExcludedRows": 0
+        }
+      ],
+      "candidateModelWaterfall": [
+        14920,
+        14920,
+        14920,
+        14213,
+        14213,
+        14173,
+        14173,
+        14103,
+        14103,
+        14103,
+        14103
+      ],
+      "approvedPrimaryWaterfall": [
+        14920,
+        14920,
+        14920,
+        14213,
+        14213,
+        14173,
+        14173,
+        14103,
+        0,
+        0,
+        0
+      ],
+      "candidateIndependentFailures": {
+        "G06": 40,
+        "G08": 77,
+        "G10": 77,
+        "G04": 707,
+        "G05": 707
+      },
+      "warning": "Candidate G09/G11 use retrospective calendar dates only; never accepted modeled knowledge."
+    }
+  ],
+  "strictRows": 0,
+  "primaryRows": 0,
+  "candidateRows": 1263474,
+  "classification": "CANDIDATE_VERSUS_PRIMARY_DISTINCT"
+}

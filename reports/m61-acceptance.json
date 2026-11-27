@@ -1,0 +1,129 @@
+{
+  "version": "m61-execution-acceptance-1",
+  "generatedAt": "2026-11-27T17:55:05.765470+00:00",
+  "startingCommit": "a13deab",
+  "executedBeforeImplementationCommit": true,
+  "tests": {
+    "unit": 367,
+    "python": 20,
+    "normalIntegration": 164,
+    "shuffledIntegration": 164,
+    "shuffledSeed": 261129,
+    "standardChromium": 20,
+    "conditionalStandardSkips": 4,
+    "restart": 2,
+    "separateRealSourceBrowserChecks": 3,
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "prisma": "PASS",
+    "productionWebpack": "PASS",
+    "securityVulnerabilities": 0
+  },
+  "databaseTestScope": "Disposable fantasy_evolution_test schemas and populated copies only",
+  "initialFailure": "One initial Chromium registration name-field timeout while build/compiler overlapped; original30sdeadline preserved. Serial full-suite rerun passed20/20 applicable workflows. Root cause not claimed as independently proven.",
+  "skips": "Three source/population opt-ins executed separately; development-mutating QA intentionally not run.",
+  "proofLogHashes": {
+    "units": "dd0e821e0c48b3d5a906d8673bb856b4d2a5e1e90e58de82ce6aa38a30689776",
+    "python": "244d5a0653221273c834694f46b92cd90f3b359bced7158e649fb89aef49f477",
+    "normalIntegration": "b313d497f88c40210b581d444813bf699b5ff25ed6f279133d301bacb790ea50",
+    "shuffledIntegration": "867f6c30f9f2126877298db3db1e30c6060143e6d1ee590ea860d439375420ac",
+    "initialBrowserFailure": "70f4509b4b2d4f124b3dbed04e359f3a4ebefca064d2478ed90c9fee89cb2469",
+    "browserSerialPass": "56ddb2c8f7d6c905a90e6ebae3ac24a4c372fa53c3a89ce7bb076552f41a67d0",
+    "restart": "c0e89f426579723fb1d860946d02d60f29b7aa33a30ade538036ee77736aebcd",
+    "realSourceAcceptance": "4302675376f1708d9c71708b743ea1006dd98be2000df54f6bf5a6e80d371a4f",
+    "typecheck": "a0369420b826d3759a7349d36ed542feedafb2d143d3e7d472eba88a1c2624f6",
+    "lint": "36281d461cee970aa7deb626927bcc4fdb06c283415eb400512023e901f8bc33",
+    "prisma": "1497a945118955463daf8911bac2b2330d7a5dc3c6f6993da7f55fac0b318050",
+    "webpack": "63c2aa79e2e462ffc2c3af35e452b446427272fd2e10fd3e5850800d04d809c7",
+    "security": "f658f2c48cbfc1688bc508557d5ac955c57a1d009417114a77157da3813da7c8"
+  },
+  "managedHealth": {
+    "application": "available",
+    "database": "connected",
+    "workers": {
+      "draftState": "HEALTHY",
+      "gameplayState": "HEALTHY",
+      "data": "HEALTHY"
+    },
+    "blockedDrafts": 1,
+    "canonicalCompetition": {
+      "status": "ACTIVE",
+      "retrying": 0,
+      "sports": [
+        {
+          "sport": "NFL",
+          "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T17:52:06.032Z",
+          "leaseUntil": null,
+          "lastProcessedAt": "2026-11-27T17:51:06.032Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 167
+        },
+        {
+          "sport": "NBA",
+          "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T17:52:06.051Z",
+          "leaseUntil": null,
+          "lastProcessedAt": "2026-11-27T17:51:06.051Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 270
+        },
+        {
+          "sport": "NHL",
+          "status": "PROCESSING",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T17:51:50.953Z",
+          "leaseUntil": "2026-11-27T17:55:57.445Z",
+          "lastProcessedAt": "2026-11-27T17:50:50.953Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 399
+        }
+      ]
+    },
+    "synchronized": 20,
+    "products": 20,
+    "retrying": 0,
+    "stale": 0
+  },
+  "recurringSnapshotEnabled": true,
+  "recurringStatisticsEnabled": true,
+  "genuineLiveScoringVerified": false,
+  "originalM5Checklist": {
+    "checked": 16,
+    "total": 32
+  },
+  "m4Checklist": {
+    "checked": 60,
+    "total": 60
+  },
+  "developmentPreservation": "reports/m61-preservation.json",
+  "historicalScoringSamples": 120,
+  "allHistoricalScoringSamplesMatch": true,
+  "replayIdentical": true,
+  "noNewMigrationOrBackfill": true,
+  "v10Active": false,
+  "contractsActive": false,
+  "m7Active": false,
+  "runtimeVersions": {
+    "node": "v24.8.0",
+    "python": "3.12.5",
+    "pyarrow": "26.0.1"
+  }
+}

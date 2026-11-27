@@ -265,8 +265,9 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
       if (role === "PITCHER" && ((slot === "SP" && status.usage !== "starter") || (slot === "RP" && status.usage !== "relief"))) return null;
       return status.probability;
     }
-    if (role !== "PITCHER" && role !== "GOALIE") return proxy ? 0.85 : 1;
-    if (!proxy) return null;
+    const modeledParticipation=proxy||input.decisionModel?.participation==="PRIOR_ONLY";
+    if (role !== "PITCHER" && role !== "GOALIE") return modeledParticipation ? 0.85 : 1;
+    if (!modeledParticipation) return null;
     const past = player.results.get(role)?.slice(-historyLimit) ?? [];
     if (!past.length) return null;
     const starts = past.filter((event) => event.started === true).length;

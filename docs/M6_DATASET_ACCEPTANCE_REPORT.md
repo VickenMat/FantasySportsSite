@@ -1,5 +1,7 @@
 # M6 historical dataset acceptance report
 
+> **Current comparison:** The table below preserves the original strict/preparation audit. The separately compiled approved-model candidates, actual primary exclusions and inventories are reported in [the current execution report](M6_METHODOLOGY_EXECUTION_REPORT.md); strict counts have not been overwritten.
+
 November 27, 2026. All 44 cohorts are inventoried from existing columnar partitions. This accepts preparation and measured coverage, not a complete historical fantasy baseline. Original files and frozen55/eleven-gate artifacts are unchanged.
 
 | Sport | Starting year | Physical rows | Players | Native games | Matched games | Played / unknown / DNP | Qualified score rows | Position-present rows after scoring | Strict decision rows | Season extent |

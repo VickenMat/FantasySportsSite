@@ -1,0 +1,280 @@
+{
+  "version": "m61-diagnostic-selections-1",
+  "snapshots": [
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/DATED_CARRY/NFL.json",
+      "sha256": "e30dc6cd598635e470f5156d15635a59ac6565418e131662ad9dbf4923642f66",
+      "fixtures": 272,
+      "outcomes": 11265,
+      "rosterFacts": 19794,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/DATED_CARRY/NFL.json",
+      "sha256": "7fc8c91bc590465107a98cd428c65280766699d1a1b6d49c2d438048b2c131af",
+      "fixtures": 272,
+      "outcomes": 11265,
+      "rosterFacts": 19794,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/PRIOR_ESTIMATE/NFL.json",
+      "sha256": "c94aaf1eb3c60eb450bef8e0d883ff3f2fd73ac3ec06b2b6e86862e0de8eea23",
+      "fixtures": 272,
+      "outcomes": 11265,
+      "rosterFacts": 19794,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/PRIOR_ESTIMATE/NFL.json",
+      "sha256": "d257db446fe56c5aa90c27003c8c97d28005e2a127dbcaa78131d111eb352382",
+      "fixtures": 272,
+      "outcomes": 11265,
+      "rosterFacts": 19794,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/DATED_CARRY/MLB.json",
+      "sha256": "43a26d4193585201ee4266112656602e289b70def1373d203f9f734648597490",
+      "fixtures": 2427,
+      "outcomes": 141981,
+      "rosterFacts": 66773,
+      "positionFacts": 882,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/DATED_CARRY/MLB.json",
+      "sha256": "1823b609b033f624ffde9cf2af9c741be5adc09352c1da48de44c8167431e3e9",
+      "fixtures": 2427,
+      "outcomes": 141981,
+      "rosterFacts": 66773,
+      "positionFacts": 882,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/PRIOR_ESTIMATE/MLB.json",
+      "sha256": "020113b13178156462bff17706695fc1c8b34910e713184f3726dda80e29ce64",
+      "fixtures": 2427,
+      "outcomes": 141981,
+      "rosterFacts": 66773,
+      "positionFacts": 882,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/PRIOR_ESTIMATE/MLB.json",
+      "sha256": "3b762b327b2efa1e5d95e4ebe6b70ddfa9c04dbe7bc060cb05ea15d16d78bc24",
+      "fixtures": 2427,
+      "outcomes": 141981,
+      "rosterFacts": 66773,
+      "positionFacts": 882,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/DATED_CARRY/NBA.json",
+      "sha256": "3f79caba2ea363687c30dda437a24299b283770cd70b5c550d947b9ec261f830",
+      "fixtures": 1230,
+      "outcomes": 52291,
+      "rosterFacts": 26790,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/DATED_CARRY/NBA.json",
+      "sha256": "26c57456fb7e8fd3887ae431115e1c6803832d5b0d49a7ab56b52a2ba6b41aed",
+      "fixtures": 1230,
+      "outcomes": 52291,
+      "rosterFacts": 26790,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/PRIOR_ESTIMATE/NBA.json",
+      "sha256": "3585a9bda0207bfcc857cc26c4a4d9f96ace5cb97b665d1b61ed75f2aca693a3",
+      "fixtures": 1230,
+      "outcomes": 52291,
+      "rosterFacts": 26790,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/PRIOR_ESTIMATE/NBA.json",
+      "sha256": "b7ee5608157c4bee2e26bcedbca46b485880fd590c5b957dfc9a67cf19e3f391",
+      "fixtures": 1230,
+      "outcomes": 52291,
+      "rosterFacts": 26790,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/DATED_CARRY/NHL.json",
+      "sha256": "f97db509f468ba46723fb094811a96d7053168eea02ab6c041fe0234e165cf61",
+      "fixtures": 1312,
+      "outcomes": 100011,
+      "rosterFacts": 53317,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "DATED_CARRY",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/DATED_CARRY/NHL.json",
+      "sha256": "3370f7f2af72cdeca443ef6a131a5c1e1444bc44657113ee7a576772d20a9a7e",
+      "fixtures": 1312,
+      "outcomes": 100011,
+      "rosterFacts": 53317,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "informationModel": "TWO_DAY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/TWO_DAY/PRIOR_ESTIMATE/NHL.json",
+      "sha256": "1c31d3de6a3460f9390157a013b00aa7aae5b882367909eb1aeb7aeb91360514",
+      "fixtures": 1312,
+      "outcomes": 100011,
+      "rosterFacts": 53317,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "informationModel": "WEEKLY",
+      "positionModel": "PRIOR_ESTIMATE",
+      "path": "data/simulation/approved_model_v1/2023/WEEKLY/PRIOR_ESTIMATE/NHL.json",
+      "sha256": "b9b954af1346acb48592169aaddb6595a027cf2690481e8e0d13e46f37a5a2da",
+      "fixtures": 1312,
+      "outcomes": 100011,
+      "rosterFacts": 53317,
+      "positionFacts": 0,
+      "classification": "SOURCE_CALENDAR_DIAGNOSTIC_NOT_PRIMARY",
+      "limitations": [
+        "Schedule assumed known for source-calendar diagnostic only",
+        "Terminal status does not verify actual completion UTC day; two-day from scheduled UTC date is NOT approved primary chronology"
+      ]
+    }
+  ],
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "productionWrites": 0,
+  "frozenPartitionsChanged": false
+}
