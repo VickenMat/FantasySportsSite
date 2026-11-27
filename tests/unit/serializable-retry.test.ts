@@ -1,0 +1,4 @@
+import {it,expect} from 'vitest';
+import {withSerializableRetry} from '@/server/serializable-retry';
+it('retries transient rolled-back Serializable conflicts within a bounded transaction retry budget',async()=>{let attempts=0;const waits:number[]=[];expect(await withSerializableRetry(async()=>{if(++attempts<3)throw{code:'P2034'};return'accepted';},{wait:async n=>{waits.push(n);}})).toBe('accepted');expect(attempts).toBe(3);expect(waits).toEqual([10,20]);});
+it('does not hide a lost lease, provider failure or exhausted Serializable retry',async()=>{const lost=new Error('Lease lost');let attempts=0;await expect(withSerializableRetry(async()=>{attempts++;throw lost;},{wait:async()=>{}})).rejects.toBe(lost);expect(attempts).toBe(1);attempts=0;await expect(withSerializableRetry(async()=>{attempts++;throw{code:'P2034'};},{wait:async()=>{}})).rejects.toMatchObject({code:'P2034'});expect(attempts).toBe(4);});

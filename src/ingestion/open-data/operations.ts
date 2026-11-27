@@ -1,5 +1,6 @@
 import { loadRecurringCompetitionAuthorization, recurringCompetitionPolicy, recurringCompetitionPolicyFingerprint } from './recurring-competition';
 import { loadRecurringSnapshotAuthorization, recurringSnapshotPolicy, recurringSnapshotPolicyFingerprint } from './recurring-snapshots';
+import {readCompetitionOperations} from './competition-operations';
 import { getDatabase } from '@/lib/db';
 import { workerState } from '@/server/worker-health';
 import { releaseKey } from './scheduler';
@@ -11,9 +12,10 @@ export async function releaseOperations(at = new Date()) {
   const competitionAuthorization=await loadRecurringCompetitionAuthorization();
   const recurringStatisticalPromotionEnabled=competitionAuthorization.success&&competitionAuthorization.data.policyFingerprint===recurringCompetitionPolicyFingerprint;
   const canonicalSnapshotsEnabled=authorization.success&&authorization.data.policyFingerprint===recurringSnapshotPolicyFingerprint;
-  const [states, heartbeat] = await Promise.all([
+  const [states, heartbeat,canonicalCompetition] = await Promise.all([
     db.professionalSyncState.findMany({ where: { provider: { startsWith: 'open-release:' } } }),
     db.backgroundJobRun.findUnique({ where: { key: 'worker:professional-data' }, select: { status: true, startedAt: true, result: true } }),
+    readCompetitionOperations(db,recurringStatisticalPromotionEnabled,recurringCompetitionPolicyFingerprint,at),
   ]);
   const disabled=(heartbeat?.result as {releaseStatus?:string}|null)?.releaseStatus==='DISABLED';
   const products = releaseRegistry.map(product => {
@@ -26,5 +28,5 @@ export async function releaseOperations(at = new Date()) {
       status: !product.enabled||disabled ? 'DISABLED' : state?.lastFailure ? 'RETRYING' : state?.lastSuccessAt ? 'SYNCHRONIZED' : 'AWAITING_FIRST_RETRIEVAL', sourceFreshness: freshness,
       requestsConsumed: state?.requests ?? 0, failures: state?.failures ?? 0, lastFailure: state?.lastFailure ?? null, nextPollAt: state?.nextPollAt ?? null, leaseUntil: state?.leaseUntil ?? null, cursor };
   });
-  return { worker: (heartbeat?.result as {stoppedAt?:string}|null)?.stoppedAt?'STOPPED':workerState(heartbeat, at, 180_000),retrievalActivation:disabled?'DISABLED':'CONFIGURED', transport: 'CONDITIONAL_BATCH_RELEASES', liveFeedEnabled: false, canonicalSnapshotsEnabled, recurringSnapshotPolicyFingerprint, recurringStatisticalPromotionEnabled, competitiveScoring: 'APPROVED_CONSERVATIVE_OBSERVED_POLICY', requestWindows: releaseRequestWindows, products };
+  return { worker: (heartbeat?.result as {stoppedAt?:string}|null)?.stoppedAt?'STOPPED':workerState(heartbeat, at, 180_000),retrievalActivation:disabled?'DISABLED':'CONFIGURED', transport: 'CONDITIONAL_BATCH_RELEASES', liveFeedEnabled: false, canonicalSnapshotsEnabled, recurringSnapshotPolicyFingerprint, recurringStatisticalPromotionEnabled,canonicalCompetition, competitiveScoring: 'APPROVED_CONSERVATIVE_OBSERVED_POLICY', requestWindows: releaseRequestWindows, products };
 }

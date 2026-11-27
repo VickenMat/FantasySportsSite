@@ -1,6 +1,6 @@
-# M5 operational delivery and evidence report
+# Prior M5 operational delivery checkpoint — historical report
 
-November 26, 2026, America/Los_Angeles. This is the verified continuation report. Full checkpoint acceptance passed; the separately reviewed new data and future-statistics approvals remain pending. Historical deployment, disposable-copy evidence, controlled fantasy fixtures and external source limitations remain distinct.
+November 26, 2026, America/Los_Angeles. This preserves the preceding operational checkpoint and its then-pending approvals. The later user approved those exact targets and statistical authority; current application, checklist, M6 preparation and final verification are in [the A–H engineering-closure report](M5_ENGINEERING_CLOSURE_COMPLETION_REPORT.md). Counts and pending statements below are historical, not current status.
 
 1. **Git.** Verified implementation checkpoint `08891d3` is synchronized to `origin/main`, descending from the user's screenshot-only `b726bcf`. The three screenshot hashes are unchanged. This final evidence update follows as an ordinary documentation commit; `git log -1` identifies that report checkpoint. No force-push, raw datasets, backups or secrets are included.
 2. **Approved A.** Applied exactly `387869154d0a85654c6e86c97877b2ecfdfaa199cd8e149b4ba72c51ca604940`: 58 NBA players/538 aliases;1,248 NFL players/3,402 aliases;162 NFL statistics across seven existing games;1,660 NHL revisions/665 players;16 MLB historical ledgers/entries. NFL component `6c6bb8270a5728b9ab8fd6f5903a3658c3bf32e43ec7fb57de6f9fc78017cd2b` is preserved. Replay zero.

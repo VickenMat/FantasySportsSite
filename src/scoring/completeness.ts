@@ -3,6 +3,8 @@ import { calculateScore, type ScoringRuleInput, type StatValues } from "./engine
 
 export type HistoricalAppearance = {
   playerId: string; gameId: string; role: GameStatRole; normalized: StatValues; observedPositions: string[];
+  /** Exact persisted score-entry context; never a prospective eligibility grant. */
+  teEligible?: boolean;
 };
 
 /** Latest revisions only; counts are distinct player/game appearances, not source rows. */
@@ -23,7 +25,7 @@ export function scoringCompleteness(rows: HistoricalAppearance[], rules: Scoring
     if (selected.length > 1) reasons.add(`AMBIGUOUS_ROLE:${selected.map(({ role }) => role).sort().join("+")}`);
     for (const row of selected) {
       const score = calculateScore(rules, { role: row.role, stats: row.normalized,
-        teEligible: row.role === "FOOTBALL" && row.observedPositions.length ? row.observedPositions.includes("TE") : null });
+        teEligible: row.role === "FOOTBALL" ? row.teEligible ?? (row.observedPositions.length ? row.observedPositions.includes("TE") : null) : null });
       for (const stat of score.missingStats) reasons.add(`${row.role}:${stat}`);
     }
     if (reasons.size) { affectedAppearances++; affectedPlayers.add(appearances[0].playerId); }

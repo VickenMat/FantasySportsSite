@@ -1,3 +1,4 @@
+import{sourceUuid}from"./professional-team-membership";
 import{Prisma}from"@/generated/prisma/client";
 /** Same source-consensus projection drives start locks and competitive publication.
  * Accepted V5 scheduling supplies a conservative operational fallback, never an exact actual-start claim.
@@ -13,7 +14,7 @@ export function professionalGameProjection(at:Date){
      CASE WHEN COUNT(DISTINCT claim.normalized->>'status')=1 AND MIN(claim.normalized->>'status')='FINAL' AND NOT bool_or(claim."completionPending")
        THEN (SELECT MAX(e."completedAt") FROM "GameCompletionEvidence" e WHERE e."gameId"=game.id AND e."knownAt"<=${at}
          AND (e.provider<>'conservative-event-policy' OR EXISTS(SELECT 1 FROM(
-           SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"::text=e."sourceRecord"->>'sourceObservationId' AND receipt."decidedAt"<=${at} ORDER BY receipt.version DESC LIMIT 1
+           SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"=${sourceUuid(Prisma.sql`e."sourceRecord"->>'sourceObservationId'`)} AND receipt."decidedAt"<=${at} ORDER BY receipt.version DESC LIMIT 1
          ) known WHERE known.outcome='ACCEPTED'))) END AS "operationalCompletedAt",
      COALESCE(CASE WHEN COUNT(DISTINCT (claim.normalized->>'completedAt')::timestamptz) = 1
        AND NOT bool_or(claim."completionPending")
@@ -21,7 +22,7 @@ export function professionalGameProjection(at:Date){
        (SELECT CASE WHEN COUNT(DISTINCT exact."completedAt")=1 THEN MIN(exact."completedAt") END
         FROM "GameCompletionEvidence" exact WHERE exact."gameId"=game.id AND exact."knownAt"<=${at}
           AND (exact.provider<>'conservative-event-policy' OR (exact."sourceRecord"->>'precision'='EXACT_VERIFIED' AND EXISTS(SELECT 1 FROM(
-            SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"::text=exact."sourceRecord"->>'sourceObservationId' AND receipt."decidedAt"<=${at} ORDER BY receipt.version DESC LIMIT 1
+            SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"=${sourceUuid(Prisma.sql`exact."sourceRecord"->>'sourceObservationId'`)} AND receipt."decidedAt"<=${at} ORDER BY receipt.version DESC LIMIT 1
           ) known WHERE known.outcome='ACCEPTED'))))
      ) AS "completedAt",
      CASE WHEN COUNT(DISTINCT claim.normalized->>'status') = 1 AND NOT bool_or(claim."completionPending")

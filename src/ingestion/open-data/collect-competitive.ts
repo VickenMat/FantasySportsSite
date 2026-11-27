@@ -10,6 +10,7 @@ import { nflCompletedScheduleResult } from '@/ingestion/open-data/nfl-schedule-r
 import { buildNflCompetitiveRecords,buildNhlCompetitiveRecords,buildNbaCompetitiveRecords,type CanonicalCompetitiveGame,type CompetitiveSourceProof,type CompetitiveGameStage } from '@/ingestion/open-data/competitive-records';
 import { historicalStatsForScoring } from '@/scoring/historical-evidence';
 import type { StatValues } from '@/scoring/engine';
+import {canonicalSourcePlayerAliases} from './canonical-player-aliases';
 import {competitiveRevisionOrdinal} from './competitive-revision-receipt';
 import {reconcileNhlEvents} from './nhl-evidence';
 import {proveNhlGoalieDecisions} from './nhl-goalie-decisions';
@@ -40,7 +41,7 @@ export async function collectReadOnlyCompetitiveStages(db:PrismaClient,options:{
  const crosswalk=extendedNba?await retained('data/provider_previews/sportsdataverse/schedule-crosswalks/nba_schedule_crosswalk_2027.csv','data/provider_previews/sportsdataverse/schedule-crosswalks/nba_schedule_crosswalk_2027.csv.source.json'):null;
  const canonical=await db.$transaction(async tx=>{await tx.$executeRaw`SET TRANSACTION READ ONLY`;const[games,players,stats]=await Promise.all([
   tx.game.findMany({where:{sport:{in:options.sport?[options.sport]:['NFL','NBA','NHL']},season:{startYear:2026}},include:{season:true,teams:{include:{team:true}},scheduleObservations:{select:{id:true,contentHash:true,sourceRecord:true,scheduleExternalId:true,scheduleProvider:true,gameDate:true,retrievedAt:true,importBatch:{select:{status:true,importerVersion:true}}}}}}),
-  tx.playerExternalId.findMany({where:{provider:'v9-historical',sport:{in:options.sport?[options.sport]:['NFL','NBA','NHL']},player:{isSynthetic:false,isDemo:false}},select:{sport:true,externalId:true,playerId:true}}),
+  canonicalSourcePlayerAliases(tx,options.sport?[options.sport]:['NFL','NBA','NHL'],options.validatedAt?new Date(options.validatedAt):new Date()),
   tx.playerGameStat.findMany({where:{provider:'v9-historical',game:{sport:'NHL',season:{startYear:2026}},player:{isSynthetic:false,isDemo:false}},orderBy:[{revision:'desc'},{recordedAt:'desc'}],distinct:['gameId','playerId','role'],select:{id:true,contentHash:true,gameId:true,playerId:true,teamId:true,role:true,normalized:true,raw:true,provider:true}})
  ]);return{games,players,stats};},{isolationLevel:'RepeatableRead',timeout:120000});
  const proofs=[nfl.proof,nflSchedule.proof,info.proof,skaters.proof,goalies.proof,nbaBox.proof,nbaSchedule.proof,...(crosswalk?[crosswalk.proof]:[]),...(futureNhl?[nhlScoring.proof,nhlEventProduct.proof]:[])].filter(proof=>proof.sha256);

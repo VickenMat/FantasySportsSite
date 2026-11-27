@@ -1,5 +1,7 @@
 # Bounded NBA6/NHL4 identity discovery review
 
+> Current status — November 26, 2026 Pacific: the exact consolidated identity target `281641b0d5912b469d8b2153f19399774e28ee6049ae3ad355324a50aa717197` is approved, applied and replay-verified (six NBA players, four NHL players, ten aliases). Eligibility remains separately gated. The proposal-time findings below are retained as the review record. See [the verified closure report](M5_ENGINEERING_CLOSURE_COMPLETION_REPORT.md).
+
 All ten known discovery candidates have sufficient retained licensed evidence to prepare exact identity-only proposals now. This work is internal implementation and approval work, not an external source-data blocker. No additional sources were fetched, and no development rows were changed.
 
 Fresh read-only canonical review at `2026-11-27T02:30:26.980Z` found all ten direct source IDs missing, with no existing reviewed overlay, no canonical UUID collision and no same-sport name collision after conservative case/diacritic/punctuation normalization. Normalized names are used only to reject possible collisions; they never establish a positive identity merge.

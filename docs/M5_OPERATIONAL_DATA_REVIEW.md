@@ -1,5 +1,7 @@
 # M5 operational player and season evidence review
 
+> Current status — November 26, 2026 Pacific: the reviewed supplemental target `0413f205…660d1`, ten-identity target `281641b0…17197` and recurring statistical policy `d3a19375…1c2eb6` are now approved and applied/enabled. The separate eighteen-fact eligibility follow-up remains unapproved and unapplied. Proposal-time statuses below are historical; [the engineering closure report](M5_ENGINEERING_CLOSURE_COMPLETION_REPORT.md) records actual application and verification.
+
 The November 26 continuation explicitly approves observed player snapshots and conservative prospective gameplay evidence. The exact initial target and narrow recurring snapshot policy below are approved and applied. Separately identified supplements remain unapproved. The separately approved A/B historical/identity targets are unchanged. Current grant validity must start no earlier than policy adoption, trustworthy source observation and actual processing/application; original professional effective/publication instants stay unknown.
 
 ## Source snapshot processing

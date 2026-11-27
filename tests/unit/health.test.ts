@@ -53,3 +53,9 @@ it("reports degradation for a persistently blocked scheduled draft even while bo
   expect(response.status).toBe(503);
   expect(await response.json()).toMatchObject({ status: "degraded", blockedSchedules: 1 });
 });
+
+it('separates canonical competition retry from healthy source transport and league health',async()=>{
+ query.mockResolvedValueOnce([]);findUnique.mockResolvedValueOnce({status:'RUNNING',startedAt:new Date(),result:{}});findFirst.mockResolvedValueOnce({status:'COMPLETE',startedAt:new Date(),result:{}});
+ operations.mockResolvedValueOnce({worker:'DEGRADED',products:[],canonicalCompetition:{status:'DEGRADED',retrying:1,sports:[{sport:'NHL',status:'RETRYING',lastAcceptedAt:null}]},competitiveScoring:'APPROVED_CONSERVATIVE_OBSERVED_POLICY'});
+ const response=await GET();expect(response.status).toBe(503);expect(await response.json()).toMatchObject({leagueHealth:'HEALTHY',data:{status:'DEGRADED',retrying:0,canonicalCompetition:{status:'DEGRADED',retrying:1}}});
+});

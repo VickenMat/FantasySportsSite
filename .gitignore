@@ -48,3 +48,6 @@ next-env.d.ts
 /Datasets/
 /data/
 .dev-stack-lock/
+
+# Local reviewed-data deployment lock
+/.reviewed-data-application-lock

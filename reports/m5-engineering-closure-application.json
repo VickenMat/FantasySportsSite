@@ -1,0 +1,231 @@
+{
+  "version": "m5-engineering-closure-application-1",
+  "instructionDatePacific": "2026-11-26",
+  "timeZone": "America/Los_Angeles",
+  "auditCapturedAtUtc": "2026-11-27T04:03:52.208Z",
+  "applications": {
+    "supplemental": {
+      "fingerprint": "0413f205bf71b0369108b58d998745caf04641c360546842febdcdea6cb660d1",
+      "applied": true,
+      "finalOnlyObservations": 3258,
+      "newNhlStatistics": 40,
+      "newNhlScoreEntries": 40,
+      "mlbExistingStatisticsScored": 26,
+      "mlbNewStatistics": 0,
+      "newCompleteBoxes": 2,
+      "originalTablesPreserved": 90,
+      "originalRowsUnchanged": true,
+      "replayChanges": 0,
+      "backup": {
+        "bytes": 65738146,
+        "sha256": "d1bfd2a05f7094e115d0f395a5e9df7cc8121877e5aa1fe505414b77115ebe2a",
+        "archiveListAndFullDecodeVerified": true,
+        "clusterVerified": true
+      }
+    },
+    "identities": {
+      "fingerprint": "281641b0d5912b469d8b2153f19399774e28ee6049ae3ad355324a50aa717197",
+      "applied": true,
+      "nbaPlayers": 6,
+      "nhlPlayers": 4,
+      "newAliases": 10,
+      "originalTablesPreserved": 90,
+      "originalRowsUnchanged": true,
+      "replayChanges": 0,
+      "backup": {
+        "bytes": 65734250,
+        "sha256": "0353e8b1b82a356a9a984b4816464e9cc30ad2877fcc2803978bd7da9ab0075a",
+        "archiveListAndFullDecodeVerified": true,
+        "clusterVerified": true
+      }
+    }
+  },
+  "recurringStatistics": {
+    "enabled": true,
+    "policyFingerprint": "d3a1937527bdca3ce94d9db47cb761417fa89c96e4d3be53a82e0ccd001c2eb6",
+    "approvedAt": "2026-11-27T02:56:49.458Z",
+    "boundaryMeaning": "Local processing boundary of explicit authorization, not user-click or official publication time",
+    "sports": [
+      {
+        "sport": "NFL",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 165
+      },
+      {
+        "sport": "NBA",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 270
+      },
+      {
+        "sport": "NHL",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 399
+      }
+    ]
+  },
+  "professionalIdentitiesBySport": {
+    "NFL": 3075,
+    "MLB": 1472,
+    "NBA": 538,
+    "NHL": 876
+  },
+  "protectedCounts": {
+    "User": 11,
+    "League": 7,
+    "Player": 9358,
+    "PlayerExternalId": 11984,
+    "PlayerGameStat": 188156,
+    "RosterEntry": 47,
+    "RosterAssignmentEvent": 48,
+    "Draft": 4,
+    "ScoreLedger": 400,
+    "ScoreLedgerEntry": 412,
+    "GameCompletionEvidence": 3263,
+    "GameLineupSnapshot": 0,
+    "GameScheduleObservation": 57352,
+    "HistoricalGameCrosswalk": 52866,
+    "PlayerAvailabilityEvidence": 805,
+    "RookieEligibilityEvidence": 3075
+  },
+  "completions": [
+    {
+      "provider": "conservative-event-policy",
+      "rows": 3263
+    }
+  ],
+  "clocks": [
+    {
+      "sport": "NFL",
+      "category": "BOX_CLOCK",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NFL",
+      "category": "COMPLETE_FINAL_BOX",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NFL",
+      "category": "GAME_STATE",
+      "rows": 166,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "MLB",
+      "category": "BOX_CLOCK",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "MLB",
+      "category": "COMPLETE_FINAL_BOX",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "MLB",
+      "category": "GAME_STATE",
+      "rows": 2428,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NBA",
+      "category": "BOX_CLOCK",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NBA",
+      "category": "COMPLETE_FINAL_BOX",
+      "rows": 1,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NBA",
+      "category": "GAME_STATE",
+      "rows": 270,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NHL",
+      "category": "BOX_CLOCK",
+      "rows": 2,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NHL",
+      "category": "COMPLETE_FINAL_BOX",
+      "rows": 2,
+      "official_publication_fields": 0
+    },
+    {
+      "sport": "NHL",
+      "category": "GAME_STATE",
+      "rows": 399,
+      "official_publication_fields": 0
+    }
+  ],
+  "immutableTriggers": 38,
+  "allTriggersEnabled": true,
+  "scoringRules": 56,
+  "scoringRulesFingerprint": "75b6fa6dfcd22879339bd818d7e500cb377b4f9f7aa12ea65089aa225a536146",
+  "schemaAndV9Unchanged": true,
+  "managedSources": {
+    "products": 20,
+    "synchronized": 20,
+    "requestsConsumedIncludingRedirects": 68,
+    "failureCount": 0,
+    "liveFeedEnabled": false,
+    "canonicalSnapshotsEnabled": true,
+    "recurringStatisticsEnabled": true,
+    "measurement": "Final post-all-tests snapshot"
+  },
+  "health": {
+    "status": "degraded",
+    "application": "available",
+    "database": "connected",
+    "blockedDrafts": 1,
+    "blockedSchedules": 0,
+    "leagueHealth": "BLOCKED"
+  },
+  "pendingEligibilityProposal": {
+    "fingerprint": "81c8099d2816afb7a5606a8e5264807236dd3e1189e2ba5172f306232f562da2",
+    "approved": false,
+    "developmentApplied": false,
+    "disposableCopyPassed": true,
+    "originalTablesPreserved": 89,
+    "lateComponentAtomicRollback": true,
+    "lateSemanticAtomicRollback": true,
+    "replayChanges": 0,
+    "observations": 18,
+    "decisions": 18,
+    "currentPositionPlayersAddedInCopy": 9,
+    "followingPositionPlayersAddedInCopy": 5,
+    "currentTeamPlayersAddedInCopy": 4
+  },
+  "migrationCount": 28,
+  "newMigrations": 0,
+  "developmentAuditReadOnly": true,
+  "privateBackupPathsAndRawCursorsExcluded": true,
+  "finalRegressionStatus": "PASSED",
+  "sourceStatusMeasuredAtUtc": "2026-11-27T04:24:03.588Z",
+  "finalAcceptanceReport": "reports/m5-engineering-closure-acceptance.json",
+  "finalPreservationReport": "reports/m5-engineering-closure-preservation.json",
+  "completionDistinctGamesBySport": {
+    "NFL": 166,
+    "MLB": 2428,
+    "NBA": 270,
+    "NHL": 399
+  }
+}

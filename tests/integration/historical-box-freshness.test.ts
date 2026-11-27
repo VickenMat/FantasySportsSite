@@ -8,7 +8,9 @@ import {applicableRules} from '@/scoring/engine';
 import {ubpV9Rules} from '@/scoring/ubp-v9';
 import {recalculateInTransaction} from '@/server/score-ledger';
 import {professionalDataFreshness} from '@/server/professional-data-freshness';
-import {invalidateCorrectionAnchor} from '@/server/publication-anchors';
+import {restoreMlbBoxRevision} from '@/ingestion/open-data/mlb-box-revision';
+import {contentFingerprint} from '@/ingestion/contracts';
+import {correctionAnchor,invalidateCorrectionAnchor} from '@/server/publication-anchors';
 const db=getDatabase();let fixtureYear=2093;
 afterAll(async()=>{await db.$disconnect();});
 async function fixture(){
@@ -27,9 +29,9 @@ async function fixture(){
  const state:Observation={...base,entityKey:`game-state:${game.id}`,normalized:{kind:'GAME_STATE',evidencePolicy:'CONSERVATIVE_OBSERVED_V1',game:{provider:canonical,externalId:game.externalId},status:'FINAL',scheduledStartsAt:game.startsAt!.toISOString(),actualStartsAt:null,completedAt:null}};
  const apply=(observation:Observation)=>db.$transaction(tx=>persistObservation(tx,observation,new Date(observation.observedAt)));
  expect((await apply(state)).outcome).toBe('ACCEPTED');
- const box:Observation={...base,entityKey:`complete-box:${game.id}`,observedAt:instant(18).toISOString(),normalized:{kind:'COMPLETE_FINAL_BOX',game:{provider:canonical,externalId:game.externalId},policyVersion:'CONSERVATIVE_OBSERVED_V1',sourceFingerprint:'a'.repeat(64),completeness:{allExpectedRowsPresent:true,rolesResolved:true,noUnresolvedContradictions:true,expectedPlayers:1},statistics:[{playerId:player.id,role:'HITTER',statId:stat.id,statHash:stat.contentHash,scoreEntryId:entry.entry.id}],publicationSemantics:'OBSERVED_COMPLETE_BOX',initialPublishedAt:null}};
+ const box:Observation={...base,raw:{synthetic:true,sourceFiles:[{scope:'FINAL_STATE',path:'data/provider_previews/synthetic-box.csv',sha256:'a'.repeat(64)}],acceptedStatTargets:[{playerId:player.id,sourcePlayerId:'synthetic-native-hitter',teamId:team.id,role:'HITTER',statId:stat.id,statHash:stat.contentHash,roleBasis:'SINGLE_CANONICAL_ROLE',expectedLedgerId:null,expectedEntryId:null}]},entityKey:`complete-box:${game.id}`,observedAt:instant(18).toISOString(),normalized:{kind:'COMPLETE_FINAL_BOX',game:{provider:canonical,externalId:game.externalId},policyVersion:'CONSERVATIVE_OBSERVED_V1',sourceFingerprint:'a'.repeat(64),completeness:{allExpectedRowsPresent:true,rolesResolved:true,noUnresolvedContradictions:true,expectedPlayers:1},statistics:[{playerId:player.id,role:'HITTER',statId:stat.id,statHash:stat.contentHash,scoreEntryId:entry.entry.id}],publicationSemantics:'OBSERVED_COMPLETE_BOX',initialPublishedAt:null}};
  const receipt=await apply(box);expect(receipt.outcome,receipt.reason).toBe('ACCEPTED');
- return{season,game,player,team,batch,stat,stats,entry,receipt,state,apply,instant,freshness:(hour:number)=>professionalDataFreshness({sport:'MLB',seasonId:season.id,asOf:instant(hour)})};
+ return{season,game,player,team,batch,stat,stats,entry,receipt,state,box,apply,instant,freshness:(hour:number)=>professionalDataFreshness({sport:'MLB',seasonId:season.id,asOf:instant(hour)})};
 }
 it('reports an accepted archived V9 box without inventing a source transport or publication timestamp',async()=>{
  const f=await fixture(),result=await f.freshness(18);
@@ -50,4 +52,21 @@ it('keeps invalidated historical box evidence under review',async()=>{
 it('keeps conflicting current game-state evidence under review despite the historical complete box',async()=>{
  const f=await fixture();expect((await f.apply({...f.state,provider:`conflict-${randomUUID()}`,observedAt:f.instant(19).toISOString(),normalized:{...f.state.normalized as Extract<Observation['normalized'],{kind:'GAME_STATE'}>,status:'LIVE'}})).outcome).toBe('ACCEPTED');
  expect(await f.freshness(19)).toMatchObject({status:'PENDING_REVIEW',receivedAt:null,publishedAt:null});
+});
+
+it('reuses the first immutable archived box revision after refreshing reviewed heads across a restart',async()=>{
+ const f=await fixture(),prior=await db.professionalDataObservation.findUniqueOrThrow({where:{id:f.receipt.observationId}}),before=await db.professionalDataObservation.count({where:{category:'COMPLETE_FINAL_BOX',entityKey:f.box.entityKey}}),anchor=await db.$transaction(tx=>correctionAnchor(tx,f.game.id,f.instant(18)));
+ const ledger=f.entry.ledger;if(!ledger)throw Error('Synthetic archived V9 fixture must create its ledger.');
+ const refreshed:Observation={...f.box,observedAt:f.instant(19).toISOString(),revisionOrdinal:Date.parse(f.instant(19).toISOString()),raw:{...f.box.raw,acceptedStatTargets:(f.box.raw.acceptedStatTargets as Record<string,unknown>[]).map(target=>({...target,expectedLedgerId:ledger.id,expectedEntryId:f.entry.entry.id}))}};
+ expect(contentFingerprint(refreshed)).not.toBe(prior.contentHash);
+ const restore=()=>db.$transaction(tx=>restoreMlbBoxRevision(tx,refreshed));
+ const stable=await restore();expect(contentFingerprint(stable)).toBe(prior.contentHash);expect(stable.observedAt).toBe(f.instant(19).toISOString());
+ expect((await f.apply(stable)).outcome).toBe('DUPLICATE');
+ // A separate client transaction reloads the original persisted representation,
+ // so process-local metadata is not required for restart idempotence.
+ expect(contentFingerprint(await restore())).toBe(prior.contentHash);
+ expect(await db.professionalDataObservation.count({where:{category:'COMPLETE_FINAL_BOX',entityKey:f.box.entityKey}})).toBe(before);
+ expect(await db.$transaction(tx=>correctionAnchor(tx,f.game.id,f.instant(19)))).toEqual(anchor);
+ const changed=structuredClone(refreshed);if(changed.normalized.kind!=='COMPLETE_FINAL_BOX')throw Error('Expected box.');changed.normalized.statistics[0].statHash='different-stat-proof';
+ await expect(db.$transaction(tx=>restoreMlbBoxRevision(tx,changed))).rejects.toThrow(/different source facts or statistical bindings/);
 });

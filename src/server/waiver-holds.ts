@@ -1,6 +1,7 @@
 import { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
 import { getDatabase } from "@/lib/db";
+import {playerGameCandidateCtes,sameProfessionalTeam,sourceUuid} from "./professional-team-membership";
 import { professionalGameProjection } from "./professional-game-state";
 
 const releaseHoldMilliseconds = 24 * 60 * 60 * 1000;
@@ -15,7 +16,7 @@ function linkedPlayerGame(playerId:string,at:Date){return Prisma.sql`(
    WHERE stat."playerId"=${playerId}::uuid AND historical.sport=game.sport AND historical."seasonId"=game."seasonId" AND bridge."importedAt"<=${at})
  OR EXISTS(SELECT 1 FROM(
    SELECT DISTINCT ON(observation.provider,observation."entityKey") observation.normalized,decision.targets,decision.outcome
-   FROM "ProfessionalDataObservation" observation
+   FROM player_membership_observations observation
    JOIN LATERAL(SELECT outcome,targets FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"=observation.id
      AND (observation.category='TEAM_ASSIGNMENT' OR receipt."decidedAt"<=LEAST(game."startsAt",source_state."actualStartsAt")) ORDER BY version DESC LIMIT 1) decision ON true
    WHERE observation.sport=game.sport AND decision.targets->>'playerId'=${playerId} AND decision.targets->>'seasonId'=game."seasonId"::text AND (
@@ -27,20 +28,19 @@ function linkedPlayerGame(playerId:string,at:Date){return Prisma.sql`(
   JOIN "GameTeam" participant ON participant."gameId"=game.id JOIN "ProTeam" game_team ON game_team.id=participant."teamId"
   WHERE membership.outcome='ACCEPTED' AND COALESCE((membership.normalized->>'retracted')::boolean,false)=false
    AND(membership.normalized->>'validUntil' IS NULL OR(membership.normalized->>'validUntil')::timestamptz>LEAST(game."startsAt",source_state."actualStartsAt"))
-   AND(current_team.id=game_team.id OR(game.sport IN('NFL','NHL','MLB') AND current_team.provider IN('v9-historical','schedule-v5') AND game_team.provider IN('v9-historical','schedule-v5') AND current_team."externalId"=game_team."externalId"
-     AND((game.sport='NFL' AND current_team."externalId"~'^[A-Z]{2,4}$') OR(game.sport IN('NHL','MLB') AND current_team."externalId"~'^[0-9]+$'))))
+   AND ${sameProfessionalTeam(Prisma.sql`${at}`)}
  )
 )`;}
 function knownCompletion(at:Date){return Prisma.sql`EXISTS(SELECT 1 FROM "GameCompletionEvidence" evidence WHERE evidence."gameId"=game.id AND evidence."knownAt"<=${at}
  AND(evidence.provider<>'conservative-event-policy' OR EXISTS(SELECT 1 FROM(SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt
- WHERE receipt."observationId"::text=evidence."sourceRecord"->>'sourceObservationId' AND receipt."decidedAt"<=${at} ORDER BY version DESC LIMIT 1) verified WHERE verified.outcome='ACCEPTED')))`;}
+ WHERE receipt."observationId"=${sourceUuid(Prisma.sql`evidence."sourceRecord"->>'sourceObservationId'`)} AND receipt."decidedAt"<=${at} ORDER BY version DESC LIMIT 1) verified WHERE verified.outcome='ACCEPTED')))`;}
 export async function pendingGameCompletionHold(tx: Prisma.TransactionClient, playerId: string, at: Date) {
-  const [result] = await tx.$queryRaw<{pending:boolean}[]>`WITH linked AS(
+  const [result] = await tx.$queryRaw<{pending:boolean}[]>`WITH ${playerGameCandidateCtes(playerId,at)},linked AS(
     SELECT game.id,season."startYear",source_start."resolvedStart" AS lock_at,source_state.sources,source_state.status,${knownCompletion(at)} AS completion_known,
       (SELECT observation.status FROM "GameScheduleObservation" observation JOIN "ScheduleImportBatch" batch ON batch.id=observation."importBatchId"
        WHERE observation."gameId"=game.id AND observation."scheduleProvider"='schedule-v5' AND observation."retrievedAt"<=${at} AND batch.status='COMPLETE' AND batch."importerVersion"='schedule-v5-1'
        ORDER BY observation."retrievedAt" DESC,observation.id DESC LIMIT 1) AS v5_status
-    FROM "Game" game JOIN "Season" season ON season.id=game."seasonId" ${professionalGameProjection(at)}
+    FROM candidate_games candidate JOIN "Game" game ON game.id=candidate.id JOIN "Season" season ON season.id=game."seasonId" ${professionalGameProjection(at)}
     WHERE game.sport=(SELECT sport FROM "Player" WHERE id=${playerId}::uuid) AND ${linkedPlayerGame(playerId,at)}
       AND(source_state.sources>0 OR EXISTS(SELECT 1 FROM "GameScheduleObservation" accepted JOIN "ScheduleImportBatch" batch ON batch.id=accepted."importBatchId"
         WHERE accepted."gameId"=game.id AND accepted."scheduleProvider"='schedule-v5' AND accepted."retrievedAt"<=${at} AND batch.status='COMPLETE' AND batch."importerVersion"='schedule-v5-1'))
@@ -63,9 +63,9 @@ export async function releaseHoldUntil(tx: Prisma.TransactionClient, leagueId: s
 export async function waiverHoldUntil(tx: Prisma.TransactionClient, leagueId: string, playerId: string, at = new Date()) {
   const [release, completion] = await Promise.all([
     releaseHoldUntil(tx, leagueId, playerId),
-    tx.$queryRaw<{completedAt:Date}[]>`SELECT completion."completedAt" FROM "GameCompletionEvidence" completion JOIN "Game" game ON game.id=completion."gameId" ${professionalGameProjection(at)}
+    tx.$queryRaw<{completedAt:Date}[]>`WITH ${playerGameCandidateCtes(playerId,at)} SELECT completion."completedAt" FROM candidate_games candidate JOIN "Game" game ON game.id=candidate.id JOIN "GameCompletionEvidence" completion ON completion."gameId"=game.id ${professionalGameProjection(at)}
       WHERE completion."knownAt"<=${at} AND ${linkedPlayerGame(playerId,at)} AND(completion.provider<>'conservative-event-policy' OR EXISTS(
-        SELECT 1 FROM(SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"::text=completion."sourceRecord"->>'sourceObservationId' AND receipt."decidedAt"<=${at} ORDER BY version DESC LIMIT 1) verified WHERE verified.outcome='ACCEPTED'))
+        SELECT 1 FROM(SELECT receipt.outcome FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"=${sourceUuid(Prisma.sql`completion."sourceRecord"->>'sourceObservationId'`)} AND receipt."decidedAt"<=${at} ORDER BY version DESC LIMIT 1) verified WHERE verified.outcome='ACCEPTED'))
       ORDER BY completion."completedAt" DESC,completion."knownAt" DESC LIMIT 1`.then(rows=>rows[0]??null),
   ]);
   // completedAt on this evidence model is a hold boundary: sourceRecord explicitly

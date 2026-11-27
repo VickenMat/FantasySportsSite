@@ -1,10 +1,11 @@
-import type { Prisma } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
+import {playerGameCandidateCtes,sameProfessionalTeam,sourceUuid} from './professional-team-membership';
 import { professionalGameProjection } from './professional-game-state';
 /** Mutation guard is independent of snapshot/availability completeness.
  * Original fantasy-week attribution never limits a postponed game's real-time lock. */
 export async function assertOperationalPlayerUnlocked(tx:Prisma.TransactionClient,leagueId:string,playerId:string,at:Date){
- const [result]=await tx.$queryRaw<{locked:boolean}[]>`SELECT EXISTS(
-  SELECT 1 FROM "CompetitionPeriodGame" assignment
+ const [result]=await tx.$queryRaw<{locked:boolean}[]>`WITH ${playerGameCandidateCtes(playerId,at)} SELECT EXISTS(
+  SELECT 1 FROM candidate_games candidate JOIN "CompetitionPeriodGame" assignment ON assignment."gameId"=candidate.id
   JOIN "SportCompetition" competition ON competition.id=assignment."sportCompetitionId"
   JOIN "Game" game ON game.id=assignment."gameId" ${professionalGameProjection(at)}
   WHERE competition."leagueId"=${leagueId}::uuid AND competition.status<>'FINALIZED'
@@ -15,7 +16,7 @@ export async function assertOperationalPlayerUnlocked(tx:Prisma.TransactionClien
       OR EXISTS(
         SELECT 1 FROM (
           SELECT DISTINCT ON(observation.provider,observation."entityKey") decision.targets,observation.normalized
-          FROM "ProfessionalDataObservation" observation
+          FROM player_membership_observations observation
           JOIN LATERAL(SELECT outcome,targets FROM "ProfessionalDataDecision" receipt WHERE receipt."observationId"=observation.id AND receipt."decidedAt"<=${at} ORDER BY version DESC LIMIT 1) decision ON decision.outcome='ACCEPTED'
           WHERE (observation.category='TEAM_ASSIGNMENT' OR (observation.category='PLAYER_SNAPSHOT' AND observation.normalized->'facet'->>'type'='TEAM_ASSIGNMENT')) AND observation.sport=game.sport AND decision.targets->>'playerId'=${playerId}
             AND decision.targets->>'seasonId'=game."seasonId"::text AND (
@@ -30,8 +31,8 @@ export async function assertOperationalPlayerUnlocked(tx:Prisma.TransactionClien
                 AND (newer."revisionOrdinal">observation."revisionOrdinal" OR (newer."revisionOrdinal"=observation."revisionOrdinal" AND newer.id<>observation.id))
             )
           ORDER BY observation.provider,observation."entityKey",observation."revisionOrdinal" DESC NULLS LAST,observation."publishedAt" DESC
-        ) assignment JOIN "GameTeam" participant ON participant."gameId"=game.id AND participant."teamId"::text=assignment.targets->>'teamId'
-        WHERE COALESCE((assignment.normalized->>'retracted')::boolean,false)=false
+        ) assignment JOIN "ProTeam" current_team ON current_team.id=${sourceUuid(Prisma.sql`assignment.targets->>'teamId'`)} JOIN "GameTeam" participant ON participant."gameId"=game.id JOIN "ProTeam" game_team ON game_team.id=participant."teamId"
+        WHERE ${sameProfessionalTeam(Prisma.sql`${at}`)} AND COALESCE((assignment.normalized->>'retracted')::boolean,false)=false
           AND (assignment.normalized->>'validUntil' IS NULL OR (assignment.normalized->>'validUntil')::timestamptz>${at})
       )
     )

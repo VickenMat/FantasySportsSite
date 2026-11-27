@@ -1,0 +1,225 @@
+{
+  "version": "m5-engineering-closure-acceptance-1",
+  "instructionDatePacific": "2026-11-26",
+  "timeZone": "America/Los_Angeles",
+  "status": "PASSED",
+  "m6SynchronizedCheckpoint": "14a24f2",
+  "finalM5CommitPending": true,
+  "unit": {
+    "passed": 340,
+    "files": 74,
+    "durationSeconds": 11.41
+  },
+  "postgresIntegration": {
+    "database": "fantasy_evolution_test",
+    "normalPassed": 164,
+    "normalFiles": 57,
+    "normalSeconds": 65.85,
+    "shuffledPassed": 164,
+    "shuffledFiles": 57,
+    "shuffledSeed": 261128,
+    "shuffledSeconds": 60.93,
+    "previousSeed261127AlsoPassed": true
+  },
+  "chromium": {
+    "standardPassed": 20,
+    "standardSeconds": 55.6,
+    "defaultConditionalChecksSkipped": 4,
+    "actualRestartPassed": 2,
+    "actualRestartSeconds": 24.1,
+    "realThreeSportCompetitionPassed": 1,
+    "realThreeSportSeconds": 4.4,
+    "realMlbCompetitionPassed": 1,
+    "realMlbSeconds": 4.8,
+    "realPopulatedFourSportPassed": 1,
+    "realPopulatedSeconds": 8.2,
+    "realPopulatedAssertionsSeconds": 6.0,
+    "optInChecksReportedSeparately": true,
+    "defaultSkippedCheckScopes": [
+      "Optional development-mutating QA",
+      "NFL/NBA/NHL isolated real-source competition",
+      "MLB isolated real-source competition",
+      "Isolated populated four-sport data"
+    ],
+    "optionalDevelopmentMutatingQa": "NOT_RUN_PRESERVATION_GATED"
+  },
+  "waiverQueryPerformance": {
+    "unchangedAcceptanceThresholdMs": 10000,
+    "firstProofMs": [
+      7.228,
+      4.785
+    ],
+    "finalPopulatedCopyMs": [
+      6.426,
+      4.489
+    ],
+    "assertionsAndDeadlinesUnchanged": true,
+    "disposableCopiesAnalyzePlannerStatistics": true
+  },
+  "static": {
+    "typecheck": "PASSED",
+    "eslint": "PASSED",
+    "prismaValidation": "PASSED",
+    "productionWebpack": "PASSED",
+    "dependencyAuditVulnerabilities": 0,
+    "diffCheck": "PASSED",
+    "turbopackPriorEnvironmentLimitationNotRetried": true
+  },
+  "populatedCopy": {
+    "applicationTables": 89,
+    "foreignKeys": 196,
+    "foreignKeyViolations": 0,
+    "migrations": 28,
+    "pendingMigrationsApplied": [],
+    "prismaDrift": "EMPTY",
+    "developmentWrites": 0
+  },
+  "realSourceAcceptance": {
+    "sports": [
+      {
+        "sport": "NFL",
+        "all15StagesDemonstrated": true,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "finalizedScoreTenths": [
+          "13",
+          "425"
+        ],
+        "realSourceRows": 23
+      },
+      {
+        "sport": "NBA",
+        "all15StagesDemonstrated": true,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "finalizedScoreTenths": [
+          "158",
+          "91"
+        ],
+        "realSourceRows": 35
+      },
+      {
+        "sport": "NHL",
+        "all15StagesDemonstrated": true,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "finalizedScoreTenths": [
+          "44",
+          "74"
+        ],
+        "realSourceRows": 40
+      },
+      {
+        "sport": "MLB",
+        "all15StagesDemonstrated": true,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "finalizedScoreTenths": [
+          "92",
+          "141"
+        ],
+        "realSourcePlayers": 26
+      }
+    ],
+    "professionalDataReal": true,
+    "fantasyOwnershipEligibilityAvailabilityAndClockControlled": true,
+    "actualHistoricalFantasyOwnershipClaimed": false,
+    "actualElapsedProduction24HoursClaimed": false,
+    "actualPublisherCorrectionEpisode": false,
+    "genuineLiveFeedDemonstrated": false
+  },
+  "managedRuntime": {
+    "application": "available",
+    "database": "connected",
+    "health": "degraded",
+    "leagueHealth": "BLOCKED",
+    "blockedDrafts": 1,
+    "blockedSchedules": 0,
+    "allThreeWorkersHealthy": true,
+    "duplicateStartupRejected": true,
+    "actualGracefulRestartAndLeaseExpiryRecovery": "PASSED",
+    "leaseRecoveryObservedAtUtc": [
+      "2026-11-27T04:22:48.524Z",
+      "2026-11-27T04:22:48.565Z",
+      "2026-11-27T04:22:48.616Z"
+    ],
+    "configuredProducts": 20,
+    "synchronized": 20,
+    "managedRequestsIncludingRedirects": 68,
+    "canonicalStatisticsEnabled": true,
+    "liveFeedEnabled": false,
+    "sports": [
+      {
+        "sport": "NFL",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "leaseUntil": null,
+        "lastProcessedAt": "2026-11-27T04:24:03.473Z",
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 165
+      },
+      {
+        "sport": "NBA",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "leaseUntil": null,
+        "lastProcessedAt": "2026-11-27T04:24:03.529Z",
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 270
+      },
+      {
+        "sport": "NHL",
+        "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+        "failures": 0,
+        "leaseUntil": null,
+        "lastProcessedAt": "2026-11-27T04:24:03.588Z",
+        "lastCycleProcessed": 0,
+        "lastCycleReplay": 0,
+        "lastCycleHeld": 399
+      }
+    ]
+  },
+  "preservation": {
+    "report": "reports/m5-engineering-closure-preservation.json",
+    "originalTables": 90,
+    "unchangedNonRuntimeTables": 87,
+    "expectedRuntimeTables": [
+      "BackgroundJobRun",
+      "ProfessionalSyncState",
+      "RateLimitBucket"
+    ],
+    "foreignKeysChecked": 196,
+    "foreignKeyViolations": 0,
+    "protectedSourceArtifacts": 16,
+    "userScreenshots": 3,
+    "immutableTriggers": 38,
+    "allTriggersUnchanged": true,
+    "v9Rules": 56,
+    "v9RulesUnchanged": true,
+    "migrationCount": 28
+  },
+  "m6": {
+    "baseAndEnrichedPartitions": 55,
+    "mandatoryGates": 11,
+    "publicEntrypointVerifyExisting": "PASSED",
+    "parentPartitionBundle": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+    "mandatoryPackage": "1bf3ed2bfee3283f010c983c347b5164dfaa729ab4abe6fa3cfc045143a00a6a",
+    "strictSimulationReadyRows": 0
+  },
+  "m4": {
+    "checklistComplete": 60,
+    "checklistTotal": 60,
+    "allSixEstablishedJourneysPassed": true
+  },
+  "m5": {
+    "checklistChecked": 16,
+    "checklistUnchecked": 16,
+    "checklistTotal": 32,
+    "closedThisRun": [
+      "U09"
+    ],
+    "engineeringExitSatisfied": true,
+    "practicalDelayedDataControlledAcceptanceEstablished": true,
+    "originalChecklistComplete": false,
+    "genuineLiveScoringEstablished": false
+  },
+  "rawCursorsPrivateBackupPathsAndPlayerUuidListsExcluded": true
+}

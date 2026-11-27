@@ -4,7 +4,7 @@
   "sourceAudit": "reports/m2-5-analysis.json",
   "sourceAuditVersion": "m2-5-analysis-1",
   "archiveHashesFreshlyVerified": true,
-  "m6Started": false,
+  "m6Started": true,
   "v10Active": false,
   "developmentWrites": 0,
   "physicalRows": 1746957,
@@ -862,6 +862,157 @@
     {
       "sport": "NFL",
       "season": "2026",
+      "scope": "HISTORICAL_ARCHIVE_PROVIDER",
+      "boundScoringContextAppearances": 0,
+      "appearances": 11143,
+      "players": 1829,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 23,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "MLB",
+      "season": "2026",
+      "scope": "HISTORICAL_ARCHIVE_PROVIDER",
+      "boundScoringContextAppearances": 0,
+      "appearances": 72295,
+      "players": 1472,
+      "affectedAppearances": 2,
+      "affectedPlayers": 2,
+      "issues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 2,
+          "players": 2
+        }
+      ],
+      "fixedScoringRoles": 239,
+      "rawArchiveIssues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 215,
+          "players": 135
+        }
+      ]
+    },
+    {
+      "sport": "NBA",
+      "season": "2026-27",
+      "scope": "HISTORICAL_ARCHIVE_PROVIDER",
+      "boundScoringContextAppearances": 0,
+      "appearances": 5390,
+      "players": 474,
+      "affectedAppearances": 0,
+      "affectedPlayers": 0,
+      "issues": [],
+      "fixedScoringRoles": 35,
+      "rawArchiveIssues": []
+    },
+    {
+      "sport": "NHL",
+      "season": "2026-27",
+      "scope": "HISTORICAL_ARCHIVE_PROVIDER",
+      "boundScoringContextAppearances": 0,
+      "appearances": 14920,
+      "players": 872,
+      "affectedAppearances": 40,
+      "affectedPlayers": 28,
+      "issues": [
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 40,
+          "players": 28
+        }
+      ],
+      "fixedScoringRoles": 80,
+      "rawArchiveIssues": [
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 38,
+          "players": 28
+        }
+      ]
+    }
+  ],
+  "positionRecovery": {
+    "mlb": {
+      "playerSeasons": 15645,
+      "conflictingPopulatedLists": 531,
+      "statusCounts": {
+        "RECORDED_THRESHOLD_SUPPORTED": 9772,
+        "INSUFFICIENT_THRESHOLD_EVIDENCE": 5873
+      },
+      "requiresTeamScopeValidation": 102
+    },
+    "nba": {
+      "playerSeasons": 5492,
+      "conflictingPopulatedLists": 346,
+      "conflictsIncludingEmpty": 349,
+      "embedded": {
+        "rows": 260499,
+        "populated": 242798,
+        "withSameSeasonRepair": 242798,
+        "exactTeamEstimateMatch": 242798,
+        "seasonEstimateUnionMatch": 233569,
+        "withoutRepair": 0,
+        "currentSeasonRows": 5414,
+        "currentSeasonPlayers": 474
+      },
+      "qualityCounts": {
+        "ESTIMATED": 5972,
+        "MANUAL_REVIEW": 9,
+        "UNMATCHED": 301
+      }
+    }
+  },
+  "currentImportedRoleSelection": {
+    "fixedHistoricalMlbScoringRoles": 239,
+    "remainingAmbiguousAppearances": 2,
+    "remainingAmbiguousPlayers": 2,
+    "fullArchivePairedRoleAppearances": 54992,
+    "scope": "239 accepted fixed historical MLB scoring contexts after the 26-score supplement; this is not all archive paired-role resolution. The separate M6 role-quality overlay grants no production role."
+  },
+  "cautions": [
+    "Current imported completeness is not a complete season or archive-wide completeness.",
+    "Prior NHL missing-stat audit predates the explicit shutout evidence correction; current evidence-aware counts are separately supplied.",
+    "NBA repaired minutes estimates are retrospective evidence, not dated authoritative eligibility.",
+    "NHL zero-TOI backup rows do not establish played-game participation.",
+    "Season coverage classifications are retained prior audit classifications, not fresh independent schedule verification.",
+    "M6 preparation is now executed; older pre-M6 counters remain prior audit evidence.",
+    "Mandatory441-row NHL full-vector conflict quarantine supersedes any interpretation of supplement-only zero conflicts as scoring readiness."
+  ],
+  "operationalOverlay": {
+    "source": "reports/m5-engineering-closure-application.json",
+    "acceptedProfessionalIdentities": 5961,
+    "historicalStatPlayers": 4647,
+    "historicalCompletePlayers": 4617,
+    "rosterOnlyNoArchiveIdentities": 1314,
+    "identitiesWithoutAnyAcceptedStat": 1312,
+    "anyStatPlayers": 4649,
+    "currentEligibilityUnapprovedProposal": "81c8099d2816afb7a5606a8e5264807236dd3e1189e2ba5172f306232f562da2"
+  },
+  "m6Preparation": {
+    "source": "reports/m6-dataset-package.json",
+    "physicalRows": 1746957,
+    "cohorts": 44,
+    "validRows": 1746771,
+    "uniqueSourcePlayerGames": 1691779,
+    "baseAndEnrichedPartitions": 55,
+    "parentDatasetFingerprint": "34dcac0fa467824b91879c115342e14338ff1b6676c337ebf1a63a6e40675749",
+    "finalPackageFingerprint": "1bf3ed2bfee3283f010c983c347b5164dfaa729ab4abe6fa3cfc045143a00a6a",
+    "nhlCompleteInputRows": 503774,
+    "nhlKnownSourceConflictRows": 441,
+    "nhlCompleteNoKnownConflictRows": 503336,
+    "nhlRetrospectiveQualifiedRows": 479710,
+    "strictSimulationEligibleRows": 0,
+    "optimizationRun": false
+  },
+  "priorImportedCompleteness": [
+    {
+      "sport": "NFL",
+      "season": "2026",
       "players": 1829,
       "completePlayers": 1829,
       "incompletePlayers": 0,
@@ -907,112 +1058,5 @@
         }
       ]
     }
-  ],
-  "positionRecovery": {
-    "mlb": {
-      "playerSeasons": 15645,
-      "conflictingPopulatedLists": 531,
-      "statusCounts": {
-        "RECORDED_THRESHOLD_SUPPORTED": 9772,
-        "INSUFFICIENT_THRESHOLD_EVIDENCE": 5873
-      },
-      "requiresTeamScopeValidation": 102
-    },
-    "nba": {
-      "playerSeasons": 5492,
-      "conflictingPopulatedLists": 346,
-      "conflictsIncludingEmpty": 349,
-      "embedded": {
-        "rows": 260499,
-        "populated": 242798,
-        "withSameSeasonRepair": 242798,
-        "exactTeamEstimateMatch": 242798,
-        "seasonEstimateUnionMatch": 233569,
-        "withoutRepair": 0,
-        "currentSeasonRows": 5414,
-        "currentSeasonPlayers": 474
-      },
-      "qualityCounts": {
-        "ESTIMATED": 5972,
-        "MANUAL_REVIEW": 9,
-        "UNMATCHED": 301
-      }
-    }
-  },
-  "currentImportedRoleSelection": {
-    "materializedAppearances": 213,
-    "remainingAmbiguousAppearances": 2,
-    "remainingAmbiguousPlayers": 2,
-    "fullArchivePairedRoleAppearances": 54992,
-    "scope": "Validated role selections apply only to the imported 2026 target; other seasons need the same evidence policy, not hindsight score selection."
-  },
-  "cautions": [
-    "Current imported completeness is not a complete season or archive-wide completeness.",
-    "Prior NHL missing-stat audit predates the explicit shutout evidence correction; current evidence-aware counts are separately supplied.",
-    "NBA repaired minutes estimates are retrospective evidence, not dated authoritative eligibility.",
-    "NHL zero-TOI backup rows do not establish played-game participation.",
-    "Season coverage classifications are retained prior audit classifications, not fresh independent schedule verification."
-  ],
-  "operationalOverlay": {
-    "report": "reports/m5-operational-application.json",
-    "acceptedProfessionalIdentities": [
-      {
-        "sport": "NFL",
-        "players": 3075
-      },
-      {
-        "sport": "MLB",
-        "players": 1472
-      },
-      {
-        "sport": "NBA",
-        "players": 532
-      },
-      {
-        "sport": "NHL",
-        "players": 872
-      }
-    ],
-    "mlbHistoricalPositions": {
-      "players": 944,
-      "appearances": 66879,
-      "role_rows": 67076
-    },
-    "currentEligibilityPromoted": true,
-    "nbaPolicy": "NBA_GRANULAR_FAMILY_OBSERVED_V1",
-    "familyMappingMustBeModeledInM6": true,
-    "rosterOnlyNoArchiveIdentities": 1304,
-    "identitiesWithoutAnyAcceptedStat": 1302,
-    "anyStatPlayers": 4649,
-    "postOperationalCohorts": [
-      {
-        "sport": "NFL",
-        "professional_identities": 3075,
-        "historical_archive_players": 1829,
-        "any_stat_players": 1829,
-        "operational_source_players": 23
-      },
-      {
-        "sport": "MLB",
-        "professional_identities": 1472,
-        "historical_archive_players": 1472,
-        "any_stat_players": 1472,
-        "operational_source_players": 0
-      },
-      {
-        "sport": "NBA",
-        "professional_identities": 532,
-        "historical_archive_players": 474,
-        "any_stat_players": 476,
-        "operational_source_players": 35
-      },
-      {
-        "sport": "NHL",
-        "professional_identities": 872,
-        "historical_archive_players": 872,
-        "any_stat_players": 872,
-        "operational_source_players": 40
-      }
-    ]
-  }
+  ]
 }

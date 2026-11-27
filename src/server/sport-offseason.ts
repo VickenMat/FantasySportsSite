@@ -1,12 +1,16 @@
 import type { Prisma } from "@/generated/prisma/client";
+import {getProfessionalCalendar} from "./professional-calendar";
+import {draftEndsBeforeOpeningDate} from "@/scheduling/season-date-policy";
+export function calendarIsOffseason(calendar:{status:string;exact:{regularSeasonStartsAt:Date|null;postseasonEndsAt:Date|null}|null;verifiedDateScope:{regularSeasonStartsOn:string;sourceZone:string|null}|null},at:Date){
+ if(calendar.status==="CONFLICT")return false;
+ if(calendar.exact?.regularSeasonStartsAt)return at<calendar.exact.regularSeasonStartsAt||Boolean(calendar.exact.postseasonEndsAt&&at>=calendar.exact.postseasonEndsAt);
+ return Boolean(calendar.verifiedDateScope&&draftEndsBeforeOpeningDate(at,calendar.verifiedDateScope));
+}
 
 /** Unknown professional bounds never imply an offseason. */
 export async function sportIsOffseason(tx: Prisma.TransactionClient, leagueSportId: string, at: Date) {
   const sport = await tx.leagueSport.findUniqueOrThrow({ where: { id: leagueSportId } });
-  const source = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: sport.seasonId, retrievedAt: { lte: at } }, orderBy: { retrievedAt: "desc" } });
-  if (source?.status !== "AVAILABLE" || !source.regularSeasonStartsAt || !source.regularSeasonEndsAt) return false;
-  const endsAt = source.postseasonEndsAt ?? source.regularSeasonEndsAt;
-  return at < source.regularSeasonStartsAt || at >= endsAt;
+  return calendarIsOffseason(await getProfessionalCalendar(tx,{seasonId:sport.seasonId,asOf:at}),at);
 }
 
 export async function clearOffseasonPlayerFloors(tx: Prisma.TransactionClient, leagueSportId: string, actorUserId: string, at: Date) {

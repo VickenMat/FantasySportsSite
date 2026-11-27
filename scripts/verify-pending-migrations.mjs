@@ -84,6 +84,16 @@ try {
   report.preservedTables = report.tables.length;
   await writeFile("/private/tmp/fantasy-pending-migration-verification.json", JSON.stringify(report, null, 2));
   if (/^\s*(ALTER|CREATE|DROP)\b/m.test(report.drift)) throw new Error("Prisma schema drift detected; inspect the verification report before deployment.");
+  if (process.argv.includes("--verify-waiver-query-performance")) {
+    const cold = spawnSync(process.execPath, ["--import", "tsx", "src/workers/audit-waiver-hold-query.ts", "--after", "--tag=cold-copy"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(cold.stdout);
+    if (cold.status !== 0) throw new Error(cold.stderr || "Cold copied-schema query planning failed.");
+  }
+  // INSERT/COPY does not copy pg_statistic. Refresh only planner metadata in
+  // this authorized isolated target, as autovacuum does in normal operation.
+  for (const table of tables) await target.query(`ANALYZE ${quote(schema)}.${quote(table)}`);
+  report.plannerStatisticsUpdated = tables.length;
+  await writeFile("/private/tmp/fantasy-pending-migration-verification.json", JSON.stringify(report, null, 2));
   if (process.argv.includes("--verify-recovered-backfill")) {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-recovered-backfill.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8" });
     process.stdout.write(validation.stdout);
@@ -108,6 +118,21 @@ try {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-supplemental-source-promotion.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
     process.stdout.write(validation.stdout);
     if (validation.status !== 0) throw new Error(validation.stderr || "Actual supplemental NHL/MLB source validation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-waiver-query-performance")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/audit-waiver-hold-query.ts", "--after", "--analyze"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Waiver query acceptance failed in the disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-current-eligibility-followup")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-current-position-followup.ts", "--combined"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Consolidated current NHL/MLB eligibility validation failed in the disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-current-position-followup")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-current-position-followup.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Current NHL position/team continuation failed in the disposable populated schema.");
   }
   if (process.argv.includes("--verify-direct-identity-discovery")) {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-current-direct-discovery.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });

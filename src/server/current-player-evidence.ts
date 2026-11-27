@@ -1,6 +1,7 @@
 import { getDatabase } from '@/lib/db';
 import type { Sport } from '@/generated/prisma/enums';
 import { getEligiblePositions } from './positions';
+import {currentPositionStatus} from '@/positions/current-position-status';
 import { professionalTeamHistory } from './professional-team-history';
 
 type ProjectionWhere = { category?: string; OR?: ProjectionWhere[]; publishedAt?: { lte: Date }; effectiveAt?: { lte: Date }; observedAt?: { lte: Date }; decisions?: { some?: { outcome?: string; targets?: { path?: string[]; equals?: unknown } } } };
@@ -10,7 +11,7 @@ type ProjectionQuery = { where?: ProjectionWhere; include?: { decisions?: { wher
  */
 export async function currentPlayerEvidence(input: { playerIds: readonly string[]; sport: Sport; seasonYear: number; asOf: Date }) {
   const ids = new Set(input.playerIds), database = getDatabase();
-  if (!ids.size) return new Map<string, { positions: string[]; positionsAvailable: boolean; positionSource: string | null; currentTeam: { code: string | null; displayName: string } | null; teamStatus: string }>();
+  if (!ids.size) return new Map<string, { positions: string[]; positionsAvailable: boolean; positionStatus: 'SUPPORTED'|'UNKNOWN'|'KNOWN_UNSUPPORTED_ROLE'|'CONFLICT'; professionalPositions:string[]; positionSource: string | null; currentTeam: { code: string | null; displayName: string } | null; teamStatus: string }>();
   const [positions, observations] = await Promise.all([
     database.playerPositionEvidence.findMany({ where: { playerId: { in: [...ids] }, knownAt: { lte: input.asOf }, effectiveAt: { lte: input.asOf }, season: { sport: input.sport, startYear: { in: input.sport === 'MLB' ? [input.seasonYear-1,input.seasonYear] : [input.seasonYear] } } }, include: { season: { select: { startYear: true } }, position: { select: { code: true } } } }),
     database.professionalDataObservation.findMany({ where: { sport: input.sport, OR: [
@@ -63,8 +64,9 @@ export async function currentPlayerEvidence(input: { playerIds: readonly string[
     const provenance = 'nbaPositionProvenance' in eligibility ? eligibility.nbaPositionProvenance ?? [] : [];
     const specific = provenance.some(row => !row.retracted && row.classification === 'EXPLICIT' && row.derivedFantasyPositions?.slice().sort().join('|') === eligibility.positions.slice().sort().join('|'));
     const mapped = !specific && provenance.some(row => !row.retracted && row.classification === 'FAMILY_DERIVED');
+    const positionStatus=currentPositionStatus({playerId,sport:input.sport,seasonYear:input.seasonYear,asOf:input.asOf,positions:eligibility.positions,observations:rows});
     const currentTeam = team.status === 'SOURCE_RECORDED' ? team.current?.assignment === 'FREE_AGENT' ? { code: 'FA', displayName: 'Free agent' } : team.current?.team ?? null : null;
-    return [playerId,{ positions: eligibility.positions, positionsAvailable: eligibility.available, positionSource: eligibility.positions.length ? mapped ? 'Mapped' : 'Verified' : null, currentTeam, teamStatus: team.status }] as const;
+    return [playerId,{ positions: eligibility.positions, positionsAvailable: eligibility.available, ...positionStatus, positionSource: eligibility.positions.length ? mapped ? 'Mapped' : 'Verified' : positionStatus.positionStatus==='KNOWN_UNSUPPORTED_ROLE'?`Professional ${positionStatus.professionalPositions[0]}`:null, currentTeam, teamStatus: team.status }] as const;
   }));
   return new Map(values);
 }

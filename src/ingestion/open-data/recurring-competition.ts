@@ -11,6 +11,9 @@ import {releaseRegistry,releaseRetrievalEnabled} from './registry';
 import {collectReadOnlyCompetitiveStages} from './collect-competitive';
 import {buildReviewedCompetitiveStages,applyCompetitiveStages} from './apply-competitive-stages';
 import type {CompetitiveGameStage,CompetitiveSourceProof} from './competitive-records';
+import {recurringCompetitiveContentFingerprint} from './competitive-content';
+import {readCompetitionOperations,summarizeCompetitionOperations} from './competition-operations';
+import {withSerializableRetry} from '@/server/serializable-retry';
 import {lockSport} from '@/server/sport-lock';
 export const competitionSports=['NFL','NBA','NHL'] as const;
 type CompetitionSport=typeof competitionSports[number];
@@ -73,26 +76,30 @@ export async function synchronizeRecurringCompetitionSport(sport:CompetitionSpor
   if(collection.stages.length>recurringCompetitionPolicy.maxStagesPerSport)throw Error('Per-sport candidate bound exceeded.');
   const eligible=collection.stages.filter(stage=>stage.game.sport===sport&&!recurringCompetitionStageHold(stage,collection.proofs,approvedAt,clock())).sort((a,b)=>(a.game.scheduledStartsAt??'').localeCompare(b.game.scheduledStartsAt??'')||a.game.id.localeCompare(b.game.id));
   if(eligible.length)await verifySources(collection);
-  return await db.$transaction(async tx=>{
+  return await withSerializableRetry(()=>db.$transaction(async tx=>{
    await tx.$queryRaw`SELECT id FROM "ProfessionalSyncState" WHERE id=${claim.id}::uuid FOR UPDATE`;
    const owner=await tx.professionalSyncState.findUniqueOrThrow({where:{id:claim.id}});if(owner.leaseToken!==token||!owner.leaseUntil||owner.leaseUntil<=clock())throw Error('Recurring competition lease lost.');
    await lockSport(tx,sport);let processed=0,replay=0,held=collection.stages.length-eligible.length,lastGameId:string|null=null;
    for(const stage of eligible){
-    const entityKey=`recurring-competitive-game:${recurringCompetitionPolicyFingerprint}:${stage.game.id}:${stage.sourceFingerprint}`;
+    const semanticFingerprint=recurringCompetitiveContentFingerprint(stage),entityKey=`recurring-competitive-game:${recurringCompetitionPolicyFingerprint}:${stage.game.id}:${semanticFingerprint}`;
     if(await tx.professionalDataObservation.findFirst({where:{provider:key.provider,sport,category:'RECURRING_COMPETITIVE_GAME',entityKey,decisions:{some:{outcome:'ACCEPTED'}}}})){replay++;continue;}
     if(!await noProviderSwitch(tx,stage)){held++;continue;}
     const players=stage.records.filter(row=>row.normalized.kind==='STAT').map(row=>/^stat:[^:]+:([^:]+):/.exec(row.entityKey)?.[1]??'');
     if(new Set(players).size!==stage.expectedSourcePlayers||await tx.player.count({where:{id:{in:players},sport,isSynthetic:false,isDemo:false}})!==players.length){held++;continue;}
     const manifest=await buildReviewedCompetitiveStages(tx,[stage],collection.sourceFiles,true),result=await applyCompetitiveStages(tx,manifest,{expectedFingerprint:fingerprint(manifest)},clock());
     if(result.completeBoxes!==1)throw Error('Recurring complete final box was not fully accepted.');
-    const receipt={policyFingerprint:recurringCompetitionPolicyFingerprint,authorizationApprovedAt:approvedAt.toISOString(),gameId:stage.game.id,sourceFingerprint:stage.sourceFingerprint,manifestFingerprint:fingerprint(manifest),sourceBodyProofs:collection.proofs,processedAt:clock().toISOString()};
-    await tx.professionalDataObservation.create({data:{provider:key.provider,sport,category:'RECURRING_COMPETITIVE_GAME',entityKey,revisionToken:stage.sourceFingerprint,revisionOrdinal:BigInt(+clock()),contentHash:fingerprint(receipt),sourceReference:'https://github.com/VickenMat/FantasySportsSite',observedAt:clock(),raw:receipt,normalized:{kind:'RECURRING_COMPETITIVE_GAME',gameId:stage.game.id},decisions:{create:{version:1,outcome:'ACCEPTED',reason:'Separately authorized prospective full final box; no provider switch, ownership or finalized-result writes.',targets:receipt,decidedAt:clock()}}}});
+    const receipt={policyFingerprint:recurringCompetitionPolicyFingerprint,authorizationApprovedAt:approvedAt.toISOString(),gameId:stage.game.id,sourceFingerprint:stage.sourceFingerprint,semanticFingerprint,manifestFingerprint:fingerprint(manifest),sourceBodyProofs:collection.proofs,processedAt:clock().toISOString()};
+    await tx.professionalDataObservation.create({data:{provider:key.provider,sport,category:'RECURRING_COMPETITIVE_GAME',entityKey,revisionToken:semanticFingerprint,revisionOrdinal:BigInt(+clock()),contentHash:fingerprint(receipt),sourceReference:'https://github.com/VickenMat/FantasySportsSite',observedAt:clock(),raw:receipt,normalized:{kind:'RECURRING_COMPETITIVE_GAME',gameId:stage.game.id},decisions:{create:{version:1,outcome:'ACCEPTED',reason:'Separately authorized prospective full final box; no provider switch, ownership or finalized-result writes.',targets:receipt,decidedAt:clock()}}}});
     processed++;lastGameId=stage.game.id;break;
    }
    const finished=clock();if(owner.leaseUntil<=finished)throw Error('Recurring competition lease expired; rollback.');
-   await tx.professionalSyncState.update({where:{id:claim.id},data:{cursor:JSON.stringify({policyFingerprint:recurringCompetitionPolicyFingerprint,authorizationApprovedAt:approvedAt.toISOString(),processed,replay,held,lastGameId,processedAt:finished.toISOString()}),lastSuccessAt:finished,lastFailure:null,failures:0,leaseToken:null,leaseUntil:null,nextPollAt:new Date(+finished+recurringCompetitionPolicy.minIntervalMs)}});
+   await tx.professionalSyncState.update({where:{id:claim.id},data:{cursor:JSON.stringify({policyFingerprint:recurringCompetitionPolicyFingerprint,authorizationApprovedAt:approvedAt.toISOString(),processed,replay,held,lastGameId,verifiedSourceBodies:collection.proofs.map(proof=>({sourceUrl:proof.sourceUrl,sha256:proof.sha256,firstReceivedAt:proof.receivedAt})),processedAt:finished.toISOString()}),lastSuccessAt:finished,lastFailure:null,failures:0,leaseToken:null,leaseUntil:null,nextPollAt:new Date(+finished+recurringCompetitionPolicy.minIntervalMs)}});
    return{status:'PROCESSED' as const,sport,processed,replay,held,lastGameId};
-  },{isolationLevel:'Serializable',timeout:recurringCompetitionPolicy.leaseMs});
- }catch(error){const now=clock(),nextPollAt=new Date(+now+retryDelay(claim.failures+1,recurringCompetitionPolicy.minIntervalMs,null));await db.professionalSyncState.updateMany({where:{id:claim.id,leaseToken:token},data:{leaseToken:null,leaseUntil:null,failures:{increment:1},lastFailure:'COMPETITIVE_SOURCE_OR_VALIDATION_FAILED',nextPollAt}});return{status:'BACKOFF' as const,sport,nextPollAt,reason:error instanceof Error?error.message:'COMPETITIVE_SOURCE_OR_VALIDATION_FAILED'};}
+  },{isolationLevel:'Serializable',timeout:recurringCompetitionPolicy.leaseMs}));
+ }catch(error){const now=clock(),nextPollAt=new Date(+now+retryDelay(claim.failures+1,recurringCompetitionPolicy.minIntervalMs,null));await db.professionalSyncState.updateMany({where:{id:claim.id,leaseToken:token},data:{leaseToken:null,leaseUntil:null,failures:{increment:1},lastFailure:(error as{code?:string})?.code==='P2034'?'COMPETITIVE_SERIALIZABLE_RETRY_EXHAUSTED':'COMPETITIVE_SOURCE_OR_VALIDATION_FAILED',nextPollAt}});return{status:'BACKOFF' as const,sport,nextPollAt,reason:error instanceof Error?error.message:'COMPETITIVE_SOURCE_OR_VALIDATION_FAILED'};}
 }
-export async function processRecurringCompetition(options:Options={}){const results=await Promise.allSettled(competitionSports.map(sport=>synchronizeRecurringCompetitionSport(sport,options)));return{outcomes:results.map((result,index)=>result.status==='fulfilled'?result.value:{status:'BACKOFF' as const,sport:competitionSports[index],reason:'SPORT_CLAIM_OR_DATABASE_UNAVAILABLE'})};}
+export async function processRecurringCompetition(options:Options={}){
+ const results=await Promise.allSettled(competitionSports.map(sport=>synchronizeRecurringCompetitionSport(sport,options))),outcomes=results.map((result,index)=>result.status==='fulfilled'?result.value:{status:'BACKOFF' as const,sport:competitionSports[index],reason:'SPORT_CLAIM_OR_DATABASE_UNAVAILABLE'});
+ const at=options.clock?.()??new Date(),enabled=outcomes.some(row=>row.status!=='DISABLED'),canonicalOperations=enabled?await readCompetitionOperations(options.db??getDatabase(),true,recurringCompetitionPolicyFingerprint,at):summarizeCompetitionOperations({enabled:false,states:[],receipts:[],at});
+ return{outcomes,canonicalOperations};
+}
