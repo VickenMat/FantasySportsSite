@@ -1,6 +1,6 @@
 # M5 operational continuation
 
-Implementation is in progress. This report supersedes the previous checkpoint's pending approval and strict-evidence statements only within the scopes below. It does not declare M5 complete.
+Implementation checkpoint `08891d3` is verified and synchronized to `origin/main`; the final documentation checkpoint follows. This report supersedes the previous checkpoint's pending approval and strict-evidence statements only within the scopes below. It does not declare M5 complete.
 
 ## Applied exact approvals
 
@@ -20,7 +20,7 @@ Private deployment records and recoverable backups remain ignored under `data/st
 | NHL | 872 | 872 | 844 |
 | Total | 5,951 | 4,647 | 4,617 |
 
-The 1,304 roster-only identities are excluded from historical completeness denominators. MLB has two unresolved dual-role appearances; NHL has 40 appearances across 28 goalies without explicit shutout evidence. Unknown values remain unknown. Historical NBA rows are complete for V9 scoring; that does not imply current positional eligibility or verified game start times.
+The 1,304 identities without archive statistics are excluded from historical completeness denominators. MLB has two unresolved dual-role appearances; NHL has 40 appearances across 28 goalies without explicit shutout evidence. Unknown values remain unknown. Historical NBA rows are complete for V9 scoring; that does not imply current positional eligibility or verified game start times.
 
 ## Approved prospective evidence policies
 

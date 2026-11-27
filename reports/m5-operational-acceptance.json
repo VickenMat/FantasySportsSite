@@ -570,5 +570,7 @@
   "pendingFutureStatisticsPolicyFingerprint": "d3a1937527bdca3ce94d9db47cb761417fa89c96e4d3be53a82e0ccd001c2eb6",
   "m6Started": false,
   "v10Active": false,
-  "contractAutomationActive": false
+  "contractAutomationActive": false,
+  "verifiedImplementationCheckpoint": "08891d3",
+  "implementationSynchronized": true
 }
