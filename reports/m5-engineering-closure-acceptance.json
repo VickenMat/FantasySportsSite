@@ -4,7 +4,7 @@
   "timeZone": "America/Los_Angeles",
   "status": "PASSED",
   "m6SynchronizedCheckpoint": "14a24f2",
-  "finalM5CommitPending": true,
+  "finalM5CommitPending": false,
   "unit": {
     "passed": 340,
     "files": 74,
@@ -221,5 +221,7 @@
     "originalChecklistComplete": false,
     "genuineLiveScoringEstablished": false
   },
-  "rawCursorsPrivateBackupPathsAndPlayerUuidListsExcluded": true
+  "rawCursorsPrivateBackupPathsAndPlayerUuidListsExcluded": true,
+  "implementationCheckpoint": "aaabff8",
+  "implementationSynchronized": true
 }
