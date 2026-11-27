@@ -1,0 +1,362 @@
+{
+  "version": "m6-columnar-loading-benchmark-1",
+  "classification": "DATA_LOADING_BENCHMARK_NOT_SIMULATION",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "year": 2016,
+      "rows": 16840,
+      "uniqueNativePlayerGameRoles": 16823,
+      "columnarLoadMs": 2.20379198435694,
+      "nativeKeyIterationMs": 13.758208020590246
+    },
+    {
+      "sport": "NFL",
+      "year": 2017,
+      "rows": 16786,
+      "uniqueNativePlayerGameRoles": 16769,
+      "columnarLoadMs": 1.7308330279774964,
+      "nativeKeyIterationMs": 14.985749963670969
+    },
+    {
+      "sport": "NFL",
+      "year": 2018,
+      "rows": 16728,
+      "uniqueNativePlayerGameRoles": 16711,
+      "columnarLoadMs": 1.7084580031223595,
+      "nativeKeyIterationMs": 11.48404204286635
+    },
+    {
+      "sport": "NFL",
+      "year": 2019,
+      "rows": 16663,
+      "uniqueNativePlayerGameRoles": 16646,
+      "columnarLoadMs": 1.3251249911263585,
+      "nativeKeyIterationMs": 13.37545900605619
+    },
+    {
+      "sport": "NFL",
+      "year": 2020,
+      "rows": 16774,
+      "uniqueNativePlayerGameRoles": 16757,
+      "columnarLoadMs": 0.9960830211639404,
+      "nativeKeyIterationMs": 8.985791995655745
+    },
+    {
+      "sport": "NFL",
+      "year": 2021,
+      "rows": 18128,
+      "uniqueNativePlayerGameRoles": 18110,
+      "columnarLoadMs": 0.9852079674601555,
+      "nativeKeyIterationMs": 22.001625038683414
+    },
+    {
+      "sport": "NFL",
+      "year": 2022,
+      "rows": 17981,
+      "uniqueNativePlayerGameRoles": 17963,
+      "columnarLoadMs": 0.9884590399451554,
+      "nativeKeyIterationMs": 12.522583012469113
+    },
+    {
+      "sport": "NFL",
+      "year": 2023,
+      "rows": 17806,
+      "uniqueNativePlayerGameRoles": 17788,
+      "columnarLoadMs": 1.0147079592570662,
+      "nativeKeyIterationMs": 12.791209039278328
+    },
+    {
+      "sport": "NFL",
+      "year": 2024,
+      "rows": 18130,
+      "uniqueNativePlayerGameRoles": 18112,
+      "columnarLoadMs": 1.1861250386573374,
+      "nativeKeyIterationMs": 11.755791958421469
+    },
+    {
+      "sport": "NFL",
+      "year": 2025,
+      "rows": 18540,
+      "uniqueNativePlayerGameRoles": 18522,
+      "columnarLoadMs": 1.4330839621834457,
+      "nativeKeyIterationMs": 10.547541023697704
+    },
+    {
+      "sport": "NFL",
+      "year": 2026,
+      "rows": 10992,
+      "uniqueNativePlayerGameRoles": 10981,
+      "columnarLoadMs": 0.9652090375311673,
+      "nativeKeyIterationMs": 6.281499983742833
+    },
+    {
+      "sport": "MLB",
+      "year": 2016,
+      "rows": 80974,
+      "uniqueNativePlayerGameRoles": 80974,
+      "columnarLoadMs": 2.3047919967211783,
+      "nativeKeyIterationMs": 41.57033300725743
+    },
+    {
+      "sport": "MLB",
+      "year": 2017,
+      "rows": 81178,
+      "uniqueNativePlayerGameRoles": 81178,
+      "columnarLoadMs": 2.800708985887468,
+      "nativeKeyIterationMs": 59.59495797287673
+    },
+    {
+      "sport": "MLB",
+      "year": 2018,
+      "rows": 82380,
+      "uniqueNativePlayerGameRoles": 82380,
+      "columnarLoadMs": 3.7655839696526527,
+      "nativeKeyIterationMs": 98.12537505058572
+    },
+    {
+      "sport": "MLB",
+      "year": 2019,
+      "rows": 82527,
+      "uniqueNativePlayerGameRoles": 82527,
+      "columnarLoadMs": 3.2214579987339675,
+      "nativeKeyIterationMs": 56.30762502551079
+    },
+    {
+      "sport": "MLB",
+      "year": 2020,
+      "rows": 26783,
+      "uniqueNativePlayerGameRoles": 26783,
+      "columnarLoadMs": 1.3614579802379012,
+      "nativeKeyIterationMs": 28.486625000368804
+    },
+    {
+      "sport": "MLB",
+      "year": 2021,
+      "rows": 82862,
+      "uniqueNativePlayerGameRoles": 82862,
+      "columnarLoadMs": 3.1250829924829304,
+      "nativeKeyIterationMs": 53.37358301039785
+    },
+    {
+      "sport": "MLB",
+      "year": 2022,
+      "rows": 71173,
+      "uniqueNativePlayerGameRoles": 71173,
+      "columnarLoadMs": 2.705874969251454,
+      "nativeKeyIterationMs": 59.45100000826642
+    },
+    {
+      "sport": "MLB",
+      "year": 2023,
+      "rows": 71388,
+      "uniqueNativePlayerGameRoles": 71388,
+      "columnarLoadMs": 2.078374964185059,
+      "nativeKeyIterationMs": 45.078542025294155
+    },
+    {
+      "sport": "MLB",
+      "year": 2024,
+      "rows": 71442,
+      "uniqueNativePlayerGameRoles": 71442,
+      "columnarLoadMs": 3.23225004831329,
+      "nativeKeyIterationMs": 54.595124965999275
+    },
+    {
+      "sport": "MLB",
+      "year": 2025,
+      "rows": 71757,
+      "uniqueNativePlayerGameRoles": 71757,
+      "columnarLoadMs": 3.2053340109996498,
+      "nativeKeyIterationMs": 47.99962503602728
+    },
+    {
+      "sport": "MLB",
+      "year": 2026,
+      "rows": 72510,
+      "uniqueNativePlayerGameRoles": 72510,
+      "columnarLoadMs": 2.0772499847225845,
+      "nativeKeyIterationMs": 43.85183297563344
+    },
+    {
+      "sport": "NBA",
+      "year": 2016,
+      "rows": 26139,
+      "uniqueNativePlayerGameRoles": 26139,
+      "columnarLoadMs": 1.2726670247502625,
+      "nativeKeyIterationMs": 25.425707979593426
+    },
+    {
+      "sport": "NBA",
+      "year": 2017,
+      "rows": 26107,
+      "uniqueNativePlayerGameRoles": 26107,
+      "columnarLoadMs": 1.2942920438945293,
+      "nativeKeyIterationMs": 15.117416973225772
+    },
+    {
+      "sport": "NBA",
+      "year": 2018,
+      "rows": 26101,
+      "uniqueNativePlayerGameRoles": 26101,
+      "columnarLoadMs": 1.1676669819280505,
+      "nativeKeyIterationMs": 17.49658299377188
+    },
+    {
+      "sport": "NBA",
+      "year": 2019,
+      "rows": 22393,
+      "uniqueNativePlayerGameRoles": 22393,
+      "columnarLoadMs": 3.929833008442074,
+      "nativeKeyIterationMs": 16.331708000507206
+    },
+    {
+      "sport": "NBA",
+      "year": 2020,
+      "rows": 23054,
+      "uniqueNativePlayerGameRoles": 23054,
+      "columnarLoadMs": 0.9188330150209367,
+      "nativeKeyIterationMs": 13.743249990511686
+    },
+    {
+      "sport": "NBA",
+      "year": 2021,
+      "rows": 26039,
+      "uniqueNativePlayerGameRoles": 26039,
+      "columnarLoadMs": 1.010917010717094,
+      "nativeKeyIterationMs": 14.203166007064283
+    },
+    {
+      "sport": "NBA",
+      "year": 2022,
+      "rows": 25894,
+      "uniqueNativePlayerGameRoles": 25894,
+      "columnarLoadMs": 1.0925829992629588,
+      "nativeKeyIterationMs": 15.141666983254254
+    },
+    {
+      "sport": "NBA",
+      "year": 2023,
+      "rows": 26401,
+      "uniqueNativePlayerGameRoles": 26401,
+      "columnarLoadMs": 0.9166660020127892,
+      "nativeKeyIterationMs": 13.52849998511374
+    },
+    {
+      "sport": "NBA",
+      "year": 2024,
+      "rows": 26306,
+      "uniqueNativePlayerGameRoles": 26306,
+      "columnarLoadMs": 0.9255000040866435,
+      "nativeKeyIterationMs": 13.687625003512949
+    },
+    {
+      "sport": "NBA",
+      "year": 2025,
+      "rows": 26651,
+      "uniqueNativePlayerGameRoles": 26651,
+      "columnarLoadMs": 0.9016249678097665,
+      "nativeKeyIterationMs": 13.67112499428913
+    },
+    {
+      "sport": "NBA",
+      "year": 2026,
+      "rows": 5414,
+      "uniqueNativePlayerGameRoles": 5414,
+      "columnarLoadMs": 0.5069589824415743,
+      "nativeKeyIterationMs": 3.8601660053245723
+    },
+    {
+      "sport": "NHL",
+      "year": 2016,
+      "rows": 49197,
+      "uniqueNativePlayerGameRoles": 49197,
+      "columnarLoadMs": 1.2772500049322844,
+      "nativeKeyIterationMs": 23.019124986603856
+    },
+    {
+      "sport": "NHL",
+      "year": 2017,
+      "rows": 50840,
+      "uniqueNativePlayerGameRoles": 50840,
+      "columnarLoadMs": 1.636834000237286,
+      "nativeKeyIterationMs": 33.044416049961
+    },
+    {
+      "sport": "NHL",
+      "year": 2018,
+      "rows": 50840,
+      "uniqueNativePlayerGameRoles": 50840,
+      "columnarLoadMs": 2.0294999703764915,
+      "nativeKeyIterationMs": 48.98837499786168
+    },
+    {
+      "sport": "NHL",
+      "year": 2019,
+      "rows": 43280,
+      "uniqueNativePlayerGameRoles": 43280,
+      "columnarLoadMs": 6.2173340120352805,
+      "nativeKeyIterationMs": 42.60937497019768
+    },
+    {
+      "sport": "NHL",
+      "year": 2020,
+      "rows": 34700,
+      "uniqueNativePlayerGameRoles": 34700,
+      "columnarLoadMs": 2.9581249691545963,
+      "nativeKeyIterationMs": 38.51662500528619
+    },
+    {
+      "sport": "NHL",
+      "year": 2021,
+      "rows": 52460,
+      "uniqueNativePlayerGameRoles": 52460,
+      "columnarLoadMs": 10.874499974306673,
+      "nativeKeyIterationMs": 45.05079198861495
+    },
+    {
+      "sport": "NHL",
+      "year": 2022,
+      "rows": 52460,
+      "uniqueNativePlayerGameRoles": 52460,
+      "columnarLoadMs": 4.606667032931,
+      "nativeKeyIterationMs": 36.86741599813104
+    },
+    {
+      "sport": "NHL",
+      "year": 2023,
+      "rows": 52468,
+      "uniqueNativePlayerGameRoles": 52468,
+      "columnarLoadMs": 2.3066659923642874,
+      "nativeKeyIterationMs": 34.5917500089854
+    },
+    {
+      "sport": "NHL",
+      "year": 2024,
+      "rows": 52473,
+      "uniqueNativePlayerGameRoles": 52473,
+      "columnarLoadMs": 1.8658750341273844,
+      "nativeKeyIterationMs": 36.857749975752085
+    },
+    {
+      "sport": "NHL",
+      "year": 2025,
+      "rows": 52478,
+      "uniqueNativePlayerGameRoles": 52478,
+      "columnarLoadMs": 4.926791996695101,
+      "nativeKeyIterationMs": 35.69504199549556
+    },
+    {
+      "sport": "NHL",
+      "year": 2026,
+      "rows": 14920,
+      "uniqueNativePlayerGameRoles": 14920,
+      "columnarLoadMs": 0.8255409775301814,
+      "nativeKeyIterationMs": 13.160500035155565
+    }
+  ],
+  "physicalRows": 1746957,
+  "peakRssBytes": 133103616,
+  "productionWrites": 0,
+  "transformationSha256": "bfdd4da704b04ef35adf8f8aa32e61a0d1dabff5b2983797a9e70b479fe1115c"
+}

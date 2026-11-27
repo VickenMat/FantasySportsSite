@@ -43,6 +43,8 @@ describe("fresh league creation", () => {
       const expectedPlayoffTeams = input.competitionType === "CUMULATIVE" ? 0 : input.maxTeams >= 6 ? 6 : input.maxTeams % 2 ? input.maxTeams - 1 : input.maxTeams;
       expect(stored).toMatchObject({ maxTeams: input.maxTeams, format: input.format, competitionType: input.competitionType, isHistorical: input.historical, playoffTeams: expectedPlayoffTeams });
       expect(stored.sports).toHaveLength(input.sports.length);
+      const football = stored.sports.find(({ sport }) => sport === "NFL");
+      if (football) expect(football.rosterSlots).toEqual(["QB", "RB", "RB", "WR", "WR", "WR", "TE", "FLEX", "SUPERFLEX"]);
       expect(stored.sportCompetitions).toHaveLength(input.sports.length);
       expect(stored.championshipCycles).toHaveLength(1);
       expect(stored.competitionConfigs).toHaveLength(1);

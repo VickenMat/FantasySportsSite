@@ -28,7 +28,7 @@ const snapshot = z.object({
   expectedFixtures: z.number().int().positive().optional(),
   draftAt: instant,
   fixtures: z.array(z.object({
-    id, slate: id, startsAt: instant, knownAt: instant, teams: z.tuple([id, id]),
+    id, slate: id, startsAt: instant, knownAt: instant, finalKnownAt: instant.optional(), teams: z.tuple([id, id]),
   })).min(1),
   roster: z.array(z.object({
     playerId: id, team: id.nullable(), positions: z.array(positionCode), active: z.boolean(),
@@ -40,6 +40,7 @@ const snapshot = z.object({
   })).default([]),
   outcomes: z.array(z.object({
     playerId: id, gameId: id, seasonYear: year, role, playedAt: instant, knownAt: instant,
+    participation:z.enum(["PLAYED","DID_NOT_PLAY","UNKNOWN"]).optional(),
     stats: z.record(z.string(), z.number().nullable()), teEligible: z.boolean().nullable().optional(),
     started: z.boolean().optional(),
   })),
@@ -66,7 +67,7 @@ export function parseSnapshot(contents: string): SimulationInput {
   unique(raw.outcomes.map(({ gameId, playerId, role }) => JSON.stringify([gameId, playerId, role])), "box score");
 
   for (const fixture of raw.fixtures) {
-    if (fixture.teams[0] === fixture.teams[1] || fixture.startsAt <= raw.draftAt || fixture.knownAt >= fixture.startsAt) {
+    if (fixture.teams[0] === fixture.teams[1] || fixture.startsAt <= raw.draftAt || fixture.knownAt >= fixture.startsAt || (fixture.finalKnownAt!==undefined&&fixture.finalKnownAt<=fixture.startsAt)) {
       throw new Error(`Invalid pregame timing or teams for fixture ${fixture.id}.`);
     }
   }

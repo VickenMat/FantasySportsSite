@@ -7,6 +7,7 @@ export type Fixture = {
   slate: string;
   startsAt: number;
   knownAt: number;
+  finalKnownAt?: number;
   teams: readonly string[];
 };
 
@@ -37,6 +38,8 @@ export type Outcome = {
   knownAt: number;
   pointsTenths: number;
   missingStats: readonly string[];
+  participation?: "PLAYED" | "DID_NOT_PLAY" | "UNKNOWN";
+  scoringInputs?:{stats:Record<string,number|null>;teEligible?:boolean|null};
   started?: boolean;
   observedTeam?: string;
   observedPositions?: readonly string[];

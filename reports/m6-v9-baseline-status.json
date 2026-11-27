@@ -1,0 +1,31 @@
+{
+  "version": "m6-v9-baseline-status-1",
+  "officialV9BaselineExecuted": false,
+  "acceptedHistoricalFourSportCycles": 0,
+  "actualHistoricalCrossSportSpreadPercent": null,
+  "activeWeightsChanged": false,
+  "optimizationRun": false,
+  "v10Active": false,
+  "engineFixtureValidated": true,
+  "fixtureSeeds": [
+    11,
+    29,
+    47
+  ],
+  "syntheticFixtureResultsAreNotHistoricalResults": true,
+  "strictDecisionEligibleRows": 0,
+  "sourceQualifiedScoringRows": 1538796,
+  "positionPresentCandidateRowsNotAccepted": 1465481,
+  "blockers": [
+    "Unapproved historical information/position/roster approximations and strategic model choices",
+    "Unknown NHL shutout credits and other required inputs; nonrandom exclusion bias",
+    "Uncertified full-season expected fixture inventory and pending accepted comparable cohort manifest"
+  ],
+  "reports": {
+    "gate": "reports/m6-simulation-gate-audit.json",
+    "rawDiagnostics": "reports/m6-v9-input-diagnostics.json",
+    "fixtures": "reports/m6-foundation-fixture-performance.json",
+    "columnar": "reports/m6-columnar-performance.json"
+  },
+  "fingerprint": "dac62c20b2af4f4607dc3c3d905a6dd82038d465278bf2da13e656d7d2ba2108"
+}

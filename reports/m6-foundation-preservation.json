@@ -1,0 +1,522 @@
+{
+  "generatedAt": "2026-11-27T11:30:15.887Z",
+  "database": "fantasy_evolution",
+  "readOnly": true,
+  "comparison": "Exact resulting-table baseline after approved 18-fact eligibility application; only named runtime bookkeeping differences permitted",
+  "tables": {
+    "Account": {
+      "count": "11",
+      "fingerprint": "88b30d14ee1218140fa27eb771830123"
+    },
+    "AcquisitionAuction": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "AcquisitionBid": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "BackgroundJobRun": {
+      "count": "27827",
+      "fingerprint": "8141b4e1cfeab471ff49b5efea5ba2e0"
+    },
+    "ChampionshipCycle": {
+      "count": "7",
+      "fingerprint": "842b7776fdc0f9f7bd9a50a787e7e50c"
+    },
+    "ChampionshipPointAward": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "ChampionshipResult": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "CommissionerAuditEvent": {
+      "count": "3",
+      "fingerprint": "4d7a12f2eacf97141e57404fd1e65a4b"
+    },
+    "CompetitionConfigSnapshot": {
+      "count": "7",
+      "fingerprint": "05e9b16ede115394012c356bba852a7b"
+    },
+    "CompetitionPeriodGame": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "CompetitiveTiebreakerEvent": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "DeadCapObligation": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "Draft": {
+      "count": "4",
+      "fingerprint": "869456f7cbea3d33efbf5cf4ea1c4394"
+    },
+    "DraftPick": {
+      "count": "46",
+      "fingerprint": "8df57f26facb0cec945d3cba453440aa"
+    },
+    "DraftPlan": {
+      "count": "1",
+      "fingerprint": "a711ce0cb217177789127f77bdf29c88"
+    },
+    "DraftQueueEntry": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "DraftSelectionSnapshot": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "FaabAccount": {
+      "count": "19",
+      "fingerprint": "b7fd0d0d8e69bdb6f36385c018f94e84"
+    },
+    "FaabLedgerEntry": {
+      "count": "19",
+      "fingerprint": "19d3e3830e60d522187fb3f09440b5c2"
+    },
+    "FantasyRoster": {
+      "count": "19",
+      "fingerprint": "c0b252e3330e649966b0676f8b7a015b"
+    },
+    "FantasyTeam": {
+      "count": "10",
+      "fingerprint": "918b5857bb879c5d9020d7341974e4f0"
+    },
+    "FantasyTransaction": {
+      "count": "49",
+      "fingerprint": "d0fe61c02144e8d88d872be78c86e6bb"
+    },
+    "FantasyWindowRevision": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "FinanceAccount": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "FinanceLedgerEntry": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "FutureDraftPick": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "FutureDraftPickOwnership": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "Game": {
+      "count": "57519",
+      "fingerprint": "6eb39478e72d96ac31604f42d8977c72"
+    },
+    "GameCompletionEvidence": {
+      "count": "3263",
+      "fingerprint": "1b6f832ce14c81a5d526d712b8acc0b4"
+    },
+    "GameLineupSnapshot": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "GameScheduleObservation": {
+      "count": "57352",
+      "fingerprint": "919a38647366ea888c566b2059bfa61b"
+    },
+    "GameTeam": {
+      "count": "114873",
+      "fingerprint": "15cb1666c2201428191eb2b42ed111c9"
+    },
+    "HistoricalGameCrosswalk": {
+      "count": "52866",
+      "fingerprint": "58c99ded74a8b7afeae9b225f38f6c61"
+    },
+    "ImportBatch": {
+      "count": "303",
+      "fingerprint": "83cd740ad8553cdb084be19187df7279"
+    },
+    "KeeperSelection": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "League": {
+      "count": "7",
+      "fingerprint": "5b91911f275b75f49248648a0cb925dc"
+    },
+    "LeagueFinancePolicy": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "LeagueGameAssignment": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "LeagueInvitation": {
+      "count": "3",
+      "fingerprint": "0a2923582eb005968a1dd55c45cb0a6d"
+    },
+    "LeagueMember": {
+      "count": "10",
+      "fingerprint": "2c235d6389e9a2bb403c4bdf0f4ed865"
+    },
+    "LeagueSport": {
+      "count": "15",
+      "fingerprint": "e068e4188db6e5fe47c806fbcad876c2"
+    },
+    "LeagueSportSeason": {
+      "count": "15",
+      "fingerprint": "0942640bd8786c7544559f0ba55c205f"
+    },
+    "Matchup": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "MatchupResultRevision": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "Player": {
+      "count": "9358",
+      "fingerprint": "b15b73ed2dca26dda87a03a1ac3b249d"
+    },
+    "PlayerAvailabilityEvidence": {
+      "count": "827",
+      "fingerprint": "39af0a6356c48ae9c5f8740f29b1ab68"
+    },
+    "PlayerExternalId": {
+      "count": "11984",
+      "fingerprint": "fdcf46b59a5d9ffc6236c6a86c6c309e"
+    },
+    "PlayerGameStat": {
+      "count": "188156",
+      "fingerprint": "d8f3055f12834c37b9e6eae385aaf220"
+    },
+    "PlayerPositionEvidence": {
+      "count": "110",
+      "fingerprint": "bec502f575b94a17c1abeb5c4e92a1cc"
+    },
+    "PlayerSalary": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "Position": {
+      "count": "31",
+      "fingerprint": "7c59f51de5d49f2516a70fa35d0acc7b"
+    },
+    "ProTeam": {
+      "count": "256",
+      "fingerprint": "c7ad531d705b1482b79e84f238214858"
+    },
+    "ProTeamSeasonObservation": {
+      "count": "1396",
+      "fingerprint": "2676c4ac633a98f3893c66741406f5a1"
+    },
+    "ProfessionalDataDecision": {
+      "count": "26691",
+      "fingerprint": "9e8ed2cb0996a8c0762a05cc9675be1a"
+    },
+    "ProfessionalDataObservation": {
+      "count": "26691",
+      "fingerprint": "75f6a0024cc7e08e1b36231b2b8d63bf"
+    },
+    "ProfessionalSeasonScheduleRevision": {
+      "count": "45",
+      "fingerprint": "6b0f8df99d86c1545dc5eb8401108512"
+    },
+    "ProfessionalSyncState": {
+      "count": "23",
+      "fingerprint": "67b2c93e8cef7af6283d87ef8e7ce4ef"
+    },
+    "RateLimitBucket": {
+      "count": "11",
+      "fingerprint": "9acf634b123cdcbe97f5c505056f93f2"
+    },
+    "RelativeMatchup": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "RelativeMatchupPeriod": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "ReleasedPlayerFloor": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "RookieDraftRule": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "RookieEligibilityEvidence": {
+      "count": "6150",
+      "fingerprint": "a1a0e0ff3e832c5cc459993efe06a2f2"
+    },
+    "RosterAssignmentEvent": {
+      "count": "48",
+      "fingerprint": "3dcfd83e18ceef9d5ab68bc99059b946"
+    },
+    "RosterComplianceSnapshot": {
+      "count": "1",
+      "fingerprint": "4755fedf4cdae216b5f9f1e61de34fe1"
+    },
+    "RosterEntry": {
+      "count": "47",
+      "fingerprint": "f2ab52e051fdf332356c1c4bfb8564e4"
+    },
+    "ScheduleImportBatch": {
+      "count": "1",
+      "fingerprint": "e1a8717b5417f01a80784be596239084"
+    },
+    "ScheduleImportIssue": {
+      "count": "9",
+      "fingerprint": "a6da83972d0f2120fe268ac52c49500d"
+    },
+    "ScoreLedger": {
+      "count": "400",
+      "fingerprint": "bbe488fc8b7d7fff39773872d2605a98"
+    },
+    "ScoreLedgerEntry": {
+      "count": "412",
+      "fingerprint": "93a3a9dd0b71eca2039c60fbb01a19d7"
+    },
+    "ScoringPeriod": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "ScoringPreset": {
+      "count": "1",
+      "fingerprint": "c127097a5c311776bcd14e673ab5c464"
+    },
+    "ScoringRule": {
+      "count": "56",
+      "fingerprint": "d773864d98377f53cdd1544baa851797"
+    },
+    "Season": {
+      "count": "48",
+      "fingerprint": "242fca4ec00071bb657ddd0779dbb94a"
+    },
+    "SeasonCalendarObservation": {
+      "count": "45",
+      "fingerprint": "f61a69868c96e1b38f8937315496f21f"
+    },
+    "Session": {
+      "count": "39",
+      "fingerprint": "01187f1ebb016f0eeb256a43449ca875"
+    },
+    "SportCompetition": {
+      "count": "15",
+      "fingerprint": "aef3c64bc17578d8b615e87965625753"
+    },
+    "SportFinalPlacement": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "Trade": {
+      "count": "1",
+      "fingerprint": "ae0b7097ae1f7789096ef0a9798a5258"
+    },
+    "TradeAsset": {
+      "count": "3",
+      "fingerprint": "351d66142d88c7dc3446dfb647d02ff6"
+    },
+    "TradeCut": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "TradeProposal": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "TradeProposalAcceptance": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "TradeProposalRevision": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "TradeReviewPolicy": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "User": {
+      "count": "11",
+      "fingerprint": "83e1b096c602ce48ab20f394040efced"
+    },
+    "Verification": {
+      "count": "0",
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "WaiverClaim": {
+      "count": "2",
+      "fingerprint": "8d19755e69b1f12f820bc7c8d664813d"
+    },
+    "WaiverPriority": {
+      "count": "19",
+      "fingerprint": "2e795204d0830e2992120d73dd431cfa"
+    },
+    "_prisma_migrations": {
+      "count": "28",
+      "fingerprint": "2249d17ff0d3b5f0fff4671588b5b05d"
+    }
+  },
+  "expectedRuntimeDifferences": [
+    {
+      "table": "BackgroundJobRun",
+      "before": {
+        "count": "26835",
+        "fingerprint": "cc7b30efa02b909d994c3c1b29043f8b"
+      },
+      "after": {
+        "count": "27827",
+        "fingerprint": "8141b4e1cfeab471ff49b5efea5ba2e0"
+      },
+      "expectedRuntime": true
+    },
+    {
+      "table": "ProfessionalSyncState",
+      "before": {
+        "count": "23",
+        "fingerprint": "310ff6d4349b7f04d89f0e2c45430304"
+      },
+      "after": {
+        "count": "23",
+        "fingerprint": "67b2c93e8cef7af6283d87ef8e7ce4ef"
+      },
+      "expectedRuntime": true
+    },
+    {
+      "table": "RateLimitBucket",
+      "before": {
+        "count": "35",
+        "fingerprint": "4a9f1ecc1a04934248ec639b31fcf280"
+      },
+      "after": {
+        "count": "11",
+        "fingerprint": "9acf634b123cdcbe97f5c505056f93f2"
+      },
+      "expectedRuntime": true
+    }
+  ],
+  "foreignKeysChecked": 196,
+  "foreignKeyViolations": 0,
+  "mlbHistoricalPositions": {
+    "players": 944,
+    "appearances": 66879,
+    "role_rows": 67076
+  },
+  "artifacts": [
+    {
+      "path": "data/raw/recovered/nfl_2016_2026_final.csv",
+      "sha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_2016_2026_final.csv",
+      "sha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_2016-2027_final.csv",
+      "sha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nhl_2016_2027_final.csv",
+      "sha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_positions_repaired.csv",
+      "sha256": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_positions_repaired.csv",
+      "sha256": "a649f4cda8dfad62fea653c19248cc22089102a4d9a9a2f4a22b817290faa929",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/_nba_player_positions_2016_2026.csv",
+      "sha256": "0161a58e1fd80b8da77e02b8580cf8a35a1d79b60ea43a1571bde812c844da6a",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nfl_2016_2026_final.parquet",
+      "sha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/mlb_2016_2026_final.parquet",
+      "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nba_2016_2027.parquet",
+      "sha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nhl_2016_2027_final.parquet",
+      "sha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_schedules.parquet",
+      "sha256": "1724f7cc6143615036aee574de27aced3b9789de046a68b4991c399b6816671c",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/season_calendar.parquet",
+      "sha256": "25f322a5316f9690dd72d30ade7ff65be113adf77b05e5f34fb9ec50fb4ef160",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_id_crosswalk.parquet",
+      "sha256": "70a4f633d2b9a9e6f17a456f8243ed941d3b16a7af1de12129230761515b1edb",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/team_master.parquet",
+      "sha256": "1b219050df3f51f27f25a6c4d81d208c5f8318ecf359d0b50c831d5305593be7",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/schedule_validation.json",
+      "sha256": "ec3571bdd0a2391edc1c62df20d0ef449ca95b5f813c082a603b36de4c7196e1",
+      "preserved": true
+    }
+  ],
+  "userScreenshots": [
+    {
+      "file": "m3-7-2-cross-sport-trade-builder.png",
+      "sha256": "c65f660a7aad3efb18056666183c95f67bc44eb2c66526d4bc0d3ccf90a97811",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-draft-room.png",
+      "sha256": "67f04b5a7684c7012de8680499efa35e41d3440ab91fccf7752452f97fc31a2e",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-roster-position-selection.png",
+      "sha256": "612960d908d286431a19bbe65c792e93f545e9994aa193b6de4c2070d1a8299c",
+      "preserved": true
+    }
+  ],
+  "migrationCount": "28",
+  "triggerAudit": {
+    "capturedAt": "2026-11-27T11:30:53.264Z",
+    "readOnly": true,
+    "triggers": 38,
+    "definitionsUnchanged": true,
+    "allEnabled": true
+  },
+  "v9RuleCount": 56,
+  "simulationOperationalWrites": 0
+}

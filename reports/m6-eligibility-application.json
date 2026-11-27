@@ -1,0 +1,168 @@
+{
+  "version": "m6-exact-eligibility-application-1",
+  "instructionDatePacific": "2026-11-27",
+  "approvedFingerprint": "81c8099d2816afb7a5606a8e5264807236dd3e1189e2ba5172f306232f562da2",
+  "parentFingerprints": [
+    "42b63da44b968677b91fd01e882ee81a7a2499df52b31ab55f0d50117f2fd88c",
+    "59762cfec052211d2ebc5ca5350a951a2a735d616f88652013b21fedb1fa03ed"
+  ],
+  "applied": {
+    "fingerprint": "81c8099d2816afb7a5606a8e5264807236dd3e1189e2ba5172f306232f562da2",
+    "changes": 18,
+    "alreadyApplied": 0,
+    "applied": true,
+    "observationAppends": 18,
+    "decisionAppends": 18,
+    "availabilityAppends": 0,
+    "rookieAppends": 0,
+    "seasonAppends": 0,
+    "competitive": null
+  },
+  "originalTablesPreserved": 90,
+  "originalRowsUnchanged": true,
+  "replayChanges": 0,
+  "migrationCount": 28,
+  "backup": {
+    "bytes": 70715058,
+    "sha256": "e3c50d959d0fdbadf4d1398f427fc170234a0b52ebbedb42a4042508301f467c",
+    "archiveListAndFullDecodeVerified": true,
+    "clusterVerified": true
+  },
+  "copy": {
+    "originalTablesPreserved": 89,
+    "originalRowsUnchanged": true,
+    "lateSemanticAtomicRollback": true,
+    "lateComponentAtomicRollback": true,
+    "replayChanges": 0,
+    "exactNullClocks": 18
+  },
+  "sourceHashes": {
+    "NHL": "26c545b6130a3140ec15f2a68721b4b74f658d4e6990fe5c8caf643a31a395be",
+    "MLB": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72"
+  },
+  "originalNhlExpiry": {
+    "Sam Morton": "2026-12-01T00:00:00.000Z",
+    "others": "2026-12-03T00:00:00.000Z"
+  },
+  "coverageBefore": {
+    "NHL:2026": 691,
+    "MLB:2026": 1081,
+    "MLB:2027": 944
+  },
+  "coverageAfter": {
+    "NHL:2026": 695,
+    "MLB:2026": 1086,
+    "MLB:2027": 949
+  },
+  "currentTeamPlayersAdded": 4,
+  "postApplicationViews": {
+    "capturedAt": "2026-11-27T11:08:07.618Z",
+    "readOnly": true,
+    "players": [
+      {
+        "name": "Nathan Walker",
+        "sport": "NHL",
+        "positions": {
+          "2026": [
+            "LW"
+          ]
+        },
+        "teamProjected": true
+      },
+      {
+        "name": "Mikael Pyyhtia",
+        "sport": "NHL",
+        "positions": {
+          "2026": [
+            "LW"
+          ]
+        },
+        "teamProjected": true
+      },
+      {
+        "name": "Sam Morton",
+        "sport": "NHL",
+        "positions": {
+          "2026": [
+            "C"
+          ]
+        },
+        "teamProjected": true
+      },
+      {
+        "name": "Filip Gustavsson",
+        "sport": "NHL",
+        "positions": {
+          "2026": [
+            "G"
+          ]
+        },
+        "teamProjected": true
+      },
+      {
+        "name": "Brady Basso",
+        "sport": "MLB",
+        "positions": {
+          "2026": [
+            "P"
+          ],
+          "2027": [
+            "P"
+          ]
+        }
+      },
+      {
+        "name": "Ty Madden",
+        "sport": "MLB",
+        "positions": {
+          "2026": [
+            "P"
+          ],
+          "2027": [
+            "P"
+          ]
+        }
+      },
+      {
+        "name": "Mason Barnett",
+        "sport": "MLB",
+        "positions": {
+          "2026": [
+            "P"
+          ],
+          "2027": [
+            "P"
+          ]
+        }
+      },
+      {
+        "name": "Alec Gamboa",
+        "sport": "MLB",
+        "positions": {
+          "2026": [
+            "P"
+          ],
+          "2027": [
+            "P"
+          ]
+        }
+      },
+      {
+        "name": "Tyler Samaniego",
+        "sport": "MLB",
+        "positions": {
+          "2026": [
+            "P"
+          ],
+          "2027": [
+            "P"
+          ]
+        }
+      }
+    ]
+  },
+  "unrelatedPlayerAliasStatGameLedgerOwnershipFinancialAndFinalizedWrites": 0,
+  "sourcePublicationAndEffectiveTimestampsInvented": false,
+  "oldBodiesExpiryRefreshed": false,
+  "startupFence": "Supervisor refuses startup while reviewed deployment lock is held; both endpoints recheck ownership before database work."
+}

@@ -1,7 +1,7 @@
 import { augment, legalCoverage } from "./matching";
 import { compareId, seededRandom, type SimulationConfig } from "./config";
 
-export type Candidate = { id: string; value: number; legal: readonly number[] };
+export type Candidate = { id: string; value: number; legal: readonly number[]; benchEligible?:boolean };
 export type DraftPick = { team: number; round: number; playerId: string; seat: number | null; value: number };
 
 export function runDraft(candidates: readonly Candidate[], config: SimulationConfig) {
@@ -45,12 +45,12 @@ export function runDraft(candidates: readonly Candidate[], config: SimulationCon
   }
 
   const drafted = new Set<string>();
-  const order = Array.from({ length: teams }, (_, team) => team);
+  const order = config.draftOrder ?? Array.from({ length: teams }, (_, team) => team);
   for (let round = 0; round < slots.length + bench; round++) {
     const snake = round % 2 ? [...order].reverse() : order;
     for (const team of snake) {
       if (round >= slots.length) {
-        const player = ranked.find(({ id, legal }) => available.has(id) && legal.length > 0);
+        const player = ranked.find(({ id, legal, benchEligible }) => available.has(id) && (legal.length > 0 || benchEligible));
         if (player) {
           available.delete(player.id);
           picks.push({ team, round: round + 1, playerId: player.id, seat: null, value: player.value });

@@ -1,0 +1,128 @@
+{
+  "version": "m6-foundation-acceptance-1",
+  "generatedAt": "2026-11-27T11:31:34.090511+00:00",
+  "startingCommit": "67e58d4",
+  "verificationBeforeImplementationCommit": true,
+  "tests": {
+    "unit": 362,
+    "integrationNormal": 164,
+    "integrationShuffled": 164,
+    "shuffledSeed": 261128,
+    "standardChromium": 20,
+    "standardConditionalSkips": 4,
+    "actualRestartWorkflows": 2,
+    "separateRealDataBrowserChecks": 3,
+    "python": 10,
+    "typescript": "PASS",
+    "eslint": "PASS",
+    "prisma": "PASS",
+    "productionWebpack": "PASS",
+    "auditVulnerabilities": 0
+  },
+  "conditionalSkipsExplanation": "Three populated/competition checks executed separately; development-mutating QA workflow intentionally not run.",
+  "databaseTests": "Disposable fantasy_evolution_test schemas only; populated-copy acceptance also disposable.",
+  "proofLogSha256": {
+    "units": "1325713a76bb49ea871a49878808de42eeb10c9ad8ddf50c70281b3b40ab3314",
+    "integrationNormal": "c7d06cb6243436678500fdce1b684e6a705b3bb41847f10153a4deabc6388bf4",
+    "integrationShuffled": "ab3358636c5b1e1d010e464ee92ab59aba4baa2aab1a611805fbf1ddae23b39e",
+    "browserStandard": "c31dde27ff195a4e82e67b1607de440cdc1e39eb164af72ad02d384b0b48c100",
+    "browserRestart": "97b4ccf6f28bea9b8cc14f2a2c68c669ebafca444dcd09578e8d61df08e55880",
+    "realDataAcceptance": "104b46b80ee24fdc2f0cc526d9acd7c900d747e9fde54c59d632d81ee7e2602f",
+    "static": "ea40cbd68a76cbc72ed0fd1f7d9c41a1ac38e9d310f0ec010e75f09f456b682d",
+    "webpack": "6f60927b6c942aba9a13ae917879f98c3d45b789d085b17fb19888af8355a0f2",
+    "python": "a60e0d2d66e445b0734c0563e528ca7eae6f1b838b35a48522a62ef5a010522e",
+    "security": "6d8c5c8f3d7684adb070417bd608d01ae90aa3dc26a65af03ffda4955f38d9a3"
+  },
+  "cli": {
+    "replayIdentical": true,
+    "fingerprint": "d45551f6aa5bcebfabea69e038fd8381a4bd7531c0e5ffce7af42dedcfea5bb1",
+    "officialRejectedBeforeOutput": true,
+    "changedSnapshotRejectedBeforeOutput": true
+  },
+  "health": {
+    "application": "available",
+    "database": "connected",
+    "draftState": "HEALTHY",
+    "gameplayState": "HEALTHY",
+    "data": "HEALTHY",
+    "blockedDrafts": 1,
+    "canonicalCompetition": {
+      "status": "ACTIVE",
+      "retrying": 0,
+      "sports": [
+        {
+          "sport": "NFL",
+          "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T11:32:02.747Z",
+          "leaseUntil": null,
+          "lastProcessedAt": "2026-11-27T11:31:02.747Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 167
+        },
+        {
+          "sport": "NBA",
+          "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T11:32:02.770Z",
+          "leaseUntil": null,
+          "lastProcessedAt": "2026-11-27T11:31:02.770Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 270
+        },
+        {
+          "sport": "NHL",
+          "status": "AWAITING_ELIGIBLE_PROSPECTIVE_SOURCE",
+          "lastFailure": null,
+          "failures": 0,
+          "nextRetryAt": null,
+          "nextCycleAt": "2026-11-27T11:32:02.797Z",
+          "leaseUntil": null,
+          "lastProcessedAt": "2026-11-27T11:31:02.797Z",
+          "lastAcceptedAt": null,
+          "lastAcceptedGameId": null,
+          "lastCycleProcessed": 0,
+          "lastCycleReplay": 0,
+          "lastCycleHeld": 399
+        }
+      ]
+    },
+    "enabledBatchSources": 20,
+    "synchronized": 20,
+    "retrying": 0,
+    "stale": 0
+  },
+  "recoveredTransient": "One NBA transaction-start timeout under verification load; next scheduled cycle recovered with zero failures, no manual data changes.",
+  "recurringPolicies": {
+    "snapshotEnabled": true,
+    "statisticsEnabled": true
+  },
+  "milestones": {
+    "M6.0": "COMPLETE_PREPARATION",
+    "M6.1": "PENDING_METHOD_APPROVAL",
+    "M6.2": "COMPLETE_MECHANICAL_FOUNDATION",
+    "M6.3": "NOT_ACCEPTED_NO_OFFICIAL_BASELINE"
+  },
+  "originalM5Checklist": {
+    "checked": 16,
+    "total": 32
+  },
+  "m6Checklist": {
+    "checked": 19,
+    "total": 28
+  },
+  "v10Active": false,
+  "contractAutomationActive": false,
+  "m7Active": false,
+  "noAdditionalMigration": true
+}

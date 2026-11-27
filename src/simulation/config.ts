@@ -4,7 +4,7 @@ import { GameStatRole, Sport } from "@/generated/prisma/enums";
 export const day = 86_400_000;
 
 export const defaultSlots = {
-  NFL: ["QB", "RB", "RB", "WR", "WR", "WR", "TE", "FLEX", "FLEX"],
+  NFL: ["QB", "RB", "RB", "WR", "WR", "WR", "TE", "FLEX", "SUPERFLEX"],
   NBA: ["PG", "SG", "G", "SF", "PF", "F", "C", "C", "UTIL"],
   MLB: ["SP", "SP", "1B", "3B", "MI", "OF", "OF", "UTIL", "UTIL"],
   NHL: ["F", "F", "F", "F", "D", "D", "G", "UTIL", "UTIL"],
@@ -49,12 +49,18 @@ export const configSchema = z.object({
   seed: z.number().int().min(0).max(0xffffffff).default(11),
   slots: z.array(z.string()).min(1).max(24).optional(),
   bench: z.number().int().min(0).max(20).default(5),
+  rankingModel: z.enum(["TRAILING20_SHRINK4", "V5_TRAILING10_PRIOR_FALLBACK", "PRIOR_SEASON_ONLY"]).default("TRAILING20_SHRINK4"),
   strategy: z.enum(["balanced", "upside", "scarcity"]).default("balanced"),
   faab: z.number().int().min(0).max(100_000).default(100),
   waiverWeekday: z.number().int().min(0).max(6).default(3),
   waiverHourUtc: z.number().int().min(0).max(23).default(12),
   includeTrace: z.boolean().default(false),
+  strictGameMutationLocks: z.boolean().default(false),
+  lineupObjective: z.enum(["FILL_THEN_EXPECTED_POINTS", "EXPECTED_POINTS"]).default("FILL_THEN_EXPECTED_POINTS"),
+  lockMode: z.enum(["SLATE", "INDIVIDUAL_GAME", "DAILY_FIRST_START"]).default("SLATE"),
+  draftOrder: z.array(z.number().int().nonnegative()).optional(),
 }).transform((config, context) => {
+  if(config.draftOrder && (config.draftOrder.length!==config.teams || new Set(config.draftOrder).size!==config.teams || config.draftOrder.some(team=>team>=config.teams))) context.addIssue({code:"custom",message:"Draft order must be a franchise permutation."});
   const slots = (config.slots ?? defaultSlots[config.sport]).map((slot) => slot.trim().toUpperCase());
   for (const slot of slots) {
     if (!Object.hasOwn(slotRules[config.sport], slot)) {

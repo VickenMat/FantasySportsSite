@@ -51,3 +51,7 @@ next-env.d.ts
 
 # Local reviewed-data deployment lock
 /.reviewed-data-application-lock
+
+# Python analysis/test bytecode
+__pycache__/
+*.pyc

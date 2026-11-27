@@ -1,0 +1,570 @@
+{
+  "version": "m6-v9-retrospective-input-diagnostics-1",
+  "scoring": "Unchanged existing V9 values in hash-bound prepared partitions",
+  "cohorts": [
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2016,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5298,
+      "scoreTenthsSum": 2177861,
+      "minTenths": -204,
+      "maxTenths": 3047,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2017,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5369,
+      "scoreTenthsSum": 2049074,
+      "minTenths": -310,
+      "maxTenths": 2748,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2018,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5265,
+      "scoreTenthsSum": 2214202,
+      "minTenths": -168,
+      "maxTenths": 2892,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2019,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5275,
+      "scoreTenthsSum": 2172131,
+      "minTenths": -343,
+      "maxTenths": 2851,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2020,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5412,
+      "scoreTenthsSum": 2294936,
+      "minTenths": -174,
+      "maxTenths": 3318,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2021,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5723,
+      "scoreTenthsSum": 2306212,
+      "minTenths": -261,
+      "maxTenths": 3165,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2022,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5645,
+      "scoreTenthsSum": 2212036,
+      "minTenths": -206,
+      "maxTenths": 3239,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2023,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5620,
+      "scoreTenthsSum": 2197965,
+      "minTenths": -153,
+      "maxTenths": 2993,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2024,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5571,
+      "scoreTenthsSum": 2252755,
+      "minTenths": -251,
+      "maxTenths": 3049,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2025,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5719,
+      "scoreTenthsSum": 2200330,
+      "minTenths": -200,
+      "maxTenths": 3046,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NFL",
+      "seasonStartYear": 2026,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 3326,
+      "scoreTenthsSum": 1300024,
+      "minTenths": -182,
+      "maxTenths": 2670,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2016,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 70447,
+      "scoreTenthsSum": 4929784,
+      "minTenths": -807,
+      "maxTenths": 1141,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2017,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 70742,
+      "scoreTenthsSum": 4933244,
+      "minTenths": -868,
+      "maxTenths": 1016,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2018,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71586,
+      "scoreTenthsSum": 4956084,
+      "minTenths": -850,
+      "maxTenths": 1168,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2019,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71681,
+      "scoreTenthsSum": 4962315,
+      "minTenths": -940,
+      "maxTenths": 1150,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2020,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26718,
+      "scoreTenthsSum": 1771413,
+      "minTenths": -758,
+      "maxTenths": 1125,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2021,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71617,
+      "scoreTenthsSum": 4819893,
+      "minTenths": -791,
+      "maxTenths": 1148,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2022,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 70906,
+      "scoreTenthsSum": 4907722,
+      "minTenths": -871,
+      "maxTenths": 1080,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2023,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71140,
+      "scoreTenthsSum": 4976112,
+      "minTenths": -822,
+      "maxTenths": 1062,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2024,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71269,
+      "scoreTenthsSum": 4937180,
+      "minTenths": -819,
+      "maxTenths": 1001,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2025,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 71548,
+      "scoreTenthsSum": 4918719,
+      "minTenths": -911,
+      "maxTenths": 1080,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "MLB",
+      "seasonStartYear": 2026,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 72293,
+      "scoreTenthsSum": 4909138,
+      "minTenths": -863,
+      "maxTenths": 1180,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2016,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26137,
+      "scoreTenthsSum": 2519848,
+      "minTenths": -38,
+      "maxTenths": 477,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2017,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26104,
+      "scoreTenthsSum": 2553960,
+      "minTenths": -40,
+      "maxTenths": 530,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2018,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26098,
+      "scoreTenthsSum": 2668144,
+      "minTenths": -52,
+      "maxTenths": 483,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2019,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 22392,
+      "scoreTenthsSum": 2300569,
+      "minTenths": -33,
+      "maxTenths": 473,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2020,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 23054,
+      "scoreTenthsSum": 2372491,
+      "minTenths": -54,
+      "maxTenths": 489,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2021,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26036,
+      "scoreTenthsSum": 2671810,
+      "minTenths": -36,
+      "maxTenths": 501,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2022,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 25892,
+      "scoreTenthsSum": 2723582,
+      "minTenths": -43,
+      "maxTenths": 543,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2023,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26399,
+      "scoreTenthsSum": 2780639,
+      "minTenths": -58,
+      "maxTenths": 564,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2024,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26303,
+      "scoreTenthsSum": 2789210,
+      "minTenths": -38,
+      "maxTenths": 507,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2025,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 26649,
+      "scoreTenthsSum": 2814386,
+      "minTenths": -39,
+      "maxTenths": 537,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NBA",
+      "seasonStartYear": 2026,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 5414,
+      "scoreTenthsSum": 540781,
+      "minTenths": -25,
+      "maxTenths": 554,
+      "missingInputs": {},
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2016,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 46581,
+      "scoreTenthsSum": 4322578,
+      "minTenths": -292,
+      "maxTenths": 800,
+      "missingInputs": {
+        "faceoff_wins": 36,
+        "shorthanded_points_bonus": 108,
+        "shutout": 242
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2017,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 48225,
+      "scoreTenthsSum": 4685306,
+      "minTenths": -266,
+      "maxTenths": 788,
+      "missingInputs": {
+        "shutout": 217,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72,
+        "goalie_win": 1
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2018,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 48193,
+      "scoreTenthsSum": 4659924,
+      "minTenths": -280,
+      "maxTenths": 848,
+      "missingInputs": {
+        "shutout": 210,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 72
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2019,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 40985,
+      "scoreTenthsSum": 3914351,
+      "minTenths": -292,
+      "maxTenths": 800,
+      "missingInputs": {
+        "shutout": 161,
+        "faceoff_wins": 72,
+        "shorthanded_points_bonus": 108,
+        "goalie_win": 2
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2020,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 32917,
+      "scoreTenthsSum": 3028066,
+      "minTenths": -302,
+      "maxTenths": 788,
+      "missingInputs": {
+        "shutout": 161
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2021,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 49825,
+      "scoreTenthsSum": 4836445,
+      "minTenths": -296,
+      "maxTenths": 776,
+      "missingInputs": {
+        "shutout": 200,
+        "goalie_win": 2
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2022,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 49814,
+      "scoreTenthsSum": 4938604,
+      "minTenths": -266,
+      "maxTenths": 832,
+      "missingInputs": {
+        "shutout": 179
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2023,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 49818,
+      "scoreTenthsSum": 4938819,
+      "minTenths": -424,
+      "maxTenths": 776,
+      "missingInputs": {
+        "shutout": 200
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2024,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 49782,
+      "scoreTenthsSum": 4745582,
+      "minTenths": -280,
+      "maxTenths": 776,
+      "missingInputs": {
+        "shutout": 206
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2025,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 49835,
+      "scoreTenthsSum": 4668040,
+      "minTenths": -378,
+      "maxTenths": 728,
+      "missingInputs": {
+        "shutout": 163
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    },
+    {
+      "sport": "NHL",
+      "seasonStartYear": 2026,
+      "classification": "RETROSPECTIVE_PARTIAL_SCORING_DIAGNOSTIC_NOT_FANTASY_SIMULATION",
+      "selectedPlayedUnconflictedCompleteRows": 14173,
+      "scoreTenthsSum": 1337434,
+      "minTenths": -340,
+      "maxTenths": 668,
+      "missingInputs": {
+        "shutout": 40
+      },
+      "ownershipDraftLineupsSimulated": false,
+      "cannotMeasureCrossSportFantasyBalance": true
+    }
+  ],
+  "officialFourSportBaseline": false,
+  "crossSportFantasySpreadPercent": null,
+  "fingerprint": "aa984e705c2f3dc7b3d39b3500b9f040e3f5f3d0a1f9ada232ca6e998527172c"
+}

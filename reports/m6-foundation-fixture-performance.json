@@ -1,0 +1,1160 @@
+{
+  "version": "m6-foundation-fixture-performance-1",
+  "gitCommit": "67e58d4c251beef879d1106d6d83d1c50f909820",
+  "uncommittedChanges": true,
+  "codeFingerprint": "558df62490326a03b769b0b49503c856df6046b45ce21d1ae65a6ec3a37a3885",
+  "sourceProofs": [
+    {
+      "path": "src/simulation/game-locks.ts",
+      "sha256": "9744efc3945cfb3d9fb434b2babab828ba6c51df9c66336c9864f2765383b9d5"
+    },
+    {
+      "path": "src/simulation/cycle.ts",
+      "sha256": "59223fb8dc4af025c3bd9116b81d9b8847206ce7f2965cceea0bad7d92fca1f2"
+    },
+    {
+      "path": "src/simulation/engine.ts",
+      "sha256": "1fa698a453f0701d2961c5550ad37da29746748436e872bc6f072bbde3d0938b"
+    },
+    {
+      "path": "src/simulation/config.ts",
+      "sha256": "a7c2afae9dcd1d7c3c09c52f68c767994795d880882b9326a4fd660c20af3335"
+    },
+    {
+      "path": "src/simulation/draft.ts",
+      "sha256": "af838e1b3cdeef07380aa569d5ba64d18b1224cfaff6dea0914f7e09fb98bd0a"
+    },
+    {
+      "path": "src/simulation/matching.ts",
+      "sha256": "37c7415f55786675b56ffc3a3e2ccca07f991ee690e53e69e6d04b6c41ec58bc"
+    },
+    {
+      "path": "src/simulation/shared-roster.ts",
+      "sha256": "e1e854deefdfd5fc0aad805d8d1a66fd4c16611601a9d010ff7c480bae1a955a"
+    },
+    {
+      "path": "src/simulation/scoring.ts",
+      "sha256": "7eaeaf4a4177eb563438c3c0551d69d5b22309cf895b89f3ee6dc5c6a2dc79d8"
+    },
+    {
+      "path": "src/simulation/diagnostics.ts",
+      "sha256": "8ad168e4ae5a439db1a14efac4584f19d6b6ca4d9c669f71cc6f1ab80de03fe9"
+    },
+    {
+      "path": "src/simulation/fixtures.ts",
+      "sha256": "46aa44c32c04b202e421f039ca73149d4d17455080aff58dc7e2b08e5648d9cb"
+    },
+    {
+      "path": "src/scoring/engine.ts",
+      "sha256": "7547d5a9081f85770a38c4d47eece28c02529575c7891cd841fcd36849999338"
+    },
+    {
+      "path": "src/scoring/ubp-v9.ts",
+      "sha256": "a025b9cd7ed68c0b0c581001bf1f1d1da272cd7ecee2777a3ca9eede608b4b62"
+    },
+    {
+      "path": "src/positions/eligibility.ts",
+      "sha256": "c5c15a54370335e09f33cb6ef0f5b9c05cd1964476f44ff84ca1f321c2b77c22"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "fc7c7ddaebc5efc9933ddb0507ecb3b854e6101e26b903d58aedf4f76445bfb1"
+    }
+  ],
+  "inputFingerprint": "dd47ff4940462ffeac8816c18318bb62e7e6586f8665fe22bba6963f1fd1d5f5",
+  "scoringConfigurationFingerprint": "b63ebf7338e2774ecee07506b1e3ba77db0e01b1f27aa135d54c67aa75db5eae",
+  "runtime": {
+    "node": "v24.8.0",
+    "platform": "darwin"
+  },
+  "franchises": 12,
+  "startersPerSport": 9,
+  "sportBench": 5,
+  "universalBench": 5,
+  "universalIr": 5,
+  "syntheticDays": 30,
+  "syntheticOutcomeRows": 40320,
+  "fixtureGenerationAndProductionScoringMs": 144.07495800000004,
+  "peakSampledRssBytes": 395247616,
+  "runs": [
+    {
+      "seed": 11,
+      "classification": "SYNTHETIC_FOUNDATION_WORKLOAD_NOT_V9_BASELINE",
+      "inputFingerprint": "dd47ff4940462ffeac8816c18318bb62e7e6586f8665fe22bba6963f1fd1d5f5",
+      "outputFingerprint": "3135669ed00295206247ed0e6a95ed5b4eb7e15c06a5438eed0fdddb09f4d7a0",
+      "replayIdentical": true,
+      "elapsedMs": 548.5868750000001,
+      "phaseTimingsMs": {
+        "DRAFT": 104.55225000000007,
+        "WAIVER": 22.428373999999963,
+        "LINEUP": 258.3864589999994
+      },
+      "syntheticSpreadPercent": 187.11932101847228,
+      "sportDiagnostics": [
+        {
+          "sport": "NFL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 173137.5,
+          "medianFranchiseStarterTenths": 173070,
+          "minFranchiseStarterTenths": 172710,
+          "maxFranchiseStarterTenths": 173880,
+          "populationStandardDeviationTenths": 301.0294836058422,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 641.25,
+          "pointsPerKnownFantasyAssignmentTenths": 641.25,
+          "pointsPerRequiredSlotTenths": 19237.5,
+          "everOwnedPlayers": 192,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 84,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 243360,
+            "2": 239400,
+            "3": 236610,
+            "4": 233910,
+            "5": 230760,
+            "6": 227970,
+            "7": 225270,
+            "8": 222120,
+            "9": 218250
+          },
+          "positionContributions": {
+            "QB": {
+              "starts": 360,
+              "pointsTenths": 233820,
+              "replacementProjectedTenths": 196560,
+              "replacementComparableStarts": 360
+            },
+            "RB": {
+              "starts": 720,
+              "pointsTenths": 466200,
+              "replacementProjectedTenths": 393120,
+              "replacementComparableStarts": 720
+            },
+            "WR": {
+              "starts": 1080,
+              "pointsTenths": 688320,
+              "replacementProjectedTenths": 589680,
+              "replacementComparableStarts": 1080
+            },
+            "TE": {
+              "starts": 360,
+              "pointsTenths": 233820,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "FLEX": {
+              "starts": 360,
+              "pointsTenths": 228330,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "SUPERFLEX": {
+              "starts": 360,
+              "pointsTenths": 227160,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": 0.75,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "MLB",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32520,
+          "medianFranchiseStarterTenths": 32520,
+          "minFranchiseStarterTenths": 32520,
+          "maxFranchiseStarterTenths": 32520,
+          "populationStandardDeviationTenths": 0,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 120.44444444444444,
+          "pointsPerKnownFantasyAssignmentTenths": 120.44444444444444,
+          "pointsPerRequiredSlotTenths": 3613.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 41850,
+            "2": 41850,
+            "3": 6600,
+            "4": 5280,
+            "5": 5280,
+            "6": 5940,
+            "7": 5940,
+            "8": 7260,
+            "9": 7920,
+            "10": 83700,
+            "11": 97650,
+            "12": 55800,
+            "13": 15270,
+            "14": 5280,
+            "15": 4620
+          },
+          "positionContributions": {
+            "SP": {
+              "starts": 720,
+              "pointsTenths": 334800,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "1B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "3B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "MI": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "OF": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NBA",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 62135,
+          "medianFranchiseStarterTenths": 62160,
+          "minFranchiseStarterTenths": 61860,
+          "maxFranchiseStarterTenths": 62460,
+          "populationStandardDeviationTenths": 160.0781059358212,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 230.12962962962962,
+          "pointsPerKnownFantasyAssignmentTenths": 230.12962962962962,
+          "pointsPerRequiredSlotTenths": 6903.888888888889,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 92430,
+            "2": 90180,
+            "3": 87930,
+            "4": 85230,
+            "5": 82980,
+            "6": 80580,
+            "7": 78180,
+            "8": 75780,
+            "9": 72330
+          },
+          "positionContributions": {
+            "PG": {
+              "starts": 360,
+              "pointsTenths": 89730,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SG": {
+              "starts": 360,
+              "pointsTenths": 82230,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 82680,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SF": {
+              "starts": 360,
+              "pointsTenths": 85530,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "PF": {
+              "starts": 360,
+              "pointsTenths": 80880,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "F": {
+              "starts": 360,
+              "pointsTenths": 80580,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "C": {
+              "starts": 720,
+              "pointsTenths": 164010,
+              "replacementProjectedTenths": 113760,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 360,
+              "pointsTenths": 79980,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NHL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32700,
+          "medianFranchiseStarterTenths": 32700,
+          "minFranchiseStarterTenths": 30720,
+          "maxFranchiseStarterTenths": 34680,
+          "populationStandardDeviationTenths": 1242.7389106324788,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 121.11111111111111,
+          "pointsPerKnownFantasyAssignmentTenths": 121.11111111111111,
+          "pointsPerRequiredSlotTenths": 3633.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 173520,
+            "2": 25080,
+            "3": 11400,
+            "4": 20520,
+            "5": 20520,
+            "6": 20520,
+            "7": 20520,
+            "8": 25080,
+            "9": 25080,
+            "11": 6840,
+            "12": 20520,
+            "13": 18240,
+            "14": 4560
+          },
+          "positionContributions": {
+            "F": {
+              "starts": 1440,
+              "pointsTenths": 109440,
+              "replacementProjectedTenths": 20160,
+              "replacementComparableStarts": 1440
+            },
+            "D": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 173520,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 29,
+      "classification": "SYNTHETIC_FOUNDATION_WORKLOAD_NOT_V9_BASELINE",
+      "inputFingerprint": "dd47ff4940462ffeac8816c18318bb62e7e6586f8665fe22bba6963f1fd1d5f5",
+      "outputFingerprint": "697c890568c80d80926b30a88bacb7df80368e64431a487228cad4557cb90bf3",
+      "replayIdentical": true,
+      "elapsedMs": 421.5939999999996,
+      "phaseTimingsMs": {
+        "DRAFT": 71.03329100000019,
+        "WAIVER": 14.887458000001061,
+        "LINEUP": 223.3369499999958
+      },
+      "syntheticSpreadPercent": 187.1979229079289,
+      "sportDiagnostics": [
+        {
+          "sport": "NFL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 173137.5,
+          "medianFranchiseStarterTenths": 173115,
+          "minFranchiseStarterTenths": 172890,
+          "maxFranchiseStarterTenths": 173700,
+          "populationStandardDeviationTenths": 223.8721733489895,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 641.25,
+          "pointsPerKnownFantasyAssignmentTenths": 641.25,
+          "pointsPerRequiredSlotTenths": 19237.5,
+          "everOwnedPlayers": 192,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 84,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 243360,
+            "2": 239400,
+            "3": 236610,
+            "4": 233910,
+            "5": 230760,
+            "6": 227970,
+            "7": 225270,
+            "8": 222030,
+            "9": 218340
+          },
+          "positionContributions": {
+            "QB": {
+              "starts": 360,
+              "pointsTenths": 233460,
+              "replacementProjectedTenths": 196560,
+              "replacementComparableStarts": 360
+            },
+            "RB": {
+              "starts": 720,
+              "pointsTenths": 466200,
+              "replacementProjectedTenths": 393120,
+              "replacementComparableStarts": 720
+            },
+            "WR": {
+              "starts": 1080,
+              "pointsTenths": 688320,
+              "replacementProjectedTenths": 589680,
+              "replacementComparableStarts": 1080
+            },
+            "TE": {
+              "starts": 360,
+              "pointsTenths": 233460,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "FLEX": {
+              "starts": 360,
+              "pointsTenths": 228150,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "SUPERFLEX": {
+              "starts": 360,
+              "pointsTenths": 228060,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": 0.6666666666666666,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "MLB",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32520,
+          "medianFranchiseStarterTenths": 32520,
+          "minFranchiseStarterTenths": 32520,
+          "maxFranchiseStarterTenths": 32520,
+          "populationStandardDeviationTenths": 0,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 120.44444444444444,
+          "pointsPerKnownFantasyAssignmentTenths": 120.44444444444444,
+          "pointsPerRequiredSlotTenths": 3613.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 55800,
+            "2": 55800,
+            "3": 3960,
+            "4": 5940,
+            "5": 6600,
+            "6": 7260,
+            "7": 6600,
+            "8": 5940,
+            "9": 7920,
+            "10": 97650,
+            "11": 55800,
+            "12": 41850,
+            "13": 28560,
+            "14": 6600,
+            "15": 3960
+          },
+          "positionContributions": {
+            "SP": {
+              "starts": 720,
+              "pointsTenths": 334800,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "1B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "3B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "MI": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "OF": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NBA",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 62072.5,
+          "medianFranchiseStarterTenths": 62085,
+          "minFranchiseStarterTenths": 61710,
+          "maxFranchiseStarterTenths": 62610,
+          "populationStandardDeviationTenths": 255.868618630734,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 229.89814814814815,
+          "pointsPerKnownFantasyAssignmentTenths": 229.89814814814815,
+          "pointsPerRequiredSlotTenths": 6896.944444444444,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 92430,
+            "2": 90180,
+            "3": 87930,
+            "4": 85230,
+            "5": 82980,
+            "6": 80730,
+            "7": 78030,
+            "8": 75330,
+            "9": 72030
+          },
+          "positionContributions": {
+            "PG": {
+              "starts": 360,
+              "pointsTenths": 89730,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SG": {
+              "starts": 360,
+              "pointsTenths": 81330,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 82230,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SF": {
+              "starts": 360,
+              "pointsTenths": 87780,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "PF": {
+              "starts": 360,
+              "pointsTenths": 80280,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "F": {
+              "starts": 360,
+              "pointsTenths": 79680,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "C": {
+              "starts": 720,
+              "pointsTenths": 164910,
+              "replacementProjectedTenths": 113760,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 360,
+              "pointsTenths": 78930,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NHL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32700,
+          "medianFranchiseStarterTenths": 32700,
+          "minFranchiseStarterTenths": 30720,
+          "maxFranchiseStarterTenths": 34680,
+          "populationStandardDeviationTenths": 1242.7389106324788,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 121.11111111111111,
+          "pointsPerKnownFantasyAssignmentTenths": 121.11111111111111,
+          "pointsPerRequiredSlotTenths": 3633.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 173520,
+            "2": 22800,
+            "3": 22800,
+            "4": 22800,
+            "5": 20520,
+            "6": 18240,
+            "7": 15960,
+            "8": 20520,
+            "9": 22800,
+            "11": 4560,
+            "12": 22800,
+            "13": 20520,
+            "14": 4560
+          },
+          "positionContributions": {
+            "F": {
+              "starts": 1440,
+              "pointsTenths": 109440,
+              "replacementProjectedTenths": 20160,
+              "replacementComparableStarts": 1440
+            },
+            "D": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 173520,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "classification": "SYNTHETIC_FOUNDATION_WORKLOAD_NOT_V9_BASELINE",
+      "inputFingerprint": "dd47ff4940462ffeac8816c18318bb62e7e6586f8665fe22bba6963f1fd1d5f5",
+      "outputFingerprint": "b9d6dc9c7f35c6cfd6fa64f51fa5d26fe0b49160a4c5757b27f43771c0fec1d4",
+      "replayIdentical": true,
+      "elapsedMs": 344.19108300000016,
+      "phaseTimingsMs": {
+        "DRAFT": 52.59679200000028,
+        "WAIVER": 14.402581000000282,
+        "LINEUP": 184.97337299999572
+      },
+      "syntheticSpreadPercent": 187.24466863107426,
+      "sportDiagnostics": [
+        {
+          "sport": "NFL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 173175,
+          "medianFranchiseStarterTenths": 173115,
+          "minFranchiseStarterTenths": 172710,
+          "maxFranchiseStarterTenths": 173880,
+          "populationStandardDeviationTenths": 315.7134776977378,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 641.3888888888889,
+          "pointsPerKnownFantasyAssignmentTenths": 641.3888888888889,
+          "pointsPerRequiredSlotTenths": 19241.666666666668,
+          "everOwnedPlayers": 192,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 84,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 243360,
+            "2": 239400,
+            "3": 236610,
+            "4": 233910,
+            "5": 230760,
+            "6": 227970,
+            "7": 225180,
+            "8": 222210,
+            "9": 218700
+          },
+          "positionContributions": {
+            "QB": {
+              "starts": 360,
+              "pointsTenths": 235080,
+              "replacementProjectedTenths": 196560,
+              "replacementComparableStarts": 360
+            },
+            "RB": {
+              "starts": 720,
+              "pointsTenths": 463320,
+              "replacementProjectedTenths": 393120,
+              "replacementComparableStarts": 720
+            },
+            "WR": {
+              "starts": 1080,
+              "pointsTenths": 689040,
+              "replacementProjectedTenths": 589680,
+              "replacementComparableStarts": 1080
+            },
+            "TE": {
+              "starts": 360,
+              "pointsTenths": 233820,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "FLEX": {
+              "starts": 360,
+              "pointsTenths": 229320,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            },
+            "SUPERFLEX": {
+              "starts": 360,
+              "pointsTenths": 227520,
+              "replacementProjectedTenths": 197640,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": 0.6666666666666666,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "MLB",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32520,
+          "medianFranchiseStarterTenths": 32520,
+          "minFranchiseStarterTenths": 32520,
+          "maxFranchiseStarterTenths": 32520,
+          "populationStandardDeviationTenths": 0,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 120.44444444444444,
+          "pointsPerKnownFantasyAssignmentTenths": 120.44444444444444,
+          "pointsPerRequiredSlotTenths": 3613.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 83700,
+            "2": 27900,
+            "3": 5940,
+            "4": 5940,
+            "5": 4620,
+            "6": 5280,
+            "7": 6600,
+            "8": 7260,
+            "9": 7920,
+            "10": 69750,
+            "11": 97650,
+            "12": 55800,
+            "13": 1980,
+            "14": 4620,
+            "15": 5280
+          },
+          "positionContributions": {
+            "SP": {
+              "starts": 720,
+              "pointsTenths": 334800,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "1B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "3B": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "MI": {
+              "starts": 360,
+              "pointsTenths": 7920,
+              "replacementProjectedTenths": 7920,
+              "replacementComparableStarts": 360
+            },
+            "OF": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 15840,
+              "replacementProjectedTenths": 15840,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NBA",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 61997.5,
+          "medianFranchiseStarterTenths": 62010,
+          "minFranchiseStarterTenths": 61560,
+          "maxFranchiseStarterTenths": 62460,
+          "populationStandardDeviationTenths": 224.65250944514287,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 229.62037037037038,
+          "pointsPerKnownFantasyAssignmentTenths": 229.62037037037038,
+          "pointsPerRequiredSlotTenths": 6888.611111111111,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 92430,
+            "2": 90180,
+            "3": 87930,
+            "4": 85230,
+            "5": 82980,
+            "6": 80730,
+            "7": 77730,
+            "8": 75480,
+            "9": 71280
+          },
+          "positionContributions": {
+            "PG": {
+              "starts": 360,
+              "pointsTenths": 89130,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SG": {
+              "starts": 360,
+              "pointsTenths": 80730,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 82980,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "SF": {
+              "starts": 360,
+              "pointsTenths": 83730,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "PF": {
+              "starts": 360,
+              "pointsTenths": 80280,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "F": {
+              "starts": 360,
+              "pointsTenths": 80880,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            },
+            "C": {
+              "starts": 720,
+              "pointsTenths": 164010,
+              "replacementProjectedTenths": 113760,
+              "replacementComparableStarts": 720
+            },
+            "UTIL": {
+              "starts": 360,
+              "pointsTenths": 82230,
+              "replacementProjectedTenths": 56880,
+              "replacementComparableStarts": 360
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        },
+        {
+          "sport": "NHL",
+          "year": 2021,
+          "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+          "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+          "completeStarterOutcomeInventory": true,
+          "meanFranchiseStarterTenths": 32700,
+          "medianFranchiseStarterTenths": 32700,
+          "minFranchiseStarterTenths": 30720,
+          "maxFranchiseStarterTenths": 34680,
+          "populationStandardDeviationTenths": 1242.7389106324788,
+          "knownFantasyStarterAssignments": 3240,
+          "scoredStartingAppearances": 3240,
+          "explicitDidNotPlayStarts": 0,
+          "unscoredStartingAppearances": 0,
+          "pointsPerScoredAppearanceTenths": 121.11111111111111,
+          "pointsPerKnownFantasyAssignmentTenths": 121.11111111111111,
+          "pointsPerRequiredSlotTenths": 3633.3333333333335,
+          "everOwnedPlayers": 180,
+          "everStartedPlayers": 108,
+          "neverStartedOwnedPlayers": 72,
+          "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+          "replacementUsage": 0,
+          "waiverPointsTenths": 0,
+          "draftRoundPointsTenths": {
+            "1": 173520,
+            "2": 22800,
+            "3": 13680,
+            "4": 22800,
+            "5": 20520,
+            "6": 22800,
+            "7": 20520,
+            "8": 25080,
+            "9": 22800,
+            "11": 4560,
+            "12": 18240,
+            "13": 18240,
+            "14": 6840
+          },
+          "positionContributions": {
+            "F": {
+              "starts": 1440,
+              "pointsTenths": 109440,
+              "replacementProjectedTenths": 20160,
+              "replacementComparableStarts": 1440
+            },
+            "D": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            },
+            "G": {
+              "starts": 360,
+              "pointsTenths": 173520,
+              "replacementProjectedTenths": 0,
+              "replacementComparableStarts": 0
+            },
+            "UTIL": {
+              "starts": 720,
+              "pointsTenths": 54720,
+              "replacementProjectedTenths": 10080,
+              "replacementComparableStarts": 720
+            }
+          },
+          "footballSuperflexQbEligibleFraction": null,
+          "missingInputs": {},
+          "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+          "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+          "unmeasured": [
+            "injury counterfactual effect without dated injury evidence",
+            "championship influence without a separately accepted H2H season model",
+            "year-to-year stability without accepted comparable cycles"
+          ]
+        }
+      ]
+    }
+  ],
+  "officialBaselineRun": false,
+  "professionalHistoricalSeasonSimulated": false,
+  "unapprovedMethodologyActivated": false,
+  "productionWrites": 0,
+  "v10Active": false
+}

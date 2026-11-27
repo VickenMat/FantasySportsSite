@@ -1,0 +1,49 @@
+{
+  "version": "m6-native-event-conflict-resolution-1",
+  "parentOriginal441Fingerprint": "e24c395ea12cb73c627156a1fcc9fd4494c9ca5a294f7adbdbb238154a38b43b",
+  "originalConflictingRows": 441,
+  "resolvedRows": 441,
+  "remainingRows": 0,
+  "newRetrospectiveCompleteSelectedPlayedRows": 438,
+  "seasons": [
+    {
+      "seasonStartYear": 2021,
+      "originalConflictingRows": 16,
+      "supportedResolvedRows": 16,
+      "remainingRows": 0,
+      "remainingReasons": {},
+      "completeSelectedPlayedResolvedRows": 16,
+      "fieldOutcomes": {
+        "PUBLISHED_BOX": 16
+      },
+      "sourceEventSha256": "ca87e6cdecca5c5017f55a0b751b177120927155070caff69efd983dc2ccc796",
+      "overlay": "data/simulation/conflict_resolution/2021.resolved.jsonl",
+      "overlaySha256": "dd8c6c87a420db6ccaf4f9e5b182624c1afaeeef4e5c8bdf6a2e557219c66011",
+      "held": []
+    },
+    {
+      "seasonStartYear": 2026,
+      "originalConflictingRows": 425,
+      "supportedResolvedRows": 425,
+      "remainingRows": 0,
+      "remainingReasons": {},
+      "completeSelectedPlayedResolvedRows": 422,
+      "fieldOutcomes": {
+        "PUBLISHED_BOX": 434,
+        "ARCHIVE": 1
+      },
+      "sourceEventSha256": "6d16cbc1c1747a54eb6ff5f0b2b2ef399bc5c0a17c1667131cd6989e69318606",
+      "overlay": "data/simulation/conflict_resolution/2026.resolved.jsonl",
+      "overlaySha256": "0e7521a8ffc6776e715f1c28fda5a66373e3d0e3777f4bf217080d5981f17e9e",
+      "held": []
+    }
+  ],
+  "selectionPolicy": "Complete terminal nonduplicate native event stream, reconciled ordinary goal inventory and final score; each conflicting field must match its exact event-actor count in archive or published box. No majority vote or universal source preference.",
+  "originalSourcesAndFrozen55PartitionsChanged": false,
+  "historicalKnownAtSupplied": false,
+  "strictSimulationReadinessGranted": false,
+  "productionWrites": 0,
+  "transformSha256": "eb6dcd0acce23f027503300411996cb93e0eeaf74251eb93a1e4eb6b96880745",
+  "eventDerivationSha256": "2e3b9f46c147959302aa15aeafe86f59982e4746ef711eda6c6e5f7cc9bea496",
+  "fingerprint": "e0d230186f24f600a2627190a731dd71de6f862e6c561a4efa9d94fefcaa9472"
+}

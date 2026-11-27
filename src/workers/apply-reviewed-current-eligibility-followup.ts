@@ -34,6 +34,7 @@ const client = new pg.Client({ connectionString: url.href }), db = getDatabase()
 let connected = false;
 try {
   await lock.writeFile(JSON.stringify({ pid: process.pid, fingerprint: approved, startedAt: new Date().toISOString() }));
+  await paused();
   await client.connect(); connected = true;
   if (!(await client.query("SELECT pg_try_advisory_lock(hashtext('m5-reviewed-accelerated-deployment')) AS acquired")).rows[0].acquired) throw Error('Another reviewed deployment is active.');
   const migrations = (await client.query('SELECT count(*)::int AS n FROM _prisma_migrations WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL')).rows[0].n;

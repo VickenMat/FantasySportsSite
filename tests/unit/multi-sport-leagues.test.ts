@@ -65,6 +65,10 @@ describe("M3.6 draft and schedule invariants", () => {
   it("selects deterministic position-fitting computer picks", () => {
     const candidates = [{ id: "qb", positions: ["QB"] }, { id: "rb", positions: ["RB"] }];
     expect(chooseAutomaticPlayer("NFL", defaultSlots.NFL, [], candidates)?.id).toBe("qb");
-    expect(chooseAutomaticPlayer("NFL", defaultSlots.NFL, [{ id: "owned-qb", positions: ["QB"] }], candidates)?.id).toBe("rb");
+    const oneQuarterback = [{ id: "owned-qb", positions: ["QB"] }];
+    expect(chooseAutomaticPlayer("NFL", defaultSlots.NFL, oneQuarterback, candidates)?.id).toBe("qb");
+    expect(chooseAutomaticPlayer("NFL", defaultSlots.NFL, [...oneQuarterback, { id: "owned-second", positions: ["QB"] }], candidates)?.id).toBe("rb");
+    const twoFlexOverride = defaultSlots.NFL.map((slot) => slot === "SUPERFLEX" ? "FLEX" : slot);
+    expect(chooseAutomaticPlayer("NFL", twoFlexOverride, oneQuarterback, candidates)?.id).toBe("rb");
   });
 });

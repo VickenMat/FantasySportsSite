@@ -1,4 +1,6 @@
-# Consolidated current eligibility follow-up — awaiting exact approval
+# Consolidated current eligibility follow-up — approved and applied
+
+> November 27, 2026 update: this exact target is now explicitly approved, applied and replay-verified. All 90 tables' original rows were preserved. Proposal-time statements below are historical. See [the current application report](M6_ELIGIBILITY_APPLICATION_REPORT.md).
 
 Exact proposed target: **`81c8099d2816afb7a5606a8e5264807236dd3e1189e2ba5172f306232f562da2`**.
 

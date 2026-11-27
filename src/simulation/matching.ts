@@ -35,18 +35,19 @@ export type Edge<T> = { playerId: string; projection: number; selection: T };
 
 // Hungarian assignment with a private pool of empty columns. First maximize
 // legal fills, then projected value. Sorted IDs make ties independent of input order.
-export function assignLineup<T>(edges: readonly (readonly Edge<T>[])[]) {
+export function assignLineup<T>(edges: readonly (readonly Edge<T>[])[], maximizeFilled = true) {
   const count = edges.length;
   const candidates = [...new Set(edges.flatMap((list) => list.map(({ playerId }) => playerId)))].sort(compareId);
   const columns = candidates.length + count;
   const cells = edges.map((list) => new Map(list.map((edge) => [edge.playerId, edge])));
   const maxValue = edges.reduce((max, list) =>
     list.reduce((largest, edge) => Math.max(largest, Math.abs(edge.projection)), max), 1);
-  const fillBonus = (2 * count + 1) * maxValue;
+  const forbiddenCost = (2 * count + 1) * maxValue;
+  const fillBonus = maximizeFilled ? forbiddenCost : 0;
   const cost = (i: number, j: number) => {
     if (j > candidates.length) return 0;
     const edge = cells[i - 1].get(candidates[j - 1]);
-    return edge ? -fillBonus - edge.projection : fillBonus;
+    return edge ? -fillBonus - edge.projection : forbiddenCost;
   };
 
   const u = new Array<number>(count + 1).fill(0);

@@ -2,10 +2,17 @@ import "dotenv/config";
 import { spawn } from "node:child_process";
 import readline from "node:readline";
 import net from "node:net";
-import { mkdir, writeFile, readFile, rm } from "node:fs/promises";
+import { access, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const lockDirectory = resolve(".dev-stack-lock");
+try {
+  await access(resolve(".reviewed-data-application-lock"));
+  console.error("A reviewed data deployment is active. Retry startup after it releases its deployment lock.");
+  process.exit(1);
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
 try {
   await mkdir(lockDirectory);
   await writeFile(resolve(lockDirectory, "owner"), String(process.pid));
@@ -20,6 +27,16 @@ try {
   }
   console.error("Stale .dev-stack-lock found. Verify no stack is running, then remove that lock directory and retry.");
   process.exit(1);
+}
+
+// Close the race between the initial deployment check and stack ownership.
+try {
+  await access(resolve(".reviewed-data-application-lock"));
+  await rm(lockDirectory, { recursive: true });
+  console.error("A reviewed data deployment acquired its lock during startup. No workers were started.");
+  process.exit(1);
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
 }
 
 try {
