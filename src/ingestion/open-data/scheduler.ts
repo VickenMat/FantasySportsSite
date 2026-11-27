@@ -1,3 +1,6 @@
+import { processRecurringSnapshots } from './recurring-snapshots';
+import { atomicFile } from './storage';
+import { stageReleaseCandidates } from './normalization-queue';
 import { randomUUID } from 'node:crypto';
 import { getDatabase } from '@/lib/db';
 import { reserveProviderRequest } from '../request-budget';
@@ -41,8 +44,19 @@ export async function synchronizeRelease(product: ReleaseProduct, options: { fet
     const result = await retrieveRelease(product, { ...options, beforeRequest,commit }), processingStartedAt = clock();
     const validation = inspectRelease(product, result.bytes);
     const stateObservations=product.category==='GAME_STATE_SNAPSHOT'?await preserveGameStateObservations(product.id,result.bytes,String(result.metadata.lastVerifiedAt),String(result.metadata.sha256),options.root):null;
+    const normalizedQueue = await stageReleaseCandidates(product, result.bytes, result.metadata, options.root, clock());
+    const recurringPromotion=await db.$transaction(async tx=>{
+      await tx.$queryRaw`SELECT id FROM "ProfessionalSyncState" WHERE id=${claim.id}::uuid FOR UPDATE`;
+      const owner=await tx.professionalSyncState.findUniqueOrThrow({where:{id:claim.id}});
+      if(owner.leaseToken!==token||!owner.leaseUntil||owner.leaseUntil<=clock())throw Error('Release lease lost before canonical processing.');
+      const outcome=await processRecurringSnapshots(tx,{product,bytes:result.bytes,metadata:result.metadata,queuePath:`${options.root??'data/provider_previews'}/normalization-queue/${product.id}-${result.metadata.sha256}-snapshot-v2.json`},clock());
+      if(owner.leaseUntil<=clock())throw Error('Release lease expired during canonical processing; transaction rolled back.');
+      return outcome;
+    },{timeout:235000});
+    if(recurringPromotion.status==='PROCESSED')await atomicFile(recurringPromotion.receiptPath,JSON.stringify(recurringPromotion.receipt,null,2)+'\n');
+    const promotionSummary={status:recurringPromotion.status,accepted:recurringPromotion.accepted,replay:recurringPromotion.replay,pending:recurringPromotion.pending,quarantined:recurringPromotion.quarantined,held:recurringPromotion.held,policyFingerprint:recurringPromotion.policyFingerprint};
     const finished = clock();
-    const cursor = { version: 'open-release-sync-1', sourceId: product.id, sha256: result.metadata.sha256, retrievalStatus: result.status, lastRetrievedAt: result.metadata.lastVerifiedAt, firstBodyReceivedAt: result.metadata.receivedAt, artifactTimestamp: result.metadata.lastModified, lastProcessedAt: finished.toISOString(), processingMs: +finished - +processingStartedAt, ...validation, stateObservations, promotion: 'DISABLED_REQUIRES_EXACT_REVIEW' };
+    const cursor = { version: 'open-release-sync-1', sourceId: product.id, sha256: result.metadata.sha256, retrievalStatus: result.status, lastRetrievedAt: result.metadata.lastVerifiedAt, firstBodyReceivedAt: result.metadata.receivedAt, artifactTimestamp: result.metadata.lastModified, lastProcessedAt: finished.toISOString(), processingMs: +finished - +processingStartedAt, ...validation, stateObservations, normalizedQueue, recurringPromotion:promotionSummary, promotion: recurringPromotion.status==='PROCESSED'?'APPROVED_PROSPECTIVE_SNAPSHOTS_ONLY':'DISABLED_REQUIRES_EXACT_REVIEW' };
     const changed = await db.professionalSyncState.updateMany({ where: { id: claim.id, leaseToken: token, leaseUntil: { gt: finished } }, data: { cursor: JSON.stringify(cursor), lastSuccessAt: finished, failures: 0, lastFailure: null, leaseToken: null, leaseUntil: null, nextPollAt: new Date(+finished + product.refreshIntervalMs) } });
     if (changed.count !== 1) throw Error('Release lease expired before completion.');
     return { status: 'SYNCHRONIZED' as const, sourceId: product.id, requests: result.newRequests, ...validation };

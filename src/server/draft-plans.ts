@@ -1,3 +1,4 @@
+import { checkDraftBeforeProfessionalStart } from "./professional-calendar";
 import { activeFranchises } from "./franchise-participation";
 import { randomInt } from "node:crypto";
 import { z } from "zod";
@@ -67,14 +68,15 @@ export async function configureDraftPlan(userId: string, raw: z.input<typeof con
       }
     }
     if (order.length !== ids.length || new Set(order).size !== ids.length || order.some((id) => !ids.includes(id))) throw new Error("Draft order must contain every current franchise exactly once.");
-    const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: sport.seasonId, retrievedAt: { lte: now } }, orderBy: { retrievedAt: "desc" } });
-    if (!sport.league.isHistorical && boundary?.status === "AVAILABLE" && boundary.regularSeasonStartsAt && input.scheduledAt &&
-      +input.scheduledAt + input.rounds * ids.length * input.secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new Error("The scheduled draft must fit before the selected professional season. Select an earlier start; the chosen season will not change.");
+    if (!sport.league.isHistorical && input.scheduledAt) {
+      const boundary = await checkDraftBeforeProfessionalStart(tx, { seasonId: sport.seasonId, asOf: now, endsAt: new Date(+input.scheduledAt + input.rounds * ids.length * input.secondsPerPick * 1000) });
+      if (boundary.verified && !boundary.allowed) throw new Error(boundary.reason);
+    }
     if (input.scope === "UNIVERSAL" && !sport.league.isHistorical && input.scheduledAt) {
       const covered = await tx.leagueSport.findMany({where:{leagueId:input.leagueId}});
       for (const target of covered) {
-        const evidence = await tx.professionalSeasonScheduleRevision.findFirst({where:{seasonId:target.seasonId,retrievedAt:{lte:now}},orderBy:{retrievedAt:"desc"}});
-        if (evidence?.status === "AVAILABLE" && evidence.regularSeasonStartsAt && +input.scheduledAt+input.rounds*ids.length*input.secondsPerPick*1000>=+evidence.regularSeasonStartsAt) throw new Error(`The universal draft must finish before the selected ${target.sport} season.`);
+        const evidence = await checkDraftBeforeProfessionalStart(tx, { seasonId: target.seasonId, asOf: now, endsAt: new Date(+input.scheduledAt + input.rounds * ids.length * input.secondsPerPick * 1000) });
+        if (evidence.verified && !evidence.allowed) throw new Error(`The universal draft must finish before the selected ${target.sport} season. ${evidence.reason}`);
       }
     }
     const data = { method: input.method, scope: input.scope, orderMethod: input.orderMethod, order, rounds: input.rounds, secondsPerPick: input.secondsPerPick,

@@ -1,16 +1,17 @@
 import "dotenv/config";
 import{randomUUID}from"node:crypto";
 import{afterAll,expect,it}from"vitest";
+import{professionalGameProjection}from"@/server/professional-game-state";
 import{getDatabase}from"@/lib/db";
 import{persistObservation}from"@/ingestion/persist";
 import type{Observation}from"@/ingestion/contracts";
 import{createLeague}from"@/server/league";
 import{provisionCompetitionSchedule}from"@/server/competition";
-import{captureGameLineups,captureDueGameLineups,recordAvailabilityEvidence}from"@/server/lineup-snapshots";
+import{captureGameLineups,captureDueGameLineups,recordAvailabilityEvidence,pendingGameStarterSnapshots}from"@/server/lineup-snapshots";
 import{recordPositionEvidence}from"@/server/positions";
 import{refreshDueAuthoritativeMatchups,standings}from"@/server/matchups";
 const db=getDatabase();afterAll(()=>db.$disconnect());const now=new Date("2036-01-20T12:00:00Z");
-it("locks postponed games at verified actual start, retains original fantasy attribution and preserves snapshots through suspension/final",async()=>{
+it("uses approved conservative locks, verified pregame postponement and immutable snapshots through suspension/final",async()=>{
  const provider=`game-state-${randomUUID()}`,user=await db.user.findUniqueOrThrow({where:{email:process.env.DEMO_EMAIL}});
  const league=await createLeague(user.id,{name:`Postponement ${randomUUID()}`,sports:["NBA"],maxTeams:2,historical:true,seasonYear:2036,fillWithComputers:true,competitionType:"CUMULATIVE"});
  const competition=await db.sportCompetition.findFirstOrThrow({where:{leagueId:league.id},include:{leagueSportSeason:true}}),seasonId=competition.leagueSportSeason.seasonId;
@@ -24,24 +25,29 @@ it("locks postponed games at verified actual start, retains original fantasy att
  await db.rosterAssignmentEvent.create({data:{leagueId:league.id,teamId:roster.teamId,rosterEntryId:entry.id,toSlot:"PG",toSlotIndex:1,effectiveAt:acquiredAt,reason:"Synthetic pre-actual-start assignment",idempotencyKey:randomUUID()}});
  await recordPositionEvidence({playerId:player.id,seasonId,code:"PG",kind:"LISTED",effectiveAt:acquiredAt,knownAt:acquiredAt,provider,externalId:randomUUID()});
  await recordAvailabilityEvidence({playerId:player.id,gameId:game.id,designation:"ACTIVE",irEligible:false,effectiveAt:acquiredAt,knownAt:acquiredAt,provider,externalId:randomUUID(),sourceRecord:{synthetic:true}});
- const base={provider,sport:"NBA" as const,entityKey:`game-state:${game.id}`,revisionToken:"1",revisionOrdinal:1,sourceReference:"https://fixture.invalid/game-state",observedAt:now.toISOString(),effectiveAt:"2036-01-01T00:00:00Z",publishedAt:"2036-01-01T00:00:00Z",raw:{synthetic:true}};
- const normalized={kind:"GAME_STATE" as const,game:{provider,externalId:game.externalId},status:"SCHEDULED" as const,scheduledStartsAt:originalStart.toISOString(),actualStartsAt:null,completedAt:null};
- const apply=(record:Observation)=>db.$transaction(tx=>persistObservation(tx,record,now));
- await apply({...base,normalized});expect(await captureGameLineups(game.id,now)).toMatchObject({status:"PENDING_DATA",created:0});
- await apply({...base,revisionToken:"2",revisionOrdinal:2,effectiveAt:"2036-01-10T11:00:00Z",publishedAt:"2036-01-10T11:00:00Z",normalized:{...normalized,status:"POSTPONED",scheduledStartsAt:"2036-01-20T10:00:00Z"}});
- expect(await captureGameLineups(game.id,now)).toMatchObject({status:"PENDING_DATA",created:0});
- await apply({...base,revisionToken:"3",revisionOrdinal:3,effectiveAt:actualStart.toISOString(),publishedAt:"2036-01-20T11:05:00Z",normalized:{...normalized,status:"LIVE",scheduledStartsAt:"2036-01-20T10:00:00Z",actualStartsAt:actualStart.toISOString()}});
+ const base={provider,sport:"NBA" as const,entityKey:`game-state:${game.id}`,revisionToken:"1",revisionOrdinal:1,sourceReference:"https://fixture.invalid/game-state",observedAt:"2036-01-01T00:00:00Z",effectiveAt:"2036-01-01T00:00:00Z",publishedAt:"2036-01-01T00:00:00Z",raw:{synthetic:true}};
+ const normalized={kind:"GAME_STATE" as const,evidencePolicy:"CONSERVATIVE_OBSERVED_V1" as const,game:{provider,externalId:game.externalId},status:"SCHEDULED" as const,scheduledStartsAt:originalStart.toISOString(),actualStartsAt:null,completedAt:null};
+ const apply=(record:Observation)=>db.$transaction(tx=>persistObservation(tx,record,new Date(record.observedAt)));
+ await apply({...base,normalized});expect(await captureGameLineups(game.id,new Date("2036-01-09T12:00:00Z"))).toMatchObject({status:"NOT_STARTED",created:0});
+ await apply({...base,revisionToken:"2",revisionOrdinal:2,observedAt:"2036-01-10T11:00:00Z",effectiveAt:"2036-01-10T11:00:00Z",publishedAt:"2036-01-10T11:00:00Z",normalized:{...normalized,status:"POSTPONED",pregameVerified:true,scheduledStartsAt:"2036-01-20T10:00:00Z"}});
+ expect(await captureGameLineups(game.id,new Date("2036-01-20T09:00:00Z"))).toMatchObject({status:"NOT_STARTED",created:0});
+ await apply({...base,revisionToken:"3",revisionOrdinal:3,observedAt:"2036-01-20T11:05:00Z",effectiveAt:actualStart.toISOString(),publishedAt:"2036-01-20T11:05:00Z",normalized:{...normalized,status:"LIVE",scheduledStartsAt:"2036-01-20T10:00:00Z",actualStartsAt:actualStart.toISOString()}});
  expect(await captureDueGameLineups(now)).toMatchObject({created:1});
- const snapshot=await db.gameLineupSnapshot.findFirstOrThrow({where:{gameId:game.id}});expect(snapshot).toMatchObject({lockedAt:actualStart,slot:"PG",scoringPeriodId:attribution.scoringPeriodId});
+ const snapshot=await db.gameLineupSnapshot.findFirstOrThrow({where:{gameId:game.id}});expect(snapshot).toMatchObject({lockedAt:new Date("2036-01-20T10:00:00Z"),slot:"PG",scoringPeriodId:attribution.scoringPeriodId});
  expect(await db.competitionPeriodGame.findUniqueOrThrow({where:{id:attribution.id}})).toEqual(attribution);
  expect((await db.game.findUniqueOrThrow({where:{id:game.id}})).startsAt).toEqual(originalStart);
- await apply({...base,revisionToken:"4",revisionOrdinal:4,effectiveAt:"2036-01-20T11:09:00Z",publishedAt:"2036-01-20T11:10:00Z",normalized:{...normalized,status:"SUSPENDED",actualStartsAt:actualStart.toISOString()}});
+ await apply({...base,revisionToken:"4",revisionOrdinal:4,observedAt:"2036-01-20T11:10:00Z",effectiveAt:"2036-01-20T11:09:00Z",publishedAt:"2036-01-20T11:10:00Z",normalized:{...normalized,status:"SUSPENDED",actualStartsAt:actualStart.toISOString()}});
  expect(await db.gameCompletionEvidence.count({where:{gameId:game.id}})).toBe(0);
- await apply({...base,revisionToken:"5",revisionOrdinal:5,effectiveAt:"2036-01-20T11:50:00Z",publishedAt:"2036-01-20T11:55:00Z",normalized:{...normalized,status:"FINAL",actualStartsAt:actualStart.toISOString(),completedAt:"2036-01-20T11:50:00Z"}});
+ await apply({...base,revisionToken:"5",revisionOrdinal:5,observedAt:"2036-01-20T11:55:00Z",effectiveAt:"2036-01-20T11:50:00Z",publishedAt:"2036-01-20T11:55:00Z",normalized:{...normalized,status:"FINAL",actualStartsAt:actualStart.toISOString(),completedAt:"2036-01-20T11:50:00Z"}});
  expect((await db.gameCompletionEvidence.findFirstOrThrow({where:{gameId:game.id}})).completedAt.toISOString()).toBe("2036-01-20T11:50:00.000Z");
  expect((await captureGameLineups(game.id,now)).created).toBe(0);expect(await db.gameLineupSnapshot.findUniqueOrThrow({where:{id:snapshot.id}})).toEqual(snapshot);
- const conflict:Observation={...base,provider:`conflicting-${randomUUID()}`,effectiveAt:"2036-01-20T11:00:00Z",publishedAt:"2036-01-20T11:05:00Z",normalized:{...normalized,status:"LIVE",actualStartsAt:"2036-01-20T10:59:00Z"}};
- await apply(conflict);expect(await captureGameLineups(game.id,now)).toMatchObject({status:"PENDING_DATA",created:0});
+ const lateAssignment=await db.rosterAssignmentEvent.create({data:{leagueId:league.id,teamId:roster.teamId,rosterEntryId:entry.id,toSlot:"BENCH",toSlotIndex:1,effectiveAt:new Date("2036-01-20T10:30:00Z"),reason:"Synthetic late event for quarantine verification",idempotencyKey:randomUUID()}});
+ const conflict:Observation={...base,provider:`conflicting-${randomUUID()}`,observedAt:"2036-01-20T11:59:00Z",effectiveAt:"2036-01-20T11:00:00Z",publishedAt:"2036-01-20T11:05:00Z",normalized:{...normalized,status:"LIVE",actualStartsAt:"2036-01-20T09:59:00Z"}};
+ await apply(conflict);expect(await captureGameLineups(game.id,now)).toMatchObject({status:"PENDING_REVIEW",created:0});
+ expect(await db.gameLineupSnapshot.findUniqueOrThrow({where:{id:snapshot.id}})).toEqual(snapshot);
+ expect(await db.competitionPeriodGame.findUniqueOrThrow({where:{id:attribution.id}})).toEqual(attribution);
+ const conflictReceipt=await db.professionalDataDecision.findFirstOrThrow({where:{observation:{provider:conflict.provider}},orderBy:{version:"desc"}});
+ expect(conflictReceipt.targets).toMatchObject({lockReviewPending:true,impactedSnapshotIds:[snapshot.id],quarantinedAssignmentEventIds:[lateAssignment.id],competitiveAttributionChanged:false});
 });
 it("skips fully cancelled regular periods without inventing ties or changing finalized results",async()=>{
  const provider=`cancelled-${randomUUID()}`,at=new Date("2037-01-02T12:00:00Z");
@@ -61,4 +67,57 @@ it("skips fully cancelled regular periods without inventing ties or changing fin
  expect(await db.matchupResultRevision.count({where:{matchupId:regular[1].id}})).toBe(0);
  expect(await db.matchup.findUniqueOrThrow({where:{id:protectedResult.id}})).toEqual(protectedResult);
  const table=await standings(league.id,"NBA");expect(table.reduce((sum,r)=>sum+r.ties,0)).toBe(0);expect(table.reduce((sum,r)=>sum+r.wins,0)).toBe(1);
+});
+
+it('keeps the first observed-final hold stable across publishers without claiming an exact end or rewriting a game',async()=>{
+ const provider=`observed-${randomUUID()}`,at=new Date('2038-01-02T18:00:00Z');
+ const season=await db.season.upsert({where:{sport_startYear:{sport:'NHL',startYear:2038}},update:{},create:{sport:'NHL',startYear:2038,label:'2038-39'}});
+ const game=await db.game.create({data:{sport:'NHL',seasonId:season.id,provider,externalId:randomUUID(),phase:'REGULAR',startsAt:new Date('2038-01-02T10:00:00Z')}});
+ const base:Observation={provider,sport:'NHL',entityKey:`game-state:${game.id}`,revisionToken:'1',revisionOrdinal:1,sourceReference:'https://fixture.invalid/observed-final',observedAt:'2038-01-02T14:00:00Z',effectiveAt:null,publishedAt:null,raw:{synthetic:true},normalized:{kind:'GAME_STATE',evidencePolicy:'CONSERVATIVE_OBSERVED_V1',game:{provider,externalId:game.externalId},status:'FINAL',scheduledStartsAt:game.startsAt!.toISOString(),actualStartsAt:null,completedAt:null}};
+ const apply=(record:Observation)=>db.$transaction(tx=>persistObservation(tx,record,at));
+ expect((await apply(base)).outcome).toBe('ACCEPTED');
+ const first=await db.gameCompletionEvidence.findFirstOrThrow({where:{gameId:game.id}});
+ expect(first).toMatchObject({provider:'conservative-event-policy',externalId:`operational-final:${game.id}`,completedAt:new Date('2038-01-02T14:00:00Z'),sourceRecord:{precision:'OBSERVED_FINAL',actualCompletedAt:null,firstObservationImmutable:true}});
+ await apply({...base,revisionToken:'2',revisionOrdinal:2,observedAt:'2038-01-02T15:00:00Z'});
+ await apply({...base,provider:`failover-${randomUUID()}`,observedAt:'2038-01-02T16:00:00Z'});
+ expect(await db.gameCompletionEvidence.findMany({where:{gameId:game.id}})).toEqual([first]);
+ expect(await db.game.findUniqueOrThrow({where:{id:game.id}})).toEqual(game);
+});
+
+
+it('quarantines unsafe legacy first capture and ignores unchanged post-lock administrative repeats',async()=>{
+ const user=await db.user.findUniqueOrThrow({where:{email:process.env.DEMO_EMAIL}}),provider=`legacy-lock-${randomUUID()}`;
+ const league=await createLeague(user.id,{name:`First capture audit ${randomUUID()}`,sports:['NBA'],maxTeams:2,historical:true,seasonYear:2039,fillWithComputers:true,competitionType:'CUMULATIVE'});
+ const competition=await db.sportCompetition.findFirstOrThrow({where:{leagueId:league.id},include:{leagueSportSeason:true}}),seasonId=competition.leagueSportSeason.seasonId;
+ const lockAt=new Date('2039-01-20T21:00:00Z'),at=new Date('2039-01-20T23:00:00Z'),acquiredAt=new Date('2039-01-20T20:00:00Z');
+ const game=await db.game.create({data:{sport:'NBA',seasonId,provider,externalId:randomUUID(),phase:'REGULAR',startsAt:lockAt}});await provisionCompetitionSchedule(user.id,competition.id);
+ const player=await db.player.create({data:{sport:'NBA',displayName:'Synthetic unsafe first-capture fixture',isSynthetic:true}}),roster=await db.fantasyRoster.findFirstOrThrow({where:{leagueSportId:competition.leagueSportSeason.leagueSportId}});
+ const entry=await db.rosterEntry.create({data:{leagueId:league.id,rosterId:roster.id,teamId:roster.teamId,playerId:player.id,sport:'NBA',seasonId,slot:'BENCH',acquiredAt}});
+ const event=(slot:string,time:Date)=>db.rosterAssignmentEvent.create({data:{leagueId:league.id,teamId:roster.teamId,rosterEntryId:entry.id,toSlot:slot,toSlotIndex:1,effectiveAt:time,reason:'Synthetic immutable event audit fixture',idempotencyKey:randomUUID()}});
+ await event('PG',acquiredAt);const repeat=await event('PG',new Date('2039-01-20T21:30:00Z')),unsafe=await event('BENCH',new Date('2039-01-20T22:00:00Z'));
+ await recordAvailabilityEvidence({playerId:player.id,gameId:game.id,designation:'ACTIVE',irEligible:false,effectiveAt:acquiredAt,knownAt:acquiredAt,provider,externalId:randomUUID(),sourceRecord:{synthetic:true}});
+ await recordPositionEvidence({playerId:player.id,seasonId,code:'PG',kind:'LISTED',effectiveAt:acquiredAt,knownAt:acquiredAt,provider,externalId:randomUUID()});
+ expect(await captureGameLineups(game.id,at)).toMatchObject({status:'PENDING_REVIEW',created:0});
+ const review=await db.professionalDataObservation.findFirstOrThrow({where:{category:'GAME_LOCK_REVIEW',entityKey:`game-lock-review:${game.id}`},include:{decisions:true}});
+ expect(review.decisions[0].targets).toMatchObject({affectedRosterEntryIds:[entry.id],quarantinedAssignmentEventIds:[unsafe.id]});
+ expect(JSON.stringify(review.decisions[0].targets)).not.toContain(repeat.id);
+ expect(await db.gameLineupSnapshot.count({where:{gameId:game.id}})).toBe(0);
+ expect(await db.$transaction(tx=>pendingGameStarterSnapshots(tx,game.id,at))).toMatchObject({pending:true,missingRosterEntryIds:[entry.id]});
+ expect(await captureGameLineups(game.id,at)).toMatchObject({status:'PENDING_REVIEW',created:0});
+ expect(await db.professionalDataObservation.count({where:{category:'GAME_LOCK_REVIEW',entityKey:`game-lock-review:${game.id}`}})).toBe(1);
+ expect(await db.rosterAssignmentEvent.count({where:{rosterEntryId:entry.id}})).toBe(3);
+});
+
+
+it('projects observed decisions only after acceptance and preserves a necessary lock through later quarantine',async()=>{
+ const provider=`observed-asof-${randomUUID()}`,season=await db.season.upsert({where:{sport_startYear:{sport:'NBA',startYear:2040}},update:{},create:{sport:'NBA',startYear:2040,label:'2040-41'}});
+ const game=await db.game.create({data:{sport:'NBA',seasonId:season.id,provider,externalId:randomUUID(),phase:'REGULAR',startsAt:new Date('2040-01-02T20:00:00Z')}});
+ const observation:Observation={provider,sport:'NBA',entityKey:`game-state:${game.id}`,revisionToken:'1',revisionOrdinal:1,sourceReference:'https://fixture.invalid/observed-asof',observedAt:'2040-01-02T13:00:00Z',effectiveAt:null,publishedAt:null,raw:{synthetic:true},normalized:{kind:'GAME_STATE',evidencePolicy:'CONSERVATIVE_OBSERVED_V1',game:{provider,externalId:game.externalId},status:'LIVE',scheduledStartsAt:game.startsAt!.toISOString(),actualStartsAt:null,completedAt:null}};
+ const accepted=await db.$transaction(tx=>persistObservation(tx,observation,new Date('2040-01-02T16:00:00Z')));
+ const read=(at:Date)=>db.$queryRaw<{sources:number;status:string|null;startsAt:Date|null;actualStartsAt:Date|null}[]>`SELECT source_state.sources,source_state.status,source_start."resolvedStart" AS "startsAt",source_state."actualStartsAt" FROM "Game" game ${professionalGameProjection(at)} WHERE game.id=${game.id}::uuid`;
+ expect((await read(new Date('2040-01-02T15:00:00Z')))[0]).toMatchObject({sources:0,startsAt:game.startsAt,actualStartsAt:null});
+ expect((await read(new Date('2040-01-02T17:00:00Z')))[0]).toMatchObject({sources:1,status:'LIVE',startsAt:new Date('2040-01-02T13:00:00Z'),actualStartsAt:null});
+ await db.professionalDataDecision.create({data:{observationId:accepted.observationId,version:2,outcome:'QUARANTINED',reason:'Synthetic later source retraction requires audited resolution.',targets:{gameId:game.id},decidedAt:new Date('2040-01-02T18:00:00Z')}});
+ expect((await read(new Date('2040-01-02T17:00:00Z')))[0]).toMatchObject({sources:1,status:'LIVE',startsAt:new Date('2040-01-02T13:00:00Z')});
+ expect((await read(new Date('2040-01-02T19:00:00Z')))[0]).toMatchObject({sources:0,startsAt:new Date('2040-01-02T13:00:00Z')});
 });

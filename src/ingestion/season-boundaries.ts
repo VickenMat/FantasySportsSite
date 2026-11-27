@@ -24,3 +24,16 @@ export async function promoteSeasonBoundary(tx:Prisma.TransactionClient,input:Bo
  const revision=await tx.professionalSeasonScheduleRevision.create({data:{seasonId:season.id,provider:input.provider,status:n.status,sourceName:input.sourceReference,sourceVersion:input.revisionToken,contentHash:fingerprint({observationId,normalized:n}),retrievedAt:new Date(input.observedAt),...canonical,reason:n.reason,sourceRecord:{observationId,sourceReference:input.sourceReference,publishedAt:input.publishedAt,effectiveAt:input.effectiveAt,observedAt:input.observedAt,independentlyVerified:n.independentlyVerified,raw:input.raw}}});
  return{outcome:"ACCEPTED" as const,reason:"Independent boundary evidence appended; selected seasons, cycle ownership and existing league overrides are unchanged.",targets:{seasonId:season.id,scheduleRevisionId:revision.id}};
 }
+
+/** Separate date-precision announcement path: no fabricated DateTime boundary fields. */
+export async function promoteSeasonDateSnapshot(tx:Prisma.TransactionClient,input:{provider:string;sport:import('@/generated/prisma/enums').Sport;entityKey:string;revisionOrdinal:number|null;sourceReference:string;observedAt:string;effectiveAt:string|null;publishedAt:string|null;normalized:unknown},processedAt=new Date()){
+ const {seasonDateSnapshotSchema}=await import('@/scheduling/season-date-policy');
+ const {observedPolicyAdoptedAt}=await import('./evidence-policy');
+ const n=seasonDateSnapshotSchema.parse(input.normalized),reject=(reason:string)=>({outcome:'QUARANTINED' as const,reason,targets:{}});
+ if(input.effectiveAt!==null||input.publishedAt!==null||input.revisionOrdinal===null||+new Date(n.policyAdoptedAt)!==+observedPolicyAdoptedAt)return reject('Date snapshots retain unknown exact source clocks and explicit ordered reviewed facts.');
+ if(input.entityKey!==`season-date:${input.sport}:${n.seasonStartYear}`)return reject('Use the stable professional season date stream.');
+ const source=new URL(input.sourceReference);if(source.protocol!=='https:'||!['www.nfl.com','www.nba.com','www.nhl.com','www.mlb.com'].includes(source.hostname))return reject('Calendar facts require reviewed official primary-source announcements.');
+ const season=await tx.season.upsert({where:{sport_startYear:{sport:input.sport,startYear:n.seasonStartYear}},update:{},create:{sport:input.sport,startYear:n.seasonStartYear,label:n.label,coverageReason:'Verified announced date scope only; exact clocks, schedule completeness and statistical coverage remain independent.'}});
+ const operationalEffectiveAt=new Date(Math.max(+processedAt,+new Date(n.validFrom),+new Date(n.firstObservedAt),+observedPolicyAdoptedAt)).toISOString();
+ return{outcome:'ACCEPTED' as const,reason:'Independent announced calendar dates retained with explicit zone/precision; exact professional boundary fields unchanged.',targets:{seasonId:season.id,operationalEffectiveAt,exactEffectiveAt:null,officialPublishedAt:null,calendarPrecision:'DAY',policyVersion:n.policyVersion}};
+}

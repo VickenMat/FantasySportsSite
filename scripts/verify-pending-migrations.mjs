@@ -99,6 +99,21 @@ try {
     process.stdout.write(validation.stdout);
     if (validation.status !== 0) throw new Error(validation.stderr || "MLB historical position continuation failed in disposable populated schema.");
   }
+  if (process.argv.includes("--verify-operational-promotion")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-operational-promotion.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Operational snapshot/competitive promotion validation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-supplemental-source-promotion")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-supplemental-source-promotion.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Actual supplemental NHL/MLB source validation failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-direct-identity-discovery")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-current-direct-discovery.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Exact NBA6/NHL4 identity-only validation failed in disposable populated schema.");
+  }
   if (process.argv.includes("--verify-four-sport-history")) {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-four-sport-history.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
     process.stdout.write(validation.stdout);
@@ -113,6 +128,28 @@ try {
     const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-mlb-role-selection.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
     process.stdout.write(validation.stdout);
     if (validation.status !== 0) throw new Error(validation.stderr || "Real MLB role validation failed in disposable schema.");
+  }
+  if (process.argv.includes("--verify-real-competitive-stages")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-real-competitive-stages.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real-source controlled competitive acceptance failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-real-competitive-website")) {
+    if(!process.argv.includes("--verify-real-competitive-stages"))throw Error("Competitive website acceptance requires the controlled real-source setup in the same disposable copy.");
+    const validation = spawnSync("npx", ["playwright", "test", "tests/e2e/real-source-competition.spec.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href, REAL_COMPETITIVE_ACCEPTANCE: "true" }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real-source competitive browser acceptance failed in disposable schema.");
+  }
+  if (process.argv.includes("--verify-real-mlb-stage")) {
+    const validation = spawnSync(process.execPath, ["--import", "tsx", "src/workers/validate-real-mlb-stage.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Actual MLB source plus controlled competitive acceptance failed in disposable populated schema.");
+  }
+  if (process.argv.includes("--verify-real-mlb-website")) {
+    if(!process.argv.includes("--verify-real-mlb-stage"))throw Error("MLB website acceptance requires the controlled real-source MLB setup in the same disposable copy.");
+    const validation = spawnSync("npx", ["playwright", "test", "tests/e2e/real-source-competition.spec.ts", "--grep", "MLB supplemental"], { env: { ...environment, DATABASE_URL: targetUrl.href, REAL_MLB_COMPETITIVE_ACCEPTANCE: "true" }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    process.stdout.write(validation.stdout);
+    if (validation.status !== 0) throw new Error(validation.stderr || "Real-source MLB competitive browser acceptance failed in disposable schema.");
   }
   if (process.argv.includes("--verify-real-website")) {
     const validation = spawnSync("npx", ["playwright", "test", "tests/e2e/real-source-population.spec.ts"], { env: { ...environment, DATABASE_URL: targetUrl.href, REAL_SOURCE_POPULATION_ACCEPTANCE: "true" }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });

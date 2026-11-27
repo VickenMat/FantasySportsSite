@@ -6,9 +6,13 @@ import { promoteAggregatePosition } from "./aggregate-positions";
 import { promotePositionRevision } from "./position-revisions";
 import { promoteStatistics } from "./statistics";
 import { promoteGameState } from "./game-state";
+import { promoteSeasonDateSnapshot } from "./season-boundaries";
 import { promoteSeasonBoundary } from "./season-boundaries";
 import { promoteProfessionalIdentity, resolveProfessionalGame } from "./professional-identities";
 import { professionalPlayerIdentityState,resolveProfessionalPlayer } from './identity-resolutions';
+import { promoteNbaPositionSnapshot } from './nba-positions';
+import { promotePlayerSnapshot } from './player-snapshots';
+import { promoteCompleteFinalBox } from '@/server/publication-anchors';
 import { contentFingerprint, observationSchema, stableJson, type Observation } from "./contracts";
 
 type Tx=Prisma.TransactionClient;
@@ -19,8 +23,12 @@ export function assertIsolatedIngestionDatabase() {
 }
 export const assertFixtureDatabase = assertIsolatedIngestionDatabase;
 export function assertOpenDataProvider(provider:string){if(!['nflverse-open-data','sportsdataverse-open-data'].includes(provider))throw new Error('Open-data promotion requires an explicitly reviewed release provider.');}
-async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
+async function promote(tx:Tx,input:Observation,id:string,at:Date):Promise<Decision> {
+ if(input.normalized.kind==="SEASON_DATE_SNAPSHOT")return promoteSeasonDateSnapshot(tx,input,at);
  const n=input.normalized;
+ if(n.kind==='NBA_POSITION_SNAPSHOT')return promoteNbaPositionSnapshot(tx,{...input,normalized:n},id);
+ if(n.kind==='PLAYER_SNAPSHOT')return promotePlayerSnapshot(tx,{...input,normalized:n},id,at);
+ if(n.kind==='COMPLETE_FINAL_BOX')return promoteCompleteFinalBox(tx,input,id,at);
  if(n.kind==="PLAYER") {
   const references=[{provider:input.provider,externalId:n.externalId},...n.links];
   const states=[];for(const ref of references)states.push(await professionalPlayerIdentityState(tx,input.sport,ref,new Date(input.observedAt)));
@@ -58,6 +66,12 @@ async function promote(tx:Tx,input:Observation,id:string):Promise<Decision> {
 }
 export async function persistObservation(tx:Tx,raw:unknown,at:Date) {
  assertFixtureDatabase();
+ return persistObservationInTransaction(tx,raw,at);
+}
+/** Only an exact reviewed deployment or isolated validation may call this entry.
+ * Ordinary automatic ingestion retains the isolated-database guard above.
+ */
+export async function persistObservationInTransaction(tx:Tx,raw:unknown,at:Date) {
  const input=observationSchema.parse(raw);
  if(new Date(input.observedAt)>at)throw new Error("Future observations cannot be ingested before their observation instant.");
  await lockSport(tx,input.sport);
@@ -70,18 +84,34 @@ export async function persistObservation(tx:Tx,raw:unknown,at:Date) {
  const observation=same??await tx.professionalDataObservation.create({data:{...identity,revisionToken:input.revisionToken,revisionOrdinal:input.revisionOrdinal==null?null:BigInt(input.revisionOrdinal),contentHash:hash,sourceReference:input.sourceReference,observedAt:new Date(input.observedAt),publishedAt:input.publishedAt?new Date(input.publishedAt):null,effectiveAt:input.effectiveAt?new Date(input.effectiveAt):null,raw:input.raw,normalized:input.normalized}});
  const accepted=previous.filter(row=>row.decisions[0]?.outcome==="ACCEPTED");
  const latest=accepted.sort((a,b)=>a.revisionOrdinal===b.revisionOrdinal?0:(a.revisionOrdinal??-1n)>(b.revisionOrdinal??-1n)?-1:1)[0];
+ // A rejected position revision may block an existing actor's current grant, but
+ // can never introduce/reassign an actor or create positive position evidence.
+ const positionConflictTargets=async():Promise<Prisma.InputJsonValue>=>{
+  const n=input.normalized;if(!latest||input.revisionOrdinal==null||!(n.kind==="NBA_POSITION_SNAPSHOT"||n.kind==="PLAYER_SNAPSHOT"))return{};
+  const prior=observationSchema.shape.normalized.safeParse(latest.normalized),targets=latest.decisions[0]?.targets as{playerId?:string;seasonId?:string}|undefined;
+  if(!prior.success||prior.data.kind!==n.kind||!targets?.playerId||!("player" in prior.data)||stableJson(prior.data.player)!==stableJson(n.player)||!("seasonStartYear" in prior.data)||prior.data.seasonStartYear!==n.seasonStartYear)return{};
+  if(n.kind==="NBA_POSITION_SNAPSHOT"&&input.entityKey!==`nba-position:${n.player.provider}:${n.player.externalId}:${n.seasonStartYear}`)return{};
+  if(n.kind==="PLAYER_SNAPSHOT"){
+   if(prior.data.kind!=="PLAYER_SNAPSHOT"||prior.data.facet.type!==n.facet.type)return{};
+   const suffix=n.facet.type==="POSITION_AGGREGATE"?`:${n.facet.code}:${n.facet.evidenceSeasonStartYear}`:"";
+   if(input.entityKey!==`player-snapshot:${n.player.provider}:${n.player.externalId}:${n.seasonStartYear}:${n.facet.type}${suffix}`)return{};
+  }
+  const identity=await professionalPlayerIdentityState(tx,input.sport,n.player,new Date(input.observedAt));
+  if(identity.status!=="RESOLVED"||identity.mapping?.playerId!==targets.playerId)return{};
+  return{playerId:targets.playerId,...(targets.seasonId?{seasonId:targets.seasonId}:{}),policyVersion:n.policyVersion,operationalEffectiveAt:at.toISOString(),...(n.kind==="NBA_POSITION_SNAPSHOT"?{nbaPositionConflict:true}:{snapshotConflict:true})};
+ };
  let decision:Decision;
- if(previous.some(row=>row.id!==observation.id&&row.revisionToken===input.revisionToken&&row.contentHash!==hash))decision={outcome:"QUARANTINED",reason:"The same source revision has conflicting content.",targets:{}};
+ if(previous.some(row=>row.id!==observation.id&&row.revisionToken===input.revisionToken&&row.contentHash!==hash))decision={outcome:"QUARANTINED",reason:"The same source revision has conflicting content.",targets:await positionConflictTargets()};
  else if(latest&&input.revisionOrdinal!=null&&latest.revisionOrdinal!=null&&BigInt(input.revisionOrdinal)<latest.revisionOrdinal)decision={outcome:"STALE",reason:"Out-of-order source revision preserved without changing canonical evidence.",targets:{}};
  else if(latest&&category!=="PLAYER"&&latest.publishedAt&&input.publishedAt&&new Date(input.publishedAt)<latest.publishedAt)decision={outcome:"QUARANTINED",reason:"Increasing source revision has a regressing publication timestamp; resolve its temporal semantics before projection.",targets:{}};
- else if(latest&&(input.revisionOrdinal==null||latest.revisionOrdinal==null||BigInt(input.revisionOrdinal)<=latest.revisionOrdinal))decision={outcome:"QUARANTINED",reason:"Changed content lacks an unambiguous increasing source revision.",targets:{}};
+ else if(latest&&(input.revisionOrdinal==null||latest.revisionOrdinal==null||BigInt(input.revisionOrdinal)<=latest.revisionOrdinal))decision={outcome:"QUARANTINED",reason:"Changed content lacks an unambiguous increasing source revision.",targets:await positionConflictTargets()};
  else if(latest&&category==="POSITION"&&stableJson(latest.normalized)!==stableJson(input.normalized))decision={outcome:"QUARANTINED",reason:"Position replacement or retraction needs a reviewed evidence-resolution policy; positive history is not silently overwritten.",targets:{}};
  else {
   const targets=latest?.decisions[0]?.targets as {playerId?:string;gameId?:string}|null|undefined;
   const mapping=targets?.playerId&&"player" in input.normalized?await resolveProfessionalPlayer(tx,input.sport,input.normalized.player,new Date(input.observedAt)):null;
   const game=targets?.gameId&&input.normalized.kind==="GAME_COMPLETION"?await resolveProfessionalGame(tx,input.sport,input.normalized.game):null;
   if((mapping&&mapping.playerId!==targets?.playerId)||(game&&game.id!==targets?.gameId))decision={outcome:"QUARANTINED",reason:"A source entity revision changed its canonical actor/game identity; review the explicit mapping.",targets:{}};
-  else decision=await promote(tx,input,observation.id);
+  else decision=await promote(tx,input,observation.id,at);
  }
  const receipt=same?.decisions[0];
  if(receipt&&receipt.outcome===decision.outcome&&receipt.reason===decision.reason&&stableJson(receipt.targets)===stableJson(decision.targets))return{observationId:observation.id,...decision};

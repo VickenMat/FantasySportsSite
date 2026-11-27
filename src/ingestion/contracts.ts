@@ -1,6 +1,10 @@
+import { seasonDateSnapshotSchema } from '@/scheduling/season-date-policy';
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { aggregatePositionSchema } from "@/positions/aggregate-evidence";
+import { nbaPositionSnapshotSchema } from '@/positions/nba-policy';
+import { playerSnapshotSchema } from '@/positions/player-snapshot-policy';
+import { completeFinalBoxSchema } from '@/scoring/complete-box-policy';
 export function stableJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
   if (value && typeof value === "object") return `{${Object.entries(value).filter(([,entry])=>entry!==undefined).sort(([a], [b]) => a.localeCompare(b)).map(([k,v]) => `${JSON.stringify(k)}:${stableJson(v)}`).join(",")}}`;
@@ -10,6 +14,9 @@ export const fingerprint = (value: unknown) => createHash("sha256").update(stabl
 const external = z.object({ provider: z.string().min(1).max(100), externalId: z.string().min(1).max(200) }).strict();
 const normalized = z.discriminatedUnion("kind", [
   aggregatePositionSchema,
+  nbaPositionSnapshotSchema,
+  playerSnapshotSchema,
+  completeFinalBoxSchema, seasonDateSnapshotSchema,
   z.object({ kind: z.literal("PLAYER"), externalId: z.string().min(1).max(200), displayName: z.string().trim().min(1).max(200), links: z.array(external).max(20), discovery: z.enum(["EXISTING", "NEW"]) }).strict(),
   z.object({ kind: z.literal("POSITION"), player: external, seasonStartYear: z.number().int().min(1900).max(2200), code: z.string().regex(/^[A-Z0-9]{1,12}$/), evidenceKind: z.enum(["LISTED", "FIELDING"]), gameId: z.uuid().optional(), started: z.boolean().optional() }).strict(),
   z.object({ kind:z.literal("AVAILABILITY"), player:external, game:external.nullable(), designation:z.enum(["ACTIVE","QUESTIONABLE","DOUBTFUL","OUT","INJURED_RESERVE","SUSPENDED","RETIRED","UNKNOWN"]), irEligible:z.boolean(), expiresAt:z.iso.datetime({offset:true}).nullable() }).strict(),
@@ -18,7 +25,7 @@ const normalized = z.discriminatedUnion("kind", [
   z.object({ kind:z.literal("TEAM_ASSIGNMENT"), player:external, team:external.nullable(), seasonStartYear:z.number().int().min(1900).max(2200), assignment:z.enum(["ROSTERED","FREE_AGENT"]) }).strict(),
   z.object({kind:z.literal("POSITION_REVISION"),originalObservationId:z.uuid(),replacements:z.array(z.object({code:z.string().regex(/^[A-Z0-9]{1,12}$/),started:z.boolean().optional()}).strict()).max(12)}).strict(),
   z.object({kind:z.literal("STAT"),player:external,game:external,team:external,role:z.enum(["FOOTBALL","HITTER","PITCHER","BASKETBALL","SKATER","GOALIE"]),phase:z.enum(["LIVE","FINAL","CORRECTION"]),publicationSemantics:z.enum(["UNVERIFIED","OFFICIAL_BOX_SCORE"]),initialPublishedAt:z.iso.datetime({offset:true}).nullable().optional(),stats:z.record(z.string().regex(/^[A-Za-z0-9_]{1,64}$/),z.number().finite().nullable()).refine(value=>Object.keys(value).length<=200)}).strict(),
-  z.object({kind:z.literal("GAME_STATE"),game:external,status:z.enum(["SCHEDULED","LIVE","SUSPENDED","POSTPONED","FINAL","CANCELLED"]),scheduledStartsAt:z.iso.datetime({offset:true}).nullable(),actualStartsAt:z.iso.datetime({offset:true}).nullable(),completedAt:z.iso.datetime({offset:true}).nullable()}).strict(),
+  z.object({kind:z.literal("GAME_STATE"),game:external,status:z.enum(["SCHEDULED","LIVE","SUSPENDED","POSTPONED","FINAL","CANCELLED"]),scheduledStartsAt:z.iso.datetime({offset:true}).nullable(),actualStartsAt:z.iso.datetime({offset:true}).nullable(),completedAt:z.iso.datetime({offset:true}).nullable(),evidencePolicy:z.literal('CONSERVATIVE_OBSERVED_V1').optional(),pregameVerified:z.boolean().optional(),startBounds:z.object({earliest:z.iso.datetime({offset:true}).nullable(),latest:z.iso.datetime({offset:true})}).strict().optional(),completionBounds:z.object({earliest:z.iso.datetime({offset:true}).nullable(),latest:z.iso.datetime({offset:true})}).strict().optional()}).strict(),
   z.object({kind:z.literal("SEASON_BOUNDARY"),seasonStartYear:z.number().int().min(1900).max(2200),label:z.string().trim().min(1).max(30),status:z.enum(["AVAILABLE","INCOMPLETE","UNAVAILABLE"]),independentlyVerified:z.boolean(),regularSeasonStartsAt:z.iso.datetime({offset:true}).nullable(),regularSeasonEndsAt:z.iso.datetime({offset:true}).nullable(),postseasonStartsAt:z.iso.datetime({offset:true}).nullable(),postseasonEndsAt:z.iso.datetime({offset:true}).nullable(),reason:z.string().max(1000).nullable()}).strict(),
   z.object({kind:z.literal("TEAM_IDENTITY"),externalId:z.string().min(1).max(200),displayName:z.string().trim().min(1).max(200),code:z.string().max(20).nullable(),links:z.array(external).max(20),discovery:z.enum(["EXISTING","NEW"])}).strict(),
   z.object({kind:z.literal("GAME_IDENTITY"),externalId:z.string().min(1).max(200),links:z.array(external).max(20),discovery:z.enum(["EXISTING","NEW"]),seasonStartYear:z.number().int().min(1900).max(2200),phase:z.enum(["REGULAR","POSTSEASON","PRESEASON","UNKNOWN"]),gameDate:z.iso.date().nullable(),scheduledStartsAt:z.iso.datetime({offset:true}).nullable(),teams:z.array(z.object({team:external,side:z.enum(["HOME","AWAY","UNKNOWN"])}).strict()).max(2)}).strict(),

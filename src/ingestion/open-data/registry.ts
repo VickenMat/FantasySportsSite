@@ -4,7 +4,7 @@ import { openDataSources, openDataAttribution } from './sources';
 export const releaseRequestWindows = [{ limit: 60, windowMs: 60_000 }, { limit: 600, windowMs: 3_600_000 }];
 export const releaseRegistry = openDataSources.map(source => ({
   ...source, enabled: true, usage: 'ATTRIBUTED_REDISTRIBUTION_READ_ONLY' as const,
-  category: source.id.includes('injuries') ? 'AVAILABILITY_SNAPSHOT' : source.id.includes('roster') || source.id.includes('listed') ? 'ROSTER_SNAPSHOT' : source.id.includes('game-info') ? 'GAME_STATE_SNAPSHOT' : 'STATISTICAL_RELEASE',
+  category: source.id.includes('injuries') ? 'AVAILABILITY_SNAPSHOT' : source.id.includes('roster') || source.id.includes('listed') ? 'ROSTER_SNAPSHOT' : source.id.includes('game-info') || ['nfl-results-2026','mlb-schedules-2026'].includes(source.id) ? 'GAME_STATE_SNAPSHOT' : 'STATISTICAL_RELEASE',
   refreshIntervalMs: source.id.includes('injuries') ? 21_600_000 : source.sport === 'MLB' ? 86_400_000 : 21_600_000,
   expectedFreshnessMs: source.id.includes('injuries') ? 2 * 86_400_000 : source.sport === 'MLB' ? null : source.id.includes('roster') || source.id.includes('listed') ? 7 * 86_400_000 : 2 * 86_400_000,
   maxConcurrency: 1, failurePolicy: 'PERSISTED_EXPONENTIAL_RETRY_AFTER',

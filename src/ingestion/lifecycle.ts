@@ -21,8 +21,8 @@ export async function promoteLifecycle(tx:Tx,input:LifecycleObservation,observat
   const completedAt=new Date(n.completedAt);
   if(completedAt>knownAt||completedAt>effectiveAt)return quarantine("Completion instant must precede its source publication/effective instant.");
   const previous=await tx.gameCompletionEvidence.findMany({where:{gameId:game.id}});
-  if(previous.some(row=>row.completedAt.getTime()!==completedAt.getTime()))return quarantine("Conflicting completion instant requires reviewed correction resolution; existing waiver holds are not silently shortened.");
-  const evidence=await recordGameCompletionEvidence({gameId:game.id,provider:input.provider,externalId:observationId,completedAt,knownAt,sourceRecord},tx);
+  if(previous.some(row=>(row.provider!=='conservative-event-policy'||(row.sourceRecord as {precision?:string}).precision==='EXACT_VERIFIED')&&row.completedAt.getTime()!==completedAt.getTime()))return quarantine("Conflicting completion instant requires reviewed correction resolution; existing waiver holds are not silently shortened.");
+  const evidence=await recordGameCompletionEvidence({gameId:game.id,provider:input.provider,externalId:observationId,completedAt,knownAt,sourceRecord:{...sourceRecord,precision:'EXACT_VERIFIED',actualCompletedAt:completedAt.toISOString()}},tx);
   return{outcome:"ACCEPTED" as const,reason:"Explicit completion instant recorded; final status and fetch time were not used as substitutes.",targets:{gameId:game.id,evidenceId:evidence.id}};
  }
  const mapping=await resolveProfessionalPlayer(tx,input.sport,n.player,new Date(input.observedAt));

@@ -1,0 +1,71 @@
+import 'dotenv/config';
+import { randomUUID } from 'node:crypto';
+import { afterAll, expect, it } from 'vitest';
+import { getDatabase } from '@/lib/db';
+import { createLeague } from '@/server/league';
+import { playerPage } from '@/server/draft';
+import { browsePlayers } from '@/server/player-browser';
+import { currentPlayerEvidence } from '@/server/current-player-evidence';
+import { getEligiblePositions } from '@/server/positions';
+import { professionalTeamHistory } from '@/server/professional-team-history';
+import { persistObservation } from '@/ingestion/persist';
+import { NBA_POSITION_POLICY } from '@/positions/nba-policy';
+import { observedPolicyAdoptedAt } from '@/ingestion/evidence-policy';
+const db = getDatabase(); afterAll(() => db.$disconnect());
+it('uses current mapped positions and teams for roster-only draft/waiver pools while preserving historical display context', async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const prefix = `Synthetic current browser ${randomUUID()}`, provider = `current-browser-${randomUUID()}`;
+  const league = await createLeague(user.id,{ name: prefix, sports: ['NBA'], maxTeams: 2, fillWithComputers: true, historical: true, seasonYear: 2086 });
+  const leagueSport = await db.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId: league.id, sport: 'NBA' } } });
+  await db.league.update({ where: { id: league.id }, data: { isHistorical: false, isDemo: false } });
+  const at = new Date('2086-11-03T12:00:00Z'), sourceAt = '2086-11-02T12:00:00Z';
+  const currentClub = await db.proTeam.create({ data: { sport: 'NBA', provider, externalId: 'current-team', code: 'NEW', displayName: 'Synthetic current club' } });
+  const oldClub = await db.proTeam.create({ data: { sport: 'NBA', provider, externalId: 'old-team', code: 'OLD', displayName: 'Synthetic historical club' } });
+  const players: { id: string }[] = [];
+  for (let index = 0; index < 3; index++) {
+    // This isolated visibility fixture exercises the ordinary non-fixture pool filter.
+    const player = await db.player.create({ data: { sport: 'NBA', displayName: `${prefix} ${index}`, isSynthetic: false } });
+    await db.playerExternalId.create({ data: { sport: 'NBA', playerId: player.id, provider, externalId: `player-${index}` } }); players.push(player);
+  }
+  const apply = (record: unknown, observedAt = sourceAt) => db.$transaction(tx => persistObservation(tx,record,new Date(observedAt)));
+  const envelope = () => ({ provider, sport: 'NBA', revisionToken: '1', revisionOrdinal: 1, sourceReference: 'https://fixture.invalid/current-browser', observedAt: sourceAt, effectiveAt: null, publishedAt: null, raw: { synthetic: true } });
+  const position = (index: number, sourcePosition: string) => ({ ...envelope(), entityKey: `nba-position:${provider}:player-${index}:2086`, normalized: { kind: 'NBA_POSITION_SNAPSHOT', player: { provider, externalId: `player-${index}` }, seasonStartYear: 2086, sourcePosition, sourceRecordId: `synthetic-current-position-${index}`, sourceFingerprint: 'a'.repeat(64), sourceSnapshotDate: null, knownAt: '2086-11-01T12:00:00Z', validFrom: sourceAt, validUntil: null, precision: 'OBSERVED_SNAPSHOT', policyVersion: NBA_POSITION_POLICY, retracted: false } });
+  const team = (index: number) => ({ ...envelope(), entityKey: `player-snapshot:${provider}:player-${index}:2086:TEAM_ASSIGNMENT`, normalized: { kind: 'PLAYER_SNAPSHOT', player: { provider, externalId: `player-${index}` }, seasonStartYear: 2086, sourceRecordId: `synthetic-current-team-${index}`, sourceFingerprint: 'b'.repeat(64), sourceSnapshotDate: null, sourceDatePrecision: 'OBSERVED', firstObservedAt: '2086-11-01T12:00:00Z', policyAdoptedAt: observedPolicyAdoptedAt.toISOString(), validFrom: sourceAt, validUntil: null, policyVersion: 'approved-observed-player-snapshot-1', retracted: false, facet: { type: 'TEAM_ASSIGNMENT', team: { provider, externalId: currentClub.externalId }, sourceTeamId: currentClub.externalId, assignment: 'ROSTERED' } } });
+  expect((await apply(position(0,'G'))).outcome).toBe('ACCEPTED');
+  expect((await apply(position(1,''))).outcome).toBe('ACCEPTED');
+  expect((await apply(position(2,'F'))).outcome).toBe('ACCEPTED');
+  expect((await apply(team(0))).outcome).toBe('ACCEPTED');
+  expect((await apply(team(2))).outcome).toBe('ACCEPTED');
+  const oldGame = await db.game.create({ data: { sport: 'NBA', seasonId: leagueSport.seasonId, provider, externalId: randomUUID(), phase: 'REGULAR', startsAt: new Date('2086-10-01') } });
+  await db.gameTeam.create({ data: { gameId: oldGame.id, teamId: oldClub.id } });
+  const batch = await db.importBatch.create({ data: { sport: 'NBA', provider, sourceName: 'Synthetic historical browser contrast', contentHash: randomUUID(), importerVersion: 'fixture', summary: {} } });
+  await db.playerGameStat.create({ data: { gameId: oldGame.id, playerId: players[2].id, teamId: oldClub.id, importBatchId: batch.id, provider, role: 'BASKETBALL', revision: 1, contentHash: randomUUID(), sourceLine: 1, normalized: {}, observedPositions: ['C'], raw: { synthetic: true } } });
+  const options = { sport: 'NBA', search: prefix, asOf: at, availability: 'ALL' as const };
+  const draft = await playerPage(league.id,{ ...options, position: 'PG', pageSize: 1 });
+  expect(draft).toMatchObject({ total: 1, pages: 1 });
+  expect(draft.items[0]).toMatchObject({ id: players[0].id, positions: ['PG','SG'], positionSource: 'Mapped', currentTeam: { id: currentClub.id, code: 'NEW' }, displayTeam: { code: 'NEW' }, gameStats: [] });
+  const waivers = await browsePlayers(league.id,{ ...options, positions: ['PG','PF'], presetId: league.presetId, seasonId: leagueSport.seasonId, pageSize: 1 });
+  expect(waivers.total).toBe(2);
+  expect(waivers.statistics.get(players[0].id)?.totalTenths ?? null).toBeNull();
+  expect(waivers.projections.get(players[0].id)).toBeNull();
+  expect((await browsePlayers(league.id,{ ...options, position: 'C', presetId: league.presetId, seasonId: leagueSport.seasonId })).total).toBe(0);
+  const all = await playerPage(league.id,{ ...options, allResults: true });
+  expect(all.items.find(row => row.id === players[1].id)).toMatchObject({ positions: [], currentTeam: null, displayTeam: null });
+  expect(await db.playerGameStat.count({ where: { playerId: players[0].id } })).toBe(0);
+  const materialized = await currentPlayerEvidence({ playerIds: players.map(row => row.id), sport: 'NBA', seasonYear: 2086, asOf: at });
+  for (const player of players) {
+    const individually = await getEligiblePositions({ playerId: player.id, sport: 'NBA', seasonYear: 2086, asOf: at });
+    const individualTeam = await professionalTeamHistory({ playerId: player.id, sport: 'NBA', asOf: at });
+    expect(materialized.get(player.id)?.positions).toEqual(individually.positions);
+    expect(materialized.get(player.id)?.teamStatus).toBe(individualTeam.status);
+  }
+  const retractedTeam = team(2), later = '2086-11-04T12:00:00Z';
+  expect((await apply({ ...retractedTeam, revisionToken: '2', revisionOrdinal: 2, observedAt: later, normalized: { ...retractedTeam.normalized, validFrom: later, retracted: true } },later)).outcome).toBe('ACCEPTED');
+  expect((await playerPage(league.id,{ ...options, asOf: new Date(later), position: 'PF' })).items[0]).toMatchObject({ id: players[2].id, currentTeam: null, displayTeam: null });
+  expect((await playerPage(league.id,{ ...options, position: 'PF' })).items[0].currentTeam?.code).toBe('NEW');
+  await db.league.update({ where: { id: league.id }, data: { isHistorical: true } });
+  const historical = await playerPage(league.id,{ ...options, position: 'C' });
+  expect(historical.items).toHaveLength(1);
+  expect(historical.items[0]).toMatchObject({ id: players[2].id, positions: ['C'], positionSource: 'Historical', currentTeam: null, displayTeam: { code: 'OLD' } });
+  expect((await playerPage(league.id,{ ...options, position: 'PG' })).total).toBe(0);
+});

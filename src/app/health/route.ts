@@ -24,10 +24,10 @@ export async function GET() {
     const draftState = workerState(draftTimer, now, 45_000);
     const gameplayState = workerState(gameplayTick, now, 150_000);
     const healthy = draftState === "HEALTHY" && gameplayState === "HEALTHY" && blockedDrafts === 0 && blockedSchedules === 0;
-    const releases=await releaseOperations(now).catch(()=>({worker:'UNAVAILABLE',products:[],competitiveScoring:'PENDING_AUTHORITATIVE_TIMESTAMPS'}));
+    const releases=await releaseOperations(now).catch(()=>({worker:'UNAVAILABLE',products:[],canonicalSnapshotsEnabled:false,recurringStatisticalPromotionEnabled:false,competitiveScoring:'EVIDENCE_STATUS_UNAVAILABLE'}));
     return Response.json({ status: healthy ? "ok" : "degraded", application: "available", database: "connected",
       workers: { draftTimer, gameplayTick, draftState, gameplayState,data:releases.worker }, blockedDrafts, blockedSchedules,
-      data:{enabledBatchSources:releases.products.filter(p=>p.enabled).length,synchronized:releases.products.filter(p=>p.status==='SYNCHRONIZED').length,retrying:releases.products.filter(p=>p.status==='RETRYING').length,stale:releases.products.filter(p=>p.sourceFreshness==='STALE').length,liveFeedEnabled:false,competitiveScoring:releases.competitiveScoring},leagueHealth:blockedDrafts||blockedSchedules?'BLOCKED':'HEALTHY' },
+      data:{enabledBatchSources:releases.products.filter(p=>p.enabled).length,synchronized:releases.products.filter(p=>p.status==='SYNCHRONIZED').length,retrying:releases.products.filter(p=>p.status==='RETRYING').length,stale:releases.products.filter(p=>p.sourceFreshness==='STALE').length,liveFeedEnabled:false,canonicalSnapshotsEnabled:releases.canonicalSnapshotsEnabled,recurringStatisticalPromotionEnabled:releases.recurringStatisticalPromotionEnabled,competitiveScoring:releases.competitiveScoring},leagueHealth:blockedDrafts||blockedSchedules?'BLOCKED':'HEALTHY' },
       { headers, status: healthy ? 200 : 503 });
   } catch {
     return Response.json({ status: "unavailable", database: "unreachable" }, { status: 503, headers });

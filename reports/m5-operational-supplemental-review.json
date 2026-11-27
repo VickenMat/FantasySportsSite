@@ -1,0 +1,190 @@
+{
+  "fingerprint": "0413f205bf71b0369108b58d998745caf04641c360546842febdcdea6cb660d1",
+  "review": {
+    "version": "reviewed-supplemental-source-promotion-1",
+    "componentFingerprints": {
+      "nhl": "9fdd552390aaacbc84d3bc5b425401f35b55599eb29e4bd621aa2c3a1f5acf41",
+      "mlb": "0bb7222f88118b9b9b890cfb82d6c5fba6325877102b4fa742eb193f05d54502",
+      "bootstrap": "f6524ebe36b1fac7134b47228a5a00da12ec2b08a33afe4ac71c396b08196416"
+    },
+    "targetCounts": {
+      "nhlNewStatistics": 40,
+      "mlbExistingStatistics": 26,
+      "finalOnlyBootstrap": 3258
+    },
+    "manifestFiles": [
+      {
+        "path": "data/stat_enrichment/nhl_future_source/reviewed_future_game_manifest.json",
+        "sha256": "292764f9c0180ee9cb8a3170609f285a6ec22c5272a55af16869467e95d613ba"
+      },
+      {
+        "path": "data/stat_enrichment/mlb_source_supplement/reviewed_mlb_history_box_manifest.json",
+        "sha256": "fecc19bdd4156f6f145acf954e08dc0dcb29797644e8f270c2cc82e6db45969b"
+      },
+      {
+        "path": "data/operational_enrichment/final_completion_bootstrap/reviewed_manifest.json",
+        "sha256": "9424a7743c44d04bed80092eeebc66e74704c276a3fa2f115a4a00b1bf64b5c6"
+      }
+    ]
+  },
+  "componentFingerprints": {
+    "nhl": "9fdd552390aaacbc84d3bc5b425401f35b55599eb29e4bd621aa2c3a1f5acf41",
+    "mlb": "0bb7222f88118b9b9b890cfb82d6c5fba6325877102b4fa742eb193f05d54502",
+    "bootstrap": "f6524ebe36b1fac7134b47228a5a00da12ec2b08a33afe4ac71c396b08196416"
+  },
+  "targetCounts": {
+    "nhlNewStatistics": 40,
+    "mlbExistingStatistics": 26,
+    "finalOnlyBootstrap": 3258
+  },
+  "manifestFiles": [
+    {
+      "path": "data/stat_enrichment/nhl_future_source/reviewed_future_game_manifest.json",
+      "sha256": "292764f9c0180ee9cb8a3170609f285a6ec22c5272a55af16869467e95d613ba"
+    },
+    {
+      "path": "data/stat_enrichment/mlb_source_supplement/reviewed_mlb_history_box_manifest.json",
+      "sha256": "fecc19bdd4156f6f145acf954e08dc0dcb29797644e8f270c2cc82e6db45969b"
+    },
+    {
+      "path": "data/operational_enrichment/final_completion_bootstrap/reviewed_manifest.json",
+      "sha256": "9424a7743c44d04bed80092eeebc66e74704c276a3fa2f115a4a00b1bf64b5c6"
+    }
+  ],
+  "targetDatabase": "fantasy_evolution_test",
+  "developmentWrites": 0,
+  "actualTargetDataOnly": true,
+  "controlledFantasyFixtureRows": 0,
+  "originalTablesPreserved": 89,
+  "originalRowsUnchanged": true,
+  "lateComponentAtomicRollback": true,
+  "appendCounts": {
+    "Account": 0,
+    "AcquisitionAuction": 0,
+    "AcquisitionBid": 0,
+    "BackgroundJobRun": 0,
+    "ChampionshipCycle": 0,
+    "ChampionshipPointAward": 0,
+    "ChampionshipResult": 0,
+    "CommissionerAuditEvent": 0,
+    "CompetitionConfigSnapshot": 0,
+    "CompetitionPeriodGame": 0,
+    "CompetitiveTiebreakerEvent": 0,
+    "DeadCapObligation": 0,
+    "Draft": 0,
+    "DraftPick": 0,
+    "DraftPlan": 0,
+    "DraftQueueEntry": 0,
+    "DraftSelectionSnapshot": 0,
+    "FaabAccount": 0,
+    "FaabLedgerEntry": 0,
+    "FantasyRoster": 0,
+    "FantasyTeam": 0,
+    "FantasyTransaction": 0,
+    "FantasyWindowRevision": 0,
+    "FinanceAccount": 0,
+    "FinanceLedgerEntry": 0,
+    "FutureDraftPick": 0,
+    "FutureDraftPickOwnership": 0,
+    "Game": 0,
+    "GameCompletionEvidence": 3260,
+    "GameLineupSnapshot": 0,
+    "GameScheduleObservation": 0,
+    "GameTeam": 0,
+    "HistoricalGameCrosswalk": 0,
+    "ImportBatch": 40,
+    "KeeperSelection": 0,
+    "League": 0,
+    "LeagueFinancePolicy": 0,
+    "LeagueGameAssignment": 0,
+    "LeagueInvitation": 0,
+    "LeagueMember": 0,
+    "LeagueSport": 0,
+    "LeagueSportSeason": 0,
+    "Matchup": 0,
+    "MatchupResultRevision": 0,
+    "Player": 0,
+    "PlayerAvailabilityEvidence": 0,
+    "PlayerExternalId": 0,
+    "PlayerGameStat": 40,
+    "PlayerPositionEvidence": 0,
+    "PlayerSalary": 0,
+    "Position": 0,
+    "ProTeam": 0,
+    "ProTeamSeasonObservation": 0,
+    "ProfessionalDataDecision": 3306,
+    "ProfessionalDataObservation": 3306,
+    "ProfessionalSeasonScheduleRevision": 0,
+    "ProfessionalSyncState": 0,
+    "RateLimitBucket": 0,
+    "RelativeMatchup": 0,
+    "RelativeMatchupPeriod": 0,
+    "ReleasedPlayerFloor": 0,
+    "RookieDraftRule": 0,
+    "RookieEligibilityEvidence": 0,
+    "RosterAssignmentEvent": 0,
+    "RosterComplianceSnapshot": 0,
+    "RosterEntry": 0,
+    "ScheduleImportBatch": 0,
+    "ScheduleImportIssue": 0,
+    "ScoreLedger": 66,
+    "ScoreLedgerEntry": 66,
+    "ScoringPeriod": 0,
+    "ScoringPreset": 0,
+    "ScoringRule": 0,
+    "Season": 0,
+    "SeasonCalendarObservation": 0,
+    "Session": 0,
+    "SportCompetition": 0,
+    "SportFinalPlacement": 0,
+    "Trade": 0,
+    "TradeAsset": 0,
+    "TradeCut": 0,
+    "TradeProposal": 0,
+    "TradeProposalAcceptance": 0,
+    "TradeProposalRevision": 0,
+    "TradeReviewPolicy": 0,
+    "User": 0,
+    "Verification": 0,
+    "WaiverClaim": 0,
+    "WaiverPriority": 0
+  },
+  "replayChanges": 0,
+  "observationCategories": [
+    {
+      "category": "BOX_CLOCK",
+      "n": 2
+    },
+    {
+      "category": "COMPETITIVE_STAGE_BATCH",
+      "n": 1
+    },
+    {
+      "category": "COMPLETE_FINAL_BOX",
+      "n": 2
+    },
+    {
+      "category": "GAME_STATE",
+      "n": 3260
+    },
+    {
+      "category": "MLB_HISTORICAL_BOX_BATCH",
+      "n": 1
+    },
+    {
+      "category": "STAT",
+      "n": 40
+    }
+  ],
+  "sourceKnownAtRemainsNull": 40,
+  "actualEventTimestampsRemainUnknown": 3260,
+  "canonicalGameTimesAndPhaseUnchanged": true,
+  "currentEligibilityOwnershipFinancialAndFinalizedCompetitionUnchanged": true,
+  "finalOnlyBootstrapTargets": 3258,
+  "preservedFirstFinalHeads": 3,
+  "scope": "FINAL-only completion bootstrap plus NHL40 fresh licensed source rows; MLB26 existing accepted historical rows scored with independent licensed final/role evidence; no production chronology or live episode claimed",
+  "foreignKeysChecked": 196,
+  "schemaDrift": false,
+  "approved": false,
+  "developmentApplied": false
+}

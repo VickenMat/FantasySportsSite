@@ -20,7 +20,7 @@ export async function finalizeCumulativeSport(competitionId: string, at = new Da
       if (activity.total > 0 && activity.active === 0) continue;
       activePeriods++;
       const publication = await periodPublicationTime(tx, period.id, at);
-      if (!publication) return { status: "PENDING_DATA" as const, reason: "Verified game completion and official initial score publication are required for every period." };
+      if (!publication) return { status: "PENDING_DATA" as const, reason: "Accepted game completion, complete starter inputs and a valid publication clock are required for every period." };
       const deadline = new Date(+publication + 86400000);
       if (deadline > at) return { status: "PROVISIONAL" as const, reason: "The source-backed 24-hour correction window remains open." };
       const scores = await scoreCapturedStarters(tx, [competitionId], at, { periodId: period.id, publicationThrough: deadline });
@@ -32,7 +32,7 @@ export async function finalizeCumulativeSport(competitionId: string, at = new Da
     const ranks = new Map(draw.map(({ teamId, drawRank }) => [teamId, drawRank]));
     const rows = [...points].sort(([a, ap], [b, bp]) => ap === bp ? ranks.get(a)! - ranks.get(b)! : ap > bp ? -1 : 1);
     await tx.sportFinalPlacement.createMany({ data: rows.map(([teamId, regularPfTenths], index) => ({ sportCompetitionId: competitionId, teamId, placement: index + 1, regularPfTenths, finalizedAt: at })) });
-    await tx.sportCompetition.update({ where: { id: competitionId }, data: { status: "FINALIZED", finalizedAt: at, statusReason: "Frozen cumulative starter totals after verified completion and the official correction window." } });
+    await tx.sportCompetition.update({ where: { id: competitionId }, data: { status: "FINALIZED", finalizedAt: at, statusReason: "Frozen cumulative starter totals after verified completion and the accepted correction window." } });
     return { status: "FINALIZED" as const };
   }, { isolationLevel: "Serializable" });
 }

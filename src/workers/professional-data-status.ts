@@ -1,5 +1,6 @@
 import "dotenv/config";
 import pg from "pg";
+import {getDatabase} from "@/lib/db";
 import {providerPermissions,providerStrategy} from "@/ingestion/providers";
 import {approvedGameFeeds} from "@/ingestion/game-feeds";
 import {releaseOperations} from '@/ingestion/open-data/operations';
@@ -16,7 +17,8 @@ try {
   const decisions=(await client.query(`SELECT outcome,count(*)::int AS revisions FROM ${quoted}."ProfessionalDataDecision" GROUP BY outcome ORDER BY outcome`)).rows;
   const freshness=(await client.query(`SELECT observation.sport,observation.category,MAX(observation."observedAt") AS "lastReceivedAt",MAX(observation."publishedAt") FILTER (WHERE observation.category='STAT' AND observation.normalized->>'publicationSemantics'='OFFICIAL_BOX_SCORE') AS "officialBoxScorePublishedAt" FROM ${quoted}."ProfessionalDataObservation" observation WHERE EXISTS(SELECT 1 FROM ${quoted}."ProfessionalDataDecision" decision WHERE decision."observationId"=observation.id AND decision.outcome='ACCEPTED') GROUP BY observation.sport,observation.category ORDER BY observation.sport,observation.category`)).rows;
   const requests=(await client.query(`SELECT count(*)::int AS "activeScheduledRequestReservations" FROM ${quoted}."RateLimitBucket" WHERE key LIKE 'professional-request:%' AND "expiresAt">now()`)).rows[0];
-  console.log(JSON.stringify({status:'STAGING_ONLY',liveIngestion:'DISABLED',strategy:providerStrategy,permissions:providerPermissions,registeredProfessionalGames:approvedGameFeeds.length,streams,decisions,freshness,requests,releaseOperations:await releaseOperations(),developmentWrites:false}));
+  const operations=await releaseOperations();
+  console.log(JSON.stringify({status:operations.recurringStatisticalPromotionEnabled?'PROSPECTIVE_FINAL_BOXES_ENABLED':operations.canonicalSnapshotsEnabled?'PROSPECTIVE_SNAPSHOTS_ENABLED':'STAGING_ONLY',liveIngestion:'DISABLED',strategy:providerStrategy,permissions:providerPermissions,registeredProfessionalGames:approvedGameFeeds.length,streams,decisions,freshness,requests,releaseOperations:operations,developmentWrites:false}));
  }
  await client.query('COMMIT');
-}finally{await client.end();}
+}finally{await client.end();await getDatabase().$disconnect();}

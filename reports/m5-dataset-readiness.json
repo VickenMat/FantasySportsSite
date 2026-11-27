@@ -862,98 +862,48 @@
     {
       "sport": "NFL",
       "season": "2026",
-      "appearances": 10981,
-      "players": 1827,
-      "affectedAppearances": 0,
-      "affectedPlayers": 0,
-      "issues": [],
-      "fixedScoringRoles": 0,
-      "rawArchiveIssues": []
+      "players": 1829,
+      "completePlayers": 1829,
+      "incompletePlayers": 0,
+      "appearances": 11143,
+      "issues": []
     },
     {
       "sport": "MLB",
       "season": "2026",
-      "appearances": 72295,
       "players": 1472,
-      "affectedAppearances": 18,
-      "affectedPlayers": 18,
+      "completePlayers": 1470,
+      "incompletePlayers": 2,
+      "appearances": 72295,
       "issues": [
         {
           "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
-          "appearances": 18,
-          "players": 18
-        }
-      ],
-      "fixedScoringRoles": 197,
-      "rawArchiveIssues": [
-        {
-          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
-          "appearances": 215,
-          "players": 135
+          "appearances": 2,
+          "players": 2
         }
       ]
     },
     {
       "sport": "NBA",
       "season": "2026-27",
-      "appearances": 5390,
       "players": 474,
-      "affectedAppearances": 0,
-      "affectedPlayers": 0,
-      "issues": [],
-      "fixedScoringRoles": 0,
-      "rawArchiveIssues": []
+      "completePlayers": 474,
+      "incompletePlayers": 0,
+      "appearances": 5390,
+      "issues": []
     },
     {
       "sport": "NHL",
       "season": "2026-27",
-      "appearances": 14920,
       "players": 872,
-      "affectedAppearances": 1693,
-      "affectedPlayers": 678,
+      "completePlayers": 844,
+      "incompletePlayers": 28,
+      "appearances": 14920,
       "issues": [
         {
-          "reason": "GOALIE:goalie_win",
-          "appearances": 40,
-          "players": 32
-        },
-        {
           "reason": "GOALIE:shutout",
           "appearances": 40,
           "players": 28
-        },
-        {
-          "reason": "SKATER:faceoff_wins",
-          "appearances": 1620,
-          "players": 633
-        },
-        {
-          "reason": "SKATER:shorthanded_points_bonus",
-          "appearances": 1620,
-          "players": 633
-        }
-      ],
-      "fixedScoringRoles": 0,
-      "rawArchiveIssues": [
-        {
-          "reason": "GOALIE:goalie_win",
-          "appearances": 40,
-          "players": 32
-        },
-        {
-          "reason": "GOALIE:shutout",
-          "appearances": 38,
-          "players": 28
-        },
-        {
-          "reason": "SKATER:faceoff_wins",
-          "appearances": 1620,
-          "players": 633
-        },
-        {
-          "reason": "SKATER:shorthanded_points_bonus",
-          "appearances": 1620,
-          "players": 633
         }
       ]
     }
@@ -990,11 +940,11 @@
     }
   },
   "currentImportedRoleSelection": {
-    "materializedAppearances": 197,
-    "remainingAmbiguousAppearances": 18,
-    "remainingAmbiguousPlayers": 18,
+    "materializedAppearances": 213,
+    "remainingAmbiguousAppearances": 2,
+    "remainingAmbiguousPlayers": 2,
     "fullArchivePairedRoleAppearances": 54992,
-    "scope": "197 validated role selections apply only to the imported 2026 target; other seasons need the same evidence policy, not hindsight score selection."
+    "scope": "Validated role selections apply only to the imported 2026 target; other seasons need the same evidence policy, not hindsight score selection."
   },
   "cautions": [
     "Current imported completeness is not a complete season or archive-wide completeness.",
@@ -1002,5 +952,67 @@
     "NBA repaired minutes estimates are retrospective evidence, not dated authoritative eligibility.",
     "NHL zero-TOI backup rows do not establish played-game participation.",
     "Season coverage classifications are retained prior audit classifications, not fresh independent schedule verification."
-  ]
+  ],
+  "operationalOverlay": {
+    "report": "reports/m5-operational-application.json",
+    "acceptedProfessionalIdentities": [
+      {
+        "sport": "NFL",
+        "players": 3075
+      },
+      {
+        "sport": "MLB",
+        "players": 1472
+      },
+      {
+        "sport": "NBA",
+        "players": 532
+      },
+      {
+        "sport": "NHL",
+        "players": 872
+      }
+    ],
+    "mlbHistoricalPositions": {
+      "players": 944,
+      "appearances": 66879,
+      "role_rows": 67076
+    },
+    "currentEligibilityPromoted": true,
+    "nbaPolicy": "NBA_GRANULAR_FAMILY_OBSERVED_V1",
+    "familyMappingMustBeModeledInM6": true,
+    "rosterOnlyNoArchiveIdentities": 1304,
+    "identitiesWithoutAnyAcceptedStat": 1302,
+    "anyStatPlayers": 4649,
+    "postOperationalCohorts": [
+      {
+        "sport": "NFL",
+        "professional_identities": 3075,
+        "historical_archive_players": 1829,
+        "any_stat_players": 1829,
+        "operational_source_players": 23
+      },
+      {
+        "sport": "MLB",
+        "professional_identities": 1472,
+        "historical_archive_players": 1472,
+        "any_stat_players": 1472,
+        "operational_source_players": 0
+      },
+      {
+        "sport": "NBA",
+        "professional_identities": 532,
+        "historical_archive_players": 474,
+        "any_stat_players": 476,
+        "operational_source_players": 35
+      },
+      {
+        "sport": "NHL",
+        "professional_identities": 872,
+        "historical_archive_players": 872,
+        "any_stat_players": 872,
+        "operational_source_players": 40
+      }
+    ]
+  }
 }

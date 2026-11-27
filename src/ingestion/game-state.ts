@@ -1,3 +1,4 @@
+import{promoteObservedGameState}from'./observed-game-state';
 import{resolveProfessionalGame}from"./professional-identities";
 import type{Prisma}from"@/generated/prisma/client";
 import type{Observation}from"./contracts";
@@ -5,6 +6,7 @@ import{promoteLifecycle}from"./lifecycle";
 type GameState=Observation&{normalized:Extract<Observation["normalized"],{kind:"GAME_STATE"}>};
 export async function promoteGameState(tx:Prisma.TransactionClient,input:GameState,observationId:string){
  const n=input.normalized;
+ if('evidencePolicy' in n&&n.evidencePolicy==='CONSERVATIVE_OBSERVED_V1')return promoteObservedGameState(tx,input,observationId);
  const pending=(reason:string)=>({outcome:"PENDING_DATA" as const,reason,targets:{}});
  const reject=(reason:string)=>({outcome:"QUARANTINED" as const,reason,targets:{}});
  if(!input.publishedAt||!input.effectiveAt)return pending("Game state requires explicit publication and effective instants; polling time supplies neither.");

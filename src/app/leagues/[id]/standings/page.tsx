@@ -26,7 +26,7 @@ export default async function StandingsPage({ params, searchParams }: { params: 
     return <LeagueShell leagueId={id}>
       <div className="workspace-intro">
         <h1 className="display">{sport ?? "Combined"} cumulative standings</h1>
-        <p className="muted">{result.cycle?.label ?? "Cycle pending"} · {result.state === "PENDING_DATA" ? "Awaiting scoring data" : result.state === "UPCOMING" ? "Upcoming" : "Provisional"}</p>
+        <p className="muted">{result.cycle?.label ?? "Cycle pending"} · {result.state === "PENDING_DATA" ? "Awaiting scoring data" : result.state === "UPCOMING" ? "Upcoming" : result.state === "FINALIZED" ? "Final" : "Provisional"}</p>
         <LeagueSportTabs leagueId={id} path="/standings" sports={sports} selected={sport ?? "combined"} combined={sports.length > 1} />
       </div>
       <section className="panel">

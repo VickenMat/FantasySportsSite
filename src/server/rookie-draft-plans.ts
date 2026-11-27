@@ -1,3 +1,4 @@
+import { checkDraftBeforeProfessionalStart } from "./professional-calendar";
 import { activeFranchises } from "./franchise-participation";
 import { z } from "zod";
 import { getDatabase } from "@/lib/db";
@@ -21,8 +22,8 @@ export async function configureRookieDraftPlan(userId: string, raw: z.input<type
     if (previous && previous.version !== input.expectedVersion) throw new Error("Rookie configuration changed; refresh before saving.");
     const draft = await createRookieDraft(userId, input.leagueId, sport.id, { rounds: input.rounds, reason: input.reason }, { prepare: true, now: at }, tx);
     if (draft.status !== "SCHEDULED") throw new Error("Rookie configuration is locked after drafting begins.");
-    const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: sport.seasonId, retrievedAt: { lte: at } }, orderBy: { retrievedAt: "desc" } });
-    if (boundary?.status === "AVAILABLE" && boundary.regularSeasonStartsAt && +input.scheduledAt + draft.pickOrder.length * input.secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new Error("The rookie draft must fit before the selected professional season starts.");
+    const boundary = await checkDraftBeforeProfessionalStart(tx, { seasonId: sport.seasonId, asOf: at, endsAt: new Date(+input.scheduledAt + draft.pickOrder.length * input.secondsPerPick * 1000) });
+    if (boundary.verified && !boundary.allowed) throw new Error(boundary.reason);
     await tx.draft.update({ where: { id: draft.id }, data: { secondsPerPick: input.secondsPerPick } });
     const data = { leagueId: input.leagueId, draftId: draft.id, method: "LINEAR", scope: "SPORT", orderMethod: "REVERSE_FINAL_PLACEMENT", order: draft.order, rounds: input.rounds, secondsPerPick: input.secondsPerPick, scheduledAt: input.scheduledAt, timezone: input.timezone, status: "SCHEDULED", blockedReason: null };
     const plan = await tx.draftPlan.upsert({ where: { leagueSportId_seasonId_kind: identity }, create: { ...identity, ...data }, update: { ...data, version: { increment: 1 } } });
@@ -45,8 +46,10 @@ export async function activateScheduledRookieDraft(userId: string, planId: strin
     const ids = sport.league.teams.map(({ id }) => id);
     if (ids.length !== sport.league.maxTeams || ids.length !== plan.order.length || plan.order.some((id) => !ids.includes(id))) throw new Error("Rookie draft participation changed; save a complete configuration before starting.");
     await assertRookieDraftWindow(tx, plan.leagueId, plan.seasonId, at);
-    const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: plan.seasonId, retrievedAt: { lte: at } }, orderBy: { retrievedAt: "desc" } });
-    if (!sport.league.isHistorical && boundary?.regularSeasonStartsAt && +at + plan.draft.pickOrder.length * plan.secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new Error("The rookie draft no longer fits before the selected professional season.");
+    if (!sport.league.isHistorical) {
+      const boundary = await checkDraftBeforeProfessionalStart(tx, { seasonId: plan.seasonId, asOf: at, endsAt: new Date(+at + plan.draft.pickOrder.length * plan.secondsPerPick * 1000) });
+      if (!boundary.allowed) throw new Error(boundary.reason);
+    }
     const snapshot = JSON.parse(plan.draft.orderProvenance!) as RookieSnapshot;
     if (snapshot.method !== "LINEAR_ROOKIE" || snapshot.orderSource !== "REVERSE_FINAL_PLACEMENT") throw new Error("Rookie provenance requires reverse finalized placement.");
     const picks = await tx.futureDraftPick.findMany({ where: { id: { in: snapshot.slots.map(({ futurePickId }) => futurePickId) } } });

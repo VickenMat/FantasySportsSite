@@ -6,16 +6,18 @@ import { historicalStatsForScoring } from './historical-evidence';
 export type ParticipationEvidence = { status: 'PLAYED' | 'DID_NOT_PLAY' | 'UNKNOWN'; reason: string };
 export type ParticipationInput = { role: GameStatRole; provider?: string; normalized?: StatValues; raw?: unknown; terminal?: boolean };
 const activityKeys = new Map((['FOOTBALL','HITTER','PITCHER','BASKETBALL','SKATER','GOALIE'] as const).map(role=>[role,new Set(applicableRules(ubpV9Rules,role).map(rule=>rule.statKey==='pitching_innings'?'pitching_outs':rule.statKey==='tight_end_reception_bonus'?'receptions':rule.statKey))]));
-const rawActivityKeys:Record<GameStatRole,readonly string[]>={FOOTBALL:['attempts','completions','carries','targets','receptions','special_teams_tds','offense_snaps','defense_snaps','special_teams_snaps'],HITTER:['plateAppearances','atBats','hits','runs','stolenBases','hitByPitch'],PITCHER:['gamesStarted','pitchesThrown','battersFaced','outs','strikeOuts','baseOnBalls','hits','runs','earnedRuns'],BASKETBALL:['PTS','REB','OREB','DREB','AST','STL','BLK','TOV','FGA','FGM','FTA','FTM'],SKATER:['goals','assists','sog','hits','blockedShots','shifts','faceoff_wins','shorthanded_points_bonus'],GOALIE:['goals','assists','saves','goalsAgainst','goalie_win']};
+const rawActivityKeys:Record<GameStatRole,readonly string[]>={FOOTBALL:['attempts','completions','carries','targets','receptions','special_teams_tds','offense_snaps','defense_snaps','special_teams_snaps'],HITTER:['plateAppearances','atBats','hits','runs','stolenBases','hitByPitch'],PITCHER:['gamesStarted','pitchesThrown','battersFaced','outs','strikeOuts','baseOnBalls','hits','runs','earnedRuns'],BASKETBALL:['PTS','REB','OREB','DREB','AST','STL','BLK','TOV','FGA','FGM','FTA','FTM','points','rebounds_total','rebounds_offensive','rebounds_defensive','assists','steals','blocks','turnovers','field_goals_attempted','field_goals_made','free_throws_attempted','free_throws_made'],SKATER:['goals','assists','sog','hits','blockedShots','shifts','faceoff_wins','shorthanded_points_bonus'],GOALIE:['goals','assists','saves','goalsAgainst','goalie_win']};
 function record(value: unknown): Record<string, unknown> | null { return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string,unknown> : null; }
 function count(value: unknown) { if (value == null || String(value).trim() === '') return null; const number=Number(value);return Number.isFinite(number)&&number>=0?number:null; }
 function duration(value: unknown) {
   if (value == null || String(value).trim() === '') return null;
   const text=String(value).trim(),clock=/^(\d{1,3}):([0-5]\d)(?:\.\d+)?$/.exec(text);
+  const iso=/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?$/.exec(text);
+  if(iso&&iso.slice(1).some(Boolean))return Number(iso[1]??0)*3600+Number(iso[2]??0)*60+Number(iso[3]??0);
   return clock ? Number(clock[1])*60+Number(clock[2]) : count(value);
 }
-function original(raw:unknown) { let value=record(raw);for(let depth=0;depth<10&&record(value?.original);depth++)value=record(value!.original);return value??{}; }
-export function referencedHistoricalStatId(raw:unknown) { const value=original(raw);return typeof value.historicalStatId==='string'?value.historicalStatId:null; }
+function original(raw:unknown) { let value=record(raw);for(let depth=0;depth<10;depth++){const nested=record(value?.original)??record(value?.sourceRecord);if(!nested)break;value=nested;}return value??{}; }
+export function referencedHistoricalStatId(raw:unknown) { let value=record(raw);for(let depth=0;depth<10&&value;depth++){if(typeof value.historicalStatId==='string')return value.historicalStatId;value=record(value.original)??record(value.sourceRecord);}return null; }
 
 /** Game-level positive activity proves participation; a final explicit zero proves DNP.
  * Profile age/status, roster membership, missing fields and fantasy totals are not proof.
@@ -28,7 +30,7 @@ export function participationEvidence(input: ParticipationInput): ParticipationE
   const activity=Object.entries(normalized).some(([key,value])=>activityKeys.get(input.role)?.has(key)&&typeof value==='number'&&Number.isFinite(value)&&value!==0);
   let explicit:number|null=null,positive=activity||rawActivityKeys[input.role].some(key=>(count(row[key])??0)>0)||input.role==='GOALIE'&&(count(row.shutout)===1||['W','L','O'].includes(String(row.decision))),dnpText=false;
   if(input.role==='GOALIE'||input.role==='SKATER')explicit=duration(row.toi);
-  else if(input.role==='BASKETBALL') { explicit=duration(row.MIN);dnpText=['DNP','DND'].includes(String(row.MIN??'').trim().toUpperCase()); }
+  else if(input.role==='BASKETBALL') { explicit=duration(row.MIN??row.minutes);dnpText=['DNP','DND','NWT'].includes(String(row.MIN??row.minutes??'').trim().toUpperCase())||/^(?:DNP|DND|NWT|INACTIVE)(?:\s*-|$)/i.test(String(row.comment??'').trim()); }
   else if(input.role==='HITTER') { explicit=count(row.gamesPlayed);positive ||= (count(row.plateAppearances)??0)>0; }
   else if(input.role==='PITCHER') { explicit=count(row.gamesPitched);positive ||= (count(row.gamesStarted)??0)>0; }
   else {

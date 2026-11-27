@@ -38,7 +38,10 @@ it("recovers pending discovery and resolves explicit team/game aliases without d
  const score:Observation={...base,provider:alias,entityKey:statEntityKey(game.id,player.id,"BASKETBALL"),observedAt:later.toISOString(),normalized:{kind:"STAT",player:{provider,externalId:"player"},game:{provider:alias,externalId:"game-alias"},team:{provider:alias,externalId:"host-alias"},role:"BASKETBALL",phase:"LIVE",publicationSemantics:"UNVERIFIED",stats:{...stats,PTS:10}}};
  expect((await db.$transaction(tx=>persistObservation(tx,score,later))).outcome).toBe("ACCEPTED");
  expect(await selectAndScoreSource({sport:"NBA",gameId:game.id,playerId:player.id},{version:"alias-fixture",sources:[{provider:alias,priority:0,maxAgeMs:86400000,allowProvisional:true,permission:"FIXTURE_ONLY"}]},later)).toMatchObject({status:"SCORED"});
- expect(await captureGameLineups(game.id,later)).toMatchObject({status:"PENDING_DATA",created:0});
+ expect(await captureGameLineups(game.id,later)).toMatchObject({status:"UNASSIGNED",created:0});
+ expect((await db.game.findUniqueOrThrow({where:{id:game.id}})).startsAt?.toISOString()).toBe("2039-01-02T11:00:00.000Z");
+ expect(await db.gameLineupSnapshot.count({where:{gameId:game.id}})).toBe(0);
+ expect(await db.professionalDataObservation.count({where:{category:"GAME_STATE",entityKey:`game-state:${game.id}`}})).toBe(0); // Scheduled fallback did not invent an actual-start observation.
  expect(await db.playerGameStat.findFirstOrThrow({where:{playerId:player.id}})).toMatchObject({gameId:game.id,teamId:host.id});
  const conflict:Observation={...teamAlias,entityKey:"team:ambiguous",normalized:{...teamAlias.normalized as Extract<Observation["normalized"],{kind:"TEAM_IDENTITY"}>,externalId:"ambiguous",links:[{provider,externalId:"host"},{provider,externalId:"visitor"}]}};
  expect((await apply(conflict)).outcome).toBe("QUARANTINED");

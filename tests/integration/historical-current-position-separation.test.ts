@@ -1,0 +1,41 @@
+import 'dotenv/config';
+import { randomUUID } from 'node:crypto';
+import { afterAll, expect, it } from 'vitest';
+import { getDatabase } from '@/lib/db';
+import { createLeague } from '@/server/league';
+import { setLineupSlot } from '@/server/rosters';
+import { getEligiblePositions, legacyPositionFallback } from '@/server/positions';
+import { persistObservation } from '@/ingestion/persist';
+import { observedPolicyAdoptedAt } from '@/ingestion/evidence-policy';
+const db = getDatabase(), ownedLeagueIds = new Set<string>();
+afterAll(async () => { try { if (ownedLeagueIds.size) await db.league.deleteMany({ where: { id: { in: [...ownedLeagueIds] } } }); } finally { await db.$disconnect(); } });
+it('keeps original historical NFL/NHL positions out of current starting slots until an accepted prospective snapshot exists', async () => {
+  const user = await db.user.findUniqueOrThrow({ where: { email: process.env.DEMO_EMAIL } });
+  const league = await createLeague(user.id,{ name: `Historical eligibility boundary ${randomUUID()}`, sports: ['NFL','NHL'], maxTeams: 2, historical: true, seasonYear: 2026, fillWithComputers: true });
+  ownedLeagueIds.add(league.id);
+  await db.league.update({ where: { id: league.id }, data: { isHistorical: false, isDemo: false } });
+  for (const [sport,code,role] of [['NFL','QB','FOOTBALL'],['NHL','C','SKATER']] as const) {
+    const slot = sport === 'NHL' ? 'F' : code;
+    const provider = `current-boundary-${randomUUID()}`, player = await db.player.create({ data: { sport, displayName: `Synthetic historical ${sport} ${randomUUID()}`, isSynthetic: true } });
+    await db.playerExternalId.create({ data: { sport, playerId: player.id, provider, externalId: 'athlete' } });
+    const current = await db.leagueSport.findUniqueOrThrow({ where: { leagueId_sport: { leagueId: league.id, sport } } });
+    const roster = await db.fantasyRoster.findFirstOrThrow({ where: { leagueSportId: current.id, team: { managerId: user.id } } });
+    const oldSeason = await db.season.upsert({ where: { sport_startYear: { sport, startYear: 2025 } }, create: { sport, startYear: 2025, label: '2025 historical' }, update: {} });
+    const club = await db.proTeam.create({ data: { sport, provider, externalId: randomUUID(), displayName: 'Synthetic old professional club' } });
+    const game = await db.game.create({ data: { sport, seasonId: oldSeason.id, provider: 'v9-historical', externalId: randomUUID(), phase: 'REGULAR', startsAt: new Date('2025-01-01T12:00:00Z') } });
+    await db.gameTeam.create({ data: { gameId: game.id, teamId: club.id } });
+    const batch = await db.importBatch.create({ data: { sport, provider: 'v9-historical', contentHash: randomUUID(), sourceName: 'Isolated original historical position fixture', importerVersion: 'fixture', summary: {} } });
+    const stat = await db.playerGameStat.create({ data: { gameId: game.id, playerId: player.id, teamId: club.id, importBatchId: batch.id, provider: 'v9-historical', role, revision: 1, sourceLine: 1, contentHash: randomUUID(), observedPositions: [code], normalized: {}, raw: { original: { position: code }, synthetic: true } } });
+    const entry = await db.rosterEntry.create({ data: { leagueId: league.id, teamId: roster.teamId, rosterId: roster.id, playerId: player.id, sport, seasonId: current.seasonId, slot: 'BENCH', slotIndex: 1 } });
+    expect(legacyPositionFallback(stat)).toEqual([]);
+    expect((await getEligiblePositions({ playerId: player.id, sport, seasonYear: 2026, asOf: new Date() })).positions).toEqual([]);
+    await expect(setLineupSlot(user.id,league.id,entry.id,slot,sport)).rejects.toThrow(/recorded eligibility does not fit/i);
+    expect((await db.rosterEntry.findUniqueOrThrow({ where: { id: entry.id } })).slot).toBe('BENCH');
+    const now = new Date().toISOString();
+    const observation = { provider, sport, entityKey: `player-snapshot:${provider}:athlete:2026:POSITION`, revisionToken: '1', revisionOrdinal: 1, sourceReference: 'https://fixture.invalid/historical-current-separation', observedAt: now, effectiveAt: null, publishedAt: null, raw: { synthetic: true }, normalized: { kind: 'PLAYER_SNAPSHOT', player: { provider, externalId: 'athlete' }, seasonStartYear: 2026, sourceRecordId: 'explicit-current-professional-position', sourceFingerprint: 'a'.repeat(64), sourceSnapshotDate: null, sourceDatePrecision: 'OBSERVED', firstObservedAt: now, policyAdoptedAt: observedPolicyAdoptedAt.toISOString(), validFrom: now, validUntil: null, policyVersion: 'approved-observed-player-snapshot-1', retracted: false, facet: { type: 'POSITION', sourcePosition: code, professionalPosition: code, fantasyPositions: [code], context: 'ROSTER_SNAPSHOT' } } };
+    expect((await db.$transaction(tx => persistObservation(tx,observation,new Date(now)))).outcome).toBe('ACCEPTED');
+    await setLineupSlot(user.id,league.id,entry.id,slot,sport);
+    expect((await db.rosterEntry.findUniqueOrThrow({ where: { id: entry.id } })).slot).toBe(slot);
+    expect(await db.playerGameStat.findUniqueOrThrow({ where: { id: stat.id } })).toEqual(stat);
+  }
+});

@@ -1,3 +1,4 @@
+import { checkDraftBeforeProfessionalStart } from "./professional-calendar";
 import { z } from "zod";
 import { draftCorrectionState, draftJobKey } from "./draft-corrections";
 import type { Prisma, Sport } from "@/generated/prisma/client";
@@ -17,6 +18,7 @@ import { accountForAcquisition, financePolicy } from "./finance";
 import { openAcquisitionSlot } from "@/rosters/acquisition-slot";
 import { captureDraftSelection } from "./draft-recaps";
 import { getEligiblePositions, legacyPositionFallback } from "./positions";
+import { currentPlayerEvidence } from "./current-player-evidence";
 
 const universalSlots = ["UNIVERSAL_BENCH", "UNIVERSAL_IR", "IR"];
 
@@ -75,9 +77,8 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
     }
     const coveredSports = plan?.scope === "UNIVERSAL" ? await tx.leagueSport.findMany({ where: { leagueId } }) : [leagueSport];
     if (!membership.league.isHistorical) for (const selected of coveredSports) {
-      const boundary = await tx.professionalSeasonScheduleRevision.findFirst({ where: { seasonId: selected.seasonId, retrievedAt: { lte: now } }, orderBy: { retrievedAt: "desc" } });
-      if (boundary?.status !== "AVAILABLE" || !boundary.regularSeasonStartsAt) throw new GameplayBlockedError("PENDING_DATA: the selected season needs a verified professional start before drafting can begin.");
-      if (+now + pickOrder.length * secondsPerPick * 1000 >= +boundary.regularSeasonStartsAt) throw new GameplayBlockedError("The draft cannot fit before the selected professional season. Reschedule without changing the selected season.");
+      const boundary = await checkDraftBeforeProfessionalStart(tx, { seasonId: selected.seasonId, asOf: now, endsAt: new Date(+now + pickOrder.length * secondsPerPick * 1000) });
+      if (!boundary.allowed) throw new GameplayBlockedError(boundary.reason);
     }
     for (const teamId of currentTeamIds) {
       const compliance = await currentCompliance(tx, teamId, now);
@@ -100,24 +101,32 @@ export async function createDraft(userId: string, leagueId: string, requestedSpo
   }, { isolationLevel: "Serializable" });
 }
 
-export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; positions?: string[]; page?: number; pageSize?: number; allResults?: boolean; rookieOnly?: boolean; availability?: "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" | "AVAILABLE" } = {}) {
+export async function playerPage(leagueId: string, options: { sport?: Sport | string; search?: string; position?: string; positions?: string[]; page?: number; pageSize?: number; allResults?: boolean; rookieOnly?: boolean; asOf?: Date; availability?: "ALL" | "FREE_AGENTS" | "WAIVERS" | "ROSTERED" | "AVAILABLE" } = {}) {
   const leagueSport = await resolveLeagueSport(leagueId, options.sport); const page = Number.isFinite(options.page ?? 1) ? Math.max(1, Math.trunc(options.page ?? 1)) : 1;
   const pageSize = Math.min(100, Math.max(1, Math.trunc(options.pageSize ?? 50)));
   const league = await getDatabase().league.findUniqueOrThrow({ where: { id: leagueId }, select: { isHistorical: true } });
+  const asOf = options.asOf ?? new Date();
   const cutoff = new Date(Date.now() - 86400000);
   const holds = { OR: [{ rosterEntries: { some: { leagueId, releasedAt: { gt: cutoff } } } }, { gameStats: { some: { game: { completionEvidence: { some: { knownAt: { lte: new Date() }, completedAt: { gt: cutoff } } } } } } }] };
   const where = { sport: leagueSport.sport, isSynthetic: false, id: options.rookieOnly ? { in: await eligibleRookieIds(getDatabase(), leagueSport.seasonId, new Date()) } : undefined, displayName: options.search ? { contains: options.search, mode: "insensitive" as const } : undefined,
     rosterEntries: options.availability === "ALL" ? undefined : options.availability === "ROSTERED" ? { some: { leagueId, sport: leagueSport.sport, releasedAt: null } } : { none: { leagueId, sport: leagueSport.sport, releasedAt: null } },
     AND: [
       ...(options.availability === "WAIVERS" ? [holds] : options.availability === "FREE_AGENTS" ? [{ NOT: holds }] : []),
-      ...((options.positions?.length || options.position) ? [{ gameStats: { some: { observedPositions: { hasSome: options.positions?.length ? options.positions : [options.position!] }, ...(league.isHistorical ? { game: { seasonId: leagueSport.seasonId } } : {}) } } }] : []),
+      ...(league.isHistorical && (options.positions?.length || options.position) ? [{ gameStats: { some: { observedPositions: { hasSome: options.positions?.length ? options.positions : [options.position!] }, ...(league.isHistorical ? { game: { seasonId: leagueSport.seasonId } } : {}) } } }] : []),
     ],
     ...(options.rookieOnly || !league.isHistorical ? {} : { OR: [{ isDemo: true }, { gameStats: { some: { game: { seasonId: leagueSport.seasonId } } } }] }) };
   const database = getDatabase();
   const [players, total] = await Promise.all([database.player.findMany({ where, orderBy: [{ displayName: "asc" }, { id: "asc" }],
-    skip: options.allResults ? undefined : (page - 1) * pageSize, take: options.allResults ? undefined : pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true, displayName: true } } } } } }),
-  database.player.count({ where })]);
-  return { items: players.map((player) => ({ ...player, positions: player.gameStats[0]?.observedPositions ?? [] })), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)), sport: leagueSport.sport };
+    skip: options.allResults || !league.isHistorical ? undefined : (page - 1) * pageSize, take: options.allResults || !league.isHistorical ? undefined : pageSize, include: { gameStats: { where: { game: { seasonId: leagueSport.seasonId } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, team: { select: { code: true, displayName: true } } } } } }),
+  league.isHistorical ? database.player.count({ where }) : Promise.resolve(0)]);
+  if (league.isHistorical) return { items: players.map(player => ({ ...player, positions: player.gameStats[0]?.observedPositions ?? [], positionSource: player.gameStats[0]?.observedPositions.length ? "Historical" : null, currentTeam: null, displayTeam: player.gameStats[0]?.team ?? null })), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)), sport: leagueSport.sport };
+  const season = await database.season.findUniqueOrThrow({ where: { id: leagueSport.seasonId }, select: { startYear: true } });
+  const evidence = await currentPlayerEvidence({ playerIds: players.map(player => player.id), sport: leagueSport.sport, seasonYear: season.startYear, asOf });
+  const selectedPositions = options.positions?.length ? options.positions : options.position ? [options.position] : [];
+  const current = players.map(player => ({ ...player, positions: evidence.get(player.id)?.positions ?? [], positionSource: evidence.get(player.id)?.positionSource ?? null,
+    currentTeam: evidence.get(player.id)?.currentTeam ?? null, displayTeam: evidence.get(player.id)?.currentTeam ?? null }));
+  const filtered = selectedPositions.length ? current.filter(player => selectedPositions.some(code => player.positions.includes(code))) : current;
+  return { items: options.allResults ? filtered : filtered.slice((page-1)*pageSize,page*pageSize), total: filtered.length, page, pageSize, pages: Math.max(1, Math.ceil(filtered.length/pageSize)), sport: leagueSport.sport };
 }
 
 export async function availablePlayers(leagueId: string, search = "", position?: string, limit = 200, sport?: Sport | string, rookieOnly = false) {
@@ -189,7 +198,7 @@ export async function makePick(input: { userId?: string; draftId: string; player
     const now = input.now ?? new Date(); const deadline = draft.pickDeadlineAt ?? (draft.pickStartedAt ? new Date(draft.pickStartedAt.getTime() + draft.secondsPerPick * 1000) : null);
     const systemAuthorized = input.system === true && input.automatic === true && deadline != null && deadline <= now;
     if (!(systemAuthorized || team.managerId === input.userId || (input.automatic && member?.role === "COMMISSIONER"))) throw new Error("It is another manager's turn.");
-    const player = await tx.player.findUniqueOrThrow({ where: { id: input.playerId }, include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, raw: true } } } });
+    const player = await tx.player.findUniqueOrThrow({ where: { id: input.playerId }, include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1, select: { observedPositions: true, raw: true, provider: true } } } });
     const draftPlan = await hasGameplayTable("DraftPlan", tx) ? await tx.draftPlan.findUnique({ where: { draftId: draft.id } }) : null;
     if (player.sport !== draft.sport && draftPlan?.scope !== "UNIVERSAL") throw new Error(`Only ${draft.sport} players are eligible for this draft.`);
     const selectionSport = draftPlan?.scope === "UNIVERSAL" ? await tx.leagueSport.findFirstOrThrow({ where: { leagueId: draft.leagueId, sport: player.sport } }) : draft.leagueSport;

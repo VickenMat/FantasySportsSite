@@ -1,3 +1,4 @@
+import { verifiedRegularSeasonGames } from "./scheduled-game-phase";
 import { activeFranchises } from "./franchise-participation";
 import { createHash, randomBytes } from "node:crypto";
 import type { Prisma, Sport } from "@/generated/prisma/client";
@@ -178,7 +179,7 @@ export async function provisionCompetitionSchedule(userId: string, sportCompetit
     } });
     if (competition.league.members[0]?.role !== "COMMISSIONER") throw new Error("Only the commissioner can provision competition periods.");
     if (competition.periods.length) return competition;
-    const games = await tx.game.findMany({ where: { seasonId: competition.leagueSportSeason.seasonId, phase: "REGULAR", startsAt: { not: null } }, orderBy: { startsAt: "asc" } });
+    const games = await verifiedRegularSeasonGames(tx, competition.leagueSportSeason.seasonId);
     const window = await hasGameplayTable("FantasyWindowRevision", tx) ? await tx.fantasyWindowRevision.findFirst({ where: { leagueSportId: competition.leagueSportSeason.leagueSportId, seasonId: competition.leagueSportSeason.seasonId }, orderBy: { version: "desc" } }) : null;
     const eligible = games.filter((game): game is typeof game & { startsAt: Date } => Boolean(game.startsAt) && (!window || game.startsAt! >= window.startsAt && game.startsAt! <= window.endsAt) && !(competition.sport === "NFL" && competition.configSnapshot.competitionType === "HEAD_TO_HEAD" && (game.week ?? 99) > 17));
     if (!eligible.length) return tx.sportCompetition.update({ where: { id: competition.id }, data: { status: "PENDING_DATA", statusReason: "No authoritative UTC regular-season games are available for this professional season." } });

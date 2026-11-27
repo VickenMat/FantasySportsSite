@@ -2,6 +2,8 @@ import { z } from "zod";
 import type { Sport } from "@/generated/prisma/enums";
 import { getDatabase } from "@/lib/db";
 import { calculateEligibility, type PositionEvidence } from "@/positions/eligibility";
+import { projectNbaPositions, type NbaApplicableEvidence } from "@/positions/nba-policy";
+import { snapshotPositionEligibility } from "@/positions/player-snapshot-policy";
 import { aggregatePositionEligibility } from "@/positions/aggregate-evidence";
 import { lockSport } from "./sport-lock";
 
@@ -91,6 +93,34 @@ export async function getEligiblePositions(input: { playerId: string; sport: Spo
     return row.gameId && row.started != null ? [{ ...base, kind: "FIELDING", gameId: row.gameId, started: row.started }] : [];
   });
   const result = calculateEligibility({ ...input, evidence });
+  if (sport === "NBA") {
+    const snapshots = client.professionalDataObservation ? await client.professionalDataObservation.findMany({
+      where: { sport, category: "NBA_POSITION_SNAPSHOT", observedAt: { lte: asOf }, decisions: { some: { targets: { path: ["playerId"], equals: playerId } } } },
+      include: { decisions: { where: { decidedAt: { lte: asOf } }, orderBy: { version: "desc" }, take: 1 } },
+    }) : [];
+    const legacyGroups = new Map<string, typeof records>();
+    for (const row of records.filter(row => row.kind === "LISTED" && !inactiveEvidence.has(row.id))) {
+      const key = `${row.provider}:${row.effectiveAt.toISOString()}:${row.knownAt.toISOString()}`;
+      legacyGroups.set(key, [...(legacyGroups.get(key) ?? []), row]);
+    }
+    const legacy: NbaApplicableEvidence[] = [...legacyGroups].map(([key, rows]) => ({
+      id: rows[0].id, provider: rows[0].provider, entityKey: `legacy:${key}`, seasonYear: rows[0].season.startYear,
+      sourcePosition: [...new Set(rows.map(row => row.position.code))].sort().join('-'), validFrom: rows[0].effectiveAt,
+      validUntil: null, knownAt: rows[0].knownAt, retracted: false,
+    }));
+    const nba = projectNbaPositions({ playerId, seasonYear, asOf, observations: snapshots, legacy });
+    return { ...result, positions: nba.positions, available: nba.available || records.some(row => inactiveEvidence.has(row.id)),
+      aggregateCounts: [], aggregateLowerBounds: [], aggregateConflicts: [], nbaPositionConflicts: nba.conflicts, nbaPositionProvenance: nba.provenance };
+  }
+
+  const snapshotRows = client.professionalDataObservation ? await client.professionalDataObservation.findMany({
+    where: { sport, category: "PLAYER_SNAPSHOT", observedAt: { lte: asOf }, decisions: { some: { targets: { path: ["playerId"], equals: playerId } } } },
+    include: { decisions: { where: { decidedAt: { lte: asOf } }, orderBy: { version: "desc" }, take: 1 } },
+  }) : [];
+  const snapshot = snapshotPositionEligibility({ playerId, sport, seasonYear, asOf, observations: snapshotRows });
+  if (sport !== "MLB" && snapshot.available) return { ...result, positions: snapshot.positions, available: true,
+    aggregateCounts: [], aggregateLowerBounds: [], aggregateConflicts: [], snapshotConflicts: snapshot.snapshotConflicts };
+
   const aggregateRows = sport === "MLB" && client.professionalDataObservation ? await client.professionalDataObservation.findMany({
     where: { sport, category: "POSITION_AGGREGATE", observedAt: { lte: asOf }, publishedAt: { lte: asOf }, effectiveAt: { lte: asOf },
       decisions: { some: { outcome: "ACCEPTED", targets: { path: ["playerId"], equals: playerId } } } },
@@ -100,13 +130,13 @@ export async function getEligiblePositions(input: { playerId: string; sport: Spo
   // Per-game observations may overlap the total. Qualify independently; never add them.
   const contradictory = new Set(aggregate.aggregateCounts.filter(total => result.fieldingCounts.some(row => row.code === total.code && row.seasonYear === total.seasonYear && (total.starts !== null && row.starts > total.starts || total.appearances !== null && row.appearances > total.appearances))).map(row => row.code));
   return { ...result, aggregateCounts: aggregate.aggregateCounts, aggregateLowerBounds: aggregate.aggregateLowerBounds, aggregateConflicts: [...aggregate.aggregateConflicts, ...[...contradictory].map(code => `FIELDING_TOTAL:${code}`)],
-    positions: [...new Set([...result.positions, ...aggregate.positions.filter(code => !contradictory.has(code))])].sort(),
-    available: result.available || aggregate.available || records.some(row=>inactiveEvidence.has(row.id)) };
+    positions: [...new Set([...result.positions, ...aggregate.positions.filter(code => !contradictory.has(code)), ...snapshot.positions.filter(code => !contradictory.has(code))])].sort(), snapshotConflicts: snapshot.snapshotConflicts,
+    available: result.available || aggregate.available || snapshot.available || records.some(row=>inactiveEvidence.has(row.id)) };
 }
 
 /** Historical repairs are display evidence, never a fallback grant of current eligibility. */
-export function legacyPositionFallback(stat?: { observedPositions: string[]; raw: unknown } | null): string[] {
-  if (!stat) return [];
+export function legacyPositionFallback(stat?: { observedPositions: string[]; raw: unknown; provider?: string } | null): string[] {
+  if (!stat || stat.provider === "v9-historical") return [];
   if (stat.raw && typeof stat.raw === "object" && ("historicalPositionRepair" in stat.raw || "reviewedNflStatistics" in stat.raw)) return [];
   return stat.observedPositions;
 }

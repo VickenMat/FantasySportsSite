@@ -2,6 +2,7 @@ import { activeFranchises } from "./franchise-participation";
 import { Prisma, type Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
 import { professionalGameProjection } from "./professional-game-state";
+import { observedPeriodPublicationTime, statisticalKnowledgeTime, statisticalDeadline } from "./publication-anchors";
 
 type StarterTotal = {
   competitionId: string;
@@ -25,7 +26,7 @@ export async function scoreCapturedStarters(
       COALESCE(SUM(score."totalTenths"), 0)::bigint AS "pointsFor",
       COUNT(score."totalTenths")::integer AS "scoredStarters",
       COUNT(*) FILTER (WHERE score."totalTenths" IS NULL OR NOT score.complete OR selection."lastFailure" IS NOT NULL
-        OR (source_state.sources>0 AND source_start."resolvedStart" IS NULL))::integer AS "pendingStarters"
+        OR source_state."lockReviewPending" OR (source_state.sources>0 AND source_start."resolvedStart" IS NULL))::integer AS "pendingStarters"
     FROM "GameLineupSnapshot" snapshot
     JOIN "Game" game ON game.id = snapshot."gameId"
     ${professionalGameProjection(through)}
@@ -40,7 +41,7 @@ export async function scoreCapturedStarters(
       FROM "ScoreLedgerEntry" entry
       ${options.publicationThrough ? Prisma.sql`JOIN "PlayerGameStat" stat ON stat.id = entry."statId"` : Prisma.empty}
       WHERE entry."ledgerId" = ledger.id AND entry."calculatedAt" <= ${through}
-      ${options.publicationThrough ? Prisma.sql`AND stat."sourceKnownAt" <= ${options.publicationThrough}` : Prisma.empty}
+      ${options.publicationThrough ? Prisma.sql`AND ${statisticalKnowledgeTime(through)} <= ${statisticalDeadline(through,options.publicationThrough)}` : Prisma.empty}
       ORDER BY entry.sequence DESC
       LIMIT 1
     ) score ON true
@@ -60,11 +61,13 @@ export async function scoreCapturedStarters(
 }
 
 export async function periodPublicationTime(tx: Prisma.TransactionClient, periodId: string, now: Date) {
+  const observed = await observedPeriodPublicationTime(tx, periodId, now);
+  if (observed !== undefined) return observed;
   const [result] = await tx.$queryRaw<{ publishedAt: Date | null }[]>`
     WITH starters AS (
       SELECT source_start."resolvedStart" AS "startsAt", CASE WHEN source_state.sources = 0 THEN completion.status
         WHEN source_state.status = 'FINAL' THEN 'Final' ELSE source_state.status END AS status, ledger.id AS "ledgerId",
-        current_source.provider, initial."publishedAt", selection."lastFailure" AS "sourceFailure"
+        source_state."lockReviewPending", current_source.provider, initial."publishedAt", selection."lastFailure" AS "sourceFailure"
       FROM "CompetitionPeriodGame" assignment
       JOIN "Game" game ON game.id = assignment."gameId"
       ${professionalGameProjection(now)}
@@ -98,7 +101,7 @@ export async function periodPublicationTime(tx: Prisma.TransactionClient, period
         AND source_state.status IS DISTINCT FROM 'CANCELLED'
     ), clock AS (SELECT MAX("publishedAt") AS "publishedAt" FROM starters)
     SELECT CASE WHEN COUNT(*) > 0 AND bool_and(
-      starters."startsAt" <= ${now} AND COALESCE(starters.status IN ('Final', 'Completed Early', 'final_score_present'), false)
+      NOT COALESCE(starters."lockReviewPending",false) AND starters."startsAt" <= ${now} AND COALESCE(starters.status IN ('Final', 'Completed Early', 'final_score_present'), false)
       AND starters."publishedAt" IS NOT NULL AND starters."sourceFailure" IS NULL AND COALESCE(score.ready, false)
     ) THEN MAX(clock."publishedAt") END AS "publishedAt"
     FROM starters CROSS JOIN clock

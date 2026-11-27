@@ -180,3 +180,7 @@ Continue through unblocked M4.3–M4.7 and remaining M4.2, then M4.8. Update `M4
 ## UI refinement clarification, November 26, 2026
 
 Newly configured initial drafts default to 60 seconds and Eastern Time (`America/New_York`); saved timers and UTC instants remain authoritative. Date and time are separate controls with quarter-hour choices and explicit DST disambiguation. Acquisition preview is write-free with respect to claims and financial ledgers; final submission creates the reservation and conditional cut atomically, and only successful settlement releases the designated player. See [UI refinement QA report](UI_REFINEMENT_QA_REPORT.md).
+
+## Confirmed M5 evidence-policy integration
+
+The November 26 operational continuation approves NBA granular/family mapping and conservative observed game/complete-box policies as described in [M5 master specification](M5_MASTER_SPECIFICATION.md#confirmed-operational-evidence-decisions--november-26-2026). These are evidence adapters into the existing M4 engine, not new scoring or lineup rules. Original fantasy week attribution, immutable individual-game snapshots, independent sport lifecycle and finalized-result protections remain required. M6 must account for the additional NBA lineup flexibility from mapped family positions.

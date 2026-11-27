@@ -1,3 +1,4 @@
+import { currentPlayerEvidence } from '@/server/current-player-evidence';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cancelTradeAction, respondTradeAction } from "@/app/actions/leagues";
@@ -36,7 +37,8 @@ export default async function TradesPage({ params, searchParams }: { params: Pro
   const sports = context.league.sports.map(({ sport }) => sport);
   const own = teams.find(({ id: teamId }) => teamId === context.fantasyTeam!.id)!;
   const limits = Object.fromEntries(context.league.sports.map((sport) => [sport.sport, sport.rosterSlots.length + sport.benchSlots]));
-  const playerData = (entry: typeof own.sportRosters[number]["entries"][number]) => ({ id: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions: entry.player.gameStats[0]?.observedPositions ?? [], team: entry.player.gameStats[0]?.team.code ?? null, avg: "N/A", points: "N/A" });
+  const currentEvidence=new Map((await Promise.all(context.league.sports.map(async leagueSport=>[...await currentPlayerEvidence({playerIds:teams.flatMap(team=>team.sportRosters.filter(roster=>roster.sport===leagueSport.sport).flatMap(roster=>roster.entries.map(entry=>entry.playerId))),sport:leagueSport.sport,seasonYear:leagueSport.season.startYear,asOf:new Date()})]))).flat());
+  const playerData = (entry: typeof own.sportRosters[number]["entries"][number]) => ({ id: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions: context.league.isHistorical ? entry.player.gameStats[0]?.observedPositions??[] : currentEvidence.get(entry.playerId)?.positions??[], team: context.league.isHistorical ? entry.player.gameStats[0]?.team.code??null : currentEvidence.get(entry.playerId)?.currentTeam?.code??null, avg: "N/A", points: "N/A" });
   const teamData = (team: typeof own) => ({ id: team.id, name: team.name, rosters: Object.fromEntries(sports.map((sport) => [sport, team.sportRosters.find((roster) => roster.sport === sport)?.entries.map(playerData) ?? []])) });
 
   return <LeagueShell leagueId={id}>

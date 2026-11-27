@@ -1,5 +1,7 @@
 # M5 evidence precision and operational policy decisions
 
+**Resolved by explicit user approval:** granular NBA positions with the specified family fallback, conservative observed events/complete-final-box clocks, and prospective snapshot evidence are now confirmed. The alternatives and pending-decision language below are the prior review record. See [authoritative addendum](M5_MASTER_SPECIFICATION.md#confirmed-operational-evidence-decisions--november-26-2026) and [implementation/application report](M5_OPERATIONAL_COMPLETION_REPORT.md). New substantial data promotions still require exact reviewed approval.
+
 No alternative policy in this document is activated. Current authoritative source-time gates remain intact. Permitted file retrieval, retained observations and isolated processing may operate while gameplay promotion stays pending. Data permission, timestamp precision and product rules are separate decisions.
 
 ## What the actual sources prove

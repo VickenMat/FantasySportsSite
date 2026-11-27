@@ -1,0 +1,378 @@
+{
+  "version": "m5-operational-application-1",
+  "generatedAt": "2026-11-27T02:09:40.024380+00:00",
+  "appliedTargets": [
+    {
+      "fingerprint": "387869154d0a85654c6e86c97877b2ecfdfaa199cd8e149b4ba72c51ca604940",
+      "counts": {
+        "fingerprint": "387869154d0a85654c6e86c97877b2ecfdfaa199cd8e149b4ba72c51ca604940",
+        "applied": true,
+        "nhl": {
+          "fingerprint": "d9be091dcc818f0e3b219b9f4bbbe9fd5382658ae9630273fc487780dcea0c20",
+          "changes": 1660,
+          "players": 665,
+          "alreadyApplied": 0,
+          "applied": true,
+          "officialPublicationChanges": 0,
+          "eligibilityChanges": 0,
+          "scoreLedgerChanges": 0
+        },
+        "mlb": {
+          "fingerprint": "02921815004815f0e912f572948d3b14e59e5c07cdd7eaecc625cb058685e5bd",
+          "changes": 16,
+          "players": 16,
+          "alreadyApplied": 0,
+          "applied": true
+        },
+        "nba": {
+          "fingerprint": "888a36d53df44bc5d43f6f9acf08d5e5b299bd193ef1ff8e815d9ac8f3b47d77",
+          "newPlayers": 58,
+          "newAliases": 538,
+          "alreadyApplied": false,
+          "applied": true,
+          "eligibilityChanges": 0,
+          "sourcePublicationChanges": 0
+        },
+        "nfl": {
+          "fingerprint": "415a455dab8af67e951dcc96823efe5ddb1a0218cb35b2f4bfa763b9474deb5c",
+          "newPlayers": 1248,
+          "newAliases": 3402,
+          "alreadyApplied": false,
+          "applied": true,
+          "eligibilityChanges": 0,
+          "sourcePublicationChanges": 0
+        },
+        "nflStatistics": {
+          "fingerprint": "6c6bb8270a5728b9ab8fd6f5903a3658c3bf32e43ec7fb57de6f9fc78017cd2b",
+          "changes": 162,
+          "alreadyApplied": 0,
+          "applied": true,
+          "gameChanges": 0,
+          "eligibilityChanges": 0,
+          "scoreLedgerChanges": 0
+        }
+      },
+      "originalTablesPreserved": 90,
+      "originalRowsUnchanged": true,
+      "replayChanges": 0,
+      "backupVerified": {
+        "bytes": 59454324,
+        "sha256": "3961ce5dd69d5c0791f0417efdc61716773cdb9c9ea34010b6daf03acbace3f0",
+        "archiveListAndFullDecodeVerified": true,
+        "clusterVerified": true
+      }
+    },
+    {
+      "fingerprint": "ee09780d243fc11e0246e23678554109c3b717acaf746b78f15cc770218ddebc",
+      "counts": {
+        "changes": 251,
+        "players": 9,
+        "fingerprint": "ee09780d243fc11e0246e23678554109c3b717acaf746b78f15cc770218ddebc",
+        "applied": true
+      },
+      "originalTablesPreserved": 90,
+      "originalRowsUnchanged": true,
+      "replayChanges": 0,
+      "backupVerified": {
+        "bytes": 60859752,
+        "sha256": "5be5a6b217e2250f7472c0fc47583cc5b415e444532eb44ad36ef40395f4cd1d",
+        "archiveListAndFullDecodeVerified": true,
+        "clusterVerified": true
+      }
+    }
+  ],
+  "acceptedProfessionalIdentities": [
+    {
+      "sport": "NFL",
+      "players": 3075
+    },
+    {
+      "sport": "MLB",
+      "players": 1472
+    },
+    {
+      "sport": "NBA",
+      "players": 532
+    },
+    {
+      "sport": "NHL",
+      "players": 872
+    }
+  ],
+  "historicalStatPlayers": 4647,
+  "completeHistoricalStatPlayers": 4617,
+  "rosterOnlyIdentities": 1304,
+  "actualDevelopmentCompleteness": [
+    {
+      "sport": "NFL",
+      "season": "2026",
+      "players": 1829,
+      "completePlayers": 1829,
+      "incompletePlayers": 0,
+      "appearances": 11143,
+      "issues": []
+    },
+    {
+      "sport": "MLB",
+      "season": "2026",
+      "players": 1472,
+      "completePlayers": 1470,
+      "incompletePlayers": 2,
+      "appearances": 72295,
+      "issues": [
+        {
+          "reason": "AMBIGUOUS_ROLE:HITTER+PITCHER",
+          "appearances": 2,
+          "players": 2
+        }
+      ]
+    },
+    {
+      "sport": "NBA",
+      "season": "2026-27",
+      "players": 474,
+      "completePlayers": 474,
+      "incompletePlayers": 0,
+      "appearances": 5390,
+      "issues": []
+    },
+    {
+      "sport": "NHL",
+      "season": "2026-27",
+      "players": 872,
+      "completePlayers": 844,
+      "incompletePlayers": 28,
+      "appearances": 14920,
+      "issues": [
+        {
+          "reason": "GOALIE:shutout",
+          "appearances": 40,
+          "players": 28
+        }
+      ]
+    }
+  ],
+  "mlbHistoricalPositions": {
+    "players": 944,
+    "appearances": 66879,
+    "role_rows": 67076
+  },
+  "migrationCount": 28,
+  "foreignKeysChecked": 196,
+  "foreignKeyViolations": 0,
+  "preservedArtifacts": [
+    {
+      "path": "data/raw/recovered/nfl_2016_2026_final.csv",
+      "sha256": "7185224c408a88ddcb097b4b14d69a95ccd892ca7b13a8f03c7ff422bc48fa56",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_2016_2026_final.csv",
+      "sha256": "a58fee138f99f825b9af9737e93cd6c512ee7ab6c43ca1fa23dffab2819211d0",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_2016-2027_final.csv",
+      "sha256": "4f9b193fe1bb896817925395987609dc07e86086d376cda7c30e5a31dd4dc81b",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nhl_2016_2027_final.csv",
+      "sha256": "3833682d1547cf5f168f55fbbecf0a1030c560a2c76a289c397bfb09852f61a4",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/mlb_positions_repaired.csv",
+      "sha256": "7d642767b45d9e26f31778ebbf0456715d785de3ad3d274ec7bee1f07b7aec72",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/nba_positions_repaired.csv",
+      "sha256": "a649f4cda8dfad62fea653c19248cc22089102a4d9a9a2f4a22b817290faa929",
+      "preserved": true
+    },
+    {
+      "path": "data/raw/recovered/_nba_player_positions_2016_2026.csv",
+      "sha256": "0161a58e1fd80b8da77e02b8580cf8a35a1d79b60ea43a1571bde812c844da6a",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nfl_2016_2026_final.parquet",
+      "sha256": "f607a8d8587bb30780f85bc204f3f4a9f4e7ca2dcddd2474a4c45c9767aa727c",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/mlb_2016_2026_final.parquet",
+      "sha256": "714f247ff66aaef58216771f955ecc2fd118fa0667f2d2ed4bd827aadff3fc3e",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nba_2016_2027.parquet",
+      "sha256": "f008d29826972de96eca1dd8d12525e6b267d47fa8c04b61bff838e4cce8f8c3",
+      "preserved": true
+    },
+    {
+      "path": "data/player_data/nhl_2016_2027_final.parquet",
+      "sha256": "0f91459cfff70ee04cd16e3f318ee109d5f337a8c2f2e0e78e46659fa103f632",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_schedules.parquet",
+      "sha256": "1724f7cc6143615036aee574de27aced3b9789de046a68b4991c399b6816671c",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/season_calendar.parquet",
+      "sha256": "25f322a5316f9690dd72d30ade7ff65be113adf77b05e5f34fb9ec50fb4ef160",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/game_id_crosswalk.parquet",
+      "sha256": "70a4f633d2b9a9e6f17a456f8243ed941d3b16a7af1de12129230761515b1edb",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/team_master.parquet",
+      "sha256": "1b219050df3f51f27f25a6c4d81d208c5f8318ecf359d0b50c831d5305593be7",
+      "preserved": true
+    },
+    {
+      "path": "data/schedule_data/schedule_validation.json",
+      "sha256": "ec3571bdd0a2391edc1c62df20d0ef449ca95b5f813c082a603b36de4c7196e1",
+      "preserved": true
+    }
+  ],
+  "preservedUserScreenshots": [
+    {
+      "file": "m3-7-2-cross-sport-trade-builder.png",
+      "sha256": "c65f660a7aad3efb18056666183c95f67bc44eb2c66526d4bc0d3ccf90a97811",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-draft-room.png",
+      "sha256": "67f04b5a7684c7012de8680499efa35e41d3440ab91fccf7752452f97fc31a2e",
+      "preserved": true
+    },
+    {
+      "file": "m3-7-2-roster-position-selection.png",
+      "sha256": "612960d908d286431a19bbe65c792e93f545e9994aa193b6de4c2070d1a8299c",
+      "preserved": true
+    }
+  ],
+  "currentEligibilityPromoted": true,
+  "liveFeedActivated": false,
+  "m6Started": false,
+  "v10Active": false,
+  "contractAutomationActive": false,
+  "operationalPromotion": {
+    "fingerprint": "bdf5696aa0fa4363347483a71c31dd0ba8fcc60534d81bd8d46424235255c177",
+    "applied": {
+      "fingerprint": "bdf5696aa0fa4363347483a71c31dd0ba8fcc60534d81bd8d46424235255c177",
+      "changes": 14465,
+      "alreadyApplied": 0,
+      "applied": true,
+      "observationAppends": 14465,
+      "decisionAppends": 14465,
+      "availabilityAppends": 805,
+      "rookieAppends": 3075,
+      "seasonAppends": 0,
+      "competitive": {
+        "fingerprint": "1640180613acdf23fc6289c9a6e06764b74ac46c88f2a4509175e8dfdb426f6a",
+        "alreadyApplied": false,
+        "sourceObservations": 101,
+        "newStatistics": 98,
+        "newScoreEntries": 98,
+        "completeBoxes": 3,
+        "pendingBoxes": 0,
+        "applied": true,
+        "targetStatRows": 98,
+        "observationsAcceptedAt": "2026-11-27T01:53:41.361Z",
+        "completedProcessingAt": "2026-11-27T01:53:43.513Z",
+        "historicalTeContextUsed": 23,
+        "historicalPositionPolicy": "RECORDED_GAME_SCORING_CONTEXT_ONLY; no current eligibility grants"
+      }
+    },
+    "originalTablesPreserved": 90,
+    "originalRowsUnchanged": true,
+    "replayChanges": 0,
+    "backupVerified": {
+      "bytes": 60953902,
+      "sha256": "3e3a8bd2a6e4d77a54a9c23e9da55a9c47a3c036d5652689d686233b38c757f2",
+      "archiveListAndFullDecodeVerified": true,
+      "clusterVerified": true
+    },
+    "copyVerifiedAppendCounts": {
+      "GameCompletionEvidence": 3,
+      "ImportBatch": 98,
+      "PlayerAvailabilityEvidence": 805,
+      "PlayerGameStat": 98,
+      "ProfessionalDataDecision": 14573,
+      "ProfessionalDataObservation": 14573,
+      "RookieEligibilityEvidence": 3075,
+      "ScoreLedger": 98,
+      "ScoreLedgerEntry": 98
+    },
+    "currentEligibilityCoverage": {
+      "NBA:2026": {
+        "known": 529,
+        "eligible": 528
+      },
+      "MLB:2026": {
+        "known": 1081,
+        "eligible": 1081
+      },
+      "NFL:2026": {
+        "known": 3075,
+        "eligible": 961
+      },
+      "MLB:2027": {
+        "known": 944,
+        "eligible": 944
+      },
+      "NHL:2026": {
+        "known": 691,
+        "eligible": 691
+      }
+    }
+  },
+  "postOperationalCohorts": [
+    {
+      "sport": "NFL",
+      "professional_identities": 3075,
+      "historical_archive_players": 1829,
+      "any_stat_players": 1829,
+      "operational_source_players": 23
+    },
+    {
+      "sport": "MLB",
+      "professional_identities": 1472,
+      "historical_archive_players": 1472,
+      "any_stat_players": 1472,
+      "operational_source_players": 0
+    },
+    {
+      "sport": "NBA",
+      "professional_identities": 532,
+      "historical_archive_players": 474,
+      "any_stat_players": 476,
+      "operational_source_players": 35
+    },
+    {
+      "sport": "NHL",
+      "professional_identities": 872,
+      "historical_archive_players": 872,
+      "any_stat_players": 872,
+      "operational_source_players": 40
+    }
+  ],
+  "rosterOnlyNoArchiveIdentities": 1304,
+  "identitiesWithoutAnyAcceptedStat": 1302,
+  "anyStatPlayers": 4649,
+  "recurringSnapshotPolicy": {
+    "fingerprint": "cb8dfe386dba85c628276271b47fb249b6a8a3d7fb9729e448742e0058bea61b",
+    "approved": true,
+    "enabled": true,
+    "scope": "Fresh future permitted 2026 player snapshots only; old bodies excluded"
+  },
+  "recurringStatisticalPromotionEnabled": false
+}

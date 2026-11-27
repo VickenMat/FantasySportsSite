@@ -1,6 +1,6 @@
 # M5 master checklist
 
-A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint (partial recovered-data/provider work does not complete whole rows): **13 checked / 19 unchecked / 32 total**.
+A checked row is implemented and verified within its stated scope. Recommendations, codecs and fixtures do not count as successful provider integration. Current checkpoint (partial recovered-data/provider work does not complete whole rows): **15 checked / 17 unchecked / 32 total**.
 
 ## M5.1 provider research and architecture
 
@@ -46,7 +46,7 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 
 ## M5.7 corrections and finalization
 
-- [ ] Establish approved source publication/correction semantics distinct from ingestion/update timestamps
+- [x] Establish approved source publication/correction semantics distinct from ingestion/update timestamps (approved exact-first/complete-final-box policy; persistent shared-clock, invalidation, replay/failover/concurrency and competitive cutoff tests)
 - [ ] Integrate original/corrected statistics and completion evidence into existing provisional V9 results
 - [ ] Verify authoritative 24-hour finalization, post-final correction safety, playoffs and cumulative championships
 - [ ] Verify final placement/rookie order and rollover from the licensed real-data pipeline
@@ -54,7 +54,7 @@ A checked row is implemented and verified within its stated scope. Recommendatio
 ## M5.8 acceptance and website
 
 - [x] Add reproducible read-only archive/database baseline and staging-status commands
-- [ ] Complete source-to-V9-to-gameplay-to-website acceptance with freshness/unknown/provisional/final indicators
+- [x] Complete source-to-V9-to-gameplay-to-website acceptance with freshness/unknown/provisional/final indicators (real NFL/NBA/NHL source boxes and MLB accepted-history/final-role evidence; controlled prelock fantasy setup and24-hour advancement; rendered Chromium final results and populated four-sport pages)
 - [ ] Complete real-source coverage/failure/rate-limit/replay/restart/concurrency matrix for all sports
 - [x] Complete checkpoint M4 regression, populated-copy migration verification, preservation and delivery report (live-source acceptance remains open)
 
@@ -91,3 +91,9 @@ Current accounting is **13 checked / 19 unchecked / 32 total**. Only the existin
 - The original 20-row audit is retained with one closed row and 19 individually classified remaining rows. See [closure audit](M5_REQUIREMENT_CLOSURE_AUDIT.md), [30-item delivery report](M5_ACCELERATED_COMPLETION_REPORT.md), [dataset readiness](M5_DATASET_READINESS.md), [exact consolidated review](M5_ACCELERATED_BACKFILL_REVIEW.md), [MLB holds](M5_MLB_POSITION_HOLDS.md) and [unresolved evidence decisions](M5_EVIDENCE_POLICY_REVIEW.md). M4 remains 60/60; all six completed acceptance journeys passed the final regression.
 
 Final acceptance:198 units, 129 normal/129 shuffled integrations (seed 261129), 20 standard Chromium, two actual restarts and one populated-real Chromium passed; Webpack/full TypeScript, ESLint, Prisma, audit 0 and diff check passed. The local NFL transition added 69 normalized keys with zero normalized-stat corrections/position changes; no real chronological correction episode is claimed. Exact [acceptance](../reports/m5-accelerated-acceptance.json) and [preservation](../reports/m5-accelerated-preservation.json) reports retain scope. Implementation checkpoint `65f50d2` is synchronized; the exact consolidated backfill and two policy choices remain pending.
+
+## Operational continuation — approved deployments completed
+
+Targets A/B and the NBA/observed-evidence policies are now explicitly approved. Both exact historical targets were applied and replay-verified; prior statements that they await approval are historical. Actual accepted professional identities are 5,951; complete historical-stat players are 4,617/4,647, with1,304 identities outside the historical archive cohort. Two NBA identities now have accepted operational statistics, so1,302 identities have no accepted statistics of any source. The separately approved initial operational batch is also applied:14,465 snapshot/calendar facts,805 availability facts,3,075 rookie classifications and98 source statistics/global scores across three completed games. Narrow recurring snapshots are enabled; the separate supplemental FINAL/NHL/MLB target and future statistical policy remain gated. See [current continuation report](M5_OPERATIONAL_COMPLETION_REPORT.md). Checklist rows remain individually subject to complete acceptance; successful policy implementation alone does not close mixed real-data requirements.
+
+U19 now closes from the completed four-sport source→V9→immutable starter→provisional/final→Chromium proof. Fantasy ownership/eligibility chronology and elapsed24hours are explicitly controlled fixtures; no real publisher correction episode or60-second live latency is claimed. Accounting:15 checked/17 unchecked/32 total.

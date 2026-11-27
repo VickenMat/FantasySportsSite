@@ -1,0 +1,223 @@
+{
+  "version": "m5-controlled-real-source-competitive-acceptance-1",
+  "developmentWrites": 0,
+  "professionalEvidence": "Real retained permitted source IDs and statistics; MLB uses accepted historical inputs plus licensed final/role proof",
+  "fantasyChronology": "Hypothetical prelock ownership/eligibility/availability and controlled24-hour test clock",
+  "actualProfessionalCorrectionEpisode": false,
+  "liveLatencyClaim": false,
+  "nflNbaNhl": {
+    "targetDatabase": "fantasy_evolution_test",
+    "developmentWrites": 0,
+    "realProfessionalEvidence": "Actual canonical IDs, retained permitted source rows, normalized V9 counts, unchanged accepted schedule and observed processing clocks",
+    "syntheticFantasyEvidence": "Explicit hypothetical pre-lock ownership/eligibility/availability fixture and controlled24-hour clock advancement; not actual historical production chronology",
+    "physicalEventInstantsInvented": false,
+    "officialPublicationInvented": false,
+    "genuineLiveFeedDemonstrated": false,
+    "actualProfessionalCorrectionEpisode": false,
+    "websitePresentation": "READ_MODELS_ONLY_PENDING_BROWSER",
+    "all15StagesDemonstrated": false,
+    "dry": {
+      "fingerprint": "254dce0d152f8268a85728b59b2c7b0aa87745b5ebc6914468e8155fc4eb4309",
+      "alreadyApplied": false,
+      "sourceObservations": 101,
+      "newStatistics": 98,
+      "newScoreEntries": 98,
+      "completeBoxes": 0,
+      "pendingBoxes": 3,
+      "applied": false
+    },
+    "applied": {
+      "fingerprint": "254dce0d152f8268a85728b59b2c7b0aa87745b5ebc6914468e8155fc4eb4309",
+      "alreadyApplied": false,
+      "sourceObservations": 0,
+      "newStatistics": 0,
+      "newScoreEntries": 0,
+      "completeBoxes": 3,
+      "pendingBoxes": 0,
+      "applied": true,
+      "targetStatRows": 98,
+      "observationsAcceptedAt": "2026-11-27T02:35:51.699Z",
+      "completedProcessingAt": "2026-11-27T02:35:52.544Z",
+      "historicalTeContextUsed": 0,
+      "historicalPositionPolicy": "RECORDED_GAME_SCORING_CONTEXT_ONLY; no current eligibility grants"
+    },
+    "restartReplay": {
+      "fingerprint": "254dce0d152f8268a85728b59b2c7b0aa87745b5ebc6914468e8155fc4eb4309",
+      "alreadyApplied": true,
+      "sourceObservations": 0,
+      "newStatistics": 0,
+      "newScoreEntries": 0,
+      "completeBoxes": 0,
+      "pendingBoxes": 0,
+      "applied": false
+    },
+    "results": [
+      {
+        "sport": "NFL",
+        "canonicalGameId": "f09d16f8-65e1-4652-ac77-37cfb82b3f81",
+        "sourceGameId": "2026_01_NE_SEA",
+        "leagueId": "87d450c2-b31b-49b8-a31b-03d7dc33df0c",
+        "realStatRows": 23,
+        "starterPlayerIds": [
+          "bd81c8af-198e-4968-b22b-5c0c97a0ba6c",
+          "2b9dd82d-0b8d-4574-a614-96648a8d6d74"
+        ],
+        "all15StagesDemonstrated": true,
+        "mechanicalStagesDemonstrated": 14,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "realSourceProvisional": [
+          "13",
+          "425"
+        ],
+        "finalizedRealSource": [
+          "13",
+          "425"
+        ],
+        "anchorAt": "2026-11-27T01:53:42.025Z",
+        "deadlineAt": "2026-11-28T01:53:42.025Z",
+        "benchAndIrExcluded": true,
+        "immutableStarterSnapshots": true,
+        "lateLineupRejected": true,
+        "postFinalSyntheticCorrectionProtected": true,
+        "actualProfessionalCorrectionEpisode": false,
+        "websiteStandingsRows": 2,
+        "websiteAnalyticsPlayers": 2,
+        "independentSportTotals": 2
+      },
+      {
+        "sport": "NBA",
+        "canonicalGameId": "82ff559b-6e99-4c14-b492-eeef35a27e5b",
+        "sourceGameId": "0022600001",
+        "leagueId": "089ee7bd-19cf-4778-8601-36f9854b2151",
+        "realStatRows": 35,
+        "starterPlayerIds": [
+          "78da0a6b-fd0f-4f3c-a175-12aafc9ca807",
+          "bfbc127c-0977-4b44-acd1-67fed4ad4863"
+        ],
+        "all15StagesDemonstrated": true,
+        "mechanicalStagesDemonstrated": 14,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "realSourceProvisional": [
+          "158",
+          "91"
+        ],
+        "finalizedRealSource": [
+          "158",
+          "91"
+        ],
+        "anchorAt": "2026-11-27T01:53:42.638Z",
+        "deadlineAt": "2026-11-28T01:53:42.638Z",
+        "benchAndIrExcluded": true,
+        "immutableStarterSnapshots": true,
+        "lateLineupRejected": true,
+        "postFinalSyntheticCorrectionProtected": true,
+        "actualProfessionalCorrectionEpisode": false,
+        "websiteStandingsRows": 2,
+        "websiteAnalyticsPlayers": 2,
+        "independentSportTotals": 2
+      },
+      {
+        "sport": "NHL",
+        "canonicalGameId": "5239eff2-7e53-474e-a6d1-6d4ff1de910c",
+        "sourceGameId": "2026020002",
+        "leagueId": "a6191e0e-7544-419a-bbc8-e64a5fb39790",
+        "realStatRows": 40,
+        "starterPlayerIds": [
+          "9ee0eccc-2714-47c0-a05f-3d461ea08877",
+          "b4df950c-f09e-4296-b619-9e05e4ad1e61"
+        ],
+        "all15StagesDemonstrated": true,
+        "mechanicalStagesDemonstrated": 14,
+        "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+        "realSourceProvisional": [
+          "44",
+          "74"
+        ],
+        "finalizedRealSource": [
+          "44",
+          "74"
+        ],
+        "anchorAt": "2026-11-27T01:53:43.407Z",
+        "deadlineAt": "2026-11-28T01:53:43.407Z",
+        "benchAndIrExcluded": true,
+        "immutableStarterSnapshots": true,
+        "lateLineupRejected": true,
+        "postFinalSyntheticCorrectionProtected": true,
+        "actualProfessionalCorrectionEpisode": false,
+        "websiteStandingsRows": 2,
+        "websiteAnalyticsPlayers": 2,
+        "independentSportTotals": 2
+      }
+    ],
+    "websiteBrowserAcceptance": {
+      "passed": true,
+      "sports": [
+        "NFL",
+        "NBA",
+        "NHL"
+      ],
+      "scope": "Rendered real-source final matchup cards and standings; league chronology and elapsed24hours are controlled fixtures"
+    }
+  },
+  "mlb": {
+    "targetDatabase": "fantasy_evolution_test",
+    "developmentWrites": 0,
+    "sourceGameId": "823244",
+    "canonicalGameId": "d5166dfa-092a-4aa9-aca9-36c3cd332e48",
+    "canonicalPhasePreserved": "UNKNOWN",
+    "leagueId": "5f98294e-ed3e-47a7-8721-e8eb6aad37c6",
+    "fieldProvenance": "SD published final result + licensed PBP role proof + existing accepted historical V9 inputs; not a direct SD box",
+    "hypotheticalFantasyContext": "Prelock ownership, threshold eligibility and availability are isolated fixtures; not actual historical professional evidence",
+    "physicalEventTimesInvented": false,
+    "actualProfessionalCorrectionEpisode": false,
+    "all15StagesDemonstrated": true,
+    "mechanicalStagesDemonstrated": 14,
+    "websitePresentation": "CHROMIUM_RENDERED_FINAL_MATCHUPS_AND_STANDINGS",
+    "realSourcePlayers": 26,
+    "finalizedRealSource": [
+      "92",
+      "141"
+    ],
+    "benchAndIrExcluded": true,
+    "lateLineupRejected": true,
+    "immutableSnapshots": true,
+    "anchorAt": "2026-11-27T02:36:00.454Z",
+    "deadlineAt": "2026-11-28T02:36:00.454Z",
+    "controlled24HourAdvance": true,
+    "dry": {
+      "fingerprint": "7a6f6d88d6aacb027a1c69e0554a76f4512ce978b93a0e22c99d5ca9813e626e",
+      "alreadyApplied": false,
+      "targetPlayers": 26,
+      "scoreEntries": 0,
+      "newStatistics": 0,
+      "completeBoxes": 0,
+      "applied": false,
+      "fieldProvenance": "Final state: licensed SportsDataverse schedule; participation/role: licensed PBP; scoring inputs: existing accepted v9-historical archive, not a direct SportsDataverse box"
+    },
+    "applied": {
+      "fingerprint": "7a6f6d88d6aacb027a1c69e0554a76f4512ce978b93a0e22c99d5ca9813e626e",
+      "alreadyApplied": false,
+      "targetPlayers": 26,
+      "scoreEntries": 26,
+      "newStatistics": 0,
+      "completeBoxes": 1,
+      "applied": true,
+      "fieldProvenance": "Final state: licensed SportsDataverse schedule; participation/role: licensed PBP; scoring inputs: existing accepted v9-historical archive, not a direct SportsDataverse box",
+      "completedProcessingAt": "2026-11-27T02:36:00.454Z"
+    },
+    "restartReplay": {
+      "fingerprint": "7a6f6d88d6aacb027a1c69e0554a76f4512ce978b93a0e22c99d5ca9813e626e",
+      "alreadyApplied": true,
+      "scoreEntries": 0,
+      "newStatistics": 0,
+      "completeBoxes": 0,
+      "applied": false
+    },
+    "websiteBrowserAcceptance": {
+      "passed": true,
+      "sport": "MLB",
+      "scope": "Rendered accepted historical V9 scores with independent licensed final/role evidence; fantasy prelock ownership, threshold eligibility, availability and elapsed24hours are controlled fixtures"
+    }
+  },
+  "realPopulationChromiumPassed": true
+}

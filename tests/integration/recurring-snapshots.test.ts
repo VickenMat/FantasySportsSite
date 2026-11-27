@@ -1,0 +1,77 @@
+import 'dotenv/config';
+import { randomInt, randomUUID } from 'node:crypto';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { afterAll, expect, it } from 'vitest';
+import { getDatabase } from '@/lib/db';
+import { fingerprint } from '@/ingestion/contracts';
+import { stageReleaseCandidates } from '@/ingestion/open-data/normalization-queue';
+import { releaseRegistry } from '@/ingestion/open-data/registry';
+import { bodyHash } from '@/ingestion/open-data/storage';
+import { processRecurringSnapshots, recurringSnapshotPolicyFingerprint } from '@/ingestion/open-data/recurring-snapshots';
+import { getEligiblePositions } from '@/server/positions';
+import { professionalTeamHistory } from '@/server/professional-team-history';
+const db = getDatabase(), directories: string[] = [];
+afterAll(async () => { await db.$disconnect(); for (const path of directories) await rm(path,{ recursive: true, force: true }); });
+const approvedAt = '2026-11-27T01:00:00.000Z', receivedAt = '2026-11-27T01:01:00.000Z', validatedAt = new Date('2026-11-27T01:02:00.000Z'), processedAt = new Date('2026-11-27T01:03:00.000Z');
+const authorization = { enabled: true, policyFingerprint: recurringSnapshotPolicyFingerprint, approvedAt };
+async function fixture(nba = false) {
+  const product = releaseRegistry.find(row => row.id === (nba ? 'nba-rosters-2027' : 'nfl-rosters-2026'))!;
+  const externalId = nba ? String(randomInt(10000000,99999999)) : `00-${randomInt(1000000,9999999)}`, unknownId = nba ? '999999999' : '00-9999999', teamCode = nba ? String(randomInt(1600000000,1699999999)) : `T${randomUUID().slice(0,6)}`;
+  const player = await db.player.create({ data: { sport: product.sport, displayName: `Synthetic recurring policy ${randomUUID()}`, isSynthetic: false, isDemo: false } });
+  await db.playerExternalId.create({ data: { sport: product.sport, playerId: player.id, provider: 'v9-historical', externalId } });
+  const team = await db.proTeam.create({ data: { sport: product.sport, provider: 'v9-historical', externalId: teamCode, code: 'SYN', displayName: 'Synthetic existing recurring club' } });
+  await db.season.upsert({ where: { sport_startYear: { sport: product.sport, startYear: 2026 } }, create: { sport: product.sport, startYear: 2026, label: nba ? '2026–27' : '2026' }, update: {} });
+  const csv = nba ? `player_id,team_id,position,season\n${externalId},${teamCode},G,2027\n` : `gsis_id,position,team,status,rookie_year\n${externalId},QB,${teamCode},ACT,2026\n${unknownId},WR,${teamCode},ACT,2026\n`;
+  const bytes = Buffer.from(csv), sha256 = bodyHash(bytes), metadata = { id: product.id, provider: product.provider, sport: product.sport, sourceUrl: product.sourceUrl, sha256, receivedAt, lastModified: 'Fri, 27 Nov 2026 01:00:00 GMT' };
+  const root = await mkdtemp(join(tmpdir(),'m5-recurring-snapshot-')); directories.push(root);
+  await stageReleaseCandidates(product,bytes,metadata,root,validatedAt);
+  const queuePath = `${root}/normalization-queue/${product.id}-${sha256}-snapshot-v2.json`, queue = JSON.parse(await readFile(queuePath,'utf8'));
+  const input = { product, bytes, metadata, queue, queuePath };
+  const run = (overrides: Partial<typeof input> = {}, at = processedAt, auth: unknown = authorization) => db.$transaction(tx => processRecurringSnapshots(tx,{ ...input, ...overrides },at,{ testAuthorization: auth }));
+  return { product, player, team, queue, input, run };
+}
+it('stays disabled without the exact explicit policy authorization and holds pre-approval bodies and stale snapshots', async () => {
+  const f = await fixture(), count = await db.professionalDataObservation.count();
+  expect(await f.run({},processedAt,{ enabled: false })).toMatchObject({ status: 'DISABLED', accepted: 0 });
+  expect(await f.run({},processedAt,{ ...authorization, policyFingerprint: 'b'.repeat(64) })).toMatchObject({ status: 'DISABLED', accepted: 0 });
+  expect(await f.run({ metadata: { ...f.input.metadata, receivedAt: '2026-11-27T00:59:00.000Z' } })).toMatchObject({ status: 'PENDING', reason: 'PRE_APPROVAL_SOURCE_BODY_REQUIRES_ITS_SEPARATE_EXACT_REVIEW' });
+  expect(await f.run({},new Date('2026-12-05T01:03:00Z'))).toMatchObject({ status: 'PENDING', reason: 'SOURCE_BODY_OUTSIDE_APPROVED_FRESHNESS' });
+  expect(await db.professionalDataObservation.count()).toBe(count);
+});
+it('promotes only existing canonical prospective facts, retains actual processing time and replays immutable queue copies without new records', async () => {
+  const f = await fixture();
+  const original = { players: await db.player.count(), aliases: await db.playerExternalId.count(), teams: await db.proTeam.count(), statistics: await db.playerGameStat.count(), ledgers: await db.scoreLedger.count(), ownership: await db.rosterEntry.count() };
+  const result = await f.run();
+  expect(result).toMatchObject({ status: 'PROCESSED', accepted: 3, replay: 0, held: 3, quarantined: 0 });
+  expect((await getEligiblePositions({ playerId: f.player.id, sport: 'NFL', seasonYear: 2026, asOf: validatedAt })).positions).toEqual([]);
+  expect((await getEligiblePositions({ playerId: f.player.id, sport: 'NFL', seasonYear: 2026, asOf: processedAt })).positions).toEqual(['QB']);
+  expect((await professionalTeamHistory({ playerId: f.player.id, sport: 'NFL', asOf: processedAt })).current?.teamId).toBe(f.team.id);
+  expect(await f.run({},new Date(+processedAt+60000))).toMatchObject({ status: 'PROCESSED', accepted: 0, replay: 3, held: 3 });
+  expect({ players: await db.player.count(), aliases: await db.playerExternalId.count(), teams: await db.proTeam.count(), statistics: await db.playerGameStat.count(), ledgers: await db.scoreLedger.count(), ownership: await db.rosterEntry.count() }).toEqual(original);
+  const observations = await db.professionalDataObservation.findMany({ where: { category: 'PLAYER_SNAPSHOT', decisions: { some: { targets: { path: ['playerId'], equals: f.player.id } } } } });
+  expect(observations).toHaveLength(3);
+  expect(observations.every(row => row.effectiveAt === null && row.publishedAt === null)).toBe(true);
+});
+it('rejects changed raw bytes, self-consistent forged candidates, provider/season changes and products outside the fixed scope', async () => {
+  const f = await fixture(), initial = await db.professionalDataObservation.count();
+  expect(await f.run({ bytes: Buffer.from('changed') })).toMatchObject({ status: 'QUARANTINED', accepted: 0 });
+  const candidates = structuredClone(f.queue.candidates);
+  candidates[0].normalized.facet.sourcePosition = 'RB'; candidates[0].normalized.facet.professionalPosition = 'RB'; candidates[0].normalized.facet.fantasyPositions = ['RB'];
+  expect(await f.run({ queue: { ...f.queue, candidates, targetFingerprint: fingerprint(candidates) } })).toMatchObject({ status: 'QUARANTINED', accepted: 0 });
+  const switched = structuredClone(f.queue.candidates); switched[0].provider = 'unapproved-provider';
+  expect(await f.run({ queue: { ...f.queue, candidates: switched, targetFingerprint: fingerprint(switched) } })).toMatchObject({ status: 'QUARANTINED', accepted: 0 });
+  const wrongSeason = structuredClone(f.queue.candidates); wrongSeason[0].normalized.seasonStartYear = 2027;
+  expect(await f.run({ queue: { ...f.queue, candidates: wrongSeason, targetFingerprint: fingerprint(wrongSeason) } })).toMatchObject({ status: 'QUARANTINED', accepted: 0 });
+  expect(await f.run({ product: releaseRegistry.find(row => row.id === 'nfl-statistics-2026')! })).toMatchObject({ status: 'DISABLED', reason: 'PRODUCT_OUTSIDE_APPROVED_SCOPE' });
+  expect(await db.professionalDataObservation.count()).toBe(initial);
+});
+it('permits approved direct NBA family positions only with existing identities and exact roster rows, without LISTED or retroactive grants', async () => {
+  const f = await fixture(true);
+  expect(await f.run()).toMatchObject({ status: 'PROCESSED', accepted: 2, held: 0 });
+  expect((await getEligiblePositions({ playerId: f.player.id, sport: 'NBA', seasonYear: 2026, asOf: validatedAt })).positions).toEqual([]);
+  expect((await getEligiblePositions({ playerId: f.player.id, sport: 'NBA', seasonYear: 2026, asOf: processedAt })).positions).toEqual(['PG','SG']);
+  expect(await f.run({},new Date(+processedAt+60000))).toMatchObject({ accepted: 0, replay: 2 });
+  expect(await db.playerPositionEvidence.count({ where: { playerId: f.player.id } })).toBe(0);
+});

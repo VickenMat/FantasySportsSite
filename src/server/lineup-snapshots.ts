@@ -1,3 +1,5 @@
+import { gameLockReview } from './game-lock-review';
+import { professionalGamePlayers } from './professional-game-players';
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
@@ -55,8 +57,9 @@ export async function recordAvailabilityEvidence(input: z.input<typeof availabil
 
 export async function captureGameLineups(gameId: string, now = new Date()) {
   const database = getDatabase();
-  const [game] = await database.$queryRaw<{id:string;startsAt:Date|null;sport:import("@/generated/prisma/enums").Sport}[]>`SELECT game.id, game.sport, source_start."resolvedStart" AS "startsAt" FROM "Game" game ${professionalGameProjection(now)} WHERE game.id=${gameId}::uuid`;
-  if (!game?.startsAt) return { status: "PENDING_DATA" as const, created: 0, reason: "The game has no verified start timestamp." };
+  const [game] = await database.$queryRaw<{id:string;startsAt:Date|null;lockReviewPending:boolean|null;sport:import("@/generated/prisma/enums").Sport}[]>`SELECT game.id, game.sport, source_state."lockReviewPending", source_start."resolvedStart" AS "startsAt" FROM "Game" game ${professionalGameProjection(now)} WHERE game.id=${gameId}::uuid`;
+  if(game?.lockReviewPending)return{status:"PENDING_REVIEW" as const,created:0,reason:"Late earlier-start evidence quarantined affected assignments; immutable starter history requires audited review."};
+  if (!game?.startsAt) return { status: "PENDING_DATA" as const, created: 0, reason: "The game has no supported exact, scheduled or observed operational lock boundary." };
   if (game.startsAt > now) return { status: "NOT_STARTED" as const, created: 0 };
   if (await database.gameLineupSnapshot.findFirst({ where: { gameId, lockedAt: { not: game.startsAt } }, select: { id: true } })) return { status: "PENDING_REVIEW" as const, created: 0, reason: "Verified start evidence conflicts with an existing immutable lineup lock." };
 
@@ -69,20 +72,19 @@ export async function captureGameLineups(gameId: string, now = new Date()) {
   });
   if (!assignments.length) return { status: "UNASSIGNED" as const, created: 0 };
 
-  const evidenceRows = await database.playerAvailabilityEvidence.findMany({
-    where: { gameId, knownAt: { lte: game.startsAt }, effectiveAt: { lte: game.startsAt }, OR: [{ expiresAt: null }, { expiresAt: { gt: game.startsAt } }] },
-    orderBy: [{ knownAt: "desc" }, { effectiveAt: "desc" }, { createdAt: "desc" }],
-  });
-  const playerEvidence = new Map<string, (typeof evidenceRows)[number]>();
-  for (const evidence of evidenceRows) if (!playerEvidence.has(evidence.playerId)) playerEvidence.set(evidence.playerId, evidence);
-  if (!playerEvidence.size) return { status: "PENDING_DATA" as const, created: 0, reason: "No pregame player-game availability evidence is available." };
+  const linked = await professionalGamePlayers(database,gameId,game.startsAt);
+  const playerEvidence = new Map<string,(typeof linked.availability)[number]>();
+  for(const evidence of linked.availability)if(!playerEvidence.has(evidence.playerId))playerEvidence.set(evidence.playerId,evidence);
+  if(!linked.links.size)return{status:"PENDING_DATA" as const,created:0,reason:"No canonical player/game or valid professional-team link is available."};
+  const review=await database.$transaction(tx=>gameLockReview(tx,gameId,game.startsAt!,now,[...linked.links.keys()],true),{isolationLevel:"Serializable"});
+  if(review.pending)return{status:"PENDING_REVIEW" as const,created:0,reason:"Initial capture quarantined post-lock assignment changes for commissioner audit.",review};
 
   let created = 0;
   for (const assignment of assignments) {
     const competition = assignment.sportCompetition;
     const entries = await database.rosterEntry.findMany({
       where: {
-        leagueId: competition.leagueId, sport: game.sport, playerId: { in: [...playerEvidence.keys()] }, acquiredAt: { lte: game.startsAt },
+        leagueId: competition.leagueId, sport: game.sport, playerId: { in: [...linked.links.keys()] }, acquiredAt: { lte: game.startsAt },
         OR: [{ releasedAt: null }, { releasedAt: { gt: game.startsAt } }],
       },
       include: { assignmentEvents: { where: { effectiveAt: { lte: game.startsAt } }, orderBy: [{ effectiveAt: "desc" }, { createdAt: "desc" }, { id: "desc" }], take: 1 } },
@@ -98,14 +100,14 @@ export async function captureGameLineups(gameId: string, now = new Date()) {
       const eligible = isStarter && positions.available
         && (slotRule(game.sport, event.toSlot)?.positions.some((position) => positions.positions.includes(position)) ?? false);
       const source = {
-        rosterEntryId: entry.id, eventId: event.id, evidenceId: playerEvidence.get(entry.playerId)!.id,
+        rosterEntryId: entry.id, eventId: event.id, evidenceId: playerEvidence.get(entry.playerId)?.id??null, gameLink:linked.links.get(entry.playerId)!, availability:playerEvidence.get(entry.playerId)?.designation??"UNKNOWN",
         gameStartsAt: game.startsAt.toISOString(), slot: event.toSlot, slotIndex: event.toSlotIndex, positions: positions.positions, eligible,
       };
       rows.push({
         leagueId: competition.leagueId, sportCompetitionId: competition.id, scoringPeriodId: assignment.scoringPeriod.id,
         gameId, teamId: event.teamId, rosterEntryId: entry.id, playerId: entry.playerId, slot: event.toSlot,
         slotIndex: event.toSlotIndex, isStarter, lockedAt: game.startsAt,
-        eligibility: { available: positions.available, eligible, positions: positions.positions, fieldingCounts: positions.fieldingCounts },
+        eligibility: { available: positions.available, eligible, positions: positions.positions, fieldingCounts: positions.fieldingCounts, availability:{designation:playerEvidence.get(entry.playerId)?.designation??"UNKNOWN",evidenceId:playerEvidence.get(entry.playerId)?.id??null}, gameLink:linked.links.get(entry.playerId)! },
         sourceHash: digest(source),
       });
     }
@@ -126,9 +128,7 @@ export async function captureDueGameLineups(now = new Date()) {
       SELECT 1
       FROM "CompetitionPeriodGame" assignment
       JOIN "SportCompetition" competition ON competition.id = assignment."sportCompetitionId"
-      JOIN "PlayerAvailabilityEvidence" evidence ON evidence."gameId" = game.id
-      JOIN "RosterEntry" roster ON roster."leagueId" = competition."leagueId"
-        AND roster."playerId" = evidence."playerId" AND roster.sport = game.sport
+      JOIN "RosterEntry" roster ON roster."leagueId" = competition."leagueId" AND roster.sport = game.sport
       JOIN LATERAL (
         SELECT event."teamId", event."toSlot", event."toSlotIndex"
         FROM "RosterAssignmentEvent" event
@@ -137,8 +137,6 @@ export async function captureDueGameLineups(now = new Date()) {
         LIMIT 1
       ) event ON true
       WHERE assignment."gameId" = game.id
-        AND evidence."knownAt" <= source_start."resolvedStart" AND evidence."effectiveAt" <= source_start."resolvedStart"
-        AND (evidence."expiresAt" IS NULL OR evidence."expiresAt" > source_start."resolvedStart")
         AND roster."acquiredAt" <= source_start."resolvedStart"
         AND (roster."releasedAt" IS NULL OR roster."releasedAt" > source_start."resolvedStart")
         AND NOT EXISTS (
@@ -159,4 +157,22 @@ export async function captureDueGameLineups(now = new Date()) {
 
 export function availabilityDesignationAllowsIr(designation: PlayerAvailabilityDesignation, sport?: import("@/generated/prisma/enums").Sport) {
   return designation === "INJURED_RESERVE" || designation === "OUT" || (sport === "NFL" && designation === "SUSPENDED");
+}
+
+/** Reconstruct every source-linked owned starter at its safe lock. Missing availability
+ * never makes an absent snapshot disappear from finalization requirements. */
+export async function pendingGameStarterSnapshots(tx:Prisma.TransactionClient,gameId:string,at:Date){
+ const [game]=await tx.$queryRaw<{startsAt:Date|null}[]>`SELECT source_start."resolvedStart" AS "startsAt" FROM "Game" game ${professionalGameProjection(at)} WHERE game.id=${gameId}::uuid`;
+ if(!game?.startsAt||game.startsAt>at)return{pending:true,missingRosterEntryIds:[] as string[],reason:"No reached supported operational lock."};
+ const linked=await professionalGamePlayers(tx,gameId,game.startsAt);
+ const review=await gameLockReview(tx,gameId,game.startsAt,at,[...linked.links.keys()]);
+ if(review.pending)return{pending:true,missingRosterEntryIds:review.affectedRosterEntryIds,reason:"Post-lock assignments require audited first-capture resolution.",review};
+ const assignments=await tx.competitionPeriodGame.findMany({where:{gameId},select:{sportCompetitionId:true,sportCompetition:{select:{leagueId:true}}}});
+ const missing=new Set<string>();let required=0;
+ for(const assignment of assignments){
+  const entries=await tx.rosterEntry.findMany({where:{leagueId:assignment.sportCompetition.leagueId,playerId:{in:[...linked.links.keys()]},acquiredAt:{lte:game.startsAt},OR:[{releasedAt:null},{releasedAt:{gt:game.startsAt}}]},include:{assignmentEvents:{where:{effectiveAt:{lte:game.startsAt}},orderBy:[{effectiveAt:"desc"},{createdAt:"desc"},{id:"desc"}],take:1}}});
+  const snapshots=await tx.gameLineupSnapshot.findMany({where:{gameId,sportCompetitionId:assignment.sportCompetitionId},select:{rosterEntryId:true,lockedAt:true,isStarter:true}});
+  for(const entry of entries){const event=entry.assignmentEvents[0];if(!event||NON_STARTER_SLOTS.has(event.toSlot)||event.toSlot==='RELEASED')continue;required++;if(!snapshots.some(snapshot=>snapshot.rosterEntryId===entry.id&&snapshot.isStarter&&snapshot.lockedAt.getTime()===game.startsAt!.getTime()))missing.add(entry.id);}
+ }
+ return{pending:missing.size>0,missingRosterEntryIds:[...missing],requiredStarters:required,reason:missing.size?"Source-linked owned starters lack immutable snapshots at the operational lock.":null};
 }

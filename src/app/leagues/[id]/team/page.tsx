@@ -1,3 +1,4 @@
+import { currentPlayerEvidence } from '@/server/current-player-evidence';
 import { cookies } from "next/headers";
 import { FranchiseName } from "@/components/franchise-name";
 import { cancelAcquisitionAction } from "@/app/actions/leagues";
@@ -63,19 +64,21 @@ export default async function TeamPage({ params, searchParams }: {
   const irEligible = new Set((await Promise.all(leagueSports.map(async ({ id: sportId, sport }) => await sportIsOffseason(database, sportId, now) ? new Set<string>() : irEligiblePlayers(
     database, entries.filter((entry) => entry.sport === sport).map(({ playerId }) => playerId), decisionTimes.get(sport) ?? now,
   )))).flatMap((players) => [...players]));
+  const currentEvidence = new Map((await Promise.all(leagueSports.map(async leagueSport => [...await currentPlayerEvidence({playerIds:entries.filter(entry=>entry.sport===leagueSport.sport).map(entry=>entry.playerId),sport:leagueSport.sport,seasonYear:leagueSport.season.startYear,asOf:decisionTimes.get(leagueSport.sport)??now})]))).flat());
   const movementPositions = new Map<string, string[]>();
   const displayedEntries = await Promise.all(entries.map(async (entry) => {
     const leagueSport = leagueSports.find(({ sport }) => sport === entry.sport)!;
-    const eligibility = await getEligiblePositions({
+    const current=currentEvidence.get(entry.playerId);
+    const eligibility = context.league.isHistorical ? await getEligiblePositions({
       playerId: entry.playerId, sport: entry.sport, seasonYear: leagueSport.season.startYear, asOf: decisionTimes.get(entry.sport) ?? now,
-    });
-    const teamHistory = await professionalTeamHistory({ playerId: entry.playerId, sport: entry.sport, asOf: decisionTimes.get(entry.sport) ?? now });
+    }) : {available:current?.positionsAvailable??false,positions:current?.positions??[]};
+    const teamHistory = context.league.isHistorical ? await professionalTeamHistory({ playerId: entry.playerId, sport: entry.sport, asOf: decisionTimes.get(entry.sport) ?? now }) : {status:"UNKNOWN",current:null};
     const stat = entry.player.gameStats[0];
     movementPositions.set(entry.id, eligibility.available ? eligibility.positions : context.league.isHistorical ? [] : legacyPositionFallback(stat));
-    const positions = eligibility.available ? eligibility.positions : stat?.observedPositions ?? [];
+    const positions = context.league.isHistorical ? eligibility.available ? eligibility.positions : stat?.observedPositions ?? [] : current?.positions??[];
     return {
-      id: entry.id, playerId: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions, positionSource: eligibility.available ? "Eligibility evidence" : positions.length ? "Historical" : "Unverified",
-      team: teamHistory.status === "SOURCE_RECORDED" ? teamHistory.current?.team?.code ?? (teamHistory.current?.assignment === "FREE_AGENT" ? "FA" : teamHistory.current?.team?.displayName ?? null) : teamHistory.status === "CONFLICT" || teamHistory.status === "PENDING_DATA" ? null : stat?.team.code ?? null, teamSource: teamHistory.status === "SOURCE_RECORDED" ? "Recorded" : teamHistory.status === "CONFLICT" ? "Conflicting" : stat?.team.code ? "Historical" : "Unverified", locked: Boolean(entry.lockedAt),
+      id: entry.id, playerId: entry.playerId, name: entry.player.displayName, sport: entry.sport, positions, positionSource: context.league.isHistorical ? eligibility.available ? "Eligibility evidence" : positions.length ? "Historical" : "Unverified" : current?.positionSource??"Unverified",
+      team: !context.league.isHistorical ? current?.currentTeam?.code??current?.currentTeam?.displayName??null : teamHistory.status === "SOURCE_RECORDED" ? teamHistory.current?.team?.code ?? (teamHistory.current?.assignment === "FREE_AGENT" ? "FA" : teamHistory.current?.team?.displayName ?? null) : teamHistory.status === "CONFLICT" || teamHistory.status === "PENDING_DATA" ? null : stat?.team.code ?? null, teamSource: !context.league.isHistorical ? current?.teamStatus==="SOURCE_RECORDED"?"Recorded":"Unverified" : teamHistory.status === "SOURCE_RECORDED" ? "Recorded" : teamHistory.status === "CONFLICT" ? "Conflicting" : stat?.team.code ? "Historical" : "Unverified", locked: Boolean(entry.lockedAt),
       average: displayTenths(statistics.get(entry.playerId)?.averageTenths),
       points: displayTenths(statistics.get(entry.playerId)?.totalTenths),
       gamesPlayed:statistics.get(entry.playerId)?.gamesPlayed??null,

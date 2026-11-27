@@ -30,3 +30,15 @@ it('counts one MLB participant across roles but retains contradictory same-role 
   expect(combineParticipationEvidence([hitter,pitcher]).status).toBe('PLAYED');
   expect(combineParticipationEvidence([hitter,{...hitter,raw:{gamesPlayed:'1',plateAppearances:'3'}}]).status).toBe('UNKNOWN');
 });
+
+it('retains documented NBA flat-box DNP comments and clock/ISO minutes without inventing minutes or played games from zeros',()=>{
+ const row={role:'BASKETBALL' as const,provider:'sportsdataverse-open-data',terminal:true,normalized:{PTS:0,REB:0},raw:{sourceRecord:{minutes:'',comment:"DNP - Coach's Decision",points:'0'}}};
+ expect(participationEvidence(row).status).toBe('DID_NOT_PLAY');
+ expect(participationEvidence({...row,raw:{sourceRecord:{minutes:'',comment:'Inactive - Injury/Illness',points:'0'}}}).status).toBe('DID_NOT_PLAY');
+ expect(participationEvidence({...row,raw:{sourceRecord:{minutes:'',comment:'NWT - Personal',points:'0'}}}).status).toBe('DID_NOT_PLAY');
+ expect(participationEvidence({...row,raw:{sourceRecord:{minutes:'PT0M0.00S',comment:'',points:'0'}}}).status).toBe('DID_NOT_PLAY');
+ expect(participationEvidence({...row,raw:{sourceRecord:{minutes:'PT1M0.50S',comment:'',points:'0'}}}).status).toBe('PLAYED');
+ expect(participationEvidence({...row,raw:{sourceRecord:{minutes:'',comment:'',points:'0'}}}).status).toBe('UNKNOWN');
+ expect(participationEvidence({...row,normalized:{},raw:{sourceRecord:{minutes:'',comment:'',points:'2'}}}).status).toBe('PLAYED');
+ expect(participationEvidence({...row,normalized:{PTS:2}}).status).toBe('UNKNOWN');
+});

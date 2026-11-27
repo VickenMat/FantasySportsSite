@@ -11,9 +11,9 @@ export async function ProfessionalDataStatus({sport,seasonId,historical=false}:{
    <dl className="overview-grid"><div><dt>First received</dt><dd>{format(data.receivedAt)}</dd></div><div><dt>Latest publication</dt><dd>{format(data.publishedAt)}</dd></div><div><dt>Original final publication</dt><dd>{format(data.initialPublishedAt)}</dd></div><div><dt>Last checked</dt><dd>{format(data.checkedAt)}</dd></div><div><dt>Last scored</dt><dd>{format(data.scoredAt)}</dd></div></dl>
    {data.scoredAt&&<DataFreshnessClock scoredAt={data.scoredAt.toISOString()} />}
    {data.enriched&&<p className="muted">Missing fields were supplemented from reviewed sources; recorded primary values were retained. {data.source?.supplementalReferences.map(url=><a key={url} href={url} target="_blank" rel="noreferrer">Supplement: {new URL(url).hostname} </a>)}</p>}
-   {!data.initialPublishedAt&&<p className="muted">The original final publication time is unknown. The competitive correction clock remains pending.</p>}
+   {data.status==="PENDING_REVIEW"||data.operationalAnchorInvalidated?<p className="muted">Correction clock under review.</p>:data.operationalAnchorAt&&data.operationalDeadlineAt?<p className="muted"><strong>{data.operationalAnchorMode==="OBSERVED_COMPLETE_BOX"?"Observed complete box clock":"Recorded publication clock"}</strong> · {data.boxObservedAt&&<>Validated {format(data.boxObservedAt)} · </>}Game correction deadline {format(data.operationalDeadlineAt)}</p>:!data.initialPublishedAt&&<p className="muted">Correction clock pending; original final publication time is unknown.</p>}
    {data.missingStats.length>0&&<p className="muted">Some required statistics are unknown. They are not treated as zero.</p>}
-   <p className="muted">Source publication does not finalize fantasy results. The official correction window and competition rules still apply.</p>
+   <p className="muted">Source publication does not finalize fantasy results. The 24-hour correction window and competition rules still apply.</p>
   </>}
  </section>;
 }

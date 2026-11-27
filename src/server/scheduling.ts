@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import type { CompetitionType, Prisma, Sport } from "@/generated/prisma/client";
 import { getDatabase } from "@/lib/db";
+import { projectSeasonDateSnapshots, calendarDateAt, type SeasonDateSnapshot } from "@/scheduling/season-date-policy";
 import { setCommissionerAuditContext } from "./commissioner-audit";
 
 const sports = ["NFL", "NBA", "MLB", "NHL"] as const satisfies readonly Sport[];
@@ -38,6 +39,7 @@ export type ScheduleRevision = {
 
 export type SportSchedulePreview = {
   seasonStartYear?: number;
+  verifiedDateScope?: SeasonDateSnapshot | null;
   sport: Sport; status: "AVAILABLE" | "PENDING_DATA" | "UNAVAILABLE"; reason: string; seasonId: string | null;
   scheduleRevisionId: string | null; seasonLabel: string | null; draftDeadlineAt: Date | null; firstScoringAt: Date | null;
   scoringEndsAt: Date | null; playoffStartsAt: Date | null; playoffEndsAt: Date | null; tradeDeadlineAt: Date | null;
@@ -101,6 +103,9 @@ export async function previewSelectedSeasons(client: ScheduleClient, input: {
   const now = input.now ?? new Date();
   const revisions = await client.professionalSeasonScheduleRevision.findMany({ where: { season: { sport: { in: [...input.sports] } }, retrievedAt: { lte: now } }, include: { season: true }, orderBy: [{ retrievedAt: "desc" }, { importedAt: "desc" }] });
   const seasons = await client.season.findMany({ where: { sport: { in: [...input.sports] } } });
+  const dateObservations = await client.professionalDataObservation.findMany({ where: { sport: { in: [...input.sports] }, category: "SEASON_DATE_SNAPSHOT", observedAt: { lte: now } },
+    include: { decisions: { where: { decidedAt: { lte: now } }, orderBy: { version: "desc" }, take: 1 } } });
+  const dateScopes = new Map(seasons.map(season => [season.id, projectSeasonDateSnapshots({ seasonId: season.id, asOf: now, observations: dateObservations.filter(row => row.sport === season.sport) })]));
   return input.sports.map((sport) => {
     const latest = new Map<string, (typeof revisions)[number]>();
     for (const row of revisions.filter((row) => row.season.sport === sport)) if (!latest.has(row.seasonId)) latest.set(row.seasonId, row);
@@ -108,15 +113,19 @@ export async function previewSelectedSeasons(client: ScheduleClient, input: {
     const begun = [...latest.values()].filter((row) => row.regularSeasonStartsAt && row.regularSeasonStartsAt <= now).map((row) => row.season.startYear);
     const currentYear = now.getUTCFullYear() - ((sport === "NBA" || sport === "NHL") && now.getUTCMonth() < 6 ? 1 : 0);
     const catalogYears = seasons.filter((row) => row.sport === sport && row.startYear <= currentYear).map((row) => row.startYear);
-    const upcomingYear = future?.season.startYear ?? Math.max(...begun, ...catalogYears, currentYear - 1) + 1;
+    const dateFuture = seasons.filter(season => season.sport === sport && dateScopes.get(season.id)?.status === "VERIFIED_DATES" && dateScopes.get(season.id)!.verifiedDateScope!.regularSeasonStartsOn > calendarDateAt(now, dateScopes.get(season.id)!.verifiedDateScope!.sourceZone).date).sort((a,b)=>a.startYear-b.startYear)[0];
+    const futureYears = [future?.season.startYear, dateFuture?.startYear].filter((year):year is number=>year!==undefined);
+    const upcomingYear = futureYears.length ? Math.min(...futureYears) : Math.max(...begun, ...catalogYears, currentYear - 1) + 1;
     const year = upcomingYear + input.seasonOffset;
     const selected = [...latest.values()].find((row) => row.season.startYear === year);
     const season = seasons.find((row) => row.sport === sport && row.startYear === year);
     const label = season?.label ?? ((sport === "NBA" || sport === "NHL") ? `${year}-${String(year + 1).slice(-2)}` : String(year));
+    const dateEvidence = season ? dateScopes.get(season.id) : undefined;
+    const verifiedDateScope = dateEvidence?.status === "VERIFIED_DATES" ? dateEvidence.verifiedDateScope : null;
     const preview = selected?.status === "AVAILABLE" && selected.regularSeasonStartsAt && selected.regularSeasonStartsAt > now
       ? buildSchedulePreview({ sports: [sport], draftCompleteBy: now, competitionType: input.competitionType }, [selected])[0] : null;
-    return preview ? { ...preview, seasonStartYear: year } : {
-      sport, seasonStartYear: year, seasonId: season?.id ?? null, seasonLabel: label, status: "PENDING_DATA", reason: "Selected season retained; its authoritative schedule is pending.",
+    return preview ? { ...preview, seasonStartYear: year, verifiedDateScope } : {
+      sport, seasonStartYear: year, seasonId: season?.id ?? null, seasonLabel: label, verifiedDateScope, status: "PENDING_DATA", reason: verifiedDateScope ? "Announced professional calendar dates verified; exact clocks and fantasy scoring periods remain pending." : dateEvidence?.status === "CONFLICT" ? "Conflicting professional calendar evidence requires review; selected season retained." : "Selected season retained; its authoritative schedule is pending.",
       scheduleRevisionId: null, draftDeadlineAt: null, firstScoringAt: null, scoringEndsAt: null, playoffStartsAt: null, playoffEndsAt: null,
       tradeDeadlineAt: null, rolloverEligibleAt: null, warnings: ["No professional season dates have been invented."] };
   });

@@ -1,3 +1,4 @@
+import { assertOperationalPlayerUnlocked } from './operational-lineup-lock';
 import { z } from "zod";
 import { createHash } from "node:crypto";
 import { Prisma, type Sport } from "@/generated/prisma/client";
@@ -111,6 +112,7 @@ export async function dropPlayer(userId: string, leagueId: string, playerId: str
     const entry = await tx.rosterEntry.findFirst({ where: { rosterId: context.roster.id, playerId, releasedAt: null } });
     if (!entry) throw new Error("That player is not on your active sport roster.");
     if (entry.lockedAt) throw new Error("That roster slot is locked.");
+    if(!context.membership.league.isHistorical)await assertOperationalPlayerUnlocked(tx,leagueId,entry.playerId,at);
     const releasedAt = at;
     await releaseSalary(tx, leagueId, playerId, entry.teamId, releasedAt);
     await tx.rosterEntry.update({ where: { id: entry.id }, data: { releasedAt } });
@@ -152,6 +154,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
   return database.$transaction(async (tx) => {
     const current = await tx.rosterEntry.findFirst({ where: { id: entry.id, rosterId: context.roster.id, releasedAt: null }, include: { player: { include: { gameStats: { where: { observedPositions: { isEmpty: false } }, orderBy: { recordedAt: "desc" }, take: 1 } } } } });
     if (!current || current.lockedAt) throw new Error("That roster entry is no longer movable.");
+    if(!context.membership.league.isHistorical)await assertOperationalPlayerUnlocked(tx,leagueId,current.playerId,now);
     if (!(await salaryCompliance(tx, current.teamId)).compliant) throw new Error("Over-cap franchises must cut players before making lineup changes.");
     if (normalizedSlot === "UNIVERSAL_IR" && !(await irEligiblePlayers(tx, [current.playerId], decisionAt)).has(current.playerId)) {
       throw new Error("Universal IR requires current, source-backed IR eligibility.");
@@ -182,6 +185,7 @@ export async function setLineupSlot(userId: string, leagueId: string, rosterEntr
     const targetIndex = displaced?.slotIndex ?? openIndex;
     if (!targetIndex) throw new Error("That roster position is full.");
     if (displaced?.lockedAt) throw new Error("The player occupying that destination is locked.");
+    if(displaced&&!context.membership.league.isHistorical)await assertOperationalPlayerUnlocked(tx,leagueId,displaced.playerId,now);
     if (displaced && displaced.rosterId !== current.rosterId && !current.slot.startsWith("UNIVERSAL_") && current.slot !== "IR") {
       throw new Error("A cross-sport universal slot cannot displace a player into a sport-specific position. Free a universal slot first.");
     }
