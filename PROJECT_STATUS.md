@@ -1,6 +1,6 @@
 # Fantasy Evolution project status
 
-November 27, 2026: the exact approved **81c8099d…** eligibility follow-up is applied: 18 observations and 18 decisions, zero-addition replay, all 90 original tables/rows preserved. NHL current positions/teams gain four supported players; MLB generic-P positions gain five players in each of 2026 and 2027. No migration or unrelated backfill was applied. Development remains at 28 migrations. Original source hashes and NHL expiry remain unchanged. [Application report](docs/M6_ELIGIBILITY_APPLICATION_REPORT.md).
+November 27, 2026: verified implementation **9131c24** is synchronized to `origin/main`; its metadata receipt is a subsequent documentation-only commit. The exact approved **81c8099d…** eligibility follow-up is applied: 18 observations and 18 decisions, zero-addition replay, all 90 original tables/rows preserved. NHL current positions/teams gain four supported players; MLB generic-P positions gain five players in each of 2026 and 2027. No migration or unrelated backfill was applied. Development remains at 28 migrations. Original source hashes and NHL expiry remain unchanged. [Application report](docs/M6_ELIGIBILITY_APPLICATION_REPORT.md).
 
 M4 remains **60/60**. Original M5 remains **16/32**, with its 21 enumerated engineering mechanisms verified. Both approved recurring policies remain enabled; genuine live scoring and external evidence gaps remain open. The existing League 1 blocked draft is preserved. Subscription cost remains $0.
 

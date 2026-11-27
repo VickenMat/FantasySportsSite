@@ -1,0 +1,11 @@
+{
+  "version": "m6-foundation-git-checkpoint-1",
+  "verifiedAt": "2026-11-27T11:33:36.066010+00:00",
+  "startingCommit": "67e58d4",
+  "verifiedImplementationCommit": "9131c246a71b260810fece14d60d0368337af01a",
+  "observedOriginMain": "9131c246a71b260810fece14d60d0368337af01a",
+  "implementationSynchronized": true,
+  "workingTreeCleanAtImplementationVerification": true,
+  "normalNonForcePush": true,
+  "note": "This receipt is committed as a metadata-only descendant; its own hash is verified after the final push and reported in the delivery response. Runtime/scoring proof reports intentionally retain the actual precommit Git baseline plus code dependency fingerprints; they are not relabeled as postcommit executions."
+}
