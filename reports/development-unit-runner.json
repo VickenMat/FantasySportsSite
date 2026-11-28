@@ -1,0 +1,21 @@
+{
+  "version": "development-unit-runner-1",
+  "modelCalled": false,
+  "databaseCredentialsPassed": false,
+  "networkEnabled": false,
+  "kind": "vitest_unit",
+  "sourceTest": "tests/unit/roster-compliance.test.ts",
+  "testsPassed": 4,
+  "vitestVersion": "5.1.1",
+  "nodeVersion": "24.8.0",
+  "sameNamedProfile": "automation-worktree",
+  "originalProjectConfiguration": true,
+  "ownerTokenReadAllowed": false,
+  "testToken": "fresh worktree-local UUID, never printed or copied from owner",
+  "hostConfiguration": "OpenSSL host config disabled for isolated tests",
+  "runtimeLibraries": "canonical read-only Homebrew dependency closure; no broad Homebrew grant",
+  "temporaryDirectory": "assigned inside trusted bootstrap after sandbox entry; system-temp deny preserved",
+  "stdoutSha256": "059287c3c69aa7bb61a9e80109d20498829779b07adbd0cad91e0355f669f0a4",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "actualNodeRunnerFixture": "test_actual_node_unit_runner_nested_scratch_io passed inside the final 92-check host suite"
+}

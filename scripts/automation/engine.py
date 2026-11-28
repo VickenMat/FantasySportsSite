@@ -1,8 +1,7 @@
-"""Bounded local orchestration. No database, network or arbitrary-shell executor.
+"""Canonical queue, leases, owner controls and legacy snapshot review.
 
-Only Codex itself contacts the subscription service. Its one execution profile is
-read-only review in a credential-free snapshot. Implementation is a worktree
-handoff, never an implicit grant to write main or deploy an operational change.
+The bounded writable lifecycle in development.py reuses these exact primitives;
+this module contains no database or product deployment executor.
 """
 from __future__ import annotations
 import contextlib
@@ -461,7 +460,7 @@ print(json.dumps(result,sort_keys=True))
                     return {'executed':0,'blocked':True,'reason':'ACTIVATION_CHANGED_OR_EXPIRED'}
                 if max_tasks>plan['configuration']['max_tasks'] or timeout>plan['configuration']['timeout_seconds']: raise SafetyError('Cycle exceeds the exact autonomous resource approval.')
             elif queue.get('mode')=='autonomous': raise SafetyError('Unattended activation requires the owner activation command and exact approval.')
-            self.recover(state);candidates=self.ready(queue,state)
+            self.recover(state);candidates=[task for task in self.ready(queue,state) if task['execution_kind']!='writable_implementation']
             if not execute:
                 self.save(state)
                 return {'dry_run':True,'executed':0,'candidates':[{'id':task['id'],'fingerprint':task_fingerprint(next(x for x in queue['tasks'] if x['id']==task['id'])),'authorization':authorize(task,self.approvals())} for task in candidates],'mode':control['mode']}

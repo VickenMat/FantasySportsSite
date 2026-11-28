@@ -1,0 +1,1084 @@
+{
+  "version": "development-live-demo-1",
+  "fixture": false,
+  "initialTrigger": "authenticated_dashboard_development_start_max_tasks_2",
+  "acceptedTask": "DEV-DEMO-001",
+  "acceptedCommit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+  "automaticContinuation": {
+    "observed": true,
+    "sameBoundedDashboardCycle": true,
+    "completedEvent": {
+      "at": "2026-11-28T05:27:01.533683Z",
+      "event": "development_completed",
+      "status": "completed",
+      "task_id": "DEV-DEMO-001"
+    },
+    "nextClaimEvent": {
+      "at": "2026-11-28T05:27:01.587384Z",
+      "attempt": 1,
+      "event": "task_claimed",
+      "task_id": "DEV-DEMO-002"
+    },
+    "noNewUserPrompt": true
+  },
+  "followOnOutcome": "Independent review blocked optional DEV-DEMO-002; its code is not on main. Bounded recovery retried it, retained old worktrees and did not override rejection.",
+  "knownNewTokens": 877220,
+  "baselineRecordedTokens": 252701,
+  "expectedRecordedTokens": 1129921,
+  "cachedInputIsSubset": true,
+  "unknownStartupUsageNotReplacedByZero": true,
+  "rollingReservationsRetained": 16,
+  "configuredDailyCeiling": 16,
+  "actualTasks": {
+    "DEV-DEMO-001": {
+      "status": "completed",
+      "attempts": 2,
+      "blocker": null,
+      "taskFingerprint": "1c219a9eddf38af74615f7838886045d6a79536d271dad338c78d6d83aea1c72",
+      "associatedCommit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+      "integrationComplete": true,
+      "pushPending": false,
+      "verification": {
+        "checks": [
+          {
+            "elapsedSeconds": 0.5762112499796785,
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_elapsed_duration.py",
+            "exitCode": 0,
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6",
+            "testsPassed": 4
+          }
+        ],
+        "review_run_id": "45cfba20354149fa8d80107babb0249d",
+        "review_verdict": "accept",
+        "revision": 1,
+        "output_fingerprint": "db18209067765053b1923bf98ee1cedf3d5d8b8b27c4305c11e7da2fc1d93056",
+        "implementation_run_id": "5eba1af8d884461e99bc7eb8b9f2391f",
+        "review_session_id": "01a2209e-91d6-72d1-935b-048c2868e2c4",
+        "implementation_session_id": "01a2209e-2d93-7990-aee5-b2664f9650bd",
+        "reviewer_distinct": true
+      },
+      "localChecks": [
+        {
+          "elapsedSeconds": 0.5762112499796785,
+          "kind": "python_unittest",
+          "path": "tests/tooling/test_elapsed_duration.py",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6",
+          "testsPassed": 4
+        }
+      ],
+      "history": [
+        {
+          "runId": "a9e9f5975f924966b00711cd716f31e8",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": null,
+          "elapsedSeconds": 2.468711958033964,
+          "nativeTurnCompleted": false,
+          "usage": null,
+          "totalTokens": null,
+          "reviewVerdict": null,
+          "structuredResultSha256": null,
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "6a7fb6c365ca42bab2541d19390657c5",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": "01a2209d-69a1-7e61-ba3d-5474149224b6",
+          "elapsedSeconds": 30.159427499980666,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 76291,
+            "cached_input_tokens": 55680,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 999,
+            "reasoning_output_tokens": 26
+          },
+          "totalTokens": 77290,
+          "reviewVerdict": null,
+          "structuredResultSha256": "4cb2b9251295b26f45d0e4362336bed5491e9877bdb02800560dc338e1e86df7",
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "450d96dbd67d4f9597cf4c5e862ab1aa",
+          "phase": "review",
+          "role": "independent_reviewer",
+          "sessionId": "01a2209d-e055-7752-bcd3-d16ca0189e14",
+          "elapsedSeconds": 19.527247457997873,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 80187,
+            "cached_input_tokens": 57216,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 448,
+            "reasoning_output_tokens": 13
+          },
+          "totalTokens": 80635,
+          "reviewVerdict": "changes_requested",
+          "structuredResultSha256": "0e3ba925aee815411e5b28882217c550e55f4535dff18b86e715ea7c37a08164",
+          "probes": [
+            {
+              "kind": "review-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "5eba1af8d884461e99bc7eb8b9f2391f",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": "01a2209e-2d93-7990-aee5-b2664f9650bd",
+          "elapsedSeconds": 24.854070459026843,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 79688,
+            "cached_input_tokens": 57984,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 710,
+            "reasoning_output_tokens": 109
+          },
+          "totalTokens": 80398,
+          "reviewVerdict": null,
+          "structuredResultSha256": "a8fb8d17d0ea0035d96c80537978a60d1aba61c07d12e14ea1f37cb3be8367a0",
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "45cfba20354149fa8d80107babb0249d",
+          "phase": "review",
+          "role": "independent_reviewer",
+          "sessionId": "01a2209e-91d6-72d1-935b-048c2868e2c4",
+          "elapsedSeconds": 28.523832458013203,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 92583,
+            "cached_input_tokens": 72192,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 751,
+            "reasoning_output_tokens": 0
+          },
+          "totalTokens": 93334,
+          "reviewVerdict": "accept",
+          "structuredResultSha256": "d690eedfcf1a802704eb95ceb4e2add6c146bad672539f857a2d711b7fde3097",
+          "probes": [
+            {
+              "kind": "review-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        }
+      ],
+      "preservedCheckpoints": []
+    },
+    "DEV-DEMO-002": {
+      "status": "blocked",
+      "attempts": 2,
+      "blocker": "FAILED_IMPLEMENTATION_REVIEW_OR_CONFLICT",
+      "taskFingerprint": "e36208540306abfa0fb2ab74ab716a4aeee748c24f372cc3c253ff76586b9f38",
+      "associatedCommit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+      "integrationComplete": false,
+      "pushPending": null,
+      "verification": null,
+      "localChecks": [
+        {
+          "elapsedSeconds": 0.5607801250298508,
+          "kind": "python_unittest",
+          "path": "tests/tooling/test_checkpoint_label.py",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "75ff54e727b57e4bd7b88956ed0c92c4b9a416e6f0976707e8fb54aa385ac0bd",
+          "testsPassed": 8
+        }
+      ],
+      "history": [
+        {
+          "runId": "aa0fcb4389a04006a542c2fcae413901",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": "01a2209f-0bdd-78b3-8595-a7a42c64337a",
+          "elapsedSeconds": 49.72923312499188,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 102883,
+            "cached_input_tokens": 59008,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1905,
+            "reasoning_output_tokens": 135
+          },
+          "totalTokens": 104788,
+          "reviewVerdict": null,
+          "structuredResultSha256": "63c75230875ffee35a57e25034b7efdd508e3eb1d58cb0360e748a870f127b88",
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "e8580b55e3cf4d92bc6fb2b799a93715",
+          "phase": "review",
+          "role": "independent_reviewer",
+          "sessionId": "01a2209f-d33b-7a23-ad4f-77ccb2ebaccb",
+          "elapsedSeconds": 23.05411229096353,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 76573,
+            "cached_input_tokens": 54912,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 635,
+            "reasoning_output_tokens": 49
+          },
+          "totalTokens": 77208,
+          "reviewVerdict": "changes_requested",
+          "structuredResultSha256": "5c784ee844ba3839560342aebb889f9698a2f5668bb7baa68bae19f7ec1211e0",
+          "probes": [
+            {
+              "kind": "review-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "a7803083d8f04435a02f7e4ef482b0b1",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": "01a220a5-156b-75c3-aab0-2031df9d9cbb",
+          "elapsedSeconds": 35.77185829100199,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 98008,
+            "cached_input_tokens": 76288,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1219,
+            "reasoning_output_tokens": 211
+          },
+          "totalTokens": 99227,
+          "reviewVerdict": null,
+          "structuredResultSha256": "2b1d8ba91b4d5692b062bcb203220460f6d46c08532352fc8e3323c47713c274",
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "2ec08f5199c54b3e872b94941e85ea96",
+          "phase": "review",
+          "role": "independent_reviewer",
+          "sessionId": "01a220a5-a4ad-7a22-863b-e3df4ab9623a",
+          "elapsedSeconds": 21.157972916960716,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 103828,
+            "cached_input_tokens": 78592,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 490,
+            "reasoning_output_tokens": 23
+          },
+          "totalTokens": 104318,
+          "reviewVerdict": "changes_requested",
+          "structuredResultSha256": "e1ecc5aad19f5b9f634b93b05e0d9f6aa9b81091fadd12136d6f77ab5490ad1f",
+          "probes": [
+            {
+              "kind": "review-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "43fb2ba3ef9e4120a921b14d42867aa8",
+          "phase": "implementation",
+          "role": "software_engineer",
+          "sessionId": "01a220a5-f5bf-72b0-bdab-f63d38bcd3d0",
+          "elapsedSeconds": 29.614799292001408,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 81264,
+            "cached_input_tokens": 58240,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 991,
+            "reasoning_output_tokens": 87
+          },
+          "totalTokens": 82255,
+          "reviewVerdict": null,
+          "structuredResultSha256": "42425e0a318028630716cf74b3676859801ae09e18463f8a2ebf80c4fd4ec17b",
+          "probes": [
+            {
+              "kind": "writable-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        },
+        {
+          "runId": "de0944af1e0246ed8f5480f5dba616e6",
+          "phase": "review",
+          "role": "independent_reviewer",
+          "sessionId": "01a220a6-6d59-7f61-a169-b063e4588fa9",
+          "elapsedSeconds": 22.83840829198016,
+          "nativeTurnCompleted": true,
+          "usage": {
+            "input_tokens": 77166,
+            "cached_input_tokens": 55168,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 601,
+            "reasoning_output_tokens": 122
+          },
+          "totalTokens": 77767,
+          "reviewVerdict": "changes_requested",
+          "structuredResultSha256": "9db5ab98593c349f272bff77d73aa2f5ba74c9b0065ef5965d093c10e3ac737c",
+          "probes": [
+            {
+              "kind": "review-sandbox-probe.json",
+              "passed": true,
+              "checks": {
+                "controller_write_denied": true,
+                "credential_canary_denied": true,
+                "datasets_read_only": true,
+                "explicit_output_write_policy": true,
+                "git_metadata_denied": true,
+                "network_denied": true,
+                "outside_scope_write_denied": true,
+                "owner_read_denied": true,
+                "scoring_write_denied": true,
+                "unix_socket_denied": true,
+                "worktree_read_allowed": true
+              },
+              "modelCalled": false
+            },
+            {
+              "kind": "context-probe.json",
+              "passed": true,
+              "checks": {},
+              "modelCalled": false
+            }
+          ]
+        }
+      ],
+      "preservedCheckpoints": [
+        {
+          "baseCommit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "retained": true
+        }
+      ]
+    }
+  },
+  "unattendedActivated": false,
+  "databaseMutationUsed": false,
+  "billingAudit": "Existing ChatGPT auth and no API fallback enforced; not an account-wide billing audit.",
+  "dashboardObservedTransitions": [
+    {
+      "at": "2026-11-28T05:25:14.048Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "ready",
+          "phase": "implementation",
+          "commit": "1bc38fce6a9751a2995c0d6be6e9a891073e6d59",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:25:16.453Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:25:18.803Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:25:46.589Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "review",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:25:49.251Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "review",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:25:50.375Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "review",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:26:05.647Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:26:08.043Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:26:31.272Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "review",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:26:33.640Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "review",
+          "commit": "b2199d96a8ba7786e42c0c2651a36c0ef21bfb49",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:27:00.427Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "running",
+          "phase": "integrating",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "ready",
+          "phase": null,
+          "commit": null,
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:27:02.752Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:27:05.151Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:27:53.945Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:27:56.356Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:27:58.689Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:28:17.942Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "blocked",
+          "phase": "implementation",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": "USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY"
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:33:40.806Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:34:13.894Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "testing",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:34:16.266Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:34:19.899Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:34:37.191Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "implementation",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:35:06.234Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 0
+    },
+    {
+      "at": "2026-11-28T05:35:08.728Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "running",
+          "phase": "review",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": null
+        }
+      ],
+      "verifiedActiveCount": 1
+    },
+    {
+      "at": "2026-11-28T05:35:28.895Z",
+      "tasks": [
+        {
+          "id": "DEV-DEMO-001",
+          "status": "completed",
+          "phase": "completed",
+          "commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
+          "blocker": null
+        },
+        {
+          "id": "DEV-DEMO-002",
+          "status": "blocked",
+          "phase": "review",
+          "commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+          "blocker": "FAILED_IMPLEMENTATION_REVIEW_OR_CONFLICT"
+        }
+      ],
+      "verifiedActiveCount": 0
+    }
+  ]
+}

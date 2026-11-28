@@ -89,9 +89,9 @@
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
-      "attempt_count": 0,
-      "last_execution_time": null,
-      "associated_commit": null,
+      "attempt_count": 1,
+      "last_execution_time": "2026-11-28T05:21:14.187061Z",
+      "associated_commit": "1bc38fce6a9751a2995c0d6be6e9a891073e6d59",
       "blocker_classification": null,
       "development": {
         "writable_paths": [
@@ -510,10 +510,10 @@
         "Distinct independent reviewer accepts ordinary implementation",
         "No database mutation, credentials, network from task commands, scoring or activation changes"
       ],
-      "status": "ready",
-      "attempt_count": 0,
-      "last_execution_time": null,
-      "associated_commit": null,
+      "status": "completed",
+      "attempt_count": 2,
+      "last_execution_time": "2026-11-28T05:25:14.150044Z",
+      "associated_commit": "312d5d3a758b555b6f9af9947c4ab8eb9843258b",
       "blocker_classification": null,
       "development": {
         "writable_paths": [
@@ -562,11 +562,11 @@
         "Distinct independent reviewer accepts ordinary implementation",
         "No database mutation, credentials, network from task commands, scoring or activation changes"
       ],
-      "status": "ready",
-      "attempt_count": 0,
-      "last_execution_time": null,
-      "associated_commit": null,
-      "blocker_classification": null,
+      "status": "blocked",
+      "attempt_count": 2,
+      "last_execution_time": "2026-11-28T05:33:36.606824Z",
+      "associated_commit": "72ad1c86d5391204493abf2b9fbe00357c07a092",
+      "blocker_classification": "FAILED_IMPLEMENTATION_REVIEW_OR_CONFLICT",
       "development": {
         "writable_paths": [
           "scripts/tooling/checkpoint_label.py",
@@ -598,7 +598,7 @@
           "enable_unattended",
           "enable_writable_execution"
         ],
-        "target_fingerprint": "bf0bd171ec3460c90357ffe71bdb308423eecc0bb7838eddcdfe81e9c0dd4d05",
+        "target_fingerprint": "d505d991c7b02eeb1a533661e2b74e8ee60b80f8bb821791bc0261e3cd5d197d",
         "approval_id": "DEV-ACTIVATION-001"
       },
       "execution_kind": "implementation_handoff",

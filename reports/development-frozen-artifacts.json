@@ -1,0 +1,269 @@
+{
+  "verified": 66,
+  "items": [
+    {
+      "path": "data/simulation/historical_v1/NFL/2016/records.parquet",
+      "sha256": "a28f14c1632d6f75760703c95f9eb823432a8a2705528c7e863fb3fd57095c1e"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2017/records.parquet",
+      "sha256": "e99c389e4f7cc85837e669fd7df0b4c61c43e0142418667d821cebc24f32d5c8"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2018/records.parquet",
+      "sha256": "8cbc3876250b6cdce57c5de312e7b0574b76e337e53cd0285bb8a2092ee256d9"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2019/records.parquet",
+      "sha256": "26cb8882fa4900f8dddb31b71de4e1816ac8295d166efbc464aac47fa32e3e45"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2020/records.parquet",
+      "sha256": "9faf9683b0c1d01d97d8d1b3f6e06148a3dcc58b02624c19f56bc722d3dd4b91"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2021/records.parquet",
+      "sha256": "1e2b4f7dee04ce2e5e26051a36265ad4c0d8bdb7f7b1dd1a9268d78125f0eeb5"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2022/records.parquet",
+      "sha256": "cdc252c7dbf0edc09616d6818dce095d8c1b85554e29656f2209b3ee1accc52d"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+      "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2024/records.parquet",
+      "sha256": "f1ad0904e70c359dc2b231a4bcbaf47ac6809e4a12f7f71506bd83c5d2ffd1ee"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2025/records.parquet",
+      "sha256": "f5e71a65959378b634a352259717da64e7dd43232761224f6bb7c8c11f542a77"
+    },
+    {
+      "path": "data/simulation/historical_v1/NFL/2026/records.parquet",
+      "sha256": "07f60c2bf2ed2ebbeefe0f16cf183056aff16c42b7234b242a906810d3ebdbb1"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2016/records.parquet",
+      "sha256": "bdccfc6f1a9a3ab4f922246ad221673b8852a9f9f513c554ec671a4ee266dea8"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2017/records.parquet",
+      "sha256": "e2a1796688a43902308be7265beef358c00fdd9a869bd83ccdd954415c5f75a5"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2018/records.parquet",
+      "sha256": "3cb4229e62207b7bd66abba56dd256f1ede7e4ed58e2f12bf13b36d5ca64ef37"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2019/records.parquet",
+      "sha256": "cfbf2e5b2600e78f667f5ffa0de6250cbfaa0b16ad47f1ae4216bca0a23d5851"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2020/records.parquet",
+      "sha256": "a32ecea6844e453fc13ecdf9e34e6fcc1dd1a09c890e64b70c35f93c782d7356"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2021/records.parquet",
+      "sha256": "118d700a6cb79734e62a3e008dc107ddca27bf2a802b57eae535c8345be69be8"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2022/records.parquet",
+      "sha256": "42d9da9263e630bfc27f90a4652e9bf79c20380140c67e0ad8be4b2863bda344"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+      "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2024/records.parquet",
+      "sha256": "63a58904a58ff3a5808564f42cf08d8944529940da70d2b74e99993feb359501"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2025/records.parquet",
+      "sha256": "6482e722bf0d1fd12ceee8028c9f76a7a5439fe51b9051aa900f720b0cc5dab0"
+    },
+    {
+      "path": "data/simulation/historical_v1/MLB/2026/records.parquet",
+      "sha256": "f19d8fd6a2980df3d95e27d08e2384039586b8af20f9d6fb78fcb189d8678e3c"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2016/records.parquet",
+      "sha256": "85090bd2aa20f90de23e7dcca5f1be40938ae044cd8f19e65a8f29563c1c497e"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2017/records.parquet",
+      "sha256": "f32ae37dd532de4e86d55f4bbe6189e9330ebf98fe9b05c40fa37090824e6834"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2018/records.parquet",
+      "sha256": "208fa36ebe206104893e61c3305965b161ba371c54555d104d73e0b11957ff32"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2019/records.parquet",
+      "sha256": "6a0402aa7edc92602d5d9ad2eb923aae5d03477a1a3ba19be35177713a9396ac"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2020/records.parquet",
+      "sha256": "d87fa435ba1106a97f192890ee66118599669a940abb0e8dccbd9836f72405d2"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2021/records.parquet",
+      "sha256": "2d419cfa90432a4e7d3fcf524a32560288d4ca1a19f58f4f09d238078a19033a"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2022/records.parquet",
+      "sha256": "ccfd4f525ffe774f0f854180a88d36585e96600c571010d98008b4b0557eb9e6"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+      "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2024/records.parquet",
+      "sha256": "56d9dd71c9f2dd38cfeb41bdf00bebf14ad5005c4a59d49ff8dedd05bc69db48"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2025/records.parquet",
+      "sha256": "568f2b365df00fc143d8a55a4d332c55d239881a4cf394c19b4f52d00a0a7265"
+    },
+    {
+      "path": "data/simulation/historical_v1/NBA/2026/records.parquet",
+      "sha256": "bff5633d3182322fa7b4423352f55c6e86006bc4ec7115e439c561dd57202be7"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2016/records.parquet",
+      "sha256": "6728e62ffa53f88597eccb7607d0a4c2d632e9e296a1921948bd9a4a5322e5ce"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2017/records.parquet",
+      "sha256": "135c5cfc07498e2891b1826a9db8057340afce07cf326250ebdca345375c54e3"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2018/records.parquet",
+      "sha256": "5242d36e875ba8878daa841ded37198c1204eff850a0627815fbaa7d05232524"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2019/records.parquet",
+      "sha256": "211af8539da5fbe6ca10e52db60f5d49cef0549c0fbffa40eaaed22a10accfaf"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2020/records.parquet",
+      "sha256": "bd4955f13d087a6e7c29ac2af2b095238af8847d4edb9a70e50df4881abb3225"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2021/records.parquet",
+      "sha256": "e08d74a7c468a25e6faf169b322ed8b8a2bbb9a56bb8cdc56144fe12fe379058"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2022/records.parquet",
+      "sha256": "d5b69c033d27a894fc3c7a5c69a0dbd14f9f0782b95facf3a287ff11f9640087"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+      "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2024/records.parquet",
+      "sha256": "fd62399c33e20205d0f57cc2beb8051800821a24649f06d4340f9238a0b50df6"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2025/records.parquet",
+      "sha256": "ab21c7b047547d58fb7a398c92dc2a4cd8dc0a75460795e084e0d7528dd3a899"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2026/records.parquet",
+      "sha256": "650b16c3bd4902c450c7cb263b9b43179c3032704924fc693e5ca948efd762dc"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2016/enriched-records.parquet",
+      "sha256": "82e5780725419f839e719c1227fee490ee3d5a9aa1e08091bcd9ecc8951c5681"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2017/enriched-records.parquet",
+      "sha256": "92b17ead076599115aa23c46b99f2cde9596dcc7a14783f96f73a71a5e5be2f9"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2018/enriched-records.parquet",
+      "sha256": "699bde09d92489a39dd1585578d301f7bbb1f4c1d7f51bf45bb46e3165f023c2"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2019/enriched-records.parquet",
+      "sha256": "8ec9766dcb1da17c9d2c5cddde90aec8cb5b38f3660cff4f842dfa7190481fa4"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2020/enriched-records.parquet",
+      "sha256": "95a696fbdb21d534e4cf17169770a2beee2eb379de159bb1aa02933e2faa1d53"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2021/enriched-records.parquet",
+      "sha256": "b90cc52777d59e65d5441b63731321a6778223555ca93e3c993904e73f8c98f2"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2022/enriched-records.parquet",
+      "sha256": "3a1f4d947949179a0cf9b9825a921fdc2e60333067a68b819a3c08b7ed0fbbc9"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2023/enriched-records.parquet",
+      "sha256": "09011211810faccdbc7f593037ba8a34fb4c90522cd6798aa810c32e2dfb4a82"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2024/enriched-records.parquet",
+      "sha256": "c04f0e0279382f41fea54431bb5d2a0528742f30ff81feef4c8c6a7a849e2669"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2025/enriched-records.parquet",
+      "sha256": "cb4513d31959731d2ffc44a7e2abd1a5cb9f54d6fdf0fc5de2f33f181651c35a"
+    },
+    {
+      "path": "data/simulation/historical_v1/NHL/2026/enriched-records.parquet",
+      "sha256": "0fa262e4a85859e13948b3d22aa72c7c71bbaf6b79a4f8acf19cd7750ec4b5e5"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2016/scoring-gate.parquet",
+      "sha256": "c28bbd7213497c1b77ae96736b036c40c91179852d700b2e92523c77ad1b3659"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2017/scoring-gate.parquet",
+      "sha256": "4424e83b24943662b33e44124268db26771f65336b1d82ed573a27b5d0fc6cb2"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2018/scoring-gate.parquet",
+      "sha256": "f9796238ad2bb9a0028a08579831e2b096738f5fe40a2a6b8add12556f315d45"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2019/scoring-gate.parquet",
+      "sha256": "2fa3f7c03cb67b5c8b6f4f37e758b481861b9fc7ed85c96844e7b4fdbed7bdc6"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2020/scoring-gate.parquet",
+      "sha256": "50aab4636a4a934d86df0b1a99fdff913c1bf95cb5b5d31a136f41f4fc9d6d50"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2021/scoring-gate.parquet",
+      "sha256": "bdb48480d63c6ed208f4bd275343c01df94b0bc5a027f0f02844405e09ef05ce"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2022/scoring-gate.parquet",
+      "sha256": "fd06ef5fbac4b5fd0eacf0fd6e33141cc9827f1218b27fc9aa4af00a19456b53"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2023/scoring-gate.parquet",
+      "sha256": "2218bb54d72cf94dd7ccf99712d13eb337cab64e0f6dac08f75ff4ad9c0c34da"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2024/scoring-gate.parquet",
+      "sha256": "083aba607831249f23840d9ab6206dc40487cad0a3a7597ac8fdd125e1c73fc3"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2025/scoring-gate.parquet",
+      "sha256": "adada5302bcb72169dba3520a21796ae5aa21dd93a7cfdfde26578ebbf5d3580"
+    },
+    {
+      "path": "data/simulation/scoring_gates/NHL/2026/scoring-gate.parquet",
+      "sha256": "0f2da85678d5c73e2cf3201c34d3abf1e6794a43f98b628fcefbe584207e0ecc"
+    }
+  ]
+}

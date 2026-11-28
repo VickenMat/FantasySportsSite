@@ -31,7 +31,7 @@
     "control-center/bridge.py": "8b04b15c3c2b49fc4d7cdd1136fb39e01d74582443bfdafa30aeabd29d5697d5",
     "control-center/cli.mjs": "69a2e85d20622bde7b798f968a1f21b259b6ce3b10dcf14c842ca81b682b3fa0",
     "control-center/infrastructure.ts": "101f280ac72dd909ff69b8201236c400d7830c8d8e5f52b586abaf2b94cdcb9e",
-    "control-center/observations.ts": "b81ea3b3005fd08df23f84f3b50aaeb55cb3fe0c275b06d86ca994c20be415f2",
+    "control-center/observations.ts": "843d2119f35ac7d43350c8b2bf96a8b7b824af3e88c15639a4cf52573edd86ca",
     "control-center/policy.ts": "67da6fdc7cf7944a24f9e7a2327641f48466eb67b0e086de53b15fb1a83c30ab",
     "control-center/security.ts": "80b604307c3add34a3504d1df7f4ae6324e026ca967e271f5776aa85e2f387cf",
     "control-center/server.ts": "a3e7626acf8412e1b7e1e42158d88ee20725736d0a034564a3d86bc90cae831f",
@@ -44,20 +44,20 @@
     "control-center/ui/types.ts": "6ffd5d683ef044244e1e82df10ae7793fcf6403e19e80ac97392b3ccd08d232c",
     "control-center/vitest.config.ts": "0b2cd12d4e1b9cf4c6c7eb5011005ecad529a5393e448b1d394b7a897d89d026",
     "docs/AUTHORIZATION_POLICY.md": "a7b04dd23ee43b54fe335a5b8e35284fc6fba8c37abbe997fe52335e9974953a",
-    "docs/DECISION_LOG.md": "87ca42010fa76d22b94179f8f9c29865ba0923f23846afb247d2606f44cc3ccd",
+    "docs/DECISION_LOG.md": "34a35a5cf9dd43827ffea3d303f6f549f5c25dc567ec73703b7c8c18ad535d8a",
     "docs/automation/AGENT_ROLES.md": "f8624421f80da3d4dbf3e316d2d4cc6e2bb793ffb55ffa90f1a5d7526c755cff",
     "docs/automation/DEVELOPMENT_TASKS.json": "3a0e7c3f7d27f9ab2300f9f40293291dc8ca2ed4c76b6cb4fb28732032addbc0",
     "package-lock.json": "c5e5b15dffb77fe043a6700bcfa94bac29bda497dd5a2051d6f18b74d6822c03",
     "package.json": "0e2cbf2e782cff60d482c4ecc3a137a591e7f991d0dcb63ba4f1720e3270f11b",
     "scripts/automation/approval_queue.schema.json": "c38e76689a118ebb4baa16551302cab276bef72a700ba5739f72aae7e4561ebe",
     "scripts/automation/com.fantasyevolution.development.plist.in": "c718213dd2f405a3382ebedcb03a1d2da3e05dea070705453bc47e3ed4e0c670",
-    "scripts/automation/development.py": "e29f464597b15b3ab30af525d053a6e886b478d75837b1fa306488ecda0d3b52",
+    "scripts/automation/development.py": "2b1d89342718d0dfc133a9965e45148cc4a30f324b0869b558041b294e7c596d",
     "scripts/automation/development_activation.py": "1f0ad4b5b5b029d28cabbf9a12d3fc9f383eae4c356d89350ca0ef313a640219",
-    "scripts/automation/engine.py": "53c3f2e290d4d199206da7270b4f4ee314d6855b3c9257c80cad334b6b2f8b13",
+    "scripts/automation/engine.py": "f2a72c920b21b4f976dadfb35c8e31891e914198a39f01b26c1ea27ddd552620",
     "scripts/automation/orchestrator.py": "8092630941118ebb79a869ac7345a73fb9b1f441cf1aaf016689bec3d5808278",
     "scripts/automation/prepare_activation.py": "841ee60e9e71aea0c78125bda6aff19e3c863081ec173ef121df49f40abce49c",
     "scripts/automation/task_queue.schema.json": "c1451f618aca2e7c25a957a9000a3f98c272defb955f1d7e8c3e3c2f5db9c6f9",
-    "scripts/automation/writable_sandbox.py": "b2cd72b9483f11aa9458a7dfb4d9f5bf0467e5d2aca957dcb7a3201f5ba4c9e8"
+    "scripts/automation/writable_sandbox.py": "e7c4bfd32ed624558b89f21e29649ec391bdee2509d5aa2dbee3e8b5de85da6e"
   },
   "queue_authorizations": [
     {

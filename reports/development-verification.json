@@ -1,8 +1,8 @@
 {
   "version": "development-verification-1",
-  "phase": "implementation_verified_demo_pending",
+  "phase": "bounded_workflow_verified_unattended_unapproved",
   "baseCommit": "5803a10",
-  "controllerTests": 86,
+  "controllerTests": 94,
   "dashboardTests": 49,
   "unitTests": 394,
   "controllerActualSandboxChecksPerProfile": 11,
@@ -13,8 +13,8 @@
   "typeScript": "passed_both_configurations",
   "eslint": "passed",
   "productionWebpackBuild": "passed",
-  "writableEndToEnd": "first_actual_task_integrated_and_pushed; dependent_review_revision_recovering",
-  "automaticContinuation": "actual_dependent_task_selected_automatically",
+  "writableEndToEnd": "actual_DEV-DEMO-001_full_lifecycle_verified",
+  "automaticContinuation": "actual_DEV-DEMO-002_selected_without_new_user_prompt_then_quality_gate_blocked",
   "unattendedActivated": false,
   "newPaidBillingFallback": false,
   "additionalSpendingAuthorizationUsd": 0,
@@ -26,5 +26,38 @@
     "First development cycle preserved two pre-inference startup failures (demo and independent inventory task): passing sandboxes denied automatic ancestor AGENTS loading. Documented bounded instruction-loading repair independently reviewed; all attempts/reservations retained.",
     "The original 12-reservation local policy paused after preserved failures and supported reviewer revisions. The configurable ceiling is now 16, all counters retained; this was not provider allowance exhaustion."
   ],
-  "dailyModelLaunchCeiling": 16
+  "dailyModelLaunchCeiling": 16,
+  "recordedTokenTotal": 1129921,
+  "recordedSessions": 13,
+  "tokenAccountingMatchesNativeReceipts": true,
+  "browserSections": 9,
+  "mobileBrowser": true,
+  "actualProviderExhaustionTested": false,
+  "providerExhaustionFixtureTests": "passed",
+  "actualHostRebootTested": false,
+  "hostAndSchedulerRestartFixtures": "passed",
+  "actualDashboardRestart": "passed",
+  "preservation": "reports/development-preservation.json",
+  "frozenArtifacts": "reports/development-frozen-artifacts.json",
+  "liveDemo": "reports/development-demo.json",
+  "remainingLimitations": [
+    "Unattended scheduling requires the new exact owner approval; nothing installed or activated.",
+    "Managed specialist stages are serial under a ceiling of three; no concurrent-three throughput claim.",
+    "Optional follow-on DEV-DEMO-002 remains blocked after independent reviewers gave conflicting import/purity guidance; its code was not integrated.",
+    "Historical M6 evidence/acceptance remains gated and protected; offline command profiles cannot acquire missing external facts.",
+    "Command sandbox plus trusted owner controller is not separate-OS-user isolation."
+  ],
+  "unitRunnerProof": "reports/development-unit-runner.json",
+  "realSandboxVitestTests": 4,
+  "realSandboxNodeTests": 1,
+  "automaticAvailabilityRecovery": "fixture_verified; owner pause/emergency cannot be overwritten",
+  "activationProposal": {
+    "approvalId": "DEV-ACTIVATION-001",
+    "targetFingerprint": "d505d991c7b02eeb1a533661e2b74e8ee60b80f8bb821791bc0261e3cd5d197d",
+    "taskFingerprint": "3d3f96c7b3bcb5ef456645d34c94e5b82e5d833164034163c70b1bf78f9b365f",
+    "status": "pending_unarmed_uninstalled"
+  },
+  "legacyReadOnlyCannotClaimWritableTasks": true,
+  "nodeScratchBoundary": "TMPDIR set only after sandbox entry; original deny rules retained",
+  "nonzeroNativeQuotaErrorsPauseBeforeRetry": true
 }

@@ -6,6 +6,7 @@ Git mutation occurs here. The integration authority owns worktree creation.
 from __future__ import annotations
 
 import errno
+import functools
 import json
 import os
 from pathlib import Path
@@ -149,6 +150,29 @@ def _toml(value):
     return json.dumps(value)
 
 
+@functools.lru_cache(maxsize=4)
+def node_libraries(binary, modified):
+    """Read-only Homebrew dylib closure; no broad Homebrew/home permission."""
+    if sys.platform!='darwin':return ()
+    pending=[Path(binary).resolve()];seen=set();grants=set()
+    while pending:
+        path=pending.pop()
+        if path in seen:continue
+        seen.add(path)
+        if len(seen)>80:raise SafetyError('Node runtime dependency closure is unbounded.')
+        result=subprocess.run(['/usr/bin/otool','-L',str(path)],capture_output=True,text=True,timeout=5)
+        if result.returncode or len(result.stdout)>65536:raise SafetyError('Cannot verify Node runtime libraries.')
+        for line in result.stdout.splitlines()[1:]:
+            raw=line.strip().split(' (',1)[0]
+            if raw.startswith(('/usr/lib/','/System/')):continue
+            if raw.startswith('@loader_path/'):raw=str(path.parent/raw[len('@loader_path/'):])
+            if not raw.startswith(('/opt/homebrew/opt/','/opt/homebrew/Cellar/')):raise SafetyError('Unexpected Node runtime library root.')
+            library=Path(raw).resolve(strict=True)
+            if not library.is_file() or not library.is_relative_to('/opt/homebrew/Cellar') or library.suffix!='.dylib':raise SafetyError('Node runtime library cannot expose arbitrary inputs.')
+            grants.update((str(Path(raw)),str(library)));pending.append(library)
+    return tuple(sorted(grants))
+
+
 def permission_flags(owner_root, worktree, writable_paths, dataset_paths, review=False):
     """Return per-invocation named-profile overrides; never pass --sandbox too.
 
@@ -172,6 +196,8 @@ def permission_flags(owner_root, worktree, writable_paths, dataset_paths, review
     node = shutil.which('node', path='/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin')
     if node:
         filesystem[str(Path(node).resolve().parents[1])] = 'read'
+        for library in node_libraries(node,Path(node).stat().st_mtime_ns):
+            canonical=Path(library).resolve();filesystem[str(canonical.parent)]={'.':'read','**/.env':'deny','**/.env.*':'deny','**/auth.json':'deny'}
     # Harden common same-user credential/OS-automation entry points. These
     # denials are not an OS-account boundary: arbitrary native code can have
     # other service interfaces, so do not claim complete same-user isolation.

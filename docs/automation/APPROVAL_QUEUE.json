@@ -41,8 +41,8 @@
         "Isolated Git worktrees and authorized main/upstream",
         "macOS user launchd job"
       ],
-      "target_fingerprint": "bf0bd171ec3460c90357ffe71bdb308423eecc0bb7838eddcdfe81e9c0dd4d05",
-      "task_fingerprint": "b6a0601d4e4054230db16c4eae3349f78db353ada970ae08100d3f66a057eb3e",
+      "target_fingerprint": "d505d991c7b02eeb1a533661e2b74e8ee60b80f8bb821791bc0261e3cd5d197d",
+      "task_fingerprint": "3d3f96c7b3bcb5ef456645d34c94e5b82e5d833164034163c70b1bf78f9b365f",
       "scope": [
         "enable_unattended",
         "enable_writable_execution"

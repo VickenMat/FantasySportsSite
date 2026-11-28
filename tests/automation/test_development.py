@@ -36,7 +36,7 @@ class DevelopmentTests(unittest.TestCase):
  def test_no_useful_work_never_calls_model(self):
   a=self.task('A',status='blocked');self.set_tasks([a]);self.git('add','.');self.git('commit','-qm','blocked');self.assertEqual(self.run_cycle()['executed'],0);self.assertEqual(self.dev.state()['executions'],[])
  def test_model_budget_exhaustion_stops_without_reset(self):
-  s=self.dev.state();s['executions']=[stamp()]*DAILY_MODELS;self.dev.save(s);r=self.run_cycle();self.assertEqual(r['results'][0]['status'],'blocked');self.assertEqual(len(self.dev.state()['executions']),DAILY_MODELS);self.assertEqual(self.dev.control()['mode'],'paused')
+  s=self.dev.state();s['executions']=[stamp()]*DAILY_MODELS;self.dev.save(s);r=self.run_cycle();self.assertTrue(r['blocked']);self.assertNotIn('A',self.dev.state()['tasks']);self.assertEqual(len(self.dev.state()['executions']),DAILY_MODELS);self.assertEqual(self.dev.control()['mode'],'paused')
  def test_model_reported_usage_exhaustion_pauses(self):
   with mock.patch.object(self.dev,'model',side_effect=UsageUnavailable('exhausted')):self.dev.develop(True,checker=self.checker)
   self.assertEqual(self.dev.control()['mode'],'paused');self.assertTrue(Path(self.dev.state()['tasks']['A']['worktree_path']).exists())
@@ -55,6 +55,7 @@ class DevelopmentTests(unittest.TestCase):
    r=self.implement(*args)
    if args[2]=='review':
     count+=1
+    if count==2:self.assertEqual(args[-1],['Add exact check'])
     if count==1:r.update(verdict='changes_requested',findings=['Add exact check'])
    return r
   r=self.dev.develop(True,executor=revise,checker=self.checker);self.assertEqual(r['results'][0]['status'],'completed');self.assertEqual(count,2)
@@ -81,7 +82,7 @@ class DevelopmentTests(unittest.TestCase):
   r=self.dev.develop(True,executor=self.implement,checker=check);self.assertEqual(r['results'][0]['status'],'blocked');self.assertFalse((self.root/'examples/A.py').exists());self.assertEqual((self.root/'user.py').read_text(),'concurrent user work')
  def test_pause_emergency_and_duplicate_lease(self):
   self.dev.pause()
-  with self.assertRaises(Interrupted):self.run_cycle()
+  self.assertTrue(self.run_cycle()['blocked']);self.assertEqual(self.dev.state()['executions'],[])
   self.dev.resume();self.dev.pause(True)
   with self.assertRaises(SafetyError):self.dev.resume()
   self.dev.resume(True)
@@ -179,3 +180,49 @@ class DevelopmentTests(unittest.TestCase):
   with self.assertRaises(SafetyError):scoped_bytes(tree,'out/result.py')
   file.unlink();(tree/'out').rmdir();(tree/'out').symlink_to(self.root)
   with self.assertRaises(SafetyError):scoped_bytes(tree,'out/harmless-private-fixture.py')
+ def test_automatic_usage_recovery_only_after_supported_availability(self):
+  state=self.dev.state();state['tasks']['A']={'status':'blocked','attempt_count':1,'definition_fingerprint':task_fingerprint(self.task('A')),'blocker_classification':'USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY'};self.dev.save(state)
+  atomic_json(self.dev.control_path,{'version':1,'mode':'paused','reason':'CODEX_USAGE_LIMIT','resume_mode':'assisted'})
+  with mock.patch.object(self.dev,'quota_check',side_effect=UsageUnavailable('unknown')):self.assertTrue(self.run_cycle()['blocked'])
+  self.assertEqual(self.dev.control()['mode'],'paused')
+  with mock.patch.object(self.dev,'quota_check',return_value=None):self.assertEqual(self.run_cycle()['results'][0]['status'],'completed')
+  self.assertEqual(self.dev.control()['mode'],'assisted')
+ def test_owner_pause_or_emergency_is_not_auto_resumed_or_overwritten(self):
+  self.dev.pause(True);self.dev.pause_for_limit(True);self.assertEqual(self.dev.control()['mode'],'emergency_stop')
+  with mock.patch.object(self.dev,'quota_check') as quota:
+   with self.assertRaises(Interrupted):self.run_cycle()
+   quota.assert_not_called()
+  self.dev.resume(True);self.dev.pause();self.dev.pause_for_limit(False);self.assertEqual(self.dev.control()['reason'],'OWNER_PAUSE')
+  with mock.patch.object(self.dev,'quota_check') as quota:self.assertTrue(self.run_cycle()['blocked']);quota.assert_not_called()
+ def test_local_exhaustion_auto_poll_makes_no_model_or_metadata_calls(self):
+  state=self.dev.state();state['executions']=[stamp()]*DAILY_MODELS;state['tasks']['A']={'status':'blocked','attempt_count':1,'definition_fingerprint':task_fingerprint(self.task('A')),'blocker_classification':'MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY'};self.dev.save(state)
+  atomic_json(self.dev.control_path,{'version':1,'mode':'paused','reason':'MODEL_LAUNCH_BUDGET','resume_mode':'assisted'})
+  with mock.patch.object(self.dev,'quota_check') as quota:self.assertTrue(self.run_cycle()['blocked']);quota.assert_not_called()
+  self.assertEqual(len(self.dev.state()['executions']),DAILY_MODELS)
+ def test_vitest_unit_scope_rejects_database_targets(self):
+  p=self.task('A')['development'];validate_development({**p,'checks':[{'kind':'vitest_unit','path':'tests/unit/roster-compliance.test.ts'}]})
+  for target in ['tests/integration/dashboard.test.ts','tests/e2e/check.test.ts']:
+   with self.assertRaises(SafetyError):validate_development({**p,'checks':[{'kind':'vitest_unit','path':target}]})
+ def test_worktree_vitest_token_private_and_symlinks_refused(self):
+  tree=self.dev.worktree_create(self.task('A'),{'attempt_count':1});self.dev.prepare_vitest_token(tree);token=tree/'node_modules/.vitest/.vitest-secret-token';self.assertTrue(token.is_file());self.assertEqual(token.stat().st_mode&0o777,0o600)
+  other=self.root/'second-tree';other.mkdir();(other/'node_modules').symlink_to(self.root)
+  with self.assertRaises(SafetyError):self.dev.prepare_vitest_token(other)
+  self.assertFalse((self.root/'.vitest/.vitest-secret-token').exists())
+ @unittest.skipUnless(os.environ.get('RUN_ACTUAL_CODEX_WORKTREE_PROBE')=='1','Actual installed Node/Codex sandbox requires host execution')
+ def test_actual_node_unit_runner_nested_scratch_io(self):
+  task=self.task('A');task['development']['writable_paths']=['examples/nested.test.mjs'];task['development']['checks']=[{'kind':'node_test','path':'examples/nested.test.mjs'}];self.set_tasks([task]);self.git('add','.');self.git('commit','-qm','node check fixture');tree=self.dev.worktree_create(task,{'attempt_count':1})
+  (tree/'examples/nested.test.mjs').write_text("import test from 'node:test';import assert from 'node:assert/strict';import{mkdirSync,writeFileSync,readFileSync}from'node:fs';import{tmpdir}from'node:os';import{join}from'node:path';test('scoped nested temporary I/O',()=>{assert.ok(tmpdir().endsWith('.agent-output'));const p=join(tmpdir(),'nested','cache');mkdirSync(p,{recursive:true});writeFileSync(join(p,'value'),'fixture');assert.equal(readFileSync(join(p,'value'),'utf8'),'fixture');});")
+  checks=self.dev.checks(task,tree,{},self.dev.state());self.assertEqual(checks[0]['exitCode'],0);self.assertEqual(checks[0]['testsPassed'],1)
+  for log in (self.dev.runtime/'runs').glob('*/check-0.*'):self.assertEqual(log.stat().st_mode&0o777,0o600)
+
+ def test_legacy_readonly_cycle_cannot_claim_writable_tasks(self):
+  self.assertEqual(self.dev.cycle()['candidates'],[])
+  self.assertEqual(self.dev.cycle(True,executor=lambda *args:self.fail('Read-only route must not invoke a writer'))['executed'],0)
+  self.assertNotIn('A',self.dev.state()['tasks']);self.assertEqual(self.dev.state()['executions'],[])
+
+ def test_nonzero_native_usage_error_is_classified_before_generic_failure(self):
+  task=self.task('A');tree=self.dev.worktree_create(task,{'attempt_count':1})
+  def nonzero(command,tree,env,body,out,err,*args):
+   err.write(b'usage_limit_reached: synthetic provider fixture');err.flush();raise SafetyError('nonzero native exit fixture')
+  auth=subprocess.CompletedProcess([],0,'Logged in using ChatGPT','');context=subprocess.CompletedProcess([],0,b'[]',b'')
+  with mock.patch.object(self.dev,'quota_check'),mock.patch('writable_sandbox.sandbox_probe',return_value={'flags':[]}),mock.patch('development.subprocess.run',side_effect=[auth,context]),mock.patch.object(self.dev,'run_process',side_effect=nonzero),self.assertRaises(UsageUnavailable):self.dev.model(task,tree,'implementation','a'*32,60)

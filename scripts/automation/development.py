@@ -48,6 +48,10 @@ def safe_output(name):
     return name
 
 
+def private_output(path):
+    return os.fdopen(os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'wb')
+
+
 def scoped_bytes(tree,name):
     """Copy boundary: do not follow swapped file OR parent symlinks."""
     safe_output(name);parts=Path(name).parts;handles=[]
@@ -85,8 +89,9 @@ def validate_development(value):
         if not isinstance(d,dict) or set(d)!={'path','sha256'} or not isinstance(d.get('path'),str) or not isinstance(d.get('sha256'),str) or not re.fullmatch(r'data/[A-Za-z0-9_./-]+',d['path']) or '..' in Path(d['path']).parts or not re.fullmatch('[a-f0-9]{64}',d['sha256']):raise SafetyError('Exact read-only dataset fingerprint required.')
     if not isinstance(value['checks'],list) or not 1<=len(value['checks'])<=8:raise SafetyError('Task-specific checks required.')
     for c in value['checks']:
-        if not isinstance(c,dict) or set(c)!={'kind','path'} or not isinstance(c.get('kind'),str) or c['kind'] not in {'python_unittest','python_script','node_test'}:raise SafetyError('Unsupported local check; arbitrary shell is unavailable.')
+        if not isinstance(c,dict) or set(c)!={'kind','path'} or not isinstance(c.get('kind'),str) or c['kind'] not in {'python_unittest','python_script','node_test','vitest_unit'}:raise SafetyError('Unsupported local check; arbitrary shell is unavailable.')
         safe_output(c['path'])
+        if c['kind']=='vitest_unit' and (not c['path'].startswith('tests/unit/') or not c['path'].endswith('.test.ts')):raise SafetyError('Vitest runner accepts unit tests only; database/browser tests have no agent credentials.')
     return value
 
 
@@ -206,7 +211,10 @@ class DevEngine(Engine):
             atomic_json(self.runtime/'development-quota.json',{'available':False,'failures':failures,'retry_after':stamp(now()+dt.timedelta(seconds=60*2**failures))})
             raise UsageUnavailable('Subscription availability unavailable; bounded metadata recovery required.')
         blocked=[w for w in [quota.get('primary'),quota.get('secondary')] if w and w.get('usedPercent',0)>=100]
-        atomic_json(self.runtime/'development-quota.json',{'available':True,'failures':0,'checked_at':stamp(),'blocked':bool(blocked),'windows':[{k:w.get(k) for k in ['usedPercent','windowMinutes','resetAt']} for w in blocked]})
+        resets=[w['resetAt'] for w in blocked if w.get('resetAt') and parse_time(w['resetAt'])>now()]
+        quota_state={'available':True,'failures':0,'checked_at':stamp(),'blocked':bool(blocked),'windows':[{k:w.get(k) for k in ['usedPercent','windowMinutes','resetAt']} for w in blocked]}
+        if blocked:quota_state['retry_after']=min(resets,key=parse_time) if resets else stamp(now()+dt.timedelta(minutes=2))
+        atomic_json(self.runtime/'development-quota.json',quota_state)
         if blocked:raise UsageUnavailable('Supported subscription window exhausted.')
     def model(self,task,tree,phase,run_id,timeout,findings=None):
         from writable_sandbox import sandbox_probe
@@ -225,20 +233,25 @@ class DevEngine(Engine):
         flags=permissions['flags']
         command=[str(binary),'-a','never','exec','--ignore-user-config','--json','--color','never',*flags,'-c','project_doc_max_bytes=0','-c','features.apps=false','-c','features.plugins=false','-c','web_search="disabled"','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','-C',str(tree),'--output-schema',str(schema),'-o',str(last),'-']
         role='independent_reviewer' if phase=='review' else task['assigned_role']
-        prompt={'project_instructions':self.project_instructions(tree,task),'task_id':task['id'],'role':role,'phase':phase,'task':task['description'],'acceptance_criteria':task['acceptance_criteria'],'permitted_outputs':task['development']['writable_paths'],'read_only_datasets':[str(x) for x in datasets if x.name!='node_modules'],'review_findings':findings or [],'instructions':('Review the trusted .agent-review.diff/files and .agent-review.json local check receipt independently. Do not modify files. Accept only supported ordinary code correctness; flag product decisions as requires_owner_decision. Never authorize a milestone or restricted action.' if phase=='review' else 'Implement only the exact authorized files. Read relevant installed guides if Next code. Do not run git, network, databases, package installation, credentials, migrations, backfills or scheduling. Tests run separately by the controller; implement meaningful tests required by the task. Do not broaden scope. Preserve unknown evidence. Return exact structured result.')}
+        prompt={'project_instructions':self.project_instructions(tree,task),'task_id':task['id'],'role':role,'phase':phase,'task':task['description'],'acceptance_criteria':task['acceptance_criteria'],'permitted_outputs':task['development']['writable_paths'],'read_only_datasets':[str(x) for x in datasets if x.name!='node_modules'],'review_findings':findings or [],'instructions':('Review the trusted .agent-review.diff/files and .agent-review.json local check receipt independently. Check previous review findings against the current revision; distinguish resolved findings from new supported issues and report contradictory requirements rather than alternately demanding incompatible changes. Do not modify files. Accept only supported ordinary code correctness; flag product decisions as requires_owner_decision. Never authorize a milestone or restricted action.' if phase=='review' else 'Implement only the exact authorized files. Read relevant installed guides if Next code. Do not run git, network, databases, package installation, credentials, migrations, backfills or scheduling. Tests run separately by the controller; implement meaningful tests required by the task. Do not broaden scope. Preserve unknown evidence. Return exact structured result.')}
         out=directory/'events.jsonl';err=directory/'stderr.log';started=time.monotonic()
-        with out.open('xb') as stdout,err.open('xb') as stderr:
-            self.run_process(command,tree,env,json.dumps(prompt).encode(),stdout,stderr,timeout,task,run_id,phase)
+        failure=None
+        try:
+            with private_output(out) as stdout,private_output(err) as stderr:
+                self.run_process(command,tree,env,json.dumps(prompt).encode(),stdout,stderr,timeout,task,run_id,phase)
+        except Interrupted:raise
+        except SafetyError as error:failure=error
         data=native_telemetry(out)
-        raw=out.read_text(errors='replace').lower()
-        if any(s in raw for s in ['usage_limit_reached','rate_limit_exceeded','hit your usage limit']):raise UsageUnavailable('Codex reported exhausted allowance.')
+        raw=(out.read_text(errors='replace')+err.read_text(errors='replace')).lower()
+        if any(s in raw for s in ['usage_limit_reached','usage_limit_exceeded','rate_limit_exceeded','hit your usage limit']):raise UsageUnavailable('Codex reported exhausted allowance.')
+        if failure:raise failure
         if not data['turn_completed'] or not data['session_id'] or not last.is_file() or last.stat().st_size>128*1024:raise SafetyError('No bounded completed structured specialist result.')
         return validate_result(read_json(last),task,'implementation' if phase=='implementation' else 'review')
     def run_process(self,command,tree,env,body,stdout,stderr,timeout,task,run_id,phase):
         self.guard(task)
         with self.lock('control',True):
             if self.control()['mode'] in {'paused','emergency_stop','approval_required'}:raise Interrupted('Owner paused execution.')
-            process=subprocess.Popen([sys.executable,'-c',CHILD_WRAPPER,*command],stdin=subprocess.PIPE,stdout=stdout,stderr=stderr,cwd=tree,env=env,start_new_session=True)
+            process=subprocess.Popen([sys.executable,'-c','import os;os.umask(0o077);'+CHILD_WRAPPER,*command],stdin=subprocess.PIPE,stdout=stdout,stderr=stderr,cwd=tree,env=env,start_new_session=True)
             identity=process_identity(process.pid)
             if not identity:
                 process.stdin.close();process.wait(timeout=3);raise SafetyError('Cannot verify subprocess ownership.')
@@ -248,6 +261,7 @@ class DevEngine(Engine):
             process.stdin.write(b'G'+body);process.stdin.close()
             while process.poll() is None:
                 self.guard(task)
+                if shutil.disk_usage(self.runtime).free<512*1024*1024:raise SafetyError('Local checkpoint disk reserve exhausted; preserve work.')
                 if time.monotonic()-started>timeout:raise SafetyError('Task phase deadline exceeded; preserve checkpoint.')
                 if stdout.tell()+stderr.tell()>8*1024*1024:raise SafetyError('Phase log size exceeded.')
                 time.sleep(.5)
@@ -256,12 +270,34 @@ class DevEngine(Engine):
             terminate_group(identity)
             if process.poll() is None:process.wait(timeout=3)
             if not owned_group_members(identity):self.run_path.unlink(missing_ok=True)
+    def prepare_vitest_token(self,tree):
+        # Only a fresh isolated worktree-local test token, never an owner token.
+        handles=[]
+        try:
+            parent=os.open(tree,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW);handles.append(parent)
+            for name in ['node_modules','.vitest']:
+                try:os.mkdir(name,0o700,dir_fd=parent)
+                except FileExistsError:pass
+                parent=os.open(name,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);handles.append(parent)
+            name='.vitest-secret-token'
+            try:fd=os.open(name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600,dir_fd=parent)
+            except FileExistsError:
+                info=os.stat(name,dir_fd=parent,follow_symlinks=False)
+                if not stat.S_ISREG(info.st_mode) or info.st_uid!=os.getuid() or info.st_size>4096:raise SafetyError('Unsafe worktree-local test token.')
+            else:
+                with os.fdopen(fd,'w') as token:token.write(str(uuid.uuid4())+'\n')
+        except OSError as error:raise SafetyError('Cannot prepare isolated Vitest runtime.') from error
+        finally:
+            for handle in reversed(handles):os.close(handle)
     def checks(self,task,tree,row,state):
-        from writable_sandbox import permission_flags
-        profile=task['development'];run_id=uuid.uuid4().hex;directory=self.runtime/'runs'/run_id;directory.mkdir(mode=0o700,parents=True)
+        from writable_sandbox import permission_flags,node_libraries
+        profile=task['development']
+        if any(c['kind']=='vitest_unit' for c in profile['checks']):self.prepare_vitest_token(tree)
+        run_id=uuid.uuid4().hex;directory=self.runtime/'runs'/run_id;directory.mkdir(mode=0o700,parents=True)
         datasets=[self.owner_root/d['path'] for d in profile['datasets']]
+        if (self.owner_root/'node_modules').is_dir():datasets.append(self.owner_root/'node_modules')
         flags=permission_flags(self.owner_root,tree,['.agent-output'],datasets)
-        env={**child_environment(),'PYTHONDONTWRITEBYTECODE':'1','TMPDIR':str(tree/'.agent-output')}
+        env={**child_environment(),'PYTHONDONTWRITEBYTECODE':'1'}
         results=[]
         deadline=time.monotonic()+profile['test_seconds']
         for index,check in enumerate(profile['checks']):
@@ -270,14 +306,32 @@ class DevEngine(Engine):
             if path.is_symlink() or not path.is_file():raise SafetyError('Local check target missing or unsafe.')
             if check['kind']=='python_unittest':args=[str(Path(sys.executable).resolve()),'-B','-I','-m','unittest','discover','-s',str(path.parent),'-p',path.name]
             elif check['kind']=='python_script':args=[str(Path(sys.executable).resolve()),'-B','-I',str(path)]
-            else:args=['/opt/homebrew/bin/node','--test',str(path)]
+            elif check['kind']=='node_test':args=['/opt/homebrew/bin/node','--test','--test-reporter=tap',str(path)]
+            else:args=['/opt/homebrew/bin/node',str(self.owner_root/'node_modules/vitest/vitest.mjs'),'run',check['path'],'--config',str(tree/'vitest.config.mts'),'--configLoader','runner','--pool','forks','--no-cache','--no-fs-module-cache','--no-file-parallelism','--attachmentsDir',str(tree/'.agent-output/vitest-attachments')]
+            if check['kind'] in {'node_test','vitest_unit'}:
+                node=Path('/opt/homebrew/bin/node').resolve();args[0]=str(node)
+                directories=sorted({str(Path(p).resolve().parent) for p in node_libraries(str(node),node.stat().st_mtime_ns)})
+                wrapper="import os,sys;os.environ['DYLD_LIBRARY_PATH']=sys.argv[1];os.environ['OPENSSL_CONF']='/dev/null';os.execv(sys.argv[2],sys.argv[2:])"
+                args=[str(Path(sys.executable).resolve()),'-c',wrapper,':'.join(directories),*args]
+            # Resolve :tmpdir=deny using the normal system temp location; only
+            # after sandbox entry point application temp I/O at allowed scratch.
+            bootstrap="import os,sys;os.environ['TMPDIR']=sys.argv[1];os.execv(sys.argv[2],sys.argv[2:])"
+            args=[str(Path(sys.executable).resolve()),'-c',bootstrap,str(tree/'.agent-output'),*args]
             command=['/opt/homebrew/bin/codex','sandbox','-P','automation-worktree','-C',str(tree),*flags,'--',*args]
             remaining=deadline-time.monotonic()
             if remaining<=0:raise SafetyError('Total local-check budget exhausted.')
             check_started=time.monotonic()
-            with (directory/f'check-{index}.out').open('xb') as out,(directory/f'check-{index}.err').open('xb') as err:
+            with private_output(directory/f'check-{index}.out') as out,private_output(directory/f'check-{index}.err') as err:
                 self.run_process(command,tree,env,b'',out,err,remaining,task,run_id,'testing')
-            results.append({'elapsedSeconds':time.monotonic()-check_started,'kind':check['kind'],'path':check['path'],'exitCode':0,'stdoutSha256':hashlib.sha256((directory/f'check-{index}.out').read_bytes()).hexdigest(),'stderrSha256':hashlib.sha256((directory/f'check-{index}.err').read_bytes()).hexdigest()})
+            reported=None
+            if check['kind']!='python_script':
+                text=(directory/f'check-{index}.out').read_text(errors='replace')+(directory/f'check-{index}.err').read_text(errors='replace')
+                text=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',text)
+                pattern={'python_unittest':r'Ran (\d+) tests?','node_test':r'# tests (\d+)','vitest_unit':r'Tests\s+(\d+) passed'}[check['kind']]
+                match=re.search(pattern,text)
+                if not match or int(match.group(1))<1:raise SafetyError('Unit check did not report a positive test count.')
+                reported=int(match.group(1))
+            results.append({'testsPassed':reported,'elapsedSeconds':time.monotonic()-check_started,'kind':check['kind'],'path':check['path'],'exitCode':0,'stdoutSha256':hashlib.sha256((directory/f'check-{index}.out').read_bytes()).hexdigest(),'stderrSha256':hashlib.sha256((directory/f'check-{index}.err').read_bytes()).hexdigest()})
         return results
     def phase(self,task,row,state,tree,phase,executor=None,findings=None):
         self.guard(task);self.policy(task)
@@ -317,6 +371,32 @@ class DevEngine(Engine):
                 if attempt==2:raise
                 time.sleep(2**attempt)
         row['push_pending']=False;self.save(state)
+    def pause_for_limit(self,local):
+        with self.lock('control',True):
+            control=self.control()
+            if control.get('mode') in {'emergency_stop','approval_required'} or (control.get('mode')=='paused' and control.get('reason') not in {'MODEL_LAUNCH_BUDGET','CODEX_USAGE_LIMIT'}):return
+            resume=control.get('resume_mode') or ('development_autonomous' if control.get('mode')=='development_autonomous' else 'assisted')
+            atomic_json(self.control_path,{'version':1,'mode':'paused','reason':'MODEL_LAUNCH_BUDGET' if local else 'CODEX_USAGE_LIMIT','resume_mode':resume,'updated_at':stamp()})
+    def maybe_resume_managed_pause(self,state):
+        control=self.control()
+        if control.get('mode')!='paused':return True
+        if control.get('reason') not in {'MODEL_LAUNCH_BUDGET','CODEX_USAGE_LIMIT'} or control.get('resume_mode') not in {'assisted','development_autonomous'}:return False
+        if self.queue().get('mode','assisted') not in {'assisted','development_autonomous'}:return False
+        relevant=any(r.get('blocker_classification') in {'MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY','USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY'} and r.get('attempt_count',0)<3 for r in state['tasks'].values())
+        relevant=relevant or any(t['execution_kind']=='writable_implementation' for t in self.ready(self.queue(),state))
+        if not relevant:return False
+        recent=[s for s in state['executions'] if parse_time(s)>now()-dt.timedelta(days=1)]
+        if len(recent)>=DAILY_MODELS:return False
+        try:
+            self.quota_check()
+            if control['resume_mode']=='development_autonomous':
+                from development_activation import verify_armed
+                verify_armed(self)
+        except (SafetyError,OSError,subprocess.SubprocessError):return False
+        with self.lock('control',True):
+            if self.control()!=control:return False
+            atomic_json(self.control_path,{'version':1,'mode':control['resume_mode'],'reason':'SUPPORTED_AVAILABILITY_RECOVERY','updated_at':stamp()})
+        self.event('development_usage_recovered',status='ready');return True
     def recover_usage(self,state):
         affected=[(key,row) for key,row in state['tasks'].items() if row.get('blocker_classification') in {'USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY','MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY'} and row.get('attempt_count',0)<3]
         if not affected:return
@@ -379,12 +459,18 @@ class DevEngine(Engine):
         if os.environ.get('AUTOMATION_AGENT_CONTEXT')=='1':raise SafetyError('Managed specialists cannot operate the integration authority.')
         if type(max_tasks) is not int or not 1<=max_tasks<=2:raise SafetyError('At most two bounded continuations per cycle.')
         with self.lock():
-            self.guard();state=self.state();self.recover_development(state);results=[]
+            state=self.state();self.recover_development(state);results=[]
+            if execute and not self.maybe_resume_managed_pause(state):return {'executed':0,'blocked':True,'mode':self.control()['mode'],'reason':self.control().get('reason')}
+            self.guard()
             if not execute:return {'dry_run':True,'candidates':[r['id'] for r in self.ready(self.queue(),state) if r['execution_kind']=='writable_implementation'],'profile':self.profile()}
             self.recover_usage(state)
             results.extend(self.retry_pending_pushes(state,max_tasks))
             for _ in range(max_tasks-len(results)):
-                self.guard();queue=self.queue();candidates=self.ready(queue,state);selected=None
+                self.guard()
+                if len([s for s in state['executions'] if parse_time(s)>now()-dt.timedelta(days=1)])>=DAILY_MODELS:
+                    self.pause_for_limit(True)
+                    return {'executed':len(results),'results':results,'blocked':True,'mode':self.control()['mode'],'reason':'MODEL_LAUNCH_BUDGET'}
+                queue=self.queue();candidates=self.ready(queue,state);selected=None
                 # Dependencies are re-evaluated after every integration, not frozen at start.
                 for row in candidates:
                     if row['execution_kind']!='writable_implementation':continue
@@ -434,7 +520,7 @@ class DevEngine(Engine):
                             patches.extend(difflib.unified_diff(old,(tree/name).read_text().splitlines(keepends=True),fromfile='a/'+name,tofile='b/'+name))
                         (tree/'.agent-review.diff').write_text(''.join(patches))
                         atomic_json(tree/'.agent-review.json',{'task_id':task['id'],'base_commit':row['base_commit'],'changed_files':names,'output_fingerprint':pinned,'diff_file':'.agent-review.diff','checks':checks,'acceptance_criteria':task['acceptance_criteria'],'revision':revision})
-                        review=self.phase(task,row,state,tree,'review',executor)
+                        review=self.phase(task,row,state,tree,'review',executor,feedback)
                         if self.changes(task,tree)!=names or fingerprint({n:hashlib.sha256((tree/n).read_bytes()).hexdigest() for n in names})!=pinned:raise SafetyError('Implementation changed during independent review.')
                         if review['requires_owner_decision'] or review['verdict']=='blocked':raise SafetyError('Independent review requires owner/evidence resolution.')
                         if review['verdict']=='accept':break
@@ -452,7 +538,7 @@ class DevEngine(Engine):
                 except UsageUnavailable as error:
                     local=isinstance(error,ModelBudgetExhausted)
                     row.update(status='blocked',blocker_classification='MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY' if local else 'USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY')
-                    atomic_json(self.control_path,{'version':1,'mode':'paused','reason':'MODEL_LAUNCH_BUDGET' if local else 'CODEX_USAGE_LIMIT','updated_at':stamp()});self.save(state)
+                    self.pause_for_limit(local);self.save(state)
                 except Interrupted:
                     row.update(status='blocked',blocker_classification='INTERRUPTED_CHECKPOINT_REVIEW_REQUIRED');self.save(state)
                 except (SafetyError,OSError,subprocess.SubprocessError) as error:

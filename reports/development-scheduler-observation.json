@@ -1,0 +1,15 @@
+{
+  "mode": "assisted",
+  "armedReceiptPresent": false,
+  "jobs": {
+    "com.fantasyevolution.development": {
+      "loaded": false,
+      "observation": "launchctl_print_exit_status"
+    },
+    "com.fantasyevolution.readonly": {
+      "loaded": false,
+      "observation": "launchctl_print_exit_status"
+    }
+  },
+  "activatedByThisTask": false
+}
