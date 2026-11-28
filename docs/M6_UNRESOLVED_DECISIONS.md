@@ -24,3 +24,7 @@ The two imported MLB cases remain withheld after reviewing the retained accelera
 ## Acceptance sequence
 
 Review D1–D6 together; accept an exact method/configuration and cohort manifest; resolve or explicitly bound remaining statistical bias; then execute unchanged V9 on that accepted dataset with preregistered seeds. Only afterward can M6.3 be accepted. M6.4 optimization and later phases need subsequent authorization. A partial subset or synthetic workload cannot establish the 0.5% objective.
+
+## November27 reconciliation supersedes the old decision-status wording
+
+D1–D6 above are historical proposal descriptions, now **approved** under `M6_APPROVED_METHODOLOGY.md`; do not request them again. The12,181 exact starter audit and supported repairs are in `M6_STARTER_RECONCILIATION_REPORT.md`. Remaining new evidence questions are narrowly scoped in `reports/m62-evidence-policy-proposals.json`: category-complete participation with applicable roster proof; completion-day exceptions or a conservative historical-only proxy; explicit/multi-evidence NHL shutout credit. These are inactive proposals with exact target fingerprints and unmet prerequisites, not blanket backfill requests. Continue permitted evidence work before seeking application approval. M6.1/M6.3 remain unaccepted.

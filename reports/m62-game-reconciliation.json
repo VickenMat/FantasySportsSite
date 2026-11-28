@@ -1,0 +1,171 @@
+{
+  "version": "m62-2023-game-reconciliation-1",
+  "sourceFingerprints": {
+    "nba_crosswalk": {
+      "tag": "nba_crosswalk",
+      "status": "FETCHED",
+      "path": "data/provider_previews/objects/dcb4958917e123722f5437f21d80aea01d6f5e32ab20e604432e383a32be9342",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nba_crosswalk/nba_player_crosswalk_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "dcb4958917e123722f5437f21d80aea01d6f5e32ab20e604432e383a32be9342",
+      "bytes": 44668,
+      "catalogSha256": "e3069ef3ea6da0677e9c571ad9082817b59aee6a0105799529a7d2111e9b763f",
+      "receivedAt": "2026-11-28T02:17:16.637Z"
+    },
+    "weekly_rosters": {
+      "tag": "weekly_rosters",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/0fa5abf9b462a087ecb17f3268ed7233ce9935e95d77be94ad6bac66adf8e281",
+      "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+      "sha256": "0fa5abf9b462a087ecb17f3268ed7233ce9935e95d77be94ad6bac66adf8e281",
+      "bytes": 794392,
+      "catalogSha256": "9d6f00c138d5cb15963642d64e37c53d4c02bae8d2f7b69818f38d393221fdc9",
+      "receivedAt": "2026-11-28T02:15:02.657Z"
+    },
+    "snap_counts": {
+      "tag": "snap_counts",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/97873cab365dfb39286bc1de3ac772fa4b51f09cce52ae5f8317e006cc007f62",
+      "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+      "sha256": "97873cab365dfb39286bc1de3ac772fa4b51f09cce52ae5f8317e006cc007f62",
+      "bytes": 237882,
+      "catalogSha256": "46cef5dd7b95026ae6bf506648ad1728c50d51a2a906ce5537254a9b2df8fe0a",
+      "receivedAt": "2026-11-28T02:15:12.436Z"
+    },
+    "pbp": {
+      "tag": "pbp",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/ab6f14df1fc22df403a57a9dabe6a58b464d0bb5969152e3a3758782f9f56a8d",
+      "sourceUrl": "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2023.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md",
+      "sha256": "ab6f14df1fc22df403a57a9dabe6a58b464d0bb5969152e3a3758782f9f56a8d",
+      "bytes": 22398245,
+      "catalogSha256": "ec37f19371c00995a8e81a1a919a102c9889a4f4eeb829d19e85767aa77242ba",
+      "receivedAt": "2026-11-28T02:15:28.133Z"
+    },
+    "nba_stats_schedules": {
+      "tag": "nba_stats_schedules",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/b44f928855750ed16ad92548c1d9a659c263e550fa058839e7da89adec4daa5b",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nba_stats_schedules/nba_schedule_2024.csv.gz",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "b44f928855750ed16ad92548c1d9a659c263e550fa058839e7da89adec4daa5b",
+      "bytes": 22875,
+      "catalogSha256": "299c122f6f4cc915d9f9982239cf16226106878f65afa36eb9c820752c4d6b1a",
+      "receivedAt": "2026-11-28T02:15:38.011Z"
+    },
+    "espn_nba_game_rosters": {
+      "tag": "espn_nba_game_rosters",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/f9e48a0280cd217d100b6de1112d38a95209b08683c42bf77bf6c658b7fd8303",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_game_rosters/game_rosters_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "f9e48a0280cd217d100b6de1112d38a95209b08683c42bf77bf6c658b7fd8303",
+      "bytes": 360630,
+      "catalogSha256": "df76dd167afb03b782fe972fdfb6eb65e1cb75aa7a9d037073d649859a219b5f",
+      "receivedAt": "2026-11-28T02:15:48.221Z"
+    },
+    "espn_nba_player_boxscores": {
+      "tag": "espn_nba_player_boxscores",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/1e500a538ec45ddbcb58d9789b5494f8db4f25658eafd01d90f2d09600921665",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "1e500a538ec45ddbcb58d9789b5494f8db4f25658eafd01d90f2d09600921665",
+      "bytes": 610610,
+      "catalogSha256": "9f7e8842e6422c4b2e56484e89d6990c4531288e2dc45437baa6d7f35cae21b6",
+      "receivedAt": "2026-11-28T02:15:58.145Z"
+    },
+    "espn_nba_pbp": {
+      "tag": "espn_nba_pbp",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/bda57bcb4f8aae57428979ac4a0f766f67c52c770d85b0e7fcf7237a333704b0",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_pbp/play_by_play_2024.parquet",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "bda57bcb4f8aae57428979ac4a0f766f67c52c770d85b0e7fcf7237a333704b0",
+      "bytes": 20598361,
+      "catalogSha256": "43e9dfa8de1da1ddab32fc0e66dffe22bc9fce4a172958417b6fb49395f73774",
+      "receivedAt": "2026-11-28T02:16:14.220Z"
+    },
+    "mlb_pbp": {
+      "tag": "mlb_pbp",
+      "status": "VERIFIED_LOCAL_SOURCE",
+      "path": "data/provider_previews/objects/b4e02a37d99b87e5f76560c78ea7e65be989705057186d686265e882330f4b97",
+      "sourceUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/mlb_pbp/mlb_pbp_2023.csv.gz",
+      "license": "CC-BY-4.0",
+      "licenseReference": "https://github.com/sportsdataverse/sportsdataverse-data/blob/main/README.md",
+      "sha256": "b4e02a37d99b87e5f76560c78ea7e65be989705057186d686265e882330f4b97",
+      "bytes": 7069376,
+      "catalogSha256": "b5e6c8fda142e7e22c68a2705ef5e38c13495db9696014ec28a98a821ffb3d1f",
+      "receivedAt": "2026-11-28T02:16:26.458Z"
+    }
+  },
+  "sports": [
+    {
+      "sport": "NFL",
+      "v5Games": 272,
+      "matchedSeparateInventory": 272,
+      "verifiedCompletionDays": 2,
+      "remainingCompletionGames": 270,
+      "cancelledInPlayedInventory": 0,
+      "independentPublisherClaim": false,
+      "inventoryEvidence": "Official NFL published season record with272game-level team/week matches; printed field conflicts retained",
+      "lineage": "Native league source via licensed derivative; different extraction/artifact from accepted V5, shared upstream disclosed",
+      "acceptedClosedInventory": true
+    },
+    {
+      "sport": "MLB",
+      "v5Games": 2430,
+      "matchedSeparateInventory": 2430,
+      "verifiedCompletionDays": 2427,
+      "remainingCompletionGames": 3,
+      "cancelledInPlayedInventory": 0,
+      "independentPublisherClaim": false,
+      "inventoryEvidence": "Same-upstream separate artifact, retained as reviewable alternative",
+      "lineage": "Native league source via licensed derivative; different extraction/artifact from accepted V5, shared upstream disclosed",
+      "acceptedClosedInventory": false
+    },
+    {
+      "sport": "NBA",
+      "v5Games": 1230,
+      "matchedSeparateInventory": 1230,
+      "verifiedCompletionDays": 1229,
+      "remainingCompletionGames": 1,
+      "cancelledInPlayedInventory": 0,
+      "independentPublisherClaim": true,
+      "inventoryEvidence": "NBA Stats native regular-season IDs/teams/scores versus ESPN-derived V5, crosswalk exact",
+      "lineage": "Native league source via licensed derivative; different extraction/artifact from accepted V5, shared upstream disclosed",
+      "acceptedClosedInventory": true
+    },
+    {
+      "sport": "NHL",
+      "v5Games": 1312,
+      "matchedSeparateInventory": 1312,
+      "verifiedCompletionDays": 52,
+      "remainingCompletionGames": 1260,
+      "cancelledInPlayedInventory": 0,
+      "independentPublisherClaim": false,
+      "inventoryEvidence": "Same-upstream separate artifact, retained as reviewable alternative",
+      "lineage": "Native league source via licensed derivative; different extraction/artifact from accepted V5, shared upstream disclosed",
+      "acceptedClosedInventory": false
+    }
+  ],
+  "mlbValidationFailures": {
+    "NONRECONCILED_OR_SHORTENED_FINAL": 3
+  },
+  "detailPath": "data/simulation/evidence_closure_v1/game_reconciliation.jsonl",
+  "detailSha256": "ae4d3836ef16b9f9e83ee52bc681021d2e8e8f5295fe093752fd965c2b2c7042",
+  "clockEvidenceCount": 3710,
+  "newApproximationActivated": false,
+  "productionWrites": 0
+}

@@ -1,13 +1,13 @@
 import {simulationPlayerLocked} from "./game-locks";
 import { calculateEligibility, type PositionEvidence } from "@/positions/eligibility";
-import { engineVersion as scoringEngineVersion } from "@/scoring/engine";
-import { ubpV9 } from "@/scoring/ubp-v9";
+import { calculateScore, engineVersion as scoringEngineVersion } from "@/scoring/engine";
+import { ubpV9, ubpV9Rules } from "@/scoring/ubp-v9";
 import { compareId, day, fitsSlot, slotRule, type ScoringRole, type SimulationConfig } from "./config";
 import { runDraft, type Candidate } from "./draft";
 import { assignLineup, legalCoverage } from "./matching";
 import type { Availability, Fixture, Outcome, RosterSnapshot, SimulationInput } from "./types";
 
-export const simulationVersion = "historical-fantasy-2";
+export const simulationVersion = "historical-fantasy-3";
 export type SimulationEvent={at:number;kind:"DRAFT"|"WAIVER"|"LINEUP"};
 export type SimulationHooks={draft?:(picks:ReturnType<typeof runDraft>["picks"])=>void;waiver?:(transaction:{team:number;add:string;drop:string|null})=>void;lineupEligible?:(team:number,playerId:string)=>boolean;irHeld?:(team:number,playerId:string)=>boolean};
 const historyLimit = 20;
@@ -25,7 +25,7 @@ type Player = {
 };
 type Team = { roster: Set<string>; budget: number; claimsWon: number; total: number };
 type Selection = { role: ScoringRole; games: string[]; uncertain: boolean };
-type Picked = Selection & { positionsAtLock:string[];replacementProjection:number|null; team: number; playerId: string; slot: string; slotIndex: number; lockAt: number; projection: number };
+export type Picked = Selection & { origin?:"OPTIMIZED"|"PERSISTED_LOCKED"|"ACTUAL_GAME_AT_LOCKED_ASSIGNMENT";sourceDecisionAt?:number; positionsAtLock:string[];replacementProjection:number|null; team: number; playerId: string; slot: string; slotIndex: number; lockAt: number; projection: number };
 type Waiver = { at: number; team: number; add: string; drop: string | null; bid: number; won: boolean };
 
 const eventOrder = (a: Outcome, b: Outcome) =>
@@ -286,6 +286,8 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
   const vacancies = { eligibility: 0, schedule: 0, availability: 0, assignmentConflict: 0 };
   const countsBySlot: Record<string, { requested: number; filled: number; earnedTenths: number }> = {};
   const picks: Picked[] = [];
+  const managerAssignments:(Omit<Picked,"playerId"> & {playerId:string|null})[]=[];
+  const latestManagerAssignment=new Map<string,(typeof managerAssignments)[number]>();
   const deadlines = weeklyDeadlines(input, config);
   const originalSlates = createSlates(input.fixtures);
   const slates = config.lockMode==="SLATE"?originalSlates:originalSlates.flatMap(slate=>[...new Set(slate.fixtures.map(game=>game.startsAt))].map(lockAt=>({...slate,lockAt}))).sort((a,b)=>a.lockAt-b.lockAt||compareId(a.fixtures[0].slate,b.fixtures[0].slate));
@@ -318,7 +320,7 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
       const locked=frozen.get(frozenKey)??{slots:new Set<number>(),players:new Set<string>()};frozen.set(frozenKey,locked);
       if(config.lockMode==="INDIVIDUAL_GAME")for(const slotIndex of [...locked.slots]){
         const prior=[...picks].reverse().find(p=>p.team===teamIndex&&p.slotIndex===slotIndex&&p.games.some(id=>slate.fixtures.some(game=>game.id===id)));
-        if(prior&&prior.games.every(id=>{const game=slate.fixtures.find(g=>g.id===id);return game?.finalKnownAt!==undefined&&game.finalKnownAt<at;})){locked.slots.delete(slotIndex);locked.players.delete(prior.playerId);}
+        if(prior&&picks.filter(p=>p.team===teamIndex&&p.slotIndex===slotIndex&&p.playerId===prior.playerId).flatMap(p=>p.games).filter(id=>slate.fixtures.some(g=>g.id===id)).every(id=>{const game=slate.fixtures.find(g=>g.id===id);return game?.finalKnownAt!==undefined&&game.finalKnownAt<at;})){locked.slots.delete(slotIndex);locked.players.delete(prior.playerId);}
       }
       const squad = [...team.roster].filter(id=>hooks.lineupEligible?.(teamIndex,id)!==false).map((id) => profile(id)).map((player) => ({
         player, positions: positions(player, at), games: [...scheduled.get(proTeam(player) ?? "") ?? []],
@@ -348,6 +350,25 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
         return edges;
       });
       const lineup = assignLineup<Selection>(edges,config.lineupObjective!=="EXPECTED_POINTS");
+      if(input.settlementModel==="ACTUAL_GAME_MEMBERSHIP"){
+        for(let slotIndex=0;slotIndex<slots.length;slotIndex++){
+          const slot=slots[slotIndex],prior=latestManagerAssignment.get(JSON.stringify([teamIndex,slotIndex]));
+          if(locked.slots.has(slotIndex)){
+            if(prior?.playerId&&team.roster.has(prior.playerId)&&hooks.lineupEligible?.(teamIndex,prior.playerId)!==false){
+              const player=profile(prior.playerId),games=(scheduled.get(proTeam(player)??"")??[]).filter(g=>g.startsAt===at);
+              if(fitsSlot(sport,slot,new Set(prior.positionsAtLock)))for(const game of games){
+                if(picks.some(p=>p.team===teamIndex&&p.playerId===prior.playerId&&p.games.includes(game.id)))continue;
+                picks.push({...prior,playerId:prior.playerId,games:[game.id],lockAt:at,sourceDecisionAt:prior.lockAt,positionsAtLock:[...prior.positionsAtLock],replacementProjection:null,origin:"PERSISTED_LOCKED"});
+                const count=countsBySlot[slot]??={requested:0,filled:0,earnedTenths:0};count.requested++;count.filled++;requestedSlots++;filledSlots++;
+                if(prior.uncertain)uncertainAssignments++;
+              }
+            }
+            continue;
+          }
+          const choice=lineup[slotIndex];const state={team:teamIndex,slot,slotIndex,playerId:choice?.playerId??null,role:slotRule(sport,slot).role,games:choice?.selection.games??[],uncertain:choice?.selection.uncertain??true,projection:choice?.projection??0,positionsAtLock:choice?[...positions(profile(choice.playerId),at)]:[],replacementProjection:null,lockAt:at,origin:"OPTIMIZED" as const};managerAssignments.push(state);latestManagerAssignment.set(JSON.stringify([teamIndex,slotIndex]),state);
+        }
+      }
+
       for (const [slotIndex, selection] of lineup.entries()) {
         const slot = slots[slotIndex];
         if(locked.slots.has(slotIndex))continue;
@@ -387,9 +408,27 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
 
   // Outcomes enter settlement only through locked assignments. The decision loop
   // never reads this lookup, including actual same-game roles and late activity.
-  const fixtureIds = new Set(input.fixtures.map(({ id }) => id));
+  const settlementFixtures = new Map(input.fixtures.map(fixture=>[fixture.id,fixture]));
+  const fixtureIds = new Set(settlementFixtures.keys());
   const results = new Map(outcomes.filter(({ seasonYear, gameId }) => seasonYear === input.year && fixtureIds.has(gameId))
     .map((outcome) => [resultKey(outcome.gameId, outcome.playerId, outcome.role), outcome]));
+  const scoringAssignments:Picked[]=[...picks];
+  if(input.settlementModel==="ACTUAL_GAME_MEMBERSHIP"){
+    const members=new Map<string,Set<string>>(),membershipTeams=new Map<string,string>();for(const fact of input.actualMembership??[]){const key=JSON.stringify([fact.playerId,fact.gameId]);if(membershipTeams.has(key)&&membershipTeams.get(key)!==fact.team)throw Error('Conflicting actual game/team membership.');if(!settlementFixtures.get(fact.gameId)?.teams.includes(fact.team))throw Error('Invalid actual game/team membership namespace.');membershipTeams.set(key,fact.team);const players=members.get(fact.gameId)??new Set<string>();players.add(fact.playerId);members.set(fact.gameId,players);}
+    const ordered=[...managerAssignments].sort((a,b)=>a.lockAt-b.lockAt||a.team-b.team||a.slotIndex-b.slotIndex),active=new Map<string,(typeof managerAssignments)[number]>();let index=0;
+    const identities=new Set(scoringAssignments.flatMap(p=>p.games.map(game=>JSON.stringify([p.team,p.playerId,game,p.role]))));
+    const ownershipAt=new Map(draft.picks.map(p=>[p.playerId,{team:p.team,acquiredAt:input.draftAt}]));const ownershipEvents=waivers.filter(w=>w.won).sort((a,b)=>a.at-b.at);let ownershipIndex=0;
+    for(const fixture of [...input.fixtures].sort((a,b)=>a.startsAt-b.startsAt||compareId(a.id,b.id))){
+      while(index<ordered.length&&ordered[index].lockAt<=fixture.startsAt){const fact=ordered[index++];active.set(JSON.stringify([fact.team,fact.slotIndex]),fact);}
+      while(ownershipIndex<ownershipEvents.length&&ownershipEvents[ownershipIndex].at<fixture.startsAt){const event=ownershipEvents[ownershipIndex++];if(event.drop)ownershipAt.delete(event.drop);ownershipAt.set(event.add,{team:event.team,acquiredAt:event.at});}
+      for(const state of active.values())if(state.playerId&&members.get(fixture.id)?.has(state.playerId)&&ownershipAt.get(state.playerId)?.team===state.team&&ownershipAt.get(state.playerId)!.acquiredAt<=state.lockAt){
+        const key=JSON.stringify([state.team,state.playerId,fixture.id,state.role]);if(identities.has(key))continue;identities.add(key);
+        scoringAssignments.push({...state,playerId:state.playerId,games:[fixture.id],lockAt:fixture.startsAt,sourceDecisionAt:state.lockAt,replacementProjection:null,origin:"ACTUAL_GAME_AT_LOCKED_ASSIGNMENT"});
+      }
+    }
+  }
+  const terminal=new Map<string,NonNullable<SimulationInput['terminalEvidence']>[number]>();
+  for(const fact of input.terminalEvidence??[]){const key=resultKey(fact.gameId,fact.playerId,fact.role);if(terminal.has(key))throw Error('Duplicate terminal evidence key.');if(!fact.sourceReferences.length)throw Error('Terminal source evidence required.');terminal.set(key,fact);}
   const missingStats: Record<string, number> = {};
   const roleTotals: Partial<Record<ScoringRole, number>> = {};
   let quarterbackTenths = 0;
@@ -397,14 +436,34 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
   let unscoredStarts = 0;
   let negativeStarts = 0;
   let explicitDidNotPlayStarts = 0;
-  const scoreTrace: { team: number; gameId: string; playerId: string; role: ScoringRole; pointsTenths: number | null;participation?:Outcome["participation"] }[] = [];
+  let roleNotScoredAssignments=0;
+  const scoreTrace: { team: number; gameId: string; playerId: string; role: ScoringRole; pointsTenths: number | null;participation?:Outcome["participation"];settlementStatus?:string;sourceReferences?:readonly string[] }[] = [];
   const settled = new Set<string>();
-  for (const pick of picks) {
+  for (const pick of scoringAssignments) {
     for (const gameId of pick.games) {
       const identity = JSON.stringify([pick.playerId, gameId]);
       if (settled.has(identity)) continue;
       settled.add(identity);
       const result = results.get(resultKey(gameId, pick.playerId, pick.role));
+      const evidence=terminal.get(resultKey(gameId,pick.playerId,pick.role));
+      if(evidence?.status==="ROLE_NOT_SCORED"){roleNotScoredAssignments++;if(config.includeTrace)scoreTrace.push({team:pick.team,gameId,playerId:pick.playerId,role:pick.role,pointsTenths:0,settlementStatus:"ROLE_NOT_SCORED",sourceReferences:evidence.sourceReferences});continue;}
+      if(evidence?.status==="PLAYED_COMPLETE"){
+        if(result?.participation==="DID_NOT_PLAY")throw Error("Played terminal evidence contradicts an explicit DNP.");
+        if(!evidence.stats)throw Error("Played terminal evidence lacks statistical inputs.");
+        const score=calculateScore(ubpV9Rules,{role:pick.role,stats:evidence.stats,teEligible:evidence.teEligible});
+        if(score.missingStats.length)throw Error("Played terminal evidence has incomplete V9 inputs.");
+        if(result?.participation==="PLAYED"&&!result.missingStats.length&&result.pointsTenths!==score.totalTenths)throw Error("Terminal score contradicts known played appearance.");
+        if(config.includeTrace)scoreTrace.push({team:pick.team,gameId,playerId:pick.playerId,role:pick.role,pointsTenths:score.totalTenths,participation:"PLAYED",settlementStatus:"PLAYED_COMPLETE",sourceReferences:evidence.sourceReferences});
+        scoredStarts++;if(score.totalTenths<0)negativeStarts++;teams[pick.team].total+=score.totalTenths;(countsBySlot[pick.slot]??={requested:0,filled:0,earnedTenths:0}).earnedTenths+=score.totalTenths;roleTotals[pick.role]=(roleTotals[pick.role]??0)+score.totalTenths;
+        if(pick.slot==="QB"||(sport==="NFL"&&pick.positionsAtLock.includes("QB")))quarterbackTenths+=score.totalTenths;
+        continue;
+      }
+      if(evidence&&(!result||result.participation!=="PLAYED")){
+        explicitDidNotPlayStarts++;
+        if(config.includeTrace)scoreTrace.push({team:pick.team,gameId,playerId:pick.playerId,role:pick.role,pointsTenths:0,settlementStatus:evidence.status,sourceReferences:evidence.sourceReferences,...(evidence.status==="DID_NOT_PLAY"?{participation:"DID_NOT_PLAY" as const}:{})});
+        continue;
+      }
+      if(evidence&&result?.participation==="PLAYED"&&evidence.status==="DID_NOT_PLAY")throw Error("Terminal DNP contradicts a played source appearance.");
       if (config.includeTrace) {
         scoreTrace.push({ team: pick.team, gameId, playerId: pick.playerId, role: pick.role, pointsTenths: result?.participation==="DID_NOT_PLAY"?0:result && !result.missingStats.length&&result.participation!=="UNKNOWN" ? result.pointsTenths : null,...(result?.participation?{participation:result.participation}:{}) });
       }
@@ -417,7 +476,7 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
       scoredStarts++;
       if (result.pointsTenths < 0) negativeStarts++;
       teams[pick.team].total += result.pointsTenths;
-      countsBySlot[pick.slot].earnedTenths += result.pointsTenths;
+      (countsBySlot[pick.slot]??={requested:0,filled:0,earnedTenths:0}).earnedTenths += result.pointsTenths;
       roleTotals[pick.role] = (roleTotals[pick.role] ?? 0) + result.pointsTenths;
       if (pick.slot === "QB" || (sport === "NFL" && pick.positionsAtLock.includes("QB"))) quarterbackTenths += result.pointsTenths;
       for (const key of result.missingStats) missingStats[key] = (missingStats[key] ?? 0) + 1;
@@ -436,12 +495,12 @@ export function* seasonSimulationEvents(input: SimulationInput, config: Simulati
       fixtures: input.fixtures.length, slates: slates.length,
       drafts: draft.picks.length, draftUnfilledStarterSeats: draft.unfilledStarterSeats,
       draftAchievableStarterSeats: draft.achievableStarts, medianTenths, meanTenths: average(distribution),
-      requestedSlots, filledSlots, uncertainAssignments, vacancies, scoredStarts, unscoredStarts, negativeStarts, explicitDidNotPlayStarts,
+      requestedSlots, filledSlots, uncertainAssignments, vacancies, scoredStarts, unscoredStarts, negativeStarts, explicitDidNotPlayStarts, roleNotScoredAssignments, sourceTruthAddedAssignments:scoringAssignments.length-picks.length,
       waiverWindows, waiverClaims: waivers.length, waiversWon: waivers.filter(({ won }) => won).length,
       slots: countsBySlot, missingStats, roleTotals, quarterbackTenths,
       teams: teams.map(({ roster, total, budget }, index) => ({ team: index, totalTenths: total, remainingFaab: budget, finalRosterSize: roster.size })),
     },
-    trace: config.includeTrace ? { draft: draft.picks, lineups: picks, waivers, scores: scoreTrace } : undefined,
+    trace: config.includeTrace ? { draft: draft.picks, lineups: picks, waivers, scores: scoreTrace,...(input.settlementModel?{managerAssignments,scoringAssignments}:{}) } : undefined,
   };
 }
 

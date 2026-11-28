@@ -46,6 +46,9 @@ export type Outcome = {
 };
 
 export type SimulationInput = {
+  settlementModel?: "ACTUAL_GAME_MEMBERSHIP";
+  terminalEvidence?: readonly {playerId:string;gameId:string;role:ScoringRole;status:"DID_NOT_PLAY"|"ROLE_NOT_SCORED"|"PLAYED_COMPLETE";stats?:Record<string,number|null>;teEligible?:boolean|null;reason:string;sourceReferences:readonly string[]}[];
+  actualMembership?: readonly {playerId:string;gameId:string;team:string;sourceReference:string}[];
   decisionModel?: {participation:"PRIOR_ONLY";availabilityEvidence:"UNKNOWN";informationModel:"TWO_DAY"|"WEEKLY";positionModel:"DATED_CARRY"|"PRIOR_ESTIMATE"};
   sport: Sport;
   year: number;

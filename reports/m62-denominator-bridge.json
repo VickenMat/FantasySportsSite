@@ -1,0 +1,229 @@
+{
+  "version": "m62-denominator-bridge-1",
+  "originalTraceSha256": "d80f04a4deefe266c77c052d0ac3766aa63a515af202402445d6cc4125e0735e",
+  "correctedResultFingerprint": "f72eae09ebeb4d33e4de16a3a561e1b74be7251c12de9a3ef47f478ee0c827ed",
+  "sports": [
+    {
+      "sport": "NFL",
+      "originalAssignments": 2340,
+      "correctedAssignments": 2360,
+      "originalUnresolved": 636,
+      "originalKeysRemoved": 0,
+      "originalUnresolvedResolvedByStatus": {
+        "PLAYED_COMPLETE": 9
+      },
+      "originalUnresolvedRemaining": 627,
+      "newAssignmentsByStatus": {
+        "PLAYED": 20
+      },
+      "newAssignmentOrigins": {
+        "ACTUAL_GAME_AT_LOCKED_ASSIGNMENT": 20
+      },
+      "correctedUnresolved": 627,
+      "knownFranchiseTenthsBefore": [
+        97888,
+        86914,
+        72382,
+        57462,
+        77822,
+        84266,
+        95848,
+        99607,
+        84941,
+        76709,
+        89975,
+        96985
+      ],
+      "knownFranchiseTenthsAfter": [
+        98693,
+        88143,
+        72382,
+        57676,
+        77822,
+        84957,
+        96050,
+        99639,
+        85314,
+        76709,
+        90599,
+        99465
+      ],
+      "draftStarterSeatsBefore": 108,
+      "draftStarterSeatsAfter": 108,
+      "sourceTruthAddedAssignments": 20,
+      "missingStats": {}
+    },
+    {
+      "sport": "MLB",
+      "originalAssignments": 15681,
+      "correctedAssignments": 18567,
+      "originalUnresolved": 6210,
+      "originalKeysRemoved": 0,
+      "originalUnresolvedResolvedByStatus": {
+        "ROLE_NOT_SCORED": 33
+      },
+      "originalUnresolvedRemaining": 6177,
+      "newAssignmentsByStatus": {
+        "PLAYED": 1490,
+        "UNKNOWN": 1388,
+        "ROLE_NOT_SCORED": 8
+      },
+      "newAssignmentOrigins": {
+        "PERSISTED_LOCKED": 2868,
+        "ACTUAL_GAME_AT_LOCKED_ASSIGNMENT": 18
+      },
+      "correctedUnresolved": 7565,
+      "knownFranchiseTenthsBefore": [
+        76430,
+        66585,
+        72919,
+        62131,
+        60030,
+        65160,
+        55676,
+        54686,
+        74062,
+        68029,
+        75536,
+        71139
+      ],
+      "knownFranchiseTenthsAfter": [
+        87852,
+        78493,
+        88291,
+        71643,
+        68895,
+        76150,
+        64374,
+        63384,
+        84081,
+        81169,
+        87672,
+        80845
+      ],
+      "draftStarterSeatsBefore": 108,
+      "draftStarterSeatsAfter": 108,
+      "sourceTruthAddedAssignments": 18,
+      "missingStats": {}
+    },
+    {
+      "sport": "NBA",
+      "originalAssignments": 12551,
+      "correctedAssignments": 12678,
+      "originalUnresolved": 2988,
+      "originalKeysRemoved": 0,
+      "originalUnresolvedResolvedByStatus": {
+        "DID_NOT_PLAY": 518
+      },
+      "originalUnresolvedRemaining": 2470,
+      "newAssignmentsByStatus": {
+        "UNKNOWN": 31,
+        "PLAYED": 88,
+        "DID_NOT_PLAY": 8
+      },
+      "newAssignmentOrigins": {
+        "PERSISTED_LOCKED": 110,
+        "ACTUAL_GAME_AT_LOCKED_ASSIGNMENT": 17
+      },
+      "correctedUnresolved": 2501,
+      "knownFranchiseTenthsBefore": [
+        122923,
+        130976,
+        135968,
+        127984,
+        126365,
+        111696,
+        141517,
+        107576,
+        107720,
+        109637,
+        118825,
+        135027
+      ],
+      "knownFranchiseTenthsAfter": [
+        123408,
+        131809,
+        137683,
+        129534,
+        126961,
+        113426,
+        142719,
+        108272,
+        108340,
+        109631,
+        120479,
+        136397
+      ],
+      "draftStarterSeatsBefore": 108,
+      "draftStarterSeatsAfter": 108,
+      "sourceTruthAddedAssignments": 17,
+      "missingStats": {}
+    },
+    {
+      "sport": "NHL",
+      "originalAssignments": 9809,
+      "correctedAssignments": 9869,
+      "originalUnresolved": 2347,
+      "originalKeysRemoved": 0,
+      "originalUnresolvedResolvedByStatus": {
+        "DID_NOT_PLAY": 576
+      },
+      "originalUnresolvedRemaining": 1771,
+      "newAssignmentsByStatus": {
+        "DID_NOT_PLAY": 7,
+        "PLAYED": 38,
+        "UNKNOWN": 15
+      },
+      "newAssignmentOrigins": {
+        "PERSISTED_LOCKED": 55,
+        "ACTUAL_GAME_AT_LOCKED_ASSIGNMENT": 5
+      },
+      "correctedUnresolved": 1786,
+      "knownFranchiseTenthsBefore": [
+        100853,
+        82300,
+        91353,
+        78071,
+        92463,
+        87549,
+        94145,
+        102107,
+        90639,
+        103548,
+        94511,
+        91727
+      ],
+      "knownFranchiseTenthsAfter": [
+        102203,
+        83443,
+        91805,
+        78255,
+        92580,
+        88199,
+        94373,
+        102471,
+        91031,
+        103932,
+        94578,
+        92340
+      ],
+      "draftStarterSeatsBefore": 108,
+      "draftStarterSeatsAfter": 108,
+      "sourceTruthAddedAssignments": 5,
+      "missingStats": {
+        "shutout": 53
+      }
+    }
+  ],
+  "totals": {
+    "originalAssignments": 40381,
+    "correctedAssignments": 43474,
+    "originalUnresolved": 12181,
+    "originalKeysRemoved": 0,
+    "originalUnresolvedRemaining": 11045,
+    "correctedUnresolved": 12479
+  },
+  "officialBaseline": false,
+  "sourceCalendarChronologyAccepted": false,
+  "productionWrites": 0
+}

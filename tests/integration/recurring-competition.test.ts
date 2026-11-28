@@ -17,7 +17,7 @@ beforeEach(async()=>{await db.professionalSyncState.deleteMany({where:{provider:
 afterAll(async()=>{await db.$disconnect();for(const path of fixtureFiles)await rm(path,{recursive:true,force:true});});
 it('isolates persisted NFL failures from NBA/NHL progress and enforces minute cadence across restarts',async()=>{
  const result=await processRecurringCompetition({db,clock:()=>at,testAuthorization:authorization,testCollect:async sport=>{if(sport==='NFL')throw Error('NFL retained product unavailable');return empty();}});
- expect(result.outcomes.map(row=>row.status)).toEqual(['BACKOFF','PROCESSED','PROCESSED']);
+ expect(result.outcomes.map(row=>row.status),JSON.stringify(result)).toEqual(['BACKOFF','PROCESSED','PROCESSED']);
  const states=await db.professionalSyncState.findMany({where:{provider:'internal-recurring-competition'},orderBy:{sport:'asc'}});
  expect(states).toHaveLength(3);expect(states.find(row=>row.sport==='NFL')).toMatchObject({failures:1,lastFailure:'COMPETITIVE_SOURCE_OR_VALIDATION_FAILED',leaseToken:null,leaseUntil:null});
  expect(await synchronizeRecurringCompetitionSport('NBA',{db,clock:()=>new Date(+at+59999),testAuthorization:authorization,testCollect:empty})).toMatchObject({status:'WAITING'});

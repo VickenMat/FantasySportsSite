@@ -1,0 +1,444 @@
+{
+  "version": "m62-original-starter-reconciliation-1",
+  "baselineTraceSha256": "d80f04a4deefe266c77c052d0ac3766aa63a515af202402445d6cc4125e0735e",
+  "originalTotal": 12181,
+  "classifiedTotal": 12181,
+  "mutuallyExclusive": true,
+  "sports": [
+    {
+      "sport": "NFL",
+      "originalUnresolved": 636,
+      "primaryCounts": {
+        "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE": 28,
+        "MISSING_PLAYER_GAME_ROW": 599,
+        "PLAYED_RECOVERED_PARTICIPATION": 9
+      },
+      "secondaryFlags": {
+        "STALE_MODELED_TEAM_CONTINUITY": 28,
+        "ACTUAL_GAME_AFTER_DECISION": 26,
+        "NO_REQUESTED_ROLE_SOURCE_ROW": 627,
+        "PARTICIPATION_UNKNOWN_NO_DNP_INFERENCE": 599,
+        "ACTUAL_GAME_BEFORE_DECISION": 2
+      }
+    },
+    {
+      "sport": "MLB",
+      "originalUnresolved": 6210,
+      "primaryCounts": {
+        "MISSING_PLAYER_GAME_ROW": 5859,
+        "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE": 27,
+        "STALE_TEAM_CONTINUITY_WITHOUT_SAME_PERIOD_APPEARANCE": 17,
+        "MLB_DOUBLEHEADER_OTHER_GAME_APPEARANCE": 274,
+        "VERIFIED_NONSCORING_ROLE": 33
+      },
+      "secondaryFlags": {
+        "NO_REQUESTED_ROLE_SOURCE_ROW": 6203,
+        "PARTICIPATION_UNKNOWN_NO_DNP_INFERENCE": 5859,
+        "PITCHER_PARTICIPATION_IS_NOT_DAILY_CERTAINTY": 3346,
+        "STALE_MODELED_TEAM_CONTINUITY": 27,
+        "ACTUAL_GAME_AFTER_DECISION": 289,
+        "SAME_TEAM_ADDITIONAL_GAME": 274,
+        "ACTUAL_GAME_BEFORE_DECISION": 12
+      }
+    },
+    {
+      "sport": "NBA",
+      "originalUnresolved": 2988,
+      "primaryCounts": {
+        "MISSING_PLAYER_GAME_ROW": 2443,
+        "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE": 26,
+        "EXPLICIT_VERIFIED_DNP": 518,
+        "UTC_DAY_MULTIGAME_OTHER_APPEARANCE": 1
+      },
+      "secondaryFlags": {
+        "NO_REQUESTED_ROLE_SOURCE_ROW": 2988,
+        "PARTICIPATION_UNKNOWN_NO_DNP_INFERENCE": 2443,
+        "STALE_MODELED_TEAM_CONTINUITY": 26,
+        "ACTUAL_GAME_AFTER_DECISION": 21,
+        "ACTUAL_GAME_BEFORE_DECISION": 6,
+        "EXPLICIT_TERMINAL_EVIDENCE_RECOVERED": 518,
+        "NEW_EXPLICIT_PUBLISHED_DNP_EVIDENCE": 518,
+        "SAME_TEAM_ADDITIONAL_GAME": 1
+      }
+    },
+    {
+      "sport": "NHL",
+      "originalUnresolved": 2347,
+      "primaryCounts": {
+        "MISSING_PLAYER_GAME_ROW": 1710,
+        "EXPLICIT_VERIFIED_DNP": 576,
+        "STALE_TEAM_CONTINUITY_WITHOUT_SAME_PERIOD_APPEARANCE": 3,
+        "PLAYED_INCOMPLETE_V9_INPUTS": 52,
+        "UTC_DAY_MULTIGAME_OTHER_APPEARANCE": 1,
+        "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE": 5
+      },
+      "secondaryFlags": {
+        "NO_REQUESTED_ROLE_SOURCE_ROW": 1719,
+        "PARTICIPATION_UNKNOWN_NO_DNP_INFERENCE": 1710,
+        "GOALIE_PARTICIPATION_IS_NOT_DAILY_CERTAINTY": 1249,
+        "EXPLICIT_TERMINAL_EVIDENCE_RECOVERED": 576,
+        "COMPILER_EXCLUDED_NONSELECTED_DNP": 576,
+        "SAME_TEAM_ADDITIONAL_GAME": 1,
+        "ACTUAL_GAME_AFTER_DECISION": 6,
+        "STALE_MODELED_TEAM_CONTINUITY": 5
+      }
+    }
+  ],
+  "categories": [
+    {
+      "category": "EXPLICIT_VERIFIED_DNP",
+      "count": 1094,
+      "bySport": {
+        "NBA": 518,
+        "NHL": 576
+      },
+      "bySlot": {
+        "NBA:C": 83,
+        "NBA:PG": 68,
+        "NBA:SF": 79,
+        "NBA:SG": 62,
+        "NBA:PF": 64,
+        "NBA:G": 57,
+        "NBA:UTIL": 52,
+        "NBA:F": 53,
+        "NHL:G": 576
+      },
+      "uniquePlayers": 195,
+      "uniqueGames": 886,
+      "franchises": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "RESOLVED_TERMINAL_EVIDENCE",
+      "evidenceRequired": "Explicit canonical DNP/zero TOI row; settle after lock only",
+      "potentialScoringImpact": "Verified zero participation; not a played appearance"
+    },
+    {
+      "category": "MISSING_PLAYER_GAME_ROW",
+      "count": 10611,
+      "bySport": {
+        "NFL": 599,
+        "MLB": 5859,
+        "NBA": 2443,
+        "NHL": 1710
+      },
+      "bySlot": {
+        "NFL:WR": 138,
+        "NFL:TE": 41,
+        "NFL:QB": 125,
+        "NFL:FLEX": 59,
+        "NFL:RB": 162,
+        "NFL:SUPERFLEX": 74,
+        "MLB:SP": 3142,
+        "MLB:MI": 462,
+        "MLB:UTIL": 705,
+        "MLB:OF": 877,
+        "MLB:1B": 355,
+        "MLB:3B": 318,
+        "NBA:PG": 363,
+        "NBA:C": 424,
+        "NBA:SF": 312,
+        "NBA:SG": 335,
+        "NBA:PF": 277,
+        "NBA:F": 226,
+        "NBA:G": 273,
+        "NBA:UTIL": 233,
+        "NHL:G": 619,
+        "NHL:D": 366,
+        "NHL:F": 623,
+        "NHL:UTIL": 102
+      },
+      "uniquePlayers": 644,
+      "uniqueGames": 4000,
+      "franchises": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "MISSING_PARTICIPATION_EVIDENCE",
+      "evidenceRequired": "Canonical applicable roster plus complete category-specific participation inventory, no contradiction",
+      "potentialScoringImpact": "Unknown full outcome; no zero fill or finite complete-outcome bound"
+    },
+    {
+      "category": "MLB_DOUBLEHEADER_OTHER_GAME_APPEARANCE",
+      "count": 274,
+      "bySport": {
+        "MLB": 274
+      },
+      "bySlot": {
+        "MLB:SP": 159,
+        "MLB:3B": 24,
+        "MLB:MI": 12,
+        "MLB:UTIL": 30,
+        "MLB:1B": 17,
+        "MLB:OF": 32
+      },
+      "uniquePlayers": 118,
+      "uniqueGames": 185,
+      "franchises": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "OPPORTUNITY_AND_SOURCE_GAP",
+      "evidenceRequired": "Game-specific pitcher participation/nonparticipation and applicable roster proof",
+      "potentialScoringImpact": "Another game appearance never proves DNP in requested game"
+    },
+    {
+      "category": "PLAYED_INCOMPLETE_V9_INPUTS",
+      "count": 52,
+      "bySport": {
+        "NHL": 52
+      },
+      "bySlot": {
+        "NHL:G": 52
+      },
+      "uniquePlayers": 35,
+      "uniqueGames": 52,
+      "franchises": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "MISSING_STATISTICAL_EVIDENCE",
+      "evidenceRequired": "Explicit goalie shutout credit or approved multi-evidence credit policy",
+      "potentialScoringImpact": "Original52 assignments have fixed component interval0..972.4points; no adaptive bound"
+    },
+    {
+      "category": "PLAYED_RECOVERED_PARTICIPATION",
+      "count": 9,
+      "bySport": {
+        "NFL": 9
+      },
+      "bySlot": {
+        "NFL:WR": 4,
+        "NFL:TE": 1,
+        "NFL:SUPERFLEX": 2,
+        "NFL:FLEX": 1,
+        "NFL:RB": 1
+      },
+      "uniquePlayers": 8,
+      "uniqueGames": 9,
+      "franchises": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "season": 2023,
+      "cause": "RESOLVED_TERMINAL_EVIDENCE",
+      "evidenceRequired": "Positive source snaps with canonical PFR/GSIS pair; existing complete V9 inputs",
+      "potentialScoringImpact": "Exact production V9 score; no pregame publication timestamp invented"
+    },
+    {
+      "category": "STALE_TEAM_CONTINUITY_WITHOUT_SAME_PERIOD_APPEARANCE",
+      "count": 20,
+      "bySport": {
+        "MLB": 17,
+        "NHL": 3
+      },
+      "bySlot": {
+        "MLB:1B": 3,
+        "MLB:3B": 2,
+        "MLB:SP": 12,
+        "NHL:G": 1,
+        "NHL:D": 1,
+        "NHL:F": 1
+      },
+      "uniquePlayers": 20,
+      "uniqueGames": 20,
+      "franchises": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "MODELED_TEAM_CONTINUITY",
+      "evidenceRequired": "Applicable dated roster evidence and complete participation inventory",
+      "potentialScoringImpact": "Prior observation mismatch alone cannot establish current membership or DNP"
+    },
+    {
+      "category": "UTC_DAY_MULTIGAME_OTHER_APPEARANCE",
+      "count": 2,
+      "bySport": {
+        "NBA": 1,
+        "NHL": 1
+      },
+      "bySlot": {
+        "NBA:SF": 1,
+        "NHL:G": 1
+      },
+      "uniquePlayers": 2,
+      "uniqueGames": 2,
+      "franchises": [
+        0,
+        8
+      ],
+      "season": 2023,
+      "cause": "OPPORTUNITY_AND_SOURCE_GAP",
+      "evidenceRequired": "Canonical game-specific participation and team roster inventory",
+      "potentialScoringImpact": "Same UTC day is not a unique game identifier"
+    },
+    {
+      "category": "VERIFIED_NONSCORING_ROLE",
+      "count": 33,
+      "bySport": {
+        "MLB": 33
+      },
+      "bySlot": {
+        "MLB:SP": 25,
+        "MLB:UTIL": 7,
+        "MLB:3B": 1
+      },
+      "uniquePlayers": 3,
+      "uniqueGames": 33,
+      "franchises": [
+        2,
+        7
+      ],
+      "season": 2023,
+      "cause": "CONFIRMED_ROLE_POLICY",
+      "evidenceRequired": "Recorded starting pitcher/batting activity establishes confirmed selected role",
+      "potentialScoringImpact": "Zero for unselected role only; not player DNP"
+    },
+    {
+      "category": "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE",
+      "count": 86,
+      "bySport": {
+        "NFL": 28,
+        "MLB": 27,
+        "NBA": 26,
+        "NHL": 5
+      },
+      "bySlot": {
+        "NFL:RB": 6,
+        "NFL:WR": 10,
+        "NFL:SUPERFLEX": 6,
+        "NFL:FLEX": 2,
+        "NFL:TE": 1,
+        "NFL:QB": 3,
+        "MLB:UTIL": 4,
+        "MLB:OF": 3,
+        "MLB:3B": 4,
+        "MLB:1B": 4,
+        "MLB:MI": 4,
+        "MLB:SP": 8,
+        "NBA:PG": 6,
+        "NBA:SF": 2,
+        "NBA:G": 6,
+        "NBA:UTIL": 2,
+        "NBA:F": 3,
+        "NBA:PF": 2,
+        "NBA:SG": 4,
+        "NBA:C": 1,
+        "NHL:F": 4,
+        "NHL:D": 1
+      },
+      "uniquePlayers": 75,
+      "uniqueGames": 76,
+      "franchises": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "season": 2023,
+      "cause": "MODELED_TEAM_CONTINUITY",
+      "evidenceRequired": "Dated canonical team transition; retrospective actual game membership for settlement",
+      "potentialScoringImpact": "Actual game credited only if player occupied locked slot and was owned at actual start"
+    }
+  ],
+  "detailPath": "data/simulation/evidence_closure_v1/original_assignment_reconciliation.jsonl",
+  "detailSha256": "4606ae5c33aba56d09e8eac07f0d32f87df80e37a68a6786f92e868c552a1bef",
+  "secondaryFlagsOverlap": true,
+  "sourceRowsZeroFilled": 0,
+  "productionWrites": 0,
+  "requiredCategoryInterpretation": {
+    "actualPlayedIncompleteV9": "PLAYED_INCOMPLETE_V9_INPUTS",
+    "explicitVerifiedDNP": "EXPLICIT_VERIFIED_DNP",
+    "verifiedNoApplicableGame": 0,
+    "verifiedNonStartingPitcher": 0,
+    "verifiedNonParticipatingGoalie": 576,
+    "playerNotApplicableRoster": 0,
+    "wrongProfessionalTeam": "WRONG_TEAM_EXPECTATION_WITH_ACTUAL_PERIOD_APPEARANCE",
+    "staleContinuity": "STALE_TEAM_CONTINUITY_WITHOUT_SAME_PERIOD_APPEARANCE",
+    "missingProfessionalGame": 0,
+    "missingPlayerGameRow": "MISSING_PLAYER_GAME_ROW",
+    "unresolvedPlayerIdentity": 0,
+    "unresolvedGameIdentity": 0,
+    "unresolvedProfessionalTeamMapping": 0,
+    "unresolvedScoringRole": 0,
+    "unknownParticipation": "MISSING_PLAYER_GAME_ROW",
+    "suspendedOrResumedPrimaryCause": 0,
+    "missingCompletionChronologyPrimaryCause": 0,
+    "duplicateAssignment": 0,
+    "simulationSchedulingDefectPrimaryCause": 0,
+    "compilerProjectionDefect": 576,
+    "otherPreciselyDocumentedReasons": [
+      "MLB_DOUBLEHEADER_OTHER_GAME_APPEARANCE",
+      "UTC_DAY_MULTIGAME_OTHER_APPEARANCE",
+      "VERIFIED_NONSCORING_ROLE",
+      "PLAYED_RECOVERED_PARTICIPATION"
+    ]
+  },
+  "requiredCategoriesAreAliasesNotAdditionalExclusiveCounts": true,
+  "categoryNotes": "Zero means not established as a primary cause of these original assignments, not that the archive has no such games or chronology gaps. Goalie DNP and compiler defect are overlapping descriptions of the same576 rows, not extra categories. Nonstarting pitchers may still pitch in relief and are not inferred DNP."
+}

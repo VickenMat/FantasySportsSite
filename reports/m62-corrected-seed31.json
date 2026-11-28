@@ -1,0 +1,1489 @@
+{
+  "version": "m62-corrected-seed31-1",
+  "seed": 31,
+  "resultFingerprint": "f72eae09ebeb4d33e4de16a3a561e1b74be7251c12de9a3ef47f478ee0c827ed",
+  "methodologyFingerprint": "3cd6215433978e520fc215dda4f4aa83463193c9a89b483ce4c1b24f9e1a1daa",
+  "baselineTraceFingerprint": "f5c21193baec8e67b5270b09a8ced8c8bdab09daddd014f4feac7e8e7ee0127f",
+  "elapsedMs": 23439.3515,
+  "sourceCalendarDiagnosticOnly": true,
+  "officialSpread": null,
+  "sports": [
+    {
+      "sport": "NFL",
+      "original": {
+        "fixtures": 272,
+        "slates": 123,
+        "drafts": 192,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 85927.5,
+        "meanTenths": 85066.58333333333,
+        "requestedSlots": 7607,
+        "filledSlots": 2340,
+        "uncertainAssignments": 2340,
+        "vacancies": {
+          "eligibility": 0,
+          "schedule": 3842,
+          "availability": 0,
+          "assignmentConflict": 1425
+        },
+        "scoredStarts": 1704,
+        "unscoredStarts": 636,
+        "negativeStarts": 14,
+        "explicitDidNotPlayStarts": 0,
+        "waiverWindows": 18,
+        "waiverClaims": 195,
+        "waiversWon": 17,
+        "slots": {
+          "QB": {
+            "requested": 818,
+            "filled": 283,
+            "earnedTenths": 93598
+          },
+          "RB": {
+            "requested": 1658,
+            "filled": 552,
+            "earnedTenths": 248693
+          },
+          "WR": {
+            "requested": 2456,
+            "filled": 822,
+            "earnedTenths": 418246
+          },
+          "TE": {
+            "requested": 936,
+            "filled": 239,
+            "earnedTenths": 105221
+          },
+          "FLEX": {
+            "requested": 881,
+            "filled": 220,
+            "earnedTenths": 89223
+          },
+          "SUPERFLEX": {
+            "requested": 858,
+            "filled": 224,
+            "earnedTenths": 65818
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "FOOTBALL": 1020799
+        },
+        "quarterbackTenths": 115822,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 97888,
+            "remainingFaab": 73,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 1,
+            "totalTenths": 86914,
+            "remainingFaab": 100,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 2,
+            "totalTenths": 72382,
+            "remainingFaab": 61,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 3,
+            "totalTenths": 57462,
+            "remainingFaab": 24,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 4,
+            "totalTenths": 77822,
+            "remainingFaab": 53,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 5,
+            "totalTenths": 84266,
+            "remainingFaab": 64,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 6,
+            "totalTenths": 95848,
+            "remainingFaab": 7,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 7,
+            "totalTenths": 99607,
+            "remainingFaab": 3,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 8,
+            "totalTenths": 84941,
+            "remainingFaab": 100,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 9,
+            "totalTenths": 76709,
+            "remainingFaab": 18,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 10,
+            "totalTenths": 89975,
+            "remainingFaab": 0,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 11,
+            "totalTenths": 96985,
+            "remainingFaab": 18,
+            "finalRosterSize": 16
+          }
+        ]
+      },
+      "corrected": {
+        "fixtures": 272,
+        "slates": 123,
+        "drafts": 192,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 86728.5,
+        "meanTenths": 85620.75,
+        "requestedSlots": 7607,
+        "filledSlots": 2340,
+        "uncertainAssignments": 2340,
+        "vacancies": {
+          "eligibility": 0,
+          "schedule": 3842,
+          "availability": 0,
+          "assignmentConflict": 1425
+        },
+        "scoredStarts": 1733,
+        "unscoredStarts": 627,
+        "negativeStarts": 15,
+        "explicitDidNotPlayStarts": 0,
+        "roleNotScoredAssignments": 0,
+        "sourceTruthAddedAssignments": 20,
+        "waiverWindows": 18,
+        "waiverClaims": 195,
+        "waiversWon": 17,
+        "slots": {
+          "QB": {
+            "requested": 818,
+            "filled": 283,
+            "earnedTenths": 93874
+          },
+          "RB": {
+            "requested": 1658,
+            "filled": 552,
+            "earnedTenths": 249096
+          },
+          "WR": {
+            "requested": 2456,
+            "filled": 822,
+            "earnedTenths": 421176
+          },
+          "TE": {
+            "requested": 936,
+            "filled": 239,
+            "earnedTenths": 105335
+          },
+          "FLEX": {
+            "requested": 881,
+            "filled": 220,
+            "earnedTenths": 90406
+          },
+          "SUPERFLEX": {
+            "requested": 858,
+            "filled": 224,
+            "earnedTenths": 67562
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "FOOTBALL": 1027449
+        },
+        "quarterbackTenths": 117017,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 98693,
+            "remainingFaab": 73,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 1,
+            "totalTenths": 88143,
+            "remainingFaab": 100,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 2,
+            "totalTenths": 72382,
+            "remainingFaab": 61,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 3,
+            "totalTenths": 57676,
+            "remainingFaab": 24,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 4,
+            "totalTenths": 77822,
+            "remainingFaab": 53,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 5,
+            "totalTenths": 84957,
+            "remainingFaab": 64,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 6,
+            "totalTenths": 96050,
+            "remainingFaab": 7,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 7,
+            "totalTenths": 99639,
+            "remainingFaab": 3,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 8,
+            "totalTenths": 85314,
+            "remainingFaab": 100,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 9,
+            "totalTenths": 76709,
+            "remainingFaab": 18,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 10,
+            "totalTenths": 90599,
+            "remainingFaab": 0,
+            "finalRosterSize": 16
+          },
+          {
+            "team": 11,
+            "totalTenths": 99465,
+            "remainingFaab": 18,
+            "finalRosterSize": 16
+          }
+        ]
+      },
+      "diagnostics": {
+        "sport": "NFL",
+        "year": 2023,
+        "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+        "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+        "completeStarterOutcomeInventory": false,
+        "meanFranchiseStarterTenths": 85620.75,
+        "medianFranchiseStarterTenths": 86728.5,
+        "minFranchiseStarterTenths": 57676,
+        "maxFranchiseStarterTenths": 99639,
+        "populationStandardDeviationTenths": 12233.56137928908,
+        "knownFantasyStarterAssignments": 1733,
+        "scoredStartingAppearances": 1733,
+        "explicitDidNotPlayStarts": 0,
+        "unscoredStartingAppearances": 627,
+        "pointsPerScoredAppearanceTenths": 592.8730525100981,
+        "pointsPerKnownFantasyAssignmentTenths": 592.8730525100981,
+        "pointsPerRequiredSlotTenths": 9513.416666666666,
+        "everOwnedPlayers": 209,
+        "everStartedPlayers": 208,
+        "neverStartedOwnedPlayers": 1,
+        "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+        "replacementUsage": 17,
+        "waiverPointsTenths": 66391,
+        "draftRoundPointsTenths": {
+          "1": 117507,
+          "2": 103306,
+          "3": 88745,
+          "4": 87194,
+          "5": 85198,
+          "6": 65920,
+          "7": 60135,
+          "8": 56020,
+          "9": 81379,
+          "10": 41882,
+          "11": 59212,
+          "12": 24224,
+          "13": 30342,
+          "14": 18213,
+          "15": 26335,
+          "16": 15446
+        },
+        "positionContributions": {
+          "QB": {
+            "starts": 157,
+            "pointsTenths": 93874,
+            "replacementProjectedTenths": 55549.21138958994,
+            "replacementComparableStarts": 155
+          },
+          "RB": {
+            "starts": 385,
+            "pointsTenths": 249096,
+            "replacementProjectedTenths": 152513.98903493455,
+            "replacementComparableStarts": 384
+          },
+          "WR": {
+            "starts": 683,
+            "pointsTenths": 421176,
+            "replacementProjectedTenths": 296348.08603678475,
+            "replacementComparableStarts": 674
+          },
+          "TE": {
+            "starts": 198,
+            "pointsTenths": 105335,
+            "replacementProjectedTenths": 62846.26715662998,
+            "replacementComparableStarts": 197
+          },
+          "SUPERFLEX": {
+            "starts": 149,
+            "pointsTenths": 67562,
+            "replacementProjectedTenths": 73273.07095875614,
+            "replacementComparableStarts": 144
+          },
+          "FLEX": {
+            "starts": 161,
+            "pointsTenths": 90406,
+            "replacementProjectedTenths": 77403.22826471044,
+            "replacementComparableStarts": 159
+          }
+        },
+        "footballSuperflexQbEligibleFraction": 0.4732142857142857,
+        "missingInputs": {},
+        "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+        "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+        "unmeasured": [
+          "injury counterfactual effect without dated injury evidence",
+          "championship influence without a separately accepted H2H season model",
+          "year-to-year stability without accepted comparable cycles"
+        ]
+      }
+    },
+    {
+      "sport": "MLB",
+      "original": {
+        "fixtures": 2427,
+        "slates": 1739,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 67307,
+        "meanTenths": 66865.25,
+        "requestedSlots": 100931,
+        "filledSlots": 15681,
+        "uncertainAssignments": 15681,
+        "vacancies": {
+          "eligibility": 1437,
+          "schedule": 68157,
+          "availability": 1609,
+          "assignmentConflict": 14047
+        },
+        "scoredStarts": 9471,
+        "unscoredStarts": 6210,
+        "negativeStarts": 2270,
+        "explicitDidNotPlayStarts": 0,
+        "waiverWindows": 27,
+        "waiverClaims": 30,
+        "waiversWon": 9,
+        "slots": {
+          "SP": {
+            "requested": 13729,
+            "filled": 4141,
+            "earnedTenths": 240456
+          },
+          "1B": {
+            "requested": 11195,
+            "filled": 1750,
+            "earnedTenths": 94672
+          },
+          "3B": {
+            "requested": 12220,
+            "filled": 1613,
+            "earnedTenths": 80795
+          },
+          "MI": {
+            "requested": 11834,
+            "filled": 1725,
+            "earnedTenths": 75935
+          },
+          "OF": {
+            "requested": 23379,
+            "filled": 3395,
+            "earnedTenths": 161762
+          },
+          "UTIL": {
+            "requested": 28574,
+            "filled": 3057,
+            "earnedTenths": 148763
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "HITTER": 561927,
+          "PITCHER": 240456
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 76430,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 66585,
+            "remainingFaab": 94,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 72919,
+            "remainingFaab": 82,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 62131,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 60030,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 65160,
+            "remainingFaab": 58,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 55676,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 54686,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 74062,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 68029,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 75536,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 71139,
+            "remainingFaab": 75,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "corrected": {
+        "fixtures": 2427,
+        "slates": 1739,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 79669,
+        "meanTenths": 77737.41666666667,
+        "requestedSlots": 103799,
+        "filledSlots": 18549,
+        "uncertainAssignments": 18549,
+        "vacancies": {
+          "eligibility": 1437,
+          "schedule": 68157,
+          "availability": 1609,
+          "assignmentConflict": 14047
+        },
+        "scoredStarts": 10961,
+        "unscoredStarts": 7565,
+        "negativeStarts": 2623,
+        "explicitDidNotPlayStarts": 0,
+        "roleNotScoredAssignments": 41,
+        "sourceTruthAddedAssignments": 18,
+        "waiverWindows": 27,
+        "waiverClaims": 30,
+        "waiversWon": 9,
+        "slots": {
+          "SP": {
+            "requested": 14813,
+            "filled": 5225,
+            "earnedTenths": 285561
+          },
+          "1B": {
+            "requested": 11521,
+            "filled": 2076,
+            "earnedTenths": 111033
+          },
+          "3B": {
+            "requested": 12500,
+            "filled": 1893,
+            "earnedTenths": 93159
+          },
+          "MI": {
+            "requested": 12114,
+            "filled": 2005,
+            "earnedTenths": 88107
+          },
+          "OF": {
+            "requested": 23958,
+            "filled": 3974,
+            "earnedTenths": 190386
+          },
+          "UTIL": {
+            "requested": 28893,
+            "filled": 3376,
+            "earnedTenths": 164603
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "HITTER": 647288,
+          "PITCHER": 285561
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 87852,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 78493,
+            "remainingFaab": 94,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 88291,
+            "remainingFaab": 82,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 71643,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 68895,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 76150,
+            "remainingFaab": 58,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 64374,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 63384,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 84081,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 81169,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 87672,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 80845,
+            "remainingFaab": 75,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "diagnostics": {
+        "sport": "MLB",
+        "year": 2023,
+        "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+        "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+        "completeStarterOutcomeInventory": false,
+        "meanFranchiseStarterTenths": 77737.41666666667,
+        "medianFranchiseStarterTenths": 79669,
+        "minFranchiseStarterTenths": 63384,
+        "maxFranchiseStarterTenths": 88291,
+        "populationStandardDeviationTenths": 8549.245926379836,
+        "knownFantasyStarterAssignments": 11002,
+        "scoredStartingAppearances": 10961,
+        "explicitDidNotPlayStarts": 0,
+        "unscoredStartingAppearances": 7565,
+        "pointsPerScoredAppearanceTenths": 85.10619469026548,
+        "pointsPerKnownFantasyAssignmentTenths": 84.78903835666243,
+        "pointsPerRequiredSlotTenths": 8637.49074074074,
+        "everOwnedPlayers": 189,
+        "everStartedPlayers": 187,
+        "neverStartedOwnedPlayers": 2,
+        "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+        "replacementUsage": 9,
+        "waiverPointsTenths": 33911,
+        "draftRoundPointsTenths": {
+          "1": 57378,
+          "2": 44762,
+          "3": 112406,
+          "4": 67871,
+          "5": 87942,
+          "6": 91409,
+          "7": 96467,
+          "8": 80402,
+          "9": 70819,
+          "10": 48692,
+          "11": 33536,
+          "12": 36158,
+          "13": 25702,
+          "14": 26316,
+          "15": 19078
+        },
+        "positionContributions": {
+          "1B": {
+            "starts": 1616,
+            "pointsTenths": 111033,
+            "replacementProjectedTenths": 74284.00749999977,
+            "replacementComparableStarts": 1307
+          },
+          "SP": {
+            "starts": 997,
+            "pointsTenths": 285561,
+            "replacementProjectedTenths": 103427.09451040602,
+            "replacementComparableStarts": 818
+          },
+          "UTIL": {
+            "starts": 2569,
+            "pointsTenths": 164603,
+            "replacementProjectedTenths": 202763.71749999982,
+            "replacementComparableStarts": 2318
+          },
+          "OF": {
+            "starts": 2888,
+            "pointsTenths": 190386,
+            "replacementProjectedTenths": 194773.46250000005,
+            "replacementComparableStarts": 2483
+          },
+          "MI": {
+            "starts": 1451,
+            "pointsTenths": 88107,
+            "replacementProjectedTenths": 79892.01000000043,
+            "replacementComparableStarts": 1235
+          },
+          "3B": {
+            "starts": 1481,
+            "pointsTenths": 93159,
+            "replacementProjectedTenths": 75037.14999999994,
+            "replacementComparableStarts": 1255
+          }
+        },
+        "footballSuperflexQbEligibleFraction": null,
+        "missingInputs": {},
+        "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+        "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+        "unmeasured": [
+          "injury counterfactual effect without dated injury evidence",
+          "championship influence without a separately accepted H2H season model",
+          "year-to-year stability without accepted comparable cycles"
+        ]
+      }
+    },
+    {
+      "sport": "NBA",
+      "original": {
+        "fixtures": 1230,
+        "slates": 737,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 124644,
+        "meanTenths": 123017.83333333333,
+        "requestedSlots": 49036,
+        "filledSlots": 12551,
+        "uncertainAssignments": 12551,
+        "vacancies": {
+          "eligibility": 116,
+          "schedule": 22274,
+          "availability": 0,
+          "assignmentConflict": 14095
+        },
+        "scoredStarts": 9563,
+        "unscoredStarts": 2988,
+        "negativeStarts": 67,
+        "explicitDidNotPlayStarts": 0,
+        "waiverWindows": 26,
+        "waiverClaims": 152,
+        "waiversWon": 21,
+        "slots": {
+          "PG": {
+            "requested": 3141,
+            "filled": 1854,
+            "earnedTenths": 232227
+          },
+          "SG": {
+            "requested": 4571,
+            "filled": 1655,
+            "earnedTenths": 187034
+          },
+          "G": {
+            "requested": 5864,
+            "filled": 1399,
+            "earnedTenths": 151321
+          },
+          "SF": {
+            "requested": 3494,
+            "filled": 1783,
+            "earnedTenths": 225196
+          },
+          "PF": {
+            "requested": 5162,
+            "filled": 1516,
+            "earnedTenths": 174157
+          },
+          "F": {
+            "requested": 6562,
+            "filled": 1196,
+            "earnedTenths": 132243
+          },
+          "C": {
+            "requested": 13372,
+            "filled": 1976,
+            "earnedTenths": 243828
+          },
+          "UTIL": {
+            "requested": 6870,
+            "filled": 1172,
+            "earnedTenths": 130208
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "BASKETBALL": 1476214
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 122923,
+            "remainingFaab": 85,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 130976,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 135968,
+            "remainingFaab": 86,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 127984,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 126365,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 111696,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 141517,
+            "remainingFaab": 99,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 107576,
+            "remainingFaab": 88,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 107720,
+            "remainingFaab": 69,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 109637,
+            "remainingFaab": 92,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 118825,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 135027,
+            "remainingFaab": 80,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "corrected": {
+        "fixtures": 1230,
+        "slates": 737,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 125184.5,
+        "meanTenths": 124054.91666666667,
+        "requestedSlots": 49146,
+        "filledSlots": 12661,
+        "uncertainAssignments": 12661,
+        "vacancies": {
+          "eligibility": 116,
+          "schedule": 22274,
+          "availability": 0,
+          "assignmentConflict": 14095
+        },
+        "scoredStarts": 9651,
+        "unscoredStarts": 2501,
+        "negativeStarts": 69,
+        "explicitDidNotPlayStarts": 526,
+        "roleNotScoredAssignments": 0,
+        "sourceTruthAddedAssignments": 17,
+        "waiverWindows": 26,
+        "waiverClaims": 152,
+        "waiversWon": 21,
+        "slots": {
+          "PG": {
+            "requested": 3170,
+            "filled": 1883,
+            "earnedTenths": 236904
+          },
+          "SG": {
+            "requested": 4586,
+            "filled": 1670,
+            "earnedTenths": 188104
+          },
+          "G": {
+            "requested": 5872,
+            "filled": 1407,
+            "earnedTenths": 152282
+          },
+          "SF": {
+            "requested": 3520,
+            "filled": 1809,
+            "earnedTenths": 228169
+          },
+          "PF": {
+            "requested": 5171,
+            "filled": 1525,
+            "earnedTenths": 174813
+          },
+          "F": {
+            "requested": 6565,
+            "filled": 1199,
+            "earnedTenths": 132704
+          },
+          "C": {
+            "requested": 13388,
+            "filled": 1992,
+            "earnedTenths": 245079
+          },
+          "UTIL": {
+            "requested": 6874,
+            "filled": 1176,
+            "earnedTenths": 130604
+          }
+        },
+        "missingStats": {},
+        "roleTotals": {
+          "BASKETBALL": 1488659
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 123408,
+            "remainingFaab": 85,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 131809,
+            "remainingFaab": 97,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 137683,
+            "remainingFaab": 86,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 129534,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 126961,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 113426,
+            "remainingFaab": 84,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 142719,
+            "remainingFaab": 99,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 108272,
+            "remainingFaab": 88,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 108340,
+            "remainingFaab": 69,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 109631,
+            "remainingFaab": 92,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 120479,
+            "remainingFaab": 100,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 136397,
+            "remainingFaab": 80,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "diagnostics": {
+        "sport": "NBA",
+        "year": 2023,
+        "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+        "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+        "completeStarterOutcomeInventory": false,
+        "meanFranchiseStarterTenths": 124054.91666666667,
+        "medianFranchiseStarterTenths": 125184.5,
+        "minFranchiseStarterTenths": 108272,
+        "maxFranchiseStarterTenths": 142719,
+        "populationStandardDeviationTenths": 11602.008277724548,
+        "knownFantasyStarterAssignments": 10177,
+        "scoredStartingAppearances": 9651,
+        "explicitDidNotPlayStarts": 526,
+        "unscoredStartingAppearances": 2501,
+        "pointsPerScoredAppearanceTenths": 154.2491969744068,
+        "pointsPerKnownFantasyAssignmentTenths": 146.276800628869,
+        "pointsPerRequiredSlotTenths": 13783.87962962963,
+        "everOwnedPlayers": 201,
+        "everStartedPlayers": 201,
+        "neverStartedOwnedPlayers": 0,
+        "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+        "replacementUsage": 21,
+        "waiverPointsTenths": 56775,
+        "draftRoundPointsTenths": {
+          "1": 190927,
+          "2": 131865,
+          "3": 112413,
+          "4": 124129,
+          "5": 117296,
+          "6": 108241,
+          "7": 80175,
+          "8": 99130,
+          "9": 86788,
+          "10": 80493,
+          "11": 82142,
+          "12": 70887,
+          "13": 57327,
+          "14": 49015,
+          "15": 41056
+        },
+        "positionContributions": {
+          "PG": {
+            "starts": 1510,
+            "pointsTenths": 236904,
+            "replacementProjectedTenths": 152115.6600000002,
+            "replacementComparableStarts": 1485
+          },
+          "SF": {
+            "starts": 1491,
+            "pointsTenths": 228169,
+            "replacementProjectedTenths": 144836.0899999996,
+            "replacementComparableStarts": 1468
+          },
+          "C": {
+            "starts": 1563,
+            "pointsTenths": 245079,
+            "replacementProjectedTenths": 126150.97768009744,
+            "replacementComparableStarts": 1549
+          },
+          "PF": {
+            "starts": 1245,
+            "pointsTenths": 174813,
+            "replacementProjectedTenths": 121779.76444444437,
+            "replacementComparableStarts": 1237
+          },
+          "SG": {
+            "starts": 1329,
+            "pointsTenths": 188104,
+            "replacementProjectedTenths": 133511.27892857132,
+            "replacementComparableStarts": 1316
+          },
+          "G": {
+            "starts": 1129,
+            "pointsTenths": 152282,
+            "replacementProjectedTenths": 111511.81571428558,
+            "replacementComparableStarts": 1120
+          },
+          "F": {
+            "starts": 970,
+            "pointsTenths": 132704,
+            "replacementProjectedTenths": 94226.70750000006,
+            "replacementComparableStarts": 967
+          },
+          "UTIL": {
+            "starts": 940,
+            "pointsTenths": 130604,
+            "replacementProjectedTenths": 97837.12499999983,
+            "replacementComparableStarts": 937
+          }
+        },
+        "footballSuperflexQbEligibleFraction": null,
+        "missingInputs": {},
+        "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+        "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+        "unmeasured": [
+          "injury counterfactual effect without dated injury evidence",
+          "championship influence without a separately accepted H2H season model",
+          "year-to-year stability without accepted comparable cycles"
+        ]
+      }
+    },
+    {
+      "sport": "NHL",
+      "original": {
+        "fixtures": 1312,
+        "slates": 764,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 92095,
+        "meanTenths": 92438.83333333333,
+        "requestedSlots": 59815,
+        "filledSlots": 9809,
+        "uncertainAssignments": 9809,
+        "vacancies": {
+          "eligibility": 4,
+          "schedule": 33549,
+          "availability": 0,
+          "assignmentConflict": 16453
+        },
+        "scoredStarts": 7462,
+        "unscoredStarts": 2347,
+        "negativeStarts": 103,
+        "explicitDidNotPlayStarts": 0,
+        "waiverWindows": 29,
+        "waiverClaims": 244,
+        "waiversWon": 45,
+        "slots": {
+          "F": {
+            "requested": 25899,
+            "filled": 4849,
+            "earnedTenths": 593646
+          },
+          "D": {
+            "requested": 12762,
+            "filled": 2391,
+            "earnedTenths": 266839
+          },
+          "G": {
+            "requested": 3555,
+            "filled": 1994,
+            "earnedTenths": 186970
+          },
+          "UTIL": {
+            "requested": 17599,
+            "filled": 575,
+            "earnedTenths": 61811
+          }
+        },
+        "missingStats": {
+          "shutout": 52
+        },
+        "roleTotals": {
+          "SKATER": 922296,
+          "GOALIE": 186970
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 100853,
+            "remainingFaab": 77,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 82300,
+            "remainingFaab": 80,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 91353,
+            "remainingFaab": 72,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 78071,
+            "remainingFaab": 78,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 92463,
+            "remainingFaab": 73,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 87549,
+            "remainingFaab": 69,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 94145,
+            "remainingFaab": 72,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 102107,
+            "remainingFaab": 99,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 90639,
+            "remainingFaab": 75,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 103548,
+            "remainingFaab": 91,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 94511,
+            "remainingFaab": 73,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 91727,
+            "remainingFaab": 58,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "corrected": {
+        "fixtures": 1312,
+        "slates": 764,
+        "drafts": 180,
+        "draftUnfilledStarterSeats": 0,
+        "draftAchievableStarterSeats": 108,
+        "medianTenths": 92460,
+        "meanTenths": 92934.16666666667,
+        "requestedSlots": 59870,
+        "filledSlots": 9864,
+        "uncertainAssignments": 9864,
+        "vacancies": {
+          "eligibility": 4,
+          "schedule": 33549,
+          "availability": 0,
+          "assignmentConflict": 16453
+        },
+        "scoredStarts": 7500,
+        "unscoredStarts": 1786,
+        "negativeStarts": 103,
+        "explicitDidNotPlayStarts": 583,
+        "roleNotScoredAssignments": 0,
+        "sourceTruthAddedAssignments": 5,
+        "waiverWindows": 29,
+        "waiverClaims": 244,
+        "waiversWon": 45,
+        "slots": {
+          "F": {
+            "requested": 25924,
+            "filled": 4874,
+            "earnedTenths": 596826
+          },
+          "D": {
+            "requested": 12773,
+            "filled": 2402,
+            "earnedTenths": 268011
+          },
+          "G": {
+            "requested": 3573,
+            "filled": 2012,
+            "earnedTenths": 188562
+          },
+          "UTIL": {
+            "requested": 17600,
+            "filled": 576,
+            "earnedTenths": 61811
+          }
+        },
+        "missingStats": {
+          "shutout": 53
+        },
+        "roleTotals": {
+          "SKATER": 926648,
+          "GOALIE": 188562
+        },
+        "quarterbackTenths": 0,
+        "teams": [
+          {
+            "team": 0,
+            "totalTenths": 102203,
+            "remainingFaab": 77,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 1,
+            "totalTenths": 83443,
+            "remainingFaab": 80,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 2,
+            "totalTenths": 91805,
+            "remainingFaab": 72,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 3,
+            "totalTenths": 78255,
+            "remainingFaab": 78,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 4,
+            "totalTenths": 92580,
+            "remainingFaab": 73,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 5,
+            "totalTenths": 88199,
+            "remainingFaab": 69,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 6,
+            "totalTenths": 94373,
+            "remainingFaab": 72,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 7,
+            "totalTenths": 102471,
+            "remainingFaab": 99,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 8,
+            "totalTenths": 91031,
+            "remainingFaab": 75,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 9,
+            "totalTenths": 103932,
+            "remainingFaab": 91,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 10,
+            "totalTenths": 94578,
+            "remainingFaab": 73,
+            "finalRosterSize": 15
+          },
+          {
+            "team": 11,
+            "totalTenths": 92340,
+            "remainingFaab": 58,
+            "finalRosterSize": 15
+          }
+        ]
+      },
+      "diagnostics": {
+        "sport": "NHL",
+        "year": 2023,
+        "classification": "SIMULATION_DESCRIPTIVE_DIAGNOSTIC",
+        "totalsScope": "Known complete starter inputs only; incomplete starters are not zero",
+        "completeStarterOutcomeInventory": false,
+        "meanFranchiseStarterTenths": 92934.16666666667,
+        "medianFranchiseStarterTenths": 92460,
+        "minFranchiseStarterTenths": 78255,
+        "maxFranchiseStarterTenths": 103932,
+        "populationStandardDeviationTenths": 7279.793607803879,
+        "knownFantasyStarterAssignments": 8083,
+        "scoredStartingAppearances": 7500,
+        "explicitDidNotPlayStarts": 583,
+        "unscoredStartingAppearances": 1786,
+        "pointsPerScoredAppearanceTenths": 148.69466666666668,
+        "pointsPerKnownFantasyAssignmentTenths": 137.9698131881727,
+        "pointsPerRequiredSlotTenths": 10326.018518518518,
+        "everOwnedPlayers": 216,
+        "everStartedPlayers": 210,
+        "neverStartedOwnedPlayers": 6,
+        "benchUtilizationScope": "Distinct ever-owned players, not daily bench-day utilization",
+        "replacementUsage": 45,
+        "waiverPointsTenths": 128670,
+        "draftRoundPointsTenths": {
+          "1": 52122,
+          "2": 162945,
+          "3": 122093,
+          "4": 106825,
+          "5": 89870,
+          "6": 83238,
+          "7": 95514,
+          "8": 88302,
+          "9": 58397,
+          "10": 39384,
+          "11": 27718,
+          "12": 17308,
+          "13": 11464,
+          "14": 21856,
+          "15": 9504
+        },
+        "positionContributions": {
+          "F": {
+            "starts": 4246,
+            "pointsTenths": 596826,
+            "replacementProjectedTenths": 542638.922451164,
+            "replacementComparableStarts": 4221
+          },
+          "D": {
+            "starts": 2033,
+            "pointsTenths": 268011,
+            "replacementProjectedTenths": 241178.05555555545,
+            "replacementComparableStarts": 2023
+          },
+          "G": {
+            "starts": 1331,
+            "pointsTenths": 188562,
+            "replacementProjectedTenths": 150381.4293399228,
+            "replacementComparableStarts": 1191
+          },
+          "UTIL": {
+            "starts": 473,
+            "pointsTenths": 61811,
+            "replacementProjectedTenths": 62474.688333333295,
+            "replacementComparableStarts": 473
+          }
+        },
+        "footballSuperflexQbEligibleFraction": null,
+        "missingInputs": {
+          "shutout": 53
+        },
+        "replacementDefinition": "Best eligible currently unowned prelock expected points for the same sport/slot/scheduled slate; null when no supported candidate",
+        "replacementScoringScope": "Expected replacement baseline; never a hindsight-selected actual replacement",
+        "unmeasured": [
+          "injury counterfactual effect without dated injury evidence",
+          "championship influence without a separately accepted H2H season model",
+          "year-to-year stability without accepted comparable cycles"
+        ]
+      }
+    }
+  ],
+  "productionWrites": 0,
+  "fingerprint": "78700473a873160eb87091a4252393be155abcbac166760ded8613990d8c0bd0"
+}

@@ -1,0 +1,48 @@
+{
+  "version": "m62-verification-1",
+  "baselineCommit": "ac3d1d6",
+  "generatedAt": "2026-11-28T03:05:23.742341+00:00",
+  "unitTests": 394,
+  "pythonTests": 25,
+  "integrationNormal": 164,
+  "integrationShuffled": 164,
+  "integrationShuffleSeed": 261130,
+  "standardChromium": 20,
+  "restartChromium": 2,
+  "realSourceChromium": 3,
+  "typescript": "passed",
+  "eslint": "passed",
+  "prisma": "passed",
+  "webpack": "passed",
+  "npmVulnerabilities": 0,
+  "independentReplay": true,
+  "terminalLeakageChecks": 4,
+  "frozenPartitionsAndGates": 66,
+  "strictAuditUnchanged": true,
+  "developmentUnexpectedChanges": 0,
+  "newMigrations": 0,
+  "newBackfills": 0,
+  "officialBaseline": false,
+  "earlierFailures": [
+    {
+      "check": "Initial shuffled recurring-competition",
+      "result": "163/164",
+      "cause": "Prisma7 pg commit conflict bypassed retry predicate; exact TransactionWriteConflict observed on diagnostic rerun",
+      "resolution": "Typed adapter/raw-SQL retry with unchanged budget and lease fencing; all164shuffled subsequently passed"
+    },
+    {
+      "check": "Normal rerun overlapping build/replay",
+      "result": "162/164",
+      "cause": "Five-second multi-sport fixture deadline then write conflict from still-running timed-out fixture",
+      "resolution": "Serial full164pass with original assertion/deadline"
+    }
+  ],
+  "artifacts": {
+    "reports/m62-original-starter-reconciliation.json": "d8b157300e6d8c85b0ed20ea9f3a0d3f8788d00abe523072d160e07f4ec85454",
+    "reports/m62-denominator-bridge.json": "20bdbdd7688b5313d54d949eb2ce866c8eeae994645a2ae5424ba23dd4858b00",
+    "reports/m62-evidence-verification.json": "fc445c2a5b02557bed0064bc70c824b501edfc930b01f9a6a207af2aa6d56fff",
+    "reports/m62-game-reconciliation.json": "4e6be0af4c1d78c4491b26c6ef6553548d1d515cf9fb126158391cd7934f3929",
+    "reports/m62-preservation.json": "6e687776eb9390c7bafa7d5cedbd7abdb006326959322bfea43bfdbb8e91e0eb",
+    "reports/m62-evidence-policy-proposals.json": "ada36a711f7983d24b60c489629693ef19cafdf0532b5f6ce77d1eb9f94d3ca3"
+  }
+}

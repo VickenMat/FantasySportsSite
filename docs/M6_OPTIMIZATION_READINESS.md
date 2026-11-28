@@ -9,3 +9,5 @@ Future optimization inputs would be the existing 56 action coefficients, preserv
 The60seed schedule is preregistered and balanced. No reserved seed51–70 or new2025 campaign was run. Previously published V4 and preparation diagnostics exposed2025, so it is not genuinely untouched. A future prospective cohort could supply an independent holdout; that proposal requires review and cannot substitute for currently unavailable complete data. Development2023/24 results must never be repeatedly used for unversioned tuning.
 
 No V10 search or activation, production scoring change, contract automation or M7 work occurred. This is a readiness report, not authorization to begin M6.4.
+
+November27 update: supported settlement/coverage repairs and exact starter audit are complete; corrected seed31 still has12,479 unknown outcomes and1,534 games lack accepted completion-day evidence. NFL/NBA game membership advances do not establish a complete four-sport cycle. See `M6_STARTER_RECONCILIATION_REPORT.md`. Optimization remains unauthorized and scientifically premature; no policy, weights or holdout selection changed.

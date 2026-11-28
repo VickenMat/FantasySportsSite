@@ -20,6 +20,9 @@ const positions = z.discriminatedUnion("kind", [
 ]);
 
 const snapshot = z.object({
+  settlementModel:z.literal("ACTUAL_GAME_MEMBERSHIP").optional(),
+  terminalEvidence:z.array(z.object({playerId:id,gameId:id,role,status:z.enum(["DID_NOT_PLAY","ROLE_NOT_SCORED","PLAYED_COMPLETE"]),stats:z.record(z.string(),z.number().nullable()).optional(),teEligible:z.boolean().nullable().optional(),reason:z.string().min(1),sourceReferences:z.array(z.string().min(1)).min(1)})).optional(),
+  actualMembership:z.array(z.object({playerId:id,gameId:id,team:id,sourceReference:z.string().min(1)})).optional(),
   decisionModel:z.object({participation:z.literal("PRIOR_ONLY"),availabilityEvidence:z.literal("UNKNOWN"),informationModel:z.enum(["TWO_DAY","WEEKLY"]),positionModel:z.enum(["DATED_CARRY","PRIOR_ESTIMATE"])}).optional(),
   sport: z.enum(Sport),
   year,
@@ -63,6 +66,15 @@ export function parseSnapshot(contents: string): SimulationInput {
   if (covidDisrupted && raw.coverage !== "QUARANTINED") throw new Error("V9 requires quarantine coverage for this disrupted season.");
   const fixtureById = new Map(raw.fixtures.map((fixture) => [fixture.id, fixture]));
   unique(raw.fixtures.map((fixture) => fixture.id), "fixture");
+  unique((raw.terminalEvidence??[]).map(f=>JSON.stringify([f.playerId,f.gameId,f.role])),"terminal evidence");
+  const membershipTeams=new Map<string,string>();
+  for(const f of raw.actualMembership??[]){
+    if(!fixtureById.get(f.gameId)?.teams.includes(f.team))throw Error("Invalid actual game/team membership namespace.");
+    const key=JSON.stringify([f.playerId,f.gameId]);
+    if(membershipTeams.has(key)&&membershipTeams.get(key)!==f.team)throw Error("Conflicting actual game/team membership.");
+    membershipTeams.set(key,f.team);
+  }
+  for(const f of raw.terminalEvidence??[])if(!fixtureById.has(f.gameId)||sportByRole[f.role]!==raw.sport)throw Error("Invalid canonical terminal evidence game/role.");
   unique(raw.roster.map(({ playerId, knownAt, effectiveAt }) => JSON.stringify([playerId, knownAt, effectiveAt])), "roster fact");
   unique(raw.availability.map(({ gameId, playerId, role, knownAt }) => JSON.stringify([gameId, playerId, role, knownAt])), "availability fact");
   unique(raw.outcomes.map(({ gameId, playerId, role }) => JSON.stringify([gameId, playerId, role])), "box score");

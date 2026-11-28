@@ -1,0 +1,94 @@
+{
+  "version": "m62-starting-baseline-1",
+  "capturedAt": "2026-11-28T02:18:01.608Z",
+  "previousCheckpoint": "ac3d1d6",
+  "originalAppendOnlyPrefixesPreserved": true,
+  "prefix": {
+    "ProfessionalDataDecision": {
+      "count": "26691",
+      "fingerprint": "9e8ed2cb0996a8c0762a05cc9675be1a"
+    },
+    "ProfessionalDataObservation": {
+      "count": "26691",
+      "fingerprint": "75f6a0024cc7e08e1b36231b2b8d63bf"
+    },
+    "PlayerAvailabilityEvidence": {
+      "count": "827",
+      "fingerprint": "39af0a6356c48ae9c5f8740f29b1ab68"
+    },
+    "RookieEligibilityEvidence": {
+      "count": "6150",
+      "fingerprint": "a1a0e0ff3e832c5cc459993efe06a2f2"
+    }
+  },
+  "authorizedRecurringActivitySinceCheckpoint": [
+    {
+      "provider": "nflverse-open-data",
+      "sport": "NFL",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Explicit NFL rookie-year classification applied prospectively.",
+      "count": 3075
+    },
+    {
+      "provider": "nflverse-open-data",
+      "sport": "NFL",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Explicit source availability snapshot applied prospectively without health-by-absence inference or ownership removal.",
+      "count": 22
+    },
+    {
+      "provider": "nflverse-open-data",
+      "sport": "NFL",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Prospective explicit professional position retained separately from historical observations and exact source instants.",
+      "count": 3075
+    },
+    {
+      "provider": "nflverse-open-data",
+      "sport": "NFL",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Prospective observed professional team association; fantasy ownership unchanged.",
+      "count": 2621
+    },
+    {
+      "provider": "sportsdataverse-nba-roster",
+      "sport": "NBA",
+      "category": "NBA_POSITION_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Approved prospective NBA granular/family snapshot; exact effective/publication unknown, history retained.",
+      "count": 527
+    },
+    {
+      "provider": "sportsdataverse-open-data",
+      "sport": "NFL",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Explicit source availability snapshot applied prospectively without health-by-absence inference or ownership removal.",
+      "count": 711
+    },
+    {
+      "provider": "sportsdataverse-open-data",
+      "sport": "NBA",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Explicit source availability snapshot applied prospectively without health-by-absence inference or ownership removal.",
+      "count": 75
+    },
+    {
+      "provider": "sportsdataverse-open-data",
+      "sport": "NBA",
+      "category": "PLAYER_SNAPSHOT",
+      "outcome": "ACCEPTED",
+      "reason": "Prospective observed professional team association; fantasy ownership unchanged.",
+      "count": 527
+    }
+  ],
+  "sessionRefreshRequiresFreshBaseline": true,
+  "protectedGameplayTablesUnchanged": true,
+  "freshBaselinePath": "data/operations/m62_before_preservation.json",
+  "productionWrites": 0
+}
