@@ -21,7 +21,7 @@ The integration owner separately reported passing workflow/dashboard tests and a
 | Specialist ceiling | Three; current implementation runs model stages serially, at most one active stage |
 | Model budgets | Review 300s; research 900s; implementation 1800s |
 | Local checks | At most 7200s per task; local processing does not require continuous inference |
-| Attempts / rolling model budget | Three task attempts; twelve shared model-stage reservations per rolling 24 hours |
+| Attempts / rolling model budget | Three task attempts; sixteen shared model-stage reservations per rolling 24 hours |
 | Spending | $0 additional authorization; existing ChatGPT authentication; no paid API fallback/top-ups |
 
 Old and new model reservations use the same persisted execution timestamps. Preparing or arming the new policy does not reset counters or erase prior consumption. These local ceilings are not remaining subscription credits or an account-wide spending guarantee.
@@ -59,3 +59,5 @@ Source rechecks confirmed corrections for: approval-versus-arming separation; qu
 The activation tests cover inert preparation, read-only approval rejection, expired/wrong actor/scope/task targets, source/grant/authority changes, symlinks and scheduler injection, unchanged shared counters, agent lifecycle rejection, unknown installation preservation and partial-bootstrap cleanup. Actual owner launchd installation remains deliberately unperformed pending the new exact approval.
 
 Implementation: [activation module](../../scripts/automation/development_activation.py), [development controller](../../scripts/automation/development.py), [sandbox profiles](../../scripts/automation/writable_sandbox.py), [activation tests](../../tests/automation/test_development_activation.py). The integration owner's final acceptance report must add actual writable execution, independent review, task continuation, Git and dashboard receipts before claiming the full lifecycle succeeded.
+
+Later live execution correctly paused at the original 12-reservation local ceiling after preserved startup failures and supported review revisions. The current configurable proposal is 16 with the original timestamps retained. This local ceiling is distinct from provider subscription exhaustion; the new exact inactive manifest must bind the changed policy. Checkpoint carry-forward retains the previous tree, refuses changed main targets and reads scoped sources through non-following directory/file descriptors to prevent swapped symlink copies.

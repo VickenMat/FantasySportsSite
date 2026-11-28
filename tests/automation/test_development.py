@@ -161,3 +161,21 @@ class DevelopmentTests(unittest.TestCase):
   def fail(*args):raise SafetyError('pre-inference startup fixture')
   self.dev.develop(True,executor=fail,checker=self.checker);row=self.dev.state()['tasks']['A'];old=Path(row['worktree_path']);head=self.git('rev-parse','HEAD',tree=old).decode().strip()
   self.dev.recover_checkpoint('A',str(old),head);self.assertFalse(self.dev.state()['tasks']['A']['resume_checkpoint']);self.assertEqual(self.run_cycle()['results'][0]['status'],'completed');self.assertTrue(old.exists());self.assertEqual(self.dev.state()['tasks']['A']['attempt_count'],2)
+ def test_recovery_carries_scoped_diff_after_unrelated_main_checkpoint(self):
+  def interrupt(*args):self.implement(*args);raise Interrupted('controlled')
+  self.dev.develop(True,executor=interrupt,checker=self.checker);row=self.dev.state()['tasks']['A'];old=Path(row['worktree_path']);head=self.git('rev-parse','HEAD',tree=old).decode().strip()
+  (self.root/'controller-fix.txt').write_text('verified unrelated fix');self.git('add','.');self.git('commit','-qm','controller checkpoint')
+  self.dev.recover_checkpoint('A',str(old),head);r=self.run_cycle();self.assertEqual(r['results'][0]['status'],'completed');new=self.dev.state()['tasks']['A'];self.assertNotEqual(new['worktree_path'],str(old));self.assertTrue(old.exists());self.assertEqual(new['preserved_checkpoints'][0]['path'],str(old))
+ def test_recovery_refuses_changed_target_on_main(self):
+  def interrupt(*args):self.implement(*args);raise Interrupted('controlled')
+  self.dev.develop(True,executor=interrupt,checker=self.checker);row=self.dev.state()['tasks']['A'];old=Path(row['worktree_path']);head=self.git('rev-parse','HEAD',tree=old).decode().strip()
+  (self.root/'examples').mkdir(exist_ok=True);(self.root/'examples/A.py').write_text('user target');self.git('add','.');self.git('commit','-qm','user target')
+  self.dev.recover_checkpoint('A',str(old),head);self.run_cycle();self.assertEqual(self.dev.state()['tasks']['A']['status'],'blocked');self.assertEqual((self.root/'examples/A.py').read_text(),'user target');self.assertTrue(old.exists())
+
+ def test_recovery_copy_rejects_swapped_leaf_or_parent_symlink(self):
+  from development import scoped_bytes
+  tree=self.root/'old';tree.mkdir();(tree/'out').mkdir();file=tree/'out/result.py';file.write_text('approved output');outside=self.root/'harmless-private-fixture.py';outside.write_text('never copy this')
+  self.assertEqual(scoped_bytes(tree,'out/result.py'),b'approved output');file.unlink();file.symlink_to(outside)
+  with self.assertRaises(SafetyError):scoped_bytes(tree,'out/result.py')
+  file.unlink();(tree/'out').rmdir();(tree/'out').symlink_to(self.root)
+  with self.assertRaises(SafetyError):scoped_bytes(tree,'out/harmless-private-fixture.py')

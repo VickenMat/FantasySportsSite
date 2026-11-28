@@ -90,7 +90,7 @@ class DevelopmentActivationTests(unittest.TestCase):
         result = self.prepare()
         plan = activation.development_activation_plan(self.engine)
         self.assertEqual(result['target_fingerprint'], plan['target_fingerprint'])
-        self.assertEqual(plan['configuration']['daily_model_launch_limit'], 12)
+        self.assertEqual(plan['configuration']['daily_model_launch_limit'], 16)
         self.assertEqual(plan['configuration']['budgets']['local'], 7200)
         self.assertEqual(plan['configuration']['max_active_model_stages'], 1)
         self.assertIn('docs/automation/DEVELOPMENT_TASKS.json', plan['manifest']['files'])

@@ -2,7 +2,7 @@
   "version": "development-verification-1",
   "phase": "implementation_verified_demo_pending",
   "baseCommit": "5803a10",
-  "controllerTests": 83,
+  "controllerTests": 86,
   "dashboardTests": 49,
   "unitTests": 394,
   "controllerActualSandboxChecksPerProfile": 11,
@@ -13,8 +13,8 @@
   "typeScript": "passed_both_configurations",
   "eslint": "passed",
   "productionWebpackBuild": "passed",
-  "writableEndToEnd": "pending_actual_execution",
-  "automaticContinuation": "pending_actual_execution",
+  "writableEndToEnd": "first_actual_task_integrated_and_pushed; dependent_review_revision_recovering",
+  "automaticContinuation": "actual_dependent_task_selected_automatically",
   "unattendedActivated": false,
   "newPaidBillingFallback": false,
   "additionalSpendingAuthorizationUsd": 0,
@@ -23,6 +23,8 @@
     "Synthetic Git/conflict/restart/approval/exhaustion fixtures are not claimed as an actual host reboot or subscription exhaustion.",
     "No full professional-database integration rerun: production gameplay/Prisma/data ingestion unchanged.",
     "Initial browser harness used an obsolete start-button label; it timed out before launching work.",
-    "First development cycle preserved two pre-inference startup failures (demo and independent inventory task): passing sandboxes denied automatic ancestor AGENTS loading. Documented bounded instruction-loading repair independently reviewed; all attempts/reservations retained."
-  ]
+    "First development cycle preserved two pre-inference startup failures (demo and independent inventory task): passing sandboxes denied automatic ancestor AGENTS loading. Documented bounded instruction-loading repair independently reviewed; all attempts/reservations retained.",
+    "The original 12-reservation local policy paused after preserved failures and supported reviewer revisions. The configurable ceiling is now 16, all counters retained; this was not provider allowance exhaustion."
+  ],
+  "dailyModelLaunchCeiling": 16
 }

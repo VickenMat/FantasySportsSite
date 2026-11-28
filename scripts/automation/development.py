@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -32,6 +33,7 @@ PROTECTED=('data/','Datasets/','.git','.codex/','.automation/','prisma/','src/sc
            'docs/M4_MASTER','docs/M6_MASTER','docs/M6_APPROVED','package.json','package-lock.json')
 
 class UsageUnavailable(SafetyError): pass
+class ModelBudgetExhausted(UsageUnavailable): pass
 class Interrupted(SafetyError): pass
 
 
@@ -44,6 +46,29 @@ def safe_output(name):
     if any(name==x.rstrip('/') or name.startswith(x) for x in PROTECTED) or any(x.startswith('.env') or x in {'.ssh','.aws','.git','node_modules'} for x in p.parts):raise SafetyError('Protected output path.')
     if p.suffix not in {'.py','.ts','.tsx','.js','.mjs','.json','.md','.css','.txt'}:raise SafetyError('Only reviewed source/report formats may be integrated.')
     return name
+
+
+def scoped_bytes(tree,name):
+    """Copy boundary: do not follow swapped file OR parent symlinks."""
+    safe_output(name);parts=Path(name).parts;handles=[]
+    try:
+        directory=os.open(tree,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW);handles.append(directory)
+        for part in parts[:-1]:
+            directory=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=directory);handles.append(directory)
+        descriptor=os.open(parts[-1],os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory);handles.append(descriptor)
+        before=os.fstat(descriptor)
+        if not stat.S_ISREG(before.st_mode) or before.st_size>1024*1024:raise SafetyError('Recovery source must remain a bounded regular file.')
+        content=b''
+        while len(content)<=1024*1024:
+            chunk=os.read(descriptor,min(65536,1024*1024+1-len(content)))
+            if not chunk:break
+            content+=chunk
+        after=os.fstat(descriptor)
+        if len(content)>1024*1024 or (before.st_size,before.st_mtime_ns)!=(after.st_size,after.st_mtime_ns):raise SafetyError('Recovery source changed while copying.')
+        return content
+    except OSError as error:raise SafetyError('Recovery source path changed or became unsafe.') from error
+    finally:
+        for handle in reversed(handles):os.close(handle)
 
 
 def validate_development(value):
@@ -115,7 +140,7 @@ class DevEngine(Engine):
             self.policy(current,validate_data=False)
     def reserve_model(self,state):
         recent=[s for s in state['executions'] if parse_time(s)>now()-dt.timedelta(days=1)]
-        if len(recent)>=DAILY_MODELS:raise UsageUnavailable('Rolling model-launch ceiling reached; no reset or inference polling.')
+        if len(recent)>=DAILY_MODELS:raise ModelBudgetExhausted('Rolling model-launch ceiling reached; no reset or inference polling.')
         state['executions']=recent+[stamp()];self.save(state)
     def worktree_create(self,task,row):
         # A real linked Git worktree; models are denied its .git file/common dir.
@@ -293,8 +318,9 @@ class DevEngine(Engine):
                 time.sleep(2**attempt)
         row['push_pending']=False;self.save(state)
     def recover_usage(self,state):
-        affected=[(key,row) for key,row in state['tasks'].items() if row.get('blocker_classification')=='USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY' and row.get('attempt_count',0)<3]
+        affected=[(key,row) for key,row in state['tasks'].items() if row.get('blocker_classification') in {'USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY','MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY'} and row.get('attempt_count',0)<3]
         if not affected:return
+        if len([s for s in state['executions'] if parse_time(s)>now()-dt.timedelta(days=1)])>=DAILY_MODELS:raise ModelBudgetExhausted('Rolling local ceiling remains exhausted.')
         self.quota_check()
         for key,row in affected:
             task=next((x for x in self.queue()['tasks'] if x['id']==key),None)
@@ -374,9 +400,23 @@ class DevEngine(Engine):
                 row.update(development_workflow=True,definition_fingerprint=task_fingerprint(task),status='running',phase='claim',attempt_count=row.get('attempt_count',task.get('attempt_count',0))+1,last_execution_time=stamp(),associated_commit=context['commit'],blocker_classification=None)
                 self.save(state);self.event('task_claimed',task_id=task['id'],attempt=row['attempt_count'])
                 try:
-                    tree=Path(row['worktree_path']) if resume else self.worktree_create(task,row);self.save(state)
-                    if resume:self.changes(task,tree)
-                    feedback=None
+                    if resume:
+                        previous=Path(row['worktree_path']);names=self.changes(task,previous)
+                        if self.git('rev-parse','HEAD').decode().strip()!=row['base_commit']:
+                            self.git('merge-base','--is-ancestor',row['base_commit'],'HEAD')
+                            if self.git('diff','--name-only',row['base_commit'],'HEAD','--',*task['development']['writable_paths']).strip():raise SafetyError('Checkpoint target files changed on main; preserve both versions for review.')
+                            row.setdefault('preserved_checkpoints',[]).append({'path':str(previous),'base_commit':row['base_commit']})
+                            tree=self.worktree_create(task,row)
+                            for name in names:(tree/name).write_bytes(scoped_bytes(previous,name))
+                        else:tree=previous
+                    else:tree=self.worktree_create(task,row)
+                    self.save(state)
+                    feedback=row.get('pending_review_findings')
+                    if resume and not feedback:
+                        reviews=[h for h in row.get('execution_history',[]) if h.get('phase')=='review']
+                        if reviews:
+                            prior=read_json(self.runtime/'runs'/reviews[-1]['run_id']/'last-message.json',{})
+                            if prior.get('verdict')=='changes_requested':feedback=prior.get('findings',[])
                     for revision in range(2):
                         result=self.phase(task,row,state,tree,'implementation',executor,feedback)
                         if result['requires_owner_decision']:raise SafetyError('Implementation reports an unresolved owner decision.')
@@ -398,7 +438,7 @@ class DevEngine(Engine):
                         if self.changes(task,tree)!=names or fingerprint({n:hashlib.sha256((tree/n).read_bytes()).hexdigest() for n in names})!=pinned:raise SafetyError('Implementation changed during independent review.')
                         if review['requires_owner_decision'] or review['verdict']=='blocked':raise SafetyError('Independent review requires owner/evidence resolution.')
                         if review['verdict']=='accept':break
-                        feedback=review['findings']
+                        feedback=review['findings'];row['pending_review_findings']=feedback;self.save(state)
                     else:raise SafetyError('Bounded independent review findings remain unresolved.')
                     implementation=next(x for x in reversed(row['execution_history'][:-1]) if x['phase']=='implementation')
                     independent=row['execution_history'][-1]
@@ -409,9 +449,10 @@ class DevEngine(Engine):
                     commit=(integrator or self.integrate)(task,tree,row,state,context)
                     gated=task['id'] in {'M61-INVENTORY-002','M61-COMPLETION-003','M62-PARTICIPATION-004','M62-NHL-STATS-005','M61-ACCEPT-006','M63-BASELINE-007','M63-ACCEPT-008'}
                     row.update(status='verification' if gated else 'completed',phase='completed',blocker_classification='HISTORICAL_EVIDENCE_ACCEPTANCE_REQUIRED' if gated else None,associated_commit=commit);self.save(state);self.event('development_completed',task_id=task['id'],status=row['status'])
-                except UsageUnavailable:
-                    row.update(status='blocked',blocker_classification='USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY')
-                    atomic_json(self.control_path,{'version':1,'mode':'paused','reason':'CODEX_USAGE_LIMIT','updated_at':stamp()});self.save(state)
+                except UsageUnavailable as error:
+                    local=isinstance(error,ModelBudgetExhausted)
+                    row.update(status='blocked',blocker_classification='MODEL_BUDGET_REQUIRES_SUPPORTED_RECOVERY' if local else 'USAGE_LIMIT_REQUIRES_SUPPORTED_RECOVERY')
+                    atomic_json(self.control_path,{'version':1,'mode':'paused','reason':'MODEL_LAUNCH_BUDGET' if local else 'CODEX_USAGE_LIMIT','updated_at':stamp()});self.save(state)
                 except Interrupted:
                     row.update(status='blocked',blocker_classification='INTERRUPTED_CHECKPOINT_REVIEW_REQUIRED');self.save(state)
                 except (SafetyError,OSError,subprocess.SubprocessError) as error:

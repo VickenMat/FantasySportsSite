@@ -30,7 +30,7 @@ CONFIGURATION = {
     'max_active_model_stages': 1,
     'interval_seconds': 900,
     'max_attempts': 3,
-    'daily_model_launch_limit': 12,
+    'daily_model_launch_limit': 16,
     'budgets': {'review': 300, 'research': 900, 'implementation': 1800, 'local': 7200},
     'scheduler_label': LABEL,
     'additional_spending_usd': 0,
