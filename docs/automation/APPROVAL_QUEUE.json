@@ -9,7 +9,7 @@
         "Use assisted one-shot read-only cycles",
         "Keep scheduling disabled"
       ],
-      "recommendation": "Remain assisted until exact permission probe, execution review and scheduling parameters are verified",
+      "recommendation": "Superseded by DEV-ACTIVATION-001; this read-only scope cannot authorize writable development.",
       "expected_consequences": "Periodic subscription usage and private local execution logs; no autonomous writes or deployment",
       "affected_resources": [
         "Local Codex subscription",
@@ -20,6 +20,32 @@
       "task_fingerprint": "585f6a89620872603a48a2c6a895ef5d240f43de85fece7e33b8627d4e8c2ad4",
       "scope": [
         "enable_unattended"
+      ],
+      "expires_at": null,
+      "status": "withdrawn",
+      "decision": null
+    },
+    {
+      "id": "DEV-ACTIVATION-001",
+      "exact_proposed_action": "Arm and install com.fantasyevolution.development for the separately reviewed isolated-worktree development workflow, exact approved queue/grants and resource limits",
+      "why_approval_required": "Persistent unattended development remains explicitly withheld until exact scope review",
+      "alternatives": [
+        "Use authenticated bounded assisted development cycles",
+        "Keep all autonomous scheduling disabled"
+      ],
+      "recommendation": "Review exact source/grant/scheduler fingerprints and live acceptance evidence before deciding",
+      "expected_consequences": "Subscription inference only for eligible explicitly granted tasks, protected read-only data, bounded code/test/review/integration/push; no database/provider/product authority",
+      "affected_resources": [
+        "Existing ChatGPT subscription",
+        "Canonical task queue and private execution records",
+        "Isolated Git worktrees and authorized main/upstream",
+        "macOS user launchd job"
+      ],
+      "target_fingerprint": "3668ec86929e298329ee5501b450a1d7f3ecb6f07b24d048b681c9b8200c409f",
+      "task_fingerprint": "31641aa0a5fae3007d9884722d657456dd136fafe802dc7649ad4f5378dd716f",
+      "scope": [
+        "enable_unattended",
+        "enable_writable_execution"
       ],
       "expires_at": null,
       "status": "pending",

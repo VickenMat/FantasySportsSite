@@ -59,3 +59,7 @@ HTTP tests use temporary Git repositories and synthetic owner/approval fixtures.
 ## Remote notifications prepared for review
 
 The current inbox and activity feed stay local. A future authenticated private overlay/VPN could provide remote access without opening a public listener; a separately configured email or webhook sender could send only event IDs, severity and a link through that private network. Approval prompts must retain exact scope/fingerprint/expiry and require owner authentication; a notification reply must never directly grant authority. Credentials belong in a reviewed OS credential store, not the queue, browser or model context. Deduplicate by event ID and notify only required decisions, critical failures, exhaustion, failed recovery or milestone completion. Provider choice, recipients, credentials, transport and any cost need separate approval; none is configured, contacted or enabled here.
+
+## Writable development extension
+
+The later explicit complete-system request authorizes the bounded development start option, actual worktree phases, independent reviewer and trusted ordinary integration. The [development workflow](AUTONOMOUS_DEVELOPMENT.md) supersedes earlier handoff-only limitations above. The UI advertises writable availability separately from still-disabled scheduler activation. New exact DEV-ACTIVATION-001 has two scopes; the old read-only proposal is withdrawn. Historical source/milestone gates and $0 additional spending remain unchanged.

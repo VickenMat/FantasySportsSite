@@ -1,3 +1,9 @@
+# Current development workflow
+
+The later complete-system request supersedes the legacy handoff-only implementation scope below. Use [Autonomous development operations](AUTONOMOUS_DEVELOPMENT.md) for bounded writable cycles, exact grants, independent review, integration and the new inactive scheduling proposal. Existing read-only controls remain available; AUTO-ACTIVATION-001 is withdrawn and cannot authorize development.
+
+## Legacy read-only workflow reference
+
 # Local automation operations
 
 The default is assisted mode. The current executor supports bounded read-only project-memory reviews and isolated implementation-worktree handoffs. It does not automatically implement code, integrate main, deploy data, approve restricted actions, commit or push. Six logical roles are prepared; native child spawning is disabled in the bounded review invocation. The thread ceiling is explicitly three. This is not a claim that six native agents ran.

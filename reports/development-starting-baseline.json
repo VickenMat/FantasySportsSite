@@ -1,0 +1,29 @@
+{
+  "version": "development-starting-baseline-1",
+  "capturedAt": "2026-11-28T05:03:35.729Z",
+  "previousCheckpoint": "5803a10",
+  "originalAppendOnlyPrefixesPreserved": true,
+  "prefix": {
+    "ProfessionalDataDecision": {
+      "count": "37324",
+      "fingerprint": "7b93e41fe915361c4f483ef94735271b"
+    },
+    "ProfessionalDataObservation": {
+      "count": "37324",
+      "fingerprint": "64dad3abe8f41af4c3143dfeb27eba0d"
+    },
+    "PlayerAvailabilityEvidence": {
+      "count": "1635",
+      "fingerprint": "ff5aac75eb6241f0cceb7334f4e07184"
+    },
+    "RookieEligibilityEvidence": {
+      "count": "9225",
+      "fingerprint": "efc1ab20c32b9454d433e5bf77e652a8"
+    }
+  },
+  "authorizedRecurringActivitySinceCheckpoint": [],
+  "sessionRefreshRequiresFreshBaseline": true,
+  "protectedGameplayTablesUnchanged": true,
+  "freshBaselinePath": "data/operations/development_before_preservation.json",
+  "productionWrites": 0
+}

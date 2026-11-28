@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "tasks": {
+    "M61-INVENTORY-002": {
+      "task_fingerprint": "d4bf5cff7ee0522816f7b75a766ab20cb90b78d9356dab5b116a51db1df3ee48",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/inventory.py",
+          "tests/historical_tasks/test_inventory.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_inventory.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    "M61-COMPLETION-003": {
+      "task_fingerprint": "ebf5a5d275670c003ab0dba09e7e9090ecd285e07f2c905d6d9deedf553cabde",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/completion.py",
+          "tests/historical_tasks/test_completion.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_completion.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    "M62-PARTICIPATION-004": {
+      "task_fingerprint": "1e2a544a3d9cf6a49fd755a94e9148d449dac0e865d09588f06348a07b7143bf",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/participation.py",
+          "tests/historical_tasks/test_participation.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_participation.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    "M62-NHL-STATS-005": {
+      "task_fingerprint": "a9fb0495a4939de4727b824d0970cddd928eecc6daa911147284c660cbbcb267",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/nhl_shutouts.py",
+          "tests/historical_tasks/test_nhl_shutouts.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_nhl_shutouts.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    "DEV-DEMO-001": {
+      "task_fingerprint": "1c219a9eddf38af74615f7838886045d6a79536d271dad338c78d6d83aea1c72",
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/elapsed_duration.py",
+          "tests/tooling/test_elapsed_duration.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_elapsed_duration.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    "DEV-DEMO-002": {
+      "task_fingerprint": "e36208540306abfa0fb2ab74ab716a4aeee748c24f372cc3c253ff76586b9f38",
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/checkpoint_label.py",
+          "tests/tooling/test_checkpoint_label.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_checkpoint_label.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    }
+  }
+}

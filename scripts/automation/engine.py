@@ -27,11 +27,11 @@ import plistlib
 
 VERSION = 1
 STATES = {'ready','running','verification','completed','failed','blocked','approval_required','paused'}
-MODES = {'manual','assisted','autonomous','paused','approval_required','emergency_stop'}
+MODES = {'manual','assisted','autonomous','paused','approval_required','emergency_stop','development_autonomous'}
 ROLES = {'orchestrator','software_engineer','data_engineer','simulation_scientist','independent_reviewer','operations_engineer'}
 MILESTONES = {'AUTOMATION','MAINTENANCE','M6.0','M6.1','M6.2','M6.3'}
 ALLOWED = {'read_files','review_code','implement','run_tests','update_docs','offline_data','git_commit','git_push','approved_simulation'}
-RESTRICTED = {'change_gameplay','change_scoring','v10_optimize','v10_activate','apply_migration','operational_backfill','broaden_promotion_policy','purchase','restricted_provider','production_deploy','authorize_milestone','enable_unattended'}
+RESTRICTED = {'change_gameplay','change_scoring','v10_optimize','v10_activate','apply_migration','operational_backfill','broaden_promotion_policy','purchase','restricted_provider','production_deploy','authorize_milestone','enable_unattended','enable_writable_execution'}
 PROHIBITED = {'force_push','database_reset','dataset_delete','credential_disclosure','modify_finalized_scores','overwrite_user_changes','fabricate_evidence'}
 SAFE_FILES = ('AGENTS.md','PROJECT_STATUS.md','docs/M6_MASTER_SPECIFICATION.md','docs/M6_HISTORICAL_PREPARATION.md','docs/automation/HANDOFF.md','docs/automation/AGENT_ROLES.md','docs/MASTER_ROADMAP.md','docs/AUTHORIZATION_POLICY.md')
 SAFE_PATH = '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
@@ -118,7 +118,9 @@ def terminate_group(identity, grace=1):
     return True
 
 def task_fingerprint(task):
-    return fingerprint({key:task.get(key) for key in ('id','title','description','milestone','dependencies','assigned_role','authorization_scope','execution_kind','expected_deliverable','acceptance_criteria')})
+    fields={key:task.get(key) for key in ('id','title','description','milestone','dependencies','assigned_role','authorization_scope','execution_kind','expected_deliverable','acceptance_criteria')}
+    if 'development' in task: fields['development']=task['development']
+    return fingerprint(fields)
 
 def permission_flags(repo, credential_canary):
     filesystem={':root':'deny',':minimal':'read',str(Path.home()/'.codex'):'deny',str(repo):'deny',str(Path.home()/'.ssh'):'deny',str(Path.home()/'.aws'):'deny',str(credential_canary.parent):'deny',':tmpdir':'deny',':slash_tmp':'deny',':workspace_roots':{'.':'read','.env':'deny','.env.*':'deny'}}
@@ -167,7 +169,7 @@ def validate_queue(raw):
         if not ID.fullmatch(task.get('id','')) or task['id'] in ids: raise SafetyError('Task IDs must be safe and unique.')
         ids.add(task['id'])
         if task.get('assigned_role') not in ROLES or task.get('status') not in STATES: raise SafetyError('Unknown task role or status.')
-        if task.get('execution_kind') not in {'read_only_review','implementation_handoff'}: raise SafetyError('Unknown safe execution kind.')
+        if task.get('execution_kind') not in {'read_only_review','implementation_handoff','writable_implementation'}: raise SafetyError('Unknown safe execution kind.')
         for key in ('title','description','milestone','expected_deliverable'):
             if not isinstance(task.get(key),str) or not task[key] or len(task[key])>16000: raise SafetyError('Task text is missing or unbounded.')
         if not isinstance(task.get('priority'),int) or not 0<=task['priority']<=1000: raise SafetyError('Priority must be an integer0–1000; smaller runs first.')
@@ -322,14 +324,16 @@ class Engine:
         changed=[]
         for key,row in state['tasks'].items():
             if row.get('status')=='running':
-                row.update(status='failed' if row.get('attempt_count',0)<3 else 'blocked',blocker_classification='INTERRUPTED_EXECUTION_REQUIRES_RETRY',next_attempt_at=stamp(now()+dt.timedelta(seconds=60)))
+                if row.get('development_workflow'):
+                    row.update(status='blocked',blocker_classification='INTERRUPTED_CHECKPOINT_REVIEW_REQUIRED')
+                else:row.update(status='failed' if row.get('attempt_count',0)<3 else 'blocked',blocker_classification='INTERRUPTED_EXECUTION_REQUIRES_RETRY',next_attempt_at=stamp(now()+dt.timedelta(seconds=60)))
                 changed.append(key)
         if changed: self.event('interrupted_tasks_recovered',task_ids=changed)
         if run: self.run_path.unlink(missing_ok=True)
         return changed
     def status(self):
         queue=self.queue();state=self.state();control=self.control();tasks=self.merged(queue,state)
-        return {'version':1,'mode':control['mode'],'reason':control.get('reason'),'queue_mode':queue.get('mode','assisted'),'max_specialists':queue.get('max_specialists',3),'tasks':tasks,'active_run':read_json(self.run_path,{}),'execution_count':len(state['executions']),'approval_requests':[row['id'] for row in tasks if row['status']=='approval_required'],'writes_to_primary_checkout':False,'executor':'READ_ONLY_SNAPSHOT_OR_REVIEWED_WORKTREE_HANDOFF'}
+        return {'version':1,'mode':control['mode'],'reason':control.get('reason'),'queue_mode':queue.get('mode','assisted'),'max_specialists':queue.get('max_specialists',3),'tasks':tasks,'active_run':read_json(self.run_path,{}),'execution_count':len(state['executions']),'approval_requests':[row['id'] for row in tasks if row['status']=='approval_required'],'writes_to_primary_checkout':'verified_integration_authority_only' if (self.owner_root/'scripts/automation/development.py').is_file() else False,'executor':'ISOLATED_WORKTREE_DEVELOPMENT_AND_READ_ONLY_REVIEW' if (self.owner_root/'scripts/automation/development.py').is_file() else 'READ_ONLY_SNAPSHOT_OR_REVIEWED_WORKTREE_HANDOFF'}
     def pause(self, emergency=False):
         if os.environ.get('AUTOMATION_AGENT_CONTEXT')=='1': raise SafetyError('Worker agents cannot control the owner controller.')
         with self.lock('control',True):
@@ -445,6 +449,7 @@ print(json.dumps(result,sort_keys=True))
             eligible.append(row)
         return sorted(eligible,key=lambda row:(row['priority'],row['id']))
     def cycle(self, execute=False, max_tasks=1, timeout=180, codex='/opt/homebrew/bin/codex', executor=None):
+        if self.control().get('mode')=='development_autonomous': raise SafetyError('Development activation cannot launch the legacy read-only scheduler.')
         if not 1<=max_tasks<=3 or not 5<=timeout<=600: raise SafetyError('Cycle/resource bound exceeded.')
         with self.lock():
             queue=self.queue();state=self.state();control=self.control()

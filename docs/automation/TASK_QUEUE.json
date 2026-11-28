@@ -23,7 +23,7 @@
       "expected_deliverable": "Verify persistent project context with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "completed",
@@ -52,7 +52,7 @@
       "expected_deliverable": "Exact starter audit and supported engine repairs with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "completed",
@@ -64,7 +64,7 @@
     {
       "id": "M61-INVENTORY-002",
       "title": "Close MLB and NHL regular-season inventories",
-      "description": "NFL272andNBA1230membership supported; MLB2430andNHL1312same-upstream alternatives remain gated. Seek permitted independent game-level records, disclose lineage and exceptions. Bound source attempts; no dataset recollection or paid access.",
+      "description": "NFL272andNBA1230membership supported; MLB2430andNHL1312same-upstream alternatives remain gated. Seek permitted independent game-level records, disclose lineage and exceptions. Bound source attempts; no dataset recollection or paid access.\n\nAuthorized offline implementation scope: build a deterministic evidence-gap diagnostic in scripts/historical_tasks/inventory.py with isolated standard-library/synthetic unittest coverage in tests/historical_tasks/test_inventory.py. Inspect committed M6 reports and the four fingerprint-bound read-only 2023 Parquet inputs where useful. No source acquisition/network/credentials/production DB is exposed by this profile. Preserve unknowns and trace source provenance; do not fabricate closure or promote cohort acceptance. Code integration leaves the original evidence task in verification; dependency completion requires a separate scientific evidence review. Long local processing must be a bounded sandboxed controller check, not continuous AI inference.",
       "milestone": "M6.1",
       "priority": 10,
       "dependencies": [],
@@ -72,28 +72,66 @@
       "authorization_scope": {
         "actions": [
           "read_files",
-          "offline_data"
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
         ],
         "target_fingerprint": null,
         "approval_id": null
       },
-      "execution_kind": "implementation_handoff",
+      "execution_kind": "writable_implementation",
       "expected_deliverable": "Close MLB and NHL regular-season inventories with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
       "attempt_count": 0,
       "last_execution_time": null,
       "associated_commit": null,
-      "blocker_classification": null
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/inventory.py",
+          "tests/historical_tasks/test_inventory.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_inventory.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
     },
     {
       "id": "M61-COMPLETION-003",
       "title": "Recover remaining completion UTC days",
-      "description": "3710of5244verified; remainingNFL270/MLB3/NBA1/NHL1260. Target explicit terminal/final-call clocks and exception states; no scheduled-start approximation. Exact proposal/target list reports/m62-evidence-policy-proposals.json.",
+      "description": "3710of5244verified; remainingNFL270/MLB3/NBA1/NHL1260. Target explicit terminal/final-call clocks and exception states; no scheduled-start approximation. Exact proposal/target list reports/m62-evidence-policy-proposals.json.\n\nAuthorized offline implementation scope: build a deterministic evidence-gap diagnostic in scripts/historical_tasks/completion.py with isolated standard-library/synthetic unittest coverage in tests/historical_tasks/test_completion.py. Inspect committed M6 reports and the four fingerprint-bound read-only 2023 Parquet inputs where useful. No source acquisition/network/credentials/production DB is exposed by this profile. Preserve unknowns and trace source provenance; do not fabricate closure or promote cohort acceptance. Code integration leaves the original evidence task in verification; dependency completion requires a separate scientific evidence review. Long local processing must be a bounded sandboxed controller check, not continuous AI inference.",
       "milestone": "M6.1",
       "priority": 11,
       "dependencies": [],
@@ -101,28 +139,66 @@
       "authorization_scope": {
         "actions": [
           "read_files",
-          "offline_data"
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
         ],
         "target_fingerprint": null,
         "approval_id": null
       },
-      "execution_kind": "implementation_handoff",
+      "execution_kind": "writable_implementation",
       "expected_deliverable": "Recover remaining completion UTC days with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
       "attempt_count": 0,
       "last_execution_time": null,
       "associated_commit": null,
-      "blocker_classification": null
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/completion.py",
+          "tests/historical_tasks/test_completion.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_completion.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
     },
     {
       "id": "M62-PARTICIPATION-004",
       "title": "Verify applicable roster and category-complete participation",
-      "description": "11045original unknowns remain after supported terminal settlement; corrected12479includes1434newunknowns. Obtain canonical roster membership and complete category inventories. Missingrow/nonstartingpitcher never alone provesDNP.",
+      "description": "11045original unknowns remain after supported terminal settlement; corrected12479includes1434newunknowns. Obtain canonical roster membership and complete category inventories. Missingrow/nonstartingpitcher never alone provesDNP.\n\nAuthorized offline implementation scope: build a deterministic evidence-gap diagnostic in scripts/historical_tasks/participation.py with isolated standard-library/synthetic unittest coverage in tests/historical_tasks/test_participation.py. Inspect committed M6 reports and the four fingerprint-bound read-only 2023 Parquet inputs where useful. No source acquisition/network/credentials/production DB is exposed by this profile. Preserve unknowns and trace source provenance; do not fabricate closure or promote cohort acceptance. Code integration leaves the original evidence task in verification; dependency completion requires a separate scientific evidence review. Long local processing must be a bounded sandboxed controller check, not continuous AI inference.",
       "milestone": "M6.2",
       "priority": 12,
       "dependencies": [],
@@ -130,28 +206,66 @@
       "authorization_scope": {
         "actions": [
           "read_files",
-          "offline_data"
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
         ],
         "target_fingerprint": null,
         "approval_id": null
       },
-      "execution_kind": "implementation_handoff",
+      "execution_kind": "writable_implementation",
       "expected_deliverable": "Verify applicable roster and category-complete participation with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
       "attempt_count": 0,
       "last_execution_time": null,
       "associated_commit": null,
-      "blocker_classification": null
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/participation.py",
+          "tests/historical_tasks/test_participation.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_participation.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
     },
     {
       "id": "M62-NHL-STATS-005",
       "title": "Recover explicit NHL shutout-credit evidence",
-      "description": "Original52andcorrected53starterSOcomponentsremainunknown. OfficialzeroGA/solegoalie reportsalonehave notestablishedcredit. Seek explicitcredit frompermittedreferences; preserve fixedassignmentbounds and unknownvalues.",
+      "description": "Original52andcorrected53starterSOcomponentsremainunknown. OfficialzeroGA/solegoalie reportsalonehave notestablishedcredit. Seek explicitcredit frompermittedreferences; preserve fixedassignmentbounds and unknownvalues.\n\nAuthorized offline implementation scope: build a deterministic evidence-gap diagnostic in scripts/historical_tasks/nhl_shutouts.py with isolated standard-library/synthetic unittest coverage in tests/historical_tasks/test_nhl_shutouts.py. Inspect committed M6 reports and the four fingerprint-bound read-only 2023 Parquet inputs where useful. No source acquisition/network/credentials/production DB is exposed by this profile. Preserve unknowns and trace source provenance; do not fabricate closure or promote cohort acceptance. Code integration leaves the original evidence task in verification; dependency completion requires a separate scientific evidence review. Long local processing must be a bounded sandboxed controller check, not continuous AI inference.",
       "milestone": "M6.2",
       "priority": 13,
       "dependencies": [],
@@ -159,28 +273,66 @@
       "authorization_scope": {
         "actions": [
           "read_files",
-          "offline_data"
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
         ],
         "target_fingerprint": null,
         "approval_id": null
       },
-      "execution_kind": "implementation_handoff",
+      "execution_kind": "writable_implementation",
       "expected_deliverable": "Recover explicit NHL shutout-credit evidence with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
       "attempt_count": 0,
       "last_execution_time": null,
       "associated_commit": null,
-      "blocker_classification": null
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/nhl_shutouts.py",
+          "tests/historical_tasks/test_nhl_shutouts.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_nhl_shutouts.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
     },
     {
       "id": "M61-ACCEPT-006",
       "title": "Review exact first four-sport accepted cohort",
-      "description": "Accept only after closed game inventory, approved completion chronology, supported participation and defensible statistical uncertainty. D1\u2013D6alreadyapproved.",
+      "description": "Accept only after closed game inventory, approved completion chronology, supported participation and defensible statistical uncertainty. D1–D6alreadyapproved.",
       "milestone": "M6.1",
       "priority": 20,
       "dependencies": [
@@ -202,7 +354,7 @@
       "expected_deliverable": "Review exact first four-sport accepted cohort with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -213,8 +365,8 @@
     },
     {
       "id": "M63-BASELINE-007",
-      "title": "Execute unchanged V9 validation seeds31\u201350",
-      "description": "Only on the accepted2023four-sportmanifestwith2022warmup. Noreserved2025or51\u201370campaign. Reuseexistingengine; exact replay/leakage/scoreparity.",
+      "title": "Execute unchanged V9 validation seeds31–50",
+      "description": "Only on the accepted2023four-sportmanifestwith2022warmup. Noreserved2025or51–70campaign. Reuseexistingengine; exact replay/leakage/scoreparity.",
       "milestone": "M6.3",
       "priority": 21,
       "dependencies": [
@@ -231,10 +383,10 @@
         "approval_id": null
       },
       "execution_kind": "implementation_handoff",
-      "expected_deliverable": "Execute unchanged V9 validation seeds31\u201350 with exact artifact fingerprints and truthful limitations",
+      "expected_deliverable": "Execute unchanged V9 validation seeds31–50 with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -265,7 +417,7 @@
       "expected_deliverable": "Review official V9 baseline acceptance with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -293,14 +445,14 @@
       "expected_deliverable": "Activate reviewed persistent unattended mode with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Use existing architecture and frozenD1–D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
-      "status": "approval_required",
+      "status": "blocked",
       "attempt_count": 0,
       "last_execution_time": null,
       "associated_commit": null,
-      "blocker_classification": "EXACT_OWNER_APPROVAL_REQUIRED"
+      "blocker_classification": "SUPERSEDED_BY_DISTINCT_DEVELOPMENT_PROPOSAL"
     },
     {
       "id": "CONTROL-CENTER-DEMO-001",
@@ -330,6 +482,138 @@
       "last_execution_time": "2026-11-28T04:57:14.751661Z",
       "associated_commit": "c872797eaebd95dbda469a6469fa303ace6d3e1c",
       "blocker_classification": null
+    },
+    {
+      "id": "DEV-DEMO-001",
+      "title": "Implement deterministic elapsed-duration formatting",
+      "description": "Implement a pure standard-library format_elapsed(seconds) function in scripts/tooling/elapsed_duration.py. Accept finite non-negative int/float (reject bool, negative, NaN, infinity and nonnumeric via ValueError). Floor fractional seconds. Return M:SS for less than one hour, H:MM:SS for one hour or more, no datetime rollover (25h -> 25:00:00). No I/O on import. Add meaningful Python unittest boundary/invalid-value coverage in tests/tooling/test_elapsed_duration.py. Tests should load the module by exact file path using importlib because controller runs Python isolated (-I). Do not touch any other files, do not run Git/network/database/package installation, and do not edit project status/authority documents. Controller performs tests, review, commit and push. This is an authorized harmless tooling demonstration, not M6 acceptance.",
+      "milestone": "AUTOMATION",
+      "priority": 0,
+      "dependencies": [],
+      "assigned_role": "software_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "expected_deliverable": "Actual scoped code, meaningful tests, independent review, integration and synchronized checkpoint",
+      "acceptance_criteria": [
+        "Only exact granted files change",
+        "Real controller local checks pass",
+        "Distinct independent reviewer accepts ordinary implementation",
+        "No database mutation, credentials, network from task commands, scoring or activation changes"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/elapsed_duration.py",
+          "tests/tooling/test_elapsed_duration.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_elapsed_duration.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "DEV-DEMO-002",
+      "title": "Implement validated checkpoint display labels",
+      "description": "After DEV-DEMO-001 integrates, implement pure standard-library checkpoint_label(task_id, commit, elapsed_seconds) in scripts/tooling/checkpoint_label.py. Require task_id matching [A-Za-z0-9][A-Za-z0-9_-]{0,79} and commit exactly 40 lowercase hex characters; invalid values ValueError. Reuse format_elapsed from prior task (load via exact file path if needed). Return \"TASK-ID · abcdef0 · M:SS\" or H:MM:SS using seven-character commit prefix. No I/O/network or mutation on import. Add meaningful unittest validation, formatting boundary and reuse tests in tests/tooling/test_checkpoint_label.py. Controller runs Python -I so tests must import the target by exact file path via importlib. Do not modify the previous helper or previous tests, any other source, Git, datasets, DB, credentials or approvals. This is the automatic dependent continuation demonstration.",
+      "milestone": "AUTOMATION",
+      "priority": 0,
+      "dependencies": [
+        "DEV-DEMO-001"
+      ],
+      "assigned_role": "software_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "expected_deliverable": "Actual scoped code, meaningful tests, independent review, integration and synchronized checkpoint",
+      "acceptance_criteria": [
+        "Only exact granted files change",
+        "Real controller local checks pass",
+        "Distinct independent reviewer accepts ordinary implementation",
+        "No database mutation, credentials, network from task commands, scoring or activation changes"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null,
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/checkpoint_label.py",
+          "tests/tooling/test_checkpoint_label.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_checkpoint_label.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "AUTO-DEVELOPMENT-001",
+      "title": "Activate exact reviewed autonomous development workflow",
+      "description": "Prepare only: separate exact scope covering isolated writable specialists, local tests, independent review, safe integration and ordinary synchronized commits. No activation from this request.",
+      "milestone": "AUTOMATION",
+      "priority": 100,
+      "dependencies": [],
+      "assigned_role": "operations_engineer",
+      "authorization_scope": {
+        "actions": [
+          "enable_unattended",
+          "enable_writable_execution"
+        ],
+        "target_fingerprint": "3668ec86929e298329ee5501b450a1d7f3ecb6f07b24d048b681c9b8200c409f",
+        "approval_id": "DEV-ACTIVATION-001"
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Actual scoped code, meaningful tests, independent review, integration and synchronized checkpoint",
+      "acceptance_criteria": [
+        "Only exact granted files change",
+        "Real controller local checks pass",
+        "Distinct independent reviewer accepts ordinary implementation",
+        "No database mutation, credentials, network from task commands, scoring or activation changes"
+      ],
+      "status": "approval_required",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": "EXACT_OWNER_APPROVAL_REQUIRED"
     }
   ]
 }

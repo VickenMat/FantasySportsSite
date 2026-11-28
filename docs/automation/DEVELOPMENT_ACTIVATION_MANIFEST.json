@@ -1,0 +1,473 @@
+{
+  "version": 1,
+  "kind": "AUTONOMOUS_DEVELOPMENT_PROPOSAL",
+  "configuration": {
+    "mode": "development_autonomous",
+    "execution_profile": "isolated_worktree_development",
+    "max_tasks": 2,
+    "max_specialists": 3,
+    "max_active_model_stages": 1,
+    "interval_seconds": 900,
+    "max_attempts": 3,
+    "daily_model_launch_limit": 12,
+    "budgets": {
+      "review": 300,
+      "research": 900,
+      "implementation": 1800,
+      "local": 7200
+    },
+    "scheduler_label": "com.fantasyevolution.development",
+    "additional_spending_usd": 0
+  },
+  "files": {
+    ".codex/agents/data_engineer.toml": "6cd9c4ec276b2abfab21379567863ff77313fc226958753198abd29532e103be",
+    ".codex/agents/independent_reviewer.toml": "a52d6cbec2d7ea1f1f1e1ed3d19675bb9613bf510d168292eea53f7af9497a13",
+    ".codex/agents/operations_engineer.toml": "9bc8edf43fee3fbfbc73b1b71572e3a5dfb4d44a7eeaa30e857e3bb8907a4e31",
+    ".codex/agents/orchestrator.toml": "f9097ce6db980e15c9a3bd55a02ed61113edbdaa04c9c13e90d5513b962a4e9b",
+    ".codex/agents/simulation_scientist.toml": "d0108d6ac1eb1a5cb4c4ae14055f60e5c5652de3e73f1f42bda221fa2d1c7579",
+    ".codex/agents/software_engineer.toml": "292a1e81650bbd4847df2824089c95f67ea80761a4d1acc03ed45d2f41c1f3c1",
+    ".gitignore": "379834577f946c95c67b29f268efee3c015707c196f487da44fce8e4084a0748",
+    "AGENTS.md": "ecbacd1401525f9ad9eed694cb45c8b513d6028bd8e38f347eb670f59999bc3e",
+    "control-center/bridge.py": "8b04b15c3c2b49fc4d7cdd1136fb39e01d74582443bfdafa30aeabd29d5697d5",
+    "control-center/cli.mjs": "69a2e85d20622bde7b798f968a1f21b259b6ce3b10dcf14c842ca81b682b3fa0",
+    "control-center/infrastructure.ts": "101f280ac72dd909ff69b8201236c400d7830c8d8e5f52b586abaf2b94cdcb9e",
+    "control-center/observations.ts": "b81ea3b3005fd08df23f84f3b50aaeb55cb3fe0c275b06d86ca994c20be415f2",
+    "control-center/policy.ts": "67da6fdc7cf7944a24f9e7a2327641f48466eb67b0e086de53b15fb1a83c30ab",
+    "control-center/security.ts": "80b604307c3add34a3504d1df7f4ae6324e026ca967e271f5776aa85e2f387cf",
+    "control-center/server.ts": "a3e7626acf8412e1b7e1e42158d88ee20725736d0a034564a3d86bc90cae831f",
+    "control-center/telemetry.ts": "a77f43c842673290fbb02fe6bcde5b3083f1d0f3b438b04bb0b324ba7896c3d5",
+    "control-center/tsconfig.json": "3ff40cbe35b2c5709556c886d61b2f19f72958186e3d11c08f2b852b975d6cf1",
+    "control-center/ui/App.tsx": "e2317908c86781cd6429effcc54d7b54e5d9e3be4ad60178acfb6d2409e9ff32",
+    "control-center/ui/index.html": "d4a366bb9ea87f720bfe1037ebe4ce24d60b31aea0b82bf09161d1192a0b42db",
+    "control-center/ui/main.tsx": "eebce707049418db21464d8b5bddfd51f326cf97c3f56ba7521dae306cfa0784",
+    "control-center/ui/styles.css": "6230b9ed298311b75d499979df0bc275d0bedc0ae3466ebfedd83d2d4cfa2eee",
+    "control-center/ui/types.ts": "6ffd5d683ef044244e1e82df10ae7793fcf6403e19e80ac97392b3ccd08d232c",
+    "control-center/vitest.config.ts": "0b2cd12d4e1b9cf4c6c7eb5011005ecad529a5393e448b1d394b7a897d89d026",
+    "docs/AUTHORIZATION_POLICY.md": "a7b04dd23ee43b54fe335a5b8e35284fc6fba8c37abbe997fe52335e9974953a",
+    "docs/DECISION_LOG.md": "87ca42010fa76d22b94179f8f9c29865ba0923f23846afb247d2606f44cc3ccd",
+    "docs/automation/AGENT_ROLES.md": "f8624421f80da3d4dbf3e316d2d4cc6e2bb793ffb55ffa90f1a5d7526c755cff",
+    "docs/automation/DEVELOPMENT_TASKS.json": "3a0e7c3f7d27f9ab2300f9f40293291dc8ca2ed4c76b6cb4fb28732032addbc0",
+    "package-lock.json": "c5e5b15dffb77fe043a6700bcfa94bac29bda497dd5a2051d6f18b74d6822c03",
+    "package.json": "0e2cbf2e782cff60d482c4ecc3a137a591e7f991d0dcb63ba4f1720e3270f11b",
+    "scripts/automation/approval_queue.schema.json": "c38e76689a118ebb4baa16551302cab276bef72a700ba5739f72aae7e4561ebe",
+    "scripts/automation/com.fantasyevolution.development.plist.in": "c718213dd2f405a3382ebedcb03a1d2da3e05dea070705453bc47e3ed4e0c670",
+    "scripts/automation/development.py": "bf71d50696e3ced57110c11874f5a876b1069085d00fcb92fc41269f1f218821",
+    "scripts/automation/development_activation.py": "7cf8d197d6056254f6c370e8c9e196695bca49742e0289023baf225879914333",
+    "scripts/automation/engine.py": "53c3f2e290d4d199206da7270b4f4ee314d6855b3c9257c80cad334b6b2f8b13",
+    "scripts/automation/orchestrator.py": "8092630941118ebb79a869ac7345a73fb9b1f441cf1aaf016689bec3d5808278",
+    "scripts/automation/prepare_activation.py": "841ee60e9e71aea0c78125bda6aff19e3c863081ec173ef121df49f40abce49c",
+    "scripts/automation/task_queue.schema.json": "c1451f618aca2e7c25a957a9000a3f98c272defb955f1d7e8c3e3c2f5db9c6f9",
+    "scripts/automation/writable_sandbox.py": "b2cd72b9483f11aa9458a7dfb4d9f5bf0467e5d2aca957dcb7a3201f5ba4c9e8"
+  },
+  "queue_authorizations": [
+    {
+      "id": "AUTO-CONTEXT-001",
+      "milestone": "AUTOMATION",
+      "dependencies": [],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "review_code"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "read_only_review",
+      "development": null
+    },
+    {
+      "id": "AUTO-UNATTENDED-009",
+      "milestone": "AUTOMATION",
+      "dependencies": [],
+      "assigned_role": "operations_engineer",
+      "authorization_scope": {
+        "actions": [
+          "enable_unattended"
+        ],
+        "target_fingerprint": "995aadb384044d0181453252630a8a6e0c461fc3ff6e4e4a08b19e1216d5cbb2",
+        "approval_id": "AUTO-ACTIVATION-001"
+      },
+      "execution_kind": "implementation_handoff",
+      "development": null
+    },
+    {
+      "id": "CONTROL-CENTER-DEMO-001",
+      "milestone": "AUTOMATION",
+      "dependencies": [],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "review_code"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "read_only_review",
+      "development": null
+    },
+    {
+      "id": "DEV-DEMO-001",
+      "milestone": "AUTOMATION",
+      "dependencies": [],
+      "assigned_role": "software_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/elapsed_duration.py",
+          "tests/tooling/test_elapsed_duration.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_elapsed_duration.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "DEV-DEMO-002",
+      "milestone": "AUTOMATION",
+      "dependencies": [
+        "DEV-DEMO-001"
+      ],
+      "assigned_role": "software_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/tooling/checkpoint_label.py",
+          "tests/tooling/test_checkpoint_label.py"
+        ],
+        "datasets": [],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/tooling/test_checkpoint_label.py"
+          }
+        ],
+        "budget_kind": "implementation",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "M61-ACCEPT-006",
+      "milestone": "M6.1",
+      "dependencies": [
+        "M61-INVENTORY-002",
+        "M61-COMPLETION-003",
+        "M62-PARTICIPATION-004",
+        "M62-NHL-STATS-005"
+      ],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "development": null
+    },
+    {
+      "id": "M61-COMPLETION-003",
+      "milestone": "M6.1",
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/completion.py",
+          "tests/historical_tasks/test_completion.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_completion.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "M61-INVENTORY-002",
+      "milestone": "M6.1",
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/inventory.py",
+          "tests/historical_tasks/test_inventory.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_inventory.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "M62-NHL-STATS-005",
+      "milestone": "M6.2",
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/nhl_shutouts.py",
+          "tests/historical_tasks/test_nhl_shutouts.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_nhl_shutouts.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "M62-PARTICIPATION-004",
+      "milestone": "M6.2",
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "implement",
+          "run_tests",
+          "git_commit",
+          "git_push"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "writable_implementation",
+      "development": {
+        "writable_paths": [
+          "scripts/historical_tasks/participation.py",
+          "tests/historical_tasks/test_participation.py"
+        ],
+        "datasets": [
+          {
+            "path": "data/simulation/historical_v1/NFL/2023/records.parquet",
+            "sha256": "afd0bad021c165662dde1edcb80b64030c85a0e7b7b17689ff0721ebd9132749"
+          },
+          {
+            "path": "data/simulation/historical_v1/MLB/2023/records.parquet",
+            "sha256": "3080ece0a09d875fdd4c80662ecd03cc7fc7f4b2f8a5215d6896675dac41b881"
+          },
+          {
+            "path": "data/simulation/historical_v1/NBA/2023/records.parquet",
+            "sha256": "9260fa25cce6ea21cc346cfd6ebd5e7f02274e707df07c465ed4761862587f82"
+          },
+          {
+            "path": "data/simulation/historical_v1/NHL/2023/records.parquet",
+            "sha256": "e69a993ca10c9214a5916990ab0522cfac381fd64bcc1dca75bee40fd622ff21"
+          }
+        ],
+        "checks": [
+          {
+            "kind": "python_unittest",
+            "path": "tests/historical_tasks/test_participation.py"
+          }
+        ],
+        "budget_kind": "research",
+        "model_seconds": 900,
+        "test_seconds": 300,
+        "push": true
+      }
+    },
+    {
+      "id": "M62-STARTERS-001",
+      "milestone": "M6.2",
+      "dependencies": [],
+      "assigned_role": "simulation_scientist",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "development": null
+    },
+    {
+      "id": "M63-ACCEPT-008",
+      "milestone": "M6.3",
+      "dependencies": [
+        "M63-BASELINE-007"
+      ],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "development": null
+    },
+    {
+      "id": "M63-BASELINE-007",
+      "milestone": "M6.3",
+      "dependencies": [
+        "M61-ACCEPT-006"
+      ],
+      "assigned_role": "simulation_scientist",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "approved_simulation"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "development": null
+    }
+  ],
+  "rendered_scheduler": {
+    "path": ".automation/launchd/com.fantasyevolution.development.plist",
+    "sha256": "bf8545279c524aafec75a8ad600aa19553080a0e21cf32daf2337e2accf8c2e9"
+  }
+}

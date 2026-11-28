@@ -18,10 +18,26 @@ fingerprint=commands.add_parser('fingerprint');fingerprint.add_argument('--task-
 activation=commands.add_parser('activation-plan');activation.add_argument('--approval-id',default='AUTO-ACTIVATION-001')
 activate=commands.add_parser('activate');activate.add_argument('--approval-id',required=True)
 review=commands.add_parser('review');review.add_argument('--task-id',required=True);review.add_argument('--task-fingerprint',required=True);review.add_argument('--reviewer',choices=['project_owner','orchestrator','independent_reviewer'],required=True);review.add_argument('--reviewer-run-id',required=True);review.add_argument('--evidence',required=True);review.add_argument('--decision',choices=['accept','reject'],required=True);review.add_argument('--associated-commit')
+develop=commands.add_parser('develop');develop.add_argument('--max-tasks',type=int,default=2);develop.add_argument('--dry-run',action='store_true')
+recover=commands.add_parser('recover-development');recover.add_argument('--task-id',required=True);recover.add_argument('--worktree',required=True);recover.add_argument('--head',required=True)
+for name in ['development-plan','prepare-development','activate-development','install-development','uninstall-development']:
+ sub=commands.add_parser(name);sub.add_argument('--approval-id',default='DEV-ACTIVATION-001')
 args=parser.parse_args()
 try:
  engine=Engine(args.repo,args.runtime,args.queue,args.approvals)
- if args.command=='status':result=engine.status()
+ if args.command in {'develop','recover-development','development-plan','prepare-development','activate-development','install-development','uninstall-development'}:
+  from development import DevEngine
+  engine=DevEngine(args.repo,args.runtime,args.queue,args.approvals)
+  if args.command=='develop':result=engine.develop(not args.dry_run,args.max_tasks)
+  elif args.command=='recover-development':result=engine.recover_checkpoint(args.task_id,args.worktree,args.head)
+  else:
+   import development_activation as activation
+   if args.command=='development-plan':result=engine.activation_plan(args.approval_id)
+   elif args.command=='prepare-development':result=activation.prepare(engine,bind_pending=True)
+   elif args.command=='activate-development':result=activation.activate(engine,args.approval_id)
+   elif args.command=='install-development':result=activation.install(engine,args.approval_id)
+   else:result=activation.uninstall(engine,args.approval_id)
+ elif args.command=='status':result=engine.status()
  elif args.command=='tasks':result=engine.status()['tasks']
  elif args.command=='handoff':result=[task for task in engine.status()['tasks'] if task['status']=='verification']
  elif args.command=='pause':result=engine.pause()

@@ -67,3 +67,29 @@ it('cancels only the exact observed test-owned process group and persists a safe
  await login();const sleeper=spawn('/usr/local/bin/python3',['-c','import time;time.sleep(30)'],{detached:true,stdio:'ignore'});let ended=false;sleeper.on('exit',()=>{ended=true;});
  try{const observed=await center.ownerControl({action:'identity',pid:sleeper.pid});expect(observed.identity).toBeTruthy();const runId='a'.repeat(32);writeFileSync(join(repo,'.automation/active-run.json'),JSON.stringify({run_id:runId,task_id:'T1',child:observed.identity}));expect((await control({action:'cancel',runId:'b'.repeat(32)})).status).toBe(400);expect(ended).toBe(false);const result=await control({action:'cancel',runId});expect(result.status).toBe(200);expect((await result.json()).cancelled).toBe(true);expect(JSON.parse(readFileSync(join(repo,'.automation/control.json'),'utf8')).mode).toBe('paused');for(let i=0;i<30&&!ended;i++)await new Promise(r=>setTimeout(r,20));expect(ended).toBe(true);}finally{if(!ended&&sleeper.pid)try{process.kill(-sleeper.pid,'SIGKILL');}catch{}}
 });
+it('rejects unavailable writable profiles and arbitrary workflow before any model launch',async()=>{
+ await login();expect((await control({action:'start',workflow:'development --unsafe',confirmed:true})).status).toBe(400);
+ // No development engine is installed in this isolated project; capability must fail closed.
+ const status=await (await fetch(url+'/api/state',{headers:{Cookie:cookie}})).json();
+ if(!status.capabilities.writableExecution)expect((await control({action:'start',workflow:'development',confirmed:true})).status).toBe(400);
+ expect((await control({action:'start',workflow:'development',confirmed:true,command:'not executable'})).status).toBe(400);
+});
+it('launches only fixed development argv in an isolated harmless script and keeps scheduling disabled',async()=>{
+ mkdirSync(join(repo,'scripts/automation'),{recursive:true});writeFileSync(join(repo,'scripts/automation/orchestrator.py'),"import sys,json,pathlib\npathlib.Path('.automation/test-development-argv.json').write_text(json.dumps(sys.argv[1:]))\n");
+ await login();const state=await (await fetch(url+'/api/state',{headers:{Cookie:cookie}})).json();
+ // This path becomes available only when the reviewed DevEngine module is installed.
+ if(!state.capabilities.writableExecution){expect((await control({action:'start',workflow:'development',confirmed:true})).status).toBe(400);return;}
+ expect(state.capabilities.schedulerActivation).toBe(false);const response=await control({action:'start',workflow:'development',confirmed:true});expect(response.status).toBe(202);const receipt=await response.json();expect(receipt).toMatchObject({workflow:'development',profile:'isolated_development',bounds:{maxTasks:2}});
+ for(let i=0;i<30;i++){try{expect(JSON.parse(readFileSync(join(repo,'.automation/test-development-argv.json'),'utf8'))).toEqual(['develop','--max-tasks','2']);return;}catch{await new Promise(resolve=>setTimeout(resolve,25));}}
+ throw Error('Harmless fixed development launcher did not publish its argv receipt.');
+});
+it('owner guidance rebinds only an exact unclaimed writable grant and fails closed on a mismatched grant',async()=>{
+ const queuePath=join(repo,'docs/automation/TASK_QUEUE.json'),grantPath=join(repo,'docs/automation/DEVELOPMENT_TASKS.json');const queue=JSON.parse(readFileSync(queuePath,'utf8'));const task=queue.tasks[0];
+ task.assigned_role='software_engineer';task.execution_kind='writable_implementation';task.authorization_scope.actions=['implement','run_tests'];task.development={writable_paths:['reports/guidance-fixture.md','tests/guidance-fixture.py'],datasets:[],checks:[{kind:'python_script',path:'tests/guidance-fixture.py'}],budget_kind:'implementation',model_seconds:10,test_seconds:10,push:false};writeFileSync(queuePath,JSON.stringify(queue));
+ const fingerprint=()=>execFileSync('/usr/local/bin/python3',['-c',"import json,sys;sys.path.insert(0,sys.argv[1]);from engine import task_fingerprint;print(task_fingerprint(json.load(open(sys.argv[2]))['tasks'][0]))",join(process.cwd(),'scripts/automation'),queuePath],{encoding:'utf8'}).trim();
+ const before=fingerprint(),profile=JSON.stringify(task.development),scope=JSON.stringify(task.authorization_scope);writeFileSync(grantPath,JSON.stringify({version:1,tasks:{T1:{task_fingerprint:'0'.repeat(64),development:task.development}}}));
+ await login();expect((await control({action:'guidance',taskId:'T1',guidance:'Preserve unknown values.'})).status).toBe(400);expect(fingerprint()).toBe(before);
+ writeFileSync(grantPath,JSON.stringify({version:1,tasks:{T1:{task_fingerprint:before,development:task.development}}}));const response=await control({action:'guidance',taskId:'T1',guidance:'Preserve unknown values.'});expect(response.status).toBe(200);expect(await response.json()).toMatchObject({activationReviewRequired:true});
+ const after=fingerprint(),updated=JSON.parse(readFileSync(queuePath,'utf8')).tasks[0],grant=JSON.parse(readFileSync(grantPath,'utf8')).tasks.T1;
+ expect(after).not.toBe(before);expect(grant.task_fingerprint).toBe(after);expect(JSON.stringify(grant.development)).toBe(profile);expect(JSON.stringify(updated.authorization_scope)).toBe(scope);expect(updated.description).toContain('Preserve unknown values.');expect(JSON.parse(readFileSync(join(repo,'docs/automation/APPROVAL_QUEUE.json'),'utf8')).approvals).toEqual([]);
+});
