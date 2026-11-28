@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "approvals": [
+    {
+      "id": "AUTO-ACTIVATION-001",
+      "exact_proposed_action": "Install and activate a reviewed launchd job for bounded unattended read-only cycles only; implementation handoffs remain separately reviewed",
+      "why_approval_required": "User explicitly withheld persistent unattended activation",
+      "alternatives": [
+        "Use assisted one-shot read-only cycles",
+        "Keep scheduling disabled"
+      ],
+      "recommendation": "Remain assisted until exact permission probe, execution review and scheduling parameters are verified",
+      "expected_consequences": "Periodic subscription usage and private local execution logs; no autonomous writes or deployment",
+      "affected_resources": [
+        "Local Codex subscription",
+        "Private .automation runtime",
+        "launchd user job"
+      ],
+      "target_fingerprint": "1be00abba53bed87020e58ea9299f613e64e12d57ef9ef912c12b231da469d74",
+      "task_fingerprint": "49a5b903814cfb70f0ca692b41bbd03660d9c44e006e594843aa9911365da7fc",
+      "scope": [
+        "enable_unattended"
+      ],
+      "expires_at": null,
+      "status": "pending",
+      "decision": null
+    }
+  ]
+}

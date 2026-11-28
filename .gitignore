@@ -55,3 +55,7 @@ next-env.d.ts
 # Python analysis/test bytecode
 __pycache__/
 *.pyc
+
+# Private bounded Codex automation state, logs and isolated worktrees
+/.automation/
+/.automation-worktrees/

@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "files": {
+    "scripts/automation/engine.py": "ec2f949f19619d0480f2331aca6dffe2d5bef91031bd6d9ab82a6a104db065c6",
+    "scripts/automation/orchestrator.py": "5e26a28a7b507e1c9ce8dbd6d79708697becd74bbc7190bc8a46c63d759324e3",
+    "scripts/automation/prepare_activation.py": "99a3019dbb74353651d62c2dbadf8a57ede83b35711afeba82e488484fcb9fa9",
+    "scripts/automation/task_queue.schema.json": "17e010e555ebfe4d9f62c7b5531ae194d778203139198a1326ab795b0eb0a26c",
+    "scripts/automation/approval_queue.schema.json": "c38e76689a118ebb4baa16551302cab276bef72a700ba5739f72aae7e4561ebe",
+    "scripts/automation/com.fantasyevolution.assisted.plist.in": "1c50a0253bcf01452a9b29d8f295ce482e49967946d64244ea14105999ad17b6",
+    "AGENTS.md": "b45605fe2634fa5c895992bc527dbd0c1e8764a20ce6e1f51757e24ebf8cfbc0",
+    ".gitignore": "379834577f946c95c67b29f268efee3c015707c196f487da44fce8e4084a0748",
+    "docs/AUTHORIZATION_POLICY.md": "6552ef76df5712f516a462dde600b59ce1e36ab77c9cbe1340306b894e8e69fd",
+    "docs/DECISION_LOG.md": "87ca42010fa76d22b94179f8f9c29865ba0923f23846afb247d2606f44cc3ccd",
+    "docs/automation/AGENT_ROLES.md": "f8624421f80da3d4dbf3e316d2d4cc6e2bb793ffb55ffa90f1a5d7526c755cff",
+    ".codex/agents/data_engineer.toml": "6cd9c4ec276b2abfab21379567863ff77313fc226958753198abd29532e103be",
+    ".codex/agents/independent_reviewer.toml": "a52d6cbec2d7ea1f1f1e1ed3d19675bb9613bf510d168292eea53f7af9497a13",
+    ".codex/agents/operations_engineer.toml": "9bc8edf43fee3fbfbc73b1b71572e3a5dfb4d44a7eeaa30e857e3bb8907a4e31",
+    ".codex/agents/orchestrator.toml": "f9097ce6db980e15c9a3bd55a02ed61113edbdaa04c9c13e90d5513b962a4e9b",
+    ".codex/agents/simulation_scientist.toml": "d0108d6ac1eb1a5cb4c4ae14055f60e5c5652de3e73f1f42bda221fa2d1c7579",
+    ".codex/agents/software_engineer.toml": "292a1e81650bbd4847df2824089c95f67ea80761a4d1acc03ed45d2f41c1f3c1"
+  },
+  "configuration": {
+    "mode": "autonomous",
+    "execution_profile": "read_only_snapshot",
+    "max_tasks": 1,
+    "timeout_seconds": 180,
+    "interval_seconds": 900,
+    "max_attempts": 3,
+    "daily_execution_limit": 6,
+    "scheduler_label": "com.fantasyevolution.readonly"
+  },
+  "rendered_scheduler": {
+    "path": ".automation/launchd/com.fantasyevolution.readonly.plist",
+    "sha256": "c3ddcf04b2aef40aedb154bd01c0c31939341667ba6fd1050e199b403c5c0a52"
+  }
+}

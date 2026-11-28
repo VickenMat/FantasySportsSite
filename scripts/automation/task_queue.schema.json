@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fantasy Evolution owner-maintained task queue",
+  "type": "object",
+  "required": ["version", "mode", "max_specialists", "tasks"],
+  "properties": {
+    "version": {"const": 1},
+    "mode": {"enum": ["manual", "assisted", "autonomous", "paused", "approval_required", "emergency_stop"]},
+    "max_specialists": {"type": "integer", "minimum": 1, "maximum": 3},
+    "tasks": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/$defs/task"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "task": {
+      "type": "object",
+      "required": ["id", "title", "description", "milestone", "priority", "dependencies", "assigned_role", "authorization_scope", "execution_kind", "expected_deliverable", "acceptance_criteria", "status", "attempt_count", "last_execution_time", "associated_commit", "blocker_classification"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 16000},
+        "description": {"type": "string", "minLength": 1, "maxLength": 16000},
+        "milestone": {"type": "string", "minLength": 1},
+        "priority": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "assigned_role": {"enum": ["orchestrator", "software_engineer", "data_engineer", "simulation_scientist", "independent_reviewer", "operations_engineer"]},
+        "authorization_scope": {"type": "object", "required": ["actions", "target_fingerprint", "approval_id"], "properties": {"actions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}, "target_fingerprint": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}, "approval_id": {"type": ["string", "null"]}}, "additionalProperties": false},
+        "execution_kind": {"enum": ["read_only_review", "implementation_handoff"]},
+        "expected_deliverable": {"type": "string", "minLength": 1, "maxLength": 16000},
+        "acceptance_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "status": {"enum": ["ready", "running", "verification", "completed", "failed", "blocked", "approval_required", "paused"]},
+        "attempt_count": {"type": "integer", "minimum": 0},
+        "last_execution_time": {"type": ["string", "null"], "format": "date-time"},
+        "associated_commit": {"type": ["string", "null"]},
+        "blocker_classification": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.fantasyevolution.assisted</string>
+<key>ProgramArguments</key><array><string>__PYTHON_ABSOLUTE_PATH__</string><string>__REPOSITORY__/scripts/automation/orchestrator.py</string><string>cycle</string></array>
+<key>WorkingDirectory</key><string>__REPOSITORY__</string>
+<key>StartInterval</key><integer>900</integer>
+<key>RunAtLoad</key><false/>
+<key>ProcessType</key><string>Background</string>
+<key>LowPriorityIO</key><true/>
+<key>Nice</key><integer>10</integer>
+<key>StandardOutPath</key><string>__PRIVATE_LOG_DIRECTORY__/launchd.stdout.log</string>
+<key>StandardErrorPath</key><string>__PRIVATE_LOG_DIRECTORY__/launchd.stderr.log</string>
+</dict></plist>

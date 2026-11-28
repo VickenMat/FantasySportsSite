@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "mode": "assisted",
+  "max_specialists": 3,
+  "tasks": [
+    {
+      "id": "AUTO-CONTEXT-001",
+      "title": "Verify persistent project context",
+      "description": "Harmless bounded read-only demonstration: summarize the supplied project context and identify remaining historical evidence gates. Do not access files outside the sanitized snapshot, execute shell beyond approved probes, contact sources, alter files or declare an official baseline.",
+      "milestone": "AUTOMATION",
+      "priority": 0,
+      "dependencies": [],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "review_code"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "read_only_review",
+      "expected_deliverable": "Verify persistent project context with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "completed",
+      "attempt_count": 3,
+      "last_execution_time": "2026-11-28T03:20:11.369611Z",
+      "associated_commit": "c8f6f330e59527b9151cf8720c0293c07f633407",
+      "blocker_classification": null
+    },
+    {
+      "id": "M62-STARTERS-001",
+      "title": "Exact starter audit and supported engine repairs",
+      "description": "All12181original assignments reconciled;1136supportedresolutions and exact denominator bridge preserve every originalkey. Reviewreports/m62-* and docs/M6_STARTER_RECONCILIATION_REPORT.md.",
+      "milestone": "M6.2",
+      "priority": 1,
+      "dependencies": [],
+      "assigned_role": "simulation_scientist",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Exact starter audit and supported engine repairs with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "completed",
+      "attempt_count": 0,
+      "last_execution_time": "2026-11-28T03:05:23.742341+00:00",
+      "associated_commit": "c8f6f330e59527b9151cf8720c0293c07f633407",
+      "blocker_classification": null
+    },
+    {
+      "id": "M61-INVENTORY-002",
+      "title": "Close MLB and NHL regular-season inventories",
+      "description": "NFL272andNBA1230membership supported; MLB2430andNHL1312same-upstream alternatives remain gated. Seek permitted independent game-level records, disclose lineage and exceptions. Bound source attempts; no dataset recollection or paid access.",
+      "milestone": "M6.1",
+      "priority": 10,
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Close MLB and NHL regular-season inventories with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null
+    },
+    {
+      "id": "M61-COMPLETION-003",
+      "title": "Recover remaining completion UTC days",
+      "description": "3710of5244verified; remainingNFL270/MLB3/NBA1/NHL1260. Target explicit terminal/final-call clocks and exception states; no scheduled-start approximation. Exact proposal/target list reports/m62-evidence-policy-proposals.json.",
+      "milestone": "M6.1",
+      "priority": 11,
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Recover remaining completion UTC days with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null
+    },
+    {
+      "id": "M62-PARTICIPATION-004",
+      "title": "Verify applicable roster and category-complete participation",
+      "description": "11045original unknowns remain after supported terminal settlement; corrected12479includes1434newunknowns. Obtain canonical roster membership and complete category inventories. Missingrow/nonstartingpitcher never alone provesDNP.",
+      "milestone": "M6.2",
+      "priority": 12,
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Verify applicable roster and category-complete participation with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null
+    },
+    {
+      "id": "M62-NHL-STATS-005",
+      "title": "Recover explicit NHL shutout-credit evidence",
+      "description": "Original52andcorrected53starterSOcomponentsremainunknown. OfficialzeroGA/solegoalie reportsalonehave notestablishedcredit. Seek explicitcredit frompermittedreferences; preserve fixedassignmentbounds and unknownvalues.",
+      "milestone": "M6.2",
+      "priority": 13,
+      "dependencies": [],
+      "assigned_role": "data_engineer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Recover explicit NHL shutout-credit evidence with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "ready",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": null
+    },
+    {
+      "id": "M61-ACCEPT-006",
+      "title": "Review exact first four-sport accepted cohort",
+      "description": "Accept only after closed game inventory, approved completion chronology, supported participation and defensible statistical uncertainty. D1\u2013D6alreadyapproved.",
+      "milestone": "M6.1",
+      "priority": 20,
+      "dependencies": [
+        "M61-INVENTORY-002",
+        "M61-COMPLETION-003",
+        "M62-PARTICIPATION-004",
+        "M62-NHL-STATS-005"
+      ],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Review exact first four-sport accepted cohort with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "blocked",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": "EVIDENCE_DEPENDENCIES"
+    },
+    {
+      "id": "M63-BASELINE-007",
+      "title": "Execute unchanged V9 validation seeds31\u201350",
+      "description": "Only on the accepted2023four-sportmanifestwith2022warmup. Noreserved2025or51\u201370campaign. Reuseexistingengine; exact replay/leakage/scoreparity.",
+      "milestone": "M6.3",
+      "priority": 21,
+      "dependencies": [
+        "M61-ACCEPT-006"
+      ],
+      "assigned_role": "simulation_scientist",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data",
+          "approved_simulation"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Execute unchanged V9 validation seeds31\u201350 with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "blocked",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": "ACCEPTED_COHORT_REQUIRED"
+    },
+    {
+      "id": "M63-ACCEPT-008",
+      "title": "Review official V9 baseline acceptance",
+      "description": "Only actualacceptedhistoricalresults may establishmedians/spread andM6.3acceptance. Do not optimizeweights.",
+      "milestone": "M6.3",
+      "priority": 22,
+      "dependencies": [
+        "M63-BASELINE-007"
+      ],
+      "assigned_role": "independent_reviewer",
+      "authorization_scope": {
+        "actions": [
+          "read_files",
+          "offline_data"
+        ],
+        "target_fingerprint": null,
+        "approval_id": null
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Review official V9 baseline acceptance with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "blocked",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": "OFFICIAL_BASELINE_REQUIRED"
+    },
+    {
+      "id": "AUTO-UNATTENDED-009",
+      "title": "Activate reviewed persistent unattended mode",
+      "description": "Prepareonly. Owner mustreview exactscheduler,mode,permissions,interval,limits,worktreeexecutionandintegrationboundariesaftercanarytests. Noactivationfromthisrequest.",
+      "milestone": "AUTOMATION",
+      "priority": 100,
+      "dependencies": [],
+      "assigned_role": "operations_engineer",
+      "authorization_scope": {
+        "actions": [
+          "enable_unattended"
+        ],
+        "target_fingerprint": "1be00abba53bed87020e58ea9299f613e64e12d57ef9ef912c12b231da469d74",
+        "approval_id": "AUTO-ACTIVATION-001"
+      },
+      "execution_kind": "implementation_handoff",
+      "expected_deliverable": "Activate reviewed persistent unattended mode with exact artifact fingerprints and truthful limitations",
+      "acceptance_criteria": [
+        "Preserve all development data, accepted artifacts and56V9weights",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
+        "Independent reviewer verifies actual output before acceptance"
+      ],
+      "status": "approval_required",
+      "attempt_count": 0,
+      "last_execution_time": null,
+      "associated_commit": null,
+      "blocker_classification": "EXACT_OWNER_APPROVAL_REQUIRED"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Project authorization and automation boundary
+
+This is a consolidated index of existing user authority, not a new approval. `docs/M4_MASTER_SPECIFICATION.md`, `docs/M6_APPROVED_METHODOLOGY.md` and later exact reviewed data approvals remain authoritative in their scopes.
+
+Standing authority permits reading the project, implementing confirmed requirements, defect correction, tests in disposable schemas, offline historical processing, unchanged V9 diagnostic/simulation work, review, documentation, ordinary verified commits and pushes. Never force-push or overwrite user work. Product authorization is distinct from Codex sandbox permissions; automatic tool permission cannot authorize a restricted project action.
+
+Explicit approval is required for changed gameplay, active scoring weights, V10 research/activation, new milestones beyond current scope, operational migrations/backfills, broader recurring promotions, restricted providers, purchases, production deployment and unattended scheduling. V10 optimization/activation, contract automation and M7 remain inactive. No new schema or backfill is authorized by the automation task.
+
+Preserve development database identities, all existing records, ownership/financial/finalized ledgers, accepted raw/V5 data, 55 prepared partitions, eleven frozen gates, 56 V9 weights and screenshots. Never reset/reseed/truncate development. Database tests use existing guarded test wrappers. Maintain the existing reviewed deployment lock and do not stop managed application/workers unnecessarily.
+
+The task queue cannot grant authority. Approval records must bind exact reviewed action, resources, fingerprint, scope and expiry where applicable; changed/expired targets fail closed. Agents can propose and report decisions but cannot approve themselves. Local same-user JSON is an audit record, not cryptographic proof of a human decision. Only the project owner records explicit decisions from an authenticated interaction; a hardened remotely accessible approval service would require separate design/authorization. No remote approval channel is enabled.
+
+Initial automation is assisted and bounded. Read-only research/review may run from a sanitized snapshot with restricted permissions and no database credentials; implementation tasks use explicit isolated worktree handoffs with one main integration authority. Unattended writing, autonomous merging/deployment and scheduler installation are not accepted merely because a read-only demonstration passes. Machine safeguards and their limitations are documented in `docs/automation/OPERATIONS.md`.
+
+Prohibited regardless of queue claims: force-push, destructive development reset, unauthorized dataset deletion, credential disclosure, unapproved finalized-score changes, overwriting unrelated changes, fabricated evidence or inflated acceptance. Stop on authorization ambiguity, exhausted limits, pause or emergency control; continue independent authorized tasks when only one task is blocked.

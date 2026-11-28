@@ -1,0 +1,71 @@
+{
+  "version": "automation-bounded-demonstration-1",
+  "generatedAt": "2026-11-28T03:22:24.313075+00:00",
+  "taskId": "AUTO-CONTEXT-001",
+  "taskFingerprint": "fe83265cf78d8d7327c3be2eb9499c3f4b8194d3c05a4e26a6789df350fa4a14",
+  "executionHead": "c8f6f330e59527b9151cf8720c0293c07f633407",
+  "continuationBaseline": "ac3d1d6",
+  "baselineClarification": "The model cited the prior continuation baseline in PROJECT_STATUS; actual execution HEAD is recorded separately.",
+  "kind": "READ_ONLY_DOCUMENTATION_CONTEXT_REVIEW",
+  "sourceFiles": {
+    "AGENTS.md": "b45605fe2634fa5c895992bc527dbd0c1e8764a20ce6e1f51757e24ebf8cfbc0",
+    "PROJECT_STATUS.md": "c8c27b394bf22fec24eb6e6f16fa26edb2b734584b632880752a58697acd4fb0",
+    "docs/M6_MASTER_SPECIFICATION.md": "414d6783163e9687201f7cd59dad0c39e68bedfef134ee1ab480852ec1661900",
+    "docs/M6_HISTORICAL_PREPARATION.md": "c659661660e012842de07eb8f683d00be0d70576b3613fd961b3bdd065b231ff",
+    "docs/automation/HANDOFF.md": "9c480c294f0c8f6face71c4cb7e9db4370f9f3ab5bbb31b72e1f035e0229feff",
+    "docs/automation/AGENT_ROLES.md": "f8624421f80da3d4dbf3e316d2d4cc6e2bb793ffb55ffa90f1a5d7526c755cff",
+    "docs/MASTER_ROADMAP.md": "1d6d7639b6cd4d0fc0023b4b4fed93619bc3a637b8af229018345be9d1a28479",
+    "docs/AUTHORIZATION_POLICY.md": "6552ef76df5712f516a462dde600b59ce1e36ab77c9cbe1340306b894e8e69fd"
+  },
+  "canaries": {
+    "credential_canary_denied": true,
+    "network_denied": true,
+    "parent_read_denied": true,
+    "read_allowed": true,
+    "write_denied": true
+  },
+  "actualCredentialsOpenedByProbe": false,
+  "modelTurnCompleted": true,
+  "elapsedSeconds": 28.497190958005376,
+  "usage": {
+    "input_tokens": 62819,
+    "cached_input_tokens": 36864,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1045,
+    "reasoning_output_tokens": 0
+  },
+  "subscriptionQuotaRemaining": null,
+  "independentReview": {
+    "accepted": true,
+    "reviewer": "readiness_acceptance",
+    "scope": "Eight source-memory files and exact output schema; not archive/database/artifact validation or M6 acceptance"
+  },
+  "initialStateAfterModel": "verification",
+  "producerSelfCompleted": false,
+  "attempts": 3,
+  "earlierAttempts": [
+    {
+      "kind": "PRE_MODEL_PROBE",
+      "outcome": "REFUSED",
+      "cause": "Unavailable /usr/bin/python3 Xcode shim",
+      "resolution": "Verified installed interpreter with its narrow runtime read grant"
+    },
+    {
+      "kind": "MODEL_COMPLETED_OUTPUT_REJECTED",
+      "cause": "Decorated filenames failed exact-path validation",
+      "usage": {
+        "input_tokens": 123743,
+        "cached_input_tokens": 95360,
+        "output_tokens": 1766,
+        "reasoning_output_tokens": 25
+      },
+      "resolution": "Schema enum constrains bare file paths; validation retained"
+    }
+  ],
+  "counterReset": false,
+  "policyChanged": false,
+  "databaseWrites": 0,
+  "schedulerInstalled": false,
+  "unattendedArmed": false,
+  "officialBaseline": false
+}
