@@ -8,7 +8,7 @@ CRITICAL=('scripts/automation/engine.py','scripts/automation/orchestrator.py',
           'scripts/automation/prepare_activation.py','scripts/automation/task_queue.schema.json',
           'scripts/automation/approval_queue.schema.json','scripts/automation/com.fantasyevolution.assisted.plist.in',
           'AGENTS.md','.gitignore','docs/AUTHORIZATION_POLICY.md','docs/DECISION_LOG.md',
-          'docs/automation/AGENT_ROLES.md')
+          'docs/automation/AGENT_ROLES.md','package.json','package-lock.json')
 def prepare(repo,bind=False):
     engine=Engine(repo)
     with engine.lock():
@@ -32,7 +32,8 @@ def prepare(repo,bind=False):
         with os.fdopen(os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'wb') as output:output.write(payload)
         os.replace(temporary,target)
         files={}
-        for name in [*CRITICAL,*sorted(str(p.relative_to(engine.owner_root)) for p in (engine.owner_root/'.codex/agents').glob('*.toml'))]:
+        control_sources=sorted(str(p.relative_to(engine.owner_root)) for p in (engine.owner_root/'control-center').rglob('*') if p.is_file() and (p.suffix in {'.ts','.tsx','.css','.html','.mjs','.py'} or p.name=='tsconfig.json') and '.test.' not in p.name)
+        for name in [*CRITICAL,*control_sources,*sorted(str(p.relative_to(engine.owner_root)) for p in (engine.owner_root/'.codex/agents').glob('*.toml'))]:
             path=engine.owner_root/name
             if path.is_symlink() or not path.is_file():raise SafetyError('Missing or unsafe reviewed source: '+name)
             files[name]=hashlib.sha256(path.read_bytes()).hexdigest()

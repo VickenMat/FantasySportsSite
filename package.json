@@ -57,7 +57,15 @@
     "data:accelerated:prepare": "tsx --env-file-if-exists=.env src/workers/prepare-accelerated-batch.ts",
     "data:accelerated:validate": "node scripts/verify-pending-migrations.mjs --verify-accelerated-batch",
     "build:webpack": "next build --webpack",
-    "data:mlb-positions:validate": "node scripts/verify-pending-migrations.mjs --verify-mlb-position-continuation"
+    "data:mlb-positions:validate": "node scripts/verify-pending-migrations.mjs --verify-mlb-position-continuation",
+    "control-center:build": "node control-center/cli.mjs build",
+    "control-center:start": "node control-center/cli.mjs start",
+    "control-center:stop": "node control-center/cli.mjs stop",
+    "control-center:status": "node control-center/cli.mjs status",
+    "control-center:credentials": "node control-center/cli.mjs credentials",
+    "control-center:test": "vitest run --config control-center/vitest.config.ts",
+    "control-center:typecheck": "tsc --noEmit -p control-center/tsconfig.json",
+    "control-center:browser": "node control-center/browser-check.test.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.27",
@@ -88,7 +96,8 @@
     "tailwindcss": "^4",
     "tsx": "^4",
     "typescript": "^5",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.1",
+    "esbuild": "0.28.2"
   },
   "engines": {
     "node": ">=24.0.0 <25"

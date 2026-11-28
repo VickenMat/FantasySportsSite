@@ -1,0 +1,14 @@
+import {DatabaseSync} from 'node:sqlite';
+import {describe,it,expect} from 'vitest';
+import {UsageGuard} from './policy';
+import {normalizeSubscriptionProbe} from './telemetry';
+const at=Date.UTC(2026,10,28),probe=(primary:unknown,secondary:unknown=null)=>normalizeSubscriptionProbe({account:{type:'chatgpt'}},{rateLimits:{primary,secondary}},new Date(at));
+function fixture(){const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE cc_settings (key TEXT PRIMARY KEY,value TEXT NOT NULL)');return {db,guard:new UsageGuard(db)};}
+describe('zero-additional-spending local usage guard',()=>{
+ it('blocks reported exhaustion and survives a dashboard restart',()=>{const {db,guard}=fixture();const rate=probe({usedPercent:100,resetsAt:(at+3600000)/1000,windowDurationMins:300});expect(guard.check(rate,null,at).allowed).toBe(false);expect(new UsageGuard(db).check(null,null,at+1000).allowed).toBe(false);db.close();});
+ it('does not clear a missing blocked primary based on an unrelated secondary',()=>{const {db,guard}=fixture();guard.check(probe({usedPercent:100,resetsAt:(at+3600000)/1000}),null,at);expect(guard.check(probe(null,{usedPercent:35}),null,at+1000).allowed).toBe(false);expect(guard.check(probe({usedPercent:10}),null,at+2000).allowed).toBe(true);db.close();});
+ it('resume eligibility does not consume the retry; actual start reserves it once',()=>{const {db,guard}=fixture();expect(guard.check(null,'CODEX_USAGE_LIMIT',at).allowed).toBe(false);expect(guard.check(null,null,at+60000).allowed).toBe(true);expect(guard.state()?.failures).toBe(0);expect(guard.check(null,null,at+60000,true).allowed).toBe(true);expect(guard.state()?.failures).toBe(1);expect(guard.check(null,null,at+60001).allowed).toBe(false);db.close();});
+ it('uses bounded progressive backoff without credit purchases or infinite retries',()=>{const {db,guard}=fixture();guard.check(null,'CODEX_USAGE_LIMIT',at);for(let i=0;i<3;i++){const when=guard.state()!.nextAttemptAt;expect(guard.check(null,null,when,true).allowed).toBe(true);}expect(guard.check(null,null,at+86400000,true).allowed).toBe(false);expect(guard.state()?.failures).toBe(3);db.close();});
+ it('updates a newly exposed or extended reset for the same exhausted window',()=>{const {db,guard}=fixture();guard.check(probe({usedPercent:100}),null,at);guard.check(probe({usedPercent:100,resetsAt:(at+2000)/1000}),null,at+100);expect(guard.state()?.windows?.[0].resetAt).toBe(at+2000);guard.check(probe({usedPercent:100,resetsAt:(at+5000)/1000}),null,at+200);expect(guard.check(null,null,at+3000).allowed).toBe(false);db.close();});
+ it('allows reevaluation after the actually reported reset',()=>{const {db,guard}=fixture();guard.check(probe({usedPercent:100,resetsAt:(at+1000)/1000}),null,at);expect(guard.check(null,null,at+1001).allowed).toBe(true);db.close();});
+});

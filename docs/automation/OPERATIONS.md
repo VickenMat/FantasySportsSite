@@ -77,3 +77,7 @@ An eventual approved installation would copy the exact reviewed plist under `~/L
 ## Evidence and troubleshooting
 
 Use `status` and private `.automation/runs/RUN-ID/{sandbox-probe.json,probe-stderr.log,events.jsonl,stderr.log,last-message.json}`. Local event summaries and independent-review receipts are private too. Do not commit raw logs, snapshots or credentials. The outer Codex sandbox may deny `/bin/ps` or nested `sandbox_apply`; ownership/probe tests then need a specifically reviewed host execution, never a weakened profile. Tests use temporary repositories, fake credentials and owned subprocesses, without a database or provider acquisition.
+
+## Local owner dashboard
+
+The [Agent Control Center](CONTROL_CENTER.md) is an independent React/Node/SQLite application at http://localhost:3100. `npm run control-center:start`, `npm run control-center:status` and `npm run control-center:stop` manage only that local interface. Its authenticated controls reuse the same canonical queue/lease and exact approval rules. Starting the dashboard does not start a model or activate scheduling. Owner credentials stay in a private local file; the service never returns them through an API.

@@ -1,0 +1,11 @@
+import {it,expect} from 'vitest';
+import {DatabaseSync} from 'node:sqlite';
+import {mkdtempSync,mkdirSync,writeFileSync,rmSync,symlinkSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {importActivity} from './observations';
+it('deduplicates fixed controller metadata and ignores untrusted payloads and malformed lines',()=>{
+ const repo=mkdtempSync(join(tmpdir(),'cc-observations-'));mkdirSync(join(repo,'.automation'));const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE cc_audit (id TEXT PRIMARY KEY,at TEXT,kind TEXT,summary TEXT,severity TEXT,metadata TEXT)');
+ try{const event={event:'task_cycle_result',at:'2026-11-28T00:00:00Z',id:'T1',status:'failed',rawAuthorization:'Bearer fixture-secret',privateRows:[{name:'never collect'}]};writeFileSync(join(repo,'.automation/events.jsonl'),'null\n{partial\n'+JSON.stringify(event)+'\n'+JSON.stringify({event:'raw_message',at:event.at,text:'never collect'})+'\n'+JSON.stringify({...event,at:'2026-11-28 (private timestamp text)'})+'\n'+JSON.stringify({...event,status:'private status text'})+'\n');importActivity(repo,db);importActivity(repo,db);const rows=db.prepare('SELECT * FROM cc_audit').all();expect(rows).toHaveLength(1);expect(JSON.stringify(rows)).not.toContain('fixture-secret');expect(JSON.stringify(rows)).not.toContain('never collect');expect(JSON.stringify(rows)).not.toContain('private timestamp');expect(JSON.stringify(rows)).not.toContain('private status');}finally{db.close();rmSync(repo,{recursive:true,force:true});}
+});
+it('refuses a symlinked event source instead of reading unrelated local files',()=>{const repo=mkdtempSync(join(tmpdir(),'cc-observations-'));mkdirSync(join(repo,'.automation'));writeFileSync(join(repo,'private-fixture'),'secret');symlinkSync(join(repo,'private-fixture'),join(repo,'.automation/events.jsonl'));const db=new DatabaseSync(':memory:');try{importActivity(repo,db);}finally{db.close();rmSync(repo,{recursive:true,force:true});}});

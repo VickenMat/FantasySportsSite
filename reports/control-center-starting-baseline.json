@@ -1,0 +1,29 @@
+{
+  "version": "control-center-starting-baseline-1",
+  "capturedAt": "2026-11-28T04:16:29.284Z",
+  "previousCheckpoint": "846ba4d",
+  "originalAppendOnlyPrefixesPreserved": true,
+  "prefix": {
+    "ProfessionalDataDecision": {
+      "count": "37324",
+      "fingerprint": "7b93e41fe915361c4f483ef94735271b"
+    },
+    "ProfessionalDataObservation": {
+      "count": "37324",
+      "fingerprint": "64dad3abe8f41af4c3143dfeb27eba0d"
+    },
+    "PlayerAvailabilityEvidence": {
+      "count": "1635",
+      "fingerprint": "ff5aac75eb6241f0cceb7334f4e07184"
+    },
+    "RookieEligibilityEvidence": {
+      "count": "9225",
+      "fingerprint": "efc1ab20c32b9454d433e5bf77e652a8"
+    }
+  },
+  "authorizedRecurringActivitySinceCheckpoint": [],
+  "sessionRefreshRequiresFreshBaseline": true,
+  "protectedGameplayTablesUnchanged": true,
+  "freshBaselinePath": "data/operations/control_center_before_preservation.json",
+  "productionWrites": 0
+}

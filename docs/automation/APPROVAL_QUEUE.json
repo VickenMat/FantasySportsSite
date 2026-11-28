@@ -16,8 +16,8 @@
         "Private .automation runtime",
         "launchd user job"
       ],
-      "target_fingerprint": "1be00abba53bed87020e58ea9299f613e64e12d57ef9ef912c12b231da469d74",
-      "task_fingerprint": "49a5b903814cfb70f0ca692b41bbd03660d9c44e006e594843aa9911365da7fc",
+      "target_fingerprint": "995aadb384044d0181453252630a8a6e0c461fc3ff6e4e4a08b19e1216d5cbb2",
+      "task_fingerprint": "585f6a89620872603a48a2c6a895ef5d240f43de85fece7e33b8627d4e8c2ad4",
       "scope": [
         "enable_unattended"
       ],

@@ -1,0 +1,35 @@
+import os from 'node:os';
+import net from 'node:net';
+import {statfsSync,readFileSync,existsSync,lstatSync} from 'node:fs';
+import {join} from 'node:path';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+const exec=promisify(execFile);
+export const safeEnvironment=()=>({PATH:'/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',HOME:os.homedir(),LANG:'en_US.UTF-8',AUTOMATION_AGENT_CONTEXT:'0',...(process.env.CODEX_HOME?{CODEX_HOME:process.env.CODEX_HOME}:{})});
+export async function command(file:string,args:string[],timeout=3000){const {stdout}=await exec(file,args,{timeout,maxBuffer:1024*1024,env:safeEnvironment()});return stdout.trim();}
+export function safeText(value:unknown,max=200){return String(value??'').replace(/(?:Bearer\s+\S+|(?:api[_-]?key|access[_-]?token|password|authorization)\s*[:=]\s*\S+)/gi,'[redacted]').replace(/sk-(?:proj-)?[A-Za-z0-9_-]{12,}/g,'[redacted]').replace(/postgres(?:ql)?:\/\/[^\s]+/gi,'[redacted]').replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g,'').slice(0,max);}
+export async function reach(host:string,port:number,timeout=700){return new Promise<boolean>(resolve=>{const socket=net.connect({host,port});let done=false;const finish=(ok:boolean)=>{if(!done){done=true;clearTimeout(timer);socket.destroy();resolve(ok);}};const timer=setTimeout(()=>finish(false),timeout);socket.once('connect',()=>finish(true));socket.once('error',()=>finish(false));});}
+function json(path:string){try{if(lstatSync(path).isSymbolicLink())return null;return JSON.parse(readFileSync(path,'utf8'));}catch{return null;}}
+let previousCpu:{idle:number,total:number}|null=null;
+function cpu(){let idle=0,total=0;for(const core of os.cpus()){idle+=core.times.idle;total+=Object.values(core.times).reduce((a,b)=>a+b,0);}const last=previousCpu;previousCpu={idle,total};return last&&total>last.total?Math.max(0,Math.min(100,100*(1-(idle-last.idle)/(total-last.total)))):null;}
+export class Infrastructure {
+ private cached:Record<string,unknown>|null=null;private at=0;
+ async sample(repo:string){
+  if(this.cached&&Date.now()-this.at<15000)return {...this.cached,stale:Date.now()-this.at>30000};
+  const sampledAt=new Date().toISOString();const stats=statfsSync(repo);const total=stats.blocks*stats.bsize,free=stats.bavail*stats.bsize;
+  const [internet,postgres,application,codex,authentication,scheduler]=await Promise.all([
+   reach('chatgpt.com',443),reach('127.0.0.1',5432),fetch('http://127.0.0.1:3000/api/health',{method:'HEAD',signal:AbortSignal.timeout(1200)}).then(r=>({state:r.status<400?'reachable':'degraded',statusCode:r.status})).catch(()=>({state:'offline',statusCode:null})),
+   command('/opt/homebrew/bin/codex',['--version']).catch(()=>null),exec('/opt/homebrew/bin/codex',['login','status'],{env:safeEnvironment(),timeout:3000,maxBuffer:16384}).then(r=>/chatgpt/i.test(r.stdout+r.stderr)?'ChatGPT subscription':'unavailable').catch(()=>null),
+   command('/bin/launchctl',['print',`gui/${os.userInfo().uid}/com.fantasyevolution.readonly`]).then(()=>({state:'loaded'})).catch(()=>({state:'not_observed',note:'No loaded job observed; no scheduler was installed by this application.'}))
+  ]);
+  let supervisor:number|null=null;try{const p=Number(readFileSync(join(repo,'.dev-stack-lock/owner'),'utf8'));if(Number.isSafeInteger(p)&&p>1){process.kill(p,0);supervisor=p;}}catch{}
+  this.cached={sampledAt,stale:false,hostUptimeSeconds:os.uptime(),cpuPercent:cpu(),memory:{totalBytes:os.totalmem(),usedBytes:os.totalmem()-os.freemem(),percent:100*(1-os.freemem()/os.totalmem()),provenance:'OS total and non-free memory; not application RSS'},disk:{totalBytes:total,freeBytes:free,percent:100*(1-free/total)},internet:{state:internet?'reachable':'offline_or_unavailable',observedAt:sampledAt,provenance:'Bounded TLS-port reachability; no model/API request'},codex:{available:!!codex,version:codex,authentication},postgres:{state:postgres?'tcp_reachable':'offline_or_unavailable',provenance:'TCP only; no database authentication, queries or contents'},application,workers:{state:supervisor?'supervisor_pid_observed':'unavailable',supervisorPid:supervisor,heartbeat:null,note:'A supervisor PID does not establish individual worker health.'},scheduler};this.at=Date.now();return this.cached;
+ }
+}
+export async function gitState(repo:string){
+ const git=(args:string[])=>exec('/usr/bin/git',['-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false',...args],{cwd:repo,env:{...safeEnvironment(),GIT_TERMINAL_PROMPT:'0'},timeout:3000,maxBuffer:1024*1024}).then(r=>r.stdout.trim());
+ const [branch,commit,status,counts,last]=await Promise.all([git(['branch','--show-current']),git(['rev-parse','--short','HEAD']),git(['status','--porcelain','--untracked-files=no']),git(['rev-list','--left-right','--count','HEAD...@{upstream}']).catch(()=>''),git(['log','-1','--format=%h %s'])]);
+ const [ahead,behind]=counts.split(/\s+/).map(Number);const m6=json(join(repo,'reports/m62-verification.json'));const automation=json(join(repo,'reports/automation-verification.json'));
+ return {branch,commit,dirty:!!status,ahead:Number.isFinite(ahead)?ahead:null,behind:Number.isFinite(behind)?behind:null,syncProvenance:'Local tracking refs; no automatic network fetch',lastCheckpoint:safeText(last),tests:[...(m6?[{name:'Project unit tests',status:'passed_at_recorded_checkpoint',count:m6.unitTests,source:'reports/m62-verification.json'},{name:'Database integrations (normal/shuffled)',status:'passed_at_recorded_checkpoint',count:m6.integrationNormal,source:'reports/m62-verification.json'},{name:'Browser checks',status:'passed_at_recorded_checkpoint',count:m6.standardChromium+m6.restartChromium+m6.realSourceChromium,source:'reports/m62-verification.json'}]:[]),...(automation?[{name:'Automation safeguards',status:'passed_at_recorded_checkpoint',count:automation.automationTests,source:'reports/automation-verification.json'}]:[])],sampledAt:new Date().toISOString()};
+}
+export function configuredRoles(repo:string){return ['orchestrator','software_engineer','data_engineer','simulation_scientist','independent_reviewer','operations_engineer'].filter(name=>existsSync(join(repo,'.codex/agents',name+'.toml'))).map(name=>({name,description:name.replaceAll('_',' '),state:'configured',active:false}));}

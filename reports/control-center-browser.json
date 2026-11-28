@@ -1,0 +1,31 @@
+{
+  "version": "control-center-browser-1",
+  "url": "http://localhost:3100",
+  "actualLocalData": true,
+  "fixture": false,
+  "sectionsVerified": 9,
+  "desktopViewport": [
+    1536,
+    1050
+  ],
+  "mobileViewport": [
+    390,
+    844
+  ],
+  "authentication": true,
+  "logout": true,
+  "noHorizontalOverflow": true,
+  "browserErrors": 0,
+  "browserOfflineRecovery": "simulated_client_offline_fixture_passed",
+  "receipt63864Verified": true,
+  "configuredRoles": 6,
+  "observedSessions": 2,
+  "recordedTokens": 189373,
+  "additionalSpendingUsd": 0,
+  "unattendedSchedulingActivated": false,
+  "screenshots": [
+    "overview.png",
+    "token-usage.png",
+    "mobile-overview.png"
+  ]
+}

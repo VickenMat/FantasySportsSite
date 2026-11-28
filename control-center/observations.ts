@@ -1,0 +1,13 @@
+import {openSync,readSync,closeSync,fstatSync,constants} from 'node:fs';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
+import type {DatabaseSync} from 'node:sqlite';
+/** Import only fixed metadata event kinds. Never persist raw model messages. */
+export function importActivity(repo:string,db:DatabaseSync){let fd:number|undefined;try{
+ fd=openSync(join(repo,'.automation/events.jsonl'),constants.O_RDONLY|constants.O_NOFOLLOW|constants.O_NONBLOCK);const stat=fstatSync(fd);if(!stat.isFile())return;const size=stat.size;const buffer=Buffer.alloc(Math.min(size,1024*1024));readSync(fd,buffer,0,buffer.length,Math.max(0,size-buffer.length));
+ for(const line of buffer.toString('utf8').split('\n')){let event:Record<string,unknown>;try{const parsed=JSON.parse(line);if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))continue;event=parsed;}catch{continue;}const kind=String(event.event??'');if(!['task_claimed','task_cycle_result','ordinary_review_recorded','owner_armed_read_only_mode','interrupted_tasks_recovered','emergency_stop'].includes(kind)||typeof event.at!=='string'||!/^\d{4}-\d{2}-\d{2}T[^ ]+(?:Z|[+-]\d{2}:\d{2})$/.test(event.at)||!Number.isFinite(Date.parse(event.at)))continue;
+ const rawTask=event.task_id??event.id??'',rawStatus=event.status??event.decision??'';if(typeof rawTask!=='string'||rawTask&&!/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(rawTask)||typeof rawStatus!=='string'||rawStatus&&!['ready','running','verification','completed','failed','blocked','approval_required','paused','interrupted','accept','reject'].includes(rawStatus))continue;const at=new Date(event.at).toISOString(),task=rawTask,status=rawStatus,run=typeof event.run_id==='string'&&/^[a-f0-9]{32}$/.test(event.run_id)?event.run_id:null,id='engine:'+createHash('sha256').update(JSON.stringify({at,kind,task,status,run})).digest('hex');
+ const summary=`Observed ${kind.replaceAll('_',' ')}${task?': '+task:''}${status?' · '+status:''}`;const severity=['failed','blocked'].includes(status)?'warning':kind==='emergency_stop'?'critical':'info';
+ db.prepare('INSERT OR IGNORE INTO cc_audit (id,at,kind,summary,severity,metadata) VALUES (?,?,?,?,?,?)').run(id,at,kind,summary,severity,JSON.stringify({taskId:task,status,provenance:'structured_controller_event'}));
+ }
+}catch{/* Missing or unsafe source is unavailable; never infer empty history. */}finally{if(fd!==undefined)closeSync(fd);}}
