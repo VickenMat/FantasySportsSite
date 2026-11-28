@@ -23,7 +23,7 @@
       "expected_deliverable": "Verify persistent project context with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "completed",
@@ -52,7 +52,7 @@
       "expected_deliverable": "Exact starter audit and supported engine repairs with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "completed",
@@ -81,7 +81,7 @@
       "expected_deliverable": "Close MLB and NHL regular-season inventories with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
@@ -110,7 +110,7 @@
       "expected_deliverable": "Recover remaining completion UTC days with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
@@ -139,7 +139,7 @@
       "expected_deliverable": "Verify applicable roster and category-complete participation with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
@@ -168,7 +168,7 @@
       "expected_deliverable": "Recover explicit NHL shutout-credit evidence with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "ready",
@@ -180,7 +180,7 @@
     {
       "id": "M61-ACCEPT-006",
       "title": "Review exact first four-sport accepted cohort",
-      "description": "Accept only after closed game inventory, approved completion chronology, supported participation and defensible statistical uncertainty. D1–D6alreadyapproved.",
+      "description": "Accept only after closed game inventory, approved completion chronology, supported participation and defensible statistical uncertainty. D1\u2013D6alreadyapproved.",
       "milestone": "M6.1",
       "priority": 20,
       "dependencies": [
@@ -202,7 +202,7 @@
       "expected_deliverable": "Review exact first four-sport accepted cohort with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -213,8 +213,8 @@
     },
     {
       "id": "M63-BASELINE-007",
-      "title": "Execute unchanged V9 validation seeds31–50",
-      "description": "Only on the accepted2023four-sportmanifestwith2022warmup. Noreserved2025or51–70campaign. Reuseexistingengine; exact replay/leakage/scoreparity.",
+      "title": "Execute unchanged V9 validation seeds31\u201350",
+      "description": "Only on the accepted2023four-sportmanifestwith2022warmup. Noreserved2025or51\u201370campaign. Reuseexistingengine; exact replay/leakage/scoreparity.",
       "milestone": "M6.3",
       "priority": 21,
       "dependencies": [
@@ -231,10 +231,10 @@
         "approval_id": null
       },
       "execution_kind": "implementation_handoff",
-      "expected_deliverable": "Execute unchanged V9 validation seeds31–50 with exact artifact fingerprints and truthful limitations",
+      "expected_deliverable": "Execute unchanged V9 validation seeds31\u201350 with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -265,7 +265,7 @@
       "expected_deliverable": "Review official V9 baseline acceptance with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "blocked",
@@ -293,7 +293,7 @@
       "expected_deliverable": "Activate reviewed persistent unattended mode with exact artifact fingerprints and truthful limitations",
       "acceptance_criteria": [
         "Preserve all development data, accepted artifacts and56V9weights",
-        "Use existing architecture and frozenD1–D6; no invented evidence",
+        "Use existing architecture and frozenD1\u2013D6; no invented evidence",
         "Independent reviewer verifies actual output before acceptance"
       ],
       "status": "approval_required",
@@ -325,10 +325,10 @@
         "No additional API billing, purchases, writable execution or scheduling",
         "Exact output schema and independent review before completion"
       ],
-      "status": "ready",
-      "attempt_count": 0,
-      "last_execution_time": null,
-      "associated_commit": null,
+      "status": "completed",
+      "attempt_count": 1,
+      "last_execution_time": "2026-11-28T04:57:14.751661Z",
+      "associated_commit": "c872797eaebd95dbda469a6469fa303ace6d3e1c",
       "blocker_classification": null
     }
   ]

@@ -1,6 +1,6 @@
 # Local Agent Control Center
 
-The independent dashboard is available at **http://localhost:3100**. It binds only127.0.0.1. The Fantasy Evolution server, PostgreSQL and managed data workers are separate processes; unavailable/degraded health probes do not stop the dashboard. No unattended AI schedule is activated.
+The independent dashboard is available at **http://localhost:3100**. It binds only 127.0.0.1. The Fantasy Evolution server, PostgreSQL and managed data workers are separate processes; unavailable/degraded health probes do not stop the dashboard. No unattended AI schedule is activated.
 
 From the permanent repository:
 
@@ -10,7 +10,7 @@ npm run control-center:status
 npm run control-center:stop
 ```
 
-Use `npm run control-center:start -- --port 3101` if3100isoccupied. The start command builds the frontend and starts one local process. Stop verifies the saved PID/UID/start/session identity before signalling only the dashboard; it leaves the fantasy application and agents alone. If process observation is denied, status says unavailable and stop refuses to guess. Restart manually after host restart; private SQLite records persist.
+Use `npm run control-center:start -- --port 3101` if port 3100 is occupied. The start command builds the frontend and starts one local process. Stop verifies the saved PID/UID/start/session identity before signalling only the dashboard; it leaves the fantasy application and agents alone. If process observation is denied, status says unavailable and stop refuses to guess. Restart manually after host restart; private SQLite records persist.
 
 The owner password is generated locally in `.automation/control-center/owner-password.txt`, mode0600. Open that file locally; **do not paste it into a conversation or log**. `npm run control-center:credentials` reports its location without printing the password. The UI never returns it through an API. Login creates an eight-hour HttpOnly,SameSite=Strict owner session and a separate CSRF token. Lock workspace explicitly invalidates that browser session. No Codex OAuth/API credentials are collected by the dashboard.
 
@@ -55,3 +55,7 @@ npm run control-center:browser
 ```
 
 HTTP tests use temporary Git repositories and synthetic owner/approval fixtures. They do not grant real approvals. Browser screenshots and the managed demonstration use actual loopback state, with credentials kept in process memory and HAR/tracing disabled. [Browser receipt](../../reports/control-center-browser.json). Screenshots: [desktop](screenshots/overview.png), [token usage](screenshots/token-usage.png), [mobile](screenshots/mobile-overview.png). The final completion receipt records exact counts, database preservation and the unchanged milestone gates.
+
+## Remote notifications prepared for review
+
+The current inbox and activity feed stay local. A future authenticated private overlay/VPN could provide remote access without opening a public listener; a separately configured email or webhook sender could send only event IDs, severity and a link through that private network. Approval prompts must retain exact scope/fingerprint/expiry and require owner authentication; a notification reply must never directly grant authority. Credentials belong in a reviewed OS credential store, not the queue, browser or model context. Deduplicate by event ID and notify only required decisions, critical failures, exhaustion, failed recovery or milestone completion. Provider choice, recipients, credentials, transport and any cost need separate approval; none is configured, contacted or enabled here.

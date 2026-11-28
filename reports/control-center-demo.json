@@ -1,0 +1,70 @@
+{
+  "version": "control-center-demo-1",
+  "executionCommit": "c872797eaebd95dbda469a6469fa303ace6d3e1c",
+  "taskId": "CONTROL-CENTER-DEMO-001",
+  "taskFingerprint": "0ba35e351bae2e3429efbcf0938b6ab56501261d3e9459f60b13da9ac332500a",
+  "runId": "f11276d21f8941e39845376177f1b602",
+  "sessionId": "01a22083-c083-7433-9ca3-5c3541288f2b",
+  "trigger": "authenticated_local_dashboard_start_bounded_cycle",
+  "fixture": false,
+  "attempts": 1,
+  "elapsedSeconds": 24.34269866696559,
+  "observedRunning": true,
+  "resultStatusBeforeIndependentReview": "verification",
+  "nativeTurnCompleted": true,
+  "strictSchemaValidated": true,
+  "reviewedFiles": [
+    "AGENTS.md",
+    "PROJECT_STATUS.md",
+    "docs/M6_MASTER_SPECIFICATION.md",
+    "docs/M6_HISTORICAL_PREPARATION.md",
+    "docs/automation/HANDOFF.md",
+    "docs/automation/AGENT_ROLES.md",
+    "docs/MASTER_ROADMAP.md",
+    "docs/AUTHORIZATION_POLICY.md"
+  ],
+  "structuredResultSha256": "8d919cca1c929eab8b1be5f260f3127f9f1424835a6b402681cee09a495ec71a",
+  "permissionCanaries": {
+    "passed": true,
+    "checks": {
+      "credential_canary_denied": true,
+      "network_denied": true,
+      "parent_read_denied": true,
+      "read_allowed": true,
+      "write_denied": true
+    },
+    "returncode": 0,
+    "actual_credentials_opened": false,
+    "profile": "automation-readonly",
+    "legacy_sandbox_override": false
+  },
+  "usage": {
+    "input_tokens": 62448,
+    "cached_input_tokens": 36608,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 880,
+    "reasoning_output_tokens": 0,
+    "total_tokens": 63328
+  },
+  "authentication": "Existing ChatGPT subscription; controller checks actual login status before execution",
+  "additionalSpendingAuthorizationUsd": 0,
+  "apiKeyFallback": false,
+  "purchaseOrTopupPath": false,
+  "accountWideBillingGuarantee": false,
+  "unattendedSchedulingActivated": false,
+  "writableExecution": false,
+  "milestoneAcceptanceChanged": false,
+  "independentReview": {
+    "decision": "accept_ordinary_read_only_review",
+    "reviewer": "separate_native_agent_readiness_acceptance",
+    "checks": [
+      "Exact strict schema and eight permitted paths",
+      "All eight snapshot files byte-match execution HEAD and current sources",
+      "Actual command events read only permitted files",
+      "All five real canaries pass, no actual credential opened",
+      "ChatGPT preflight, scrubbed environment and no API-key fallback rechecked",
+      "Summary supports existing evidence gates; no self-acceptance"
+    ],
+    "limits": "Not an account-wide billing audit, writable-executor validation or restricted action approval."
+  }
+}
