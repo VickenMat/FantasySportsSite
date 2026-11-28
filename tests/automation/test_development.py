@@ -150,3 +150,14 @@ class DevelopmentTests(unittest.TestCase):
   self.assertEqual(self.dev.state()['tasks']['A']['status'],'blocked')
   with mock.patch.object(self.dev,'quota_check',return_value=None):r=self.run_cycle()
   self.assertEqual(r['results'][0]['status'],'completed');self.assertEqual(self.dev.state()['tasks']['A']['attempt_count'],2)
+
+ def test_project_instructions_explicit_scoped_order_and_protected(self):
+  task=self.task('A');row={'attempt_count':1};tree=self.dev.worktree_create(task,row);(tree/'examples/AGENTS.md').write_text('Scoped instruction')
+  instructions=self.dev.project_instructions(tree,task);self.assertEqual([r['path'] for r in instructions],['AGENTS.md','examples/AGENTS.md'])
+  self.assertEqual(instructions[-1]['instructions'],'Scoped instruction')
+  for name in ['examples/AGENTS.md','examples/AGENTS.override.md']:
+   with self.assertRaises(SafetyError):safe_output(name)
+ def test_clean_failed_checkpoint_retries_fresh_without_erasing_first(self):
+  def fail(*args):raise SafetyError('pre-inference startup fixture')
+  self.dev.develop(True,executor=fail,checker=self.checker);row=self.dev.state()['tasks']['A'];old=Path(row['worktree_path']);head=self.git('rev-parse','HEAD',tree=old).decode().strip()
+  self.dev.recover_checkpoint('A',str(old),head);self.assertFalse(self.dev.state()['tasks']['A']['resume_checkpoint']);self.assertEqual(self.run_cycle()['results'][0]['status'],'completed');self.assertTrue(old.exists());self.assertEqual(self.dev.state()['tasks']['A']['attempt_count'],2)

@@ -59,3 +59,7 @@ These render an inactive exact manifest and launchd plist. New task `AUTO-DEVELO
 Only after separate approval can the gated `activate-development` and `install-development` commands arm and load the exact reviewed job; `uninstall-development` removes only the exact owned job. Per-stage validation checks current approval AND the exact armed receipt. Revocation, expiry or drift prevents further work. The prepared policy checks locally every 900s, runs at most two task continuations per cycle, and makes no inference calls while idle. Nothing in this delivery activates or installs it.
 
 [Control Center](CONTROL_CENTER.md), [independent security review](DEVELOPMENT_SECURITY_REVIEW.md), and the final completion report contain observed evidence and remaining limitations.
+
+## Linked-worktree instruction loading
+
+The first real startup attempt reached passing sandbox probes but failed before inference because automatic AGENTS discovery traversed the denied parent checkout. Managed invocations now set documented `project_doc_max_bytes=0` and the controller supplies the exact root-to-leaf applicable worktree instructions explicitly, including override precedence. A no-inference `codex debug prompt-input` preflight verifies context construction with an empty probe home. No parent/credential read permission or project trust is added. Instruction files cannot be task outputs. The failed attempt/branch and its reserved budget remain recorded. Configuration reference: [project_doc_max_bytes](https://learn.chatgpt.com/docs/config-file/config-reference).

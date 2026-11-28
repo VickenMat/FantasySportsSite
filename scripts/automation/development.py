@@ -38,6 +38,7 @@ class Interrupted(SafetyError): pass
 def safe_output(name):
     if not isinstance(name,str):raise SafetyError('Output path must be text.')
     p=Path(name)
+    if any(part in {'AGENTS.md','AGENTS.override.md'} for part in p.parts):raise SafetyError('Project instruction files are protected.')
     if any(part.startswith('.agent-output') or part in {'.agent-review.json','.agent-review.diff'} for part in p.parts):raise SafetyError('Controller scratch/review artifacts are reserved.')
     if not name or p.is_absolute() or any(x in {'..','.'} for x in p.parts) or '\\' in name or not re.fullmatch(r'[A-Za-z0-9_./-]+',name):raise SafetyError('Unsafe output path.')
     if any(name==x.rstrip('/') or name.startswith(x) for x in PROTECTED) or any(x.startswith('.env') or x in {'.ssh','.aws','.git','node_modules'} for x in p.parts):raise SafetyError('Protected output path.')
@@ -65,9 +66,9 @@ def validate_development(value):
 
 
 def result_schema(task,phase):
-    props={'task_id':{'const':task['id']},'summary':{'type':'string'},'requires_owner_decision':{'type':'boolean'}}
+    props={'task_id':{'type':'string','enum':[task['id']]},'summary':{'type':'string'},'requires_owner_decision':{'type':'boolean'}}
     if phase=='implementation':props['changed_files']={'type':'array','items':{'type':'string','enum':task['development']['writable_paths']}}
-    else:props.update(verdict={'enum':['accept','changes_requested','blocked']},findings={'type':'array','items':{'type':'string'}})
+    else:props.update(verdict={'type':'string','enum':['accept','changes_requested','blocked']},findings={'type':'array','items':{'type':'string'}})
     return {'type':'object','additionalProperties':False,'properties':props,'required':list(props)}
 
 
@@ -151,6 +152,21 @@ class DevEngine(Engine):
         if not names:raise SafetyError('No implementation change to verify.')
         if sum((tree/p).stat().st_size for p in names)>4*1024*1024:raise SafetyError('Integration output budget exceeded.')
         return sorted(names)
+    def project_instructions(self,tree,task):
+        directories={tree}
+        for name in task['development']['writable_paths']:
+            parent=(tree/name).parent
+            while parent!=tree:directories.add(parent);parent=parent.parent
+        result=[];total=0
+        for directory in sorted(directories,key=lambda p:(len(p.parts),str(p))):
+            selected=directory/'AGENTS.override.md'
+            if not selected.exists():selected=directory/'AGENTS.md'
+            if not selected.exists():continue
+            if selected.is_symlink() or not selected.is_file():raise SafetyError('Unsafe project instructions.')
+            total+=selected.stat().st_size
+            if total>256*1024:raise SafetyError('Project instruction budget exceeded.')
+            result.append({'path':str(selected.relative_to(tree)),'instructions':selected.read_text()})
+        return result
     def quota_check(self):
         # Reuse documented metadata-only RPC collector; never start a model turn.
         previous=read_json(self.runtime/'development-quota.json',{})
@@ -177,11 +193,14 @@ class DevEngine(Engine):
         datasets=[self.owner_root/d['path'] for d in task['development']['datasets']]
         if (self.owner_root/'node_modules').is_dir():datasets.append(self.owner_root/'node_modules')
         permissions=sandbox_probe(binary,self.owner_root,tree,[*task['development']['writable_paths'],'.agent-output'],datasets,directory,env,review=phase=='review')
+        context=subprocess.run([str(binary),'-C',str(tree),*permissions['flags'],'-c','project_doc_max_bytes=0','-c','features.apps=false','-c','features.plugins=false','debug','prompt-input','No-inference instruction preparation probe.'],env={**env,'CODEX_HOME':str(directory/'probe-codex-home')},capture_output=True,timeout=20)
+        atomic_json(directory/'context-probe.json',{'passed':context.returncode==0,'modelCalled':False,'projectDocMaxBytes':0,'explicitProjectInstructions':True,'promptBytes':len(context.stdout)})
+        if context.returncode:raise SafetyError('No-inference context preparation failed; keep command permissions unchanged.')
         schema=directory/'output-schema.json';atomic_json(schema,result_schema(task,phase));last=directory/'last-message.json'
         flags=permissions['flags']
-        command=[str(binary),'-a','never','exec','--ignore-user-config','--json','--color','never',*flags,'-c','features.apps=false','-c','features.plugins=false','-c','web_search="disabled"','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','-C',str(tree),'--output-schema',str(schema),'-o',str(last),'-']
+        command=[str(binary),'-a','never','exec','--ignore-user-config','--json','--color','never',*flags,'-c','project_doc_max_bytes=0','-c','features.apps=false','-c','features.plugins=false','-c','web_search="disabled"','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','-C',str(tree),'--output-schema',str(schema),'-o',str(last),'-']
         role='independent_reviewer' if phase=='review' else task['assigned_role']
-        prompt={'task_id':task['id'],'role':role,'phase':phase,'task':task['description'],'acceptance_criteria':task['acceptance_criteria'],'permitted_outputs':task['development']['writable_paths'],'read_only_datasets':[str(x) for x in datasets if x.name!='node_modules'],'review_findings':findings or [],'instructions':('Review the trusted .agent-review.diff/files and .agent-review.json local check receipt independently. Do not modify files. Accept only supported ordinary code correctness; flag product decisions as requires_owner_decision. Never authorize a milestone or restricted action.' if phase=='review' else 'Implement only the exact authorized files. Read relevant installed guides if Next code. Do not run git, network, databases, package installation, credentials, migrations, backfills or scheduling. Tests run separately by the controller; implement meaningful tests required by the task. Do not broaden scope. Preserve unknown evidence. Return exact structured result.')}
+        prompt={'project_instructions':self.project_instructions(tree,task),'task_id':task['id'],'role':role,'phase':phase,'task':task['description'],'acceptance_criteria':task['acceptance_criteria'],'permitted_outputs':task['development']['writable_paths'],'read_only_datasets':[str(x) for x in datasets if x.name!='node_modules'],'review_findings':findings or [],'instructions':('Review the trusted .agent-review.diff/files and .agent-review.json local check receipt independently. Do not modify files. Accept only supported ordinary code correctness; flag product decisions as requires_owner_decision. Never authorize a milestone or restricted action.' if phase=='review' else 'Implement only the exact authorized files. Read relevant installed guides if Next code. Do not run git, network, databases, package installation, credentials, migrations, backfills or scheduling. Tests run separately by the controller; implement meaningful tests required by the task. Do not broaden scope. Preserve unknown evidence. Return exact structured result.')}
         out=directory/'events.jsonl';err=directory/'stderr.log';started=time.monotonic()
         with out.open('xb') as stdout,err.open('xb') as stderr:
             self.run_process(command,tree,env,json.dumps(prompt).encode(),stdout,stderr,timeout,task,run_id,phase)
@@ -320,12 +339,16 @@ class DevEngine(Engine):
         if os.environ.get('AUTOMATION_AGENT_CONTEXT')=='1':raise SafetyError('Agents cannot accept recovery checkpoints.')
         with self.lock():
             state=self.state();row=state['tasks'].get(task_id,{})
-            if row.get('blocker_classification')!='INTERRUPTED_CHECKPOINT_REVIEW_REQUIRED' or row.get('worktree_path')!=expected_tree:raise SafetyError('Exact interrupted checkpoint required.')
+            if row.get('blocker_classification') not in {'INTERRUPTED_CHECKPOINT_REVIEW_REQUIRED','FAILED_IMPLEMENTATION_REVIEW_OR_CONFLICT'} or row.get('worktree_path')!=expected_tree:raise SafetyError('Exact interrupted checkpoint required.')
             tree=Path(expected_tree)
             if tree.is_symlink() or not tree.resolve().is_relative_to(self.runtime/'worktrees') or self.git('rev-parse','HEAD',cwd=tree).decode().strip()!=expected_head:raise SafetyError('Checkpoint changed; no recovery.')
             task=next(x for x in self.queue()['tasks'] if x['id']==task_id);self.policy(task)
             if row.get('definition_fingerprint')!=task_fingerprint(task):raise SafetyError('Recovery scope changed.')
-            row.update(status='ready',resume_checkpoint=True,blocker_classification=None);self.save(state);return {'task_id':task_id,'status':'ready','preservedWorktree':True}
+            try:self.changes(task,tree);has_changes=True
+            except SafetyError as error:
+                if str(error)!='No implementation change to verify.':raise
+                has_changes=False
+            row.update(status='ready',resume_checkpoint=has_changes,blocker_classification=None);self.save(state);return {'task_id':task_id,'status':'ready','preservedWorktree':True}
     def develop(self,execute=False,max_tasks=2,executor=None,checker=None,integrator=None):
         if os.environ.get('AUTOMATION_AGENT_CONTEXT')=='1':raise SafetyError('Managed specialists cannot operate the integration authority.')
         if type(max_tasks) is not int or not 1<=max_tasks<=2:raise SafetyError('At most two bounded continuations per cycle.')

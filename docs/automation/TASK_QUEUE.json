@@ -598,7 +598,7 @@
           "enable_unattended",
           "enable_writable_execution"
         ],
-        "target_fingerprint": "3668ec86929e298329ee5501b450a1d7f3ecb6f07b24d048b681c9b8200c409f",
+        "target_fingerprint": "39c89cbaf263289fd2b11d32b98eca479c75f1210fd6c0e4b11c95c84aa149cc",
         "approval_id": "DEV-ACTIVATION-001"
       },
       "execution_kind": "implementation_handoff",

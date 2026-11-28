@@ -51,7 +51,7 @@
     "package.json": "0e2cbf2e782cff60d482c4ecc3a137a591e7f991d0dcb63ba4f1720e3270f11b",
     "scripts/automation/approval_queue.schema.json": "c38e76689a118ebb4baa16551302cab276bef72a700ba5739f72aae7e4561ebe",
     "scripts/automation/com.fantasyevolution.development.plist.in": "c718213dd2f405a3382ebedcb03a1d2da3e05dea070705453bc47e3ed4e0c670",
-    "scripts/automation/development.py": "bf71d50696e3ced57110c11874f5a876b1069085d00fcb92fc41269f1f218821",
+    "scripts/automation/development.py": "608efaac5d801ec507c777436af3156dee62dfcc4428d4198fb5fbd7de43b0ee",
     "scripts/automation/development_activation.py": "7cf8d197d6056254f6c370e8c9e196695bca49742e0289023baf225879914333",
     "scripts/automation/engine.py": "53c3f2e290d4d199206da7270b4f4ee314d6855b3c9257c80cad334b6b2f8b13",
     "scripts/automation/orchestrator.py": "8092630941118ebb79a869ac7345a73fb9b1f441cf1aaf016689bec3d5808278",
